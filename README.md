@@ -15,22 +15,44 @@ python3 -m http.server 8000
 # 브라우저에서 http://localhost:8000 접속
 ```
 
-### 2. 대시보드 GitHub Pages 배포
+### 2. 대시보드 GitHub Pages 무료 배포
+
+메인 저장소(Private)와 대시보드 저장소(Public)를 분리하여 무료로 배포합니다.
+
+**방법 A: 스크립트로 배포 (권장)**
 
 ```bash
-# 1) GitHub에 저장소 생성 후
-git remote add origin https://github.com/<계정>/Delphi_porting.git
-git push -u origin master
+# 1) GitHub에서 Public 저장소 생성 (예: delphi-dashboard)
 
-# 2) GitHub 저장소 → Settings → Pages
-#    Source: "Deploy from a branch"
-#    Branch: master, Folder: /dashboard
-#    Save 클릭
-#
-# 3) 약 1~2분 후 https://<계정>.github.io/Delphi_porting/ 에서 접속 가능
+# 2) 최초 1회: 초기화 + 배포
+./tools/deploy_dashboard.sh init https://github.com/<계정>/delphi-dashboard.git
+
+# 3) GitHub 저장소 → Settings → Pages → Source: "GitHub Actions" → Save
+
+# 4) 이후 대시보드 변경 시 동기화
+./tools/deploy_dashboard.sh sync
+
+# 접속: https://<계정>.github.io/delphi-dashboard/
 ```
 
-> **참고**: GitHub Pages의 루트를 `/dashboard`로 지정해야 합니다. 또는 `docs/` 폴더로 심볼릭 링크를 만들어도 됩니다.
+**방법 B: 수동 배포**
+
+```bash
+# 1) 대시보드 파일만 별도 디렉토리로 복사
+mkdir -p ../delphi-dashboard
+cp -r dashboard/* ../delphi-dashboard/
+
+# 2) Git 초기화 + Public 저장소로 push
+cd ../delphi-dashboard
+git init && git add -A
+git commit -m "Dashboard deploy"
+git remote add origin https://github.com/<계정>/delphi-dashboard.git
+git push -u origin master
+
+# 3) GitHub → Settings → Pages → Source: "GitHub Actions" → Save
+```
+
+> **참고**: 무료 계정에서 GitHub Pages는 Public 저장소에서만 사용 가능합니다. 대시보드에는 민감한 코드가 포함되지 않으므로 Public으로 공개해도 안전합니다.
 
 ---
 
