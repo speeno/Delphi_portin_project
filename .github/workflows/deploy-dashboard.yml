@@ -6,6 +6,7 @@ on:
     paths:
       - 'dashboard/**'
       - 'index.html'
+      - '.github/workflows/deploy-dashboard.yml'
 
   workflow_dispatch:
 
@@ -17,6 +18,9 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   deploy:
@@ -30,6 +34,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
