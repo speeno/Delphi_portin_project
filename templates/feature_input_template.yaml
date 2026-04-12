@@ -1,0 +1,22 @@
+# 기능 단위 입력 템플릿
+# AI에게 작업을 지시할 때 이 형식으로 입력 자료를 준비한다.
+
+feature_id: ""                    # 고유 식별자 (예: inbound-register-create)
+legacy_form: ""                   # 원본 델파이 폼 이름 (예: frmInboundRegister)
+legacy_events:                    # 관련 이벤트 핸들러 목록
+  - ""                            # 예: btnSaveClick
+related_units:                    # 관련 유닛 파일 목록
+  - ""                            # 예: uInboundService.pas
+related_queries:                  # 관련 SQL 쿼리 식별자
+  - ""                            # 예: QRY_INBOUND_INSERT
+entry_conditions:                 # 진입 조건 (사전 상태)
+  - ""                            # 예: user logged in
+business_rules:                   # 비즈니스 규칙 목록
+  - ""                            # 예: quantity > 0
+customer_variants:                # 고객사별 분기
+  # customer_a: requires lot_no
+  # customer_b: auto-assign location
+expected_outputs:                 # 기대 결과 (DB 변경, 메시지 등)
+  - ""                            # 예: inbound row inserted
+non_functional:                   # 비기능 요구사항
+  response_time_under_ms: 1500

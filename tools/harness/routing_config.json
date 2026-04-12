@@ -1,0 +1,18 @@
+{
+  "mode": "legacy_only",
+  "legacy_base_url": "http://localhost:8081",
+  "new_base_url": "http://localhost:8082",
+  "global_new_percent": 0,
+  "feature_toggles": {},
+  "user_groups": {
+    "pilot": [],
+    "beta": []
+  },
+  "rollback_enabled": true,
+  "mirror_mode": false,
+  "alert_config": {
+    "mismatch_threshold_percent": 1,
+    "response_time_ratio_threshold": 1.5,
+    "notification_channel": "log"
+  }
+}
