@@ -147,6 +147,7 @@ Delphi_porting/
 │   └── data/                          ← JSON 데이터 (상태 관리)
 │       ├── project.json
 │       ├── sprints.json
+│       ├── release-milestones.json   ← 오픈 단계 마일스톤(베타·내부·공식); 일정은 sprintIds→sprints.json과 동기화
 │       ├── todos.json
 │       ├── harness.json
 │       ├── deliverables.json
@@ -424,6 +425,8 @@ python3 tools/harness/progressive_rollout.py \
 대시보드는 `dashboard/data/` 폴더의 JSON 파일을 수정하면 반영됩니다.
 
 **일정·진행 달력**: `dashboard/data/sprints.json`의 각 스프린트 `startDate`·`endDate`, `approvals.json`의 `plannedDate`, `timeline.json`의 `date`가 달력에 반영됩니다. 기간을 바꿀 때는 위 필드를 함께 수정하세요.
+
+**오픈 단계 마일스톤**: `dashboard/data/release-milestones.json`의 각 단계(`beta` / `internal_open` / `official_open`)는 `sprintIds`로 스프린트를 가리킵니다. 대시보드에 표시되는 **계획 완료일**은 해당 id들의 `sprints.json` **`endDate` 중 가장 늦은 날**로 자동 계산되며, 달력의 오픈 마일스톤 점·날짜 상세에도 같은 값이 쓰입니다. 스프린트 일정만 `sprints.json`에서 바꾸면 마일스톤 표시 일정이 다음 로드 시 함께 갱신되므로, 별도 목표 날짜 필드를 이중으로 맞출 필요가 없습니다. 단계별 문구·상태·`sprintIds` 매핑은 `release-milestones.json`에서 편집합니다.
 
 ```bash
 # 예: 스프린트 상태 변경
