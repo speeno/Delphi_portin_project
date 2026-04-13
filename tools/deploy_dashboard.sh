@@ -141,13 +141,33 @@ cmd_init() {
     git commit -m "Initial dashboard deployment" || echo "[INFO] 변경 사항 없음"
     git branch -M main
 
-    if git push -u origin main 2>/dev/null; then
+    push_with_fallback() {
+        local out code
+        set +e
+        out=$(git push -u origin main 2>&1)
+        code=$?
+        set -e
+        echo "$out"
+        if [ "$code" -eq 0 ]; then
+            return 0
+        fi
+        if echo "$out" | grep -q "rejected\|non-fast-forward\|fetch first"; then
+            echo "[INFO] 원격에 기존 커밋이 있어 병합 후 다시 push 합니다..."
+            git fetch origin main 2>/dev/null || git fetch origin master 2>/dev/null || true
+            git pull origin main --rebase --allow-unrelated-histories 2>/dev/null || \
+                git pull origin master --rebase --allow-unrelated-histories 2>/dev/null || true
+            git push -u origin main && return 0
+        fi
+        return 1
+    }
+
+    if push_with_fallback; then
         echo "[OK] push 완료 (branch: main)"
     else
-        echo "[ERROR] git push 실패. 저장소가 없으면 다음을 먼저 실행하세요:"
-        echo "  ./tools/deploy_dashboard.sh create-repo $slug"
-        echo "또는 GitHub 웹에서 Public 저장소를 만든 뒤 다시:"
-        echo "  ./tools/deploy_dashboard.sh init $repo_url"
+        echo "[ERROR] git push 실패. 확인 사항:"
+        echo "  - 저장소 존재: ./tools/deploy_dashboard.sh create-repo $slug"
+        echo "  - HTTPS 인증: gh auth setup-git"
+        echo "  - 수동 push: cd \"$DEPLOY_DIR\" && git push -u origin main -v"
         exit 1
     fi
 
