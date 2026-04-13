@@ -102,6 +102,8 @@ Delphi_porting/
 │   ├── decisions.md                   ← 의사결정 기록
 │   └── known-risks.md                 ← 알려진 위험
 │
+├── WeLove_FTP/                      ← 델파이 소스 1차 확보 트리 (.pas/.dfm/.dpr 등, 다중 고객·변형 경로)
+│
 ├── templates/                         ← AI 작업 지시 템플릿
 │   ├── feature_input_template.yaml    ← 기능 단위 입력 템플릿
 │   └── ai_task_template.md            ← AI 작업 지시 템플릿
@@ -179,14 +181,18 @@ Delphi_porting/
 
 ## 델파이 소스코드 입수 후 실행 가이드
 
+**현재(1차)**: 레거시 소스는 저장소 루트 [`WeLove_FTP/`](WeLove_FTP/) 에 확보된 상태입니다(도서유통-New·도서유통-출판 등 복수 트리). 대시보드 상단 **레거시 소스 위치**·**확보 현황**·달력 타임라인(2026-04-13 자산 이벤트)과 [`legacy-analysis/progress.md`](legacy-analysis/progress.md)에 동일 내용이 반영됩니다. 분석 파이프라인에 넣기 전에 대표 경로 선정·백업 파일(`.~pas`, `.dcu` 등) 제외 정책을 잡는 것을 권장합니다.
+
 ### Step 1: 소스코드 배치
 
-델파이 소스코드를 프로젝트 내 `delphi-source/` 폴더에 배치합니다:
+권장: 분석 전용으로 `delphi-source/` 에 **대표 소스만** 복사하거나, 1차 트리를 그대로 쓸 경우 경로만 바꿉니다.
 
 ```bash
 mkdir -p delphi-source
-# 델파이 소스코드를 이 폴더에 복사
-cp -r /path/to/delphi/source/* delphi-source/
+# 예: 1차 확보 트리에서 대표만 복사
+# cp -r WeLove_FTP/도서유통-New/일부경로/* delphi-source/
+# 또는 전체 스캔(용량·중복 많음 — 정책 수립 후)
+# cp -r /path/to/delphi/source/* delphi-source/
 ```
 
 ### Step 2: 전체 분석 파이프라인 실행 (1회)
@@ -195,6 +201,7 @@ cp -r /path/to/delphi/source/* delphi-source/
 # 전체 분석을 한 번에 실행
 # 산출물 #1~#6 + Legacy Object Catalog 자동 생성
 python3 tools/run_analysis.py delphi-source/
+# 1차 트리 직접 지정 시(용량·중복 주의): python3 tools/run_analysis.py WeLove_FTP/
 ```
 
 실행 결과:
