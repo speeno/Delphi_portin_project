@@ -416,9 +416,11 @@ python3 tools/harness/progressive_rollout.py \
 
 대시보드는 `dashboard/data/` 폴더의 JSON 파일을 수정하면 반영됩니다.
 
+**일정·진행 달력**: `dashboard/data/sprints.json`의 각 스프린트 `startDate`·`endDate`, `approvals.json`의 `plannedDate`, `timeline.json`의 `date`가 달력에 반영됩니다. 기간을 바꿀 때는 위 필드를 함께 수정하세요.
+
 ```bash
 # 예: 스프린트 상태 변경
-# dashboard/data/sprints.json 에서 해당 스프린트의 status/progress 수정
+# dashboard/data/sprints.json 에서 해당 스프린트의 status/progress 및 startDate/endDate 수정
 
 # 예: 체크리스트 항목 완료
 # dashboard/data/todos.json 에서 해당 task의 done: true로 변경
