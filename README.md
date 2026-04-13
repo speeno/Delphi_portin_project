@@ -32,7 +32,7 @@ python3 -m http.server 8000
 ./tools/deploy_dashboard.sh init speeno/delphi-dashboard
 ./tools/deploy_dashboard.sh enable-pages speeno/delphi-dashboard
 
-# 이후 대시보드(JSON 등) 수정 후
+# 이후 대시보드(JSON·js·css 등) 수정 후 — 메인 저장소만 커밋하면 Pages는 갱신되지 않음
 ./tools/deploy_dashboard.sh sync
 
 # 접속: https://speeno.github.io/delphi-dashboard/

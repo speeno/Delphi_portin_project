@@ -1,7 +1,19 @@
-const DATA_PATH = 'data/';
+/** GitHub Pages 등 서브 경로에서 끝 슬래시 없이 열릴 때 상대 fetch가 /data 로 가는 문제 방지 */
+function dashboardBaseUrl() {
+  let p = window.location.pathname;
+  if (/\/[^/]+\.html?$/i.test(p)) p = p.replace(/\/[^/]+$/, '/');
+  else if (!p.endsWith('/')) p += '/';
+  return window.location.origin + p;
+}
+
+const DATA_PATH = dashboardBaseUrl() + 'data/';
 
 async function loadJSON(file) {
-  const res = await fetch(DATA_PATH + file);
+  const url = DATA_PATH + file;
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`${res.status} ${res.statusText}: ${url}`);
+  }
   return res.json();
 }
 
@@ -419,21 +431,33 @@ function bindEvents(data) {
 }
 
 async function init() {
-  const data = await loadAll();
   const app = document.getElementById('app');
-  app.innerHTML = [
-    renderOverview(data),
-    renderTimeline(data),
-    renderTodos(data),
-    renderTodoFlow(data),
-    renderHarness(data),
-    renderDeliverables(data),
-    renderApprovals(data),
-    renderEval(data),
-    renderRisks(data),
-    renderLog(data),
-  ].join('');
-  bindEvents(data);
+  try {
+    const data = await loadAll();
+    app.innerHTML = [
+      renderOverview(data),
+      renderTimeline(data),
+      renderTodos(data),
+      renderTodoFlow(data),
+      renderHarness(data),
+      renderDeliverables(data),
+      renderApprovals(data),
+      renderEval(data),
+      renderRisks(data),
+      renderLog(data),
+    ].join('');
+    bindEvents(data);
+  } catch (err) {
+    app.innerHTML = `
+      <div class="section">
+        <div class="card" style="border-color:var(--danger)">
+          <div class="section-title" style="margin-bottom:8px">데이터 로드 실패</div>
+          <p style="font-size:13px;margin-bottom:8px">JSON 파일을 불러오지 못했습니다. GitHub Pages는 저장소 이름이 경로에 포함됩니다. 아래 URL이 브라우저에서 열리는지 확인하세요.</p>
+          <code style="font-size:11px;word-break:break-all;display:block;padding:8px;background:var(--surface-alt);border-radius:6px">${DATA_PATH}project.json</code>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:12px">${String(err.message || err)}</p>
+        </div>
+      </div>`;
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);
