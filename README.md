@@ -21,19 +21,26 @@ python3 -m http.server 8000
 
 **방법 A: 스크립트로 배포 (권장)**
 
+저장소가 **아직 없으면** GraphQL/404 오류가 납니다. 아래 **bootstrap** 한 줄이 저장소 생성 → push → Pages(API) 활성화까지 순서대로 시도합니다 (`gh` 로그인 필요).
+
 ```bash
-# 1) GitHub에서 Public 저장소 생성 (예: delphi-dashboard)
+# 한 번에 (저장소 없을 때)
+./tools/deploy_dashboard.sh bootstrap speeno/delphi-dashboard
 
-# 2) 최초 1회: 초기화 + 배포
-./tools/deploy_dashboard.sh init https://github.com/<계정>/delphi-dashboard.git
+# 또는 단계별
+./tools/deploy_dashboard.sh create-repo speeno/delphi-dashboard
+./tools/deploy_dashboard.sh init speeno/delphi-dashboard
+./tools/deploy_dashboard.sh enable-pages speeno/delphi-dashboard
 
-# 3) GitHub 저장소 → Settings → Pages → Source: "GitHub Actions" → Save
-
-# 4) 이후 대시보드 변경 시 동기화
+# 이후 대시보드(JSON 등) 수정 후
 ./tools/deploy_dashboard.sh sync
 
-# 접속: https://<계정>.github.io/delphi-dashboard/
+# 접속: https://speeno.github.io/delphi-dashboard/
 ```
+
+Pages API가 거부되면: 해당 저장소 **Settings → Pages → Source: GitHub Actions** 를 수동으로 한 번 선택합니다.
+
+로컬에만 복사(pull 없음): `./tools/deploy_dashboard.sh prepare`
 
 **방법 B: 수동 배포**
 

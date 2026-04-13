@@ -1,20 +1,17 @@
 name: Sync Dashboard to Public Repo
 
-# 대시보드를 별도 Public 저장소로 동기화하여 GitHub Pages 무료 배포
-# 사전 준비:
-#   1. GitHub에서 Public 저장소 생성 (예: delphi-dashboard)
-#   2. Settings → Secrets → DASHBOARD_DEPLOY_TOKEN에 PAT 등록
-#   3. Settings → Pages → Source: "GitHub Actions" 선택
+# 대시보드를 별도 Public 저장소로 동기화 (Pages는 대시보드 저장소 Actions에서 배포)
+# 로컬에서 한 줄 실행: ./tools/deploy_dashboard.sh bootstrap speeno/delphi-dashboard
 #
-# 또는 수동 배포:
-#   ./tools/deploy_dashboard.sh init https://github.com/<계정>/delphi-dashboard.git
-#   ./tools/deploy_dashboard.sh sync
+# CI 동기화를 쓰려면: Secrets → DASHBOARD_DEPLOY_TOKEN (repo 권한 PAT)
+# Variables → DASHBOARD_REPO (예: speeno/delphi-dashboard)
 
 on:
   push:
-    branches: [master]
+    branches: [master, main]
     paths:
       - 'dashboard/**'
+      - '.github/workflows/deploy-dashboard.yml'
 
   workflow_dispatch:
 
@@ -28,61 +25,35 @@ jobs:
       - name: Sync to dashboard repo
         env:
           DEPLOY_TOKEN: ${{ secrets.DASHBOARD_DEPLOY_TOKEN }}
-          DASHBOARD_REPO: ${{ vars.DASHBOARD_REPO || 'speeno/delphi-dashboard' }}
+          DASHBOARD_REPO: ${{ vars.DASHBOARD_REPO }}
         run: |
-          if [ -z "$DEPLOY_TOKEN" ]; then
-            echo "::warning::DASHBOARD_DEPLOY_TOKEN이 설정되지 않았습니다."
-            echo "수동 배포를 사용하세요: ./tools/deploy_dashboard.sh sync"
+          set -euo pipefail
+          if [ -z "${DEPLOY_TOKEN:-}" ]; then
+            echo "::warning::DASHBOARD_DEPLOY_TOKEN이 없습니다. 로컬: ./tools/deploy_dashboard.sh bootstrap"
             exit 0
           fi
+          REPO="${DASHBOARD_REPO:-speeno/delphi-dashboard}"
 
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
           CLONE_DIR=$(mktemp -d)
-          git clone "https://x-access-token:${DEPLOY_TOKEN}@github.com/${DASHBOARD_REPO}.git" "$CLONE_DIR" || {
-            cd "$CLONE_DIR"
-            git init
-            git remote add origin "https://x-access-token:${DEPLOY_TOKEN}@github.com/${DASHBOARD_REPO}.git"
-          }
+          git clone "https://x-access-token:${DEPLOY_TOKEN}@github.com/${REPO}.git" "$CLONE_DIR"
 
-          rsync -av --delete \
+          rsync -a --delete \
             --exclude '.git' \
             --exclude '.github' \
             dashboard/ "$CLONE_DIR/"
 
           mkdir -p "$CLONE_DIR/.github/workflows"
-          cat > "$CLONE_DIR/.github/workflows/deploy.yml" <<'EOF'
-          name: Deploy to GitHub Pages
-          on:
-            push:
-              branches: [master]
-            workflow_dispatch:
-          permissions:
-            contents: read
-            pages: write
-            id-token: write
-          concurrency:
-            group: "pages"
-            cancel-in-progress: false
-          jobs:
-            deploy:
-              environment:
-                name: github-pages
-                url: ${{ steps.deployment.outputs.page_url }}
-              runs-on: ubuntu-latest
-              steps:
-                - uses: actions/checkout@v4
-                - uses: actions/upload-pages-artifact@v4
-                  with:
-                    path: '.'
-                - id: deployment
-                  uses: actions/deploy-pages@v4
-          EOF
+          cp tools/templates/github-pages-deploy.yml "$CLONE_DIR/.github/workflows/deploy.yml"
 
           cd "$CLONE_DIR"
           git add -A
-          git diff --cached --quiet && echo "No changes" && exit 0
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
           git commit -m "Dashboard sync: $(date -u '+%Y-%m-%d %H:%M UTC')"
-          git branch -M master
-          git push -u origin master
+          git branch -M main
+          git push -u origin main

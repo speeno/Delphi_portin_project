@@ -4,32 +4,125 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 DASHBOARD_SRC="$PROJECT_ROOT/dashboard"
-DEPLOY_DIR="$PROJECT_ROOT/../delphi-dashboard"
-REMOTE_REPO="${DASHBOARD_REPO:-}"
+DEPLOY_DIR="${DASHBOARD_DEPLOY_DIR:-$PROJECT_ROOT/../delphi-dashboard}"
+DEFAULT_REPO_SLUG="speeno/delphi-dashboard"
 
 print_usage() {
     cat <<'USAGE'
 델파이 포팅 프로젝트 - 대시보드 배포 스크립트
 
 사용법:
-  # 최초 설정 (1회)
-  ./tools/deploy_dashboard.sh init <GitHub-Public-Repo-URL>
+  # (1) GitHub에 Public 저장소가 없을 때 — gh CLI로 생성
+  ./tools/deploy_dashboard.sh create-repo [owner/repo]
+  기본값: speeno/delphi-dashboard
+
+  # (2) 최초 배포: 파일 동기화 + 커밋 + push
+  ./tools/deploy_dashboard.sh init <URL 또는 owner/repo>
+  예: ./tools/deploy_dashboard.sh init speeno/delphi-dashboard
   예: ./tools/deploy_dashboard.sh init https://github.com/speeno/delphi-dashboard.git
 
-  # 대시보드 변경 사항 동기화 및 배포
+  # (3) GitHub Pages를 GitHub Actions로 활성화 (push 후 1회)
+  ./tools/deploy_dashboard.sh enable-pages [owner/repo]
+
+  # (4) 이후 대시보드 변경 시
   ./tools/deploy_dashboard.sh sync
 
-  # 현재 상태 확인
+  # 로컬에만 동기화 (push 없음, 형제 폴더에 복사)
+  ./tools/deploy_dashboard.sh prepare
+
+  # 상태 확인
   ./tools/deploy_dashboard.sh status
+
+한 줄로 처음부터 끝까지 (gh 로그인 필요):
+  ./tools/deploy_dashboard.sh bootstrap [owner/repo]
 USAGE
 }
 
+normalize_repo_url() {
+    local input="$1"
+    if [[ "$input" =~ ^https?:// ]]; then
+        echo "$input"
+        return
+    fi
+    local slug="${input%.git}"
+    echo "https://github.com/${slug}.git"
+}
+
+repo_slug_from_url() {
+    local url="$1"
+    echo "$url" | sed -E 's|.*github.com[:/]||;s|\.git$||'
+}
+
+ensure_gh() {
+    command -v gh >/dev/null 2>&1 || {
+        echo "[ERROR] gh CLI가 없습니다. https://cli.github.com 설치 후 로그인하세요."
+        exit 1
+    }
+    gh auth status >/dev/null 2>&1 || {
+        echo "[ERROR] gh auth login 이 필요합니다."
+        exit 1
+    }
+}
+
+cmd_create_repo() {
+    local slug="${1:-$DEFAULT_REPO_SLUG}"
+    ensure_gh
+    if gh repo view "$slug" >/dev/null 2>&1; then
+        echo "[INFO] 저장소가 이미 있습니다: https://github.com/${slug}"
+        return 0
+    fi
+    echo "[INFO] Public 저장소 생성: $slug"
+    gh repo create "$slug" --public \
+        --description "델파이 웹 포팅 프로젝트 대시보드 (GitHub Pages)" \
+        --disable-wiki --disable-issues
+    echo "[OK] 생성 완료: https://github.com/${slug}"
+}
+
+cmd_enable_pages() {
+    local slug="${1:-$DEFAULT_REPO_SLUG}"
+    ensure_gh
+    echo "[INFO] GitHub Pages 소스: GitHub Actions 로 설정 시도..."
+    if gh api "repos/${slug}/pages" >/dev/null 2>&1; then
+        echo "[INFO] Pages 사이트가 이미 있습니다. 웹에서 Source가 GitHub Actions인지 확인하세요."
+        gh api "repos/${slug}/pages" -q '.build_type // .source // .' 2>/dev/null || true
+        return 0
+    fi
+    gh api -X POST "repos/${slug}/pages" \
+        -f build_type=workflow \
+        && echo "[OK] Pages 활성화(build_type=workflow) 요청 완료." \
+        || {
+            echo "[WARN] API로 Pages 생성이 거부되었을 수 있습니다."
+            echo "       https://github.com/${slug}/settings/pages 에서 Source → GitHub Actions 를 수동 선택하세요."
+        }
+}
+
+cmd_bootstrap() {
+    local slug="${1:-$DEFAULT_REPO_SLUG}"
+    cmd_create_repo "$slug"
+    local url
+    url="$(normalize_repo_url "$slug")"
+    cmd_init "$url"
+    sleep 2
+    cmd_enable_pages "$slug" || true
+    echo ""
+    echo "[OK] bootstrap 완료. Actions 실행 후 접속:"
+    echo "    https://${slug%%/*}.github.io/${slug#*/}/"
+}
+
+cmd_prepare() {
+    sync_files
+    create_dashboard_workflow
+    echo "[OK] prepare 완료: $DEPLOY_DIR (push 없음)"
+}
+
 cmd_init() {
-    local repo_url="$1"
+    local repo_url
+    repo_url="$(normalize_repo_url "$1")"
+    local slug
+    slug="$(repo_slug_from_url "$repo_url")"
 
     if [ -d "$DEPLOY_DIR/.git" ]; then
         echo "[INFO] 배포 디렉토리가 이미 존재합니다: $DEPLOY_DIR"
-        echo "[INFO] 기존 remote를 업데이트합니다."
         cd "$DEPLOY_DIR"
         git remote set-url origin "$repo_url" 2>/dev/null || git remote add origin "$repo_url"
     else
@@ -46,21 +139,28 @@ cmd_init() {
     cd "$DEPLOY_DIR"
     git add -A
     git commit -m "Initial dashboard deployment" || echo "[INFO] 변경 사항 없음"
-    git branch -M master
-    git push -u origin master
+    git branch -M main
+
+    if git push -u origin main 2>/dev/null; then
+        echo "[OK] push 완료 (branch: main)"
+    else
+        echo "[ERROR] git push 실패. 저장소가 없으면 다음을 먼저 실행하세요:"
+        echo "  ./tools/deploy_dashboard.sh create-repo $slug"
+        echo "또는 GitHub 웹에서 Public 저장소를 만든 뒤 다시:"
+        echo "  ./tools/deploy_dashboard.sh init $repo_url"
+        exit 1
+    fi
 
     echo ""
     echo "============================================"
     echo " 초기 배포 완료!"
     echo "============================================"
     echo ""
-    echo "다음 단계:"
-    echo "  1. https://github.com/$(echo "$repo_url" | sed 's|.*github.com/||;s|\.git$||')/settings/pages"
-    echo "     → Source: 'GitHub Actions' 선택 → Save"
+    echo "다음 단계 (한 번만):"
+    echo "  ./tools/deploy_dashboard.sh enable-pages $slug"
+    echo "  또는 https://github.com/${slug}/settings/pages → Source: GitHub Actions"
     echo ""
-    echo "  2. Actions 탭에서 워크플로 실행 확인"
-    echo ""
-    echo "이후 대시보드 업데이트 시:"
+    echo "이후 업데이트:"
     echo "  ./tools/deploy_dashboard.sh sync"
     echo ""
 }
@@ -68,7 +168,7 @@ cmd_init() {
 cmd_sync() {
     if [ ! -d "$DEPLOY_DIR/.git" ]; then
         echo "[ERROR] 배포 디렉토리가 없습니다. 먼저 init을 실행해주세요."
-        echo "  ./tools/deploy_dashboard.sh init <GitHub-Public-Repo-URL>"
+        echo "  ./tools/deploy_dashboard.sh init <owner/repo 또는 URL>"
         exit 1
     fi
 
@@ -85,7 +185,9 @@ cmd_sync() {
     local timestamp
     timestamp=$(date '+%Y-%m-%d %H:%M:%S')
     git commit -m "Dashboard update: $timestamp"
-    git push origin master
+    local branch
+    branch=$(git rev-parse --abbrev-ref HEAD)
+    git push -u origin "$branch"
 
     echo ""
     echo "[OK] 대시보드가 업데이트되었습니다."
@@ -97,7 +199,8 @@ cmd_status() {
     echo ""
 
     if [ ! -d "$DEPLOY_DIR/.git" ]; then
-        echo "[상태] 미설정 - init을 먼저 실행해주세요."
+        echo "[상태] 미설정 - init 또는 bootstrap을 실행하세요."
+        echo "  ./tools/deploy_dashboard.sh bootstrap"
         return
     fi
 
@@ -118,6 +221,7 @@ cmd_status() {
 
     echo "--- Git 상태 ---"
     git status --short
+    git branch -vv
 }
 
 sync_files() {
@@ -125,10 +229,15 @@ sync_files() {
 
     mkdir -p "$DEPLOY_DIR"
 
-    rsync -av --delete \
-        --exclude '.git' \
-        --exclude '.github' \
-        "$DASHBOARD_SRC/" "$DEPLOY_DIR/"
+    if command -v rsync >/dev/null 2>&1; then
+        rsync -a --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            "$DASHBOARD_SRC/" "$DEPLOY_DIR/"
+    else
+        find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' ! -name '.github' -exec rm -rf {} +
+        cp -R "$DASHBOARD_SRC/"* "$DEPLOY_DIR/"
+    fi
 
     cp "$PROJECT_ROOT/index.html" "$DEPLOY_DIR/redirect.html" 2>/dev/null || true
 
@@ -171,50 +280,27 @@ INDEXEOF
 
 create_dashboard_workflow() {
     mkdir -p "$DEPLOY_DIR/.github/workflows"
-    cat > "$DEPLOY_DIR/.github/workflows/deploy.yml" <<'WFEOF'
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [master]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: '.'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-WFEOF
+    cp "$PROJECT_ROOT/tools/templates/github-pages-deploy.yml" "$DEPLOY_DIR/.github/workflows/deploy.yml"
     echo "[OK] GitHub Actions 워크플로 생성 완료"
 }
 
 case "${1:-help}" in
+    create-repo)
+        cmd_create_repo "${2:-$DEFAULT_REPO_SLUG}"
+        ;;
+    enable-pages)
+        cmd_enable_pages "${2:-$DEFAULT_REPO_SLUG}"
+        ;;
+    bootstrap)
+        cmd_bootstrap "${2:-$DEFAULT_REPO_SLUG}"
+        ;;
+    prepare)
+        cmd_prepare
+        ;;
     init)
         if [ -z "${2:-}" ]; then
-            echo "[ERROR] GitHub 저장소 URL을 지정해주세요."
-            echo "  예: ./tools/deploy_dashboard.sh init https://github.com/speeno/delphi-dashboard.git"
+            echo "[ERROR] owner/repo 또는 URL을 지정해주세요."
+            echo "  예: ./tools/deploy_dashboard.sh init speeno/delphi-dashboard"
             exit 1
         fi
         cmd_init "$2"
