@@ -27,6 +27,9 @@ print_usage() {
   # (4) 이후 대시보드 변경 시
   ./tools/deploy_dashboard.sh sync
 
+  # git push 직후 로컬에서 sync까지 한 번에
+  ./tools/push_with_dashboard_sync.sh [git push 인자…]
+
   # 로컬에만 동기화 (push 없음, 형제 폴더에 복사)
   ./tools/deploy_dashboard.sh prepare
 

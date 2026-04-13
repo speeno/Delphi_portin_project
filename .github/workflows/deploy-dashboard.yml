@@ -3,8 +3,9 @@ name: Sync Dashboard to Public Repo
 # 대시보드를 별도 Public 저장소로 동기화 (Pages는 대시보드 저장소 Actions에서 배포)
 # 로컬에서 한 줄 실행: ./tools/deploy_dashboard.sh bootstrap speeno/delphi-dashboard
 #
-# CI 동기화를 쓰려면: Secrets → DASHBOARD_DEPLOY_TOKEN (repo 권한 PAT)
-# Variables → DASHBOARD_REPO (예: speeno/delphi-dashboard)
+# CI 자동 동기화: 저장소 Settings → Secrets → DASHBOARD_DEPLOY_TOKEN (classic PAT: repo)
+# 선택: Variables → DASHBOARD_REPO (기본 speeno/delphi-dashboard)
+# dashboard/** 또는 Pages 워크플로 템플릿 변경 시 push마다 delphi-dashboard 로 rsync 후 push
 
 on:
   push:
@@ -12,6 +13,7 @@ on:
     paths:
       - 'dashboard/**'
       - '.github/workflows/deploy-dashboard.yml'
+      - 'tools/templates/github-pages-deploy.yml'
 
   workflow_dispatch:
 

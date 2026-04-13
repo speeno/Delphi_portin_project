@@ -42,6 +42,13 @@ Pages API가 거부되면: 해당 저장소 **Settings → Pages → Source: Git
 
 로컬에만 복사(pull 없음): `./tools/deploy_dashboard.sh prepare`
 
+#### push 후 대시보드 자동 반영 (택일)
+
+| 방식 | 설명 |
+|------|------|
+| **GitHub Actions** | 메인 저장소에 `dashboard/**` (또는 Pages 템플릿) 변경을 **push**하면, CI가 Public `delphi-dashboard`에 rsync 후 push. **Secrets**에 `DASHBOARD_DEPLOY_TOKEN`(classic PAT, `repo` 권한) 등록 필요. 선택: **Variables** `DASHBOARD_REPO`(기본 `speeno/delphi-dashboard`). 워크플로: [.github/workflows/deploy-dashboard.yml](.github/workflows/deploy-dashboard.yml). 토큰이 없으면 워크플로는 경고만 내고 종료합니다. |
+| **로컬 한 줄** | `git push` 직후 같은 머신에서 `sync`까지 실행: `./tools/push_with_dashboard_sync.sh` (인자는 `git push`와 동일, 예: `origin main`). **선행**: `./tools/deploy_dashboard.sh init …`로 `../delphi-dashboard` 클론·remote가 이미 있어야 합니다. |
+
 **방법 B: 수동 배포**
 
 ```bash
