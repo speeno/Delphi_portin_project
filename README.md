@@ -61,6 +61,23 @@ git push -u origin master
 
 > **참고**: 무료 계정에서 GitHub Pages는 Public 저장소에서만 사용 가능합니다. 대시보드에는 민감한 코드가 포함되지 않으므로 Public으로 공개해도 안전합니다.
 
+#### Actions 배포가 404로 실패할 때 (`Failed to create deployment`)
+
+워크플로는 정상인데 **`deploy-pages` 단계만 404**이면, 거의 항상 **해당 Public 저장소에서 Pages가 아직 “GitHub Actions”로 켜지지 않은 상태**입니다.
+
+1. 브라우저에서 열기: `https://github.com/<계정>/delphi-dashboard/settings/pages`
+2. **Build and deployment** → **Source**를 **Deploy from a branch**가 아니라 **GitHub Actions**로 변경
+3. **Save**
+4. 저장소 **Actions** 탭 → 실패한 워크플로 → **Re-run all jobs**
+
+CLI로 시도(저장소 관리 권한·`gh` 로그인 필요):
+
+```bash
+gh api -X POST repos/speeno/delphi-dashboard/pages -f build_type=workflow
+```
+
+처음 실행 시 **Actions**에서 `github-pages` 환경 배포 승인을 요청하면 **Review deployments**에서 승인해야 할 수 있습니다.
+
 ---
 
 ## 프로젝트 구조
