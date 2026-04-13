@@ -238,6 +238,8 @@ python3 tools/catalog_builder.py analysis/ analysis/legacy_object_catalog.json
 
 ## DB 정보 입수 후 실행 가이드
 
+접속 호스트·계정·비밀번호는 **저장소에 커밋하지 말고** 로컬 `.env`에만 두세요. 변수 예시는 루트 [`.env.example`](.env.example)를 참고합니다.
+
 ### Step 1: DB 스키마 추출
 
 ```bash
