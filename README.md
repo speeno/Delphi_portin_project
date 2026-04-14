@@ -156,7 +156,8 @@ Delphi_porting/
 │       ├── approvals.json
 │       ├── risks.json
 │       ├── timeline.json
-│       └── eval-summary.json
+│       ├── eval-summary.json
+│       └── db-status.json              ← MariaDB 호스트별 연결 프로브 결과(비밀 없음); 갱신: debug/db_connect_probe.py
 │
 ├── backend/                           ← 웹 API 서버 (FastAPI)
 │   ├── requirements.txt

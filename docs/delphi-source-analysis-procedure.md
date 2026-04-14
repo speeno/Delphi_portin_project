@@ -95,6 +95,8 @@ python3 tools/catalog_builder.py analysis/ analysis/legacy_object_catalog.json
 
 자세한 인자는 [README.md](../README.md) 「DB 정보 입수 후 실행 가이드」 참고.
 
+호스트별 **연결만** 빠르게 확인할 때는 [`debug/db_connect_probe.py`](../debug/db_connect_probe.py)로 `MARIADB_PASSWORD` 등을 환경 변수로 준 뒤 실행하고, `--write-json dashboard/data/db-status.json`으로 대시보드용 요약을 갱신할 수 있습니다(비밀은 JSON에 쓰이지 않음).
+
 ## 5. 산출물 점검 체크리스트
 
 - [ ] `inventory/dpr_files.json` 존재·크기 합리적
