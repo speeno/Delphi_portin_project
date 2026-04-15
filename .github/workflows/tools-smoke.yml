@@ -1,0 +1,29 @@
+# 허브: tools 하위 파이썬 모듈 문법·import 스모크 (DB·대용량 소스 불필요)
+name: Tools smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/**"
+      - ".github/workflows/tools-smoke.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "tools/**"
+      - ".github/workflows/tools-smoke.yml"
+
+jobs:
+  compile-tools:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: compileall (parsers, db, contracts, harness)
+        run: |
+          set -e
+          for d in tools/parsers tools/db tools/contracts tools/harness; do
+            if [ -d "$d" ]; then python -m compileall -q "$d"; fi
+          done
