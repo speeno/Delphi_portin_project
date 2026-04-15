@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="984" height="658" viewBox="0 0 984 658">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">기간별출고내역서</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Subu56 | Sobo56 | TSobo56</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="964.0" height="606.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="2.0" y="4.0" width="959.0" height="45.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="5.0" y="15.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="206.0" y="19.0" width="12.0" height="15.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="606.0" y="19.0" width="12.0" height="15.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="418.0" y="16.0" width="169.0" height="22.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="421.0" y="27.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="690.0" y="16.0" width="169.0" height="22.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="693.0" y="27.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="2.0" y="56.0" width="452.0" height="185.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="5.0" y="67.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="3.0" y="57.0" width="80.0" height="183.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="6.0" y="68.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TDBGridEh</text>
+    <rect x="2.0" y="248.0" width="50.0" height="321.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="5.0" y="259.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="3.0" y="249.0" width="78.0" height="319.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="6.0" y="260.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TDBGridEh</text>
+    <rect x="2.0" y="574.0" width="959.0" height="29.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="5.0" y="585.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="426.0" y="579.0" width="525.0" height="19.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="429.0" y="590.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatProgressBar</text>
+    <rect x="426.0" y="579.0" width="521.0" height="18.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="429.0" y="590.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TProgressBar</text>
+    <rect x="576.0" y="56.0" width="385.0" height="185.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="579.0" y="67.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="704.0" y="124.0" width="225.0" height="21.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="707.0" y="135.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="704.0" y="84.0" width="225.0" height="21.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="707.0" y="95.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="704.0" y="164.0" width="225.0" height="21.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="707.0" y="175.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="704.0" y="204.0" width="225.0" height="21.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="707.0" y="215.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+  </g>
+</svg>

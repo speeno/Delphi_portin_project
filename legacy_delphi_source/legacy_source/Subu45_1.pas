@@ -1,0 +1,5056 @@
+unit Subu45_1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ComCtrls, ExtCtrls, Buttons, Mylabel, Mask, Db, Grids, DBGrids,
+  TFlatPanelUnit, TFlatEditUnit, TFlatProgressBarUnit, TFlatMaskEditUnit,
+  TFlatButtonUnit, TFlatComboBoxUnit, TFlatNumberUnit, DBGridEh, ToolEdit,
+  DBClient, TFlatCheckBoxUnit, dxCore, dxButtons;
+
+type
+  TSobo45_1 = class(TForm)
+    DataSource1: TDataSource;
+    DataSource2: TDataSource;
+    Panel001: TFlatPanel;
+    Panel002: TFlatPanel;
+    Panel003: TFlatPanel;
+    Panel007: TFlatPanel;
+    Panel008: TFlatPanel;
+    Panel009: TFlatPanel;
+    Panel010: TFlatPanel;
+    Panel101: TFlatPanel;
+    Panel105: TFlatPanel;
+    ProgressBar0: TFlatProgressBar;
+    ProgressBar1: TProgressBar;
+    Button101: TFlatButton;
+    Button201: TFlatButton;
+    StBar101: TStatusBar;
+    StBar201: TStatusBar;
+    Edit100: TFlatMaskEdit;
+    Edit102: TFlatEdit;
+    Edit103: TFlatEdit;
+    Panel200: TFlatPanel;
+    Panel201: TFlatPanel;
+    Panel202: TFlatPanel;
+    Panel204: TFlatPanel;
+    Panel205: TFlatPanel;
+    Panel207: TFlatPanel;
+    Panel208: TFlatPanel;
+    Edit104: TFlatEdit;
+    Edit105: TFlatEdit;
+    Label101: TmyLabel3d;
+    Edit201: TFlatNumber;
+    Edit208: TFlatNumber;
+    Edit209: TFlatNumber;
+    Edit210: TFlatNumber;
+    Edit217: TFlatNumber;
+    Edit224: TFlatNumber;
+    Edit227: TFlatNumber;
+    Edit202: TFlatNumber;
+    Edit203: TFlatNumber;
+    Edit204: TFlatNumber;
+    Panel213: TFlatPanel;
+    Panel211: TFlatPanel;
+    Panel203: TFlatPanel;
+    Edit211: TFlatNumber;
+    Edit212: TFlatNumber;
+    Edit213: TFlatNumber;
+    Edit218: TFlatNumber;
+    Edit219: TFlatNumber;
+    Edit220: TFlatNumber;
+    Edit225: TFlatNumber;
+    Edit205: TFlatNumber;
+    Edit206: TFlatNumber;
+    Edit207: TFlatNumber;
+    Panel206: TFlatPanel;
+    Panel209: TFlatPanel;
+    Panel212: TFlatPanel;
+    Edit214: TFlatNumber;
+    Edit215: TFlatNumber;
+    Edit216: TFlatNumber;
+    Edit221: TFlatNumber;
+    Edit222: TFlatNumber;
+    Edit223: TFlatNumber;
+    Edit226: TFlatNumber;
+    Panel216: TFlatPanel;
+    Edit230: TFlatNumber;
+    Panel214: TFlatPanel;
+    Edit228: TFlatNumber;
+    Panel215: TFlatPanel;
+    Edit229: TFlatNumber;
+    Button301: TFlatButton;
+    DBGrid201: TDBGridEh;
+    Edit231: TFlatNumber;
+    Edit232: TFlatNumber;
+    DateEdit1: TDateEdit;
+    Button701: TFlatButton;
+    Button702: TFlatButton;
+    Panel217: TFlatPanel;
+    Edit233: TFlatNumber;
+    Edit234: TFlatNumber;
+    Edit235: TFlatNumber;
+    FlatPanel1: TFlatPanel;
+    FlatPanel2: TFlatPanel;
+    FlatPanel3: TFlatPanel;
+    FlatPanel4: TFlatPanel;
+    FlatPanel5: TFlatPanel;
+    FlatPanel6: TFlatPanel;
+    FlatPanel7: TFlatPanel;
+    FlatPanel8: TFlatPanel;
+    Edit236: TFlatNumber;
+    Edit237: TFlatNumber;
+    Edit238: TFlatEdit;
+    Edit239: TFlatEdit;
+    CheckBox1: TFlatCheckBox;
+    Panel004: TFlatPanel;
+    Label001: TmyLabel3d;
+    Label002: TmyLabel3d;
+    Label003: TmyLabel3d;
+    FlatPanel9: TFlatPanel;
+    FlatPanel10: TFlatPanel;
+    FlatPanel11: TFlatPanel;
+    FlatPanel12: TFlatPanel;
+    FlatPanel13: TFlatPanel;
+    FlatPanel14: TFlatPanel;
+    Edit240: TFlatNumber;
+    Edit241: TFlatNumber;
+    Edit242: TFlatNumber;
+    Edit243: TFlatNumber;
+    Edit244: TFlatNumber;
+    Edit245: TFlatNumber;
+    Edit246: TFlatNumber;
+    FlatPanel17: TFlatPanel;
+    CheckBox2: TFlatCheckBox;
+    CheckBox3: TFlatCheckBox;
+    FlatButton01: TFlatButton;
+    FlatButton02: TFlatButton;
+    FlatButton03: TFlatButton;
+    FlatButton04: TFlatButton;
+    FlatButton05: TFlatButton;
+    FlatButton06: TFlatButton;
+    FlatButton07: TFlatButton;
+    FlatButton08: TFlatButton;
+    FlatButton09: TFlatButton;
+    FlatButton10: TFlatButton;
+    FlatButton11: TFlatButton;
+    FlatButton12: TFlatButton;
+    FlatPanel18: TFlatPanel;
+    Label301: TmyLabel3d;
+    FlatPanel19: TFlatPanel;
+    Label302: TmyLabel3d;
+    Edit247: TFlatNumber;
+    Edit248: TFlatNumber;
+    Edit101: TFlatComboBox;
+    FlatPanel21: TFlatPanel;
+    Edit261: TFlatNumber;
+    Edit262: TFlatNumber;
+    Edit263: TFlatNumber;
+    FlatPanel22: TFlatPanel;
+    FlatPanel23: TFlatPanel;
+    Edit264: TFlatNumber;
+    Edit265: TFlatNumber;
+    Edit266: TFlatNumber;
+    FlatPanel24: TFlatPanel;
+    Button302: TFlatButton;
+    FlatPanel25: TFlatPanel;
+    myLabel3d1: TmyLabel3d;
+    FlatPanel26: TFlatPanel;
+    myLabel3d2: TmyLabel3d;
+    FlatPanel27: TFlatPanel;
+    FlatPanel28: TFlatPanel;
+    FlatPanel29: TFlatPanel;
+    FlatPanel31: TFlatPanel;
+    FlatPanel32: TFlatPanel;
+    FlatPanel33: TFlatPanel;
+    FlatPanel34: TFlatPanel;
+    FlatPanel35: TFlatPanel;
+    FlatPanel36: TFlatPanel;
+    FlatPanel37: TFlatPanel;
+    FlatPanel38: TFlatPanel;
+    FlatPanel39: TFlatPanel;
+    Edit301: TFlatNumber;
+    Edit302: TFlatNumber;
+    Edit303: TFlatNumber;
+    Edit304: TFlatNumber;
+    Edit305: TFlatNumber;
+    Edit309: TFlatNumber;
+    Edit306: TFlatNumber;
+    Edit307: TFlatNumber;
+    Edit308: TFlatNumber;
+    Edit310: TFlatNumber;
+    Edit311: TFlatNumber;
+    Edit312: TFlatNumber;
+    FlatPanel30: TFlatPanel;
+    Edit901: TFlatMaskEdit;
+    FlatPanel40: TFlatPanel;
+    Edit902: TFlatNumber;
+    FlatPanel41: TFlatPanel;
+    FlatPanel15: TFlatPanel;
+    FlatPanel16: TFlatPanel;
+    FlatPanel20: TFlatPanel;
+    Edit313: TFlatNumber;
+    Edit314: TFlatNumber;
+    Edit315: TFlatNumber;
+    Label9: TmyLabel3d;
+    dxButton1: TdxButton;
+    T4_Sub51: TClientDataSet;
+    T4_Sub51ID: TFloatField;
+    T4_Sub51IDNUM: TFloatField;
+    T4_Sub51GDATE: TStringField;
+    T4_Sub51GCODE: TStringField;
+    T4_Sub51GNAME: TStringField;
+    T4_Sub51HCODE: TStringField;
+    T4_Sub51HNAME: TStringField;
+    T4_Sub51NAME1: TStringField;
+    T4_Sub51NAME2: TStringField;
+    T4_Sub51GQUT1: TFloatField;
+    T4_Sub51GQUT2: TFloatField;
+    T4_Sub51GQUT3: TFloatField;
+    T4_Sub51GQUT4: TFloatField;
+    T4_Sub51GQUT5: TFloatField;
+    T4_Sub51GQUT6: TFloatField;
+    T4_Sub51GQUT7: TFloatField;
+    T4_Sub51GQUT8: TFloatField;
+    T4_Sub51GQUT9: TFloatField;
+    T4_Sub51GSQUT: TFloatField;
+    T4_Sub51GSSUM: TFloatField;
+    T4_Sub51AQUT1: TFloatField;
+    T4_Sub51AQUT2: TFloatField;
+    T4_Sub51BQUT1: TFloatField;
+    T4_Sub51BQUT2: TFloatField;
+    T4_Sub51YESNO: TStringField;
+    T4_Sub52: TClientDataSet;
+    T4_Sub52ID: TFloatField;
+    T4_Sub52IDNUM: TFloatField;
+    T4_Sub52GDATE: TStringField;
+    T4_Sub52SCODE: TStringField;
+    T4_Sub52GCODE: TStringField;
+    T4_Sub52GNAME: TStringField;
+    T4_Sub52HCODE: TStringField;
+    T4_Sub52HNAME: TStringField;
+    T4_Sub52OCODE: TStringField;
+    T4_Sub52BCODE: TStringField;
+    T4_Sub52BNAME: TStringField;
+    T4_Sub52GJEJA: TStringField;
+    T4_Sub52GUBUN: TStringField;
+    T4_Sub52JUBUN: TStringField;
+    T4_Sub52PUBUN: TStringField;
+    T4_Sub52TCODE: TStringField;
+    T4_Sub52GSQUT: TFloatField;
+    T4_Sub52QSQUT: TFloatField;
+    T4_Sub52GDANG: TFloatField;
+    T4_Sub52GRAT1: TSmallintField;
+    T4_Sub52GSSUM: TFloatField;
+    T4_Sub52JEAGO: TFloatField;
+    T4_Sub52GBIGO: TStringField;
+    T4_Sub52YESNO: TStringField;
+    T4_Sub52GMEMO: TDateTimeField;
+    DBGrid101: TDBGridEh;
+    procedure FormActivate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button001Click(Sender: TObject);
+    procedure Button002Click(Sender: TObject);
+    procedure Button003Click(Sender: TObject);
+    procedure Button004Click(Sender: TObject);
+    procedure Button005Click(Sender: TObject);
+    procedure Button006Click(Sender: TObject);
+    procedure Button007Click(Sender: TObject);
+    procedure Button008Click(Sender: TObject);
+    procedure Button009Click(Sender: TObject);
+    procedure Button010Click(Sender: TObject);
+    procedure Button011Click(Sender: TObject);
+    procedure Button012Click(Sender: TObject);
+    procedure Button013Click(Sender: TObject);
+    procedure Button014Click(Sender: TObject);
+    procedure Button015Click(Sender: TObject);
+    procedure Button016Click(Sender: TObject);
+    procedure Button017Click(Sender: TObject);
+    procedure Button018Click(Sender: TObject);
+    procedure Button019Click(Sender: TObject);
+    procedure Button020Click(Sender: TObject);
+    procedure Button021Click(Sender: TObject);
+    procedure Button022Click(Sender: TObject);
+    procedure Button023Click(Sender: TObject);
+    procedure Button024Click(Sender: TObject);
+    procedure Button101Click(Sender: TObject);
+    procedure Button201Click(Sender: TObject);
+    procedure Button301Click(Sender: TObject);
+    procedure Button401Click(Sender: TObject);
+    procedure Button509Click(Sender: TObject);
+    procedure Button529Click(Sender: TObject);
+    procedure Button601Click(Sender: TObject);
+    procedure Button602Click(Sender: TObject);
+    procedure Button603Click(Sender: TObject);
+    procedure Button604Click(Sender: TObject);
+    procedure Edit101Change(Sender: TObject);
+    procedure Edit101KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit102KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit111KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit111KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit112KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit112KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit113KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit113KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit115KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit115KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit114KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit114KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGrid101KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid101KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGrid201KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid201KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGrid101TitleClick(Column: TColumnEh);
+    procedure DBGrid201TitleClick(Column: TColumnEh);
+    procedure DataSource1DataChange(Sender: TObject; Field: TField);
+    procedure DataSource2DataChange(Sender: TObject; Field: TField);
+    procedure Edit201Exit(Sender: TObject);
+
+    procedure Button801Click(Sender: TObject);
+    procedure Button802Click(Sender: TObject);
+    procedure Button803Click(Sender: TObject);
+
+    procedure Button811Click(Sender: TObject);
+    procedure Button821Click(Sender: TObject);
+    procedure Button812Click(Sender: TObject);
+
+    procedure Button901Click(Sender: TObject);
+    procedure Button902Click(Sender: TObject);
+    procedure Button904Click(Sender: TObject);
+    procedure Button905Click(Sender: TObject);
+    procedure Button903Click(Sender: TObject);
+
+    procedure DateEdit1ButtonClick(Sender: TObject);
+    procedure DateEdit1AcceptDate(Sender: TObject; var ADate: TDateTime; var Action: Boolean);
+    procedure Button701Click(Sender: TObject);
+    procedure Button702Click(Sender: TObject);
+    procedure DBGrid201DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumnEh; State: TGridDrawState);
+    procedure DBGrid201MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure DBGrid101DblClick(Sender: TObject);
+    procedure CheckBox2Click(Sender: TObject);
+    procedure FlatButton00Click(St1: String);
+    procedure FlatButton01Click(Sender: TObject);
+    procedure FlatButton02Click(Sender: TObject);
+    procedure FlatButton03Click(Sender: TObject);
+    procedure FlatButton04Click(Sender: TObject);
+    procedure FlatButton05Click(Sender: TObject);
+    procedure FlatButton06Click(Sender: TObject);
+    procedure FlatButton07Click(Sender: TObject);
+    procedure FlatButton08Click(Sender: TObject);
+    procedure FlatButton09Click(Sender: TObject);
+    procedure FlatButton10Click(Sender: TObject);
+    procedure FlatButton11Click(Sender: TObject);
+    procedure FlatButton12Click(Sender: TObject);
+    procedure Button813Click(St0: String);
+    procedure Button913Click(St0: String);
+    procedure DBGrid201Columns10UpdateData(Sender: TObject;
+      var Text: String; var Value: Variant; var UseText, Handled: Boolean);
+    procedure Button302Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Sobo45_1: TSobo45_1;
+  S_Date: String;
+
+implementation
+
+{$R *.DFM}
+
+uses Chul, Base01, Tong02, Tong04, TcpLib, globalCommon,
+   Seak01, Seak02, Seak03, Seak04, Seak05, Seak06, Seak07, Seak08, Seak09,
+   Seek01, Seek02, Seek03, Seek04, Seek05, Seek06, Seek07, Seek08, Seek09;
+
+procedure TSobo45_1.FormActivate(Sender: TObject);
+begin
+  nForm:='45_1';
+  nSqry:=T4_Sub51;
+  mSqry:=T4_Sub52;
+end;
+
+procedure TSobo45_1.FormShow(Sender: TObject);
+begin
+  T00:=0;
+//  Edit101.Text:=FormatDateTime('yyyy"."mm"',Date);
+  SetMonth2Combo(TCombobox(Edit101));
+  Button302Click(Self);
+  Application.HintHidePause:=10000;
+end;
+
+procedure TSobo45_1.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Release;
+  Action:=caFree;
+  Sobo45_1:=nil;
+  Base10.OpenExit(nSqry);
+  Base10.OpenExit(mSqry);
+  Application.HintHidePause:=5000;
+end;
+
+procedure TSobo45_1.Button001Click(Sender: TObject);
+begin
+{ if mSqry.Active=True Then begin
+     oSqry:=mSqry;
+     Seak10.ShowModal;
+  end; }
+end;
+
+procedure TSobo45_1.Button002Click(Sender: TObject);
+begin
+{ if mSqry.Active=True Then begin
+     oSqry:=mSqry;
+  if Seak20.ShowModal=mrOK then
+     Tong20.Srart_45_02(Self);
+  end; }
+end;
+
+procedure TSobo45_1.Button003Click(Sender: TObject);
+begin
+{ if mSqry.Active=True Then begin
+     oSqry:=mSqry;
+     Seak30.ShowModal;
+  end; }
+end;
+
+procedure TSobo45_1.Button004Click(Sender: TObject);
+var St1: String;
+begin
+{ St1:= InputBox('Password변경', '비밀번호를 입력 하세요.  ', '');
+  if St1 <> '' then begin
+    Sqlen := 'UPDATE Id_Logn SET Gpass=''@Gpass'' '+
+             'WHERE Hcode=''@Hcode'' ';
+    Translate(Sqlen, '@Gpass', St1);
+    Translate(Sqlen, '@Hcode', '0001');
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Update);
+    ShowMessage('수정되었습니다.');
+  end; }
+end;
+
+procedure TSobo45_1.Button005Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo45_1.Button006Click(Sender: TObject);
+begin
+  Button201Click(Self);
+{ T00:=1;
+  Button201Click(Self); }
+end;
+
+procedure TSobo45_1.Button007Click(Sender: TObject);
+begin
+  Button801Click(Self); //상단-초기화
+  Button802Click(Self); //상단-불러오기
+//Button803Click(Self); //상단-불러오기(저장된자료)
+
+  Button901Click(Self); //하단-초기화
+  Button902Click(Self); //하단-불러오기(바로전자료)
+  Button903Click(Self); //하단-불러오기(저장된자료)
+
+  Button601Click(Self);
+
+  Edit201Exit(Self);
+{ T00:=0;
+  Button201Click(Self); }
+end;
+
+procedure TSobo45_1.Button008Click(Sender: TObject);
+begin
+  Panel002.Width:=210;
+//Tong20.Zoom_Int_01('24');
+end;
+
+procedure TSobo45_1.Button009Click(Sender: TObject);
+begin
+  Panel002.Width:=350;
+//Tong20.Zoom_Out_01('24');
+end;
+
+procedure TSobo45_1.Button010Click(Sender: TObject);
+begin
+//Button811Click(Self);
+//Tong20.DBGridSaveHtml(DBGrid101, Caption);
+end;
+
+procedure TSobo45_1.Button011Click(Sender: TObject);
+begin
+//Button812Click(Self);
+//Tong20.DBGridSaveHtml(DBGrid201, Caption);
+end;
+
+procedure TSobo45_1.Button012Click(Sender: TObject);
+begin
+  oSqry:=mSqry;
+  Base10.ColumnX9(oSqry,DBGrid101,ProgressBar1);
+end;
+
+procedure TSobo45_1.Button013Click(Sender: TObject);
+begin
+  oSqry:=nSqry;
+  Base10.ColumnX9(oSqry,DBGrid201,ProgressBar1);
+end;
+
+procedure TSobo45_1.Button014Click(Sender: TObject);
+begin
+  Tong20.Print_00_00('45-01');
+end;
+
+procedure TSobo45_1.Button015Click(Sender: TObject);
+begin
+  Tong20.Print_00_00('45-02');
+end;
+
+procedure TSobo45_1.Button016Click(Sender: TObject);
+begin
+  if Panel200.Visible=False then begin
+    Button901Click(Self); //하단-초기화
+    Button902Click(Self); //하단-불러오기(바로전자료)
+    Button903Click(Self); //하단-불러오기(저장된자료)
+
+    if CheckBox1.Checked=False then
+    Edit201Exit(Self);
+
+    if CheckBox1.Checked=False then
+    Button601Click(Self);
+
+    if CheckBox1.Checked=False then
+    Button602Click(Self);
+  end;
+  Tong40.print_45_02(Self);
+end;
+
+procedure TSobo45_1.Button017Click(Sender: TObject);
+begin
+//Tong40.print_45_02(Self);
+end;
+
+procedure TSobo45_1.Button018Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo45_1.Button019Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo45_1.Button020Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo45_1.Button021Click(Sender: TObject);
+begin
+//Tong20.DBGridFont1(DBGrid101,DBGrid201,StBar101,StBar201);
+end;
+
+procedure TSobo45_1.Button022Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo45_1.Button023Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo45_1.Button024Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo45_1.Button101Click(Sender: TObject);
+begin
+//if Base10.Seek_Ggeo(Edit108.Text)='X' Then Exit;
+
+  Base10.OpenShow(Base10.H2_Gbun);
+  Sqlen := 'Select Hcode,Scode,Gcode,Gname,Jubun,Gdate From H2_Gbun Where '+D_Open;
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.ClientGrid(Base10.H2_Gbun)
+  else ShowMessage(E_Open);
+
+  Base10.OpenShow(Base10.T1_Gbun);
+  Sqlen := 'Select Hcode,Gcode,Gjisa,Jubun,Gname From T1_Gbun Where '+D_Open;
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.ClientGrid(Base10.T1_Gbun)
+  else ShowMessage(E_Open);
+
+  Base10.OpenShow(Base10.T4_Ssub);
+  Sqlen := 'Select Hcode,Gcode,Gdate,Gjisa,Jubun,Pubun,Gqut1,Gqut2,Gqut3 From T4_Ssub '+
+           'Where '+D_Select+'Gdate>=''@Gdate'' and Gdate<=''@Cdate'' ';
+  Translate(Sqlen, '@Gdate', Edit101.Text+'.00');
+  Translate(Sqlen, '@Cdate', Edit101.Text+'.99');
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.ClientGrid(Base10.T4_Ssub)
+  else ShowMessage(E_Open);
+
+
+  Tong40.Show;
+  Tong40.Update;
+
+  Refresh;
+  Screen.Cursor:=crHourGlass;
+  DataSource2.Enabled:=False;
+  DataSource1.Enabled:=False;
+  Base10.OpenShow(nSqry);
+  Base10.OpenShow(mSqry);
+
+  Sqlen := 'Select Gcode,Gname,Gtel1,Gtel2,Jumin,Giqut,Gisum,Yes35,Gssum,Chek1 From G7_Ggeo Where '+D_Open;
+
+{ if (Edit104.Text<>'') Then
+  Sqlen:=Sqlen+
+         ' and '+'Gcode'+'>='+#39+Edit102.Text+#39+
+         ' and '+'Gcode'+'<='+#39+Edit104.Text+#39;
+
+  if S_Where2<>'' then
+  Sqlen:=Sqlen+' and '+S_Where2;
+
+  Sqlen:=Sqlen+' Order By Gcode'; }
+
+  Sqlen:=Sqlen+
+         ' and '+'Gubun'+' ='+#39+'03'+#39;
+  Sqlen:=Sqlen+' Order By Gcode';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    mSqry.Append;
+    mSqry.FieldByName('Gdate').AsString:=Edit101.Text;
+    mSqry.FieldByName('Hcode').AsString:=SGrid.Cells[ 0,List1];
+    mSqry.FieldByName('Hname').AsString:=SGrid.Cells[ 1,List1];
+    mSqry.FieldByName('Yesno').AsString:=SGrid.Cells[ 4,List1];
+    mSqry.FieldByName('Qsqut').AsString:=SGrid.Cells[ 5,List1];
+    mSqry.FieldByName('Gsqut').AsString:=SGrid.Cells[ 6,List1];
+    mSqry.FieldByName('Gdang').AsString:=SGrid.Cells[ 7,List1];
+    mSqry.FieldByName('Gssum').AsString:=SGrid.Cells[ 8,List1];
+    mSqry.FieldByName('Bcode').AsString:=SGrid.Cells[ 9,List1];
+  //mSqry.FieldByName('Gtels').AsString:=SGrid.Cells[ 2,List1]+'-'+SGrid.Cells[ 3,List1];
+    mSqry.Post;
+  end;
+
+  Sqlen := 'Select Hcode,Chek1,Chek2 From T2_Ssub '+
+           'Where '+D_Select+'Gdate=''@Gdate'' and Yesno=''@Yesno'' ';
+  Translate(Sqlen, '@Gdate', Edit101.Text);
+  Translate(Sqlen, '@Yesno', '1');
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    if mSqry.Locate('Hcode',SGrid.Cells[ 0,List1],[loCaseInsensitive])=True then begin
+      mSqry.Edit;
+      mSqry.FieldByName('Gbigo').AsString:=SGrid.Cells[ 1,List1];
+      mSqry.FieldByName('Gmemo').AsString:=SGrid.Cells[ 2,List1];
+      mSqry.Post;
+    end;
+  end;
+
+  nSqry.First;
+  mSqry.First;
+  DBGrid101.SetFocus;
+  ProgressBar1.Position:=0;
+  DataSource2.Enabled:=True;
+  DataSource1.Enabled:=True;
+  Screen.Cursor:=crDefault;
+
+//Edit201Exit(Self);
+
+//Panel004.Visible:=False;
+  Label001.Caption:='';
+  Label002.Caption:='';
+  Label003.Caption:='';
+
+  Tong40.Hide;
+{ Tong40.Free; }
+end;
+
+procedure TSobo45_1.Button201Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo45_1.Button509Click(Sender: TObject);
+var St1,St2,St3,St4,St8,St9: String;
+begin
+
+  St1:='S.Gdate'+'>='+#39+Edit101.Text+'.00'+#39+' and '+
+       'S.Gdate'+'<='+#39+Edit101.Text+'.99'+#39+' and '+
+       'S.Gubun'+' ='+#39+'출고'+#39+' and '+
+       'S.Ocode'+' ='+#39+'B'+#39+' and '+
+       'S.Scode'+' ='+#39+'X'+#39;
+  if (Edit104.Text<>'') Then
+  St1:=St1+' and '+
+       'S.Hcode'+'>='+#39+Edit102.Text+#39+' and '+
+       'S.Hcode'+'<='+#39+Edit104.Text+#39;
+
+  if D_Select<>'' then
+  St1:=St1+' and '+'('+'S.Check is null '+' or '+'S.Check'+'<>'+#39+'D'+#39+')';
+
+  if D_Select<>'' then
+  St1:=St1+' and '+'('+'Y.Check is null '+' or '+'Y.Check'+'<>'+#39+'D'+#39+')';
+
+  St1:=St1+' and '+'Y.Grat8'+'> '+'1';
+
+  St1:=St1+' and (S.Gcode<>'+#39+'00002'+#39+')';
+  St1:=St1+' and (S.Gjisa<>'+#39+'방문출고'+#39+')';
+
+  Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut,Substring(S.Gdate,9,2) From S1_Ssub S, G4_Book Y '+
+           'Where S.Hcode=Y.Hcode and S.Bcode=Y.Gcode and '+St1+St2;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(YGrid)
+  else ShowMessage(E_Open);
+
+end;
+
+procedure TSobo45_1.Button529Click(Sender: TObject);
+var St1,St2,St3,St4,St8,St9: String;
+begin
+
+  St1:='S.Gdate'+'>='+#39+Edit101.Text+'.00'+#39+' and '+
+       'S.Gdate'+'<='+#39+Edit101.Text+'.99'+#39+' and '+
+       'S.Gubun'+' ='+#39+'출고'+#39+' and '+
+       'S.Ocode'+' ='+#39+'B'+#39+' and '+
+       'S.Scode'+' ='+#39+'Z'+#39;
+  if (Edit104.Text<>'') Then
+  St1:=St1+' and '+
+       'S.Hcode'+'>='+#39+Edit102.Text+#39+' and '+
+       'S.Hcode'+'<='+#39+Edit104.Text+#39;
+
+  if D_Select<>'' then
+  St1:=St1+' and '+'('+'S.Check is null '+' or '+'S.Check'+'<>'+#39+'D'+#39+')';
+
+  if D_Select<>'' then
+  St1:=St1+' and '+'('+'Y.Check is null '+' or '+'Y.Check'+'<>'+#39+'D'+#39+')';
+
+  St1:=St1+' and '+'Y.Grat8'+'> '+'1';
+
+  St1:=St1+' and (S.Gcode<>'+#39+'00002'+#39+')';
+  St1:=St1+' and (S.Gjisa<>'+#39+'방문출고'+#39+')';
+
+  Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut,Substring(S.Gdate,9,2) From S1_Ssub S, G4_Book Y '+
+           'Where S.Hcode=Y.Hcode and S.Bcode=Y.Gcode and '+St1+St2;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(YGrid)
+  else ShowMessage(E_Open);
+
+end;
+
+procedure TSobo45_1.Button801Click(Sender: TObject);
+var St1,St2,St3: String;
+    St9: Integer;
+begin
+  Base10.OpenShow(nSqry);
+  for St9 := 1 to 31 do begin
+    if St9=1  then St3:='01';
+    if St9=2  then St3:='02';
+    if St9=3  then St3:='03';
+    if St9=4  then St3:='04';
+    if St9=5  then St3:='05';
+    if St9=6  then St3:='06';
+    if St9=7  then St3:='07';
+    if St9=8  then St3:='08';
+    if St9=9  then St3:='09';
+    if St9=10 then St3:='10';
+    if St9=11 then St3:='11';
+    if St9=12 then St3:='12';
+    if St9=13 then St3:='13';
+    if St9=14 then St3:='14';
+    if St9=15 then St3:='15';
+    if St9=16 then St3:='16';
+    if St9=17 then St3:='17';
+    if St9=18 then St3:='18';
+    if St9=19 then St3:='19';
+    if St9=20 then St3:='20';
+    if St9=21 then St3:='21';
+    if St9=22 then St3:='22';
+    if St9=23 then St3:='23';
+    if St9=24 then St3:='24';
+    if St9=25 then St3:='25';
+    if St9=26 then St3:='26';
+    if St9=27 then St3:='27';
+    if St9=28 then St3:='28';
+    if St9=29 then St3:='29';
+    if St9=30 then St3:='30';
+    if St9=31 then St3:='31';
+    nSqry.Append;
+    nSqry.FieldByName('Gdate').AsString:=St3;
+    nSqry.FieldByName('Hcode').AsString:='';
+    nSqry.FieldByName('Yesno').AsString:='0';
+    nSqry.Post;
+  end;
+  nSqry.First;
+end;
+
+procedure TSobo45_1.Button802Click(Sender: TObject);
+var St1,St2,St3,St4: String;
+begin
+
+  Button509Click(Self);
+
+  Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+         'Gubun'+' ='+#39+'출고'+#39+' and '+
+         'Ocode'+' ='+#39+'B'+#39+' and '+
+         'Scode'+' ='+#39+'X'+#39+' and '+
+         'Gcode'+'<>'+#39+'00002'+#39+' and '+
+         'Gjisa'+'<>'+#39+'방문출고'+#39+
+         ' Group By Substring(Gdate,9,2),Gcode,Jubun,Gjisa';
+
+  if S_Date<>'' then
+  Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+         'Gubun'+' ='+#39+'출고'+#39+' and '+
+         'Ocode'+' ='+#39+'B'+#39+' and '+
+         'Scode'+' ='+#39+'X'+#39+' and '+
+         'Gcode'+'<>'+#39+'00002'+#39+' and '+
+         'Gjisa'+'<>'+#39+'방문출고'+#39+' and '+'('+S_Date+')'+
+         ' Group By Substring(Gdate,9,2),Gcode,Jubun,Gjisa';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    //-----셋트수량-----//
+    T06:=0;
+    T07:=0;
+    T08:=0;
+    RBand:=0;
+    While YGrid.RowCount-1 > RBand do begin
+    RBand:=RBand+1;
+      if(YGrid.Cells[ 0,RBand]=mSqry.FieldByName('Hcode').AsString)and
+        (YGrid.Cells[ 1,RBand]=SGrid.Cells[ 1,List1])and
+        (YGrid.Cells[ 2,RBand]=SGrid.Cells[ 3,List1])and
+        (YGrid.Cells[ 3,RBand]=SGrid.Cells[ 2,List1])and
+        (YGrid.Cells[ 7,RBand]=SGrid.Cells[ 0,List1])then begin
+      T06:=StrToIntDef(YGrid.Cells[ 5,RBand],0)-1;
+      T07:=StrToIntDef(YGrid.Cells[ 6,RBand],0);
+      T08:=T08+T06*T07;
+      end;
+    end;
+    //-----셋트수량-----//
+
+    T01:=StrToIntDef(SGrid.Cells[ 4,List1],0)+T08;
+    St3:=SGrid.Cells[ 0,List1];
+    St4:='';
+
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,St4]),[loCaseInsensitive])=True then begin
+    if nSqry.FieldByName('Yesno').AsString<>'1' then begin
+
+      //----------//
+    { Sqlen :=
+      'Select Gqut1,Gqut2 From T4_Ssub Where '+D_Select+
+      'Hcode=''@Hcode'' and Gcode=''@Gcode'' and Gdate=''@Gdate'' and Gjisa=''@Gjisa'' and Jubun=''@Jubun'' ';
+      Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+      Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+      Translate(Sqlen, '@Gdate', Edit101.Text+'.'+SGrid.Cells[ 0,List1]);
+      Translate(Sqlen, '@Gjisa', SGrid.Cells[ 3,List1]);
+      Translate(Sqlen, '@Jubun', SGrid.Cells[ 2,List1]);
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.BusyLoop;
+      nSqry.Edit;
+      if Base10.Socket.Body_Data <> 'NODATA' then begin
+        Base10.Socket.MakeData;
+        nSqry.FieldByName('Gqut3').AsFloat:=
+        nSqry.FieldByName('Gqut3').AsFloat +StrToIntDef(Base10.Socket.GetData(1, 1),0);
+        nSqry.FieldByName('Gqut4').AsFloat:=
+        nSqry.FieldByName('Gqut4').AsFloat +StrToIntDef(Base10.Socket.GetData(1, 2),0);
+      end else begin
+        nSqry.FieldByName('Gqut3').AsFloat:=nSqry.FieldByName('Gqut3').AsFloat+1;
+      end;
+      nSqry.Post;
+      //----------//
+
+      Sqlen := 'Select Gname From T1_Gbun Where '+D_Select+
+               'Hcode=''@Hcode'' and Gcode=''@Gcode'' and Gjisa=''@Gjisa'' and Jubun=''@Jubun''';
+      Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+      Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+      Translate(Sqlen, '@Gjisa', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'));
+      Translate(Sqlen, '@Jubun', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4'));
+      St4:=Base10.Seek_Name(Sqlen);
+
+      if St4='' then
+      if SGrid.Cells[ 2,List1]<>'' then begin
+        Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+                 'Hcode=''@Hcode'' and Scode=''@Scode'' and Gcode=''@Gcode'' and Gname=''@Gname'' and Jubun=''@Jubun''';
+        Translate(Sqlen, '@Hcode', '');
+        Translate(Sqlen, '@Scode', 'X');
+        Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+        Translate(Sqlen, '@Gname', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'));
+        Translate(Sqlen, '@Jubun', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4'));
+        St4:=Base10.Seek_Name(Sqlen);
+      end; }
+
+      nSqry.Edit;
+      if Base10.T4_Ssub.Locate('Hcode;Gcode;Gdate;Gjisa;Jubun',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1],
+      Edit101.Text+'.'+SGrid.Cells[ 0,List1],SGrid.Cells[ 3,List1],SGrid.Cells[ 2,List1]]),[loCaseInsensitive])=true then begin
+        nSqry.FieldByName('Gqut3').AsFloat:=
+        nSqry.FieldByName('Gqut3').AsFloat +Base10.T4_Ssub.FieldByName('Gqut3').AsFloat;
+        nSqry.FieldByName('Gqut4').AsFloat:=
+        nSqry.FieldByName('Gqut4').AsFloat +Base10.T4_Ssub.FieldByName('Gqut2').AsFloat;
+      end else begin
+        nSqry.FieldByName('Gqut4').AsFloat:=nSqry.FieldByName('Gqut4').AsFloat+2;
+      //nSqry.FieldByName('Gqut3').AsFloat:=nSqry.FieldByName('Gqut3').AsFloat+1;
+      end;
+
+      if Base10.G7_Ggeo.Locate('Gcode',mSqry.FieldByName('Hcode').AsString,[loCaseInsensitive])=true then begin
+        if Base10.G7_Ggeo.FieldByName('Yes35').AsString='2' then begin
+          if Base10.T1_Gbun.Locate('Hcode;Gcode;Gjisa;Jubun',VarArrayOf(['',SGrid.Cells[ 1,List1],
+          Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then begin
+            St4:=Base10.T1_Gbun.FieldByName('Gname').AsString;
+          end;
+        end;
+      end;
+
+      if St4='' then
+      if Base10.T1_Gbun.Locate('Hcode;Gcode;Gjisa;Jubun',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1],
+      Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then begin
+        St4:=Base10.T1_Gbun.FieldByName('Gname').AsString;
+      end;
+
+      if St4='' then
+      if SGrid.Cells[ 3,List1]<>'' then begin
+        if Copy(SGrid.Cells[ 1,List1],1,1)<>'9' then
+        if Base10.H2_Gbun.Locate('Hcode;Scode;Gcode;Gname;Jubun',VarArrayOf(['','X',SGrid.Cells[ 1,List1],
+        Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then
+          St4:=Base10.H2_Gbun.FieldByName('Gdate').AsString;
+        if Copy(SGrid.Cells[ 1,List1],1,1)='9' then
+        if Base10.H2_Gbun.Locate('Hcode;Scode;Gcode;Gname;Jubun',VarArrayOf([mSqry.FieldByName('Hcode').AsString,'X',SGrid.Cells[ 1,List1],
+        Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then
+          St4:=Base10.H2_Gbun.FieldByName('Gdate').AsString;
+      end;
+
+      //----------//
+      if Base10.Database.Database<>'book_kb_db' then begin
+        if St4='' then begin
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', '');
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+        end;
+      end else begin
+        if St4='' then begin
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', '');
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+        end;
+      end;
+
+    //if St4<>'' then begin
+        nSqry.Edit;
+        if St4='시내' then
+        nSqry.FieldByName('Gqut1').AsFloat:=nSqry.FieldByName('Gqut1').AsFloat+T01
+        else
+        nSqry.FieldByName('Gqut2').AsFloat:=nSqry.FieldByName('Gqut2').AsFloat+T01;
+        nSqry.Post;
+    //end;
+
+    end;
+    end;
+  end;
+
+  //----- 발송비내역 -----//
+  Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  if S_Date<>'' then
+  Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+'('+S_Date+')';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    T01:=StrToIntDef(SGrid.Cells[ 5,List1],0);
+    St3:=Copy(SGrid.Cells[ 0,List1],9,2);
+    St4:='';
+
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,St4]),[loCaseInsensitive])=True then begin
+    if nSqry.FieldByName('Yesno').AsString<>'1' then begin
+
+      nSqry.Edit;
+      if nSqry.FieldByName('Gname').AsString='' then begin
+
+        nSqry.FieldByName('Gcode').AsString:=SGrid.Cells[ 1,List1];
+        nSqry.FieldByName('Gname').AsString:=SGrid.Cells[ 2,List1];
+        nSqry.FieldByName('Name1').AsString:=SGrid.Cells[ 3,List1];
+        nSqry.FieldByName('Name2').AsString:=SGrid.Cells[ 4,List1];
+
+      { if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then
+        nSqry.FieldByName('Gname').AsString:=Base10.G1_Ggeo.FieldByName('Gname').AsString;
+
+        if nSqry.FieldByName('Gname').AsString='' then
+        if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then
+        nSqry.FieldByName('Gname').AsString:=Base10.G1_Ggeo.FieldByName('Gname').AsString;
+
+        if nSqry.FieldByName('Gname').AsString='' then begin
+        Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+        Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+        Translate(Sqlen, '@Hcode', '');
+        nSqry.FieldByName('Gname').AsString:=Base10.Seek_Name(Sqlen);
+        end;
+
+        if nSqry.FieldByName('Gname').AsString='' then begin
+        Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+        Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+        Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+        nSqry.FieldByName('Gname').AsString:=Base10.Seek_Name(Sqlen);
+        end; }
+      end;
+      if nSqry.FieldByName('Gsqut').AsString<>'' then begin
+        nSqry.FieldByName('Gsqut').AsFloat :=nSqry.FieldByName('Gsqut').AsFloat+1;
+      end else begin
+        nSqry.FieldByName('Gsqut').AsFloat :=1;
+      end;
+      nSqry.FieldByName('Gssum').AsFloat :=nSqry.FieldByName('Gssum').AsFloat+T01;
+      nSqry.Post;
+
+    end;
+    end;
+  end;
+
+  //----- 반품수거내역 -----//
+  Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+
+         ' Group By Gdate ';
+
+  if S_Date<>'' then
+  Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+'('+S_Date+')'+
+         ' Group By Gdate ';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    T01:=StrToIntDef(SGrid.Cells[ 1,List1],0);
+    T02:=StrToIntDef(SGrid.Cells[ 2,List1],0);
+    St3:=Copy(SGrid.Cells[ 0,List1],9,2);
+
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,St4]),[loCaseInsensitive])=True then begin
+    if nSqry.FieldByName('Yesno').AsString<>'1' then begin
+
+      nSqry.Edit;
+      nSqry.FieldByName('Gqut6').AsFloat :=nSqry.FieldByName('Gqut6').AsFloat+T01;
+      nSqry.FieldByName('Gqut7').AsFloat :=nSqry.FieldByName('Gqut7').AsFloat+T02;
+      nSqry.Post;
+
+    end;
+    end;
+  end;
+  nSqry.First;
+
+//Edit201Exit(Self);
+end;
+
+procedure TSobo45_1.Button803Click(Sender: TObject);
+var St1: String;
+begin
+  Sqlen:='Select Hcode,'+
+         'Gdate,Gqut1,Gqut2,Gqut3,Gqut4,Name1,Name2,Gname,Gcode,Gsqut,Gssum,Yesno,Gqut5,Gqut6,Gqut7 '+
+         'From T3_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  S_Date:='';
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    if SGrid.Cells[12,List1]='1' then begin
+      if S_Date='' then
+      S_Date:=S_Date+'Gdate'+'<>'+#39+SGrid.Cells[ 1,List1]+#39
+      else
+      S_Date:=S_Date+' and '+'Gdate'+'<>'+#39+SGrid.Cells[ 1,List1]+#39;
+    end;
+
+    St1:=Copy(SGrid.Cells[ 1,List1],9,2);
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St1,'']),[loCaseInsensitive])=True then begin
+      nSqry.Edit;
+      if SGrid.Cells[13,List1]<>'0' then
+      nSqry.FieldByName('Gqut5').AsString:=SGrid.Cells[13,List1];
+      if SGrid.Cells[14,List1]<>'0' then
+      nSqry.FieldByName('Gqut6').AsString:=SGrid.Cells[14,List1];
+      if SGrid.Cells[15,List1]<>'0' then
+      nSqry.FieldByName('Gqut7').AsString:=SGrid.Cells[15,List1];
+      nSqry.Post;
+    end;
+
+    if SGrid.Cells[12,List1]='1' then begin
+    St1:=Copy(SGrid.Cells[ 1,List1],9,2);
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St1,'']),[loCaseInsensitive])=True then begin
+      nSqry.Edit;
+      if(SGrid.Cells[ 2,List1]<>'0')or(SGrid.Cells[ 3,List1]<>'0')then begin
+      nSqry.FieldByName('Gqut1').AsString:=SGrid.Cells[ 2,List1];
+      nSqry.FieldByName('Gqut2').AsString:=SGrid.Cells[ 3,List1];
+      end;
+      if SGrid.Cells[ 4,List1]<>'0' then
+      nSqry.FieldByName('Gqut3').AsString:=SGrid.Cells[ 4,List1];
+      if SGrid.Cells[ 5,List1]<>'0' then
+      nSqry.FieldByName('Gqut4').AsString:=SGrid.Cells[ 5,List1];
+    { if SGrid.Cells[13,List1]<>'0' then
+      nSqry.FieldByName('Gqut5').AsString:=SGrid.Cells[13,List1];
+      if SGrid.Cells[14,List1]<>'0' then
+      nSqry.FieldByName('Gqut6').AsString:=SGrid.Cells[14,List1];
+      if SGrid.Cells[15,List1]<>'0' then
+      nSqry.FieldByName('Gqut7').AsString:=SGrid.Cells[15,List1]; }
+      nSqry.FieldByName('Yesno').AsString:='0';
+      if SGrid.Cells[12,List1]='1' then
+      nSqry.FieldByName('Yesno').AsString:=SGrid.Cells[12,List1];
+
+    //if CheckBox1.Checked=True then
+      if(SGrid.Cells[ 6,List1]<>'' )or(SGrid.Cells[ 7,List1]<>'' )or
+        (SGrid.Cells[ 8,List1]<>'' )or(SGrid.Cells[ 9,List1]<>'' )or
+        (SGrid.Cells[10,List1]<>'0')or(SGrid.Cells[11,List1]<>'0')then begin
+      nSqry.FieldByName('Name1').AsString:=SGrid.Cells[ 6,List1];
+      nSqry.FieldByName('Name2').AsString:=SGrid.Cells[ 7,List1];
+      nSqry.FieldByName('Gname').AsString:=SGrid.Cells[ 8,List1];
+      nSqry.FieldByName('Gcode').AsString:=SGrid.Cells[ 9,List1];
+      nSqry.FieldByName('Gsqut').AsString:=SGrid.Cells[10,List1];
+      nSqry.FieldByName('Gssum').AsString:=SGrid.Cells[11,List1];
+      end;
+      nSqry.Post;
+    { nSqry.Edit;
+      if SGrid.Cells[ 2,List1]<>'0' then
+      nSqry.FieldByName('Gqut1').AsString:=SGrid.Cells[ 2,List1];
+      if SGrid.Cells[ 3,List1]<>'0' then
+      nSqry.FieldByName('Gqut2').AsString:=SGrid.Cells[ 3,List1];
+      if SGrid.Cells[ 4,List1]<>'0' then
+      nSqry.FieldByName('Gqut3').AsString:=SGrid.Cells[ 4,List1];
+      if SGrid.Cells[ 5,List1]<>'0' then
+      nSqry.FieldByName('Gqut4').AsString:=SGrid.Cells[ 5,List1];
+      if SGrid.Cells[ 6,List1]<>'' then
+      nSqry.FieldByName('Name1').AsString:=SGrid.Cells[ 6,List1];
+      if SGrid.Cells[ 7,List1]<>'' then
+      nSqry.FieldByName('Name2').AsString:=SGrid.Cells[ 7,List1];
+      if SGrid.Cells[ 8,List1]<>'' then
+      nSqry.FieldByName('Gname').AsString:=SGrid.Cells[ 8,List1];
+      if SGrid.Cells[ 9,List1]<>'' then
+      nSqry.FieldByName('Gcode').AsString:=SGrid.Cells[ 9,List1];
+      if SGrid.Cells[10,List1]<>'0' then
+      nSqry.FieldByName('Gsqut').AsString:=SGrid.Cells[10,List1];
+      if SGrid.Cells[11,List1]<>'0' then
+      nSqry.FieldByName('Gssum').AsString:=SGrid.Cells[11,List1];
+      nSqry.FieldByName('Yesno').AsString:='0';
+      if SGrid.Cells[12,List1]='1' then
+      nSqry.FieldByName('Yesno').AsString:=SGrid.Cells[12,List1];
+      nSqry.Post; }
+    end;
+    end;
+  end;
+  nSqry.First;
+end;
+
+//-출고내역만 불러오기-//
+procedure TSobo45_1.Button811Click(Sender: TObject);
+var St1,St2,St3,St4: String;
+begin
+
+  Button509Click(Self);
+
+  Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+         'Gubun'+' ='+#39+'출고'+#39+' and '+
+         'Ocode'+' ='+#39+'B'+#39+' and '+
+         'Scode'+' ='+#39+'X'+#39+' and '+
+         'Yesno'+'<>'+#39+'0'+#39+' and '+
+         'Gcode'+'<>'+#39+'00002'+#39+' and '+
+         'Gjisa'+'<>'+#39+'방문출고'+#39+
+         ' Group By Substring(Gdate,9,2),Gcode,Jubun,Gjisa';
+
+  if S_Date<>'' then
+  Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+         'Gubun'+' ='+#39+'출고'+#39+' and '+
+         'Ocode'+' ='+#39+'B'+#39+' and '+
+         'Scode'+' ='+#39+'X'+#39+' and '+
+         'Yesno'+'<>'+#39+'0'+#39+' and '+
+         'Gcode'+'<>'+#39+'00002'+#39+' and '+
+         'Gjisa'+'<>'+#39+'방문출고'+#39+' and '+'('+S_Date+')'+
+         ' Group By Substring(Gdate,9,2),Gcode,Jubun,Gjisa';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    //-----셋트수량-----//
+    T06:=0;
+    T07:=0;
+    T08:=0;
+    RBand:=0;
+    While YGrid.RowCount-1 > RBand do begin
+    RBand:=RBand+1;
+      if(YGrid.Cells[ 0,RBand]=mSqry.FieldByName('Hcode').AsString)and
+        (YGrid.Cells[ 1,RBand]=SGrid.Cells[ 1,List1])and
+        (YGrid.Cells[ 2,RBand]=SGrid.Cells[ 3,List1])and
+        (YGrid.Cells[ 3,RBand]=SGrid.Cells[ 2,List1])and
+        (YGrid.Cells[ 7,RBand]=SGrid.Cells[ 0,List1])then begin
+      T06:=StrToIntDef(YGrid.Cells[ 5,RBand],0)-1;
+      T07:=StrToIntDef(YGrid.Cells[ 6,RBand],0);
+      T08:=T08+T06*T07;
+      end;
+    end;
+    //-----셋트수량-----//
+
+    T01:=StrToIntDef(SGrid.Cells[ 4,List1],0)+T08;
+    St3:=SGrid.Cells[ 0,List1];
+    St4:='';
+
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,St4]),[loCaseInsensitive])=True then begin
+    if nSqry.FieldByName('Yesno').AsString<>'1' then begin
+
+      //----------//
+    { Sqlen :=
+      'Select Gqut1,Gqut2 From T4_Ssub Where '+D_Select+
+      'Hcode=''@Hcode'' and Gcode=''@Gcode'' and Gdate=''@Gdate'' and Gjisa=''@Gjisa'' and Jubun=''@Jubun'' ';
+      Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+      Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+      Translate(Sqlen, '@Gdate', Edit101.Text+'.'+SGrid.Cells[ 0,List1]);
+      Translate(Sqlen, '@Gjisa', SGrid.Cells[ 3,List1]);
+      Translate(Sqlen, '@Jubun', SGrid.Cells[ 2,List1]);
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.BusyLoop;
+      nSqry.Edit;
+      if Base10.Socket.Body_Data <> 'NODATA' then begin
+        Base10.Socket.MakeData;
+        nSqry.FieldByName('Gqut3').AsFloat:=
+        nSqry.FieldByName('Gqut3').AsFloat +StrToIntDef(Base10.Socket.GetData(1, 1),0);
+        nSqry.FieldByName('Gqut4').AsFloat:=
+        nSqry.FieldByName('Gqut4').AsFloat +StrToIntDef(Base10.Socket.GetData(1, 2),0);
+      end else begin
+        nSqry.FieldByName('Gqut3').AsFloat:=nSqry.FieldByName('Gqut3').AsFloat+1;
+      end;
+      nSqry.Post;
+      //----------//
+
+      Sqlen := 'Select Gname From T1_Gbun Where '+D_Select+
+               'Hcode=''@Hcode'' and Gcode=''@Gcode'' and Gjisa=''@Gjisa'' and Jubun=''@Jubun''';
+      Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+      Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+      Translate(Sqlen, '@Gjisa', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'));
+      Translate(Sqlen, '@Jubun', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4'));
+      St4:=Base10.Seek_Name(Sqlen);
+
+      if St4='' then
+      if SGrid.Cells[ 2,List1]<>'' then begin
+        Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+                 'Hcode=''@Hcode'' and Scode=''@Scode'' and Gcode=''@Gcode'' and Gname=''@Gname'' and Jubun=''@Jubun''';
+        Translate(Sqlen, '@Hcode', '');
+        Translate(Sqlen, '@Scode', 'X');
+        Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+        Translate(Sqlen, '@Gname', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'));
+        Translate(Sqlen, '@Jubun', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4'));
+        St4:=Base10.Seek_Name(Sqlen);
+      end; }
+
+      nSqry.Edit;
+      if Base10.T4_Ssub.Locate('Hcode;Gcode;Gdate;Gjisa;Jubun',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1],
+      Edit101.Text+'.'+SGrid.Cells[ 0,List1],SGrid.Cells[ 3,List1],SGrid.Cells[ 2,List1]]),[loCaseInsensitive])=true then begin
+      //St4:=Base10.T4_Ssub.FieldByName('Pubun').AsString;
+        nSqry.FieldByName('Gqut3').AsFloat:=
+        nSqry.FieldByName('Gqut3').AsFloat +Base10.T4_Ssub.FieldByName('Gqut3').AsFloat;
+        nSqry.FieldByName('Gqut4').AsFloat:=
+        nSqry.FieldByName('Gqut4').AsFloat +Base10.T4_Ssub.FieldByName('Gqut2').AsFloat;
+      end else begin
+        nSqry.FieldByName('Gqut4').AsFloat:=nSqry.FieldByName('Gqut4').AsFloat+2;
+      //nSqry.FieldByName('Gqut3').AsFloat:=nSqry.FieldByName('Gqut3').AsFloat+1;
+      end;
+
+      if St4='' then
+      if Base10.G7_Ggeo.Locate('Gcode',mSqry.FieldByName('Hcode').AsString,[loCaseInsensitive])=true then begin
+        if Base10.G7_Ggeo.FieldByName('Yes35').AsString='2' then begin
+          if Base10.T1_Gbun.Locate('Hcode;Gcode;Gjisa;Jubun',VarArrayOf(['',SGrid.Cells[ 1,List1],
+          Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then begin
+            St4:=Base10.T1_Gbun.FieldByName('Gname').AsString;
+          end;
+        end;
+      end;
+
+      if St4='' then
+      if Base10.T1_Gbun.Locate('Hcode;Gcode;Gjisa;Jubun',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1],
+      Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then begin
+        St4:=Base10.T1_Gbun.FieldByName('Gname').AsString;
+      end;
+
+      if St4='' then
+      if SGrid.Cells[ 3,List1]<>'' then begin
+        if Copy(SGrid.Cells[ 1,List1],1,1)<>'9' then
+        if Base10.H2_Gbun.Locate('Hcode;Scode;Gcode;Gname;Jubun',VarArrayOf(['','X',SGrid.Cells[ 1,List1],
+        Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then
+          St4:=Base10.H2_Gbun.FieldByName('Gdate').AsString;
+        if Copy(SGrid.Cells[ 1,List1],1,1)='9' then
+        if Base10.H2_Gbun.Locate('Hcode;Scode;Gcode;Gname;Jubun',VarArrayOf([mSqry.FieldByName('Hcode').AsString,'X',SGrid.Cells[ 1,List1],
+        Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then
+          St4:=Base10.H2_Gbun.FieldByName('Gdate').AsString;
+      end;
+
+      //----------//
+      if Base10.Database.Database='chul_03_db' then begin
+        if St4='' then begin
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='03' then St4:='시내(화물)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='04' then St4:='지방(화물)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='05' then St4:='시내(직배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='06' then St4:='지방(직배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='07' then St4:='시내(택배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='08' then St4:='지방(택배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='09' then St4:='시내(기타)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='10' then St4:='지방(기타)';
+          end;
+
+          if St4='' then
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='03' then St4:='시내(화물)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='04' then St4:='지방(화물)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='05' then St4:='시내(직배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='06' then St4:='지방(직배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='07' then St4:='시내(택배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='08' then St4:='지방(택배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='09' then St4:='시내(기타)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='10' then St4:='지방(기타)';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', '');
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          if Base10.Seek_Name(Sqlen)='03' then St4:='시내(화물)';
+          if Base10.Seek_Name(Sqlen)='04' then St4:='지방(화물)';
+          if Base10.Seek_Name(Sqlen)='05' then St4:='시내(직배)';
+          if Base10.Seek_Name(Sqlen)='06' then St4:='지방(직배)';
+          if Base10.Seek_Name(Sqlen)='07' then St4:='시내(택배)';
+          if Base10.Seek_Name(Sqlen)='08' then St4:='지방(택배)';
+          if Base10.Seek_Name(Sqlen)='09' then St4:='시내(기타)';
+          if Base10.Seek_Name(Sqlen)='10' then St4:='지방(기타)';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          if Base10.Seek_Name(Sqlen)='03' then St4:='시내(화물)';
+          if Base10.Seek_Name(Sqlen)='04' then St4:='지방(화물)';
+          if Base10.Seek_Name(Sqlen)='05' then St4:='시내(직배)';
+          if Base10.Seek_Name(Sqlen)='06' then St4:='지방(직배)';
+          if Base10.Seek_Name(Sqlen)='07' then St4:='시내(택배)';
+          if Base10.Seek_Name(Sqlen)='08' then St4:='지방(택배)';
+          if Base10.Seek_Name(Sqlen)='09' then St4:='시내(기타)';
+          if Base10.Seek_Name(Sqlen)='10' then St4:='지방(기타)';
+          end;
+        end;
+      end else
+      if Base10.Database.Database<>'book_kb_db' then begin
+        if St4='' then begin
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', '');
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+        end;
+      end else begin
+        if St4='' then begin
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', '');
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+        end;
+      end;
+
+    //if St4<>'' then begin
+        nSqry.Edit;
+        if(St4='시내')or(St4='시내(화물)')or(St4='시내(직배)')or(St4='시내(택배)')or(St4='시내(기타)')then
+        nSqry.FieldByName('Gqut1').AsFloat:=nSqry.FieldByName('Gqut1').AsFloat+T01
+        else
+        nSqry.FieldByName('Gqut2').AsFloat:=nSqry.FieldByName('Gqut2').AsFloat+T01;
+        nSqry.Post;
+    //end;
+
+    end;
+    end;
+  end;
+  nSqry.First;
+
+//Edit201Exit(Self);
+end;
+
+//-출고내역만 불러오기-:기타거래처-//
+procedure TSobo45_1.Button821Click(Sender: TObject);
+var St1,St2,St3,St4: String;
+begin
+
+  Sqlen := 'Select Chek5 From G7_Ggeo Where '+D_Select+
+           'Hcode=''@Hcode'' ';
+  Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+  if Base10.Seek_Name(Sqlen)='ok' then begin
+
+  Button529Click(Self);
+
+  Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+         'Gubun'+' ='+#39+'출고'+#39+' and '+
+         'Ocode'+' ='+#39+'B'+#39+' and '+
+         'Scode'+' ='+#39+'Z'+#39+' and '+
+         'Gcode'+'<>'+#39+'00002'+#39+' and '+
+         'Gjisa'+'<>'+#39+'방문출고'+#39+
+         ' Group By Substring(Gdate,9,2),Gcode,Jubun,Gjisa';
+
+  if S_Date<>'' then
+  Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+         'Gubun'+' ='+#39+'출고'+#39+' and '+
+         'Ocode'+' ='+#39+'B'+#39+' and '+
+         'Scode'+' ='+#39+'Z'+#39+' and '+
+         'Gcode'+'<>'+#39+'00002'+#39+' and '+
+         'Gjisa'+'<>'+#39+'방문출고'+#39+' and '+'('+S_Date+')'+
+         ' Group By Substring(Gdate,9,2),Gcode,Jubun,Gjisa';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    //-----셋트수량-----//
+    T06:=0;
+    T07:=0;
+    T08:=0;
+    RBand:=0;
+    While YGrid.RowCount-1 > RBand do begin
+    RBand:=RBand+1;
+      if(YGrid.Cells[ 0,RBand]=mSqry.FieldByName('Hcode').AsString)and
+        (YGrid.Cells[ 1,RBand]=SGrid.Cells[ 1,List1])and
+        (YGrid.Cells[ 2,RBand]=SGrid.Cells[ 3,List1])and
+        (YGrid.Cells[ 3,RBand]=SGrid.Cells[ 2,List1])and
+        (YGrid.Cells[ 7,RBand]=SGrid.Cells[ 0,List1])then begin
+      T06:=StrToIntDef(YGrid.Cells[ 5,RBand],0)-1;
+      T07:=StrToIntDef(YGrid.Cells[ 6,RBand],0);
+      T08:=T08+T06*T07;
+      end;
+    end;
+    //-----셋트수량-----//
+
+    T01:=StrToIntDef(SGrid.Cells[ 4,List1],0)+T08;
+    St3:=SGrid.Cells[ 0,List1];
+    St4:='';
+
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,St4]),[loCaseInsensitive])=True then begin
+    if nSqry.FieldByName('Yesno').AsString<>'1' then begin
+
+      //----------//
+    { Sqlen :=
+      'Select Gqut1,Gqut2 From T4_Ssub Where '+D_Select+
+      'Hcode=''@Hcode'' and Gcode=''@Gcode'' and Gdate=''@Gdate'' and Gjisa=''@Gjisa'' and Jubun=''@Jubun'' ';
+      Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+      Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+      Translate(Sqlen, '@Gdate', Edit101.Text+'.'+SGrid.Cells[ 0,List1]);
+      Translate(Sqlen, '@Gjisa', SGrid.Cells[ 3,List1]);
+      Translate(Sqlen, '@Jubun', SGrid.Cells[ 2,List1]);
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.BusyLoop;
+      nSqry.Edit;
+      if Base10.Socket.Body_Data <> 'NODATA' then begin
+        Base10.Socket.MakeData;
+        nSqry.FieldByName('Gqut3').AsFloat:=
+        nSqry.FieldByName('Gqut3').AsFloat +StrToIntDef(Base10.Socket.GetData(1, 1),0);
+        nSqry.FieldByName('Gqut4').AsFloat:=
+        nSqry.FieldByName('Gqut4').AsFloat +StrToIntDef(Base10.Socket.GetData(1, 2),0);
+      end else begin
+        nSqry.FieldByName('Gqut3').AsFloat:=nSqry.FieldByName('Gqut3').AsFloat+1;
+      end;
+      nSqry.Post;
+      //----------//
+
+      Sqlen := 'Select Gname From T1_Gbun Where '+D_Select+
+               'Hcode=''@Hcode'' and Gcode=''@Gcode'' and Gjisa=''@Gjisa'' and Jubun=''@Jubun''';
+      Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+      Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+      Translate(Sqlen, '@Gjisa', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'));
+      Translate(Sqlen, '@Jubun', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4'));
+      St4:=Base10.Seek_Name(Sqlen);
+
+      if St4='' then
+      if SGrid.Cells[ 2,List1]<>'' then begin
+        Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+                 'Hcode=''@Hcode'' and Scode=''@Scode'' and Gcode=''@Gcode'' and Gname=''@Gname'' and Jubun=''@Jubun''';
+        Translate(Sqlen, '@Hcode', '');
+        Translate(Sqlen, '@Scode', 'X');
+        Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+        Translate(Sqlen, '@Gname', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'));
+        Translate(Sqlen, '@Jubun', Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4'));
+        St4:=Base10.Seek_Name(Sqlen);
+      end; }
+
+      nSqry.Edit;
+      if Base10.T4_Ssub.Locate('Hcode;Gcode;Gdate;Gjisa;Jubun',VarArrayOf(['z'+mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1],
+      Edit101.Text+'.'+SGrid.Cells[ 0,List1],SGrid.Cells[ 3,List1],SGrid.Cells[ 2,List1]]),[loCaseInsensitive])=true then begin
+      //St4:=Base10.T4_Ssub.FieldByName('Pubun').AsString;
+        nSqry.FieldByName('Gqut3').AsFloat:=
+        nSqry.FieldByName('Gqut3').AsFloat +Base10.T4_Ssub.FieldByName('Gqut3').AsFloat;
+        nSqry.FieldByName('Gqut4').AsFloat:=
+        nSqry.FieldByName('Gqut4').AsFloat +Base10.T4_Ssub.FieldByName('Gqut2').AsFloat;
+      end else begin
+        nSqry.FieldByName('Gqut4').AsFloat:=nSqry.FieldByName('Gqut4').AsFloat+2;
+      //nSqry.FieldByName('Gqut3').AsFloat:=nSqry.FieldByName('Gqut3').AsFloat+1;
+      end;
+
+      if St4='' then
+      if Base10.G7_Ggeo.Locate('Gcode',mSqry.FieldByName('Hcode').AsString,[loCaseInsensitive])=true then begin
+        if Base10.G7_Ggeo.FieldByName('Yes35').AsString='2' then begin
+          if Base10.T1_Gbun.Locate('Hcode;Gcode;Gjisa;Jubun',VarArrayOf(['',SGrid.Cells[ 1,List1],
+          Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then begin
+            St4:=Base10.T1_Gbun.FieldByName('Gname').AsString;
+          end;
+        end;
+      end;
+
+      if St4='' then
+      if Base10.T1_Gbun.Locate('Hcode;Gcode;Gjisa;Jubun',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1],
+      Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then begin
+        St4:=Base10.T1_Gbun.FieldByName('Gname').AsString;
+      end;
+
+      if St4='' then
+      if SGrid.Cells[ 3,List1]<>'' then begin
+        if Copy(SGrid.Cells[ 1,List1],1,1)<>'9' then
+        if Base10.H2_Gbun.Locate('Hcode;Scode;Gcode;Gname;Jubun',VarArrayOf(['','X',SGrid.Cells[ 1,List1],
+        Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then
+          St4:=Base10.H2_Gbun.FieldByName('Gdate').AsString;
+        if Copy(SGrid.Cells[ 1,List1],1,1)='9' then
+        if Base10.H2_Gbun.Locate('Hcode;Scode;Gcode;Gname;Jubun',VarArrayOf([mSqry.FieldByName('Hcode').AsString,'X',SGrid.Cells[ 1,List1],
+        Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'3'),Base10.Seek_Jisa(SGrid.Cells[ 3,List1],'4')]),[loCaseInsensitive])=true then
+          St4:=Base10.H2_Gbun.FieldByName('Gdate').AsString;
+      end;
+
+      //----------//
+      if Base10.Database.Database='chul_03_db' then begin
+        if St4='' then begin
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='03' then St4:='시내(화물)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='04' then St4:='지방(화물)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='05' then St4:='시내(직배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='06' then St4:='지방(직배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='07' then St4:='시내(택배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='08' then St4:='지방(택배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='09' then St4:='시내(기타)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='10' then St4:='지방(기타)';
+          end;
+
+          if St4='' then
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='03' then St4:='시내(화물)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='04' then St4:='지방(화물)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='05' then St4:='시내(직배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='06' then St4:='지방(직배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='07' then St4:='시내(택배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='08' then St4:='지방(택배)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='09' then St4:='시내(기타)';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='10' then St4:='지방(기타)';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', '');
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          if Base10.Seek_Name(Sqlen)='03' then St4:='시내(화물)';
+          if Base10.Seek_Name(Sqlen)='04' then St4:='지방(화물)';
+          if Base10.Seek_Name(Sqlen)='05' then St4:='시내(직배)';
+          if Base10.Seek_Name(Sqlen)='06' then St4:='지방(직배)';
+          if Base10.Seek_Name(Sqlen)='07' then St4:='시내(택배)';
+          if Base10.Seek_Name(Sqlen)='08' then St4:='지방(택배)';
+          if Base10.Seek_Name(Sqlen)='09' then St4:='시내(기타)';
+          if Base10.Seek_Name(Sqlen)='10' then St4:='지방(기타)';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          if Base10.Seek_Name(Sqlen)='03' then St4:='시내(화물)';
+          if Base10.Seek_Name(Sqlen)='04' then St4:='지방(화물)';
+          if Base10.Seek_Name(Sqlen)='05' then St4:='시내(직배)';
+          if Base10.Seek_Name(Sqlen)='06' then St4:='지방(직배)';
+          if Base10.Seek_Name(Sqlen)='07' then St4:='시내(택배)';
+          if Base10.Seek_Name(Sqlen)='08' then St4:='지방(택배)';
+          if Base10.Seek_Name(Sqlen)='09' then St4:='시내(기타)';
+          if Base10.Seek_Name(Sqlen)='10' then St4:='지방(기타)';
+          end;
+        end;
+      end else
+      if Base10.Database.Database<>'book_kb_db' then begin
+        if St4='' then begin
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Pubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', '');
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+        end;
+      end else begin
+        if St4='' then begin
+        { if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='02' then St4:='지방';
+          end;
+
+          if St4='' then
+          if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then begin
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='01' then St4:='시내';
+            if Base10.G1_Ggeo.FieldByName('Gubun').AsString='02' then St4:='지방';
+          end; }
+
+          if St4='' then begin
+          Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', '');
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+
+          if St4='' then begin
+          Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+          Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+          Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+          if Base10.Seek_Name(Sqlen)='01' then St4:='시내';
+          if Base10.Seek_Name(Sqlen)='02' then St4:='지방';
+          end;
+        end;
+      end;
+
+    //if St4<>'' then begin
+        nSqry.Edit;
+        if(St4='시내')or(St4='시내(화물)')or(St4='시내(직배)')or(St4='시내(택배)')or(St4='시내(기타)')then
+        nSqry.FieldByName('Gqut1').AsFloat:=nSqry.FieldByName('Gqut1').AsFloat+T01
+        else
+        nSqry.FieldByName('Gqut2').AsFloat:=nSqry.FieldByName('Gqut2').AsFloat+T01;
+        nSqry.Post;
+    //end;
+
+    end;
+    end;
+  end;
+  nSqry.First;
+
+//Edit201Exit(Self);
+  end;
+end;
+
+//-발송비만 불러오기-//
+procedure TSobo45_1.Button812Click(Sender: TObject);
+var St1,St2,St3,St4: String;
+    St9: Integer;
+begin
+
+  for St9 := 1 to 31 do begin
+    if St9=1  then St3:='01';
+    if St9=2  then St3:='02';
+    if St9=3  then St3:='03';
+    if St9=4  then St3:='04';
+    if St9=5  then St3:='05';
+    if St9=6  then St3:='06';
+    if St9=7  then St3:='07';
+    if St9=8  then St3:='08';
+    if St9=9  then St3:='09';
+    if St9=10 then St3:='10';
+    if St9=11 then St3:='11';
+    if St9=12 then St3:='12';
+    if St9=13 then St3:='13';
+    if St9=14 then St3:='14';
+    if St9=15 then St3:='15';
+    if St9=16 then St3:='16';
+    if St9=17 then St3:='17';
+    if St9=18 then St3:='18';
+    if St9=19 then St3:='19';
+    if St9=20 then St3:='20';
+    if St9=21 then St3:='21';
+    if St9=22 then St3:='22';
+    if St9=23 then St3:='23';
+    if St9=24 then St3:='24';
+    if St9=25 then St3:='25';
+    if St9=26 then St3:='26';
+    if St9=27 then St3:='27';
+    if St9=28 then St3:='28';
+    if St9=29 then St3:='29';
+    if St9=30 then St3:='30';
+    if St9=31 then St3:='31';
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,'']),[loCaseInsensitive])=True then begin
+    nSqry.Edit;
+    nSqry.FieldByName('Name1').AsString:='';
+    nSqry.FieldByName('Name2').AsString:='';
+    nSqry.FieldByName('Gcode').AsString:='';
+    nSqry.FieldByName('Gname').AsString:='';
+    nSqry.FieldByName('Gsqut').AsString:='';
+  { nSqry.FieldByName('Gqut5').AsString:='';
+    nSqry.FieldByName('Gqut6').AsString:='';
+    nSqry.FieldByName('Gqut7').AsString:=''; }
+    nSqry.FieldByName('Gssum').AsString:='';
+    nSqry.Post;
+    end;
+  end;
+
+  //----- 발송비내역 -----//
+  Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+{ if S_Date<>'' then
+  Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+'('+S_Date+')'; }
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    T01:=StrToIntDef(SGrid.Cells[ 5,List1],0);
+    St3:=Copy(SGrid.Cells[ 0,List1],9,2);
+    St4:='';
+
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,St4]),[loCaseInsensitive])=True then begin
+  //if nSqry.FieldByName('Yesno').AsString<>'1' then begin
+
+      nSqry.Edit;
+      if nSqry.FieldByName('Gname').AsString='' then begin
+
+        nSqry.FieldByName('Gcode').AsString:=SGrid.Cells[ 1,List1];
+        nSqry.FieldByName('Gname').AsString:=SGrid.Cells[ 2,List1];
+        nSqry.FieldByName('Name1').AsString:=SGrid.Cells[ 3,List1];
+        nSqry.FieldByName('Name2').AsString:=SGrid.Cells[ 4,List1];
+
+      { if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then
+        nSqry.FieldByName('Gname').AsString:=Base10.G1_Ggeo.FieldByName('Gname').AsString;
+
+        if nSqry.FieldByName('Gname').AsString='' then
+        if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,SGrid.Cells[ 1,List1]]),[loCaseInsensitive])=true then
+        nSqry.FieldByName('Gname').AsString:=Base10.G1_Ggeo.FieldByName('Gname').AsString;
+
+        if nSqry.FieldByName('Gname').AsString='' then begin
+        Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+        Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+        Translate(Sqlen, '@Hcode', '');
+        nSqry.FieldByName('Gname').AsString:=Base10.Seek_Name(Sqlen);
+        end;
+
+        if nSqry.FieldByName('Gname').AsString='' then begin
+        Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+        Translate(Sqlen, '@Gcode', SGrid.Cells[ 1,List1]);
+        Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+        nSqry.FieldByName('Gname').AsString:=Base10.Seek_Name(Sqlen);
+        end; }
+      end;
+      if nSqry.FieldByName('Gsqut').AsString<>'' then begin
+        nSqry.FieldByName('Gsqut').AsFloat :=nSqry.FieldByName('Gsqut').AsFloat+1;
+      end else begin
+        nSqry.FieldByName('Gsqut').AsFloat :=1;
+      end;
+      nSqry.FieldByName('Gssum').AsFloat :=nSqry.FieldByName('Gssum').AsFloat+T01;
+      nSqry.Post;
+
+  //end;
+    end;
+  end;
+
+  //----- 반품수거내역 -----//
+  Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+
+         ' Group By Gdate ';
+
+{ if S_Date<>'' then
+  Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+'('+S_Date+')'+
+         ' Group By Gdate '; }
+
+{ Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    T01:=StrToIntDef(SGrid.Cells[ 1,List1],0);
+    T02:=StrToIntDef(SGrid.Cells[ 2,List1],0);
+    St3:=Copy(SGrid.Cells[ 0,List1],9,2);
+    St4:='';
+
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,St4]),[loCaseInsensitive])=True then begin
+  //if nSqry.FieldByName('Yesno').AsString<>'1' then begin
+
+      nSqry.Edit;
+      nSqry.FieldByName('Gqut6').AsFloat :=nSqry.FieldByName('Gqut6').AsFloat+T01;
+      nSqry.FieldByName('Gqut7').AsFloat :=nSqry.FieldByName('Gqut7').AsFloat+T02;
+      nSqry.Post;
+
+  //end;
+    end;
+  end; }
+
+
+
+  //-----반품내역-----//
+  Sqlen:='Select Substring(Bdate,9,2),Sum(Gsqut) From S1_Ssub Where '+D_Select+
+         'Bdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+         'Bdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+         'Ocode'+' ='+#39+'B'+#39+' and '+
+         'Scode'+' ='+#39+'X'+#39+' and '+
+         'Gcode'+'<>'+#39+'00002'+#39+' and '+
+         'Gjisa'+'<>'+#39+'방문출고'+#39+
+         ' Group By Substring(Bdate,9,2)';
+
+{ Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    T01:=StrToIntDef(SGrid.Cells[ 1,List1],0);
+    St3:=SGrid.Cells[ 0,List1];
+    St4:='';
+
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,St4]),[loCaseInsensitive])=True then begin
+      nSqry.Edit;
+      nSqry.FieldByName('Gqut5').AsFloat:=nSqry.FieldByName('Gqut5').AsFloat-T01;
+      nSqry.Post;
+    end;
+  end; }
+  nSqry.First;
+
+//Edit201Exit(Self);
+end;
+
+procedure TSobo45_1.Button901Click(Sender: TObject);
+begin
+  Edit201.Value:=0;
+  Edit202.Value:=0;
+  Edit203.Value:=0;
+  Edit204.Value:=0;
+  Edit205.Value:=0;
+  Edit206.Value:=0;
+  Edit207.Value:=0;
+  Edit208.Value:=0;
+  Edit209.Value:=0;
+  Edit210.Value:=0;
+  Edit211.Value:=0;
+  Edit212.Value:=0;
+  Edit213.Value:=0;
+  Edit214.Value:=0;
+  Edit215.Value:=0;
+  Edit216.Value:=0;
+  Edit217.Value:=0;
+  Edit218.Value:=0;
+  Edit219.Value:=0;
+  Edit220.Value:=0;
+  Edit221.Value:=0;
+  Edit222.Value:=0;
+  Edit223.Value:=0;
+  Edit224.Value:=0;
+  Edit225.Value:=0;
+  Edit226.Value:=0;
+  Edit227.Value:=0;
+  Edit228.Value:=0;
+  Edit229.Value:=0;
+  Edit230.Value:=0;
+  Edit231.Value:=0;
+  Edit232.Value:=0;
+  Edit233.Value:=0;
+  Edit234.Value:=0;
+  Edit235.Value:=0;
+  Edit236.Value:=0;
+  Edit237.Value:=0;
+  Edit238.Text:='';
+  Edit239.Text:='';
+  Edit240.Value:=0;
+  Edit241.Value:=0;
+  Edit242.Value:=0;
+  Edit243.Value:=0;
+  Edit244.Value:=0;
+  Edit245.Value:=0;
+  Edit246.Value:=0;
+  Edit247.Value:=0;
+  Edit248.Value:=0;
+  Edit261.Value:=0;
+  Edit262.Value:=0;
+  Edit263.Value:=0;
+  Edit264.Value:=0;
+  Edit265.Value:=0;
+  Edit266.Value:=0;
+  Edit301.Value:=0;
+  Edit302.Value:=0;
+  Edit303.Value:=0;
+  Edit304.Value:=0;
+  Edit305.Value:=0;
+  Edit306.Value:=0;
+  Edit307.Value:=0;
+  Edit308.Value:=0;
+  Edit309.Value:=0;
+  Edit310.Value:=0;
+  Edit311.Value:=0;
+  Edit312.Value:=0;
+  Edit313.Value:=0;
+  Edit314.Value:=0;
+  Edit315.Value:=0;
+  Edit901.Text:='';
+  Edit902.Value:=0;
+end;
+
+procedure TSobo45_1.Button904Click(Sender: TObject);
+var St1: String;
+begin
+  Sqlen:='Select Max(Gdate) From T2_Ssub Where '+D_Select+
+         'Gdate'+'< '+#39+mSqry.FieldByName('Gdate').AsString+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  St1:='';
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+     St1:=SGrid.Cells[ 0,List1];
+  end;
+
+  Sqlen:='Select Hcode,'+
+         'Sum01,Sum02,Sum03,Sum04,Sum05,Sum06,Sum07,Sum08,Sum09,Sum10,'+
+         'Sum11,Sum12,Sum13,Sum14,Sum15,Sum16,Sum17,Sum18,Sum19,Sum20,'+
+         'Sum21,Sum22,Sum23,Sum24,Sum25,Sum26,Sum27,Sum28,Sum29,Sum30,'+
+         'Sum31,Sum32,Sum33,Sum34,Sum35,Sum36,Sum37,Sum40,Sum41,Sum42,'+
+         'Sum43,Sum44,Sum45,Sum46,Sum61,Sum62,Sum63,Sum64,Sum65,Sum66,'+
+         'Sum51,Sum52,Sum53,Sum54,Sum55,Sum56,Sum57,Sum58,Sum59,Sum67,'+
+         'Sum68,Bigo1,Bigo2,Yesno From T2_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+St1+#39+' and '+
+         'Gdate'+'<='+#39+St1+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+  //Edit201.Value:=StrToIntDef(SGrid.Cells[ 1,List1],0);
+    Edit202.Value:=StrToIntDef(SGrid.Cells[ 2,List1],0);
+    Edit203.Value:=StrToIntDef(SGrid.Cells[ 3,List1],0);
+    Edit204.Value:=StrToIntDef(SGrid.Cells[ 4,List1],0);
+  //Edit205.Value:=StrToIntDef(SGrid.Cells[ 5,List1],0);
+    Edit206.Value:=StrToIntDef(SGrid.Cells[ 6,List1],0);
+  //Edit207.Value:=StrToIntDef(SGrid.Cells[ 7,List1],0);
+  //Edit208.Value:=StrToIntDef(SGrid.Cells[ 8,List1],0);
+    Edit209.Value:=StrToIntDef(SGrid.Cells[ 9,List1],0);
+  //Edit210.Value:=StrToIntDef(SGrid.Cells[10,List1],0);
+  //Edit211.Value:=StrToIntDef(SGrid.Cells[11,List1],0);
+    Edit212.Value:=StrToIntDef(SGrid.Cells[12,List1],0);
+  //Edit213.Value:=StrToIntDef(SGrid.Cells[13,List1],0);
+  //Edit214.Value:=StrToIntDef(SGrid.Cells[14,List1],0);
+    Edit215.Value:=StrToIntDef(SGrid.Cells[15,List1],0);
+  //Edit216.Value:=StrToIntDef(SGrid.Cells[16,List1],0);
+  //Edit217.Value:=StrToIntDef(SGrid.Cells[17,List1],0);
+    Edit218.Value:=StrToIntDef(SGrid.Cells[18,List1],0);
+    Edit219.Value:=StrToIntDef(SGrid.Cells[19,List1],0);
+    Edit220.Value:=StrToIntDef(SGrid.Cells[20,List1],0);
+  //Edit221.Value:=StrToIntDef(SGrid.Cells[21,List1],0);
+    Edit222.Value:=StrToIntDef(SGrid.Cells[22,List1],0);
+  //Edit223.Value:=StrToIntDef(SGrid.Cells[23,List1],0);
+  { Edit224.Value:=StrToIntDef(SGrid.Cells[24,List1],0);
+    Edit225.Value:=StrToIntDef(SGrid.Cells[25,List1],0);
+    Edit226.Value:=StrToIntDef(SGrid.Cells[26,List1],0);
+    Edit227.Value:=StrToIntDef(SGrid.Cells[27,List1],0);
+    Edit228.Value:=StrToIntDef(SGrid.Cells[28,List1],0);
+    Edit229.Value:=StrToIntDef(SGrid.Cells[29,List1],0);
+    Edit230.Value:=StrToIntDef(SGrid.Cells[30,List1],0); }
+  //Edit231.Value:=StrToIntDef(SGrid.Cells[31,List1],0);
+    Edit232.Value:=StrToIntDef(SGrid.Cells[32,List1],0);
+  //Edit233.Value:=StrToIntDef(SGrid.Cells[33,List1],0);
+    Edit234.Value:=StrToIntDef(SGrid.Cells[34,List1],0);
+  //Edit235.Value:=StrToIntDef(SGrid.Cells[35,List1],0);
+  //Edit261.Value:=StrToIntDef(SGrid.Cells[45,List1],0);
+    Edit262.Value:=StrToIntDef(SGrid.Cells[46,List1],0);
+  //Edit263.Value:=StrToIntDef(SGrid.Cells[47,List1],0);
+  //Edit264.Value:=StrToIntDef(SGrid.Cells[48,List1],0);
+    Edit265.Value:=StrToIntDef(SGrid.Cells[49,List1],0);
+  //Edit266.Value:=StrToIntDef(SGrid.Cells[50,List1],0);
+
+  //Edit301.Value:=StrToIntDef(SGrid.Cells[51,List1],0);
+    Edit302.Value:=StrToIntDef(SGrid.Cells[52,List1],0);
+  //Edit303.Value:=StrToIntDef(SGrid.Cells[53,List1],0);
+  //Edit304.Value:=StrToIntDef(SGrid.Cells[54,List1],0);
+    Edit305.Value:=StrToIntDef(SGrid.Cells[55,List1],0);
+  //Edit306.Value:=StrToIntDef(SGrid.Cells[56,List1],0);
+  //Edit307.Value:=StrToIntDef(SGrid.Cells[57,List1],0);
+    Edit308.Value:=StrToIntDef(SGrid.Cells[58,List1],0);
+  //Edit309.Value:=StrToIntDef(SGrid.Cells[59,List1],0);
+
+    Edit310.Text :=SGrid.Cells[60,List1];
+    Edit312.Value:=StrToIntDef(SGrid.Cells[61,List1],0);
+  end;
+end;
+
+procedure TSobo45_1.Button902Click(Sender: TObject);
+var St1: String;
+begin
+  Sqlen:='Select '+
+         'Sum02,Sum04,Sum06,Sum09,Sum12,Sum15,Sum18,Sum19,Sum21,Sum22,Sum25,Sum32,'+
+         'Sum33,Sum34,Sum38,Sum39,Sum40,Sum41,Sum42,Sum36,Sum61,Sum62,Sum63,Sum64,'+
+         'Sum43,Sum44,Sum45,Sum46,Sum47,Sum69,Sum68,'+
+         'Bigo1 From G7_Ggeo Where '+D_Select+
+         'Gcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    Edit202.Value:=StrToIntDef(SGrid.Cells[ 0,List1],0);
+    Edit204.Value:=StrToIntDef(SGrid.Cells[ 1,List1],0);
+    Edit206.Value:=StrToIntDef(SGrid.Cells[ 2,List1],0);
+    Edit209.Value:=StrToIntDef(SGrid.Cells[ 3,List1],0);
+    Edit212.Value:=StrToIntDef(SGrid.Cells[ 4,List1],0);
+    Edit215.Value:=StrToIntDef(SGrid.Cells[ 5,List1],0);
+    Edit218.Value:=StrToIntDef(SGrid.Cells[ 6,List1],0);
+    Edit220.Value:=StrToIntDef(SGrid.Cells[ 7,List1],0);
+    Edit221.Value:=StrToIntDef(SGrid.Cells[ 8,List1],0);
+    Edit222.Value:=StrToIntDef(SGrid.Cells[ 9,List1],0);
+    if StrToIntDef(SGrid.Cells[10,List1],0) > 1000 then
+    Edit225.Value:=StrToIntDef(SGrid.Cells[10,List1],0)
+    else
+    Edit265.Value:=StrToIntDef(SGrid.Cells[10,List1],0);
+    Edit224.Value:=StrToIntDef(SGrid.Cells[11,List1],0);
+    Edit233.Value:=StrToIntDef(SGrid.Cells[12,List1],0);
+    Edit234.Value:=StrToIntDef(SGrid.Cells[13,List1],0);
+    Edit240.Value:=StrToIntDef(SGrid.Cells[14,List1],0);
+    Edit242.Value:=StrToIntDef(SGrid.Cells[15,List1],0);
+    Edit243.Value:=StrToIntDef(SGrid.Cells[16,List1],0);
+    Edit244.Value:=StrToIntDef(SGrid.Cells[17,List1],0);
+    Edit248.Value:=StrToIntDef(SGrid.Cells[18,List1],0);
+    Edit236.Value:=StrToIntDef(SGrid.Cells[19,List1],0);
+    Edit261.Value:=StrToIntDef(SGrid.Cells[20,List1],0);
+    Edit262.Value:=StrToIntDef(SGrid.Cells[21,List1],0);
+    Edit264.Value:=StrToIntDef(SGrid.Cells[22,List1],0);
+    Edit266.Value:=StrToIntDef(SGrid.Cells[23,List1],0);
+
+    Edit302.Value:=StrToIntDef(SGrid.Cells[24,List1],0);
+    Edit305.Value:=StrToIntDef(SGrid.Cells[25,List1],0);
+    Edit308.Value:=StrToIntDef(SGrid.Cells[26,List1],0);
+    Edit310.Text :=SGrid.Cells[28,List1];
+    Edit312.Value:=StrToIntDef(SGrid.Cells[27,List1],0);
+  //Edit311.Value:=StrToIntDef(SGrid.Cells[29,List1],0);
+    Edit314.Value:=StrToIntDef(SGrid.Cells[30,List1],0);
+
+    Edit238.Text :=SGrid.Cells[31,List1];
+  end;
+
+  Sqlen:='Select '+
+         'Yes33,Yes34,Yes35,'+
+         'Yes41,Yes42,Yes43,Yes44,Yes45,Yes48,Yes49,'+
+         'Yes51,Yes52,Yes53,Yes54,Yes55,Yes56,Yes57,Yes58,Yes59,'+
+         'Yes61,Yes62 '+
+         'From G7_Ggeo Where '+D_Select+
+         'Gcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    if SGrid.Cells[0,List1]='1' then begin
+      Edit205.Enabled:=True;
+      Edit205.ColorFlat:=clWhite;
+      Edit206.Enabled:=True;
+      Edit206.ColorFlat:=clWhite;
+      Edit207.Enabled:=True;
+      Edit207.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit205.Enabled:=False;
+      Edit205.ColorFlat:=clActiveBorder;
+      Edit206.Enabled:=False;
+      Edit206.ColorFlat:=clActiveBorder;
+      Edit207.Enabled:=False;
+      Edit207.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[1,List1]='1' then begin
+      Edit208.Enabled:=True;
+      Edit208.ColorFlat:=clWhite;
+      Edit209.Enabled:=True;
+      Edit209.ColorFlat:=clWhite;
+      Edit210.Enabled:=True;
+      Edit210.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit208.Enabled:=False;
+      Edit208.ColorFlat:=clActiveBorder;
+      Edit209.Enabled:=False;
+      Edit209.ColorFlat:=clActiveBorder;
+      Edit210.Enabled:=False;
+      Edit210.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[3,List1]='1' then begin
+      Edit218.Enabled:=True;
+      Edit218.ColorFlat:=clWhite;
+      Edit220.Enabled:=True;
+      Edit220.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit218.Enabled:=False;
+      Edit218.ColorFlat:=clActiveBorder;
+      Edit220.Enabled:=False;
+      Edit220.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[4,List1]='1' then begin
+      Edit221.Enabled:=True;
+      Edit221.ColorFlat:=clWhite;
+      Edit222.Enabled:=True;
+      Edit222.ColorFlat:=clWhite;
+      Edit223.Enabled:=True;
+      Edit223.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit221.Enabled:=False;
+      Edit221.ColorFlat:=clActiveBorder;
+      Edit222.Enabled:=False;
+      Edit222.ColorFlat:=clActiveBorder;
+      Edit223.Enabled:=False;
+      Edit223.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[5,List1]='1' then begin
+      Edit240.Enabled:=True;
+      Edit240.ColorFlat:=clWhite;
+      Edit242.Enabled:=True;
+      Edit242.ColorFlat:=clWhite;
+    end else begin
+      Edit240.Enabled:=False;
+      Edit240.ColorFlat:=clActiveBorder;
+      Edit242.Enabled:=False;
+      Edit242.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[6,List1]='1' then begin
+      Edit243.Enabled:=True;
+      Edit243.ColorFlat:=clWhite;
+      Edit244.Enabled:=True;
+      Edit244.ColorFlat:=clWhite;
+      Edit245.Enabled:=True;
+      Edit245.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit243.Enabled:=False;
+      Edit243.ColorFlat:=clActiveBorder;
+      Edit244.Enabled:=False;
+      Edit244.ColorFlat:=clActiveBorder;
+      Edit245.Enabled:=False;
+      Edit245.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[7,List1]='1' then begin
+      Edit233.Enabled:=True;
+      Edit233.ColorFlat:=clWhite;
+      Edit234.Enabled:=True;
+      Edit234.ColorFlat:=clWhite;
+      Edit235.Enabled:=True;
+      Edit235.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit233.Enabled:=False;
+      Edit233.ColorFlat:=clActiveBorder;
+      Edit234.Enabled:=False;
+      Edit234.ColorFlat:=clActiveBorder;
+      Edit235.Enabled:=False;
+      Edit235.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[8,List1]='1' then begin
+      Edit313.Enabled:=True;
+      Edit313.ColorFlat:=clWhite;
+      Edit314.Enabled:=True;
+      Edit314.ColorFlat:=clWhite;
+      Edit315.Enabled:=True;
+      Edit315.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit313.Enabled:=False;
+      Edit313.ColorFlat:=clActiveBorder;
+      Edit314.Enabled:=False;
+      Edit314.ColorFlat:=clActiveBorder;
+      Edit315.Enabled:=False;
+      Edit315.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[10,List1]='1' then begin
+      Edit264.Enabled:=True;
+      Edit264.ColorFlat:=clWhite;
+      Edit265.Enabled:=True;
+      Edit265.ColorFlat:=clWhite;
+      Edit225.Enabled:=True;
+      Edit225.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit264.Enabled:=False;
+      Edit264.ColorFlat:=clActiveBorder;
+      Edit265.Enabled:=False;
+      Edit265.ColorFlat:=clActiveBorder;
+      Edit225.Enabled:=False;
+      Edit225.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[11,List1]='1' then begin
+      Edit211.Enabled:=True;
+      Edit211.ColorFlat:=clWhite;
+      Edit212.Enabled:=True;
+      Edit212.ColorFlat:=clWhite;
+      Edit213.Enabled:=True;
+      Edit213.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit211.Enabled:=False;
+      Edit211.ColorFlat:=clActiveBorder;
+      Edit212.Enabled:=False;
+      Edit212.ColorFlat:=clActiveBorder;
+      Edit213.Enabled:=False;
+      Edit213.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[12,List1]='1' then begin
+      Edit214.Enabled:=True;
+      Edit214.ColorFlat:=clWhite;
+      Edit215.Enabled:=True;
+      Edit215.ColorFlat:=clWhite;
+      Edit216.Enabled:=True;
+      Edit216.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit214.Enabled:=False;
+      Edit214.ColorFlat:=clActiveBorder;
+      Edit215.Enabled:=False;
+      Edit215.ColorFlat:=clActiveBorder;
+      Edit216.Enabled:=False;
+      Edit216.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[13,List1]='1' then begin
+      Edit231.Enabled:=True;
+      Edit231.ColorFlat:=clWhite;
+      Edit232.Enabled:=True;
+      Edit232.ColorFlat:=clWhite;
+      Edit224.Enabled:=True;
+      Edit224.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit231.Enabled:=False;
+      Edit231.ColorFlat:=clActiveBorder;
+      Edit232.Enabled:=False;
+      Edit232.ColorFlat:=clActiveBorder;
+      Edit224.Enabled:=False;
+      Edit224.ColorFlat:=clActiveBorder;
+    end;
+
+  { if SGrid.Cells[14,List1]='1' then begin
+      Edit247.Enabled:=True;
+      Edit247.ColorFlat:=clWhite;
+      Edit248.Enabled:=True;
+      Edit248.ColorFlat:=clWhite;
+      Edit246.Enabled:=True;
+      Edit246.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit247.Enabled:=False;
+      Edit247.ColorFlat:=clActiveBorder;
+      Edit248.Enabled:=False;
+      Edit248.ColorFlat:=clActiveBorder;
+      Edit246.Enabled:=False;
+      Edit246.ColorFlat:=clActiveBorder;
+    end; }
+
+  { if SGrid.Cells[15,List1]='1' then begin
+      Edit301.Enabled:=True;
+      Edit301.ColorFlat:=clWhite;
+      Edit302.Enabled:=True;
+      Edit302.ColorFlat:=clWhite;
+      Edit303.Enabled:=True;
+      Edit303.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit301.Enabled:=False;
+      Edit301.ColorFlat:=clActiveBorder;
+      Edit302.Enabled:=False;
+      Edit302.ColorFlat:=clActiveBorder;
+      Edit303.Enabled:=False;
+      Edit303.ColorFlat:=clActiveBorder;
+    end; }
+
+  { if SGrid.Cells[16,List1]='1' then begin
+      Edit304.Enabled:=True;
+      Edit304.ColorFlat:=clWhite;
+      Edit305.Enabled:=True;
+      Edit305.ColorFlat:=clWhite;
+      Edit306.Enabled:=True;
+      Edit306.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit304.Enabled:=False;
+      Edit304.ColorFlat:=clActiveBorder;
+      Edit305.Enabled:=False;
+      Edit305.ColorFlat:=clActiveBorder;
+      Edit306.Enabled:=False;
+      Edit306.ColorFlat:=clActiveBorder;
+    end; }
+
+  { if SGrid.Cells[17,List1]='1' then begin
+      Edit307.Enabled:=True;
+      Edit307.ColorFlat:=clWhite;
+      Edit308.Enabled:=True;
+      Edit308.ColorFlat:=clWhite;
+      Edit309.Enabled:=True;
+      Edit309.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit307.Enabled:=False;
+      Edit307.ColorFlat:=clActiveBorder;
+      Edit308.Enabled:=False;
+      Edit308.ColorFlat:=clActiveBorder;
+      Edit309.Enabled:=False;
+      Edit309.ColorFlat:=clActiveBorder;
+    end; }
+
+    if SGrid.Cells[18,List1]='1' then begin
+      Edit310.Enabled:=True;
+      Edit310.ColorFlat:=clWhite;
+      Edit311.Enabled:=True;
+      Edit311.ColorFlat:=clWhite;
+      Edit312.Enabled:=True;
+      Edit312.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit310.Enabled:=False;
+      Edit310.ColorFlat:=clActiveBorder;
+      Edit311.Enabled:=False;
+      Edit311.ColorFlat:=clActiveBorder;
+      Edit312.Enabled:=False;
+      Edit312.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[19,List1]='1' then begin
+      Edit261.Enabled:=True;
+      Edit261.ColorFlat:=clWhite;
+      Edit262.Enabled:=True;
+      Edit262.ColorFlat:=clWhite;
+      Edit263.Enabled:=True;
+      Edit263.ColorFlat:=$0080FFFF;
+    end else begin
+      Edit261.Enabled:=False;
+      Edit261.ColorFlat:=clActiveBorder;
+      Edit262.Enabled:=False;
+      Edit262.ColorFlat:=clActiveBorder;
+      Edit263.Enabled:=False;
+      Edit263.ColorFlat:=clActiveBorder;
+    end;
+
+    if SGrid.Cells[20,List1]='1' then begin
+    //Edit265.Enabled:=True;
+    //Edit265.ColorFlat:=clWhite;
+      Edit266.Enabled:=True;
+      Edit266.ColorFlat:=clWhite;
+    //Edit264.Enabled:=True;
+    //Edit264.ColorFlat:=$0080FFFF;
+    end else begin
+    //Edit265.Enabled:=False;
+    //Edit265.ColorFlat:=clActiveBorder;
+      Edit266.Enabled:=False;
+      Edit266.ColorFlat:=clActiveBorder;
+    //Edit264.Enabled:=False;
+    //Edit264.ColorFlat:=clActiveBorder;
+    end;
+
+  end;
+end;
+
+procedure TSobo45_1.Button903Click(Sender: TObject);
+begin
+  Sqlen:='Select Hcode,'+
+         'Sum01,Sum02,Sum03,Sum04,Sum05,Sum06,Sum07,Sum08,Sum09,Sum10,'+
+         'Sum11,Sum12,Sum13,Sum14,Sum15,Sum16,Sum17,Sum18,Sum19,Sum20,'+
+         'Sum21,Sum22,Sum23,Sum24,Sum25,Sum26,Sum27,Sum28,Sum29,Sum30,'+
+         'Sum31,Sum32,Sum33,Sum34,Sum35,Sum36,Sum37,Sum40,Sum41,Sum42,'+
+         'Sum43,Sum44,Sum45,Sum46,Sum47,Sum48,Sum61,Sum62,Sum63,Sum64,'+
+         'Sum65,Sum66,Sum51,Sum52,Sum53,Sum54,Sum55,Sum56,Sum57,Sum58,'+
+         'Sum59,Sum67,Sum68,Gsusu,Vdate,Bigo1,Bigo2,Yesno '+
+         'From T2_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  CheckBox1.Checked:=False;
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    Edit201.Value:=StrToIntDef(SGrid.Cells[ 1,List1],0);
+    if CheckBox3.Checked=False then
+    Edit202.Value:=StrToIntDef(SGrid.Cells[ 2,List1],0);
+    Edit203.Value:=StrToIntDef(SGrid.Cells[ 3,List1],0);
+    if CheckBox3.Checked=False then
+    Edit204.Value:=StrToIntDef(SGrid.Cells[ 4,List1],0);
+    Edit205.Value:=StrToIntDef(SGrid.Cells[ 5,List1],0);
+    if CheckBox3.Checked=False then
+    Edit206.Value:=StrToIntDef(SGrid.Cells[ 6,List1],0);
+    Edit207.Value:=StrToIntDef(SGrid.Cells[ 7,List1],0);
+    Edit208.Value:=StrToIntDef(SGrid.Cells[ 8,List1],0);
+    if CheckBox3.Checked=False then
+    Edit209.Value:=StrToIntDef(SGrid.Cells[ 9,List1],0);
+    Edit210.Value:=StrToIntDef(SGrid.Cells[10,List1],0);
+    Edit211.Value:=StrToIntDef(SGrid.Cells[11,List1],0);
+    if CheckBox3.Checked=False then
+    Edit212.Value:=StrToIntDef(SGrid.Cells[12,List1],0);
+    Edit213.Value:=StrToIntDef(SGrid.Cells[13,List1],0);
+    Edit214.Value:=StrToIntDef(SGrid.Cells[14,List1],0);
+    if CheckBox3.Checked=False then
+    Edit215.Value:=StrToIntDef(SGrid.Cells[15,List1],0);
+    Edit216.Value:=StrToIntDef(SGrid.Cells[16,List1],0);
+    Edit217.Value:=StrToIntDef(SGrid.Cells[17,List1],0);
+    if CheckBox3.Checked=False then
+    Edit218.Value:=StrToIntDef(SGrid.Cells[18,List1],0);
+    Edit219.Value:=StrToIntDef(SGrid.Cells[19,List1],0);
+    if CheckBox3.Checked=False then
+    Edit220.Value:=StrToIntDef(SGrid.Cells[20,List1],0);
+    Edit221.Value:=StrToIntDef(SGrid.Cells[21,List1],0);
+    if CheckBox3.Checked=False then
+    Edit222.Value:=StrToIntDef(SGrid.Cells[22,List1],0);
+    Edit223.Value:=StrToIntDef(SGrid.Cells[23,List1],0);
+    if CheckBox3.Checked=False then
+    Edit224.Value:=StrToIntDef(SGrid.Cells[24,List1],0);
+    if CheckBox3.Checked=False then
+    Edit225.Value:=StrToIntDef(SGrid.Cells[25,List1],0);
+    Edit226.Value:=StrToIntDef(SGrid.Cells[26,List1],0);
+    Edit227.Value:=StrToIntDef(SGrid.Cells[27,List1],0);
+    Edit228.Value:=StrToIntDef(SGrid.Cells[28,List1],0);
+    Edit229.Value:=StrToIntDef(SGrid.Cells[29,List1],0);
+    Edit230.Value:=StrToIntDef(SGrid.Cells[30,List1],0);
+    Edit231.Value:=StrToIntDef(SGrid.Cells[31,List1],0);
+    Edit232.Value:=StrToIntDef(SGrid.Cells[32,List1],0);
+    Edit233.Value:=StrToIntDef(SGrid.Cells[33,List1],0);
+    if CheckBox3.Checked=False then
+    Edit234.Value:=StrToIntDef(SGrid.Cells[34,List1],0);
+    Edit235.Value:=StrToIntDef(SGrid.Cells[35,List1],0);
+    Edit236.Value:=StrToIntDef(SGrid.Cells[36,List1],0);
+    Edit237.Value:=StrToIntDef(SGrid.Cells[37,List1],0);
+
+    if CheckBox3.Checked=False then
+    Edit240.Value:=StrToIntDef(SGrid.Cells[38,List1],0);
+    Edit241.Value:=StrToIntDef(SGrid.Cells[39,List1],0);
+    if CheckBox3.Checked=False then
+    Edit242.Value:=StrToIntDef(SGrid.Cells[40,List1],0);
+    Edit243.Value:=StrToIntDef(SGrid.Cells[41,List1],0);
+    if CheckBox3.Checked=False then
+    Edit244.Value:=StrToIntDef(SGrid.Cells[42,List1],0);
+    Edit245.Value:=StrToIntDef(SGrid.Cells[43,List1],0);
+    Edit246.Value:=StrToIntDef(SGrid.Cells[44,List1],0);
+    Edit247.Value:=StrToIntDef(SGrid.Cells[45,List1],0);
+  //if CheckBox3.Checked=False then
+    Edit248.Value:=StrToIntDef(SGrid.Cells[46,List1],0);
+
+    Edit261.Value:=StrToIntDef(SGrid.Cells[47,List1],0);
+    if CheckBox3.Checked=False then
+    Edit262.Value:=StrToIntDef(SGrid.Cells[48,List1],0);
+    Edit263.Value:=StrToIntDef(SGrid.Cells[49,List1],0);
+    Edit264.Value:=StrToIntDef(SGrid.Cells[50,List1],0);
+    if CheckBox3.Checked=False then
+    Edit265.Value:=StrToIntDef(SGrid.Cells[51,List1],0);
+    Edit266.Value:=StrToIntDef(SGrid.Cells[52,List1],0);
+
+    Edit301.Value:=StrToIntDef(SGrid.Cells[53,List1],0);
+  //if CheckBox3.Checked=False then
+    Edit302.Value:=StrToIntDef(SGrid.Cells[54,List1],0);
+    Edit303.Value:=StrToIntDef(SGrid.Cells[55,List1],0);
+    Edit304.Value:=StrToIntDef(SGrid.Cells[56,List1],0);
+  //if CheckBox3.Checked=False then
+    Edit305.Value:=StrToIntDef(SGrid.Cells[57,List1],0);
+    Edit306.Value:=StrToIntDef(SGrid.Cells[58,List1],0);
+    Edit307.Value:=StrToIntDef(SGrid.Cells[59,List1],0);
+  //if CheckBox3.Checked=False then
+    Edit308.Value:=StrToIntDef(SGrid.Cells[60,List1],0);
+    Edit309.Value:=StrToIntDef(SGrid.Cells[61,List1],0);
+
+    Edit310.Text :=SGrid.Cells[62,List1];
+    Edit312.Value:=StrToIntDef(SGrid.Cells[63,List1],0);
+
+    Edit902.Value:=StrToIntDef(SGrid.Cells[64,List1],0);
+    Edit901.Text :=SGrid.Cells[65,List1];
+
+    Edit238.Text :=SGrid.Cells[66,List1];
+    Edit239.Text :=SGrid.Cells[67,List1];
+    if SGrid.Cells[68,List1]='1' then
+    CheckBox1.Checked:=True else
+    CheckBox1.Checked:=False;
+  end;
+end;
+
+procedure TSobo45_1.Button905Click(Sender: TObject);
+var St1,St2: String;
+    D: TDate;
+    Year, Month, Day: Word;
+    St0,St9: Double;
+begin
+//전잔액-입금일자-입금액//
+
+  DateSeparator := '.';
+  ShortDateFormat := 'YYYY.MM.DD';
+  LongDateFormat  := 'YYYY.MM.DD';
+
+  D:=StrToDateTime(Edit101.Text+'.01');
+  DecodeDate(D, Year,Month,Day);
+//Inc(Month);
+  if Month > 12 then begin
+    Inc(Year);
+    Month :=1;
+  end;
+  D:=EncodeDate(Year,Month,1)-1;
+  St2:=FormatDateTime('YYYY.MM.DD', D);
+
+  St0:=0;
+  St9:=0;
+
+  St1:='Gdate'+' ='+#39+Copy(St2,1,7)+#39+' and '+
+       'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Sqlen := 'Select Hcode,Sum26,Sum27,Sum28 From T2_Ssub Where '+D_Select+St1;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    St0:=StrToIntDef(SGrid.Cells[ 1,List1],0)+
+         StrToIntDef(SGrid.Cells[ 2,List1],0)+
+         StrToIntDef(SGrid.Cells[ 3,List1],0);
+  end;
+
+
+
+  St1:='Sdate'+' ='+#39+Copy(St2,1,7)+#39+' and '+
+       'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+  St2:=' Order By Gdate,Hcode';
+
+  Sqlen := 'Select Hcode,Gdate,Gssum From T5_Ssub Where '+D_Select+St1+St2;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  Edit901.Text:='';
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    Edit901.Text:=SGrid.Cells[ 1,List1];
+    St0:=St0-StrToIntDef(SGrid.Cells[ 2,List1],0);
+    St9:=St9+StrToIntDef(SGrid.Cells[ 2,List1],0);
+  end;
+
+  Edit902.Value:=St9;
+  Edit226.Value:=St0;
+end;
+
+procedure TSobo45_1.Button301Click(Sender: TObject);
+var Sq1,Sq2,Sq3,Sq4,Sq5,Sq6: String;
+begin
+  Bmark:=nSqry.GetBookmark; nSqry.DisableControls;
+
+  if Label001.Caption<>'' Then
+  if nSqry.Active=True Then begin
+    Sqlen := 'Select Gdate From T2_Ssub Where '+D_Select+'Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+    Translate(Sqlen, '@Gdate', Label003.Caption);
+    Translate(Sqlen, '@Hcode', Label001.Caption);
+    if Base10.Seek_Name(Sqlen)='' Then begin
+
+      Sqlon := 'INSERT INTO T2_Ssub '+
+      '( Gdate, Hcode, Sum01, Sum02, Sum03, Sum04, '+
+      '  Sum05, Sum06, Sum07, Sum08, Sum09, Sum10, '+
+      '  Sum11, Sum12, Sum13, Sum14, Sum15, Sum16, '+
+      '  Sum17, Sum18, Sum19, Sum20, Sum21, Sum22, '+
+      '  Sum23, Sum24, Sum25, Sum26, Sum27, Sum28, '+
+      '  Sum29, Sum30, Sum31, Sum32, Sum33, Sum34, '+
+      '  Sum35, Sum36, Sum37, Sum40, Sum41, Sum42, '+
+      '  Sum43, Sum44, Sum45, Sum46, Sum47, Sum48, '+
+      '  Sum61, Sum62, Sum63, Sum64, Sum65, Sum66, '+
+      '  Sum67, Sum68, '+
+      '  Sum51, Sum52, Sum53, Sum54, Sum55, Sum56, '+
+      '  Sum57, Sum58, Sum59, Gsusu, Vdate, Bigo1, Bigo2, Yesno ) VALUES ';
+      Sq1 :=
+      '(''@Gdate'',''@Hcode'', @Sum01 , @Sum02 , @Sum03 , @Sum04 , '+
+      '   @Sum05  ,  @Sum06  , @Sum07 , @Sum08 , @Sum09 , @Sum10 , '+
+      '   @Sum11  ,  @Sum12  , @Sum13 , @Sum14 , @Sum15 , @Sum16 , ';
+      Sq2 :=
+      '   @Sum17  ,  @Sum18  , @Sum19 , @Sum20 , @Sum21 , @Sum22 , '+
+      '   @Sum23  ,  @Sum24  , @Sum25 , @Sum26 , @Sum27 , @Sum28 , '+
+      '   @Sum29  ,  @Sum30  , @Sum31 , @Sum32 , @Sum33 , @Sum34 , ';
+      Sq3 :=
+      '   @Sum35  ,  @Sum36  , @Sum37 , @Sum40 , @Sum41 , @Sum42 , '+
+      '   @Sum43  ,  @Sum44  , @Sum45 , @Sum46 , @Sum47 , @Sum48 , '+
+      '   @Sum61  ,  @Sum62  , @Sum63 , @Sum64 , @Sum65 , @Sum66 , ';
+      Sq4 :=
+      '   @Sum67  ,  @Sum68  , '+
+      '   @Sum51  ,  @Sum52  , @Sum53 , @Sum54 , @Sum55 , @Sum56 , '+
+      '   @Sum57  ,  @Sum58  , @Sum59 , @Gsusu ,''@Vdate'',''@Bigo1'',''@Bigo2'',''@Yesno'' )';
+
+      Translate(Sq1, '@Gdate', Label003.Caption);
+      Translate(Sq1, '@Hcode', Label001.Caption);
+      TransAuto(Sq1, '@Sum01', FloatToStr(Edit201.Value));
+      TransAuto(Sq1, '@Sum02', FloatToStr(Edit202.Value));
+      TransAuto(Sq1, '@Sum03', FloatToStr(Edit203.Value));
+      TransAuto(Sq1, '@Sum04', FloatToStr(Edit204.Value));
+      TransAuto(Sq1, '@Sum05', FloatToStr(Edit205.Value));
+      TransAuto(Sq1, '@Sum06', FloatToStr(Edit206.Value));
+      TransAuto(Sq1, '@Sum07', FloatToStr(Edit207.Value));
+      TransAuto(Sq1, '@Sum08', FloatToStr(Edit208.Value));
+      TransAuto(Sq1, '@Sum09', FloatToStr(Edit209.Value));
+      TransAuto(Sq1, '@Sum10', FloatToStr(Edit210.Value));
+      TransAuto(Sq1, '@Sum11', FloatToStr(Edit211.Value));
+      TransAuto(Sq1, '@Sum12', FloatToStr(Edit212.Value));
+      TransAuto(Sq1, '@Sum13', FloatToStr(Edit213.Value));
+      TransAuto(Sq1, '@Sum14', FloatToStr(Edit214.Value));
+      TransAuto(Sq1, '@Sum15', FloatToStr(Edit215.Value));
+      TransAuto(Sq1, '@Sum16', FloatToStr(Edit216.Value));
+
+      TransAuto(Sq2, '@Sum17', FloatToStr(Edit217.Value));
+      TransAuto(Sq2, '@Sum18', FloatToStr(Edit218.Value));
+      TransAuto(Sq2, '@Sum19', FloatToStr(Edit219.Value));
+      TransAuto(Sq2, '@Sum20', FloatToStr(Edit220.Value));
+      TransAuto(Sq2, '@Sum21', FloatToStr(Edit221.Value));
+      TransAuto(Sq2, '@Sum22', FloatToStr(Edit222.Value));
+      TransAuto(Sq2, '@Sum23', FloatToStr(Edit223.Value));
+      TransAuto(Sq2, '@Sum24', FloatToStr(Edit224.Value));
+      TransAuto(Sq2, '@Sum25', FloatToStr(Edit225.Value));
+      TransAuto(Sq2, '@Sum26', FloatToStr(Edit226.Value));
+      TransAuto(Sq2, '@Sum27', FloatToStr(Edit227.Value));
+      TransAuto(Sq2, '@Sum28', FloatToStr(Edit228.Value));
+      TransAuto(Sq2, '@Sum29', FloatToStr(Edit229.Value));
+      TransAuto(Sq2, '@Sum30', FloatToStr(Edit230.Value));
+      TransAuto(Sq2, '@Sum31', FloatToStr(Edit231.Value));
+      TransAuto(Sq2, '@Sum32', FloatToStr(Edit232.Value));
+      TransAuto(Sq2, '@Sum33', FloatToStr(Edit233.Value));
+      TransAuto(Sq2, '@Sum34', FloatToStr(Edit234.Value));
+
+      TransAuto(Sq3, '@Sum35', FloatToStr(Edit235.Value));
+      TransAuto(Sq3, '@Sum36', FloatToStr(Edit236.Value));
+      TransAuto(Sq3, '@Sum37', FloatToStr(Edit237.Value));
+      TransAuto(Sq3, '@Sum40', FloatToStr(Edit240.Value));
+      TransAuto(Sq3, '@Sum41', FloatToStr(Edit241.Value));
+      TransAuto(Sq3, '@Sum42', FloatToStr(Edit242.Value));
+      TransAuto(Sq3, '@Sum43', FloatToStr(Edit243.Value));
+      TransAuto(Sq3, '@Sum44', FloatToStr(Edit244.Value));
+      TransAuto(Sq3, '@Sum45', FloatToStr(Edit245.Value));
+      TransAuto(Sq3, '@Sum46', FloatToStr(Edit246.Value));
+      TransAuto(Sq3, '@Sum47', FloatToStr(Edit247.Value));
+      TransAuto(Sq3, '@Sum48', FloatToStr(Edit248.Value));
+      TransAuto(Sq3, '@Sum61', FloatToStr(Edit261.Value));
+      TransAuto(Sq3, '@Sum62', FloatToStr(Edit262.Value));
+      TransAuto(Sq3, '@Sum63', FloatToStr(Edit263.Value));
+      TransAuto(Sq3, '@Sum64', FloatToStr(Edit264.Value));
+      TransAuto(Sq3, '@Sum65', FloatToStr(Edit265.Value));
+      TransAuto(Sq3, '@Sum66', FloatToStr(Edit266.Value));
+
+      TransAuto(Sq4, '@Sum67', FloatToStrF(Edit310.Value,ffNumber,2,1));
+      TransAuto(Sq4, '@Sum68', FloatToStr(Edit312.Value));
+
+      TransAuto(Sq4, '@Sum51', FloatToStr(Edit301.Value));
+      TransAuto(Sq4, '@Sum52', FloatToStr(Edit302.Value));
+      TransAuto(Sq4, '@Sum53', FloatToStr(Edit303.Value));
+      TransAuto(Sq4, '@Sum54', FloatToStr(Edit304.Value));
+      TransAuto(Sq4, '@Sum55', FloatToStr(Edit305.Value));
+      TransAuto(Sq4, '@Sum56', FloatToStr(Edit306.Value));
+      TransAuto(Sq4, '@Sum57', FloatToStr(Edit307.Value));
+      TransAuto(Sq4, '@Sum58', FloatToStr(Edit308.Value));
+      TransAuto(Sq4, '@Sum59', FloatToStr(Edit309.Value));
+      TransAuto(Sq4, '@Gsusu', FloatToStr(Edit902.Value));
+      Translate(Sq4, '@Vdate', Edit901.Text);
+      Translate(Sq4, '@Bigo1', Edit238.Text);
+      Translate(Sq4, '@Bigo2', Edit239.Text);
+
+      if CheckBox1.Checked=True then
+      Translate(Sq4, '@Yesno', '1') else
+      Translate(Sq4, '@Yesno', '' );
+
+      Sqlen:=Sqlon+Sq1+Sq2+Sq3+Sq4;
+
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.BusyLoop;
+      if Base10.Socket.Body_Data = 'ERROR' then begin
+        ShowMessage(E_Insert);
+        Exit;
+      end;
+
+    end else begin
+
+      Sq1 := 'UPDATE T2_Ssub SET '+
+      'Gdate=''@Gdate'',Sum01=  @Sum01  ,Sum02=  @Sum02  ,Sum03=  @Sum03  , '+
+      'Sum04=  @Sum04  ,Sum05=  @Sum05  ,Sum06=  @Sum06  ,Sum07=  @Sum07  , '+
+      'Sum08=  @Sum08  ,Sum09=  @Sum09  ,Sum10=  @Sum10  ,Sum11=  @Sum11  , ';
+      Sq2 :=
+      'Sum12=  @Sum12  ,Sum13=  @Sum13  ,Sum14=  @Sum14  ,Sum15=  @Sum15  , '+
+      'Sum16=  @Sum16  ,Sum17=  @Sum17  ,Sum18=  @Sum18  ,Sum19=  @Sum19  , '+
+      'Sum20=  @Sum20  ,Sum21=  @Sum21  ,Sum22=  @Sum22  ,Sum23=  @Sum23  , '+
+      'Sum24=  @Sum24  ,Sum25=  @Sum25  ,Sum26=  @Sum26  ,Sum27=  @Sum27  , ';
+      Sq3 :=
+      'Sum28=  @Sum28  ,Sum29=  @Sum29  ,Sum30=  @Sum30  ,Sum31=  @Sum31  , '+
+      'Sum32=  @Sum32  ,Sum33=  @Sum33  ,Sum34=  @Sum34  ,Sum35=  @Sum35  , '+
+      'Sum36=  @Sum36  ,Sum37=  @Sum37  ,Sum40=  @Sum40  ,Sum41=  @Sum41  , '+
+      'Sum42=  @Sum42  ,Sum43=  @Sum43  ,Sum44=  @Sum44  ,Sum45=  @Sum45  , ';
+      Sq4 :=
+      'Sum46=  @Sum46  ,Sum47=  @Sum47  ,Sum48=  @Sum48  ,Sum61=  @Sum61  , '+
+      'Sum62=  @Sum62  ,Sum63=  @Sum63  ,Sum64=  @Sum64  ,Sum65=  @Sum65  , '+
+      'Sum66=  @Sum66  ,Sum67=  @Sum67  ,Sum68=  @Sum68  , ';
+      Sq5 :=
+      'Sum51=  @Sum51  ,Sum52=  @Sum52  ,Sum53=  @Sum53  ,Sum54=  @Sum54  , '+
+      'Sum55=  @Sum55  ,Sum56=  @Sum56  ,Sum57=  @Sum57  ,Sum58=  @Sum58  , '+
+      'Sum59=  @Sum59  ,Gsusu=  @Gsusu  ,Vdate=''@Vdate'',Bigo1=''@Bigo1'', ';
+      Sq6 :=
+      'Bigo2=''@Bigo2'',Yesno=''@Yesno''  '+
+      'WHERE Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+
+      Translate(Sq1, '@Gdate', Label003.Caption);
+      TransAuto(Sq1, '@Sum01', FloatToStr(Edit201.Value));
+      TransAuto(Sq1, '@Sum02', FloatToStr(Edit202.Value));
+      TransAuto(Sq1, '@Sum03', FloatToStr(Edit203.Value));
+      TransAuto(Sq1, '@Sum04', FloatToStr(Edit204.Value));
+      TransAuto(Sq1, '@Sum05', FloatToStr(Edit205.Value));
+      TransAuto(Sq1, '@Sum06', FloatToStr(Edit206.Value));
+      TransAuto(Sq1, '@Sum07', FloatToStr(Edit207.Value));
+      TransAuto(Sq1, '@Sum08', FloatToStr(Edit208.Value));
+      TransAuto(Sq1, '@Sum09', FloatToStr(Edit209.Value));
+      TransAuto(Sq1, '@Sum10', FloatToStr(Edit210.Value));
+      TransAuto(Sq1, '@Sum11', FloatToStr(Edit211.Value));
+
+      TransAuto(Sq2, '@Sum12', FloatToStr(Edit212.Value));
+      TransAuto(Sq2, '@Sum13', FloatToStr(Edit213.Value));
+      TransAuto(Sq2, '@Sum14', FloatToStr(Edit214.Value));
+      TransAuto(Sq2, '@Sum15', FloatToStr(Edit215.Value));
+      TransAuto(Sq2, '@Sum16', FloatToStr(Edit216.Value));
+      TransAuto(Sq2, '@Sum17', FloatToStr(Edit217.Value));
+      TransAuto(Sq2, '@Sum18', FloatToStr(Edit218.Value));
+      TransAuto(Sq2, '@Sum19', FloatToStr(Edit219.Value));
+      TransAuto(Sq2, '@Sum20', FloatToStr(Edit220.Value));
+      TransAuto(Sq2, '@Sum21', FloatToStr(Edit221.Value));
+      TransAuto(Sq2, '@Sum22', FloatToStr(Edit222.Value));
+      TransAuto(Sq2, '@Sum23', FloatToStr(Edit223.Value));
+      TransAuto(Sq2, '@Sum24', FloatToStr(Edit224.Value));
+      TransAuto(Sq2, '@Sum25', FloatToStr(Edit225.Value));
+      TransAuto(Sq2, '@Sum26', FloatToStr(Edit226.Value));
+      TransAuto(Sq2, '@Sum27', FloatToStr(Edit227.Value));
+
+      TransAuto(Sq3, '@Sum28', FloatToStr(Edit228.Value));
+      TransAuto(Sq3, '@Sum29', FloatToStr(Edit229.Value));
+      TransAuto(Sq3, '@Sum30', FloatToStr(Edit230.Value));
+      TransAuto(Sq3, '@Sum31', FloatToStr(Edit231.Value));
+      TransAuto(Sq3, '@Sum32', FloatToStr(Edit232.Value));
+      TransAuto(Sq3, '@Sum33', FloatToStr(Edit233.Value));
+      TransAuto(Sq3, '@Sum34', FloatToStr(Edit234.Value));
+      TransAuto(Sq3, '@Sum35', FloatToStr(Edit235.Value));
+      TransAuto(Sq3, '@Sum36', FloatToStr(Edit236.Value));
+      TransAuto(Sq3, '@Sum37', FloatToStr(Edit237.Value));
+      TransAuto(Sq3, '@Sum40', FloatToStr(Edit240.Value));
+      TransAuto(Sq3, '@Sum41', FloatToStr(Edit241.Value));
+      TransAuto(Sq3, '@Sum42', FloatToStr(Edit242.Value));
+      TransAuto(Sq3, '@Sum43', FloatToStr(Edit243.Value));
+      TransAuto(Sq3, '@Sum44', FloatToStr(Edit244.Value));
+      TransAuto(Sq3, '@Sum45', FloatToStr(Edit245.Value));
+
+      TransAuto(Sq4, '@Sum46', FloatToStr(Edit246.Value));
+      TransAuto(Sq4, '@Sum47', FloatToStr(Edit247.Value));
+      TransAuto(Sq4, '@Sum48', FloatToStr(Edit248.Value));
+      TransAuto(Sq4, '@Sum61', FloatToStr(Edit261.Value));
+      TransAuto(Sq4, '@Sum62', FloatToStr(Edit262.Value));
+      TransAuto(Sq4, '@Sum63', FloatToStr(Edit263.Value));
+      TransAuto(Sq4, '@Sum64', FloatToStr(Edit264.Value));
+      TransAuto(Sq4, '@Sum65', FloatToStr(Edit265.Value));
+      TransAuto(Sq4, '@Sum66', FloatToStr(Edit266.Value));
+      TransAuto(Sq4, '@Sum67', FloatToStrF(Edit310.Value,ffNumber,2,1));
+      TransAuto(Sq4, '@Sum68', FloatToStr(Edit312.Value));
+
+      TransAuto(Sq5, '@Sum51', FloatToStr(Edit301.Value));
+      TransAuto(Sq5, '@Sum52', FloatToStr(Edit302.Value));
+      TransAuto(Sq5, '@Sum53', FloatToStr(Edit303.Value));
+      TransAuto(Sq5, '@Sum54', FloatToStr(Edit304.Value));
+      TransAuto(Sq5, '@Sum55', FloatToStr(Edit305.Value));
+      TransAuto(Sq5, '@Sum56', FloatToStr(Edit306.Value));
+      TransAuto(Sq5, '@Sum57', FloatToStr(Edit307.Value));
+      TransAuto(Sq5, '@Sum58', FloatToStr(Edit308.Value));
+      TransAuto(Sq5, '@Sum59', FloatToStr(Edit309.Value));
+      TransAuto(Sq5, '@Gsusu', FloatToStr(Edit902.Value));
+      Translate(Sq5, '@Vdate', Edit901.Text);
+      Translate(Sq5, '@Bigo1', Edit238.Text);
+
+      Translate(Sq6, '@Bigo2', Edit239.Text);
+      Translate(Sq6, '@Gdate', Label003.Caption);
+      Translate(Sq6, '@Hcode', Label001.Caption);
+
+      if CheckBox1.Checked=True then
+      Translate(Sq6, '@Yesno', '1') else
+      Translate(Sq6, '@Yesno', '' );
+
+      Sqlen:=Sq1+Sq2+Sq3+Sq4+Sq5+Sq6;
+
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.BusyLoop;
+      if Base10.Socket.Body_Data = 'ERROR' then begin
+        ShowMessage(E_Update);
+        Exit;
+      end;
+
+    end;
+  end;
+
+  if Label001.Caption<>'' Then
+  if nSqry.Active=True Then begin
+    nSqry.First;
+    While nSqry.EOF=False do begin
+
+    Sqlen := 'Select Gdate From T3_Ssub Where '+D_Select+'Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+    Translate(Sqlen, '@Gdate', Label003.Caption+'.'+nSqry.FieldByName('Gdate').AsString);
+    Translate(Sqlen, '@Hcode', Label001.Caption);
+    if Base10.Seek_Name(Sqlen)='' Then begin
+
+      Sqlon := 'INSERT INTO T3_Ssub '+
+      '( Gdate, Hcode, Gqut1, Gqut2, Gqut3, Gqut4, Gqut5, Gqut6, Gqut7, '+
+      '  Gname, Name1, Name2, Gcode, Gsqut, Gssum, Yesno  ) VALUES ';
+      Sq1 :=
+      '(''@Gdate'',''@Hcode'',  @Gqut1  ,  @Gqut2  , @Gqut3 , @Gqut4 , @Gqut5 , @Gqut6 , @Gqut7 , '+
+      ' ''@Gname'',''@Name1'',''@Name2'',''@Gcode'', @Gsqut , @Gssum ,''@Yesno'' )';
+
+      Translate(Sq1, '@Gdate', Label003.Caption+'.'+nSqry.FieldByName('Gdate').AsString);
+      Translate(Sq1, '@Hcode', Label001.Caption);
+      TransAuto(Sq1, '@Gqut1', nSqry.FieldByName('Gqut1').AsString);
+      TransAuto(Sq1, '@Gqut2', nSqry.FieldByName('Gqut2').AsString);
+      TransAuto(Sq1, '@Gqut3', nSqry.FieldByName('Gqut3').AsString);
+      TransAuto(Sq1, '@Gqut4', nSqry.FieldByName('Gqut4').AsString);
+      TransAuto(Sq1, '@Gqut5', nSqry.FieldByName('Gqut5').AsString);
+      TransAuto(Sq1, '@Gqut6', nSqry.FieldByName('Gqut6').AsString);
+      TransAuto(Sq1, '@Gqut7', nSqry.FieldByName('Gqut7').AsString);
+      Translate(Sq1, '@Gname', nSqry.FieldByName('Gname').AsString);
+      Translate(Sq1, '@Name1', nSqry.FieldByName('Name1').AsString);
+      Translate(Sq1, '@Name2', nSqry.FieldByName('Name2').AsString);
+      Translate(Sq1, '@Gcode', nSqry.FieldByName('Gcode').AsString);
+      TransAuto(Sq1, '@Gsqut', nSqry.FieldByName('Gsqut').AsString);
+      TransAuto(Sq1, '@Gssum', nSqry.FieldByName('Gssum').AsString);
+
+      if CheckBox1.Checked=True then
+      Translate(Sq1, '@Yesno', '1') else
+      Translate(Sq1, '@Yesno', nSqry.FieldByName('Yesno').AsString);
+
+    { if CheckBox1.Checked=True then
+      Translate(Sq1, '@Yesno', '1') else
+      Translate(Sq1, '@Yesno', '' ); }
+
+      Sqlen:=Sqlon+Sq1;
+
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.BusyLoop;
+      if Base10.Socket.Body_Data = 'ERROR' then begin
+        ShowMessage(E_Insert);
+        Exit;
+      end;
+
+    end else begin
+
+      Sq1 := 'UPDATE T3_Ssub SET '+
+      'Gqut1=  @Gqut1  ,Gqut2=  @Gqut2  ,Gqut3=  @Gqut3  ,Gqut4=  @Gqut4  ,'+
+      'Gqut5=  @Gqut5  ,Gqut6=  @Gqut6  ,Gqut7=  @Gqut7  ,Gname=''@Gname'',';
+      Sq2 :=
+      'Name1=''@Name1'',Name2=''@Name2'',Gcode=''@Gcode'',Gsqut=  @Gsqut  ,'+
+      'Gssum=  @Gssum  ,Yesno=''@Yesno'' WHERE Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+
+      Translate(Sq2, '@Gdate', Label003.Caption+'.'+nSqry.FieldByName('Gdate').AsString);
+      Translate(Sq2, '@Hcode', Label001.Caption);
+      TransAuto(Sq1, '@Gqut1', nSqry.FieldByName('Gqut1').AsString);
+      TransAuto(Sq1, '@Gqut2', nSqry.FieldByName('Gqut2').AsString);
+      TransAuto(Sq1, '@Gqut3', nSqry.FieldByName('Gqut3').AsString);
+      TransAuto(Sq1, '@Gqut4', nSqry.FieldByName('Gqut4').AsString);
+      TransAuto(Sq1, '@Gqut5', nSqry.FieldByName('Gqut5').AsString);
+      TransAuto(Sq1, '@Gqut6', nSqry.FieldByName('Gqut6').AsString);
+      TransAuto(Sq1, '@Gqut7', nSqry.FieldByName('Gqut7').AsString);
+      Translate(Sq1, '@Gname', nSqry.FieldByName('Gname').AsString);
+      Translate(Sq2, '@Name1', nSqry.FieldByName('Name1').AsString);
+      Translate(Sq2, '@Name2', nSqry.FieldByName('Name2').AsString);
+      Translate(Sq2, '@Gcode', nSqry.FieldByName('Gcode').AsString);
+      TransAuto(Sq2, '@Gsqut', nSqry.FieldByName('Gsqut').AsString);
+      TransAuto(Sq2, '@Gssum', nSqry.FieldByName('Gssum').AsString);
+
+      if CheckBox1.Checked=True then
+      Translate(Sq2, '@Yesno', '1') else
+      Translate(Sq2, '@Yesno', nSqry.FieldByName('Yesno').AsString);
+
+    { if CheckBox1.Checked=True then
+      Translate(Sq1, '@Yesno', '1') else
+      Translate(Sq1, '@Yesno', '' ); }
+
+      Sqlen:=Sq1+Sq2;
+
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.BusyLoop;
+      if Base10.Socket.Body_Data = 'ERROR' then begin
+        ShowMessage(E_Update);
+        Exit;
+      end;
+
+    end;
+
+    nSqry.Next;
+    end;
+  end;
+
+  nSqry.GotoBookmark(Bmark); nSqry.FreeBookmark(Bmark); nSqry.EnableControls;
+  ShowMessage('저장완료');
+end;
+
+procedure TSobo45_1.Button401Click(Sender: TObject);
+var St1,St2,St3: String;
+    St9: Integer;
+begin
+  Bmark:=nSqry.GetBookmark; nSqry.DisableControls;
+
+  Edit201.Value:=0;
+  Edit202.Value:=0;
+  Edit203.Value:=0;
+  Edit204.Value:=0;
+  Edit205.Value:=0;
+  Edit206.Value:=0;
+  Edit207.Value:=0;
+  Edit208.Value:=0;
+  Edit209.Value:=0;
+  Edit210.Value:=0;
+  Edit211.Value:=0;
+  Edit212.Value:=0;
+  Edit213.Value:=0;
+  Edit214.Value:=0;
+  Edit215.Value:=0;
+  Edit216.Value:=0;
+  Edit217.Value:=0;
+  Edit218.Value:=0;
+  Edit219.Value:=0;
+  Edit220.Value:=0;
+  Edit221.Value:=0;
+  Edit222.Value:=0;
+  Edit223.Value:=0;
+  Edit224.Value:=0;
+  Edit225.Value:=0;
+  Edit226.Value:=0;
+  Edit227.Value:=0;
+  Edit228.Value:=0;
+  Edit229.Value:=0;
+  Edit230.Value:=0;
+  Edit231.Value:=0;
+  Edit232.Value:=0;
+  Edit233.Value:=0;
+  Edit234.Value:=0;
+  Edit235.Value:=0;
+  Edit236.Value:=0;
+  Edit237.Value:=0;
+  Edit238.Text:='';
+  Edit239.Text:='';
+  Edit240.Value:=0;
+  Edit241.Value:=0;
+  Edit242.Value:=0;
+  Edit243.Value:=0;
+  Edit244.Value:=0;
+  Edit245.Value:=0;
+  Edit246.Value:=0;
+  Edit247.Value:=0;
+  Edit248.Value:=0;
+  Edit261.Value:=0;
+  Edit262.Value:=0;
+  Edit263.Value:=0;
+  Edit264.Value:=0;
+  Edit265.Value:=0;
+  Edit266.Value:=0;
+  Edit301.Value:=0;
+  Edit302.Value:=0;
+  Edit303.Value:=0;
+  Edit304.Value:=0;
+  Edit305.Value:=0;
+  Edit306.Value:=0;
+  Edit307.Value:=0;
+  Edit308.Value:=0;
+  Edit309.Value:=0;
+  Edit310.Value:=0;
+  Edit311.Value:=0;
+  Edit312.Value:=0;
+  Edit313.Value:=0;
+  Edit314.Value:=0;
+  Edit315.Value:=0;
+  Edit901.Text:='';
+  Edit902.Value:=0;
+
+  St1:='Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+#39+' and '+
+       'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+#39+' and '+
+       'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Sqlen := 'Select Hcode,'+
+           'Sum01,Sum02,Sum03,Sum04,Sum05,Sum06,Sum07,Sum08,Sum09,Sum10,'+
+           'Sum11,Sum12,Sum13,Sum14,Sum15,Sum16,Sum17,Sum18,Sum19,Sum20,'+
+           'Sum21,Sum22,Sum23,Sum24,Sum25,Sum26,Sum27,Sum28,Sum29,Sum30,'+
+           'Sum31,Sum32,Sum33,Sum34,Sum35,Sum36,Sum37,Sum40,Sum41,Sum42,'+
+           'Sum43,Sum44,Sum45,Sum46,Sum47,Sum48,Sum61,Sum62,Sum63,Sum64,'+
+           'Sum65,Sum66,Sum51,Sum52,Sum53,Sum54,Sum55,Sum56,Sum57,Sum58,'+
+           'Sum59,Sum67,Sum68,Gsusu,Vdate,Bigo1,Bigo2 '+
+           'From T2_Ssub Where '+D_Select+St1;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    Edit201.Value:=StrToIntDef(SGrid.Cells[ 1,List1],0);
+    Edit202.Value:=StrToIntDef(SGrid.Cells[ 2,List1],0);
+    Edit203.Value:=StrToIntDef(SGrid.Cells[ 3,List1],0);
+    Edit204.Value:=StrToIntDef(SGrid.Cells[ 4,List1],0);
+    Edit205.Value:=StrToIntDef(SGrid.Cells[ 5,List1],0);
+    Edit206.Value:=StrToIntDef(SGrid.Cells[ 6,List1],0);
+    Edit207.Value:=StrToIntDef(SGrid.Cells[ 7,List1],0);
+    Edit208.Value:=StrToIntDef(SGrid.Cells[ 8,List1],0);
+    Edit209.Value:=StrToIntDef(SGrid.Cells[ 9,List1],0);
+    Edit210.Value:=StrToIntDef(SGrid.Cells[10,List1],0);
+    Edit211.Value:=StrToIntDef(SGrid.Cells[11,List1],0);
+    Edit212.Value:=StrToIntDef(SGrid.Cells[12,List1],0);
+    Edit213.Value:=StrToIntDef(SGrid.Cells[13,List1],0);
+    Edit214.Value:=StrToIntDef(SGrid.Cells[14,List1],0);
+    Edit215.Value:=StrToIntDef(SGrid.Cells[15,List1],0);
+    Edit216.Value:=StrToIntDef(SGrid.Cells[16,List1],0);
+    Edit217.Value:=StrToIntDef(SGrid.Cells[17,List1],0);
+    Edit218.Value:=StrToIntDef(SGrid.Cells[18,List1],0);
+    Edit219.Value:=StrToIntDef(SGrid.Cells[19,List1],0);
+    Edit220.Value:=StrToIntDef(SGrid.Cells[20,List1],0);
+    Edit221.Value:=StrToIntDef(SGrid.Cells[21,List1],0);
+    Edit222.Value:=StrToIntDef(SGrid.Cells[22,List1],0);
+    Edit223.Value:=StrToIntDef(SGrid.Cells[23,List1],0);
+    Edit224.Value:=StrToIntDef(SGrid.Cells[24,List1],0);
+    Edit225.Value:=StrToIntDef(SGrid.Cells[25,List1],0);
+    Edit226.Value:=StrToIntDef(SGrid.Cells[26,List1],0);
+    Edit227.Value:=StrToIntDef(SGrid.Cells[27,List1],0);
+    Edit228.Value:=StrToIntDef(SGrid.Cells[28,List1],0);
+    Edit229.Value:=StrToIntDef(SGrid.Cells[29,List1],0);
+    Edit230.Value:=StrToIntDef(SGrid.Cells[30,List1],0);
+    Edit231.Value:=StrToIntDef(SGrid.Cells[31,List1],0);
+    Edit232.Value:=StrToIntDef(SGrid.Cells[32,List1],0);
+    Edit233.Value:=StrToIntDef(SGrid.Cells[33,List1],0);
+    Edit234.Value:=StrToIntDef(SGrid.Cells[34,List1],0);
+    Edit235.Value:=StrToIntDef(SGrid.Cells[35,List1],0);
+    Edit236.Value:=StrToIntDef(SGrid.Cells[36,List1],0);
+    Edit237.Value:=StrToIntDef(SGrid.Cells[37,List1],0);
+    Edit240.Value:=StrToIntDef(SGrid.Cells[38,List1],0);
+    Edit241.Value:=StrToIntDef(SGrid.Cells[39,List1],0);
+    Edit242.Value:=StrToIntDef(SGrid.Cells[40,List1],0);
+    Edit243.Value:=StrToIntDef(SGrid.Cells[41,List1],0);
+    Edit244.Value:=StrToIntDef(SGrid.Cells[42,List1],0);
+    Edit245.Value:=StrToIntDef(SGrid.Cells[43,List1],0);
+    Edit246.Value:=StrToIntDef(SGrid.Cells[44,List1],0);
+    Edit247.Value:=StrToIntDef(SGrid.Cells[45,List1],0);
+    Edit248.Value:=StrToIntDef(SGrid.Cells[46,List1],0);
+    Edit261.Value:=StrToIntDef(SGrid.Cells[47,List1],0);
+    Edit262.Value:=StrToIntDef(SGrid.Cells[48,List1],0);
+    Edit263.Value:=StrToIntDef(SGrid.Cells[49,List1],0);
+    Edit264.Value:=StrToIntDef(SGrid.Cells[50,List1],0);
+    Edit265.Value:=StrToIntDef(SGrid.Cells[51,List1],0);
+    Edit266.Value:=StrToIntDef(SGrid.Cells[52,List1],0);
+
+    Edit301.Value:=StrToIntDef(SGrid.Cells[53,List1],0);
+    Edit302.Value:=StrToIntDef(SGrid.Cells[54,List1],0);
+    Edit303.Value:=StrToIntDef(SGrid.Cells[55,List1],0);
+    Edit304.Value:=StrToIntDef(SGrid.Cells[56,List1],0);
+    Edit305.Value:=StrToIntDef(SGrid.Cells[57,List1],0);
+    Edit306.Value:=StrToIntDef(SGrid.Cells[58,List1],0);
+    Edit307.Value:=StrToIntDef(SGrid.Cells[59,List1],0);
+    Edit308.Value:=StrToIntDef(SGrid.Cells[60,List1],0);
+    Edit309.Value:=StrToIntDef(SGrid.Cells[61,List1],0);
+
+    Edit310.Text :=SGrid.Cells[62,List1];
+    Edit312.Value:=StrToIntDef(SGrid.Cells[63,List1],0);
+
+    Edit902.Value:=StrToIntDef(SGrid.Cells[64,List1],0);
+    Edit901.Text :=SGrid.Cells[65,List1];
+
+    Edit238.Text :=SGrid.Cells[66,List1];
+    Edit239.Text :=SGrid.Cells[67,List1];
+  end;
+
+  for St9 := 1 to 31 do begin
+    if St9=1  then St3:='01';
+    if St9=2  then St3:='02';
+    if St9=3  then St3:='03';
+    if St9=4  then St3:='04';
+    if St9=5  then St3:='05';
+    if St9=6  then St3:='06';
+    if St9=7  then St3:='07';
+    if St9=8  then St3:='08';
+    if St9=9  then St3:='09';
+    if St9=10 then St3:='10';
+    if St9=11 then St3:='11';
+    if St9=12 then St3:='12';
+    if St9=13 then St3:='13';
+    if St9=14 then St3:='14';
+    if St9=15 then St3:='15';
+    if St9=16 then St3:='16';
+    if St9=17 then St3:='17';
+    if St9=18 then St3:='18';
+    if St9=19 then St3:='19';
+    if St9=20 then St3:='20';
+    if St9=21 then St3:='21';
+    if St9=22 then St3:='22';
+    if St9=23 then St3:='23';
+    if St9=24 then St3:='24';
+    if St9=25 then St3:='25';
+    if St9=26 then St3:='26';
+    if St9=27 then St3:='27';
+    if St9=28 then St3:='28';
+    if St9=29 then St3:='29';
+    if St9=30 then St3:='30';
+    if St9=31 then St3:='31';
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,'']),[loCaseInsensitive])=True then begin
+    nSqry.Edit;
+    nSqry.FieldByName('Gqut1').AsString:='';
+    nSqry.FieldByName('Gqut2').AsString:='';
+    nSqry.FieldByName('Gqut3').AsString:='';
+    nSqry.FieldByName('Gqut4').AsString:='';
+    nSqry.FieldByName('Name1').AsString:='';
+    nSqry.FieldByName('Name2').AsString:='';
+    nSqry.FieldByName('Gcode').AsString:='';
+    nSqry.FieldByName('Gname').AsString:='';
+    nSqry.FieldByName('Gsqut').AsString:='';
+    nSqry.FieldByName('Gssum').AsString:='';
+    nSqry.FieldByName('Yesno').AsString:='0';
+    nSqry.Post;
+    end;
+  end;
+
+  St1:='Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+       'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+       'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Sqlen := 'Select Hcode,'+
+           'Gdate,Gqut1,Gqut2,Gqut3,Gqut4,Name1,Name2,Gname,Gcode,Gsqut,Gssum,Yesno,Gqut5,Gqut6,Gqut7 '+
+           ' From T3_Ssub Where '+D_Select+St1;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    St3:=Copy(SGrid.Cells[ 1,List1],9,2);
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St3,'']),[loCaseInsensitive])=True then begin
+
+      nSqry.Edit;
+
+    { Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+      Translate(Sqlen, '@Gcode', SGrid.Cells[ 8,List1]);
+      Translate(Sqlen, '@Hcode', '');
+      nSqry.FieldByName('Gname').Value:=Base10.Seek_Name(Sqlen);
+
+      if nSqry.FieldByName('Gname').Value='' then begin
+      Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+      Translate(Sqlen, '@Gcode', SGrid.Cells[ 8,List1]);
+      Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+      nSqry.FieldByName('Gname').Value:=Base10.Seek_Name(Sqlen);
+      end; }
+
+      if SGrid.Cells[ 2,List1]<>'0' then
+      nSqry.FieldByName('Gqut1').AsString:=SGrid.Cells[ 2,List1];
+      if SGrid.Cells[ 3,List1]<>'0' then
+      nSqry.FieldByName('Gqut2').AsString:=SGrid.Cells[ 3,List1];
+      if SGrid.Cells[ 4,List1]<>'0' then
+      nSqry.FieldByName('Gqut3').AsString:=SGrid.Cells[ 4,List1];
+      if SGrid.Cells[ 5,List1]<>'0' then
+      nSqry.FieldByName('Gqut4').AsString:=SGrid.Cells[ 5,List1];
+      if SGrid.Cells[ 6,List1]<>'' then
+      nSqry.FieldByName('Name1').AsString:=SGrid.Cells[ 6,List1];
+      if SGrid.Cells[ 7,List1]<>'' then
+      nSqry.FieldByName('Name2').AsString:=SGrid.Cells[ 7,List1];
+      if SGrid.Cells[ 8,List1]<>'' then
+      nSqry.FieldByName('Gname').AsString:=SGrid.Cells[ 8,List1];
+      if SGrid.Cells[ 9,List1]<>'' then
+      nSqry.FieldByName('Gcode').AsString:=SGrid.Cells[ 9,List1];
+      if SGrid.Cells[10,List1]<>'0' then
+      nSqry.FieldByName('Gsqut').AsString:=SGrid.Cells[10,List1];
+      if SGrid.Cells[11,List1]<>'0' then
+      nSqry.FieldByName('Gssum').AsString:=SGrid.Cells[11,List1];
+      if SGrid.Cells[13,List1]<>'0' then
+      nSqry.FieldByName('Gqut5').AsString:=SGrid.Cells[13,List1];
+      if SGrid.Cells[14,List1]<>'0' then
+      nSqry.FieldByName('Gqut6').AsString:=SGrid.Cells[14,List1];
+      if SGrid.Cells[15,List1]<>'0' then
+      nSqry.FieldByName('Gqut7').AsString:=SGrid.Cells[15,List1];
+      nSqry.FieldByName('Yesno').AsString:='0';
+      if SGrid.Cells[12,List1]='1' then
+      nSqry.FieldByName('Yesno').AsString:=SGrid.Cells[12,List1];
+      nSqry.Post;
+    end;
+  end;
+
+  nSqry.GotoBookmark(Bmark); nSqry.FreeBookmark(Bmark); nSqry.EnableControls;
+end;
+
+procedure TSobo45_1.Button601Click(Sender: TObject);
+var St1,St2,St3,St4: String;
+    _S1_Ssub,_Sg_Csum,_Sv_Ghng: String;
+begin
+  {-Sv_Ghng-}
+  Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+          'Where '+D_Select+
+          'Gdate < '+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and  '+
+          'Hcode = '+#39+mSqry.FieldByName('Hcode').AsString+#39;
+  St1:=Base10.Seek_Name(Sqlen);
+
+  {-In_Ssub-}
+  _S1_Ssub:='Gdate'+'> '+#39+St1+#39+' and '+
+            'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+            'Ocode'+' ='+#39+'B'+#39+' and '+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+  _Sg_Csum:='Gdate'+'> '+#39+St1+#39+' and '+
+            'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+           '(Scode'+' ='+#39+'B'+#39+' or '+'Scode'+' ='+#39+'D'+#39+')';
+  //        'Scode'+' ='+#39+'B'+#39+' and '+
+  _Sv_Ghng:='Gdate'+' ='+#39+St1+#39+' and '+
+            'Scode'+' ='+#39+'B'+#39+' and '+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+  Tong40._Sv_Ghng_(_S1_Ssub,_Sg_Csum,_Sv_Ghng);
+
+
+  Sqlen := 'Select Chek3 From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+  Translate(Sqlen, '@Gcode', mSqry.FieldByName('Hcode').AsString);
+  St2:=Base10.Seek_Name(Sqlen);
+
+  T01:=0;
+  T02:=Edit218.Value;
+  T03:=0;
+  T09:=0;
+
+  sSqry.First;
+  While sSqry.EOF=False do begin
+    if Base10.G4_Book.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,sSqry.FieldByName('Gcode').AsString]),[loCaseInsensitive])=true then begin
+
+      if St2='True' then begin
+        Sqlen := 'Select Grat8 From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+        Translate(Sqlen, '@Gcode', sSqry.FieldByName('Gcode').AsString);
+        Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+        T08:=StrToIntDef(Base10.Seek_Name(Sqlen),0);
+        if T08 > 0 then begin
+        T01:=T01+(sSqry.FieldByName('GsumX').AsFloat*T08);
+        T03:=T03+(sSqry.FieldByName('Gbqut').AsFloat*T08);
+        end else begin
+        T01:=T01+sSqry.FieldByName('GsumX').AsFloat;
+        T03:=T03+sSqry.FieldByName('Gbqut').AsFloat;
+        end;
+      end else begin
+        T01:=T01+sSqry.FieldByName('GsumX').AsFloat;
+        T03:=T03+sSqry.FieldByName('Gbqut').AsFloat;
+      end;
+
+      if sSqry.FieldByName('GsumX').AsFloat > 0 then
+      T09:=T09+1;
+
+    end;
+    sSqry.Next;
+  end;
+
+  Edit229.Value:=T01;
+
+//if mSqry.FieldByName('Bcode').AsString='True' then
+//Edit247.Value:=T03;
+
+{ if T01 > T02 then
+  Edit221.Value:=T01-T02;
+  Edit223.Value:=Edit221.Value * Edit222.Value;
+  Edit231.Value:=T03; }
+end;
+
+procedure TSobo45_1.Button602Click(Sender: TObject);
+var St1,St2: String;
+begin
+  Sqlen := 'Select Yesno From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+  Translate(Sqlen, '@Gcode', mSqry.FieldByName('Hcode').AsString);
+  St1:=Base10.Seek_Name(Sqlen);
+  if St1='1' then begin
+     Sqlen:='Select Count(*) From G4_Book Where '+D_Select+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+            'Yesno'+' ='+#39+'True'+#39;
+     St2:=Base10.Seek_Name(Sqlen);
+     Edit261.Value:=StrToInt(St2)
+  end;
+  if St1='2' then begin
+     Sqlen:='Select Count(*) From G4_Book Where '+D_Select+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+     St2:=Base10.Seek_Name(Sqlen);
+     Edit261.Value:=StrToInt(St2)
+  end;
+  if St1='3' then begin
+     Sqlen:='Select Count(*) From G4_Book Where '+D_Select+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+     St2:=Base10.Seek_Name(Sqlen);
+     Edit261.Value:=T09;
+  end;
+  if St1='4' then begin
+     Sqlen:='Select Count(Distinct Bcode) From S1_Ssub Where '+D_Select+
+            'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+            'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+            'Gubun'+' ='+#39+'출고'+#39+' and '+
+            'Ocode'+' ='+#39+'B'+#39+' and '+
+            'Scode'+' ='+#39+'X'+#39+' and '+
+            'Bcode'+'<>'+#39+''+#39+' and '+
+            'Gcode'+'<>'+#39+'00002'+#39+' and '+
+            'Gjisa'+'<>'+#39+'방문출고'+#39;
+     St2:=Base10.Seek_Name(Sqlen);
+     Edit261.Value:=StrToInt(St2)
+  end;
+  if St1='5' then begin
+     Sqlen:='Select Count(Distinct Bcode) From S1_Ssub Where '+D_Select+
+            'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+'.00'+#39+' and '+
+            'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+'.99'+#39+' and '+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+            'Ocode'+' ='+#39+'B'+#39+' and '+
+            'Scode'+' ='+#39+'X'+#39+' and '+
+            'Bcode'+'<>'+#39+''+#39+' and '+
+            'Gcode'+'<>'+#39+'00002'+#39+' and '+
+            'Gjisa'+'<>'+#39+'방문출고'+#39;
+     St2:=Base10.Seek_Name(Sqlen);
+     Edit261.Value:=StrToInt(St2)
+  end;
+end;
+
+procedure TSobo45_1.Button604Click(Sender: TObject);
+begin
+  Sqlen := 'Select Gdate,Gcode,Gubun,Gjisa,Jubun,Round(Count(*)/11 + 0.45) From S1_Ssub '+
+           'Where '+D_Select+'Hcode=''@Hcode'' and Scode=''@Scode'' and Gubun=''@Gubun'' '+
+           'and Yesno=''@Yesno'' and Gdate>=''@Gdate'' and Gdate<=''@Cdate'' '+
+           'Group By Gdate,Gcode,Gubun,Gjisa,Jubun ';
+
+  Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+  Translate(Sqlen, '@Scode', 'X');
+  Translate(Sqlen, '@Gubun', '출고');
+  Translate(Sqlen, '@Yesno', '2');
+  Translate(Sqlen, '@Gdate', Edit101.Text+'.00');
+  Translate(Sqlen, '@Cdate', Edit101.Text+'.99');
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  T09:=0;
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    T09:=T09+StrToIntDef(SGrid.Cells[ 5,List1],0);
+  end;
+
+  Edit264.Value:=0;
+  if Edit265.Value<>0 then
+  Edit264.Value:=T09;
+end;
+
+procedure TSobo45_1.Edit101Change(Sender: TObject);
+var St1: Char;
+begin
+  St1:=#13;
+  if((Edit101.Focused=True)and(Edit101.SelStart=10)and(Length(Trim(Edit101.Text))=10))Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+  end else
+  if((Edit103.Focused=True)and(Edit103.SelStart=50)and(Length(Trim(Edit103.Text))=50))or
+    ((Edit105.Focused=True)and(Edit105.SelStart=50)and(Length(Trim(Edit105.Text))=50))Then begin
+      Edit114KeyPress(Self,St1);
+  end;
+end;
+
+procedure TSobo45_1.Edit101KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key=VK_DOWN Then PerForm(WM_NEXTDLGCTL,0,0);
+end;
+
+procedure TSobo45_1.Edit102KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key=VK_UP   Then PerForm(WM_NEXTDLGCTL,1,0);
+end;
+
+procedure TSobo45_1.Edit111KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 Then begin
+    Key:=#0; SelectNext(ActiveControl as TWinControl, True, True);
+  end;
+end;
+
+procedure TSobo45_1.Edit111KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key=VK_UP   Then PerForm(WM_NEXTDLGCTL,1,0);
+  if Key=VK_DOWN Then PerForm(WM_NEXTDLGCTL,0,0);
+end;
+
+procedure TSobo45_1.Edit112KeyPress(Sender: TObject; var Key: Char);
+begin
+//
+end;
+
+procedure TSobo45_1.Edit112KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+//
+end;
+
+procedure TSobo45_1.Edit113KeyPress(Sender: TObject; var Key: Char);
+begin
+//
+end;
+
+procedure TSobo45_1.Edit113KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+//
+end;
+
+procedure TSobo45_1.Edit115KeyPress(Sender: TObject; var Key: Char);
+var Hands: THandle;
+    Edits: TFlatComboBox;
+begin
+  Hands:=Edit101.Handle;
+  Edits:=Edit101;
+  if Key=#13 Then begin
+    if Edits.DropDownCount=9 Then Edits.DropDownCount:=8 else
+    if Edits.DropDownCount=8 Then Edits.DropDownCount:=9;
+    if Edits.DropDownCount=9 Then begin
+      Key:=#0; SelectNext(ActiveControl as TWinControl, True, True);
+    end else
+    if Edits.DropDownCount=8 Then begin
+      Key:=#0; SendMessage(Hands, cb_ShowDropDown, 1, 0);
+    end;
+  end;
+end;
+
+procedure TSobo45_1.Edit115KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var Edits: TFlatComboBox;
+begin
+  Edits:=Edit101;
+  if Edits.DropDownCount=9 Then begin
+    if Key=VK_UP   Then begin PerForm(WM_NEXTDLGCTL,1,0); Key:=VK_Cancel; end;
+    if Key=VK_DOWN Then begin PerForm(WM_NEXTDLGCTL,0,0); Key:=VK_Cancel; end;
+  end;
+end;
+
+procedure TSobo45_1.Edit114KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 Then begin
+  if Edit103.Focused=True Then begin
+       Edit102.Text:='';
+    if Edit103.Text<>'' Then begin
+    Seak80.Edit1.Text:=Edit103.Text;
+    Seak80.FilterTing(Edit103.Text);
+    if Seak80.Query1.RecordCount=1 Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit102.Text:=Seak80.Query1Gcode.AsString;
+      Edit103.Text:=Seak80.Query1Gname.AsString;
+    end else
+    if Seak80.ShowModal=mrOK Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit102.Text:=Seak80.Query1Gcode.AsString;
+      Edit103.Text:=Seak80.Query1Gname.AsString;
+    end;
+    end else
+      SelectNext(ActiveControl as TWinControl, True, True);
+  end else
+  if Edit105.Focused=True Then begin
+       Edit104.Text:='';
+    if Edit105.Text<>'' Then begin
+    Seak80.Edit1.Text:=Edit105.Text;
+    Seak80.FilterTing(Edit105.Text);
+    if Seak80.Query1.RecordCount=1 Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit104.Text:=Seak80.Query1Gcode.AsString;
+      Edit105.Text:=Seak80.Query1Gname.AsString;
+      Button101Click(Self);
+    end else
+    if Seak80.ShowModal=mrOK Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit104.Text:=Seak80.Query1Gcode.AsString;
+      Edit105.Text:=Seak80.Query1Gname.AsString;
+      Button101Click(Self);
+    end;
+    end else
+      Button101Click(Self);
+  end;
+  end;
+end;
+
+procedure TSobo45_1.Edit114KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+//
+end;
+
+procedure TSobo45_1.DBGrid101KeyPress(Sender: TObject; var Key: Char);
+begin
+//
+end;
+
+procedure TSobo45_1.DBGrid101KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if mSqry.Active=True Then begin
+  if Key=VK_ESCAPE Then Edit101.SetFocus;
+  end;
+end;
+
+procedure TSobo45_1.DBGrid201KeyPress(Sender: TObject; var Key: Char);
+begin
+//
+end;
+
+procedure TSobo45_1.DBGrid201KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if nSqry.Active=True Then begin
+  if Key=VK_RETURN Then begin
+      Keybd_event(VK_DOWN,MapVirtualKey(VK_DOWN,0),0,0);
+      Keybd_event(VK_DOWN,MapVirtualKey(VK_DOWN,0),KEYEVENTF_KEYUP,0);
+  end;
+  if Key=VK_ESCAPE Then Edit101.SetFocus;
+  end;
+end;
+
+procedure TSobo45_1.DBGrid101TitleClick(Column: TColumnEh);
+begin
+  Base10.ColumnS9(mSqry,Column);
+end;
+
+procedure TSobo45_1.DBGrid201TitleClick(Column: TColumnEh);
+begin
+  Base10.ColumnS9(nSqry,Column);
+end;
+
+procedure TSobo45_1.DataSource1DataChange(Sender: TObject; Field: TField);
+begin
+  Panel009.Caption:=IntToStr(nSqry.RecNo)+'/'+IntToStr(nSqry.RecordCount);
+end;
+
+procedure TSobo45_1.DataSource2DataChange(Sender: TObject; Field: TField);
+begin
+  Panel009.Caption:=IntToStr(mSqry.RecNo)+'/'+IntToStr(mSqry.RecordCount);
+
+{ Button801Click(Self); //상단-초기화
+  Button802Click(Self); //상단-불러오기
+  Button803Click(Self); //상단-불러오기(저장된자료)
+
+  Button901Click(Self); //하단-초기화
+  Button902Click(Self); //하단-불러오기(바로전자료)
+  Button903Click(Self); //하단-불러오기(저장된자료)
+
+  if CheckBox1.Checked=False then
+  Button601Click(Self); }
+end;
+
+procedure TSobo45_1.Edit201Exit(Sender: TObject);
+begin
+{ if(Edit202.Focused=True)or(Edit203.Focused=True)Then begin
+  //Edit204.Value:=Edit202.Value * Edit203.Value;
+  end else
+  if(Edit205.Focused=True)or(Edit206.Focused=True)Then begin
+    Edit207.Value:=Edit205.Value * Edit206.Value;
+  end else
+  if(Edit208.Focused=True)or(Edit209.Focused=True)Then begin
+    Edit210.Value:=Edit208.Value * Edit209.Value;
+  end else
+  if(Edit211.Focused=True)or(Edit212.Focused=True)Then begin
+    Edit213.Value:=Edit211.Value * Edit212.Value;
+  end else
+  if(Edit214.Focused=True)or(Edit215.Focused=True)Then begin
+    Edit216.Value:=Edit214.Value * Edit215.Value;
+  end else
+  if(Edit218.Focused=True)or(Edit219.Focused=True)Then begin
+  //Edit220.Value:=Edit218.Value * Edit219.Value;
+  end else
+  if(Edit221.Focused=True)or(Edit222.Focused=True)Then begin
+    Edit223.Value:=Edit221.Value * Edit222.Value;
+  end else
+  if(Edit231.Focused=True)or(Edit232.Focused=True)Then begin
+    Edit224.Value:=Edit231.Value * Edit232.Value;
+  end else
+  if(Edit233.Focused=True)or(Edit234.Focused=True)Then begin
+    Edit235.Value:=Edit233.Value * Edit234.Value;
+  end; }
+
+    Edit201.Value:=DBGrid201.Columns[1].Footer.SumValue+
+                   DBGrid201.Columns[2].Footer.SumValue;
+
+    if mSqry.FieldByName('Gdang').AsString='1' then begin
+      if DBGrid201.Columns[1].Footer.SumValue < Edit202.Value then
+      Edit205.Value:=0 else
+      Edit205.Value:=DBGrid201.Columns[1].Footer.SumValue - Edit202.Value;
+    end else begin
+      if Edit201.Value < Edit202.Value then
+      Edit205.Value:=0 else
+      Edit205.Value:=Edit201.Value - Edit202.Value;
+    end;
+
+    Edit208.Value:=DBGrid201.Columns[2].Footer.SumValue;
+    Edit214.Value:=DBGrid201.Columns[4].Footer.SumValue;
+    Edit211.Value:=DBGrid201.Columns[3].Footer.SumValue;
+    Edit301.Value:=DBGrid201.Columns[5].Footer.SumValue;
+    Edit304.Value:=DBGrid201.Columns[6].Footer.SumValue;
+    Edit307.Value:=DBGrid201.Columns[7].Footer.SumValue;
+    Edit217.Value:=DBGrid201.Columns[12].Footer.SumValue;
+
+
+    if Edit221.Enabled=True then
+    if Edit201.Value < Edit218.Value then
+    Edit221.Value:=0 else
+    Edit221.Value:=Edit201.Value - Edit218.Value;
+
+    if Edit243.Enabled=True then
+    if Edit229.Value < Edit240.Value then
+    Edit243.Value:=0 else
+    Edit243.Value:=Edit229.Value - Edit240.Value;
+
+    if Edit233.Enabled=True then
+    Edit233.Value:=Edit229.Value;
+
+
+    if(Edit205.Value<>0)and(Edit206.Value<>0)then
+    Edit207.Value:=Edit205.Value * Edit206.Value;
+
+    if(Edit208.Value<>0)and(Edit209.Value<>0)then
+    Edit210.Value:=Edit208.Value * Edit209.Value;
+
+    if(Edit211.Value<>0)and(Edit212.Value<>0)then
+    Edit213.Value:=Edit211.Value * Edit212.Value;
+
+    if(Edit214.Value<>0)and(Edit215.Value<>0)then
+    Edit216.Value:=Edit214.Value * Edit215.Value;
+
+    if(Edit221.Value<>0)and(Edit222.Value<>0)then
+    Edit223.Value:=Edit221.Value * Edit222.Value;
+
+ // if(Edit231.Value<>0)and(Edit232.Value<>0)then
+ // Edit224.Value:=Edit231.Value * Edit232.Value;
+
+    if(Edit233.Value<>0)and(Edit234.Value<>0)then
+    Edit235.Value:=Edit233.Value * Edit234.Value;
+
+    if(Edit243.Value<>0)and(Edit244.Value<>0)then
+    Edit245.Value:=Edit243.Value * Edit244.Value;
+
+    if(Edit247.Value<>0)and(Edit248.Value<>0)then
+    Edit246.Value:=Edit247.Value * Edit248.Value;
+
+    if(Edit261.Value<>0)and(Edit262.Value<>0)then
+    Edit263.Value:=Edit261.Value * Edit262.Value;
+
+    if(Edit264.Value<>0)and(Edit265.Value<>0)then
+    Edit225.Value:=Edit264.Value * Edit265.Value;
+
+    if(Edit301.Value<>0)and(Edit302.Value<>0)then
+    Edit303.Value:=Edit301.Value * Edit302.Value;
+
+    if(Edit304.Value<>0)and(Edit305.Value<>0)then
+    Edit306.Value:=Edit304.Value * Edit305.Value;
+
+    if(Edit307.Value<>0)and(Edit308.Value<>0)then
+    Edit309.Value:=Edit307.Value * Edit308.Value;
+
+    Edit227.Value:=Edit204.Value + Edit207.Value + Edit210.Value + Edit246.Value+
+                   Edit213.Value + Edit216.Value + Edit217.Value + Edit242.Value+
+                   Edit220.Value + Edit223.Value + Edit224.Value + Edit245.Value+
+                   Edit225.Value + Edit235.Value + Edit236.Value + Edit237.Value+
+                   Edit263.Value + Edit266.Value +
+                   Edit303.Value + Edit306.Value + Edit309.Value + Edit312.Value;
+
+    if mSqry.FieldByName('Yesno').AsString='True' then begin
+    Edit228.Value:=Edit227.Value / 10;
+    Edit230.Value:=Edit226.Value + Edit227.Value + Edit228.Value;
+    end else begin
+    Edit228.Value:=0;
+    Edit230.Value:=Edit226.Value + Edit227.Value + Edit228.Value;
+    end;
+end;
+
+procedure TSobo45_1.DateEdit1ButtonClick(Sender: TObject);
+begin
+  DateEdit1.Date :=StrToDate(Edit101.Text+'.01');
+end;
+
+procedure TSobo45_1.DateEdit1AcceptDate(Sender: TObject; var ADate: TDateTime; var Action: Boolean);
+begin
+  Edit101.Text :=Copy(DateToStr(ADate),1,7);
+end;
+
+procedure TSobo45_1.Button701Click(Sender: TObject);
+begin
+  Seak80.Edit1.Text:=Edit103.Text;
+  if Edit103.Text='' then
+  Seak80.FilterTing('') else
+  Seak80.FilterTing(Edit103.Text);
+  if Seak80.Query1.RecordCount=1 Then begin
+    Edit102.Text:=Seak80.Query1Gcode.AsString;
+    Edit103.Text:=Seak80.Query1Gname.AsString;
+  end else
+  if Seak80.ShowModal=mrOK Then begin
+    Edit102.Text:=Seak80.Query1Gcode.AsString;
+    Edit103.Text:=Seak80.Query1Gname.AsString;
+  end;
+end;
+
+procedure TSobo45_1.Button702Click(Sender: TObject);
+begin
+  Seak80.Edit1.Text:=Edit105.Text;
+  if Edit105.Text='' then
+  Seak80.FilterTing('') else
+  Seak80.FilterTing(Edit105.Text);
+  if Seak80.Query1.RecordCount=1 Then begin
+    Edit104.Text:=Seak80.Query1Gcode.AsString;
+    Edit105.Text:=Seak80.Query1Gname.AsString;
+  end else
+  if Seak80.ShowModal=mrOK Then begin
+    Edit104.Text:=Seak80.Query1Gcode.AsString;
+    Edit105.Text:=Seak80.Query1Gname.AsString;
+  end;
+end;
+
+procedure TSobo45_1.DBGrid201DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumnEh;
+  State: TGridDrawState);
+begin
+  Edit201Exit(Self);
+end;
+
+procedure TSobo45_1.DBGrid101DblClick(Sender: TObject);
+begin
+  Sqlen:='Select Yesno From T2_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+mSqry.FieldByName('Gdate').AsString+#39+' and '+
+         'Gdate'+'<='+#39+mSqry.FieldByName('Gdate').AsString+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+  if Base10.Seek_Name(Sqlen)='1' then
+  CheckBox1.Checked:=True
+  else
+  CheckBox1.Checked:=False;
+
+  Panel004.Visible:=True;
+  Label001.Caption:=mSqry.FieldByName('Hcode').AsString;
+  Label002.Caption:=mSqry.FieldByName('Hname').AsString;
+  Label003.Caption:=mSqry.FieldByName('Gdate').AsString;
+
+  Button801Click(Self); //상단-초기화
+  if CheckBox1.Checked=True then begin
+  Button803Click(Self); //상단-불러오기(저장된자료)
+  end else begin
+  Button803Click(Self); //상단-불러오기(저장된자료)
+  Button811Click(Self); //상단-출고내역
+  Button812Click(Self); //상단-발송비
+//Button821Click(Self); //상단-출고내역:기타거래처
+  end;
+
+  if Panel200.Visible=True then begin
+    Button901Click(Self); //하단-초기화
+    Button902Click(Self); //하단-불러오기(바로전자료)
+    Button903Click(Self); //하단-불러오기(저장된자료)
+
+    if CheckBox1.Checked=False then
+    Button905Click(Self); //하단-잔액,입금액불러오기
+
+    if CheckBox1.Checked=False then
+    Button601Click(Self);
+
+    if CheckBox1.Checked=False then
+    Button602Click(Self);
+
+    if CheckBox1.Checked=False then
+    Button604Click(Self);
+
+    if CheckBox1.Checked=False then
+    Edit201Exit(Self);
+  end else begin
+    Button903Click(Self); //하단-불러오기(저장된자료)
+  end;
+
+//if CheckBox2.Checked=True then
+//Seak90.Button300Click(mSqry.FieldByName('Hcode').AsString);
+end;
+
+procedure TSobo45_1.DBGrid201MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+var St1: String;
+begin
+  St1:='';
+  DBGrid201.Hint := '';
+  if nSqry.FieldByName('Gsqut').AsFloat > 1 then begin
+    if DBGrid201.SelectedIndex = 5 then begin
+
+      Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+
+             'Gdate'+' ='+#39+mSqry.FieldByName('Gdate').AsString+'.'+nSqry.FieldByName('Gdate').AsString+#39+' and '+
+             'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.busyloop;
+      if Base10.Socket.body_data <> 'ERROR' then
+         Base10.Socket.MakeGrid(SGrid)
+      else ShowMessage(E_Open);
+
+      List1:=0;
+      While SGrid.RowCount-1 > List1 do begin
+      List1:=List1+1;
+        if List1=1 then
+        St1:='지역:'+SGrid.Cells[ 3,List1]+', 화물명:'+SGrid.Cells[ 4,List1]+
+             ', 서점명:'+SGrid.Cells[ 2,List1]+', 발송비:'+SGrid.Cells[ 5,List1]
+        else
+        St1:=St1+#13#10+
+             '지역:'+SGrid.Cells[ 3,List1]+', 화물명:'+SGrid.Cells[ 4,List1]+
+             ', 서점명:'+SGrid.Cells[ 2,List1]+', 발송비:'+SGrid.Cells[ 5,List1];
+      end;
+
+       DBGrid201.Hint := St1
+    end else begin
+       DBGrid201.Hint := '';
+    end;
+  end;
+end;
+
+procedure TSobo45_1.CheckBox2Click(Sender: TObject);
+begin
+  if CheckBox2.Checked=True then
+  Seak90.Show else
+  Seak90.Close;
+end;
+
+procedure TSobo45_1.FlatButton00Click(St1: String);
+begin
+
+  Seak90.Show;
+  Seak90.Button300Click(
+  Copy(mSqry.FieldByName('Gdate').AsString,1,5)+St1,mSqry.FieldByName('Hcode').AsString);
+
+//Panel004.Visible:=True;
+{ Label001.Caption:=mSqry.FieldByName('Hcode').AsString;
+  Label002.Caption:=mSqry.FieldByName('Hname').AsString;
+  Label003.Caption:=Copy(mSqry.FieldByName('Gdate').AsString,1,5)+St1;
+
+  Button801Click(Self); //상단-초기화
+  Button813Click(Label003.Caption); //상단-불러오기(저장된자료)
+
+  Button901Click(Self); //하단-초기화
+  Button902Click(Self); //하단-불러오기(바로전자료)
+  Button913Click(Label003.Caption); //하단-불러오기(저장된자료) }
+end;
+
+procedure TSobo45_1.FlatButton01Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clLime;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('01');
+end;
+
+procedure TSobo45_1.FlatButton02Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clLime;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('02');
+end;
+
+procedure TSobo45_1.FlatButton03Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clLime;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('03');
+end;
+
+procedure TSobo45_1.FlatButton04Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clLime;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('04');
+end;
+
+procedure TSobo45_1.FlatButton05Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clLime;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('05');
+end;
+
+procedure TSobo45_1.FlatButton06Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clLime;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('06');
+end;
+
+procedure TSobo45_1.FlatButton07Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clLime;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('07');
+end;
+
+procedure TSobo45_1.FlatButton08Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clLime;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('08');
+end;
+
+procedure TSobo45_1.FlatButton09Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clLime;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('09');
+end;
+
+procedure TSobo45_1.FlatButton10Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clLime;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('10');
+end;
+
+procedure TSobo45_1.FlatButton11Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clLime;
+  FlatButton12.Color:=clSilver;
+  FlatButton00Click('11');
+end;
+
+procedure TSobo45_1.FlatButton12Click(Sender: TObject);
+begin
+  FlatButton01.Color:=clSilver;
+  FlatButton02.Color:=clSilver;
+  FlatButton03.Color:=clSilver;
+  FlatButton04.Color:=clSilver;
+  FlatButton05.Color:=clSilver;
+  FlatButton06.Color:=clSilver;
+  FlatButton07.Color:=clSilver;
+  FlatButton08.Color:=clSilver;
+  FlatButton09.Color:=clSilver;
+  FlatButton10.Color:=clSilver;
+  FlatButton11.Color:=clSilver;
+  FlatButton12.Color:=clLime;
+  FlatButton00Click('12');
+end;
+
+procedure TSobo45_1.Button813Click(St0: String);
+var St1: String;
+begin
+  Sqlen:='Select Hcode,'+
+         'Gdate,Gqut1,Gqut2,Gqut3,Gqut4,Name1,Name2,Gname,Gcode,Gsqut,Gssum,Yesno,Gqut5,Gqut6,Gqut7 '+
+         'From T3_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+St0+'.00'+#39+' and '+
+         'Gdate'+'<='+#39+St0+'.99'+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    St1:=Copy(SGrid.Cells[ 1,List1],9,2);
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St1,'']),[loCaseInsensitive])=True then begin
+      nSqry.Edit;
+      if(SGrid.Cells[ 2,List1]<>'0')or(SGrid.Cells[ 3,List1]<>'0')then begin
+      nSqry.FieldByName('Gqut1').AsString:=SGrid.Cells[ 2,List1];
+      nSqry.FieldByName('Gqut2').AsString:=SGrid.Cells[ 3,List1];
+      end;
+      if SGrid.Cells[ 4,List1]<>'0' then
+      nSqry.FieldByName('Gqut3').AsString:=SGrid.Cells[ 4,List1];
+      if SGrid.Cells[ 5,List1]<>'0' then
+      nSqry.FieldByName('Gqut4').AsString:=SGrid.Cells[ 5,List1];
+      if SGrid.Cells[13,List1]<>'0' then
+      nSqry.FieldByName('Gqut5').AsString:=SGrid.Cells[13,List1];
+      if SGrid.Cells[14,List1]<>'0' then
+      nSqry.FieldByName('Gqut6').AsString:=SGrid.Cells[14,List1];
+      if SGrid.Cells[15,List1]<>'0' then
+      nSqry.FieldByName('Gqut7').AsString:=SGrid.Cells[15,List1];
+
+    //if CheckBox1.Checked=True then
+      if(SGrid.Cells[ 6,List1]<>'' )or(SGrid.Cells[ 7,List1]<>'' )or
+        (SGrid.Cells[ 8,List1]<>'' )or(SGrid.Cells[ 9,List1]<>'' )or
+        (SGrid.Cells[10,List1]<>'0')or(SGrid.Cells[11,List1]<>'0')then begin
+      nSqry.FieldByName('Name1').AsString:=SGrid.Cells[ 6,List1];
+      nSqry.FieldByName('Name2').AsString:=SGrid.Cells[ 7,List1];
+      nSqry.FieldByName('Gname').AsString:=SGrid.Cells[ 8,List1];
+      nSqry.FieldByName('Gcode').AsString:=SGrid.Cells[ 9,List1];
+      nSqry.FieldByName('Gsqut').AsString:=SGrid.Cells[10,List1];
+      nSqry.FieldByName('Gssum').AsString:=SGrid.Cells[11,List1];
+      nSqry.FieldByName('Yesno').AsString:='0';
+      if SGrid.Cells[12,List1]='1' then
+      nSqry.FieldByName('Yesno').AsString:=SGrid.Cells[12,List1];
+      end;
+      nSqry.Post;
+    { nSqry.Edit;
+      if SGrid.Cells[ 2,List1]<>'0' then
+      nSqry.FieldByName('Gqut1').AsString:=SGrid.Cells[ 2,List1];
+      if SGrid.Cells[ 3,List1]<>'0' then
+      nSqry.FieldByName('Gqut2').AsString:=SGrid.Cells[ 3,List1];
+      if SGrid.Cells[ 4,List1]<>'0' then
+      nSqry.FieldByName('Gqut3').AsString:=SGrid.Cells[ 4,List1];
+      if SGrid.Cells[ 5,List1]<>'0' then
+      nSqry.FieldByName('Gqut4').AsString:=SGrid.Cells[ 5,List1];
+      if SGrid.Cells[ 6,List1]<>'' then
+      nSqry.FieldByName('Name1').AsString:=SGrid.Cells[ 6,List1];
+      if SGrid.Cells[ 7,List1]<>'' then
+      nSqry.FieldByName('Name2').AsString:=SGrid.Cells[ 7,List1];
+      if SGrid.Cells[ 8,List1]<>'' then
+      nSqry.FieldByName('Gname').AsString:=SGrid.Cells[ 8,List1];
+      if SGrid.Cells[ 9,List1]<>'' then
+      nSqry.FieldByName('Gcode').AsString:=SGrid.Cells[ 9,List1];
+      if SGrid.Cells[10,List1]<>'0' then
+      nSqry.FieldByName('Gsqut').AsString:=SGrid.Cells[10,List1];
+      if SGrid.Cells[11,List1]<>'0' then
+      nSqry.FieldByName('Gssum').AsString:=SGrid.Cells[11,List1];
+      nSqry.FieldByName('Yesno').AsString:='0';
+      if SGrid.Cells[12,List1]='1' then
+      nSqry.FieldByName('Yesno').AsString:=SGrid.Cells[12,List1];
+      nSqry.Post; }
+    end;
+  end;
+  nSqry.First;
+end;
+
+procedure TSobo45_1.Button913Click(St0: String);
+begin
+  Sqlen:='Select Hcode,'+
+         'Sum01,Sum02,Sum03,Sum04,Sum05,Sum06,Sum07,Sum08,Sum09,Sum10,'+
+         'Sum11,Sum12,Sum13,Sum14,Sum15,Sum16,Sum17,Sum18,Sum19,Sum20,'+
+         'Sum21,Sum22,Sum23,Sum24,Sum25,Sum26,Sum27,Sum28,Sum29,Sum30,'+
+         'Sum31,Sum32,Sum33,Sum34,Sum35,Sum36,Sum37,Sum40,Sum41,Sum42,'+
+         'Sum43,Sum44,Sum45,Sum46,Sum47,Sum48,Sum61,Sum62,Sum63,Sum64,'+
+         'Sum65,Sum66,Sum51,Sum52,Sum53,Sum54,Sum55,Sum56,Sum57,Sum58,'+
+         'Sum59,Sum67,Sum68,Gsusu,Vdate,Bigo1,Bigo2,Yesno From T2_Ssub Where '+D_Select+
+         'Gdate'+'>='+#39+St0+#39+' and '+
+         'Gdate'+'<='+#39+St0+#39+' and '+
+         'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  CheckBox1.Checked:=False;
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    Edit201.Value:=StrToIntDef(SGrid.Cells[ 1,List1],0);
+    if CheckBox3.Checked=False then
+    Edit202.Value:=StrToIntDef(SGrid.Cells[ 2,List1],0);
+    Edit203.Value:=StrToIntDef(SGrid.Cells[ 3,List1],0);
+    if CheckBox3.Checked=False then
+    Edit204.Value:=StrToIntDef(SGrid.Cells[ 4,List1],0);
+    Edit205.Value:=StrToIntDef(SGrid.Cells[ 5,List1],0);
+    if CheckBox3.Checked=False then
+    Edit206.Value:=StrToIntDef(SGrid.Cells[ 6,List1],0);
+    Edit207.Value:=StrToIntDef(SGrid.Cells[ 7,List1],0);
+    Edit208.Value:=StrToIntDef(SGrid.Cells[ 8,List1],0);
+    if CheckBox3.Checked=False then
+    Edit209.Value:=StrToIntDef(SGrid.Cells[ 9,List1],0);
+    Edit210.Value:=StrToIntDef(SGrid.Cells[10,List1],0);
+    Edit211.Value:=StrToIntDef(SGrid.Cells[11,List1],0);
+    if CheckBox3.Checked=False then
+    Edit212.Value:=StrToIntDef(SGrid.Cells[12,List1],0);
+    Edit213.Value:=StrToIntDef(SGrid.Cells[13,List1],0);
+    Edit214.Value:=StrToIntDef(SGrid.Cells[14,List1],0);
+    if CheckBox3.Checked=False then
+    Edit215.Value:=StrToIntDef(SGrid.Cells[15,List1],0);
+    Edit216.Value:=StrToIntDef(SGrid.Cells[16,List1],0);
+    Edit217.Value:=StrToIntDef(SGrid.Cells[17,List1],0);
+    if CheckBox3.Checked=False then
+    Edit218.Value:=StrToIntDef(SGrid.Cells[18,List1],0);
+    Edit219.Value:=StrToIntDef(SGrid.Cells[19,List1],0);
+    if CheckBox3.Checked=False then
+    Edit220.Value:=StrToIntDef(SGrid.Cells[20,List1],0);
+    Edit221.Value:=StrToIntDef(SGrid.Cells[21,List1],0);
+    if CheckBox3.Checked=False then
+    Edit222.Value:=StrToIntDef(SGrid.Cells[22,List1],0);
+    Edit223.Value:=StrToIntDef(SGrid.Cells[23,List1],0);
+    if CheckBox3.Checked=False then
+    Edit224.Value:=StrToIntDef(SGrid.Cells[24,List1],0);
+    if CheckBox3.Checked=False then
+    Edit225.Value:=StrToIntDef(SGrid.Cells[25,List1],0);
+    Edit226.Value:=StrToIntDef(SGrid.Cells[26,List1],0);
+    Edit227.Value:=StrToIntDef(SGrid.Cells[27,List1],0);
+    Edit228.Value:=StrToIntDef(SGrid.Cells[28,List1],0);
+    Edit229.Value:=StrToIntDef(SGrid.Cells[29,List1],0);
+    Edit230.Value:=StrToIntDef(SGrid.Cells[30,List1],0);
+    Edit231.Value:=StrToIntDef(SGrid.Cells[31,List1],0);
+    Edit232.Value:=StrToIntDef(SGrid.Cells[32,List1],0);
+    Edit233.Value:=StrToIntDef(SGrid.Cells[33,List1],0);
+    if CheckBox3.Checked=False then
+    Edit234.Value:=StrToIntDef(SGrid.Cells[34,List1],0);
+    Edit235.Value:=StrToIntDef(SGrid.Cells[35,List1],0);
+    Edit236.Value:=StrToIntDef(SGrid.Cells[36,List1],0);
+    Edit237.Value:=StrToIntDef(SGrid.Cells[37,List1],0);
+
+    if CheckBox3.Checked=False then
+    Edit240.Value:=StrToIntDef(SGrid.Cells[38,List1],0);
+    Edit241.Value:=StrToIntDef(SGrid.Cells[39,List1],0);
+    if CheckBox3.Checked=False then
+    Edit242.Value:=StrToIntDef(SGrid.Cells[40,List1],0);
+    Edit243.Value:=StrToIntDef(SGrid.Cells[41,List1],0);
+    if CheckBox3.Checked=False then
+    Edit244.Value:=StrToIntDef(SGrid.Cells[42,List1],0);
+    Edit245.Value:=StrToIntDef(SGrid.Cells[43,List1],0);
+    Edit246.Value:=StrToIntDef(SGrid.Cells[44,List1],0);
+    Edit247.Value:=StrToIntDef(SGrid.Cells[45,List1],0);
+  //if CheckBox3.Checked=False then
+    Edit248.Value:=StrToIntDef(SGrid.Cells[46,List1],0);
+
+    Edit261.Value:=StrToIntDef(SGrid.Cells[47,List1],0);
+    if CheckBox3.Checked=False then
+    Edit262.Value:=StrToIntDef(SGrid.Cells[48,List1],0);
+    Edit263.Value:=StrToIntDef(SGrid.Cells[49,List1],0);
+    Edit264.Value:=StrToIntDef(SGrid.Cells[50,List1],0);
+    if CheckBox3.Checked=False then
+    Edit265.Value:=StrToIntDef(SGrid.Cells[51,List1],0);
+    Edit266.Value:=StrToIntDef(SGrid.Cells[52,List1],0);
+
+    Edit301.Value:=StrToIntDef(SGrid.Cells[53,List1],0);
+  //if CheckBox3.Checked=False then
+    Edit302.Value:=StrToIntDef(SGrid.Cells[54,List1],0);
+    Edit303.Value:=StrToIntDef(SGrid.Cells[55,List1],0);
+    Edit304.Value:=StrToIntDef(SGrid.Cells[56,List1],0);
+  //if CheckBox3.Checked=False then
+    Edit305.Value:=StrToIntDef(SGrid.Cells[57,List1],0);
+    Edit306.Value:=StrToIntDef(SGrid.Cells[58,List1],0);
+    Edit307.Value:=StrToIntDef(SGrid.Cells[59,List1],0);
+  //if CheckBox3.Checked=False then
+    Edit308.Value:=StrToIntDef(SGrid.Cells[60,List1],0);
+    Edit309.Value:=StrToIntDef(SGrid.Cells[61,List1],0);
+
+    Edit310.Text :=SGrid.Cells[62,List1];
+    Edit312.Value:=StrToIntDef(SGrid.Cells[63,List1],0);
+
+    Edit902.Value:=StrToIntDef(SGrid.Cells[64,List1],0);
+    Edit901.Text :=SGrid.Cells[65,List1];
+
+    Edit238.Text :=SGrid.Cells[66,List1];
+    Edit239.Text :=SGrid.Cells[67,List1];
+    if SGrid.Cells[68,List1]='1' then
+    CheckBox1.Checked:=True;
+  end;
+end;
+
+procedure TSobo45_1.DBGrid201Columns10UpdateData(Sender: TObject;
+  var Text: String; var Value: Variant; var UseText, Handled: Boolean);
+var Sq1,Sq2,Sq3,Sq4: String;
+begin
+  if nSqry.Active=True Then begin
+    Sqlen := 'Select Gdate From T3_Ssub Where '+D_Select+'Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+    Translate(Sqlen, '@Gdate', Label003.Caption+'.'+nSqry.FieldByName('Gdate').AsString);
+    Translate(Sqlen, '@Hcode', Label001.Caption);
+    if Base10.Seek_Name(Sqlen)='' Then begin
+
+      Sqlon := 'INSERT INTO T3_Ssub '+
+      '( Gdate, Hcode, Gqut1, Gqut2, Gqut3, Gqut4, Gqut5, Gqut6, Gqut7, '+
+      '  Gname, Name1, Name2, Gcode, Gsqut, Gssum, Yesno  ) VALUES ';
+      Sq1 :=
+      '(''@Gdate'',''@Hcode'',  @Gqut1  ,  @Gqut2  , @Gqut3 , @Gqut4 , @Gqut5 , @Gqut6 , @Gqut7 , '+
+      ' ''@Gname'',''@Name1'',''@Name2'',''@Gcode'', @Gsqut , @Gssum ,''@Yesno'' )';
+
+      Translate(Sq1, '@Gdate', Label003.Caption+'.'+nSqry.FieldByName('Gdate').AsString);
+      Translate(Sq1, '@Hcode', Label001.Caption);
+      TransAuto(Sq1, '@Gqut1', nSqry.FieldByName('Gqut1').AsString);
+      TransAuto(Sq1, '@Gqut2', nSqry.FieldByName('Gqut2').AsString);
+      TransAuto(Sq1, '@Gqut3', nSqry.FieldByName('Gqut3').AsString);
+      TransAuto(Sq1, '@Gqut4', nSqry.FieldByName('Gqut4').AsString);
+      TransAuto(Sq1, '@Gqut5', nSqry.FieldByName('Gqut5').AsString);
+      TransAuto(Sq1, '@Gqut6', nSqry.FieldByName('Gqut6').AsString);
+      TransAuto(Sq1, '@Gqut7', nSqry.FieldByName('Gqut7').AsString);
+      Translate(Sq1, '@Gname', nSqry.FieldByName('Gname').AsString);
+      Translate(Sq1, '@Name1', nSqry.FieldByName('Name1').AsString);
+      Translate(Sq1, '@Name2', nSqry.FieldByName('Name2').AsString);
+      Translate(Sq1, '@Gcode', nSqry.FieldByName('Gcode').AsString);
+      TransAuto(Sq1, '@Gsqut', nSqry.FieldByName('Gsqut').AsString);
+      TransAuto(Sq1, '@Gssum', nSqry.FieldByName('Gssum').AsString);
+      if nSqry.FieldByName('Yesno').AsString='1' then
+      Translate(Sq1, '@Yesno', '0') else
+      Translate(Sq1, '@Yesno', '1');
+
+      Sqlen:=Sqlon+Sq1;
+
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.BusyLoop;
+      if Base10.Socket.Body_Data = 'ERROR' then begin
+        ShowMessage(E_Insert);
+        Exit;
+      end;
+
+    end else begin
+
+      Sq1 := 'UPDATE T3_Ssub SET '+
+      'Gqut1=  @Gqut1  ,Gqut2=  @Gqut2  ,Gqut3=  @Gqut3  ,Gqut4=  @Gqut4  ,'+
+      'Gqut5=  @Gqut5  ,Gqut6=  @Gqut6  ,Gqut7=  @Gqut7  ,Gname=''@Gname'',';
+      Sq2 :=
+      'Name1=''@Name1'',Name2=''@Name2'',Gcode=''@Gcode'',Gsqut=  @Gsqut  ,'+
+      'Gssum=  @Gssum  ,Yesno=''@Yesno'' WHERE Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+
+      Translate(Sq2, '@Gdate', Label003.Caption+'.'+nSqry.FieldByName('Gdate').AsString);
+      Translate(Sq2, '@Hcode', Label001.Caption);
+      TransAuto(Sq1, '@Gqut1', nSqry.FieldByName('Gqut1').AsString);
+      TransAuto(Sq1, '@Gqut2', nSqry.FieldByName('Gqut2').AsString);
+      TransAuto(Sq1, '@Gqut3', nSqry.FieldByName('Gqut3').AsString);
+      TransAuto(Sq1, '@Gqut4', nSqry.FieldByName('Gqut4').AsString);
+      TransAuto(Sq1, '@Gqut5', nSqry.FieldByName('Gqut5').AsString);
+      TransAuto(Sq1, '@Gqut6', nSqry.FieldByName('Gqut6').AsString);
+      TransAuto(Sq1, '@Gqut7', nSqry.FieldByName('Gqut7').AsString);
+      Translate(Sq1, '@Gname', nSqry.FieldByName('Gname').AsString);
+      Translate(Sq2, '@Name1', nSqry.FieldByName('Name1').AsString);
+      Translate(Sq2, '@Name2', nSqry.FieldByName('Name2').AsString);
+      Translate(Sq2, '@Gcode', nSqry.FieldByName('Gcode').AsString);
+      TransAuto(Sq2, '@Gsqut', nSqry.FieldByName('Gsqut').AsString);
+      TransAuto(Sq2, '@Gssum', nSqry.FieldByName('Gssum').AsString);
+      if nSqry.FieldByName('Yesno').AsString='1' then
+      Translate(Sq2, '@Yesno', '0') else
+      Translate(Sq2, '@Yesno', '1');
+
+      Sqlen:=Sq1+Sq2;
+
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.BusyLoop;
+      if Base10.Socket.Body_Data = 'ERROR' then begin
+        ShowMessage(E_Update);
+        Exit;
+      end;
+
+    end;
+  end;
+end;
+
+procedure TSobo45_1.Button302Click(Sender: TObject);
+begin
+  if Button302.Caption='보이기' then begin
+     Button302.Caption:='감추기';
+     Panel002.Height:=253;
+     Panel003.Height:=253;
+     Panel200.Visible:=True;
+
+     Button901Click(Self); //하단-초기화
+     Button902Click(Self); //하단-불러오기(바로전자료)
+     Button903Click(Self); //하단-불러오기(저장된자료)
+
+     if CheckBox1.Checked=False then
+     Button601Click(Self);
+
+     if CheckBox1.Checked=False then
+     Button602Click(Self);
+
+     if CheckBox1.Checked=False then
+     Edit201Exit(Self);
+  end else begin
+     Button302.Caption:='보이기';
+     Panel002.Height:=541;
+     Panel003.Height:=541;
+     Panel200.Visible:=False;
+  end;
+end;
+
+procedure TSobo45_1.Button603Click(Sender: TObject);
+var St1,St2,St3,St4,St5,St6,St7: String;
+    St9: Integer;
+    nSumX,nSumY: Double;
+    _S1_Ssub,_Sg_Csum,_Sv_Ghng: String;
+
+    D: TDate;
+    Year, Month, Day: Word;
+begin
+//if Base10.Seek_Ggeo(Edit107.Text)='X' Then Exit;
+
+  Tong40.Show;
+  Tong40.Update;
+
+  Base10.OpenShow(tSqry);
+
+  D:=StrToDateTime(Edit101.Text+'.01');
+  DecodeDate(D, Year,Month,Day);
+  Inc(Month);
+  if Month > 12 then begin
+    Inc(Year);
+    Month :=1;
+  end;
+  D:=EncodeDate(Year,Month,1)-1;
+  St2:=FormatDateTime('DD', D);
+
+  for St9 := 1 to 31 do begin
+    if St9=1  then St3:='01';
+    if St9=2  then St3:='02';
+    if St9=3  then St3:='03';
+    if St9=4  then St3:='04';
+    if St9=5  then St3:='05';
+    if St9=6  then St3:='06';
+    if St9=7  then St3:='07';
+    if St9=8  then St3:='08';
+    if St9=9  then St3:='09';
+    if St9=10 then St3:='10';
+    if St9=11 then St3:='11';
+    if St9=12 then St3:='12';
+    if St9=13 then St3:='13';
+    if St9=14 then St3:='14';
+    if St9=15 then St3:='15';
+    if St9=16 then St3:='16';
+    if St9=17 then St3:='17';
+    if St9=18 then St3:='18';
+    if St9=19 then St3:='19';
+    if St9=20 then St3:='20';
+    if St9=21 then St3:='21';
+    if St9=22 then St3:='22';
+    if St9=23 then St3:='23';
+    if St9=24 then St3:='24';
+    if St9=25 then St3:='25';
+    if St9=26 then St3:='26';
+    if St9=27 then St3:='27';
+    if St9=28 then St3:='28';
+    if St9=29 then St3:='29';
+    if St9=30 then St3:='30';
+    if St9=31 then St3:='31';
+
+    if St2 >= St3 then begin
+      tSqry.Append;
+      tSqry.FieldByName('Gcode').AsString:=Copy(Edit101.Text,1,7)+'.'+St3;
+      tSqry.Post;
+    end;
+  end;
+
+
+  St2:='B';
+
+  Button101.Caption:='';
+  St4:=''; St5:='';
+
+  St1:='Gdate'+'>='+#39+Edit101.Text+'.01'+#39+' and '+
+       'Gdate'+'<='+#39+Edit101.Text+'.31'+#39+' and '+
+       'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+       '('+'Bdate'+' is '+'null'+')'+' and '+
+       'Ocode'+' Like '+#39+'%'+St2+'%'+#39;
+
+  {-S1_Ssub-}
+  Sqlen :=
+  'Select Gdate,Scode,Gubun,Pubun,Bcode,Sum(Gsqut)as Gsqut,Sum(Gssum)as Gssum '+
+  'From S1_Ssub Where '+D_Select+St1+
+  ' Group By Gdate,Scode,Gubun,Pubun,Bcode ';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  ProgressBar1.Max:=SGrid.RowCount-1;
+  While SGrid.RowCount-1 > List1 do begin
+  ProgressBar1.Position:=ProgressBar1.Position+1;
+  List1:=List1+1;
+
+    T01:=StrToIntDef(SGrid.Cells[ 5,List1],0);
+    T02:=StrToIntDef(SGrid.Cells[ 6,List1],0);
+
+    St3:=SGrid.Cells[ 0,List1];
+    St4:=SGrid.Cells[ 4,List1];
+    St5:='';
+    St6:='';
+    St7:='';
+    if tSqry.Locate('Gcode',St3,[loCaseInsensitive])=False then begin
+      tSqry.Append;
+      tSqry.FieldByName('Gcode').AsString:=St3;
+      tSqry.FieldByName('Gname').AsString:=St4;
+      tSqry.FieldByName('Gdate').AsString:=St5;
+    end;
+
+    tSqry.Edit;
+
+    Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+    Translate(Sqlen, '@Gcode', St4);
+    Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+    T08:=StrToIntDef(Base10.Seek_Name(Sqlen),0);
+    if T08 < 0 then
+    T01:=0;
+    if T08 > 0 then
+    T01:=(T01*T08);
+
+    St3:=SGrid.Cells[ 2,List1];
+    St4:=SGrid.Cells[ 3,List1];
+    St5:=SGrid.Cells[ 1,List1];
+    if St5='Y' Then begin
+      if St4='반품' Then begin
+        tSqry.FieldByName('Gisum').AsFloat:=tSqry.FieldByName('Gisum').AsFloat+T01;
+      end else
+      if St3='입고' Then begin
+        tSqry.FieldByName('Giqut').AsFloat:=tSqry.FieldByName('Giqut').AsFloat+T01;
+      end;
+    end else begin
+      if St4='증정' Then begin
+        tSqry.FieldByName('Gjqut').AsFloat:=tSqry.FieldByName('Gjqut').AsFloat+T01;
+      end else
+      if St3='출고' Then begin
+        tSqry.FieldByName('Goqut').AsFloat:=tSqry.FieldByName('Goqut').AsFloat+T01;
+      end else
+      if St3='폐기' Then begin
+        if(St4='비품')Then begin
+          tSqry.FieldByName('Gpqut').AsFloat:=tSqry.FieldByName('Gpqut').AsFloat+T01;
+          tSqry.FieldByName('Gjsum').AsFloat:=tSqry.FieldByName('Gjsum').AsFloat+T01;
+        end else begin
+          tSqry.FieldByName('Gpqut').AsFloat:=tSqry.FieldByName('Gpqut').AsFloat+T01;
+          tSqry.FieldByName('Gbsum').AsFloat:=tSqry.FieldByName('Gbsum').AsFloat+T01;
+        end;
+      end else
+      if(St4='비품')or(St4='폐기')Then begin
+        if St5='X' Then begin
+          if(St4='비품')Then begin
+          tSqry.FieldByName('Gbqut').AsFloat:=tSqry.FieldByName('Gbqut').AsFloat+T01;
+          tSqry.FieldByName('Gjsum').AsFloat:=tSqry.FieldByName('Gjsum').AsFloat-T01;
+          end;
+          if(St4='폐기')Then begin
+          tSqry.FieldByName('Gpqut').AsFloat:=tSqry.FieldByName('Gpqut').AsFloat+T01;
+          end;
+        end else begin
+          if(St4='비품')Then begin
+          tSqry.FieldByName('Gbqut').AsFloat:=tSqry.FieldByName('Gbqut').AsFloat+T01;
+          tSqry.FieldByName('Gjsum').AsFloat:=tSqry.FieldByName('Gjsum').AsFloat-T01;
+          end;
+          if(St4='폐기')Then begin
+          tSqry.FieldByName('Gpqut').AsFloat:=tSqry.FieldByName('Gpqut').AsFloat+T01;
+          tSqry.FieldByName('Gjsum').AsFloat:=tSqry.FieldByName('Gjsum').AsFloat+T01;
+          end;
+        { if St5='Z' Then
+        //tSqry.FieldByName('Gbsum').AsFloat:=tSqry.FieldByName('Gbsum').AsFloat+T01;
+          tSqry.FieldByName('Gpqut').AsFloat:=tSqry.FieldByName('Gpqut').AsFloat+T01;
+          if St5='Z' Then
+          tSqry.FieldByName('Gjsum').AsFloat:=tSqry.FieldByName('Gjsum').AsFloat+T01; }
+        end;
+      end else
+      if St3='반품' Then begin
+        tSqry.FieldByName('Gbsum').AsFloat:=tSqry.FieldByName('Gbsum').AsFloat-T01;
+        tSqry.FieldByName('Gbqut').AsFloat:=tSqry.FieldByName('Gbqut').AsFloat+T01;
+      end;
+    end;
+    tSqry.Post;
+  end;
+
+
+  //---------------유통반품재고-----------------//
+  St1:='Bdate'+'>='+#39+Edit101.Text+'.01'+#39+' and '+
+       'Bdate'+'<='+#39+Edit101.Text+'.31'+#39+' and '+
+       'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+       'Ocode'+' Like '+#39+'%'+St2+'%'+#39;
+
+  {-S1_Ssub-}
+  Sqlen :=
+  'Select Bdate,Scode,Gubun,Pubun,Bcode,Sum(Gsqut)as Gsqut,Sum(Gssum)as Gssum '+
+  'From S1_Ssub Where '+D_Select+St1+
+  ' Group By Bdate,Scode,Gubun,Pubun,Bcode ';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  ProgressBar1.Max:=SGrid.RowCount-1;
+  While SGrid.RowCount-1 > List1 do begin
+  ProgressBar1.Position:=ProgressBar1.Position+1;
+  List1:=List1+1;
+
+    T01:=StrToIntDef(SGrid.Cells[ 5,List1],0);
+    T02:=StrToIntDef(SGrid.Cells[ 6,List1],0);
+
+    St3:=SGrid.Cells[ 0,List1];
+    St4:=SGrid.Cells[ 4,List1];
+    St5:='';
+    St6:='';
+    St7:='';
+    if tSqry.Locate('Gcode',St3,[loCaseInsensitive])=False then begin
+      tSqry.Append;
+      tSqry.FieldByName('Gcode').AsString:=St3;
+      tSqry.FieldByName('Gname').AsString:=St4;
+      tSqry.FieldByName('Gdate').AsString:=St5;
+    end;
+
+    tSqry.Edit;
+
+    Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+    Translate(Sqlen, '@Gcode', St4);
+    Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+    T08:=StrToIntDef(Base10.Seek_Name(Sqlen),0);
+    if T08 < 0 then
+    T01:=0;
+    if T08 > 0 then
+    T01:=(T01*T08);
+
+    St3:=SGrid.Cells[ 2,List1];
+    St4:=SGrid.Cells[ 3,List1];
+    St5:=SGrid.Cells[ 1,List1];
+    if St5='Y' Then begin
+      if St4='반품' Then begin
+        tSqry.FieldByName('Gisum').AsFloat:=tSqry.FieldByName('Gisum').AsFloat+T01;
+      end else
+      if St3='입고' Then begin
+        tSqry.FieldByName('Giqut').AsFloat:=tSqry.FieldByName('Giqut').AsFloat+T01;
+      end;
+    end else begin
+      if St4='증정' Then begin
+        tSqry.FieldByName('Gjqut').AsFloat:=tSqry.FieldByName('Gjqut').AsFloat+T01;
+      end else
+      if St3='출고' Then begin
+        tSqry.FieldByName('Goqut').AsFloat:=tSqry.FieldByName('Goqut').AsFloat+T01;
+      end else
+      if(St4='비품')or(St4='폐기')Then begin
+        if St5='X' Then begin
+          if(St4='비품')Then begin
+          tSqry.FieldByName('Gbqut').AsFloat:=tSqry.FieldByName('Gbqut').AsFloat+T01;
+          tSqry.FieldByName('Gjsum').AsFloat:=tSqry.FieldByName('Gjsum').AsFloat-T01;
+          end;
+          if(St4='폐기')Then begin
+          tSqry.FieldByName('Gpqut').AsFloat:=tSqry.FieldByName('Gpqut').AsFloat+T01;
+          end;
+        end else begin
+          if(St4='비품')Then begin
+          tSqry.FieldByName('Gbqut').AsFloat:=tSqry.FieldByName('Gbqut').AsFloat+T01;
+          tSqry.FieldByName('Gjsum').AsFloat:=tSqry.FieldByName('Gjsum').AsFloat-T01;
+          end;
+          if(St4='폐기')Then begin
+          tSqry.FieldByName('Gpqut').AsFloat:=tSqry.FieldByName('Gpqut').AsFloat+T01;
+          tSqry.FieldByName('Gjsum').AsFloat:=tSqry.FieldByName('Gjsum').AsFloat+T01;
+          end;
+        { if St5='Z' Then
+        //tSqry.FieldByName('Gbsum').AsFloat:=tSqry.FieldByName('Gbsum').AsFloat+T01;
+          tSqry.FieldByName('Gpqut').AsFloat:=tSqry.FieldByName('Gpqut').AsFloat+T01;
+          if St5='Z' Then
+          tSqry.FieldByName('Gjsum').AsFloat:=tSqry.FieldByName('Gjsum').AsFloat+T01; }
+        end;
+      end else
+      if St3='반품' Then begin
+        tSqry.FieldByName('Gbsum').AsFloat:=tSqry.FieldByName('Gbsum').AsFloat-T01;
+        tSqry.FieldByName('Gbqut').AsFloat:=tSqry.FieldByName('Gbqut').AsFloat+T01;
+      end;
+    end;
+    tSqry.Post;
+  end;
+  //---------------유통반품재고-----------------//
+
+
+  St1:='Gdate'+'>='+#39+Edit101.Text+'.01'+#39+' and '+
+       'Gdate'+'<='+#39+Edit101.Text+'.31'+#39+' and '+
+       'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+      '(Scode'+' ='+#39+'B'+#39+' or '+'Scode'+' ='+#39+'D'+#39+')';
+  //   'Scode'+' Like '+#39+'%'+St2+'%'+#39;
+
+  {-Sg_Csum-}
+  Sqlen :=
+  'Select Scode,Gdate,Gcode,Sum(Gbsum)as Gbsum '+
+  'From Sg_Csum Where '+D_Select+St1+
+  ' Group By Scode,Gdate,Gcode ';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+
+    T01:=StrToIntDef(SGrid.Cells[ 3,List1],0);
+
+    St3:=SGrid.Cells[ 1,List1];
+    St4:=SGrid.Cells[ 2,List1];
+    St5:='';
+    St6:='';
+    St7:='';
+    if tSqry.Locate('Gcode',St3,[loCaseInsensitive])=False then begin
+      tSqry.Append;
+      tSqry.FieldByName('Gcode').AsString:=St3;
+      tSqry.FieldByName('Gname').AsString:=St4;
+      tSqry.FieldByName('Gdate').AsString:=St5;
+    end;
+
+    tSqry.Edit;
+
+    Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+    Translate(Sqlen, '@Gcode', St4);
+    Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+    T08:=StrToIntDef(Base10.Seek_Name(Sqlen),0);
+    if T08 < 0 then
+    T01:=0;
+    if T08 > 0 then
+    T01:=(T01*T08);
+
+    if SGrid.Cells[ 0,List1]='D' then begin
+    tSqry.FieldByName('Gosum').AsFloat:=tSqry.FieldByName('Gosum').AsFloat+T01;
+    tSqry.FieldByName('Gpsum').AsFloat:=tSqry.FieldByName('Gpsum').AsFloat+T01;
+    end else
+    tSqry.FieldByName('Gpsum').AsFloat:=tSqry.FieldByName('Gpsum').AsFloat+T01;
+    tSqry.Post;
+  end;
+
+
+  {-Sv_Ghng-}
+  Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+          'Where '+D_Select+
+          'Gdate < '+#39+Edit101.Text+'.99'+#39+' and  '+
+          'Hcode = '+#39+mSqry.FieldByName('Hcode').AsString+#39;
+  St1:=Base10.Seek_Name(Sqlen);
+
+  {-In_Ssub-}
+  _S1_Ssub:='Gdate'+'> '+#39+St1+#39+' and '+
+            'Gdate'+'< '+#39+Edit101.Text+'.01'+#39+' and '+
+            'Ocode'+' ='+#39+'B'+#39+' and '+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  _Sg_Csum:='Gdate'+'> '+#39+St1+#39+' and '+
+            'Gdate'+'< '+#39+Edit101.Text+'.01'+#39+' and '+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and '+
+           '(Scode'+' ='+#39+'B'+#39+' or '+'Scode'+' ='+#39+'D'+#39+')';
+  //        'Scode'+' ='+#39+'B'+#39+' and '+
+
+  _Sv_Ghng:='Gdate'+' ='+#39+St1+#39+' and '+
+            'Scode'+' ='+#39+'B'+#39+' and '+
+            'Hcode'+' ='+#39+mSqry.FieldByName('Hcode').AsString+#39;
+
+  Tong40._Sv_Ghng_(_S1_Ssub,_Sg_Csum,_Sv_Ghng);
+
+  Base10.SpaceDel(sSqry,'Gcode','Gcode');
+
+  nSumX:=0;
+  nSumY:=0;
+
+  T03:=0;
+  T09:=0;
+
+  sSqry.First;
+  While sSqry.EOF=False do begin
+
+    if Base10.G4_Book.Locate('Hcode;Gcode',VarArrayOf([mSqry.FieldByName('Hcode').AsString,sSqry.FieldByName('Gcode').AsString]),[loCaseInsensitive])=true then begin
+
+      T01:=1;
+
+      Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+      Translate(Sqlen, '@Gcode', sSqry.FieldByName('Gcode').AsString);
+      Translate(Sqlen, '@Hcode', mSqry.FieldByName('Hcode').AsString);
+      T08:=StrToIntDef(Base10.Seek_Name(Sqlen),0);
+      if T08 < 0 then
+      T01:=0;
+      if T08 > 0 then
+      T01:=(T01*T08);
+
+      nSumX:=nSumX+(sSqry.FieldByName('GsumX').AsFloat*T01);
+      nSumY:=nSumY+(sSqry.FieldByName('Gbqut').AsFloat*T01);
+
+      if sSqry.FieldByName('GsumX').AsFloat > 0 then
+      T09:=T09+1;
+
+    end;
+    
+    sSqry.Next;
+  end;
+
+  tSqry.First;
+  While tSqry.EOF=False do begin
+
+    tSqry.Edit;
+    tSqry.FieldByName('GsumX').AsFloat:=nSumX;
+    tSqry.FieldByName('GsumY').AsFloat:=nSumX+
+    tSqry.FieldByName('Giqut').AsFloat- tSqry.FieldByName('Goqut').AsFloat-
+    tSqry.FieldByName('Gjqut').AsFloat+ tSqry.FieldByName('Gisum').AsFloat+
+    tSqry.FieldByName('Gbsum').AsFloat+ tSqry.FieldByName('Gpsum').AsFloat;
+
+    if tSqry.FieldByName('Gosum').AsFloat<>0 then
+    tSqry.FieldByName('GsumY').AsFloat:=tSqry.FieldByName('GsumY').AsFloat-
+    tSqry.FieldByName('Gosum').AsFloat;
+
+    tSqry.FieldByName('Gssum').AsFloat:=nSumY-
+    tSqry.FieldByName('Gisum').AsFloat+ tSqry.FieldByName('Gjsum').AsFloat+
+    tSqry.FieldByName('Gosum').AsFloat;
+
+    nSumX:=tSqry.FieldByName('GsumY').AsFloat;
+    nSumY:=tSqry.FieldByName('Gssum').AsFloat;
+    tSqry.Post;
+
+    St2:=Copy(tSqry.FieldByName('Gcode').AsString,9,2);
+    if nSqry.Locate('Gdate;Hcode',VarArrayOf([St2,'']),[loCaseInsensitive])=True then begin
+    nSqry.Edit;
+    nSqry.FieldByName('Gqut8').AsFloat:=tSqry.FieldByName('GsumY').AsFloat;
+  //nSqry.FieldByName('Gqut8').AsFloat:=tSqry.FieldByName('Gssum').AsFloat+
+  //                                    tSqry.FieldByName('GsumY').AsFloat;
+    nSqry.Post;
+    end;
+    T03:=T03+sSqry.FieldByName('Gssum').AsFloat;
+
+    tSqry.Next;
+  end;
+
+  Edit229.Value:=DBGrid201.Columns[8].Footer.SumValue;
+
+//if mSqry.FieldByName('Bcode').AsString='True' then
+//Edit247.Value:=T03;
+
+  tSqry.IndexName := 'IDX'+'GCODE'+'DOWN';
+  tSqry.First;
+
+  Edit243.Value:=0;
+  Edit245.Value:=0;
+  Edit201Exit(Self);
+
+  Tong40.Hide;
+{ Tong40.Free; }
+end;
+
+end.

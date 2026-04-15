@@ -1,0 +1,5354 @@
+unit Tong02;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  DBGrids, StdCtrls, ShellAPI, Buttons, IniFiles, ScktComp, ComCtrls,
+  Winsock, DBClient, SConnect, OleServer, Word97, ekbasereport, ekrtf,
+  ekfunc, DBGridEh;
+
+type
+  TTong20 = class(TForm)
+    BitBtn101: TBitBtn;
+    BitBtn102: TBitBtn;
+    Edit1: TComboBox;
+    WordApplication: TWordApplication;
+    EkRTF: TEkRTF;
+    EkUDFList1: TEkUDFList;
+    EkUDFList2: TEkUDFList;
+    procedure Print_00_00(Str: String);
+    procedure Print_00_01(Str: String);
+    procedure Zoom_Int_01(FormX: String);
+    procedure Zoom_Out_01(FormX: String);
+    procedure Chang_00_01(FormX: String);
+    procedure Chang_00_02(FormX: String);
+    procedure Srart_11_01(Sender: TObject);
+    procedure Srart_11_02(Sender: TObject);
+    procedure Srart_12_01(Sender: TObject);
+    procedure Srart_12_02(Sender: TObject);
+    procedure Srart_13_01(Sender: TObject);
+    procedure Srart_13_02(Sender: TObject);
+    procedure Srart_14_01(Sender: TObject);
+    procedure Srart_14_02(Sender: TObject);
+    procedure Srart_15_01(Sender: TObject);
+    procedure Srart_15_02(Sender: TObject);
+    procedure Srart_16_01(Sender: TObject);
+    procedure Srart_16_02(Sender: TObject);
+    procedure Srart_17_01(Sender: TObject);
+    procedure Srart_17_02(Sender: TObject);
+    procedure Srart_18_01(Sender: TObject);
+    procedure Srart_18_02(Sender: TObject);
+    procedure Srart_19_01(Sender: TObject);
+    procedure Srart_19_02(Sender: TObject);
+    procedure Srart_10_01(Sender: TObject);
+    procedure Srart_10_02(Sender: TObject);
+    procedure Srart_21_01(Sender: TObject);
+    procedure Srart_21_02(Sender: TObject);
+    procedure Srart_22_01(Sender: TObject);
+    procedure Srart_22_02(Sender: TObject);
+    procedure Srart_23_01(Sender: TObject);
+    procedure Srart_23_02(Sender: TObject);
+    procedure Srart_24_01(Sender: TObject);
+    procedure Srart_24_02(Sender: TObject);
+    procedure Srart_25_01(Sender: TObject);
+    procedure Srart_25_02(Sender: TObject);
+    procedure Srart_26_01(Sender: TObject);
+    procedure Srart_26_02(Sender: TObject);
+    procedure Srart_27_01(Sender: TObject);
+    procedure Srart_27_02(Sender: TObject);
+    procedure Srart_28_01(Sender: TObject);
+    procedure Srart_28_02(Sender: TObject);
+    procedure Srart_29_01(Sender: TObject);
+    procedure Srart_29_02(Sender: TObject);
+    procedure Srart_20_01(Sender: TObject);
+    procedure Srart_20_02(Sender: TObject);
+    procedure Srart_31_01(Sender: TObject);
+    procedure Srart_31_02(Sender: TObject);
+    procedure Srart_32_01(Sender: TObject);
+    procedure Srart_32_02(Sender: TObject);
+    procedure Srart_33_01(Sender: TObject);
+    procedure Srart_33_02(Sender: TObject);
+    procedure Srart_34_01(Sender: TObject);
+    procedure Srart_34_02(Sender: TObject);
+    procedure Srart_35_01(Sender: TObject);
+    procedure Srart_35_02(Sender: TObject);
+    procedure Srart_36_01(Sender: TObject);
+    procedure Srart_36_02(Sender: TObject);
+    procedure Srart_37_01(Sender: TObject);
+    procedure Srart_37_02(Sender: TObject);
+    procedure Srart_38_01(Sender: TObject);
+    procedure Srart_38_02(Sender: TObject);
+    procedure Srart_39_01(Sender: TObject);
+    procedure Srart_39_02(Sender: TObject);
+    procedure Srart_30_01(Sender: TObject);
+    procedure Srart_30_02(Sender: TObject);
+    procedure Srart_41_01(Sender: TObject);
+    procedure Srart_41_02(Sender: TObject);
+    procedure Srart_42_01(Sender: TObject);
+    procedure Srart_42_02(Sender: TObject);
+    procedure Srart_43_01(Sender: TObject);
+    procedure Srart_43_02(Sender: TObject);
+    procedure Srart_44_01(Sender: TObject);
+    procedure Srart_44_02(Sender: TObject);
+    procedure Srart_45_01(Sender: TObject);
+    procedure Srart_45_02(Sender: TObject);
+    procedure Srart_46_01(Sender: TObject);
+    procedure Srart_46_02(Sender: TObject);
+    procedure Srart_47_01(Sender: TObject);
+    procedure Srart_47_02(Sender: TObject);
+    procedure Srart_48_01(Sender: TObject);
+    procedure Srart_48_02(Sender: TObject);
+    procedure Srart_49_01(Sender: TObject);
+    procedure Srart_49_02(Sender: TObject);
+    procedure Srart_40_01(Sender: TObject);
+    procedure Srart_40_02(Sender: TObject);
+    procedure Srart_51_01(Sender: TObject);
+    procedure Srart_51_02(Sender: TObject);
+    procedure Srart_52_01(Sender: TObject);
+    procedure Srart_52_02(Sender: TObject);
+    procedure Srart_53_01(Sender: TObject);
+    procedure Srart_53_02(Sender: TObject);
+    procedure Srart_54_01(Sender: TObject);
+    procedure Srart_54_02(Sender: TObject);
+    procedure Srart_55_01(Sender: TObject);
+    procedure Srart_55_02(Sender: TObject);
+    procedure Srart_56_01(Sender: TObject);
+    procedure Srart_56_02(Sender: TObject);
+    procedure Srart_57_01(Sender: TObject);
+    procedure Srart_57_02(Sender: TObject);
+    procedure Srart_58_01(Sender: TObject);
+    procedure Srart_58_02(Sender: TObject);
+    procedure Srart_59_01(Sender: TObject);
+    procedure Srart_59_02(Sender: TObject);
+    procedure Srart_50_01(Sender: TObject);
+    procedure Srart_50_02(Sender: TObject);
+    procedure Srart_61_01(Sender: TObject);
+    procedure Srart_61_02(Sender: TObject);
+    procedure Srart_62_01(Sender: TObject);
+    procedure Srart_62_02(Sender: TObject);
+    procedure Srart_63_01(Sender: TObject);
+    procedure Srart_63_02(Sender: TObject);
+    procedure Srart_64_01(Sender: TObject);
+    procedure Srart_64_02(Sender: TObject);
+    procedure Srart_65_01(Sender: TObject);
+    procedure Srart_65_02(Sender: TObject);
+    procedure Srart_66_01(Sender: TObject);
+    procedure Srart_66_02(Sender: TObject);
+    procedure Srart_67_01(Sender: TObject);
+    procedure Srart_67_02(Sender: TObject);
+    procedure Srart_68_01(Sender: TObject);
+    procedure Srart_68_02(Sender: TObject);
+    procedure Srart_69_01(Sender: TObject);
+    procedure Srart_69_02(Sender: TObject);
+    procedure Srart_60_01(Sender: TObject);
+    procedure Srart_60_02(Sender: TObject);
+    procedure DBGridFont1(Grid1,Grid2: TDBGrid; StBar1,StBar2: TStatusBar);
+    procedure DBGridFont2(Grid1: TDBGrid; StBar1: TStatusBar);
+    procedure DBGridFont3(Grid1,Grid2: TDBGridEh);
+    procedure DBGridFont4(Grid1: TDBGridEh);
+    function ColorToHtml(mColor: TColor): string;
+    function StrToHtml(mStr: string; mFont: TFont = nil): string;
+    function DBGridToHtmlTable(mDBGrid: TDBGridEh; mStrings: TStrings; mCaption: TCaption = ''): Boolean;
+    function DBGridToHtm2Table(mDBGrid: TDBGrid; mStrings: TStrings; mCaption: TCaption = ''): Boolean;
+    function DBGridSaveHtml(mDBGrid: TDBGridEh; mCaption: TCaption = ''): Boolean;
+    function DBGridSaveHtm2(mDBGrid: TDBGrid; mCaption: TCaption = ''): Boolean;
+    function PrinJing(St1,St2,St3:String;Sq1:Double): Double;
+    function PrinSing(St1,St2,St3:String;Sq1:Double): Double;
+    function PrinYing(Sender: TObject): Double;
+    function PrinZing(Sender: TObject): Double;
+    function PrinRat1(St3,St1,St2:String): Double;
+    function HanglToHanja(in_Num: Int64; is_HanJa, is_Won: Boolean): string;
+    function GetIPs: TStrings;
+    function SetIPs(nPcip: string): TStrings;
+    procedure EkUDFList1Functions0Calculate(Sender: TObject;
+      Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+    procedure EkUDFList1Functions1Calculate(Sender: TObject;
+      Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+    procedure EkUDFList1Functions2Calculate(Sender: TObject;
+      Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+    procedure EkUDFList1Functions3Calculate(Sender: TObject;
+      Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+    procedure EkUDFList1Functions4Calculate(Sender: TObject;
+      Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+    procedure EkUDFList2Functions0Calculate(Sender: TObject;
+      Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+    procedure EkUDFList2Functions1Calculate(Sender: TObject;
+      Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+    procedure EkUDFList2Functions2Calculate(Sender: TObject;
+      Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Tong20: TTong20;
+  p_Acode: String;
+  p_Recno: Integer;
+
+implementation
+
+{$R *.DFM}
+
+uses Base01,Tong04,TcpLib,Chul,
+     Subu11,Subu12,Subu13,Subu14,Subu15,Subu16,Subu17,Subu18,Subu19,Subu10,
+     Subu21,Subu22,Subu23,Subu24,Subu25,Subu26,Subu27,Subu28,Subu29,Subu20,
+     Subu31,Subu32,Subu33,Subu34,Subu35,Subu36,Subu37,Subu38,Subu39,Subu30,
+     Subu39_1,Subu39_2,
+     Subu41,Subu42,Subu43,Subu44,Subu45,Subu46,Subu47,Subu48,Subu49,Subu40,
+     Subu51,Subu52,Subu53,Subu54,Subu55,Subu56,Subu57,Subu58,Subu59,Subu50,
+     Subu61,Subu62,Subu63,Subu64,Subu65,Subu66,Subu67,Subu68,Subu69,Subu60;
+
+procedure TTong20.Print_00_00(Str: String);
+var GridX: TDBGrid;
+begin
+{ try
+    Wordapplication.Connect;
+  except
+    MessageDlg('Ms-Word 를 설치한 곳에서 실행됩니다. ', mtError, [mbOk], 0);
+    Exit;
+  end;
+  if Str='11-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-01-11.rtf');
+    Print_00_01('Chul-01-11.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='12-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-01-21.rtf');
+    Print_00_01('Chul-01-21.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='13-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-01-31.rtf');
+    Print_00_01('Chul-01-31.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='14-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-01-41.rtf');
+    Print_00_01('Chul-01-41.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='15-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-01-51.rtf');
+    Print_00_01('Chul-01-51.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='21-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-11.rtf');
+    Print_00_01('Chul-02-11.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gssum',Sobo21.StBar101.Panels.Items[4].Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='22-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-21.rtf');
+    Print_00_01('Chul-02-21.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gssum',Sobo22.StBar101.Panels.Items[4].Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='23-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-31.rtf');
+    Print_00_01('Chul-02-31.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gssum',Sobo23.StBar101.Panels.Items[4].Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='24-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-41.rtf');
+    Print_00_01('Chul-02-41.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo24.Edit101.Text+' - '+Sobo24.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='24-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-42.rtf');
+    Print_00_01('Chul-02-42.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo24.Edit101.Text+' - '+Sobo24.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='25-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-51.rtf');
+    Print_00_01('Chul-02-51.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo25.Edit101.Text+' - '+Sobo25.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='25-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-52.rtf');
+    Print_00_01('Chul-02-52.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo25.Edit101.Text+' - '+Sobo25.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='26-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-61.rtf');
+    Print_00_01('Chul-02-61.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo26.Edit101.Text+' - '+Sobo26.Edit102.Text);
+    EkRTF.CreateVar('_gname','제작구분 : '+Sobo26.Edit103.Text);
+    EkRTF.CreateVar('_oname','도 서 명 : '+Sobo26.Edit105.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='26-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-62.rtf');
+    Print_00_01('Chul-02-62.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo26.Edit201.Text+' - '+Sobo26.Edit202.Text);
+    EkRTF.CreateVar('_gname','제작구분 : '+Sobo26.Edit103.Text);
+    EkRTF.CreateVar('_oname','거래처명 : '+Sobo26.Edit105.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='27-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-71.rtf');
+    Print_00_01('Chul-02-71.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo27.Edit101.Text+' - '+Sobo27.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='27-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-72.rtf');
+    Print_00_01('Chul-02-72.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo27.Edit101.Text+' - '+Sobo27.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='28-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-81.rtf');
+    Print_00_01('Chul-02-81.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo28.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','저 자 명 : '+Sobo28.Edit104.Text+' - '+Sobo28.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo28.Edit101.Text+' - '+Sobo28.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='28-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-02-82.rtf');
+    Print_00_01('Chul-02-82.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo28.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','저 자 명 : '+Sobo28.Edit104.Text+' - '+Sobo28.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo28.Edit101.Text+' - '+Sobo28.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='31-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    GridX:=Sobo31.DBGrid101;
+    Print_00_01('Chul-03-11.rtf');
+    Print_00_01('Chul-03-11.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo31.Edit101.Text+' - '+Sobo31.Edit102.Text);
+    if Sobo31.Panel103.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','입고처 거래 원장') else
+    EkRTF.CreateVar('_title','거래처 거래 원장');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[7].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[8].Title.Caption);
+    EkRTF.CreateVar('_gname',Sobo31.Panel103.Caption+' : '+Sobo31.Edit104.Text);
+    EkRTF.CreateVar('_oname',Sobo31.Panel104.Caption+' : '+Sobo31.Edit106.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='31-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    GridX:=Sobo31.DBGrid201;
+    Print_00_01('Chul-03-12.rtf');
+    Print_00_01('Chul-03-12.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if(Sobo31.Button101.Caption<>'') Then
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo31.Button101.Caption) else
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo31.Edit101.Text+' - '+Sobo31.Edit102.Text);
+    if Sobo31.Panel103.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','입고처 거래 원장') else
+    EkRTF.CreateVar('_title','거래처 거래 원장');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[7].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[8].Title.Caption);
+    EkRTF.CreateVar('_gname',Sobo31.Panel103.Caption+' : '+Sobo31.Edit104.Text);
+    EkRTF.CreateVar('_oname',Sobo31.Panel104.Caption+' : '+Sobo31.Edit106.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='32-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-03-21.rtf');
+    Print_00_01('Chul-03-21.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo32.Edit101.Text+' - '+Sobo32.Edit102.Text);
+    EkRTF.CreateVar('_gname',Sobo32.Panel102.Caption+' : '+Sobo32.Edit103.Text);
+    EkRTF.CreateVar('_oname',Sobo32.Panel103.Caption+' : '+Sobo32.Edit104.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='32-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-03-22.rtf');
+    Print_00_01('Chul-03-22.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if(Sobo32.Button101.Caption<>'') Then
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo32.Button101.Caption) else
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo32.Edit101.Text+' - '+Sobo32.Edit102.Text);
+    EkRTF.CreateVar('_gname',Sobo32.Panel102.Caption+' : '+Sobo32.Edit103.Text);
+    EkRTF.CreateVar('_oname',Sobo32.Panel103.Caption+' : '+Sobo32.Edit104.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='33-01' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    GridX:=Sobo33.DBGrid101;
+    Print_00_01('Chul-03-31.rtf');
+    Print_00_01('Chul-03-31.doc');
+    if GridX.Columns.Items[5].Title.Caption<>'증정수량' Then begin
+    Print_00_01('Chul-03-33.rtf');
+    Print_00_01('Chul-03-33.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo33.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','기간별 미수 원장') else
+    EkRTF.CreateVar('_title','기간별 미수 원장');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    if Sobo33.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname',Sobo33.Panel102.Caption+' : '+Sobo33.Edit104.Text+' - '+Sobo33.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo33.Edit101.Text+' - '+Sobo33.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='33-02' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    GridX:=Sobo33.DBGrid201;
+    Print_00_01('Chul-03-32.rtf');
+    Print_00_01('Chul-03-32.doc');
+    if GridX.Columns.Items[5].Title.Caption<>'증정수량' Then begin
+    Print_00_01('Chul-03-34.rtf');
+    Print_00_01('Chul-03-34.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo33.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','기간별 미수 원장') else
+    EkRTF.CreateVar('_title','기간별 미수 원장');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    if Sobo33.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname',Sobo33.Panel102.Caption+' : '+Sobo33.Edit104.Text+' - '+Sobo33.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo33.Edit101.Text+' - '+Sobo33.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='34-01' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    GridX:=Sobo34.DBGrid101;
+    Print_00_01('Chul-03-41.rtf');
+    Print_00_01('Chul-03-41.doc');
+    if GridX.Columns.Items[6].Title.Caption<>'폐기수량' Then begin
+    Print_00_01('Chul-03-43.rtf');
+    Print_00_01('Chul-03-43.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo34.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo34.Edit104.Text+' - '+Sobo34.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo34.Edit101.Text+' - '+Sobo34.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='34-02' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    GridX:=Sobo34.DBGrid201;
+    Print_00_01('Chul-03-42.rtf');
+    Print_00_01('Chul-03-42.doc');
+    if GridX.Columns.Items[6].Title.Caption<>'폐기수량' Then begin
+    Print_00_01('Chul-03-44.rtf');
+    Print_00_01('Chul-03-44.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo34.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo34.Edit104.Text+' - '+Sobo34.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo34.Edit101.Text+' - '+Sobo34.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='35-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    GridX:=Sobo35.DBGrid101;
+    Print_00_01('Chul-03-51.rtf');
+    Print_00_01('Chul-03-51.doc');
+    if GridX.Columns.Items[5].Title.Caption<>'증정수량' Then begin
+    Print_00_01('Chul-03-53.rtf');
+    Print_00_01('Chul-03-53.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo35.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','입고처 원장 총괄') else
+    EkRTF.CreateVar('_title','거래처 원장 총괄');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    if Sobo35.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname',Sobo35.Panel102.Caption+' : '+Sobo35.Edit104.Text+' - '+Sobo35.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo35.Edit101.Text+' - '+Sobo35.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='35-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    GridX:=Sobo35.DBGrid201;
+    Print_00_01('Chul-03-52.rtf');
+    Print_00_01('Chul-03-52.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo35.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','월별입고처판매현황') else
+    EkRTF.CreateVar('_title','월별거래처판매현황');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    EkRTF.CreateVar('title9',GridX.Columns.Items[8].Title.Caption);
+    if Sobo35.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname',Sobo35.Panel102.Caption+' : '+Sobo35.Edit104.Text+' - '+Sobo35.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo35.Edit101.Text+' - '+Sobo35.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='36-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    GridX:=Sobo36.DBGrid101;
+    Print_00_01('Chul-03-61.rtf');
+    Print_00_01('Chul-03-61.doc');
+    if GridX.Columns.Items[5].Title.Caption<>'폐기수량' Then begin
+    Print_00_01('Chul-03-63.rtf');
+    Print_00_01('Chul-03-63.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo36.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo36.Edit104.Text+' - '+Sobo36.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo36.Edit101.Text+' - '+Sobo36.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='36-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    GridX:=Sobo36.DBGrid201;
+    Print_00_01('Chul-03-62.rtf');
+    Print_00_01('Chul-03-62.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo36.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo36.Edit104.Text+' - '+Sobo36.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo36.Edit101.Text+' - '+Sobo36.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='37-01' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    GridX:=Sobo37.DBGrid101;
+    Print_00_01('Chul-03-71.rtf');
+    Print_00_01('Chul-03-71.doc');
+    if GridX.Columns.Items[5].Title.Caption<>'증정수량' Then begin
+    Print_00_01('Chul-03-73.rtf');
+    Print_00_01('Chul-03-73.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    if Sobo37.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname',Sobo37.Panel102.Caption+' : '+Sobo37.Edit104.Text+' - '+Sobo37.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo37.Edit101.Text+' - '+Sobo37.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='37-02' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    GridX:=Sobo37.DBGrid201;
+    Print_00_01('Chul-03-72.rtf');
+    Print_00_01('Chul-03-72.doc');
+    if GridX.Columns.Items[5].Title.Caption<>'증정수량' Then begin
+    Print_00_01('Chul-03-74.rtf');
+    Print_00_01('Chul-03-74.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    if Sobo37.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname',Sobo37.Panel102.Caption+' : '+Sobo37.Edit104.Text+' - '+Sobo37.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo37.Edit101.Text+' - '+Sobo37.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='41-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-11.rtf');
+    Print_00_01('Chul-04-11.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo41.Edit101.Text+' - '+Sobo41.Edit102.Text);
+    EkRTF.CreateVar('_gname','거래구분 : '+Sobo41.Edit103.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='41-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-12.rtf');
+    Print_00_01('Chul-04-12.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo41.Edit201.Text+' - '+Sobo41.Edit202.Text);
+    EkRTF.CreateVar('_gname','거래구분 : '+Sobo41.Edit203.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='42-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-21.rtf');
+    Print_00_01('Chul-04-21.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo42.Edit101.Text+' - '+Sobo42.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='42-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-22.rtf');
+    Print_00_01('Chul-04-22.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo42.Edit201.Text+' - '+Sobo42.Edit202.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='43-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-31.rtf');
+    Print_00_01('Chul-04-31.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo43.Edit101.Text+' - '+Sobo43.Edit102.Text);
+    EkRTF.CreateVar('_name1','계정코드 : '+Sobo43.Edit103.Text);
+    EkRTF.CreateVar('_name2','계정과목 : '+Sobo43.Edit104.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='43-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-32.rtf');
+    Print_00_01('Chul-04-32.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo43.Edit201.Text+' - '+Sobo43.Edit202.Text);
+    EkRTF.CreateVar('_name1','은행코드 : '+Sobo43.Edit203.Text);
+    EkRTF.CreateVar('_name2','은 행 명 : '+Sobo43.Edit204.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='44-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-41.rtf');
+    Print_00_01('Chul-04-41.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo44.Edit101.Text+' - '+Sobo44.Edit102.Text);
+    EkRTF.CreateVar('_gname','거래구분 : '+Sobo44.Edit103.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='44-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-42.rtf');
+    Print_00_01('Chul-04-42.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo44.Edit201.Text+' - '+Sobo44.Edit202.Text);
+    EkRTF.CreateVar('_gname','거래구분 : '+Sobo44.Edit203.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='45-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-51.rtf');
+    Print_00_01('Chul-04-51.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo45.Edit101.Text+' - '+Sobo45.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.CreateVar('_gsum1',Sobo45.StBar101.Panels.Items[1].Text);
+    EkRTF.CreateVar('_gsum2',Sobo45.StBar101.Panels.Items[2].Text);
+    EkRTF.CreateVar('_gsum3',Sobo45.StBar101.Panels.Items[4].Text);
+    EkRTF.CreateVar('_gsum4',Sobo45.StBar101.Panels.Items[5].Text);
+    EkRTF.CreateVar('_gsum5',Sobo45.StBar102.Panels.Items[2].Text);
+    EkRTF.CreateVar('_gsum6',Sobo45.StBar102.Panels.Items[4].Text);
+    EkRTF.CreateVar('_gsum7',Sobo45.StBar103.Panels.Items[1].Text);
+    EkRTF.CreateVar('_gsum8',Sobo45.StBar103.Panels.Items[2].Text);
+    EkRTF.CreateVar('_gsum9',Sobo45.StBar103.Panels.Items[4].Text);
+    EkRTF.CreateVar('_gsum0',Sobo45.StBar103.Panels.Items[5].Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='46-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-61.rtf');
+    Print_00_01('Chul-04-61.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='46-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-62.rtf');
+    Print_00_01('Chul-04-62.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='47-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-71.rtf');
+    Print_00_01('Chul-04-71.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo47.Edit101.Text+' - '+Sobo47.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='47-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-72.rtf');
+    Print_00_01('Chul-04-72.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo47.Edit201.Text+' - '+Sobo47.Edit202.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='48-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-81.rtf');
+    Print_00_01('Chul-04-81.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo48.Edit101.Text+' - '+Sobo48.Edit102.Text);
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='49-01' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-91.rtf');
+    Print_00_01('Chul-04-91.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo62.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','거래처명 : '+Sobo49.Edit104.Text+' - '+Sobo49.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo49.Edit101.Text+' - '+Sobo49.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='49-02' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-92.rtf');
+    Print_00_01('Chul-04-92.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if(Sobo49.Edit106.Text='')and(Sobo49.Button101.Caption='') Then
+    EkRTF.CreateVar('_gname','') else if Sobo49.Button101.Caption<>'' Then
+    EkRTF.CreateVar('_gname','구 분 명 : '+Sobo49.Button101.Caption) else
+    EkRTF.CreateVar('_gname','거래처명 : '+Sobo49.Edit104.Text+' - '+Sobo49.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo49.Edit101.Text+' - '+Sobo49.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='49-03' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-04-93.rtf');
+    Print_00_01('Chul-04-93.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='51-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-11.rtf');
+    Print_00_01('Chul-05-11.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo51.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','거래처명 : '+Sobo51.Edit104.Text+' - '+Sobo51.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo51.Edit101.Text+' - '+Sobo51.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='51-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-12.rtf');
+    Print_00_01('Chul-05-12.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo51.Edit206.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','입고처명 : '+Sobo51.Edit204.Text+' - '+Sobo51.Edit206.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo51.Edit201.Text+' - '+Sobo51.Edit202.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='52-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-21.rtf');
+    Print_00_01('Chul-05-21.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo52.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','거래처명 : '+Sobo52.Edit104.Text+' - '+Sobo52.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo52.Edit101.Text+' - '+Sobo52.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='52-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-22.rtf');
+    Print_00_01('Chul-05-22.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo52.Edit206.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','입고처명 : '+Sobo52.Edit204.Text+' - '+Sobo52.Edit206.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo52.Edit201.Text+' - '+Sobo52.Edit202.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='53-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-31.rtf');
+    Print_00_01('Chul-05-31.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gname','');
+    if Sobo53.Edit104.Text='' then
+    EkRTF.CreateVar('_gdate','') else
+    EkRTF.CreateVar('_gdate','거래처명 : '+Sobo53.Edit102.Text+' - '+Sobo53.Edit104.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='53-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-32.rtf');
+    Print_00_01('Chul-05-32.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gname','');
+    if Sobo53.Edit204.Text='' then
+    EkRTF.CreateVar('_gdate','') else
+    EkRTF.CreateVar('_gdate','입고처명 : '+Sobo53.Edit202.Text+' - '+Sobo53.Edit204.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='54-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-41.rtf');
+    Print_00_01('Chul-05-41.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gname','');
+    if Sobo54.Edit104.Text='' then
+    EkRTF.CreateVar('_gdate','') else
+    EkRTF.CreateVar('_gdate','도 서 명 : '+Sobo54.Edit102.Text+' - '+Sobo54.Edit104.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='54-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-42.rtf');
+    Print_00_01('Chul-05-42.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gname','');
+    if Sobo54.Edit204.Text='' then
+    EkRTF.CreateVar('_gdate','') else
+    EkRTF.CreateVar('_gdate','도 서 명 : '+Sobo54.Edit202.Text+' - '+Sobo54.Edit204.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='55-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-51.rtf');
+    Print_00_01('Chul-05-51.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gname','');
+    if Sobo55.RadioButton101.Checked=True Then
+    EkRTF.CreateVar('_gdate','계정구분 : '+Sobo55.RadioButton101.Caption);
+    if Sobo55.RadioButton102.Checked=True Then
+    EkRTF.CreateVar('_gdate','계정구분 : '+Sobo55.RadioButton102.Caption);
+    if Sobo55.RadioButton103.Checked=True Then
+    EkRTF.CreateVar('_gdate','계정구분 : '+Sobo55.RadioButton103.Caption);
+    if Sobo55.RadioButton104.Checked=True Then
+    EkRTF.CreateVar('_gdate','계정구분 : '+Sobo55.RadioButton104.Caption);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='55-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-05-52.rtf');
+    Print_00_01('Chul-05-52.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdate','');
+    EkRTF.CreateVar('_gname','');
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='61-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-11.rtf');
+    Print_00_01('Chul-06-11.doc');
+    if Sobo61.DBGrid101.Columns.Items[5].Title.Caption<>'폐기수량' Then begin
+    Print_00_01('Chul-06-13.rtf');
+    Print_00_01('Chul-06-13.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo61.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo61.Edit104.Text+' - '+Sobo61.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo61.Edit101.Text+' - '+Sobo61.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='61-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-12.rtf');
+    Print_00_01('Chul-06-12.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo61.DBGrid201.Columns.Items[0].Title.Caption<>'거래처명' Then
+    EkRTF.CreateVar('_title','도서분류별판매집계') else
+    EkRTF.CreateVar('_title','거래처별판매집계');
+    if(Sobo61.Edit106.Text='')and(Sobo61.Button101.Caption='') Then
+    EkRTF.CreateVar('_gname','') else if T00=0 Then
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo61.Button101.Caption) else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo61.Edit104.Text+' - '+Sobo61.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo61.Edit101.Text+' - '+Sobo61.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='62-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    GridX:=Sobo62.DBGrid101;
+    Print_00_01('Chul-06-21.rtf');
+    Print_00_01('Chul-06-21.doc');
+    if GridX.Columns.Items[3].Title.Caption<>'증정수량' Then begin
+    Print_00_01('Chul-06-23.rtf');
+    Print_00_01('Chul-06-23.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo62.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','입고처별 판매 집계') else
+    EkRTF.CreateVar('_title','거래처별 판매 집계');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    if Sobo62.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','거래처명 : '+Sobo62.Edit104.Text+' - '+Sobo62.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo62.Edit101.Text+' - '+Sobo62.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='62-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    GridX:=Sobo62.DBGrid201;
+    Print_00_01('Chul-06-22.rtf');
+    Print_00_01('Chul-06-22.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if GridX.Columns.Items[0].Title.Caption<>'도 서 명' Then
+    EkRTF.CreateVar('_title','거래처구분별판매집계') else
+    EkRTF.CreateVar('_title','도서별 판매 집계');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    if(Sobo62.Edit106.Text='')and(Sobo62.Button101.Caption='') Then
+    EkRTF.CreateVar('_gname','') else if T00=0 Then
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo62.Button101.Caption) else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo62.Edit104.Text+' - '+Sobo62.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo62.Edit101.Text+' - '+Sobo62.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='63-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-31.rtf');
+    Print_00_01('Chul-06-31.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo63.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo63.Edit104.Text+' - '+Sobo63.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo63.Edit101.Text+' - '+Sobo63.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='63-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-32.rtf');
+    Print_00_01('Chul-06-32.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if(Sobo63.Edit106.Text='')and(Sobo63.Button101.Caption='') Then
+    EkRTF.CreateVar('_gname','') else if T00=0 Then
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo63.Button101.Caption) else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo63.Edit104.Text+' - '+Sobo63.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo63.Edit101.Text+' - '+Sobo63.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='64-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-41.rtf');
+    Print_00_01('Chul-06-41.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo62.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','일자별입고처판매집계') else
+    EkRTF.CreateVar('_title','일자별거래처판매집계');
+    if Sobo64.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','거래처명 : '+Sobo64.Edit104.Text+' - '+Sobo64.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo64.Edit101.Text+' - '+Sobo64.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='64-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    GridX:=Sobo64.DBGrid201;
+    Print_00_01('Chul-06-42.rtf');
+    Print_00_01('Chul-06-42.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo62.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','입고처별판매집계') else
+    EkRTF.CreateVar('_title','거래처별판매집계');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    if(Sobo64.Edit106.Text='')and(Sobo64.Button101.Caption='') Then
+    EkRTF.CreateVar('_gname','') else if T00=0 Then
+    EkRTF.CreateVar('_gname','거래처명 : '+Sobo64.Button101.Caption) else
+    EkRTF.CreateVar('_gname','거래처명 : '+Sobo64.Edit104.Text+' - '+Sobo64.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo64.Edit101.Text+' - '+Sobo64.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='65-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-51.rtf');
+    Print_00_01('Chul-06-51.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo65.Edit101.Text+' - '+Sobo65.Edit102.Text);
+    EkRTF.CreateVar('_name1',Sobo65.Edit104.Text);
+    EkRTF.CreateVar('_name2',Sobo65.Edit106.Text);
+    EkRTF.CreateVar('_name3',Sobo65.Edit108.Text);
+    EkRTF.CreateVar('_name4',Sobo65.Edit110.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='65-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-52.rtf');
+    Print_00_01('Chul-06-52.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo65.Edit101.Text+' - '+Sobo65.Edit102.Text);
+    EkRTF.CreateVar('_name1',Sobo65.Edit104.Text);
+    EkRTF.CreateVar('_name2',Sobo65.Edit106.Text);
+    EkRTF.CreateVar('_name3',Sobo65.Edit108.Text);
+    EkRTF.CreateVar('_name4',Sobo65.Edit110.Text);
+    if(Sobo65.Button101.Caption='') Then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','거래처구분 : '+Sobo65.Button101.Caption);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='66-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-61.rtf');
+    Print_00_01('Chul-06-61.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo66.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','입고처별 출고 현황') else
+    EkRTF.CreateVar('_title','거래처별 출고 현황');
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo66.Edit101.Text+' - '+Sobo66.Edit102.Text);
+    EkRTF.CreateVar('_name1',Sobo66.Edit104.Text);
+    EkRTF.CreateVar('_name2',Sobo66.Edit106.Text);
+    EkRTF.CreateVar('_name3',Sobo66.Edit108.Text);
+    EkRTF.CreateVar('_name4',Sobo66.Edit110.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='66-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-62.rtf');
+    Print_00_01('Chul-06-62.doc');
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo66.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','입고처별 출고 현황') else
+    EkRTF.CreateVar('_title','거래처별 출고 현황');
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo66.Edit101.Text+' - '+Sobo66.Edit102.Text);
+    EkRTF.CreateVar('_name1',Sobo66.Edit104.Text);
+    EkRTF.CreateVar('_name2',Sobo66.Edit106.Text);
+    EkRTF.CreateVar('_name3',Sobo66.Edit108.Text);
+    EkRTF.CreateVar('_name4',Sobo66.Edit110.Text);
+    if(Sobo66.Button101.Caption='') Then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','도서분류 : '+Sobo66.Button101.Caption);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='67-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-71.rtf');
+    Print_00_01('Chul-06-71.doc');
+    if Sobo67.DBGrid101.Columns.Items[6].Title.Caption<>'폐기수량' Then begin
+    Print_00_01('Chul-06-73.rtf');
+    Print_00_01('Chul-06-73.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo67.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo67.Edit104.Text+' - '+Sobo67.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo67.Edit101.Text+' - '+Sobo67.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='67-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    Print_00_01('Chul-06-72.rtf');
+    Print_00_01('Chul-06-72.doc');
+    if Sobo67.DBGrid201.Columns.Items[6].Title.Caption<>'폐기수량' Then begin
+    Print_00_01('Chul-06-74.rtf');
+    Print_00_01('Chul-06-74.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if(Sobo67.Edit106.Text='')and(Sobo67.Button101.Caption='') Then
+    EkRTF.CreateVar('_gname','') else if T00=0 Then
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo67.Button101.Caption) else
+    EkRTF.CreateVar('_gname','도 서 명 : '+Sobo67.Edit104.Text+' - '+Sobo67.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo67.Edit101.Text+' - '+Sobo67.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='68-01' then begin
+    oSqry:=nSqry;
+    oSqry.First;
+    GridX:=Sobo68.DBGrid101;
+    Print_00_01('Chul-06-81.rtf');
+    Print_00_01('Chul-06-81.doc');
+    if GridX.Columns.Items[4].Title.Caption<>'증정수량' Then begin
+    Print_00_01('Chul-06-83.rtf');
+    Print_00_01('Chul-06-83.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo68.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','입고처별 년말 집계') else
+    EkRTF.CreateVar('_title','거래처별 년말 집계');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    EkRTF.CreateVar('title9',GridX.Columns.Items[8].Title.Caption);
+    if Sobo68.Edit106.Text='' then
+    EkRTF.CreateVar('_gname','') else
+    EkRTF.CreateVar('_gname',Sobo68.Panel102.Caption+' : '+Sobo68.Edit104.Text+' - '+Sobo68.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo68.Edit101.Text+' - '+Sobo68.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end;
+  if Str='68-02' then begin
+    oSqry:=mSqry;
+    oSqry.First;
+    GridX:=Sobo68.DBGrid201;
+    Print_00_01('Chul-06-82.rtf');
+    Print_00_01('Chul-06-82.doc');
+    if GridX.Columns.Items[4].Title.Caption<>'증정수량' Then begin
+    Print_00_01('Chul-06-84.rtf');
+    Print_00_01('Chul-06-84.doc'); end;
+    EkRTF.ClearVars;
+    EkRTF.CreateVar('_sname',mPrnt);
+    if Sobo68.Panel102.Caption='입고처명' Then
+    EkRTF.CreateVar('_title','입고처별 년말 집계') else
+    EkRTF.CreateVar('_title','거래처별 년말 집계');
+    EkRTF.CreateVar('title1',GridX.Columns.Items[0].Title.Caption);
+    EkRTF.CreateVar('title2',GridX.Columns.Items[1].Title.Caption);
+    EkRTF.CreateVar('title3',GridX.Columns.Items[2].Title.Caption);
+    EkRTF.CreateVar('title4',GridX.Columns.Items[3].Title.Caption);
+    EkRTF.CreateVar('title5',GridX.Columns.Items[4].Title.Caption);
+    EkRTF.CreateVar('title6',GridX.Columns.Items[5].Title.Caption);
+    EkRTF.CreateVar('title7',GridX.Columns.Items[6].Title.Caption);
+    EkRTF.CreateVar('title8',GridX.Columns.Items[7].Title.Caption);
+    EkRTF.CreateVar('title9',GridX.Columns.Items[8].Title.Caption);
+    if(Sobo68.Edit106.Text='')and(Sobo68.Button101.Caption='') Then
+    EkRTF.CreateVar('_gname','') else if T00=0 Then
+    EkRTF.CreateVar('_gname',Sobo68.Panel102.Caption+' : '+Sobo68.Button101.Caption) else
+    EkRTF.CreateVar('_gname',Sobo68.Panel102.Caption+' : '+Sobo68.Edit104.Text+' - '+Sobo68.Edit106.Text);
+    EkRTF.CreateVar('_gdata','거래일자 : '+Sobo68.Edit101.Text+' - '+Sobo68.Edit102.Text);
+    EkRTF.ExecuteOpen([oSqry],SW_SHOW);
+  end; }
+end;
+
+procedure TTong20.Print_00_01(Str: String);
+var
+  hWndMe : THandle;
+begin
+  hWndMe := FindWindow('OpusApp', PChar(Str+' - Microsoft Word'));
+  if (hWndMe <> 0) then begin
+    SendMessage(hWndMe, WM_CLOSE, 0, 0);
+  end;
+
+  if UpperCase(Copy(Str,1,10))='CHUL-02-11' then
+  EkRTF.UDFList:=EkUDFList1
+  else
+  if UpperCase(Copy(Str,1,10))='CHUL-02-21' then
+  EkRTF.UDFList:=EkUDFList1
+  else
+  if UpperCase(Copy(Str,1,10))='CHUL-02-31' then
+  EkRTF.UDFList:=EkUDFList1
+  else
+  if UpperCase(Copy(Str,1,10))='CHUL-02-41' then
+  EkRTF.UDFList:=EkUDFList2
+  else
+  if UpperCase(Copy(Str,1,10))='CHUL-02-51' then
+  EkRTF.UDFList:=EkUDFList2
+  else
+  EkRTF.UDFList:=nil;
+
+  if UpperCase(Copy(Str,12,3))='RTF' then
+  EkRTF.InFile :=GetExecPath + 'Word\'+Str;
+  if UpperCase(Copy(Str,12,3))='DOC' then
+  EkRTF.OutFile:=GetExecPath + 'Word\Back\'+Str;
+end;
+
+procedure TTong20.Zoom_Int_01(FormX: String);
+begin
+{ if FormX='24' Then
+  if(Sobo24.Panel002.Visible=True)and(Sobo24.Panel003.Visible=True)Then begin
+     Sobo24.Panel003.Visible:=False;
+     Sobo24.Panel002.Top:=85;  Sobo24.Panel002.Height:=414;
+  end else begin
+     Sobo24.Panel002.Visible:=True;
+     Sobo24.Panel003.Visible:=True;
+     Sobo24.Panel002.Top:=85;  Sobo24.Panel002.Height:=206;
+     Sobo24.Panel003.Top:=293; Sobo24.Panel003.Height:=206;
+  end; }
+{ if FormX='25' Then
+  if(Sobo25.Panel002.Visible=True)and(Sobo25.Panel003.Visible=True)Then begin
+     Sobo25.Panel003.Visible:=False;
+     Sobo25.Panel002.Top:=85;  Sobo25.Panel002.Height:=414;
+  end else begin
+     Sobo25.Panel002.Visible:=True;
+     Sobo25.Panel003.Visible:=True;
+     Sobo25.Panel002.Top:=85;  Sobo25.Panel002.Height:=206;
+     Sobo25.Panel003.Top:=293; Sobo25.Panel003.Height:=206;
+  end; }
+{ if FormX='26' Then
+  if(Sobo26.Panel002.Visible=True)and(Sobo26.Panel004.Visible=True)Then begin
+     Sobo26.Panel003.Visible:=False; Sobo26.Panel004.Visible:=False;
+     Sobo26.Panel001.Top:=04;
+     Sobo26.Panel002.Top:=64;  Sobo26.Panel002.Height:=435;
+  end else begin
+     Sobo26.Panel001.Visible:=True;  Sobo26.Panel002.Visible:=True;
+     Sobo26.Panel003.Visible:=True;  Sobo26.Panel004.Visible:=True;
+     Sobo26.Panel001.Top:=04;  Sobo26.Panel003.Top:=253;
+     Sobo26.Panel002.Top:=64;  Sobo26.Panel002.Height:=186;
+     Sobo26.Panel004.Top:=313; Sobo26.Panel004.Height:=186;
+  end; }
+{ if FormX='27' Then
+  if(Sobo27.Panel002.Visible=True)and(Sobo27.Panel003.Visible=True)Then begin
+     Sobo27.Panel003.Visible:=False;
+     Sobo27.Panel002.Top:=85;  Sobo27.Panel002.Height:=414;
+  end else begin
+     Sobo27.Panel002.Visible:=True;
+     Sobo27.Panel003.Visible:=True;
+     Sobo27.Panel002.Top:=85;  Sobo27.Panel002.Height:=206;
+     Sobo27.Panel003.Top:=293; Sobo27.Panel003.Height:=206;
+  end; }
+  if FormX='28' Then
+  if(Sobo28.Panel002.Visible=True)and(Sobo28.Panel003.Visible=True)Then begin
+     Sobo28.Panel003.Visible:=False;
+     Sobo28.Panel002.Top:=85;  Sobo28.Panel002.Height:=414;
+  end else begin
+     Sobo28.Panel002.Visible:=True;
+     Sobo28.Panel003.Visible:=True;
+     Sobo28.Panel002.Top:=85;  Sobo28.Panel002.Height:=206;
+     Sobo28.Panel003.Top:=293; Sobo28.Panel003.Height:=206;
+  end;
+  if FormX='31' Then
+  if(Sobo31.Panel002.Visible=True)and(Sobo31.Panel003.Visible=True)Then begin
+     Sobo31.Panel003.Visible:=False;
+     Sobo31.Panel002.Top:=85;  Sobo31.Panel002.Height:=414;
+  end else begin
+     Sobo31.Panel002.Visible:=True;
+     Sobo31.Panel003.Visible:=True;
+     Sobo31.Panel002.Top:=85;  Sobo31.Panel002.Height:=206;
+     Sobo31.Panel003.Top:=293; Sobo31.Panel003.Height:=206;
+  end;
+  if FormX='32' Then
+  if(Sobo32.Panel002.Visible=True)and(Sobo32.Panel003.Visible=True)Then begin
+     Sobo32.Panel003.Visible:=False;
+     Sobo32.Panel002.Top:=85;  Sobo32.Panel002.Height:=414;
+  end else begin
+     Sobo32.Panel002.Visible:=True;
+     Sobo32.Panel003.Visible:=True;
+     Sobo32.Panel002.Top:=85;  Sobo32.Panel002.Height:=206;
+     Sobo32.Panel003.Top:=293; Sobo32.Panel003.Height:=206;
+  end;
+  if FormX='33' Then
+  if(Sobo33.Panel002.Visible=True)and(Sobo33.Panel003.Visible=True)Then begin
+     Sobo33.Panel003.Visible:=False;
+     Sobo33.Panel002.Top:=85;  Sobo33.Panel002.Height:=414;
+  end else begin
+     Sobo33.Panel002.Visible:=True;
+     Sobo33.Panel003.Visible:=True;
+     Sobo33.Panel002.Top:=85;  Sobo33.Panel002.Height:=206;
+     Sobo33.Panel003.Top:=293; Sobo33.Panel003.Height:=206;
+  end;
+{ if FormX='34' Then
+  if(Sobo34.Panel002.Visible=True)and(Sobo34.Panel003.Visible=True)Then begin
+     Sobo34.Panel003.Visible:=False;
+     Sobo34.Panel002.Top:=85;  Sobo34.Panel002.Height:=414;
+  end else begin
+     Sobo34.Panel002.Visible:=True;
+     Sobo34.Panel003.Visible:=True;
+     Sobo34.Panel002.Top:=85;  Sobo34.Panel002.Height:=206;
+     Sobo34.Panel003.Top:=293; Sobo34.Panel003.Height:=206;
+  end; }
+{ if FormX='35' Then
+  if(Sobo35.Panel002.Visible=True)and(Sobo35.Panel003.Visible=True)Then begin
+     Sobo35.Panel003.Visible:=False;
+     Sobo35.Panel002.Top:=85;  Sobo35.Panel002.Height:=414;
+  end else begin
+     Sobo35.Panel002.Visible:=True;
+     Sobo35.Panel003.Visible:=True;
+     Sobo35.Panel002.Top:=85;  Sobo35.Panel002.Height:=206;
+     Sobo35.Panel003.Top:=293; Sobo35.Panel003.Height:=206;
+  end; }
+  if FormX='36' Then
+  if(Sobo36.Panel002.Visible=True)and(Sobo36.Panel003.Visible=True)Then begin
+     Sobo36.Panel003.Visible:=False;
+     Sobo36.Panel002.Top:=85;  Sobo36.Panel002.Height:=414;
+  end else begin
+     Sobo36.Panel002.Visible:=True;
+     Sobo36.Panel003.Visible:=True;
+     Sobo36.Panel002.Top:=85;  Sobo36.Panel002.Height:=206;
+     Sobo36.Panel003.Top:=293; Sobo36.Panel003.Height:=206;
+  end;
+  if FormX='37' Then
+  if(Sobo37.Panel002.Visible=True)and(Sobo37.Panel003.Visible=True)Then begin
+     Sobo37.Panel003.Visible:=False;
+     Sobo37.Panel002.Top:=85;  Sobo37.Panel002.Height:=414;
+  end else begin
+     Sobo37.Panel002.Visible:=True;
+     Sobo37.Panel003.Visible:=True;
+     Sobo37.Panel002.Top:=85;  Sobo37.Panel002.Height:=206;
+     Sobo37.Panel003.Top:=293; Sobo37.Panel003.Height:=206;
+  end;
+{ if FormX='41' Then
+  if(Sobo41.Panel002.Visible=True)and(Sobo41.Panel004.Visible=True)Then begin
+     Sobo41.Panel003.Visible:=False; Sobo41.Panel004.Visible:=False;
+     Sobo41.Panel001.Top:=04;
+     Sobo41.Panel002.Top:=64;  Sobo41.Panel002.Height:=435;
+  end else begin
+     Sobo41.Panel001.Visible:=True;  Sobo41.Panel002.Visible:=True;
+     Sobo41.Panel003.Visible:=True;  Sobo41.Panel004.Visible:=True;
+     Sobo41.Panel001.Top:=04;  Sobo41.Panel003.Top:=253;
+     Sobo41.Panel002.Top:=64;  Sobo41.Panel002.Height:=186;
+     Sobo41.Panel004.Top:=313; Sobo41.Panel004.Height:=186;
+  end; }
+{ if FormX='42' Then
+  if(Sobo42.Panel002.Visible=True)and(Sobo42.Panel004.Visible=True)Then begin
+     Sobo42.Panel003.Visible:=False; Sobo42.Panel004.Visible:=False;
+     Sobo42.Panel001.Top:=04;
+     Sobo42.Panel002.Top:=64;  Sobo42.Panel002.Height:=435;
+  end else begin
+     Sobo42.Panel001.Visible:=True;  Sobo42.Panel002.Visible:=True;
+     Sobo42.Panel003.Visible:=True;  Sobo42.Panel004.Visible:=True;
+     Sobo42.Panel001.Top:=04;  Sobo42.Panel003.Top:=253;
+     Sobo42.Panel002.Top:=64;  Sobo42.Panel002.Height:=186;
+     Sobo42.Panel004.Top:=313; Sobo42.Panel004.Height:=186;
+  end; }
+{ if FormX='43' Then
+  if(Sobo43.Panel002.Visible=True)and(Sobo43.Panel004.Visible=True)Then begin
+     Sobo43.Panel003.Visible:=False; Sobo43.Panel004.Visible:=False;
+     Sobo43.Panel001.Top:=04;
+     Sobo43.Panel002.Top:=64;  Sobo43.Panel002.Height:=435;
+  end else begin
+     Sobo43.Panel001.Visible:=True;  Sobo43.Panel002.Visible:=True;
+     Sobo43.Panel003.Visible:=True;  Sobo43.Panel004.Visible:=True;
+     Sobo43.Panel001.Top:=04;  Sobo43.Panel003.Top:=253;
+     Sobo43.Panel002.Top:=64;  Sobo43.Panel002.Height:=186;
+     Sobo43.Panel004.Top:=313; Sobo43.Panel004.Height:=186;
+  end; }
+{ if FormX='44' Then
+  if(Sobo44.Panel002.Visible=True)and(Sobo44.Panel004.Visible=True)Then begin
+     Sobo44.Panel003.Visible:=False; Sobo44.Panel004.Visible:=False;
+     Sobo44.Panel001.Top:=04;
+     Sobo44.Panel002.Top:=64;  Sobo44.Panel002.Height:=435;
+  end else begin
+     Sobo44.Panel001.Visible:=True;  Sobo44.Panel002.Visible:=True;
+     Sobo44.Panel003.Visible:=True;  Sobo44.Panel004.Visible:=True;
+     Sobo44.Panel001.Top:=04;  Sobo44.Panel003.Top:=253;
+     Sobo44.Panel002.Top:=64;  Sobo44.Panel002.Height:=186;
+     Sobo44.Panel004.Top:=313; Sobo44.Panel004.Height:=186;
+  end; }
+{ if FormX='45' Then
+  if(Sobo45.Panel002.Visible=True)and(Sobo45.Panel004.Visible=True)Then begin
+     Sobo45.Panel003.Visible:=False; Sobo45.Panel004.Visible:=False;
+     Sobo45.Panel001.Top:=04;
+     Sobo45.Panel002.Top:=64;  Sobo45.Panel002.Height:=435;
+  end else begin
+     Sobo45.Panel001.Visible:=True;  Sobo45.Panel002.Visible:=True;
+     Sobo45.Panel003.Visible:=True;  Sobo45.Panel004.Visible:=True;
+     Sobo45.Panel001.Top:=04;  Sobo45.Panel003.Top:=253;
+     Sobo45.Panel002.Top:=64;  Sobo45.Panel002.Height:=186;
+     Sobo45.Panel004.Top:=313; Sobo45.Panel004.Height:=186;
+  end; }
+{ if FormX='47' Then
+  if(Sobo47.Panel002.Visible=True)and(Sobo47.Panel004.Visible=True)Then begin
+     Sobo47.Panel003.Visible:=False; Sobo47.Panel004.Visible:=False;
+     Sobo47.Panel001.Top:=04;
+     Sobo47.Panel002.Top:=64;  Sobo47.Panel002.Height:=435;
+  end else begin
+     Sobo47.Panel001.Visible:=True;  Sobo47.Panel002.Visible:=True;
+     Sobo47.Panel003.Visible:=True;  Sobo47.Panel004.Visible:=True;
+     Sobo47.Panel001.Top:=04;  Sobo47.Panel003.Top:=253;
+     Sobo47.Panel002.Top:=64;  Sobo47.Panel002.Height:=186;
+     Sobo47.Panel004.Top:=313; Sobo47.Panel004.Height:=186;
+  end; }
+{ if FormX='48' Then
+  if(Sobo48.Panel002.Visible=True)and(Sobo48.Panel003.Visible=True)Then begin
+     Sobo48.Panel003.Visible:=False;
+     Sobo48.Panel002.Top:=85;  Sobo48.Panel002.Height:=414;
+  end else begin
+     Sobo48.Panel002.Visible:=True;
+     Sobo48.Panel003.Visible:=True;
+     Sobo48.Panel002.Top:=85;  Sobo48.Panel002.Height:=206;
+     Sobo48.Panel003.Top:=293; Sobo48.Panel003.Height:=206;
+  end; }
+  if FormX='49' Then
+  if(Sobo49.Panel002.Visible=True)and(Sobo49.Panel003.Visible=True)Then begin
+     Sobo49.Panel003.Visible:=False;
+     Sobo49.Panel002.Top:=85;  Sobo49.Panel002.Height:=414;
+  end else begin
+     Sobo49.Panel002.Visible:=True;
+     Sobo49.Panel003.Visible:=True;
+     Sobo49.Panel002.Top:=85;  Sobo49.Panel002.Height:=206;
+     Sobo49.Panel003.Top:=293; Sobo49.Panel003.Height:=206;
+  end;
+{ if FormX='51' Then
+  if(Sobo51.Panel002.Visible=True)and(Sobo51.Panel004.Visible=True)Then begin
+     Sobo51.Panel003.Visible:=False; Sobo51.Panel004.Visible:=False;
+     Sobo51.Panel001.Top:=04;
+     Sobo51.Panel002.Top:=64;  Sobo51.Panel002.Height:=435;
+  end else begin
+     Sobo51.Panel001.Visible:=True;  Sobo51.Panel002.Visible:=True;
+     Sobo51.Panel003.Visible:=True;  Sobo51.Panel004.Visible:=True;
+     Sobo51.Panel001.Top:=04;  Sobo51.Panel003.Top:=253;
+     Sobo51.Panel002.Top:=64;  Sobo51.Panel002.Height:=186;
+     Sobo51.Panel004.Top:=313; Sobo51.Panel004.Height:=186;
+  end; }
+{ if FormX='52' Then
+  if(Sobo52.Panel002.Visible=True)and(Sobo52.Panel004.Visible=True)Then begin
+     Sobo52.Panel003.Visible:=False; Sobo52.Panel004.Visible:=False;
+     Sobo52.Panel001.Top:=04;
+     Sobo52.Panel002.Top:=64;  Sobo52.Panel002.Height:=435;
+  end else begin
+     Sobo52.Panel001.Visible:=True;  Sobo52.Panel002.Visible:=True;
+     Sobo52.Panel003.Visible:=True;  Sobo52.Panel004.Visible:=True;
+     Sobo52.Panel001.Top:=04;  Sobo52.Panel003.Top:=253;
+     Sobo52.Panel002.Top:=64;  Sobo52.Panel002.Height:=186;
+     Sobo52.Panel004.Top:=313; Sobo52.Panel004.Height:=186;
+  end; }
+{ if FormX='53' Then
+  if(Sobo53.Panel002.Visible=True)and(Sobo53.Panel004.Visible=True)Then begin
+     Sobo53.Panel003.Visible:=False; Sobo53.Panel004.Visible:=False;
+     Sobo53.Panel001.Top:=04;
+     Sobo53.Panel002.Top:=52;  Sobo53.Panel002.Height:=447;
+  end else begin
+     Sobo53.Panel001.Visible:=True;  Sobo53.Panel002.Visible:=True;
+     Sobo53.Panel003.Visible:=True;  Sobo53.Panel004.Visible:=True;
+     Sobo53.Panel001.Top:=04;  Sobo53.Panel003.Top:=253;
+     Sobo53.Panel002.Top:=52;  Sobo53.Panel002.Height:=198;
+     Sobo53.Panel004.Top:=301; Sobo53.Panel004.Height:=198;
+  end; }
+{ if FormX='54' Then
+  if(Sobo54.Panel002.Visible=True)and(Sobo54.Panel004.Visible=True)Then begin
+     Sobo54.Panel003.Visible:=False; Sobo54.Panel004.Visible:=False;
+     Sobo54.Panel001.Top:=04;
+     Sobo54.Panel002.Top:=52;  Sobo54.Panel002.Height:=447;
+  end else begin
+     Sobo54.Panel001.Visible:=True;  Sobo54.Panel002.Visible:=True;
+     Sobo54.Panel003.Visible:=True;  Sobo54.Panel004.Visible:=True;
+     Sobo54.Panel001.Top:=04;  Sobo54.Panel003.Top:=253;
+     Sobo54.Panel002.Top:=52;  Sobo54.Panel002.Height:=198;
+     Sobo54.Panel004.Top:=301; Sobo54.Panel004.Height:=198;
+  end; }
+{ if FormX='55' Then
+  if(Sobo55.Panel002.Visible=True)and(Sobo55.Panel004.Visible=True)Then begin
+     Sobo55.Panel003.Visible:=False; Sobo55.Panel004.Visible:=False;
+     Sobo55.Panel001.Top:=04;
+     Sobo55.Panel002.Top:=52;  Sobo55.Panel002.Height:=447;
+  end else begin
+     Sobo55.Panel001.Visible:=True;  Sobo55.Panel002.Visible:=True;
+     Sobo55.Panel003.Visible:=True;  Sobo55.Panel004.Visible:=True;
+     Sobo55.Panel001.Top:=04;  Sobo55.Panel003.Top:=253;
+     Sobo55.Panel002.Top:=52;  Sobo55.Panel002.Height:=198;
+     Sobo55.Panel004.Top:=301; Sobo55.Panel004.Height:=198;
+  end; }
+  if FormX='61' Then
+  if(Sobo61.Panel002.Visible=True)and(Sobo61.Panel003.Visible=True)Then begin
+     Sobo61.Panel003.Visible:=False;
+     Sobo61.Panel002.Top:=85;  Sobo61.Panel002.Height:=414;
+  end else begin
+     Sobo61.Panel002.Visible:=True;
+     Sobo61.Panel003.Visible:=True;
+     Sobo61.Panel002.Top:=85;  Sobo61.Panel002.Height:=206;
+     Sobo61.Panel003.Top:=293; Sobo61.Panel003.Height:=206;
+  end;
+  if FormX='62' Then
+  if(Sobo62.Panel002.Visible=True)and(Sobo62.Panel003.Visible=True)Then begin
+     Sobo62.Panel003.Visible:=False;
+     Sobo62.Panel002.Top:=85;  Sobo62.Panel002.Height:=414;
+  end else begin
+     Sobo62.Panel002.Visible:=True;
+     Sobo62.Panel003.Visible:=True;
+     Sobo62.Panel002.Top:=85;  Sobo62.Panel002.Height:=206;
+     Sobo62.Panel003.Top:=293; Sobo62.Panel003.Height:=206;
+  end;
+{ if FormX='63' Then
+  if(Sobo63.Panel002.Visible=True)and(Sobo63.Panel003.Visible=True)Then begin
+     Sobo63.Panel003.Visible:=False;
+     Sobo63.Panel002.Top:=85;  Sobo63.Panel002.Height:=414;
+  end else begin
+     Sobo63.Panel002.Visible:=True;
+     Sobo63.Panel003.Visible:=True;
+     Sobo63.Panel002.Top:=85;  Sobo63.Panel002.Height:=206;
+     Sobo63.Panel003.Top:=293; Sobo63.Panel003.Height:=206;
+  end; }
+{ if FormX='64' Then
+  if(Sobo64.Panel002.Visible=True)and(Sobo64.Panel003.Visible=True)Then begin
+     Sobo64.Panel003.Visible:=False;
+     Sobo64.Panel002.Top:=85;  Sobo64.Panel002.Height:=414;
+  end else begin
+     Sobo64.Panel002.Visible:=True;
+     Sobo64.Panel003.Visible:=True;
+     Sobo64.Panel002.Top:=85;  Sobo64.Panel002.Height:=206;
+     Sobo64.Panel003.Top:=293; Sobo64.Panel003.Height:=206;
+  end; }
+  if FormX='65' Then
+  if(Sobo65.Panel002.Visible=True)and(Sobo65.Panel003.Visible=True)Then begin
+     Sobo65.Panel003.Visible:=False;
+     Sobo65.Panel002.Top:=85;  Sobo65.Panel002.Height:=414;
+  end else begin
+     Sobo65.Panel002.Visible:=True;
+     Sobo65.Panel003.Visible:=True;
+     Sobo65.Panel002.Top:=85;  Sobo65.Panel002.Height:=206;
+     Sobo65.Panel003.Top:=293; Sobo65.Panel003.Height:=206;
+  end;
+  if FormX='66' Then
+  if(Sobo66.Panel002.Visible=True)and(Sobo66.Panel003.Visible=True)Then begin
+     Sobo66.Panel003.Visible:=False;
+     Sobo66.Panel002.Top:=85;  Sobo66.Panel002.Height:=414;
+  end else begin
+     Sobo66.Panel002.Visible:=True;
+     Sobo66.Panel003.Visible:=True;
+     Sobo66.Panel002.Top:=85;  Sobo66.Panel002.Height:=206;
+     Sobo66.Panel003.Top:=293; Sobo66.Panel003.Height:=206;
+  end;
+  if FormX='67' Then
+  if(Sobo67.Panel002.Visible=True)and(Sobo67.Panel003.Visible=True)Then begin
+     Sobo67.Panel003.Visible:=False;
+     Sobo67.Panel002.Top:=85;  Sobo67.Panel002.Height:=414;
+  end else begin
+     Sobo67.Panel002.Visible:=True;
+     Sobo67.Panel003.Visible:=True;
+     Sobo67.Panel002.Top:=85;  Sobo67.Panel002.Height:=206;
+     Sobo67.Panel003.Top:=293; Sobo67.Panel003.Height:=206;
+  end;
+  if FormX='68' Then
+  if(Sobo68.Panel002.Visible=True)and(Sobo68.Panel003.Visible=True)Then begin
+     Sobo68.Panel003.Visible:=False;
+     Sobo68.Panel002.Top:=85;  Sobo68.Panel002.Height:=414;
+  end else begin
+     Sobo68.Panel002.Visible:=True;
+     Sobo68.Panel003.Visible:=True;
+     Sobo68.Panel002.Top:=85;  Sobo68.Panel002.Height:=206;
+     Sobo68.Panel003.Top:=293; Sobo68.Panel003.Height:=206;
+  end;
+end;
+
+procedure TTong20.Zoom_Out_01(FormX: String);
+begin
+{ if FormX='24' Then
+  if(Sobo24.Panel002.Visible=True)and(Sobo24.Panel003.Visible=True)Then begin
+     Sobo24.Panel002.Visible:=False;
+     Sobo24.Panel003.Top:=85;  Sobo24.Panel003.Height:=414;
+  end else begin
+     Sobo24.Panel002.Visible:=True;
+     Sobo24.Panel003.Visible:=True;
+     Sobo24.Panel002.Top:=85;  Sobo24.Panel002.Height:=206;
+     Sobo24.Panel003.Top:=293; Sobo24.Panel003.Height:=206;
+  end; }
+{ if FormX='25' Then
+  if(Sobo25.Panel002.Visible=True)and(Sobo25.Panel003.Visible=True)Then begin
+     Sobo25.Panel002.Visible:=False;
+     Sobo25.Panel003.Top:=85;  Sobo25.Panel003.Height:=414;
+  end else begin
+     Sobo25.Panel002.Visible:=True;
+     Sobo25.Panel003.Visible:=True;
+     Sobo25.Panel002.Top:=85;  Sobo25.Panel002.Height:=206;
+     Sobo25.Panel003.Top:=293; Sobo25.Panel003.Height:=206;
+  end; }
+{ if FormX='26' Then
+  if(Sobo26.Panel002.Visible=True)and(Sobo26.Panel004.Visible=True)Then begin
+     Sobo26.Panel001.Visible:=False; Sobo26.Panel002.Visible:=False;
+     Sobo26.Panel003.Top:=04;
+     Sobo26.Panel004.Top:=64;  Sobo26.Panel004.Height:=435;
+  end else begin
+     Sobo26.Panel001.Visible:=True;  Sobo26.Panel002.Visible:=True;
+     Sobo26.Panel003.Visible:=True;  Sobo26.Panel004.Visible:=True;
+     Sobo26.Panel001.Top:=04;  Sobo26.Panel003.Top:=253;
+     Sobo26.Panel002.Top:=64;  Sobo26.Panel002.Height:=186;
+     Sobo26.Panel004.Top:=313; Sobo26.Panel004.Height:=186;
+  end; }
+{ if FormX='27' Then
+  if(Sobo27.Panel002.Visible=True)and(Sobo27.Panel003.Visible=True)Then begin
+     Sobo27.Panel002.Visible:=False;
+     Sobo27.Panel003.Top:=85;  Sobo27.Panel003.Height:=414;
+  end else begin
+     Sobo27.Panel002.Visible:=True;
+     Sobo27.Panel003.Visible:=True;
+     Sobo27.Panel002.Top:=85;  Sobo27.Panel002.Height:=206;
+     Sobo27.Panel003.Top:=293; Sobo27.Panel003.Height:=206;
+  end; }
+  if FormX='28' Then
+  if(Sobo28.Panel002.Visible=True)and(Sobo28.Panel003.Visible=True)Then begin
+     Sobo28.Panel002.Visible:=False;
+     Sobo28.Panel003.Top:=85;  Sobo28.Panel003.Height:=414;
+  end else begin
+     Sobo28.Panel002.Visible:=True;
+     Sobo28.Panel003.Visible:=True;
+     Sobo28.Panel002.Top:=85;  Sobo28.Panel002.Height:=206;
+     Sobo28.Panel003.Top:=293; Sobo28.Panel003.Height:=206;
+  end;
+  if FormX='31' Then
+  if(Sobo31.Panel002.Visible=True)and(Sobo31.Panel003.Visible=True)Then begin
+     Sobo31.Panel002.Visible:=False;
+     Sobo31.Panel003.Top:=85;  Sobo31.Panel003.Height:=414;
+  end else begin
+     Sobo31.Panel002.Visible:=True;
+     Sobo31.Panel003.Visible:=True;
+     Sobo31.Panel002.Top:=85;  Sobo31.Panel002.Height:=206;
+     Sobo31.Panel003.Top:=293; Sobo31.Panel003.Height:=206;
+  end;
+  if FormX='32' Then
+  if(Sobo32.Panel002.Visible=True)and(Sobo32.Panel003.Visible=True)Then begin
+     Sobo32.Panel002.Visible:=False;
+     Sobo32.Panel003.Top:=85;  Sobo32.Panel003.Height:=414;
+  end else begin
+     Sobo32.Panel002.Visible:=True;
+     Sobo32.Panel003.Visible:=True;
+     Sobo32.Panel002.Top:=85;  Sobo32.Panel002.Height:=206;
+     Sobo32.Panel003.Top:=293; Sobo32.Panel003.Height:=206;
+  end;
+  if FormX='33' Then
+  if(Sobo33.Panel002.Visible=True)and(Sobo33.Panel003.Visible=True)Then begin
+     Sobo33.Panel002.Visible:=False;
+     Sobo33.Panel003.Top:=85;  Sobo33.Panel003.Height:=414;
+  end else begin
+     Sobo33.Panel002.Visible:=True;
+     Sobo33.Panel003.Visible:=True;
+     Sobo33.Panel002.Top:=85;  Sobo33.Panel002.Height:=206;
+     Sobo33.Panel003.Top:=293; Sobo33.Panel003.Height:=206;
+  end;
+{ if FormX='34' Then
+  if(Sobo34.Panel002.Visible=True)and(Sobo34.Panel003.Visible=True)Then begin
+     Sobo34.Panel002.Visible:=False;
+     Sobo34.Panel003.Top:=85;  Sobo34.Panel003.Height:=414;
+  end else begin
+     Sobo34.Panel002.Visible:=True;
+     Sobo34.Panel003.Visible:=True;
+     Sobo34.Panel002.Top:=85;  Sobo34.Panel002.Height:=206;
+     Sobo34.Panel003.Top:=293; Sobo34.Panel003.Height:=206;
+  end; }
+{ if FormX='35' Then
+  if(Sobo35.Panel002.Visible=True)and(Sobo35.Panel003.Visible=True)Then begin
+     Sobo35.Panel002.Visible:=False;
+     Sobo35.Panel003.Top:=85;  Sobo35.Panel003.Height:=414;
+  end else begin
+     Sobo35.Panel002.Visible:=True;
+     Sobo35.Panel003.Visible:=True;
+     Sobo35.Panel002.Top:=85;  Sobo35.Panel002.Height:=206;
+     Sobo35.Panel003.Top:=293; Sobo35.Panel003.Height:=206;
+  end; }
+  if FormX='36' Then
+  if(Sobo36.Panel002.Visible=True)and(Sobo36.Panel003.Visible=True)Then begin
+     Sobo36.Panel002.Visible:=False;
+     Sobo36.Panel003.Top:=85;  Sobo36.Panel003.Height:=414;
+  end else begin
+     Sobo36.Panel002.Visible:=True;
+     Sobo36.Panel003.Visible:=True;
+     Sobo36.Panel002.Top:=85;  Sobo36.Panel002.Height:=206;
+     Sobo36.Panel003.Top:=293; Sobo36.Panel003.Height:=206;
+  end;
+  if FormX='37' Then
+  if(Sobo37.Panel002.Visible=True)and(Sobo37.Panel003.Visible=True)Then begin
+     Sobo37.Panel002.Visible:=False;
+     Sobo37.Panel003.Top:=85;  Sobo37.Panel003.Height:=414;
+  end else begin
+     Sobo31.Panel002.Visible:=True;
+     Sobo31.Panel003.Visible:=True;
+     Sobo31.Panel002.Top:=85;  Sobo37.Panel002.Height:=206;
+     Sobo31.Panel003.Top:=293; Sobo37.Panel003.Height:=206;
+  end;
+{ if FormX='41' Then
+  if(Sobo41.Panel002.Visible=True)and(Sobo41.Panel004.Visible=True)Then begin
+     Sobo41.Panel001.Visible:=False; Sobo41.Panel002.Visible:=False;
+     Sobo41.Panel003.Top:=04;
+     Sobo41.Panel004.Top:=64;  Sobo41.Panel004.Height:=435;
+  end else begin
+     Sobo41.Panel001.Visible:=True;  Sobo41.Panel002.Visible:=True;
+     Sobo41.Panel003.Visible:=True;  Sobo41.Panel004.Visible:=True;
+     Sobo41.Panel001.Top:=04;  Sobo41.Panel003.Top:=253;
+     Sobo41.Panel002.Top:=64;  Sobo41.Panel002.Height:=186;
+     Sobo41.Panel004.Top:=313; Sobo41.Panel004.Height:=186;
+  end; }
+{ if FormX='42' Then
+  if(Sobo42.Panel002.Visible=True)and(Sobo42.Panel004.Visible=True)Then begin
+     Sobo42.Panel001.Visible:=False; Sobo42.Panel002.Visible:=False;
+     Sobo42.Panel003.Top:=04;
+     Sobo42.Panel004.Top:=64;  Sobo42.Panel004.Height:=435;
+  end else begin
+     Sobo42.Panel001.Visible:=True;  Sobo42.Panel002.Visible:=True;
+     Sobo42.Panel003.Visible:=True;  Sobo42.Panel004.Visible:=True;
+     Sobo42.Panel001.Top:=04;  Sobo42.Panel003.Top:=253;
+     Sobo42.Panel002.Top:=64;  Sobo42.Panel002.Height:=186;
+     Sobo42.Panel004.Top:=313; Sobo42.Panel004.Height:=186;
+  end; }
+{ if FormX='43' Then
+  if(Sobo43.Panel002.Visible=True)and(Sobo43.Panel004.Visible=True)Then begin
+     Sobo43.Panel001.Visible:=False; Sobo43.Panel002.Visible:=False;
+     Sobo43.Panel003.Top:=04;
+     Sobo43.Panel004.Top:=64;  Sobo43.Panel004.Height:=435;
+  end else begin
+     Sobo43.Panel001.Visible:=True;  Sobo43.Panel002.Visible:=True;
+     Sobo43.Panel003.Visible:=True;  Sobo43.Panel004.Visible:=True;
+     Sobo43.Panel001.Top:=04;  Sobo43.Panel003.Top:=253;
+     Sobo43.Panel002.Top:=64;  Sobo43.Panel002.Height:=186;
+     Sobo43.Panel004.Top:=313; Sobo43.Panel004.Height:=186;
+  end; }
+{ if FormX='44' Then
+  if(Sobo44.Panel002.Visible=True)and(Sobo44.Panel004.Visible=True)Then begin
+     Sobo44.Panel001.Visible:=False; Sobo44.Panel002.Visible:=False;
+     Sobo44.Panel003.Top:=04;
+     Sobo44.Panel004.Top:=64;  Sobo44.Panel004.Height:=435;
+  end else begin
+     Sobo44.Panel001.Visible:=True;  Sobo44.Panel002.Visible:=True;
+     Sobo44.Panel003.Visible:=True;  Sobo44.Panel004.Visible:=True;
+     Sobo44.Panel001.Top:=04;  Sobo44.Panel003.Top:=253;
+     Sobo44.Panel002.Top:=64;  Sobo44.Panel002.Height:=186;
+     Sobo44.Panel004.Top:=313; Sobo44.Panel004.Height:=186;
+  end; }
+{ if FormX='45' Then
+  if(Sobo45.Panel002.Visible=True)and(Sobo45.Panel004.Visible=True)Then begin
+     Sobo45.Panel001.Visible:=False; Sobo45.Panel002.Visible:=False;
+     Sobo45.Panel003.Top:=04;
+     Sobo45.Panel004.Top:=64;  Sobo45.Panel004.Height:=435;
+  end else begin
+     Sobo45.Panel001.Visible:=True;  Sobo45.Panel002.Visible:=True;
+     Sobo45.Panel003.Visible:=True;  Sobo45.Panel004.Visible:=True;
+     Sobo45.Panel001.Top:=04;  Sobo45.Panel003.Top:=253;
+     Sobo45.Panel002.Top:=64;  Sobo45.Panel002.Height:=186;
+     Sobo45.Panel004.Top:=313; Sobo45.Panel004.Height:=186;
+  end; }
+{ if FormX='47' Then
+  if(Sobo47.Panel002.Visible=True)and(Sobo47.Panel004.Visible=True)Then begin
+     Sobo47.Panel001.Visible:=False; Sobo47.Panel002.Visible:=False;
+     Sobo47.Panel003.Top:=04;
+     Sobo47.Panel004.Top:=64;  Sobo47.Panel004.Height:=435;
+  end else begin
+     Sobo47.Panel001.Visible:=True;  Sobo47.Panel002.Visible:=True;
+     Sobo47.Panel003.Visible:=True;  Sobo47.Panel004.Visible:=True;
+     Sobo47.Panel001.Top:=04;  Sobo47.Panel003.Top:=253;
+     Sobo47.Panel002.Top:=64;  Sobo47.Panel002.Height:=186;
+     Sobo47.Panel004.Top:=313; Sobo47.Panel004.Height:=186;
+  end; }
+{ if FormX='48' Then
+  if(Sobo48.Panel002.Visible=True)and(Sobo48.Panel003.Visible=True)Then begin
+     Sobo48.Panel002.Visible:=False;
+     Sobo48.Panel003.Top:=85;  Sobo48.Panel003.Height:=414;
+  end else begin
+     Sobo48.Panel002.Visible:=True;
+     Sobo48.Panel003.Visible:=True;
+     Sobo48.Panel002.Top:=85;  Sobo48.Panel002.Height:=206;
+     Sobo48.Panel003.Top:=293; Sobo48.Panel003.Height:=206;
+  end; }
+  if FormX='49' Then
+  if(Sobo49.Panel002.Visible=True)and(Sobo49.Panel003.Visible=True)Then begin
+     Sobo49.Panel002.Visible:=False;
+     Sobo49.Panel003.Top:=85;  Sobo49.Panel003.Height:=414;
+  end else begin
+     Sobo49.Panel002.Visible:=True;
+     Sobo49.Panel003.Visible:=True;
+     Sobo49.Panel002.Top:=85;  Sobo49.Panel002.Height:=206;
+     Sobo49.Panel003.Top:=293; Sobo49.Panel003.Height:=206;
+  end;
+{ if FormX='51' Then
+  if(Sobo51.Panel002.Visible=True)and(Sobo51.Panel004.Visible=True)Then begin
+     Sobo51.Panel001.Visible:=False; Sobo51.Panel002.Visible:=False;
+     Sobo51.Panel003.Top:=04;
+     Sobo51.Panel004.Top:=64;  Sobo51.Panel004.Height:=435;
+  end else begin
+     Sobo51.Panel001.Visible:=True;  Sobo51.Panel002.Visible:=True;
+     Sobo51.Panel003.Visible:=True;  Sobo51.Panel004.Visible:=True;
+     Sobo51.Panel001.Top:=04;  Sobo51.Panel003.Top:=253;
+     Sobo51.Panel002.Top:=64;  Sobo51.Panel002.Height:=186;
+     Sobo51.Panel004.Top:=301; Sobo51.Panel004.Height:=186;
+  end; }
+{ if FormX='52' Then
+  if(Sobo52.Panel002.Visible=True)and(Sobo52.Panel004.Visible=True)Then begin
+     Sobo52.Panel001.Visible:=False; Sobo52.Panel002.Visible:=False;
+     Sobo52.Panel003.Top:=04;
+     Sobo52.Panel004.Top:=64;  Sobo52.Panel004.Height:=435;
+  end else begin
+     Sobo52.Panel001.Visible:=True;  Sobo52.Panel002.Visible:=True;
+     Sobo52.Panel003.Visible:=True;  Sobo52.Panel004.Visible:=True;
+     Sobo52.Panel001.Top:=04;  Sobo52.Panel003.Top:=253;
+     Sobo52.Panel002.Top:=64;  Sobo52.Panel002.Height:=186;
+     Sobo52.Panel004.Top:=313; Sobo52.Panel004.Height:=186;
+  end; }
+{ if FormX='53' Then
+  if(Sobo53.Panel002.Visible=True)and(Sobo53.Panel004.Visible=True)Then begin
+     Sobo53.Panel001.Visible:=False; Sobo53.Panel002.Visible:=False;
+     Sobo53.Panel003.Top:=04;
+     Sobo53.Panel004.Top:=52;  Sobo53.Panel004.Height:=447;
+  end else begin
+     Sobo53.Panel001.Visible:=True;  Sobo53.Panel002.Visible:=True;
+     Sobo53.Panel003.Visible:=True;  Sobo53.Panel004.Visible:=True;
+     Sobo53.Panel001.Top:=04;  Sobo53.Panel003.Top:=253;
+     Sobo53.Panel002.Top:=52;  Sobo53.Panel002.Height:=198;
+     Sobo53.Panel004.Top:=301; Sobo53.Panel004.Height:=198;
+  end; }
+{ if FormX='54' Then
+  if(Sobo54.Panel002.Visible=True)and(Sobo54.Panel004.Visible=True)Then begin
+     Sobo54.Panel001.Visible:=False; Sobo54.Panel002.Visible:=False;
+     Sobo54.Panel003.Top:=04;
+     Sobo54.Panel004.Top:=52;  Sobo54.Panel004.Height:=447;
+  end else begin
+     Sobo54.Panel001.Visible:=True;  Sobo54.Panel002.Visible:=True;
+     Sobo54.Panel003.Visible:=True;  Sobo54.Panel004.Visible:=True;
+     Sobo54.Panel001.Top:=04;  Sobo54.Panel003.Top:=253;
+     Sobo54.Panel002.Top:=52;  Sobo54.Panel002.Height:=198;
+     Sobo54.Panel004.Top:=301; Sobo54.Panel004.Height:=198;
+  end; }
+{ if FormX='55' Then
+  if(Sobo55.Panel002.Visible=True)and(Sobo55.Panel004.Visible=True)Then begin
+     Sobo55.Panel001.Visible:=False; Sobo55.Panel002.Visible:=False;
+     Sobo55.Panel003.Top:=04;
+     Sobo55.Panel004.Top:=52;  Sobo55.Panel004.Height:=447;
+  end else begin
+     Sobo55.Panel001.Visible:=True;  Sobo55.Panel002.Visible:=True;
+     Sobo55.Panel003.Visible:=True;  Sobo55.Panel004.Visible:=True;
+     Sobo55.Panel001.Top:=04;  Sobo55.Panel003.Top:=253;
+     Sobo55.Panel002.Top:=52;  Sobo55.Panel002.Height:=198;
+     Sobo55.Panel004.Top:=301; Sobo55.Panel004.Height:=198;
+  end; }
+  if FormX='61' Then
+  if(Sobo61.Panel002.Visible=True)and(Sobo61.Panel003.Visible=True)Then begin
+     Sobo61.Panel002.Visible:=False;
+     Sobo61.Panel003.Top:=85;  Sobo61.Panel003.Height:=414;
+  end else begin
+     Sobo61.Panel002.Visible:=True;
+     Sobo61.Panel003.Visible:=True;
+     Sobo61.Panel002.Top:=85;  Sobo61.Panel002.Height:=206;
+     Sobo61.Panel003.Top:=293; Sobo61.Panel003.Height:=206;
+  end;
+  if FormX='62' Then
+  if(Sobo62.Panel002.Visible=True)and(Sobo62.Panel003.Visible=True)Then begin
+     Sobo62.Panel002.Visible:=False;
+     Sobo62.Panel003.Top:=85;  Sobo62.Panel003.Height:=414;
+  end else begin
+     Sobo62.Panel002.Visible:=True;
+     Sobo62.Panel003.Visible:=True;
+     Sobo62.Panel002.Top:=85;  Sobo62.Panel002.Height:=206;
+     Sobo62.Panel003.Top:=293; Sobo62.Panel003.Height:=206;
+  end;
+{ if FormX='63' Then
+  if(Sobo63.Panel002.Visible=True)and(Sobo63.Panel003.Visible=True)Then begin
+     Sobo63.Panel002.Visible:=False;
+     Sobo63.Panel003.Top:=85;  Sobo63.Panel003.Height:=414;
+  end else begin
+     Sobo63.Panel002.Visible:=True;
+     Sobo63.Panel003.Visible:=True;
+     Sobo63.Panel002.Top:=85;  Sobo63.Panel002.Height:=206;
+     Sobo63.Panel003.Top:=293; Sobo63.Panel003.Height:=206;
+  end; }
+{ if FormX='64' Then
+  if(Sobo64.Panel002.Visible=True)and(Sobo64.Panel003.Visible=True)Then begin
+     Sobo64.Panel002.Visible:=False;
+     Sobo64.Panel003.Top:=85;  Sobo64.Panel003.Height:=414;
+  end else begin
+     Sobo64.Panel002.Visible:=True;
+     Sobo64.Panel003.Visible:=True;
+     Sobo64.Panel002.Top:=85;  Sobo64.Panel002.Height:=206;
+     Sobo64.Panel003.Top:=293; Sobo64.Panel003.Height:=206;
+  end; }
+  if FormX='65' Then
+  if(Sobo65.Panel002.Visible=True)and(Sobo65.Panel003.Visible=True)Then begin
+     Sobo65.Panel002.Visible:=False;
+     Sobo65.Panel003.Top:=85;  Sobo65.Panel003.Height:=414;
+  end else begin
+     Sobo65.Panel002.Visible:=True;
+     Sobo65.Panel003.Visible:=True;
+     Sobo65.Panel002.Top:=85;  Sobo65.Panel002.Height:=206;
+     Sobo65.Panel003.Top:=293; Sobo65.Panel003.Height:=206;
+  end;
+  if FormX='66' Then
+  if(Sobo66.Panel002.Visible=True)and(Sobo66.Panel003.Visible=True)Then begin
+     Sobo66.Panel002.Visible:=False;
+     Sobo66.Panel003.Top:=85;  Sobo66.Panel003.Height:=414;
+  end else begin
+     Sobo66.Panel002.Visible:=True;
+     Sobo66.Panel003.Visible:=True;
+     Sobo66.Panel002.Top:=85;  Sobo66.Panel002.Height:=206;
+     Sobo66.Panel003.Top:=293; Sobo66.Panel003.Height:=206;
+  end;
+  if FormX='67' Then
+  if(Sobo67.Panel002.Visible=True)and(Sobo67.Panel003.Visible=True)Then begin
+     Sobo67.Panel002.Visible:=False;
+     Sobo67.Panel003.Top:=85;  Sobo67.Panel003.Height:=414;
+  end else begin
+     Sobo67.Panel002.Visible:=True;
+     Sobo67.Panel003.Visible:=True;
+     Sobo67.Panel002.Top:=85;  Sobo67.Panel002.Height:=206;
+     Sobo67.Panel003.Top:=293; Sobo67.Panel003.Height:=206;
+  end;
+  if FormX='68' Then
+  if(Sobo68.Panel002.Visible=True)and(Sobo68.Panel003.Visible=True)Then begin
+     Sobo68.Panel002.Visible:=False;
+     Sobo68.Panel003.Top:=85;  Sobo68.Panel003.Height:=414;
+  end else begin
+     Sobo68.Panel002.Visible:=True;
+     Sobo68.Panel003.Visible:=True;
+     Sobo68.Panel002.Top:=85;  Sobo68.Panel002.Height:=206;
+     Sobo68.Panel003.Top:=293; Sobo68.Panel003.Height:=206;
+  end;
+end;
+
+procedure TTong20.Chang_00_01(FormX: String);
+begin
+  if FormX='31' Then begin
+    if(Sobo31.Panel103.Caption ='거 래 처')or(Sobo31.Panel103.Caption ='입고처명')Then begin
+    if(Sobo31.Panel103.Caption ='거 래 처')Then begin
+       Sobo31.Panel103.Caption:='거래처명';
+    end;
+    if(Sobo31.Panel103.Caption ='입고처명')Then begin
+       Sobo31.Panel103.Caption:='거 래 처';
+    end;
+       Sobo31.DBGrid101.Columns.Items[3].Title.Caption:='출고수량';
+       Sobo31.DBGrid101.Columns.Items[4].Title.Caption:='출고금액';
+       Sobo31.DBGrid101.Columns.Items[7].Title.Caption:='수 금 액';
+       Sobo31.DBGrid101.Columns.Items[8].Title.Caption:='미 수 금';
+       Sobo31.DBGrid201.Columns.Items[4].Title.Caption:='판매수량';
+       Sobo31.DBGrid201.Columns.Items[5].Title.Caption:='출고금액';
+       Sobo31.DBGrid201.Columns.Items[7].Title.Caption:='수 금 액';
+       Sobo31.DBGrid201.Columns.Items[8].Title.Caption:='미 수 금';
+    end else
+    if Sobo31.Panel103.Caption ='거래처명' Then begin
+       Sobo31.Panel103.Caption:='입고처명';
+       Sobo31.DBGrid101.Columns.Items[3].Title.Caption:='입고수량';
+       Sobo31.DBGrid101.Columns.Items[4].Title.Caption:='입고금액';
+       Sobo31.DBGrid101.Columns.Items[7].Title.Caption:='지 급 액';
+       Sobo31.DBGrid101.Columns.Items[8].Title.Caption:='미지급금';
+       Sobo31.DBGrid201.Columns.Items[4].Title.Caption:='거래수량';
+       Sobo31.DBGrid201.Columns.Items[5].Title.Caption:='입고금액';
+       Sobo31.DBGrid201.Columns.Items[7].Title.Caption:='지 급 액';
+       Sobo31.DBGrid201.Columns.Items[8].Title.Caption:='미지급금';
+    end;
+  end;
+  if FormX='32' Then begin
+    if Sobo32.Panel103.Caption ='창고도서' Then begin
+       Sobo32.Panel103.Caption:='도 서 명';
+    end else
+    if Sobo32.Panel103.Caption ='도 서 명' Then begin
+       Sobo32.Panel103.Caption:='본사도서';
+    end else
+    if Sobo32.Panel103.Caption ='본사도서' Then begin
+       Sobo32.Panel103.Caption:='창고도서';
+    end;
+  end;
+  if FormX='33' Then begin
+    if(Sobo33.Panel102.Caption ='거 래 처')or(Sobo33.Panel102.Caption ='입고처명')Then begin
+    if(Sobo33.Panel102.Caption ='거 래 처')Then begin
+       Sobo33.Panel102.Caption:='거래처명';
+    end;
+    if(Sobo33.Panel102.Caption ='입고처명')Then begin
+       Sobo33.Panel102.Caption:='거 래 처';
+    end;
+       Sobo33.DBGrid101.Columns.Items[0].Title.Caption:='거래처구분';
+       Sobo33.DBGrid101.Columns.Items[1].Title.Caption:='전일미수금';
+       Sobo33.DBGrid101.Columns.Items[2].Title.Caption:='판매수량';
+       Sobo33.DBGrid101.Columns.Items[3].Title.Caption:='출고금액';
+       Sobo33.DBGrid101.Columns.Items[6].Title.Caption:='수 금 액';
+       Sobo33.DBGrid101.Columns.Items[7].Title.Caption:='미 수 금';
+       Sobo33.DBGrid201.Columns.Items[0].Title.Caption:='거래처명';
+       Sobo33.DBGrid201.Columns.Items[1].Title.Caption:='전일미수금';
+       Sobo33.DBGrid201.Columns.Items[2].Title.Caption:='판매수량';
+       Sobo33.DBGrid201.Columns.Items[3].Title.Caption:='출고금액';
+       Sobo33.DBGrid201.Columns.Items[6].Title.Caption:='수 금 액';
+       Sobo33.DBGrid201.Columns.Items[7].Title.Caption:='미 수 금';
+    end else
+    if Sobo33.Panel102.Caption ='거래처명' Then begin
+       Sobo33.Panel102.Caption:='입고처명';
+       Sobo33.DBGrid101.Columns.Items[0].Title.Caption:='입고처구분';
+       Sobo33.DBGrid101.Columns.Items[1].Title.Caption:='전일미지급';
+       Sobo33.DBGrid101.Columns.Items[2].Title.Caption:='거래수량';
+       Sobo33.DBGrid101.Columns.Items[3].Title.Caption:='입고금액';
+       Sobo33.DBGrid101.Columns.Items[6].Title.Caption:='지 급 액';
+       Sobo33.DBGrid101.Columns.Items[7].Title.Caption:='미지급금';
+       Sobo33.DBGrid201.Columns.Items[0].Title.Caption:='입고처명';
+       Sobo33.DBGrid201.Columns.Items[1].Title.Caption:='전일미지급';
+       Sobo33.DBGrid201.Columns.Items[2].Title.Caption:='거래수량';
+       Sobo33.DBGrid201.Columns.Items[3].Title.Caption:='입고금액';
+       Sobo33.DBGrid201.Columns.Items[6].Title.Caption:='지 급 액';
+       Sobo33.DBGrid201.Columns.Items[7].Title.Caption:='미지급금';
+    end;
+  end;
+{ if FormX='34' Then begin
+    if Sobo34.Panel102.Caption ='창고도서' Then begin
+       Sobo34.Panel102.Caption:='도 서 명';
+    end else
+    if Sobo34.Panel102.Caption ='도 서 명' Then begin
+       Sobo34.Panel102.Caption:='본사도서';
+    end else
+    if Sobo34.Panel102.Caption ='본사도서' Then begin
+       Sobo34.Panel102.Caption:='창고도서';
+    end;
+  end; }
+{ if FormX='35' Then begin
+    if(Sobo35.Panel102.Caption ='거 래 처')or(Sobo35.Panel102.Caption ='입고처명')Then begin
+    if(Sobo35.Panel102.Caption ='거 래 처')Then begin
+       Sobo35.Panel102.Caption:='거래처명';
+    end;
+    if(Sobo35.Panel102.Caption ='입고처명')Then begin
+       Sobo35.Panel102.Caption:='거 래 처';
+    end;
+       Sobo35.DBGrid101.Columns.Items[0].Title.Caption:='거래처명';
+       Sobo35.DBGrid101.Columns.Items[1].Title.Caption:='출고수량';
+       Sobo35.DBGrid101.Columns.Items[2].Title.Caption:='출고금액';
+       Sobo35.DBGrid101.Columns.Items[6].Title.Caption:='수 금 액';
+       Sobo35.DBGrid101.Columns.Items[7].Title.Caption:='미 수 금';
+       Sobo35.DBGrid201.Columns.Items[0].Title.Caption:='거래처명';
+       Sobo35.DBGrid201.Columns.Items[1].Title.Caption:='출고수량';
+       Sobo35.DBGrid201.Columns.Items[2].Title.Caption:='출고금액';
+       Sobo35.DBGrid201.Columns.Items[6].Title.Caption:='수 금 액';
+       Sobo35.DBGrid201.Columns.Items[7].Title.Caption:='미 수 금';
+    end else
+    if Sobo35.Panel102.Caption ='거래처명' Then begin
+       Sobo35.Panel102.Caption:='입고처명';
+       Sobo35.DBGrid101.Columns.Items[0].Title.Caption:='입고처구분';
+       Sobo35.DBGrid101.Columns.Items[1].Title.Caption:='입고수량';
+       Sobo35.DBGrid101.Columns.Items[2].Title.Caption:='입고금액';
+       Sobo35.DBGrid101.Columns.Items[6].Title.Caption:='지 급 액';
+       Sobo35.DBGrid101.Columns.Items[7].Title.Caption:='미지급금';
+       Sobo35.DBGrid201.Columns.Items[0].Title.Caption:='입고처명';
+       Sobo35.DBGrid201.Columns.Items[1].Title.Caption:='입고수량';
+       Sobo35.DBGrid201.Columns.Items[2].Title.Caption:='입고금액';
+       Sobo35.DBGrid201.Columns.Items[6].Title.Caption:='지 급 액';
+       Sobo35.DBGrid201.Columns.Items[7].Title.Caption:='미지급금';
+    end;
+  end; }
+{ if FormX='36' Then begin
+    if Sobo36.Panel102.Caption ='창고도서' Then begin
+       Sobo36.Panel102.Caption:='도 서 명';
+    end else
+    if Sobo36.Panel102.Caption ='도 서 명' Then begin
+       Sobo36.Panel102.Caption:='본사도서';
+    end else
+    if Sobo36.Panel102.Caption ='본사도서' Then begin
+       Sobo36.Panel102.Caption:='창고도서';
+    end;
+  end; }
+  if FormX='37' Then begin
+  { if(Sobo37.Panel102.Caption ='거 래 처')or(Sobo37.Panel102.Caption ='입고처명')Then begin
+    if(Sobo37.Panel102.Caption ='거 래 처')Then begin
+       Sobo37.Panel102.Caption:='거래처명';
+    end;
+    if(Sobo37.Panel102.Caption ='입고처명')Then begin
+       Sobo37.Panel102.Caption:='거 래 처';
+    end;
+       Sobo37.DBGrid101.Columns.Items[0].Title.Caption:='담 당 자';
+       Sobo37.DBGrid101.Columns.Items[1].Title.Caption:='전일미수금';
+       Sobo37.DBGrid101.Columns.Items[2].Title.Caption:='판매수량';
+       Sobo37.DBGrid101.Columns.Items[3].Title.Caption:='출고금액';
+       Sobo37.DBGrid101.Columns.Items[6].Title.Caption:='수 금 액';
+       Sobo37.DBGrid101.Columns.Items[7].Title.Caption:='미 수 금';
+       Sobo37.DBGrid201.Columns.Items[0].Title.Caption:='거래처명';
+       Sobo37.DBGrid201.Columns.Items[1].Title.Caption:='전일미수금';
+       Sobo37.DBGrid201.Columns.Items[2].Title.Caption:='판매수량';
+       Sobo37.DBGrid201.Columns.Items[3].Title.Caption:='출고금액';
+       Sobo37.DBGrid201.Columns.Items[6].Title.Caption:='수 금 액';
+       Sobo37.DBGrid201.Columns.Items[7].Title.Caption:='미 수 금';
+    end else
+    if Sobo37.Panel102.Caption ='거래처명' Then begin
+       Sobo37.Panel102.Caption:='입고처명';
+       Sobo37.DBGrid101.Columns.Items[0].Title.Caption:='담 당 자';
+       Sobo37.DBGrid101.Columns.Items[1].Title.Caption:='전일미지급';
+       Sobo37.DBGrid101.Columns.Items[2].Title.Caption:='거래수량';
+       Sobo37.DBGrid101.Columns.Items[3].Title.Caption:='입고금액';
+       Sobo37.DBGrid101.Columns.Items[6].Title.Caption:='지 급 액';
+       Sobo37.DBGrid101.Columns.Items[7].Title.Caption:='미지급금';
+       Sobo37.DBGrid201.Columns.Items[0].Title.Caption:='입고처명';
+       Sobo37.DBGrid201.Columns.Items[1].Title.Caption:='전일미지급';
+       Sobo37.DBGrid201.Columns.Items[2].Title.Caption:='거래수량';
+       Sobo37.DBGrid201.Columns.Items[3].Title.Caption:='입고금액';
+       Sobo37.DBGrid201.Columns.Items[6].Title.Caption:='지 급 액';
+       Sobo37.DBGrid201.Columns.Items[7].Title.Caption:='미지급금';
+    end; }
+  end;
+  if FormX='49' Then begin
+  { if(Sobo49.Panel102.Caption ='거 래 처')or(Sobo49.Panel102.Caption ='입고처명')Then begin
+    if(Sobo49.Panel102.Caption ='거 래 처')Then begin
+       Sobo49.Panel102.Caption:='거래처명';
+    end;
+    if(Sobo49.Panel102.Caption ='입고처명')Then begin
+       Sobo49.Panel102.Caption:='거 래 처';
+    end;
+       Sobo49.DBGrid101.Columns.Items[0].Title.Caption:='거래처구분';
+       Sobo49.DBGrid101.Columns.Items[1].Title.Caption:='출고수량';
+       Sobo49.DBGrid101.Columns.Items[2].Title.Caption:='출고금액';
+       Sobo49.DBGrid101.Columns.Items[5].Title.Caption:='수 금 액';
+       Sobo49.DBGrid101.Columns.Items[6].Title.Caption:='판매금액';
+       Sobo49.DBGrid201.Columns.Items[0].Title.Caption:='거래처명';
+       Sobo49.DBGrid201.Columns.Items[1].Title.Caption:='출고수량';
+       Sobo49.DBGrid201.Columns.Items[2].Title.Caption:='출고금액';
+       Sobo49.DBGrid201.Columns.Items[5].Title.Caption:='수 금 액';
+       Sobo49.DBGrid201.Columns.Items[6].Title.Caption:='판매금액';
+    end else
+    if Sobo49.Panel102.Caption ='거래처명' Then begin
+       Sobo49.Panel102.Caption:='입고처명';
+       Sobo49.DBGrid101.Columns.Items[0].Title.Caption:='입고처구분';
+       Sobo49.DBGrid101.Columns.Items[1].Title.Caption:='입고수량';
+       Sobo49.DBGrid101.Columns.Items[2].Title.Caption:='입고금액';
+       Sobo49.DBGrid101.Columns.Items[5].Title.Caption:='지 급 액';
+       Sobo49.DBGrid101.Columns.Items[6].Title.Caption:='거래금액';
+       Sobo49.DBGrid201.Columns.Items[0].Title.Caption:='입고처명';
+       Sobo49.DBGrid201.Columns.Items[1].Title.Caption:='입고수량';
+       Sobo49.DBGrid201.Columns.Items[2].Title.Caption:='입고금액';
+       Sobo49.DBGrid201.Columns.Items[5].Title.Caption:='지 급 액';
+       Sobo49.DBGrid201.Columns.Items[6].Title.Caption:='거래금액';
+    end; }
+  end;
+{ if FormX='51' Then begin
+    if Sobo51.Panel102.Caption ='거래처명' Then begin
+       Sobo51.Panel102.Caption:='거 래 처';
+    end else
+    if Sobo51.Panel102.Caption ='거 래 처' Then begin
+       Sobo51.Panel102.Caption:='거래처명';
+    end;
+  end; }
+  if FormX='53' Then begin
+    if Sobo53.Panel101.Caption ='거래처명' Then begin
+       Sobo53.Panel101.Caption:='거 래 처';
+    end else
+    if Sobo53.Panel101.Caption ='거 래 처' Then begin
+       Sobo53.Panel101.Caption:='거래처명';
+    end;
+  end;
+  if FormX='61' Then begin
+    if Sobo61.Panel102.Caption ='창고도서' Then begin
+       Sobo61.Panel102.Caption:='도 서 명';
+       Sobo61.DBGrid101.Columns.Items[0].Title.Caption:='도 서 명';
+    end else
+    if Sobo61.Panel102.Caption ='도 서 명' Then begin
+       Sobo61.Panel102.Caption:='본사도서';
+       Sobo61.DBGrid101.Columns.Items[0].Title.Caption:='본사도서';
+    end else
+    if Sobo61.Panel102.Caption ='본사도서' Then begin
+       Sobo61.Panel102.Caption:='창고도서';
+       Sobo61.DBGrid101.Columns.Items[0].Title.Caption:='창고도서';
+    end;
+  end;
+  if FormX='62' Then begin
+    if(Sobo62.Panel102.Caption ='거 래 처')or(Sobo62.Panel102.Caption ='입고처명')Then begin
+    if(Sobo62.Panel102.Caption ='거 래 처')Then begin
+       Sobo62.Panel102.Caption:='거래처명';
+       Sobo62.DBGrid101.Columns.Items[0].Title.Caption:='거래처명';
+    end;
+    if(Sobo62.Panel102.Caption ='입고처명')Then begin
+       Sobo62.Panel102.Caption:='거 래 처';
+       Sobo62.DBGrid101.Columns.Items[0].Title.Caption:='거 래 처';
+    end;
+       Sobo62.DBGrid101.Columns.Items[1].Title.Caption:='출고수량';
+       Sobo62.DBGrid101.Columns.Items[2].Title.Caption:='출고금액';
+       Sobo62.DBGrid101.Columns.Items[6].Title.Caption:='수 금 액';
+       Sobo62.DBGrid101.Columns.Items[7].Title.Caption:='판매금액';
+       Sobo62.DBGrid201.Columns.Items[1].Title.Caption:='출고수량';
+       Sobo62.DBGrid201.Columns.Items[2].Title.Caption:='출고금액';
+       Sobo62.DBGrid201.Columns.Items[6].Title.Caption:='판매수량';
+       Sobo62.DBGrid201.Columns.Items[7].Title.Caption:='판매금액';
+    end else
+    if Sobo62.Panel102.Caption ='거래처명' Then begin
+       Sobo62.Panel102.Caption:='입고처명';
+       Sobo62.DBGrid101.Columns.Items[0].Title.Caption:='입고처명';
+       Sobo62.DBGrid101.Columns.Items[1].Title.Caption:='입고수량';
+       Sobo62.DBGrid101.Columns.Items[2].Title.Caption:='입고금액';
+       Sobo62.DBGrid101.Columns.Items[6].Title.Caption:='지 급 액';
+       Sobo62.DBGrid101.Columns.Items[7].Title.Caption:='거래금액';
+       Sobo62.DBGrid201.Columns.Items[1].Title.Caption:='입고수량';
+       Sobo62.DBGrid201.Columns.Items[2].Title.Caption:='입고금액';
+       Sobo62.DBGrid201.Columns.Items[6].Title.Caption:='거래수량';
+       Sobo62.DBGrid201.Columns.Items[7].Title.Caption:='거래금액';
+    end;
+  end;
+{ if FormX='63' Then begin
+    if Sobo63.Panel102.Caption ='창고도서' Then begin
+       Sobo63.Panel102.Caption:='도 서 명';
+    end else
+    if Sobo63.Panel102.Caption ='도 서 명' Then begin
+       Sobo63.Panel102.Caption:='본사도서';
+    end else
+    if Sobo63.Panel102.Caption ='본사도서' Then begin
+       Sobo63.Panel102.Caption:='창고도서';
+    end;
+  end; }
+{ if FormX='64' Then begin
+    if Sobo64.Panel102.Caption ='거 래 처' Then begin
+       Sobo64.Panel102.Caption:='거래처명';
+       Sobo64.DBGrid201.Columns.Items[0].Title.Caption:='거래처명';
+    end else
+    if Sobo64.Panel102.Caption ='거래처명' Then begin
+       Sobo64.Panel102.Caption:='입고처명';
+       Sobo64.DBGrid201.Columns.Items[0].Title.Caption:='입고처명';
+    end else
+    if Sobo64.Panel102.Caption ='입고처명' Then begin
+       Sobo64.Panel102.Caption:='거 래 처';
+       Sobo64.DBGrid201.Columns.Items[0].Title.Caption:='거 래 처';
+    end;
+  end; }
+  if FormX='65' Then begin
+    if Sobo65.Panel102.Caption ='창고도서' Then begin
+       Sobo65.Panel102.Caption:='도 서 명';
+    end else
+    if Sobo65.Panel102.Caption ='도 서 명' Then begin
+       Sobo65.Panel102.Caption:='본사도서';
+    end else
+    if Sobo65.Panel102.Caption ='본사도서' Then begin
+       Sobo65.Panel102.Caption:='창고도서';
+    end;
+  end;
+  if FormX='66' Then begin
+    if Sobo66.Panel102.Caption ='거 래 처' Then begin
+       Sobo66.Panel102.Caption:='거래처명';
+    end else
+    if Sobo66.Panel102.Caption ='거래처명' Then begin
+       Sobo66.Panel102.Caption:='입고처명';
+    end else
+    if Sobo66.Panel102.Caption ='입고처명' Then begin
+       Sobo66.Panel102.Caption:='거 래 처';
+    end;
+  end;
+  if FormX='67' Then begin
+    if Sobo67.Panel102.Caption ='창고도서' Then begin
+       Sobo67.Panel102.Caption:='도 서 명';
+    end else
+    if Sobo67.Panel102.Caption ='도 서 명' Then begin
+       Sobo67.Panel102.Caption:='본사도서';
+    end else
+    if Sobo67.Panel102.Caption ='본사도서' Then begin
+       Sobo67.Panel102.Caption:='창고도서';
+    end;
+  end;
+  if FormX='68' Then begin
+    if(Sobo68.Panel102.Caption ='거 래 처')or(Sobo68.Panel102.Caption ='입고처명')Then begin
+    if(Sobo68.Panel102.Caption ='거 래 처')Then begin
+       Sobo68.Panel102.Caption:='거래처명';
+       Sobo68.DBGrid101.Columns.Items[1].Title.Caption:='거래처명';
+       Sobo68.DBGrid201.Columns.Items[1].Title.Caption:='거래처명';
+    end;
+    if(Sobo68.Panel102.Caption ='입고처명')Then begin
+       Sobo68.Panel102.Caption:='거 래 처';
+       Sobo68.DBGrid101.Columns.Items[1].Title.Caption:='거 래 처';
+       Sobo68.DBGrid201.Columns.Items[1].Title.Caption:='거 래 처';
+    end;
+       Sobo68.DBGrid101.Columns.Items[2].Title.Caption:='출고수량';
+       Sobo68.DBGrid101.Columns.Items[3].Title.Caption:='출고금액';
+       Sobo68.DBGrid101.Columns.Items[7].Title.Caption:='수 금 액';
+       Sobo68.DBGrid101.Columns.Items[8].Title.Caption:='판매금액';
+       Sobo68.DBGrid201.Columns.Items[2].Title.Caption:='출고수량';
+       Sobo68.DBGrid201.Columns.Items[3].Title.Caption:='출고금액';
+       Sobo68.DBGrid201.Columns.Items[7].Title.Caption:='수 금 액';
+       Sobo68.DBGrid201.Columns.Items[8].Title.Caption:='판매금액';
+    end else
+    if Sobo68.Panel102.Caption ='거래처명' Then begin
+       Sobo68.Panel102.Caption:='입고처명';
+       Sobo68.DBGrid101.Columns.Items[1].Title.Caption:='입고처명';
+       Sobo68.DBGrid201.Columns.Items[1].Title.Caption:='입고처명';
+       Sobo68.DBGrid101.Columns.Items[2].Title.Caption:='입고수량';
+       Sobo68.DBGrid101.Columns.Items[3].Title.Caption:='입고금액';
+       Sobo68.DBGrid101.Columns.Items[7].Title.Caption:='지 급 액';
+       Sobo68.DBGrid101.Columns.Items[8].Title.Caption:='거래금액';
+       Sobo68.DBGrid201.Columns.Items[2].Title.Caption:='입고수량';
+       Sobo68.DBGrid201.Columns.Items[3].Title.Caption:='입고금액';
+       Sobo68.DBGrid201.Columns.Items[7].Title.Caption:='지 급 액';
+       Sobo68.DBGrid201.Columns.Items[8].Title.Caption:='거래금액';
+    end;
+  end;
+end;
+
+procedure TTong20.Chang_00_02(FormX: String);
+begin
+  if FormX='33' Then begin
+  { if Sobo33.DBGrid101.Columns.Items[5].Title.Caption ='증정수량' Then begin
+       Sobo33.DBGrid101.Columns.Items[5].FieldName:='Gjsum';
+       Sobo33.DBGrid101.Columns.Items[5].Title.Caption:='장부차액';
+       Sobo33.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3302);
+    end else
+    if Sobo33.DBGrid101.Columns.Items[5].Title.Caption ='장부차액' Then begin
+       Sobo33.DBGrid101.Columns.Items[5].FieldName:='Gjqut';
+       Sobo33.DBGrid101.Columns.Items[5].Title.Caption:='증정수량';
+       Sobo33.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3301);
+    end;
+    if Sobo33.DBGrid201.Columns.Items[5].Title.Caption ='증정수량' Then begin
+       Sobo33.DBGrid201.Columns.Items[5].FieldName:='Gjsum';
+       Sobo33.DBGrid201.Columns.Items[5].Title.Caption:='장부차액';
+       Sobo33.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3304);
+    end else
+    if Sobo33.DBGrid201.Columns.Items[5].Title.Caption ='장부차액' Then begin
+       Sobo33.DBGrid201.Columns.Items[5].FieldName:='Gjqut';
+       Sobo33.DBGrid201.Columns.Items[5].Title.Caption:='증정수량';
+       Sobo33.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3303);
+    end; }
+  end;
+{ if FormX='34' Then begin
+    if Sobo34.DBGrid101.Columns.Items[6].Title.Caption ='폐기수량' Then begin
+       Sobo34.DBGrid101.Columns.Items[6].FieldName:='Gpsum';
+       Sobo34.DBGrid101.Columns.Items[6].Title.Caption:='변경수량';
+       Sobo34.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',S3402);
+    end else
+    if Sobo34.DBGrid101.Columns.Items[6].Title.Caption ='변경수량' Then begin
+       Sobo34.DBGrid101.Columns.Items[6].FieldName:='Gpqut';
+       Sobo34.DBGrid101.Columns.Items[6].Title.Caption:='폐기수량';
+       Sobo34.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',S3401);
+    end;
+    if Sobo34.DBGrid201.Columns.Items[6].Title.Caption ='폐기수량' Then begin
+       Sobo34.DBGrid201.Columns.Items[6].FieldName:='Gpsum';
+       Sobo34.DBGrid201.Columns.Items[6].Title.Caption:='변경수량';
+       Sobo34.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',S3404);
+    end else
+    if Sobo34.DBGrid201.Columns.Items[6].Title.Caption ='변경수량' Then begin
+       Sobo34.DBGrid201.Columns.Items[6].FieldName:='Gpqut';
+       Sobo34.DBGrid201.Columns.Items[6].Title.Caption:='폐기수량';
+       Sobo34.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',S3403);
+    end;
+  end; }
+{ if FormX='35' Then begin
+    if Sobo35.DBGrid101.Columns.Items[5].Title.Caption ='증정수량' Then begin
+       Sobo35.DBGrid101.Columns.Items[5].FieldName:='Gjsum';
+       Sobo35.DBGrid101.Columns.Items[5].Title.Caption:='장부차액';
+       Sobo35.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3502);
+    end else
+    if Sobo35.DBGrid101.Columns.Items[5].Title.Caption ='장부차액' Then begin
+       Sobo35.DBGrid101.Columns.Items[5].FieldName:='Gjqut';
+       Sobo35.DBGrid101.Columns.Items[5].Title.Caption:='증정수량';
+       Sobo35.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3501);
+    end;
+  end; }
+{ if FormX='36' Then begin
+    if Sobo36.DBGrid101.Columns.Items[5].Title.Caption ='폐기수량' Then begin
+       Sobo36.DBGrid101.Columns.Items[5].FieldName:='Gpsum';
+       Sobo36.DBGrid101.Columns.Items[5].Title.Caption:='변경수량';
+       Sobo36.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3602);
+    end else
+    if Sobo36.DBGrid101.Columns.Items[5].Title.Caption ='변경수량' Then begin
+       Sobo36.DBGrid101.Columns.Items[5].FieldName:='Gpqut';
+       Sobo36.DBGrid101.Columns.Items[5].Title.Caption:='폐기수량';
+       Sobo36.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3601);
+    end;
+  end; }
+  if FormX='37' Then begin
+  { if Sobo37.DBGrid101.Columns.Items[5].Title.Caption ='증정수량' Then begin
+       Sobo37.DBGrid101.Columns.Items[5].FieldName:='Gjsum';
+       Sobo37.DBGrid101.Columns.Items[5].Title.Caption:='장부차액';
+       Sobo37.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3702);
+    end else
+    if Sobo37.DBGrid101.Columns.Items[5].Title.Caption ='장부차액' Then begin
+       Sobo37.DBGrid101.Columns.Items[5].FieldName:='Gjqut';
+       Sobo37.DBGrid101.Columns.Items[5].Title.Caption:='증정수량';
+       Sobo37.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3701);
+    end;
+    if Sobo37.DBGrid201.Columns.Items[5].Title.Caption ='증정수량' Then begin
+       Sobo37.DBGrid201.Columns.Items[5].FieldName:='Gjsum';
+       Sobo37.DBGrid201.Columns.Items[5].Title.Caption:='장부차액';
+       Sobo37.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3704);
+    end else
+    if Sobo37.DBGrid201.Columns.Items[5].Title.Caption ='장부차액' Then begin
+       Sobo37.DBGrid201.Columns.Items[5].FieldName:='Gjqut';
+       Sobo37.DBGrid201.Columns.Items[5].Title.Caption:='증정수량';
+       Sobo37.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3703);
+    end; }
+  end;
+  if FormX='61' Then begin
+    if Sobo61.DBGrid101.Columns.Items[5].Title.Caption ='폐기수량' Then begin
+       Sobo61.DBGrid101.Columns.Items[5].FieldName:='Gpsum';
+       Sobo61.DBGrid101.Columns.Items[5].Title.Caption:='변경수량';
+    // Sobo61.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6102);
+    end else
+    if Sobo61.DBGrid101.Columns.Items[5].Title.Caption ='변경수량' Then begin
+       Sobo61.DBGrid101.Columns.Items[5].FieldName:='Gpqut';
+       Sobo61.DBGrid101.Columns.Items[5].Title.Caption:='폐기수량';
+    // Sobo61.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6101);
+    end;
+  end;
+  if FormX='62' Then begin
+    if Sobo62.DBGrid101.Columns.Items[3].Title.Caption ='증정수량' Then begin
+       Sobo62.DBGrid101.Columns.Items[3].FieldName:='Gjsum';
+       Sobo62.DBGrid101.Columns.Items[3].Title.Caption:='장부차액';
+    // Sobo62.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6202);
+    end else
+    if Sobo62.DBGrid101.Columns.Items[3].Title.Caption ='장부차액' Then begin
+       Sobo62.DBGrid101.Columns.Items[3].FieldName:='Gjqut';
+       Sobo62.DBGrid101.Columns.Items[3].Title.Caption:='증정수량';
+    // Sobo62.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6201);
+    end;
+  end;
+  if FormX='67' Then begin
+    if Sobo67.DBGrid101.Columns.Items[6].Title.Caption ='폐기수량' Then begin
+       Sobo67.DBGrid101.Columns.Items[6].FieldName:='Gpsum';
+       Sobo67.DBGrid101.Columns.Items[6].Title.Caption:='변경수량';
+    // Sobo67.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6702);
+    end else
+    if Sobo67.DBGrid101.Columns.Items[6].Title.Caption ='변경수량' Then begin
+       Sobo67.DBGrid101.Columns.Items[6].FieldName:='Gpqut';
+       Sobo67.DBGrid101.Columns.Items[6].Title.Caption:='폐기수량';
+    // Sobo67.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6701);
+    end;
+    if Sobo67.DBGrid201.Columns.Items[6].Title.Caption ='폐기수량' Then begin
+       Sobo67.DBGrid201.Columns.Items[6].FieldName:='Gpsum';
+       Sobo67.DBGrid201.Columns.Items[6].Title.Caption:='변경수량';
+    // Sobo67.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6704);
+    end else
+    if Sobo67.DBGrid201.Columns.Items[6].Title.Caption ='변경수량' Then begin
+       Sobo67.DBGrid201.Columns.Items[6].FieldName:='Gpqut';
+       Sobo67.DBGrid201.Columns.Items[6].Title.Caption:='폐기수량';
+    // Sobo67.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6703);
+    end;
+  end;
+  if FormX='68' Then begin
+    if Sobo68.DBGrid101.Columns.Items[4].Title.Caption ='증정수량' Then begin
+       Sobo68.DBGrid101.Columns.Items[4].FieldName:='Gjsum';
+       Sobo68.DBGrid101.Columns.Items[4].Title.Caption:='장부차액';
+    // Sobo68.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6802);
+    end else
+    if Sobo68.DBGrid101.Columns.Items[4].Title.Caption ='장부차액' Then begin
+       Sobo68.DBGrid101.Columns.Items[4].FieldName:='Gjqut';
+       Sobo68.DBGrid101.Columns.Items[4].Title.Caption:='증정수량';
+    // Sobo68.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6801);
+    end;
+    if Sobo68.DBGrid201.Columns.Items[4].Title.Caption ='증정수량' Then begin
+       Sobo68.DBGrid201.Columns.Items[4].FieldName:='Gjsum';
+       Sobo68.DBGrid201.Columns.Items[4].Title.Caption:='장부차액';
+    // Sobo68.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6804);
+    end else
+    if Sobo68.DBGrid201.Columns.Items[4].Title.Caption ='장부차액' Then begin
+       Sobo68.DBGrid201.Columns.Items[4].FieldName:='Gjqut';
+       Sobo68.DBGrid201.Columns.Items[4].Title.Caption:='증정수량';
+    // Sobo68.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6803);
+    end;
+  end;
+end;
+
+procedure TTong20.Srart_11_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_11_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_12_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_12_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_13_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_13_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_14_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_14_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_15_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_15_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_16_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_16_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_17_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_17_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_18_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_18_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_19_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_19_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_10_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_10_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_21_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_21_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_22_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_22_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_23_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_23_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_24_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_24_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('GsumX').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo24.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo24.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo24.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo24.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo24.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo24.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo24.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_25_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_25_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('GsumX').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo25.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo25.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo25.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo25.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo25.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo25.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo25.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_26_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Qsqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gsqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo26.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo26.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Sobo26.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T03);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_26_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_27_01(Sender: TObject);
+begin
+  Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo27.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Screen.Cursor:=crDefault;
+end;
+
+procedure TTong20.Srart_27_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo27.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_28_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_28_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gssum').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gisum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gosum').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbsum').AsFloat;
+       T05:=T05+oSqry.FieldByName('GsumX').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo28.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo28.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Sobo28.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T03);
+  Sobo28.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T04);
+  Sobo28.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T05);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_29_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_29_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_20_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_20_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_31_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gisum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Goqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gjqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gpqut').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gsqut').AsFloat;
+       T08:=    oSqry.FieldByName('GsumY').AsFloat;
+       T09:=    oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo31.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo31.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo31.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo31.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo31.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo31.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo31.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Sobo31.StBar101.Panels.Items[8].Text:=FormatFloat('###,###,##0',T08);
+  Sobo31.StBar101.Panels.Items[9].Text:=FormatFloat('###,###,##0',T09);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_31_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gbqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gpqut').AsFloat;
+       T05:=    oSqry.FieldByName('GsumY').AsFloat;
+       T06:=    oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo31.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo31.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Sobo31.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T03);
+  Sobo31.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T04);
+  Sobo31.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T05);
+  Sobo31.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T06);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_32_01(Sender: TObject);
+begin
+  Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsqut').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gosum').AsFloat;
+       T08:=T08+oSqry.FieldByName('Gbsum').AsFloat;
+       T09:=    oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo32.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo32.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo32.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo32.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo32.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo32.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo32.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Sobo32.StBar101.Panels.Items[8].Text:=FormatFloat('###,###,##0',T08);
+  Sobo32.StBar101.Panels.Items[9].Text:=FormatFloat('###,###,##0',T09);
+  Screen.Cursor:=crDefault;
+end;
+
+procedure TTong20.Srart_32_02(Sender: TObject);
+begin
+  Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gbqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gosum').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=    oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo32.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo32.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Sobo32.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T03);
+  Sobo32.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T04);
+  Sobo32.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T05);
+  Sobo32.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T06);
+  Screen.Cursor:=crDefault;
+end;
+
+procedure TTong20.Srart_33_01(Sender: TObject);
+var T99: Double;
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  T99:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('Giqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gisum').AsFloat;
+       T04:=T04+oSqry.FieldByName('Goqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gjqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gbqut').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gpqut').AsFloat;
+       T08:=T08+oSqry.FieldByName('Gpsum').AsFloat;
+       T09:=T09+oSqry.FieldByName('GsumY').AsFloat;
+       T99:=T99+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo33.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo33.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo33.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo33.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo33.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo33.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo33.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Sobo33.StBar101.Panels.Items[8].Text:=FormatFloat('###,###,##0',T08);
+  Sobo33.StBar101.Panels.Items[9].Text:=FormatFloat('###,###,##0',T09);
+  Sobo33.StBar101.Panels.Items[10].Text:=FormatFloat('###,###,##0',T99);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_33_02(Sender: TObject);
+var T99: Double;
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  T99:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('Giqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gisum').AsFloat;
+       T04:=T04+oSqry.FieldByName('Goqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gjqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gbqut').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gpqut').AsFloat;
+       T08:=T08+oSqry.FieldByName('Gpsum').AsFloat;
+       T09:=T09+oSqry.FieldByName('GsumY').AsFloat;
+       T99:=T99+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo33.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo33.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo33.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo33.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo33.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo33.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo33.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Sobo33.StBar201.Panels.Items[8].Text:=FormatFloat('###,###,##0',T08);
+  Sobo33.StBar201.Panels.Items[9].Text:=FormatFloat('###,###,##0',T09);
+  Sobo33.StBar201.Panels.Items[10].Text:=FormatFloat('###,###,##0',T99);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_34_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S3401:=0; S3402:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('Giqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Goqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gjqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gpqut').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+   S3401:=S3401+oSqry.FieldByName('Gpqut').AsFloat;
+   S3402:=S3402+oSqry.FieldByName('Gpsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo34.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo34.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo34.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo34.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo34.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo34.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo34.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo34.DBGrid101.Columns.Items[6].Title.Caption='폐기수량' Then
+  Sobo34.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',S3401) else
+  Sobo34.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',S3402);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_34_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S3403:=0; S3404:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('Giqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Goqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gjqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gpqut').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+   S3403:=S3403+oSqry.FieldByName('Gpqut').AsFloat;
+   S3404:=S3404+oSqry.FieldByName('Gpsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo34.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo34.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo34.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo34.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo34.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo34.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo34.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo34.DBGrid201.Columns.Items[6].Title.Caption='폐기수량' Then
+  Sobo34.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',S3403) else
+  Sobo34.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',S3404);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_35_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S3501:=0; S3502:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gbqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbsum').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gjqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+   S3501:=S3501+oSqry.FieldByName('Gjqut').AsFloat;
+   S3502:=S3502+oSqry.FieldByName('Gjsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo35.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo35.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo35.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo35.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo35.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo35.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo35.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo35.DBGrid101.Columns.Items[5].Title.Caption='증정수량' Then
+  Sobo35.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3501) else
+  Sobo35.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3502);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_35_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gosum').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gjqut').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gsusu').AsFloat;
+       T08:=T08+oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo35.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo35.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo35.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo35.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo35.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo35.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo35.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Sobo35.StBar201.Panels.Items[8].Text:=FormatFloat('###,###,##0',T08);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_36_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gqut1').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gqut2').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo36.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo36.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault; }
+
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S3601:=0; S3602:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('GsumX').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+   S3601:=S3601+oSqry.FieldByName('Gpqut').AsFloat;
+   S3602:=S3602+oSqry.FieldByName('Gpsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo36.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo36.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo36.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo36.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo36.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo36.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo36.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo36.DBGrid101.Columns.Items[5].Title.Caption='폐기수량' Then
+  Sobo36.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3601) else
+  Sobo36.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3602);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_36_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('Giqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Goqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gjqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gpqut').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gsqut').AsFloat;
+       T08:=T08+oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo36.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo36.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo36.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo36.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo36.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo36.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo36.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Sobo36.StBar201.Panels.Items[8].Text:=FormatFloat('###,###,##0',T08);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_37_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gqut1').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gqut2').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo37.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo37.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault; }
+
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S3701:=0; S3702:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gsqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gosum').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbsum').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gjqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+   S3701:=S3701+oSqry.FieldByName('Gjqut').AsFloat;
+   S3702:=S3702+oSqry.FieldByName('Gjsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo37.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo37.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo37.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo37.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo37.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo37.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo37.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo37.DBGrid101.Columns.Items[5].Title.Caption='증정수량' Then
+  Sobo37.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3701) else
+  Sobo37.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3702);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_37_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S3703:=0; S3704:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gsqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gosum').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbsum').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gjqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+   S3703:=S3703+oSqry.FieldByName('Gjqut').AsFloat;
+   S3704:=S3704+oSqry.FieldByName('Gjsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo37.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo37.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo37.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo37.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo37.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo37.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo37.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo37.DBGrid201.Columns.Items[5].Title.Caption='증정수량' Then
+  Sobo37.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3703) else
+  Sobo37.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S3704);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_38_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_38_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_39_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_39_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gbqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Giqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Goqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo39_2.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo39_2.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo39_2.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo39_2.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo39_2.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo39_2.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_30_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_30_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_41_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_41_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_42_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo42.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_42_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_43_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo43.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_43_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gosum').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gbsum').AsFloat;
+       T03:=    oSqry.FieldByName('GsumX').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo43.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo43.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Sobo43.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T03);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_44_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo44.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_44_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gosum').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gbsum').AsFloat;
+       T03:=    oSqry.FieldByName('GsumX').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo44.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo44.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Sobo44.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T03);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_45_01(Sender: TObject);
+begin
+  Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gsqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo45.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo45.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault;
+end;
+
+procedure TTong20.Srart_45_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if tSqry.Active=True Then begin
+     oSqry:=tSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T02:=T02+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo45.StBar301.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_46_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_46_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_47_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('GsumX').AsFloat;
+       T02:=T02+oSqry.FieldByName('GsumY').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo47.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo47.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo47.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_47_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gosum').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gbsum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo47.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo47.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Sobo47.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T03);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_48_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gisum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Goqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gosum').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gjqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gjsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo48.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo48.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Sobo48.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T03);
+  Sobo48.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T04);
+  Sobo48.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T05);
+  Sobo48.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T06);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_48_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gbqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gbsum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gpqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gpsum').AsFloat;
+       T05:=T05+oSqry.FieldByName('GsumX').AsFloat;
+       T06:=T06+oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo48.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo48.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Sobo48.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T03);
+  Sobo48.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T04);
+  Sobo48.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T05);
+  Sobo48.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T06);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_49_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbsum').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gsusu').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo49.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo49.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo49.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo49.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo49.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo49.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_49_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbsum').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gsusu').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo49.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo49.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo49.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo49.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo49.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo49.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_40_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_40_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_51_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_51_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_52_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_52_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_53_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gsqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo53.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo53.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_53_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_54_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gsqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo54.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo54.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_54_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_55_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gsqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo55.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo55.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_55_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_56_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gsqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo56.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo56.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_56_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_57_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gsqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo57.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo57.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_57_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_58_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Gsqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo58.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T01);
+  Sobo58.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T02);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_58_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_59_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_59_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_50_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_50_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_61_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S6101:=0; S6102:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gosum').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gbsum').AsFloat;
+   S6101:=S6101+oSqry.FieldByName('Gpqut').AsFloat;
+   S6102:=S6102+oSqry.FieldByName('Gpsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo61.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo61.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo61.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo61.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo61.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo61.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo61.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo61.DBGrid101.Columns.Items[5].Title.Caption='폐기수량' Then
+  Sobo61.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6101) else
+  Sobo61.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6102);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_61_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gosum').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gbsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo61.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo61.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo61.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo61.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo61.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo61.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo61.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_62_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S6201:=0; S6202:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gssum').AsFloat;
+   S6201:=S6201+oSqry.FieldByName('Gjqut').AsFloat;
+   S6202:=S6202+oSqry.FieldByName('Gjsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo62.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo62.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo62.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo62.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo62.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo62.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo62.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo62.DBGrid101.Columns.Items[3].Title.Caption='증정수량' Then
+  Sobo62.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6201) else
+  Sobo62.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6202);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_62_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo62.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo62.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo62.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo62.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo62.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo62.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo62.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_63_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gpsum').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gosum').AsFloat;
+       T08:=T08+oSqry.FieldByName('Gbsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo63.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo63.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo63.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo63.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo63.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo63.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo63.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Sobo63.StBar101.Panels.Items[8].Text:=FormatFloat('###,###,##0',T08);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_63_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('GsumX').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo63.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo63.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo63.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo63.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo63.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo63.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo63.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_64_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gpsum').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gosum').AsFloat;
+       T08:=T08+oSqry.FieldByName('Gbsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo64.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo64.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo64.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo64.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo64.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo64.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo64.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Sobo64.StBar101.Panels.Items[8].Text:=FormatFloat('###,###,##0',T08);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_64_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('GsumX').AsFloat;
+       T07:=T07+oSqry.FieldByName('GsumY').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo64.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo64.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo64.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo64.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo64.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo64.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo64.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_65_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo65.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo65.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo65.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo65.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo65.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo65.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo65.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_65_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo65.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo65.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo65.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo65.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo65.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo65.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo65.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_66_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo66.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo66.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo66.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo66.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo66.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo66.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo66.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_66_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gssum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo66.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo66.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo66.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo66.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo66.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo66.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo66.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_67_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S6701:=0; S6702:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gosum').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gbsum').AsFloat;
+   S6701:=S6701+oSqry.FieldByName('Gpqut').AsFloat;
+   S6702:=S6702+oSqry.FieldByName('Gpsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo67.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo67.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo67.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo67.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo67.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo67.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo67.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo67.DBGrid101.Columns.Items[6].Title.Caption='폐기수량' Then
+  Sobo67.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6701) else
+  Sobo67.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6702);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_67_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S6703:=0; S6704:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Giqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Goqut').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gpqut').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gosum').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gbsum').AsFloat;
+   S6703:=S6703+oSqry.FieldByName('Gpqut').AsFloat;
+   S6704:=S6704+oSqry.FieldByName('Gpsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo67.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo67.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo67.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo67.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo67.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo67.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo67.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo67.DBGrid201.Columns.Items[6].Title.Caption='폐기수량' Then
+  Sobo67.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6703) else
+  Sobo67.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',S6704);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_68_01(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S6801:=0; S6802:=0;
+  if nSqry.Active=True Then begin
+     oSqry:=nSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gssum').AsFloat;
+   S6801:=S6801+oSqry.FieldByName('Gjqut').AsFloat;
+   S6802:=S6802+oSqry.FieldByName('Gjsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo68.StBar101.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo68.StBar101.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo68.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo68.StBar101.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo68.StBar101.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo68.StBar101.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo68.StBar101.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo68.DBGrid101.Columns.Items[4].Title.Caption='증정수량' Then
+  Sobo68.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6801) else
+  Sobo68.StBar101.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6802);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_68_02(Sender: TObject);
+begin
+{ Screen.Cursor:=crHourGlass;
+  T01:=0; T02:=0; T03:=0; T04:=0; T05:=0; T06:=0; T07:=0; T08:=0; T09:=0;
+  S6803:=0; S6804:=0;
+  if mSqry.Active=True Then begin
+     oSqry:=mSqry; Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+     oSqry.First;
+     While oSqry.EOF=False do begin
+       T01:=T01+oSqry.FieldByName('Goqut').AsFloat;
+       T02:=T02+oSqry.FieldByName('Gosum').AsFloat;
+       T03:=T03+oSqry.FieldByName('Gjqut').AsFloat;
+       T04:=T04+oSqry.FieldByName('Gbqut').AsFloat;
+       T05:=T05+oSqry.FieldByName('Gbsum').AsFloat;
+       T06:=T06+oSqry.FieldByName('Gsusu').AsFloat;
+       T07:=T07+oSqry.FieldByName('Gssum').AsFloat;
+   S6803:=S6803+oSqry.FieldByName('Gjqut').AsFloat;
+   S6804:=S6804+oSqry.FieldByName('Gjsum').AsFloat;
+       oSqry.Next;
+     end;
+     oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); oSqry.EnableControls;
+  end;
+  Sobo68.StBar201.Panels.Items[1].Text:=FormatFloat('###,###,##0',T01);
+  Sobo68.StBar201.Panels.Items[2].Text:=FormatFloat('###,###,##0',T02);
+  Sobo68.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',T03);
+  Sobo68.StBar201.Panels.Items[4].Text:=FormatFloat('###,###,##0',T04);
+  Sobo68.StBar201.Panels.Items[5].Text:=FormatFloat('###,###,##0',T05);
+  Sobo68.StBar201.Panels.Items[6].Text:=FormatFloat('###,###,##0',T06);
+  Sobo68.StBar201.Panels.Items[7].Text:=FormatFloat('###,###,##0',T07);
+  if Sobo68.DBGrid201.Columns.Items[4].Title.Caption='증정수량' Then
+  Sobo68.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6803) else
+  Sobo68.StBar201.Panels.Items[3].Text:=FormatFloat('###,###,##0',S6804);
+  Screen.Cursor:=crDefault; }
+end;
+
+procedure TTong20.Srart_69_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_69_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_60_01(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.Srart_60_02(Sender: TObject);
+begin
+//
+end;
+
+procedure TTong20.DBGridFont1(Grid1,Grid2: TDBGrid; StBar1,StBar2: TStatusBar);
+var x: word;
+    y: Integer;
+    z: Tcolor;
+    Cut1,Cut2: Integer;
+begin
+  Cut1:=Grid1.Columns.Count;
+  Cut2:=Grid2.Columns.Count;
+  for x:=0 to Cut1-1 do begin
+    y:=Grid1.Columns.Items[x].Width;
+    z:=Grid1.Columns.Items[x].Font.Color;
+    Grid1.Columns.Items[x].Font:=Tong40.FontDialog.Font;
+    Grid1.Columns.Items[x].Width:=y;
+    Grid1.Columns.Items[x].Font.Color:=z;
+  end;
+  for x:=0 to Cut2-1 do begin
+    y:=Grid2.Columns.Items[x].Width;
+    z:=Grid2.Columns.Items[x].Font.Color;
+    Grid2.Columns.Items[x].Font:=Tong40.FontDialog.Font;
+    Grid2.Columns.Items[x].Width:=y;
+    Grid2.Columns.Items[x].Font.Color:=z;
+  end;
+  StBar1.Font:=Tong40.FontDialog.Font;
+  StBar2.Font:=Tong40.FontDialog.Font;
+end;
+
+procedure TTong20.DBGridFont2(Grid1: TDBGrid; StBar1: TStatusBar);
+var x: word;
+    y: Integer;
+    z: Tcolor;
+    Cut1,Cut2: Integer;
+begin
+  Cut1:=Grid1.Columns.Count;
+  for x:=0 to Cut1-1 do begin
+    y:=Grid1.Columns.Items[x].Width;
+    z:=Grid1.Columns.Items[x].Font.Color;
+    Grid1.Columns.Items[x].Font:=Tong40.FontDialog.Font;
+    Grid1.Columns.Items[x].Width:=y;
+    Grid1.Columns.Items[x].Font.Color:=z;
+  end;
+  StBar1.Font:=Tong40.FontDialog.Font;
+end;
+
+procedure TTong20.DBGridFont3(Grid1,Grid2: TDBGridEh);
+var x: word;
+    y: Integer;
+    z: Tcolor;
+    Cut1,Cut2: Integer;
+begin
+  Cut1:=Grid1.Columns.Count;
+  Cut2:=Grid2.Columns.Count;
+  for x:=0 to Cut1-1 do begin
+    y:=Grid1.Columns.Items[x].Width;
+    z:=Grid1.Columns.Items[x].Font.Color;
+    Grid1.Columns.Items[x].Font:=Tong40.FontDialog.Font;
+    Grid1.Columns.Items[x].Width:=y;
+    Grid1.Columns.Items[x].Font.Color:=z;
+  end;
+  for x:=0 to Cut2-1 do begin
+    y:=Grid2.Columns.Items[x].Width;
+    z:=Grid2.Columns.Items[x].Font.Color;
+    Grid2.Columns.Items[x].Font:=Tong40.FontDialog.Font;
+    Grid2.Columns.Items[x].Width:=y;
+    Grid2.Columns.Items[x].Font.Color:=z;
+  end;
+  z:=Grid1.FooterFont.Color;
+  Grid1.FooterFont:=Tong40.FontDialog.Font;
+  Grid1.FooterFont.Color:=z;
+  z:=Grid2.FooterFont.Color;
+  Grid2.FooterFont:=Tong40.FontDialog.Font;
+  Grid2.FooterFont.Color:=z;
+{ StBar1.Font:=Tong40.FontDialog.Font;
+  StBar2.Font:=Tong40.FontDialog.Font; }
+end;
+
+procedure TTong20.DBGridFont4(Grid1: TDBGridEh);
+var x: word;
+    y: Integer;
+    z: Tcolor;
+    Cut1,Cut2: Integer;
+begin
+  Cut1:=Grid1.Columns.Count;
+  for x:=0 to Cut1-1 do begin
+    y:=Grid1.Columns.Items[x].Width;
+    z:=Grid1.Columns.Items[x].Font.Color;
+    Grid1.Columns.Items[x].Font:=Tong40.FontDialog.Font;
+    Grid1.Columns.Items[x].Width:=y;
+    Grid1.Columns.Items[x].Font.Color:=z;
+  end;
+  z:=Grid1.FooterFont.Color;
+  Grid1.FooterFont:=Tong40.FontDialog.Font;
+  Grid1.FooterFont.Color:=z;
+{ StBar1.Font:=Tong40.FontDialog.Font; }
+end;
+
+function TTong20.ColorToHtml(mColor: TColor): string;
+begin
+  mColor := ColorToRGB(mColor);
+  Result := Format('#%.2x%.2x%.2x',
+    [GetRValue(mColor), GetGValue(mColor), GetBValue(mColor)]);
+end; { ColorToHtml }
+
+function TTong20.StrToHtml(mStr: string; mFont: TFont = nil): string;
+var
+  vLeft, vRight: string;
+begin
+  Result := mStr;
+  Result := StringReplace(Result, '&', '&', [rfReplaceAll]);
+  Result := StringReplace(Result, '<', '<', [rfReplaceAll]); 
+  Result := StringReplace(Result, '>', '>', [rfReplaceAll]); 
+  if not Assigned(mFont) then Exit; 
+  vLeft := Format('<FONT FACE="%s" COLOR="%s">', 
+    [mFont.Name, ColorToHtml(mFont.Color)]); 
+  vRight := '</FONT>'; 
+  if fsBold in mFont.Style then begin 
+    vLeft := vLeft + '<B>'; 
+    vRight := '</B>' + vRight; 
+  end; 
+  if fsItalic in mFont.Style then begin 
+    vLeft := vLeft + '<I>'; 
+    vRight := '</I>' + vRight; 
+  end; 
+  if fsUnderline in mFont.Style then begin
+    vLeft := vLeft + '<U>';
+    vRight := '</U>' + vRight;
+  end; 
+  if fsStrikeOut in mFont.Style then begin
+    vLeft := vLeft + '<S>';
+    vRight := '</S>' + vRight;
+  end;
+  Result := vLeft + Result + vRight;
+end; { StrToHtml }
+
+function TTong20.DBGridToHtmlTable(mDBGrid: TDBGridEh; mStrings: TStrings;
+  mCaption: TCaption = ''): Boolean;
+const
+  cAlignText: array[TAlignment] of string = ('LEFT', 'RIGHT', 'CENTER');
+var
+  vColFormat: string;
+  vColText: string;
+  vAllWidth: Integer;
+  vWidths: array of Integer;
+  vBookmark: string;
+  I, J: Integer;
+begin 
+  Result := False; 
+  if not Assigned(mStrings) then Exit; 
+  if not Assigned(mDBGrid) then Exit; 
+  if not Assigned(mDBGrid.DataSource) then Exit; 
+  if not Assigned(mDBGrid.DataSource.DataSet) then Exit; 
+  if not mDBGrid.DataSource.DataSet.Active then Exit;
+  vBookmark := mDBGrid.DataSource.DataSet.Bookmark;
+  mDBGrid.DataSource.DataSet.DisableControls;
+  try
+    J := 0;
+    vAllWidth := 0;
+    for I := 0 to mDBGrid.Columns.Count - 1 do
+      if mDBGrid.Columns[I].Visible then begin
+        Inc(J); 
+        SetLength(vWidths, J);
+        vWidths[J - 1] := mDBGrid.Columns[I].Width;
+        Inc(vAllWidth, mDBGrid.Columns[I].Width);
+      end;
+    if J <= 0 then Exit;
+    mStrings.Clear; 
+    mStrings.Add(Format('<TABLE BGCOLOR="%s" BORDER=1 Cellspacing=0 Cellpadding=2 WIDTH="100%%">',
+      [ColorToHtml(mDBGrid.Color)]));
+    if mCaption <> '' then
+      mStrings.Add(Format('<CAPTION>%s</CAPTION>', [StrToHtml(mCaption)])); 
+    vColFormat := ''; 
+    vColText := ''; 
+    vColFormat := vColFormat + '<TR>'#13#10;
+    vColText := vColText + '<TR>'#13#10; 
+    J := 0;
+    for I := 0 to mDBGrid.Columns.Count - 1 do
+      if mDBGrid.Columns[I].Visible then begin
+        vColFormat := vColFormat + Format(
+        '<TD BGCOLOR="%s" ALIGN=%s WIDTH="%d%%">DisplayText%d</TD>'#13#10,
+          [ColorToHtml(mDBGrid.Columns[I].Color),
+          cAlignText[mDBGrid.Columns[I].Alignment],
+          Round(vWidths[J] / vAllWidth * 100), J]);
+        vColText := vColText + Format(
+        '<TD BGCOLOR="%s" ALIGN=%s WIDTH="%d%%">%s</TD>'#13#10,
+          [ColorToHtml(mDBGrid.Columns[I].Title.Color),
+          cAlignText[mDBGrid.Columns[I].Title.Alignment],
+          Round(vWidths[J] / vAllWidth * 100),
+          StrToHtml(mDBGrid.Columns[I].Title.Caption,
+            mDBGrid.Columns[I].Title.Font)]); 
+        Inc(J);
+      end;
+    vColFormat := vColFormat + '</TR>'#13#10;
+    vColText := vColText + '</TR>'#13#10;
+    mStrings.Text := mStrings.Text + vColText; 
+    mDBGrid.DataSource.DataSet.First;
+    while not mDBGrid.DataSource.DataSet.Eof do begin 
+      J := 0; 
+      vColText := vColFormat;
+      for I := 0 to mDBGrid.Columns.Count - 1 do 
+        if mDBGrid.Columns[I].Visible then begin
+          vColText := StringReplace(vColText, Format('>DisplayText%d<', [J]),
+            Format('>%s<', [StrToHtml(mDBGrid.Columns[I].Field.DisplayText, 
+              mDBGrid.Columns[I].Font)]),
+            [rfReplaceAll]);
+          Inc(J);
+        end;
+      mStrings.Text := mStrings.Text + vColText;
+      mDBGrid.DataSource.DataSet.Next;
+    end;
+    mStrings.Add('</TABLE>');
+  finally
+    mDBGrid.DataSource.DataSet.Bookmark := vBookmark;
+    mDBGrid.DataSource.DataSet.EnableControls;
+    vWidths := nil;
+  end;
+  Result := True;
+end; { DBGridToHtmlTable }
+
+function TTong20.DBGridToHtm2Table(mDBGrid: TDBGrid; mStrings: TStrings;
+  mCaption: TCaption = ''): Boolean;
+const
+  cAlignText: array[TAlignment] of string = ('LEFT', 'RIGHT', 'CENTER');
+var
+  vColFormat: string;
+  vColText: string;
+  vAllWidth: Integer;
+  vWidths: array of Integer;
+  vBookmark: string;
+  I, J: Integer;
+begin
+  Result := False;
+  if not Assigned(mStrings) then Exit;
+  if not Assigned(mDBGrid) then Exit;
+  if not Assigned(mDBGrid.DataSource) then Exit;
+  if not Assigned(mDBGrid.DataSource.DataSet) then Exit;
+  if not mDBGrid.DataSource.DataSet.Active then Exit;
+  vBookmark := mDBGrid.DataSource.DataSet.Bookmark;
+  mDBGrid.DataSource.DataSet.DisableControls;
+  try
+    J := 0;
+    vAllWidth := 0;
+    for I := 0 to mDBGrid.Columns.Count - 1 do
+      if mDBGrid.Columns[I].Visible then begin
+        Inc(J); 
+        SetLength(vWidths, J);
+        vWidths[J - 1] := mDBGrid.Columns[I].Width;
+        Inc(vAllWidth, mDBGrid.Columns[I].Width);
+      end;
+    if J <= 0 then Exit;
+    mStrings.Clear; 
+    mStrings.Add(Format('<TABLE BGCOLOR="%s" BORDER=1 Cellspacing=0 Cellpadding=2 WIDTH="100%%">',
+      [ColorToHtml(mDBGrid.Color)]));
+    if mCaption <> '' then
+      mStrings.Add(Format('<CAPTION>%s</CAPTION>', [StrToHtml(mCaption)])); 
+    vColFormat := ''; 
+    vColText := ''; 
+    vColFormat := vColFormat + '<TR>'#13#10;
+    vColText := vColText + '<TR>'#13#10; 
+    J := 0;
+    for I := 0 to mDBGrid.Columns.Count - 1 do
+      if mDBGrid.Columns[I].Visible then begin
+        vColFormat := vColFormat + Format(
+        '<TD BGCOLOR="%s" ALIGN=%s WIDTH="%d%%">DisplayText%d</TD>'#13#10,
+          [ColorToHtml(mDBGrid.Columns[I].Color),
+          cAlignText[mDBGrid.Columns[I].Alignment],
+          Round(vWidths[J] / vAllWidth * 100), J]);
+        vColText := vColText + Format(
+        '<TD BGCOLOR="%s" ALIGN=%s WIDTH="%d%%">%s</TD>'#13#10,
+          [ColorToHtml(mDBGrid.Columns[I].Title.Color),
+          cAlignText[mDBGrid.Columns[I].Title.Alignment],
+          Round(vWidths[J] / vAllWidth * 100),
+          StrToHtml(mDBGrid.Columns[I].Title.Caption,
+            mDBGrid.Columns[I].Title.Font)]); 
+        Inc(J);
+      end;
+    vColFormat := vColFormat + '</TR>'#13#10;
+    vColText := vColText + '</TR>'#13#10;
+    mStrings.Text := mStrings.Text + vColText; 
+    mDBGrid.DataSource.DataSet.First;
+    while not mDBGrid.DataSource.DataSet.Eof do begin 
+      J := 0; 
+      vColText := vColFormat;
+      for I := 0 to mDBGrid.Columns.Count - 1 do 
+        if mDBGrid.Columns[I].Visible then begin
+          vColText := StringReplace(vColText, Format('>DisplayText%d<', [J]),
+            Format('>%s<', [StrToHtml(mDBGrid.Columns[I].Field.DisplayText, 
+              mDBGrid.Columns[I].Font)]),
+            [rfReplaceAll]);
+          Inc(J);
+        end;
+      mStrings.Text := mStrings.Text + vColText;
+      mDBGrid.DataSource.DataSet.Next;
+    end;
+    mStrings.Add('</TABLE>');
+  finally
+    mDBGrid.DataSource.DataSet.Bookmark := vBookmark;
+    mDBGrid.DataSource.DataSet.EnableControls;
+    vWidths := nil;
+  end;
+  Result := True;
+end; { DBGridToHtmlTable }
+
+function TTong20.DBGridSaveHtml(mDBGrid: TDBGridEh; mCaption: TCaption = ''): Boolean;
+var StrList : TStringList;
+begin
+  StrList:=TStringList.Create;
+  DBGridToHtmlTable(mDBGrid, StrList, mCaption);
+  StrList.SaveToFile('.\Data\Chulpan.htm');
+  ShellExecute(0, nil, '.\Data\Chulpan.htm', nil, nil, SW_SHOW);
+  StrList.Free;
+end;
+
+function TTong20.DBGridSaveHtm2(mDBGrid: TDBGrid; mCaption: TCaption = ''): Boolean;
+var StrList : TStringList;
+begin
+  StrList:=TStringList.Create;
+  DBGridToHtm2Table(mDBGrid, StrList, mCaption);
+  StrList.SaveToFile('.\Data\Chulpan.htm');
+  ShellExecute(0, nil, '.\Data\Chulpan.htm', nil, nil, SW_SHOW);
+  StrList.Free;
+end;
+
+function TTong20.PrinJing(St1,St2,St3:String;Sq1:Double): Double;
+var _S1_Ssub,_Sg_Csum,_Sv_Ghng: String;
+    Sp1,Sp2: String;
+    Sp3: Double;
+begin
+  if(Jeago='0')Then begin
+    Sp1:='9999.99.99';
+    Sp2:='9999.99.99';
+    Sp3:=0;
+
+    {-Sv_Ghng-}
+    Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+            'Where '+D_Select+
+            'Gdate < '+#39+Sp1+#39+' and  '+
+            'Hcode = '+#39+St3+#39;
+    Sp1:=Base10.Seek_Name(Sqlen);
+
+    {-In_Ssub-}
+    _S1_Ssub:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Bcode'+' ='+#39+St2+#39+' and '+
+              'Ocode'+' ='+#39+St1+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+    _Sg_Csum:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Scode'+' ='+#39+St1+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+
+    if St1='B' then
+    _Sg_Csum:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39+' and '+
+             '(Scode'+' ='+#39+'B'+#39+' or '+'Scode'+' ='+#39+'D'+#39+')';
+
+    _Sv_Ghng:='Gdate'+' ='+#39+Sp1+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Scode'+' ='+#39+St1+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+    Tong40._Sv_Ghng_(_S1_Ssub,_Sg_Csum,_Sv_Ghng);
+
+    sSqry.First;
+    While sSqry.EOF=False do begin
+      Sp3:=Sp3+sSqry.FieldByName('GsumX').AsFloat;
+      sSqry.Next;
+    end;
+
+    if Subu00.ActiveMDIChild.Name='Sobo21' then
+    Sobo21.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+    if Subu00.ActiveMDIChild.Name='Sobo22' then
+    Sobo22.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+    if Subu00.ActiveMDIChild.Name='Sobo23' then
+    Sobo23.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+  //if Subu00.ActiveMDIChild.Name='Sobo29' then
+  //Sobo29.StBar101.Panels.Items[5].Text:='재고:'+FormatFloat('###,###,##0',(Sp3));
+
+  { if(nSqry.FieldByName('Scode').Value='Y')then Sq1:=-(Sq1);
+    if(nSqry.FieldByName('Pubun').Value='폐기')and
+      (nSqry.FieldByName('Scode').Value='Z')then Sq1:=-(Sq1);
+    if(nSqry.FieldByName('Pubun').Value='폐기')and
+      (nSqry.FieldByName('Scode').Value='X')then Sq1:=0; }
+
+  { if(Sp3-Sq1) < 0 Then
+    ShowMessage('재고가 부족합니다. 확인하여 주세요.'); }
+  end;
+  if(Jeago='1')Then begin
+    Sp1:='9999.99.99';
+    Sp2:='9999.99.99';
+    Sp3:=0;
+
+    {-Sv_Ghng-}
+    Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+            'Where '+D_Select+
+            'Gdate < '+#39+Sp1+#39+' and  '+
+            'Hcode = '+#39+St3+#39;
+    Sp1:=Base10.Seek_Name(Sqlen);
+
+    {-In_Ssub-}
+    _S1_Ssub:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Bcode'+' ='+#39+St2+#39+' and '+
+              'Ocode'+' ='+#39+St1+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+    _Sg_Csum:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Scode'+' ='+#39+St1+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+
+    if St1='B' then
+    _Sg_Csum:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39+' and '+
+             '(Scode'+' ='+#39+'B'+#39+' or '+'Scode'+' ='+#39+'D'+#39+')';
+
+    _Sv_Ghng:='Gdate'+' ='+#39+Sp1+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Scode'+' ='+#39+St1+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+    Tong40._Sv_Ghng_(_S1_Ssub,_Sg_Csum,_Sv_Ghng);
+
+    sSqry.First;
+    While sSqry.EOF=False do begin
+      Sp3:=Sp3+sSqry.FieldByName('GsumX').AsFloat;
+      sSqry.Next;
+    end;
+
+    if Subu00.ActiveMDIChild.Name='Sobo21' then
+    Sobo21.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+    if Subu00.ActiveMDIChild.Name='Sobo22' then
+    Sobo22.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+    if Subu00.ActiveMDIChild.Name='Sobo23' then
+    Sobo23.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+  //if Subu00.ActiveMDIChild.Name='Sobo29' then
+  //Sobo29.StBar101.Panels.Items[5].Text:='재고:'+FormatFloat('###,###,##0',(Sp3));
+
+  { if(nSqry.FieldByName('Scode').Value='Y')then Sq1:=-(Sq1);
+    if(nSqry.FieldByName('Pubun').Value='폐기')and
+      (nSqry.FieldByName('Scode').Value='Z')then Sq1:=-(Sq1);
+    if(nSqry.FieldByName('Pubun').Value='폐기')and
+      (nSqry.FieldByName('Scode').Value='X')then Sq1:=0; }
+
+  { if(Sp3-Sq1) < 0 Then
+    ShowMessage('재고가 부족합니다. 확인하여 주세요.'); }
+  end;
+  Result := Sp3;
+end;
+
+function TTong20.PrinSing(St1,St2,St3:String;Sq1:Double): Double;
+var _S1_Ssub,_Sg_Csum,_Sv_Ghng: String;
+    Sp1,Sp2: String;
+    Sp3: Double;
+begin
+  if(nSqry.FieldByName('Gubun').Value='출고')and(Jeago='Z')Then begin
+    Sp1:='9999.99.99';
+    Sp2:='9999.99.99';
+    Sp3:=0;
+
+    {-Sv_Ghng-}
+    Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+            'Where '+D_Select+
+            'Gdate < '+#39+Sp1+#39+' and  '+
+            'Hcode = '+#39+St3+#39;
+    Sp1:=Base10.Seek_Name(Sqlen);
+
+    {-In_Ssub-}
+    _S1_Ssub:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Bcode'+' ='+#39+St2+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+    _Sg_Csum:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+    _Sv_Ghng:='Gdate'+' ='+#39+Sp1+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+    Tong40._Sv_Ghng_(_S1_Ssub,_Sg_Csum,_Sv_Ghng);
+
+    sSqry.First;
+    While sSqry.EOF=False do begin
+      Sp3:=Sp3+sSqry.FieldByName('GsumX').AsFloat;
+      sSqry.Next;
+    end;
+
+    if Subu00.ActiveMDIChild.Name='Sobo21' then
+    Sobo21.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+    if Subu00.ActiveMDIChild.Name='Sobo22' then
+    Sobo22.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+    if Subu00.ActiveMDIChild.Name='Sobo23' then
+    Sobo23.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+  //if Subu00.ActiveMDIChild.Name='Sobo29' then
+  //Sobo29.StBar101.Panels.Items[5].Text:='재고:'+FormatFloat('###,###,##0',(Sp3));
+
+    if(Sp3-Sq1) < 0 Then
+    ShowMessage('재고가 부족합니다. 확인하여 주세요.');
+  end else
+  if(nSqry.FieldByName('Gubun').Value='출고')Then begin
+    Sp1:='9999.99.99';
+    Sp2:='9999.99.99';
+    Sp3:=0;
+
+    {-Sv_Ghng-}
+    Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+            'Where '+D_Select+
+            'Gdate < '+#39+Sp1+#39+' and  '+
+            'Hcode = '+#39+St3+#39;
+    Sp1:=Base10.Seek_Name(Sqlen);
+
+    {-In_Ssub-}
+    _S1_Ssub:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Bcode'+' ='+#39+St2+#39+' and '+
+              'Ocode'+' ='+#39+St1+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+    _Sg_Csum:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Scode'+' ='+#39+St1+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+
+    if St1='B' then
+    _Sg_Csum:='Gdate'+'> '+#39+Sp1+#39+' and '+
+              'Gdate'+'<='+#39+Sp2+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39+' and '+
+             '(Scode'+' ='+#39+'B'+#39+' or '+'Scode'+' ='+#39+'D'+#39+')';
+
+    _Sv_Ghng:='Gdate'+' ='+#39+Sp1+#39+' and '+
+              'Gcode'+' ='+#39+St2+#39+' and '+
+              'Scode'+' ='+#39+St1+#39+' and '+
+              'Hcode'+' ='+#39+St3+#39;
+    Tong40._Sv_Ghng_(_S1_Ssub,_Sg_Csum,_Sv_Ghng);
+
+    sSqry.First;
+    While sSqry.EOF=False do begin
+      Sp3:=Sp3+sSqry.FieldByName('GsumX').AsFloat;
+      sSqry.Next;
+    end;
+
+    if Subu00.ActiveMDIChild.Name='Sobo21' then
+    Sobo21.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+    if Subu00.ActiveMDIChild.Name='Sobo22' then
+    Sobo22.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+    if Subu00.ActiveMDIChild.Name='Sobo23' then
+    Sobo23.Label104.Caption:=FormatFloat('###,###,##0',(Sp3));
+  //if Subu00.ActiveMDIChild.Name='Sobo29' then
+  //Sobo29.StBar101.Panels.Items[5].Text:='재고:'+FormatFloat('###,###,##0',(Sp3));
+
+    if(Sp3-Sq1) < 0 Then
+    ShowMessage('재고가 부족합니다. 확인하여 주세요.');
+  end;
+  Result := Sp3;
+end;
+
+function TTong20.PrinYing(Sender: TObject): Double;
+begin
+  if(nSqry.FieldByName('Gubun').Value='반품')and(nSqry.FieldByName('Gsqut').Value>0)Then
+     nSqry.FieldByName('Gsqut').Value:=-(nSqry.FieldByName('Gsqut').Value);
+
+  if nSqry.FieldByName('Grat1').Value=0 Then
+     nSqry.FieldByName('Gssum').Value:= (nSqry.FieldByName('Gdang').Value*nSqry.FieldByName('Gsqut').Value*0) else
+     nSqry.FieldByName('Gssum').Value:= (nSqry.FieldByName('Gdang').Value*nSqry.FieldByName('Gsqut').Value*nSqry.FieldByName('Grat1').Value)/100;
+
+  if Base10.Database.Database='chul_03_db' then
+  if nSqry.FieldByName('Grat1').Value=0 Then
+     nSqry.FieldByName('Gssum').Value:= (nSqry.FieldByName('Gdang').Value*nSqry.FieldByName('Gsqut').Value) else
+     nSqry.FieldByName('Gssum').Value:= (nSqry.FieldByName('Gdang').Value*nSqry.FieldByName('Gsqut').Value*nSqry.FieldByName('Grat1').Value)/100;
+
+  if nSqry.FieldByName('Pubun').Value='증정' Then nSqry.FieldByName('Gssum').Value:=0;
+  if(nSqry.FieldByName('Pubun').Value='증정')and (nSqry.FieldByName('Grat1').Value<>0)Then
+     nSqry.FieldByName('Gssum').Value:= (nSqry.FieldByName('Gdang').Value*nSqry.FieldByName('Gsqut').Value*nSqry.FieldByName('Grat1').Value)/100;
+  Result := 0;
+end;
+
+function TTong20.PrinZing(Sender: TObject): Double;
+begin
+  if(nSqry.FieldByName('Pubun').Value='위탁') or (nSqry.FieldByName('Pubun').Value=' 질' ) or
+    (nSqry.FieldByName('Pubun').Value='신간')Then Grat1:=StrToIntDef(Base10.Socket.GetData(1, 1),0) else
+  if nSqry.FieldByName('Gubun').Value='반품' Then Grat1:=StrToIntDef(Base10.Socket.GetData(1, 1),0) else
+  if nSqry.FieldByName('Pubun').Value='현매' Then Grat1:=StrToIntDef(Base10.Socket.GetData(1, 2),0) else
+  if nSqry.FieldByName('Pubun').Value='매절' Then Grat1:=StrToIntDef(Base10.Socket.GetData(1, 3),0) else
+  if nSqry.FieldByName('Pubun').Value='납품' Then Grat1:=StrToIntDef(Base10.Socket.GetData(1, 4),0) else
+  if nSqry.FieldByName('Pubun').Value='특별' Then Grat1:=StrToIntDef(Base10.Socket.GetData(1, 5),0) else
+  if nSqry.FieldByName('Pubun').Value='한도' Then Grat1:=StrToIntDef(Base10.Socket.GetData(1, 6),0) else
+  if nSqry.FieldByName('Pubun').Value='증정' Then Grat1:=0;
+  Result := Grat1;
+end;
+
+function TTong20.PrinRat1(St3,St1,St2:String): Double;
+var St0: String;
+begin
+
+  if St2='' Then Begin
+      Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gssum From G6_Ggeo '+
+               'Where '+D_Select+'Gcode=''@Gcode'' and Bcode=''@Bcode'' and Hcode=''@Hcode''';
+      Translate(Sqlen, '@Gcode', St1);
+      Translate(Sqlen, '@Bcode', St2);
+      Translate(Sqlen, '@Hcode', St3);
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.busyloop;
+      if Base10.Socket.Body_Data <> 'NODATA' then begin
+        Base10.Socket.MakeData;
+        if nSqry.FieldByName('Pubun').Value='위탁' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 1),0) else
+        if nSqry.FieldByName('Pubun').Value='신간' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 1),0) else
+        if nSqry.FieldByName('Gubun').Value='반품' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 1),0) else
+        if nSqry.FieldByName('Pubun').Value='현매' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 2),0) else
+        if nSqry.FieldByName('Pubun').Value='매절' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 3),0) else
+        if nSqry.FieldByName('Pubun').Value='납품' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 4),0) else
+        if nSqry.FieldByName('Pubun').Value='특별' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 5),0) else
+        if nSqry.FieldByName('Pubun').Value='한도' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 6),0) else
+        if nSqry.FieldByName('Pubun').Value='증정' Then
+        nSqry.FieldByName('Grat1').Value:=0;
+      //nSqry.FieldByName('Gdang').Value:=StrToIntDef(Base10.Socket.GetData(1, 7),0);
+      end;
+  end else begin
+      Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gssum From G6_Ggeo '+
+               'Where '+D_Select+'Gcode=''@Gcode'' and Bcode=''@Bcode'' and Hcode=''@Hcode''';
+      Translate(Sqlen, '@Gcode', St1);
+      Translate(Sqlen, '@Bcode', St2);
+      Translate(Sqlen, '@Hcode', St3);
+      Base10.Socket.RunSQL(Sqlen);
+      Base10.Socket.busyloop;
+      if Base10.Socket.Body_Data <> 'NODATA' then begin
+        Base10.Socket.MakeData;
+        if nSqry.FieldByName('Pubun').Value='위탁' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 1),0) else
+        if nSqry.FieldByName('Pubun').Value='신간' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 1),0) else
+        if nSqry.FieldByName('Gubun').Value='반품' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 1),0) else
+        if nSqry.FieldByName('Pubun').Value='현매' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 2),0) else
+        if nSqry.FieldByName('Pubun').Value='매절' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 3),0) else
+        if nSqry.FieldByName('Pubun').Value='납품' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 4),0) else
+        if nSqry.FieldByName('Pubun').Value='특별' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 5),0) else
+        if nSqry.FieldByName('Pubun').Value='한도' Then
+        nSqry.FieldByName('Grat1').Value:=StrToIntDef(Base10.Socket.GetData(1, 6),0) else
+        if nSqry.FieldByName('Pubun').Value='증정' Then
+        nSqry.FieldByName('Grat1').Value:=0;
+        nSqry.FieldByName('Gdang').Value:=StrToIntDef(Base10.Socket.GetData(1, 7),0);
+      end;
+  end;
+
+{ if Pos('을유',mPrnt)<>0 Then Begin
+    // 을유문화사 //
+    Sqlen :='Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+    Translate(Sqlen, '@Gcode', St1);
+    Translate(Sqlen, '@Hcode', St3);
+    if Base10.Seek_Name(Sqlen)='10001' Then begin
+      if nSqry.FieldByName('Pubun').AsString<>'납품' Then Grat1:=Grat1-10;
+      if nSqry.FieldByName('Pubun').AsString ='납품' Then Grat1:=Grat1-05;
+      if Grat1<>0 Then nSqry.FieldByName('Grat1').Value:=Grat1;
+    end;
+  end;
+
+  if Pos('한울',mPrnt)<>0 Then Begin
+    // 한울문화사 //
+    Sqlen :='Select Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+    Translate(Sqlen, '@Gcode', St2);
+    Translate(Sqlen, '@Hcode', St3);
+    if Base10.Seek_Name(Sqlen)='10001' Then St0:='Grat1';
+    if Base10.Seek_Name(Sqlen)='10002' Then St0:='Grat2';
+    if Base10.Seek_Name(Sqlen)='10003' Then St0:='Grat3';
+    if Base10.Seek_Name(Sqlen)='10004' Then St0:='Grat4';
+    if Base10.Seek_Name(Sqlen)='10005' Then St0:='Grat5';
+    if Base10.Seek_Name(Sqlen)='10006' Then St0:='Grat6';
+    if Base10.Seek_Name(Sqlen)='10007' Then St0:='Grat7';
+    if Base10.Seek_Name(Sqlen)='10008' Then St0:='Grat8';
+    if Base10.Seek_Name(Sqlen)='10009' Then St0:='Grat9';
+    Sqlen := 'Select ''@Grat1'' From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+    Translate(Sqlen, '@Gcode', St1);
+    Translate(Sqlen, '@Grat1', St0);
+    Grat1:=StrToIntDef(Base10.Seek_Name(Sqlen),0);
+    if Grat1<>0 Then nSqry.FieldByName('Grat1').Value:=Grat1;
+  end; }
+end;
+
+function TTong20.HanglToHanja(in_Num: Int64; is_HanJa, is_Won: Boolean): string;
+const
+  Nums: array[1..9]of string = ('일','이','삼','사','오','육','칠','팔','구');
+  Dans: array[1..19]of string = ('','십','백','천','만','십','백','천','억',
+                               '십','백','천','조','십','백','천','경','십','백');
+  Numh: array[1..9]of string = ('壹','貳','參','四','五','六','七','八','九');
+  Danh: array[1..19]of string = ('','拾','百','千','萬','拾','百','千','億',
+                               '拾','百','千','兆','拾','百','千','京','拾','百');
+var s_Length, s_Pos, get_Num: Byte;
+    d_Div: Boolean;
+    s_Num: string;
+begin
+{예,NumToHan(Prt01,False,True);}
+  s_Num := IntToStr(in_Num);
+  s_Length := Length(s_Num);
+  d_Div := False;
+  if s_Num = '0' then begin
+    Result := '-'
+  end else begin
+    for s_Pos := s_Length downto 1 do begin
+      get_Num := StrToInt(s_Num[s_Length - s_Pos + 1]);
+      if get_Num > 0 then begin
+        if is_HanJa then
+          Result := Result + Numh[get_Num] + Danh[s_Pos]
+        else
+          Result := Result + Nums[get_Num] + Dans[s_Pos];
+        d_Div := not(s_Pos in[5, 9, 13, 17]);
+      end else
+        if d_Div and (s_Pos in[5, 9, 13, 17]) then begin
+          if is_HanJa then
+            Result := Result + Danh[s_Pos]
+          else
+            Result := Result + Dans[s_Pos];
+          d_Div := False;
+        end;
+    end;
+    { Result := '金 ' + Result + ' 圓整'
+      Result := '￦ ' + Result + ' 원정'; }
+    if is_Won then begin
+      if is_HanJa then
+        Result := '금일-' + Result + '圓 整'
+        else
+        Result := '금일-' + Result + '원 정';
+    end;
+  end;
+end;
+
+function TTong20.GetIPs: TStrings;
+type
+  TaPInAddr = Array[0..10] of PInAddr;
+  PaPInAddr = ^TaPInAddr;
+var
+  phe: PHostEnt;
+  pptr: PaPInAddr;
+  Buffer: Array[0..63] of Char;
+  I: Integer;
+  GInitData: TWSAData;
+  Address: DWord; // 이진의 IP주소(4 bytes)
+  Host, HostName, HostIP: String;
+begin
+  WSAStartup($101, GInitData);
+  Result:=TStringList.Create;
+  Result.Clear;
+  GetHostName(Buffer, SizeOf(Buffer));
+  phe := GetHostByName(buffer);
+  if phe = nil then begin
+    Exit;
+  end;
+  pPtr := PaPInAddr(phe^.h_addr_list);
+  I := 0;
+  while pPtr^[I] <> nil do begin
+    Address  := Longint(plongint(Phe^.h_addr_list^)^); //이진의 IP주소(4 bytes)
+    HostName := Trim(Phe^.h_name);                     //호스트명
+    HostIP   := StrPas(inet_ntoa(TInAddr(Address)));   //도트 표현의 IP주소
+    Result.Add(inet_ntoa(pptr^[I]^)+' '+HostName);
+    Inc(I);
+  end;
+  WSACleanup;
+end;
+
+function TTong20.SetIPs(nPcip: string): TStrings;
+type
+  TaPInAddr = Array[0..10] of PInAddr;
+  PaPInAddr = ^TaPInAddr;
+var
+  phe: PHostEnt;
+  pptr: PaPInAddr;
+  Buffer: Array[0..63] of Char;
+  I: Integer;
+  GInitData: TWSAData;
+  Host, HostName, HostIP: String;
+begin
+  WSAStartup(2, GInitData);
+  Result:=TStringList.Create;
+  Result.Clear;
+  SetLength(HostName, 255);
+  GetHostname(PChar(HostName), 255);
+  SetLength(HostName, StrLen(PChar(HostName)));
+  HostName := nPcip;
+  phe := GetHostByName(PChar(HostName));
+  if phe<>nil then
+  with phe^ do
+    HostIP := Format('%d.%d.%d.%d',[Byte(h_addr^[0]), Byte(h_addr^[1]),
+    Byte(h_addr^[2]), Byte(h_addr^[3])]);
+  Result.Add(HostIP);
+  WSACleanup;
+end;
+
+procedure TTong20.EkUDFList1Functions0Calculate(Sender: TObject;
+  Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+begin
+  p_Recno:=p_Recno+1;
+end;
+
+procedure TTong20.EkUDFList1Functions1Calculate(Sender: TObject;
+  Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+begin
+  if oSqry.EOF=True then
+  p_Recno:=p_Recno-1;
+  if p_Recno=0 then
+  p_Recno:=1;
+  oSqry.MoveBy(-p_Recno);
+  if(oSqry.BOF=False)and(p_Recno=1)then
+  oSqry.Next;
+  p_Recno:=0;
+end;
+
+procedure TTong20.EkUDFList1Functions2Calculate(Sender: TObject;
+  Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+begin
+  oSqry.Prior;
+end;
+
+procedure TTong20.EkUDFList1Functions3Calculate(Sender: TObject;
+  Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+begin
+  oSqry.Prior;
+  p_Acode:=oSqry.FieldByName('Gcode').AsString;
+end;
+
+procedure TTong20.EkUDFList1Functions4Calculate(Sender: TObject;
+  Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+begin
+  if oSqry.FieldByName('Gcode').AsString=p_Acode then
+       TEkReportVariable(UDFResult).AsBoolean:=true
+  else TEkReportVariable(UDFResult).AsBoolean:=false;
+end;
+
+procedure TTong20.EkUDFList2Functions0Calculate(Sender: TObject;
+  Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+begin
+  oSqry.Prior;
+  p_Acode:=oSqry.FieldByName('Gcode').AsString;
+end;
+
+procedure TTong20.EkUDFList2Functions1Calculate(Sender: TObject;
+  Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+begin
+  if oSqry.FieldByName('Gcode').AsString=p_Acode then
+       TEkReportVariable(UDFResult).AsBoolean:=true
+  else TEkReportVariable(UDFResult).AsBoolean:=false;
+end;
+
+procedure TTong20.EkUDFList2Functions2Calculate(Sender: TObject;
+  Args: TEkUDFArgs; ArgCount: Integer; UDFResult: TObject);
+begin
+//
+end;
+
+end.

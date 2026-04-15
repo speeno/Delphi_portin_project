@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="382" height="273" viewBox="0 0 382 273">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">프린터출력</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Seak05 | Seak50 | TSeak50</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="362.0" height="221.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="8.0" y="8.0" width="345.0" height="89.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="11.0" y="19.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">용지선택</text>
+    <text x="11.0" y="30.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TFlatGroupBox</text>
+    <rect x="91.0" y="32.0" width="54.0" height="16.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="94.0" y="43.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">용지넓이</text>
+    <rect x="91.0" y="64.0" width="54.0" height="16.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="94.0" y="75.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">용지길이</text>
+    <rect x="219.0" y="32.0" width="54.0" height="16.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="222.0" y="43.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">상단여백</text>
+    <rect x="219.0" y="64.0" width="54.0" height="16.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="222.0" y="75.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">좌측여백</text>
+    <rect x="8.0" y="104.0" width="345.0" height="65.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="11.0" y="115.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">출력선택</text>
+    <text x="11.0" y="126.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TFlatGroupBox</text>
+    <rect x="32.0" y="128.0" width="105.0" height="25.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="35.0" y="139.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">출력</text>
+    <rect x="224.0" y="128.0" width="105.0" height="25.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="227.0" y="139.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">미리보기</text>
+    <rect x="128.0" y="184.0" width="105.0" height="25.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="131.0" y="195.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">선택</text>
+    <rect x="144.0" y="184.0" width="75.0" height="25.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="147.0" y="195.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">종료</text>
+  </g>
+</svg>

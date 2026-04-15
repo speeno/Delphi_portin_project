@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="792" height="493" viewBox="0 0 792 493">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">우편번호검색</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Seak04_1 | Seak40_1 | TSeak40_1</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="772.0" height="441.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="2.0" y="1.0" width="767.0" height="393.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="5.0" y="12.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="3.0" y="2.0" width="765.0" height="391.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="6.0" y="13.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TWebBrowser</text>
+    <rect x="200.0" y="408.0" width="105.0" height="25.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="203.0" y="419.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">선택</text>
+    <rect x="344.0" y="408.0" width="105.0" height="25.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="347.0" y="419.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">취소</text>
+    <rect x="200.0" y="408.0" width="100.0" height="25.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="203.0" y="419.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">다음</text>
+    <rect x="344.0" y="408.0" width="100.0" height="25.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="347.0" y="419.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">도서명찾기</text>
+    <rect x="488.0" y="408.0" width="100.0" height="25.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="491.0" y="419.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">ZipFinder</text>
+  </g>
+</svg>

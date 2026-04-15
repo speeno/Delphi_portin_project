@@ -1,0 +1,3360 @@
+object Seak60: TSeak60
+  Left = 200
+  Top = 120
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = '출력셋팅'
+  ClientHeight = 533
+  ClientWidth = 586
+  Color = clBtnFace
+  Font.Charset = HANGEUL_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = '굴림'
+  Font.Style = [fsBold]
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 12
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 0
+    Width = 586
+    Height = 533
+    ActivePage = TabSheet2
+    Align = alClient
+    TabOrder = 0
+    OnChange = PageControl1Change
+    object TabSheet1: TTabSheet
+      Caption = '거래명세서셋팅'
+      object GroupBox11: TFlatGroupBox
+        Left = 8
+        Top = 8
+        Width = 561
+        Height = 81
+        Caption = '용지여백'
+        TabOrder = 0
+        object Label101: TLabel
+          Left = 16
+          Top = 25
+          Width = 52
+          Height = 12
+          Caption = '용지넓이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label102: TLabel
+          Left = 16
+          Top = 52
+          Width = 52
+          Height = 12
+          Caption = '용지길이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label103: TLabel
+          Left = 160
+          Top = 25
+          Width = 52
+          Height = 12
+          Caption = '문자넓이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label104: TLabel
+          Left = 160
+          Top = 52
+          Width = 52
+          Height = 12
+          Caption = '문자길이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Button101: TFlatButton
+          Left = 368
+          Top = 24
+          Width = 73
+          Height = 41
+          Caption = '저장'
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            33333333FF33333333FF333993333333300033377F3333333777333993333333
+            300033F77FFF3333377739999993333333333777777F3333333F399999933333
+            33003777777333333377333993333333330033377F3333333377333993333333
+            3333333773333333333F333333333333330033333333F33333773333333C3333
+            330033333337FF3333773333333CC333333333FFFFF77FFF3FF33CCCCCCCCCC3
+            993337777777777F77F33CCCCCCCCCC3993337777777777377333333333CC333
+            333333333337733333FF3333333C333330003333333733333777333333333333
+            3000333333333333377733333333333333333333333333333333}
+          NumGlyphs = 2
+          TabOrder = 0
+          OnClick = Button101Click
+        end
+        object Button102: TFlatButton
+          Left = 464
+          Top = 24
+          Width = 73
+          Height = 41
+          Caption = '종료'
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00330000000000
+            03333377777777777F333301BBBBBBBB033333773F3333337F3333011BBBBBBB
+            0333337F73F333337F33330111BBBBBB0333337F373F33337F333301110BBBBB
+            0333337F337F33337F333301110BBBBB0333337F337F33337F333301110BBBBB
+            0333337F337F33337F333301110BBBBB0333337F337F33337F333301110BBBBB
+            0333337F337F33337F333301110BBBBB0333337F337FF3337F33330111B0BBBB
+            0333337F337733337F333301110BBBBB0333337F337F33337F333301110BBBBB
+            0333337F3F7F33337F333301E10BBBBB0333337F7F7F33337F333301EE0BBBBB
+            0333337F777FFFFF7F3333000000000003333377777777777333}
+          NumGlyphs = 2
+          TabOrder = 1
+          ModalResult = 2
+        end
+        object SpinEdit101: TFlatSpinEditFloat
+          Left = 72
+          Top = 21
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 2
+        end
+        object SpinEdit103: TFlatSpinEditFloat
+          Left = 216
+          Top = 21
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 3
+        end
+        object SpinEdit102: TFlatSpinEditFloat
+          Left = 72
+          Top = 48
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 4
+        end
+        object SpinEdit104: TFlatSpinEditFloat
+          Left = 216
+          Top = 48
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 5
+        end
+      end
+      object GroupBox12: TFlatGroupBox
+        Left = 8
+        Top = 101
+        Width = 561
+        Height = 396
+        TabOrder = 1
+        object Label111: TLabel
+          Left = 88
+          Top = 20
+          Width = 59
+          Height = 12
+          Caption = '상단여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label112: TLabel
+          Left = 10
+          Top = 51
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label113: TLabel
+          Left = 88
+          Top = 84
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label114: TLabel
+          Left = 10
+          Top = 115
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label115: TLabel
+          Left = 88
+          Top = 148
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label116: TLabel
+          Left = 10
+          Top = 179
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label117: TLabel
+          Left = 88
+          Top = 212
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label118: TLabel
+          Left = 10
+          Top = 243
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label119: TLabel
+          Left = 88
+          Top = 276
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label120: TLabel
+          Left = 10
+          Top = 308
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label121: TLabel
+          Left = 88
+          Top = 340
+          Width = 59
+          Height = 12
+          Caption = '하단여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Edit111: TFlatEdit
+          Left = 128
+          Top = 48
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Text = '(01)거래일자'
+        end
+        object Edit112: TFlatEdit
+          Left = 288
+          Top = 48
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 1
+          Text = '(02)거래구분'
+        end
+        object Edit113: TFlatEdit
+          Left = 448
+          Top = 48
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 2
+          Text = '(03)폐 이 지'
+        end
+        object Edit121: TFlatEdit
+          Left = 128
+          Top = 112
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 3
+          Text = '(04)코      드'
+        end
+        object Edit122: TFlatEdit
+          Left = 288
+          Top = 112
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 4
+          Text = '(05)거래처명'
+        end
+        object Edit123: TFlatEdit
+          Left = 448
+          Top = 112
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 5
+          Text = '(06)합계수량'
+        end
+        object Edit124: TFlatEdit
+          Left = 448
+          Top = 136
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 6
+          Text = '(07)합계금액'
+        end
+        object Edit131: TFlatEdit
+          Left = 128
+          Top = 176
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 7
+          Text = '(08)도서코드'
+        end
+        object Edit132: TFlatEdit
+          Left = 288
+          Top = 176
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 8
+          Text = '(09)도 서 명'
+        end
+        object Edit133: TFlatEdit
+          Left = 448
+          Top = 176
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 9
+          Text = '(10)수      량'
+        end
+        object Edit141: TFlatEdit
+          Left = 128
+          Top = 240
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 10
+          Text = '(11)단      가'
+        end
+        object Edit142: TFlatEdit
+          Left = 288
+          Top = 240
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 11
+          Text = '(12)비      율'
+        end
+        object Edit143: TFlatEdit
+          Left = 448
+          Top = 240
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 12
+          Text = '(13)금      액'
+        end
+        object Edit151: TFlatEdit
+          Left = 128
+          Top = 304
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 13
+          Text = '(14)합계수량'
+        end
+        object Edit152: TFlatEdit
+          Left = 288
+          Top = 304
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 14
+          Text = '(15)합계금액'
+        end
+        object Edit153: TFlatEdit
+          Left = 448
+          Top = 304
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 15
+          Text = '(16)저 자 명'
+        end
+        object SpinEdit111: TFlatSpinEditFloat
+          Left = 72
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 16
+        end
+        object SpinEdit112: TFlatSpinEditFloat
+          Left = 232
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 17
+        end
+        object SpinEdit113: TFlatSpinEditFloat
+          Left = 392
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 18
+        end
+        object SpinEdit121: TFlatSpinEditFloat
+          Left = 72
+          Top = 112
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 19
+        end
+        object SpinEdit122: TFlatSpinEditFloat
+          Left = 232
+          Top = 112
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 20
+        end
+        object SpinEdit123: TFlatSpinEditFloat
+          Left = 392
+          Top = 112
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 21
+        end
+        object SpinEdit124: TFlatSpinEditFloat
+          Left = 392
+          Top = 136
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 22
+        end
+        object SpinEdit131: TFlatSpinEditFloat
+          Left = 72
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 23
+        end
+        object SpinEdit132: TFlatSpinEditFloat
+          Left = 232
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 24
+        end
+        object SpinEdit133: TFlatSpinEditFloat
+          Left = 392
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 25
+        end
+        object SpinEdit141: TFlatSpinEditFloat
+          Left = 72
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 26
+        end
+        object SpinEdit142: TFlatSpinEditFloat
+          Left = 232
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 27
+        end
+        object SpinEdit143: TFlatSpinEditFloat
+          Left = 392
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 28
+        end
+        object SpinEdit151: TFlatSpinEditFloat
+          Left = 72
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 29
+        end
+        object SpinEdit152: TFlatSpinEditFloat
+          Left = 232
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 30
+        end
+        object SpinEdit153: TFlatSpinEditFloat
+          Left = 392
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 31
+        end
+        object SpinEdit154: TFlatSpinEditFloat
+          Left = 232
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 32
+        end
+        object SpinEdit155: TFlatSpinEditFloat
+          Left = 296
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 33
+        end
+        object SpinEdit156: TFlatSpinEditFloat
+          Left = 360
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 34
+        end
+        object SpinEdit157: TFlatSpinEditFloat
+          Left = 424
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 35
+        end
+        object SpinEdit158: TFlatSpinEditFloat
+          Left = 488
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 36
+        end
+        object SpinEdit159: TFlatSpinEditFloat
+          Left = 232
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 37
+        end
+        object SpinEdit190: TFlatSpinEditFloat
+          Left = 152
+          Top = 16
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 38
+        end
+        object SpinEdit191: TFlatSpinEditFloat
+          Left = 152
+          Top = 80
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 39
+        end
+        object SpinEdit192: TFlatSpinEditFloat
+          Left = 152
+          Top = 144
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 40
+        end
+        object SpinEdit193: TFlatSpinEditFloat
+          Left = 152
+          Top = 208
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 41
+        end
+        object SpinEdit194: TFlatSpinEditFloat
+          Left = 152
+          Top = 272
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 42
+        end
+        object SpinEdit195: TFlatSpinEditFloat
+          Left = 296
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 43
+        end
+        object SpinEdit196: TFlatSpinEditFloat
+          Left = 360
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 44
+        end
+        object SpinEdit197: TFlatSpinEditFloat
+          Left = 424
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 45
+        end
+        object SpinEdit198: TFlatSpinEditFloat
+          Left = 488
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 46
+        end
+        object SpinEdit199: TFlatSpinEditFloat
+          Left = 152
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 47
+        end
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = '계산서출력셋팅'
+      ImageIndex = 1
+      object GroupBox21: TFlatGroupBox
+        Left = 8
+        Top = 8
+        Width = 561
+        Height = 81
+        Caption = '용지여백'
+        TabOrder = 0
+        object Label201: TLabel
+          Left = 16
+          Top = 25
+          Width = 52
+          Height = 12
+          Caption = '용지넓이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label202: TLabel
+          Left = 16
+          Top = 52
+          Width = 52
+          Height = 12
+          Caption = '용지길이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label203: TLabel
+          Left = 160
+          Top = 25
+          Width = 52
+          Height = 12
+          Caption = '문자넓이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label204: TLabel
+          Left = 160
+          Top = 52
+          Width = 52
+          Height = 12
+          Caption = '문자길이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Button201: TFlatButton
+          Left = 368
+          Top = 24
+          Width = 73
+          Height = 41
+          Caption = '저장'
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            33333333FF33333333FF333993333333300033377F3333333777333993333333
+            300033F77FFF3333377739999993333333333777777F3333333F399999933333
+            33003777777333333377333993333333330033377F3333333377333993333333
+            3333333773333333333F333333333333330033333333F33333773333333C3333
+            330033333337FF3333773333333CC333333333FFFFF77FFF3FF33CCCCCCCCCC3
+            993337777777777F77F33CCCCCCCCCC3993337777777777377333333333CC333
+            333333333337733333FF3333333C333330003333333733333777333333333333
+            3000333333333333377733333333333333333333333333333333}
+          NumGlyphs = 2
+          TabOrder = 0
+          OnClick = Button201Click
+        end
+        object Button202: TFlatButton
+          Left = 464
+          Top = 24
+          Width = 73
+          Height = 41
+          Caption = '종료'
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00330000000000
+            03333377777777777F333301BBBBBBBB033333773F3333337F3333011BBBBBBB
+            0333337F73F333337F33330111BBBBBB0333337F373F33337F333301110BBBBB
+            0333337F337F33337F333301110BBBBB0333337F337F33337F333301110BBBBB
+            0333337F337F33337F333301110BBBBB0333337F337F33337F333301110BBBBB
+            0333337F337F33337F333301110BBBBB0333337F337FF3337F33330111B0BBBB
+            0333337F337733337F333301110BBBBB0333337F337F33337F333301110BBBBB
+            0333337F3F7F33337F333301E10BBBBB0333337F7F7F33337F333301EE0BBBBB
+            0333337F777FFFFF7F3333000000000003333377777777777333}
+          NumGlyphs = 2
+          TabOrder = 1
+          ModalResult = 2
+        end
+        object SpinEdit201: TFlatSpinEditFloat
+          Left = 72
+          Top = 21
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 2
+        end
+        object SpinEdit202: TFlatSpinEditFloat
+          Left = 72
+          Top = 48
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 3
+        end
+        object SpinEdit203: TFlatSpinEditFloat
+          Left = 216
+          Top = 21
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 4
+        end
+        object SpinEdit204: TFlatSpinEditFloat
+          Left = 216
+          Top = 48
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 5
+        end
+      end
+      object GroupBox22: TFlatGroupBox
+        Left = 8
+        Top = 101
+        Width = 561
+        Height = 396
+        TabOrder = 1
+        object Label211: TLabel
+          Left = 88
+          Top = 20
+          Width = 59
+          Height = 12
+          Caption = '상단여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label212: TLabel
+          Left = 2
+          Top = 51
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label213: TLabel
+          Left = 88
+          Top = 84
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label214: TLabel
+          Left = 2
+          Top = 115
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label215: TLabel
+          Left = 88
+          Top = 148
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label216: TLabel
+          Left = 224
+          Top = 148
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label217: TLabel
+          Left = 2
+          Top = 179
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label218: TLabel
+          Left = 88
+          Top = 212
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label219: TLabel
+          Left = 2
+          Top = 243
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label220: TLabel
+          Left = 88
+          Top = 276
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label221: TLabel
+          Left = 2
+          Top = 308
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label222: TLabel
+          Left = 88
+          Top = 340
+          Width = 59
+          Height = 12
+          Caption = '하단여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Edit211: TFlatEdit
+          Left = 120
+          Top = 48
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Text = '(01)등록번호'
+        end
+        object Edit221: TFlatEdit
+          Left = 120
+          Top = 112
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 1
+          Text = '(02)거래처명'
+        end
+        object Edit222: TFlatEdit
+          Left = 280
+          Top = 112
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 2
+          Text = '(03)대 표 자'
+        end
+        object Edit223: TFlatEdit
+          Left = 440
+          Top = 112
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 3
+          Text = '(04)주      소'
+        end
+        object Edit231: TFlatEdit
+          Left = 120
+          Top = 176
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 4
+          Text = '(05)업      태'
+        end
+        object Edit232: TFlatEdit
+          Left = 280
+          Top = 176
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 5
+          Text = '(06)종      목'
+        end
+        object Edit241: TFlatEdit
+          Left = 120
+          Top = 240
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 6
+          Text = '(07)일      자'
+        end
+        object Edit251: TFlatEdit
+          Left = 120
+          Top = 304
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 7
+          Text = '(08)내      용'
+        end
+        object Edit252: TFlatEdit
+          Left = 440
+          Top = 360
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 8
+          Text = '(09)우측여백'
+        end
+        object SpinEdit211: TFlatSpinEditFloat
+          Left = 64
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 9
+        end
+        object SpinEdit212: TFlatSpinEditFloat
+          Left = 224
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 10
+        end
+        object SpinEdit213: TFlatSpinEditFloat
+          Left = 280
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 11
+        end
+        object SpinEdit214: TFlatSpinEditFloat
+          Left = 336
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 12
+        end
+        object SpinEdit215: TFlatSpinEditFloat
+          Left = 392
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 13
+        end
+        object SpinEdit216: TFlatSpinEditFloat
+          Left = 448
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 14
+        end
+        object SpinEdit217: TFlatSpinEditFloat
+          Left = 504
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 15
+        end
+        object SpinEdit218: TFlatSpinEditFloat
+          Left = 224
+          Top = 72
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 16
+        end
+        object SpinEdit219: TFlatSpinEditFloat
+          Left = 280
+          Top = 72
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 17
+        end
+        object SpinEdit221: TFlatSpinEditFloat
+          Left = 64
+          Top = 112
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 18
+        end
+        object SpinEdit222: TFlatSpinEditFloat
+          Left = 224
+          Top = 112
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 19
+        end
+        object SpinEdit223: TFlatSpinEditFloat
+          Left = 384
+          Top = 112
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 20
+        end
+        object SpinEdit226: TFlatSpinEditFloat
+          Left = 336
+          Top = 72
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 21
+        end
+        object SpinEdit227: TFlatSpinEditFloat
+          Left = 392
+          Top = 72
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 22
+        end
+        object SpinEdit228: TFlatSpinEditFloat
+          Left = 448
+          Top = 72
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 23
+        end
+        object SpinEdit229: TFlatSpinEditFloat
+          Left = 504
+          Top = 72
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 24
+        end
+        object SpinEdit231: TFlatSpinEditFloat
+          Left = 64
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 25
+        end
+        object SpinEdit232: TFlatSpinEditFloat
+          Left = 224
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 26
+        end
+        object SpinEdit241: TFlatSpinEditFloat
+          Left = 64
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 27
+        end
+        object SpinEdit242: TFlatSpinEditFloat
+          Left = 224
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 28
+        end
+        object SpinEdit243: TFlatSpinEditFloat
+          Left = 280
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 29
+        end
+        object SpinEdit244: TFlatSpinEditFloat
+          Left = 336
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 30
+        end
+        object SpinEdit245: TFlatSpinEditFloat
+          Left = 336
+          Top = 328
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 31
+        end
+        object SpinEdit246: TFlatSpinEditFloat
+          Left = 392
+          Top = 328
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 32
+        end
+        object SpinEdit251: TFlatSpinEditFloat
+          Left = 64
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 33
+        end
+        object SpinEdit252: TFlatSpinEditFloat
+          Left = 224
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 34
+        end
+        object SpinEdit253: TFlatSpinEditFloat
+          Left = 280
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 35
+        end
+        object SpinEdit254: TFlatSpinEditFloat
+          Left = 336
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 36
+        end
+        object SpinEdit255: TFlatSpinEditFloat
+          Left = 392
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 37
+        end
+        object SpinEdit256: TFlatSpinEditFloat
+          Left = 448
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 38
+        end
+        object SpinEdit257: TFlatSpinEditFloat
+          Left = 504
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 39
+        end
+        object SpinEdit258: TFlatSpinEditFloat
+          Left = 224
+          Top = 328
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 40
+        end
+        object SpinEdit259: TFlatSpinEditFloat
+          Left = 280
+          Top = 328
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 41
+        end
+        object SpinEdit271: TFlatSpinEditFloat
+          Left = 392
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 42
+        end
+        object SpinEdit272: TFlatSpinEditFloat
+          Left = 448
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 43
+        end
+        object SpinEdit273: TFlatSpinEditFloat
+          Left = 504
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 44
+        end
+        object SpinEdit274: TFlatSpinEditFloat
+          Left = 224
+          Top = 264
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 45
+        end
+        object SpinEdit275: TFlatSpinEditFloat
+          Left = 280
+          Top = 264
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 46
+        end
+        object SpinEdit276: TFlatSpinEditFloat
+          Left = 336
+          Top = 264
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 47
+        end
+        object SpinEdit277: TFlatSpinEditFloat
+          Left = 392
+          Top = 264
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 48
+        end
+        object SpinEdit278: TFlatSpinEditFloat
+          Left = 448
+          Top = 264
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 49
+        end
+        object SpinEdit279: TFlatSpinEditFloat
+          Left = 504
+          Top = 264
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 50
+        end
+        object SpinEdit290: TFlatSpinEditFloat
+          Left = 152
+          Top = 16
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 51
+        end
+        object SpinEdit291: TFlatSpinEditFloat
+          Left = 152
+          Top = 80
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 52
+        end
+        object SpinEdit292: TFlatSpinEditFloat
+          Left = 152
+          Top = 144
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 53
+        end
+        object SpinEdit293: TFlatSpinEditFloat
+          Left = 288
+          Top = 144
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 54
+        end
+        object SpinEdit294: TFlatSpinEditFloat
+          Left = 152
+          Top = 208
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 55
+        end
+        object SpinEdit295: TFlatSpinEditFloat
+          Left = 152
+          Top = 272
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 56
+        end
+        object SpinEdit296: TFlatSpinEditFloat
+          Left = 384
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 57
+        end
+        object SpinEdit297: TFlatSpinEditFloat
+          Left = 448
+          Top = 328
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 58
+        end
+        object SpinEdit298: TFlatSpinEditFloat
+          Left = 504
+          Top = 328
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 59
+        end
+        object SpinEdit299: TFlatSpinEditFloat
+          Left = 152
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 60
+        end
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = '원천징수출력셋팅'
+      ImageIndex = 2
+      object GroupBox31: TFlatGroupBox
+        Left = 8
+        Top = 8
+        Width = 561
+        Height = 81
+        Caption = '용지여백'
+        TabOrder = 0
+        object Label301: TLabel
+          Left = 16
+          Top = 25
+          Width = 52
+          Height = 12
+          Caption = '용지넓이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label302: TLabel
+          Left = 16
+          Top = 52
+          Width = 52
+          Height = 12
+          Caption = '용지길이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label303: TLabel
+          Left = 160
+          Top = 25
+          Width = 52
+          Height = 12
+          Caption = '문자넓이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label304: TLabel
+          Left = 160
+          Top = 52
+          Width = 52
+          Height = 12
+          Caption = '문자길이'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Button301: TFlatButton
+          Left = 368
+          Top = 24
+          Width = 73
+          Height = 41
+          Caption = '저장'
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            33333333FF33333333FF333993333333300033377F3333333777333993333333
+            300033F77FFF3333377739999993333333333777777F3333333F399999933333
+            33003777777333333377333993333333330033377F3333333377333993333333
+            3333333773333333333F333333333333330033333333F33333773333333C3333
+            330033333337FF3333773333333CC333333333FFFFF77FFF3FF33CCCCCCCCCC3
+            993337777777777F77F33CCCCCCCCCC3993337777777777377333333333CC333
+            333333333337733333FF3333333C333330003333333733333777333333333333
+            3000333333333333377733333333333333333333333333333333}
+          NumGlyphs = 2
+          TabOrder = 0
+          OnClick = Button301Click
+        end
+        object Button302: TFlatButton
+          Left = 464
+          Top = 24
+          Width = 73
+          Height = 41
+          Caption = '종료'
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00330000000000
+            03333377777777777F333301BBBBBBBB033333773F3333337F3333011BBBBBBB
+            0333337F73F333337F33330111BBBBBB0333337F373F33337F333301110BBBBB
+            0333337F337F33337F333301110BBBBB0333337F337F33337F333301110BBBBB
+            0333337F337F33337F333301110BBBBB0333337F337F33337F333301110BBBBB
+            0333337F337F33337F333301110BBBBB0333337F337FF3337F33330111B0BBBB
+            0333337F337733337F333301110BBBBB0333337F337F33337F333301110BBBBB
+            0333337F3F7F33337F333301E10BBBBB0333337F7F7F33337F333301EE0BBBBB
+            0333337F777FFFFF7F3333000000000003333377777777777333}
+          NumGlyphs = 2
+          TabOrder = 1
+          ModalResult = 2
+        end
+        object SpinEdit301: TFlatSpinEditFloat
+          Left = 72
+          Top = 21
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 2
+        end
+        object SpinEdit302: TFlatSpinEditFloat
+          Left = 72
+          Top = 48
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 3
+        end
+        object SpinEdit303: TFlatSpinEditFloat
+          Left = 216
+          Top = 21
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 4
+        end
+        object SpinEdit304: TFlatSpinEditFloat
+          Left = 216
+          Top = 48
+          Width = 73
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 5
+        end
+      end
+      object GroupBox32: TFlatGroupBox
+        Left = 8
+        Top = 101
+        Width = 561
+        Height = 396
+        TabOrder = 1
+        object Label311: TLabel
+          Left = 88
+          Top = 20
+          Width = 59
+          Height = 12
+          Caption = '상단여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label312: TLabel
+          Left = 10
+          Top = 51
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label313: TLabel
+          Left = 88
+          Top = 84
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label314: TLabel
+          Left = 10
+          Top = 115
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label315: TLabel
+          Left = 88
+          Top = 148
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label316: TLabel
+          Left = 224
+          Top = 148
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label317: TLabel
+          Left = 360
+          Top = 148
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label318: TLabel
+          Left = 10
+          Top = 179
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label319: TLabel
+          Left = 88
+          Top = 212
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label320: TLabel
+          Left = 10
+          Top = 243
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label321: TLabel
+          Left = 88
+          Top = 276
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label322: TLabel
+          Left = 224
+          Top = 276
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label323: TLabel
+          Left = 360
+          Top = 276
+          Width = 59
+          Height = 12
+          Caption = '상하여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label324: TLabel
+          Left = 10
+          Top = 308
+          Width = 59
+          Height = 12
+          Caption = '좌측여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label325: TLabel
+          Left = 88
+          Top = 340
+          Width = 59
+          Height = 12
+          Caption = '하단여백:'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = '굴림체'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Edit311: TFlatEdit
+          Left = 128
+          Top = 48
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 0
+          Text = '(01)관리번호'
+        end
+        object Edit312: TFlatEdit
+          Left = 400
+          Top = 72
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 1
+          Text = '(02)등록번호'
+        end
+        object Edit321: TFlatEdit
+          Left = 128
+          Top = 112
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 2
+          Text = '(03)상 호 명'
+        end
+        object Edit322: TFlatEdit
+          Left = 288
+          Top = 112
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 3
+          Text = '(04)등록번호'
+        end
+        object Edit323: TFlatEdit
+          Left = 448
+          Top = 112
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 4
+          Text = '(05)구      분'
+        end
+        object Edit331: TFlatEdit
+          Left = 128
+          Top = 176
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 5
+          Text = '(06)지 급 일'
+        end
+        object Edit341: TFlatEdit
+          Left = 128
+          Top = 240
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 6
+          Text = '(07)발 행 년'
+        end
+        object Edit342: TFlatEdit
+          Left = 288
+          Top = 240
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 7
+          Text = '(08)발 행 월'
+        end
+        object Edit343: TFlatEdit
+          Left = 448
+          Top = 240
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 8
+          Text = '(09)발 행 일'
+        end
+        object Edit351: TFlatEdit
+          Left = 128
+          Top = 304
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 9
+          Text = '(10)보 고 자'
+        end
+        object Edit352: TFlatEdit
+          Left = 288
+          Top = 304
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 10
+          Text = '(11)'
+        end
+        object Edit353: TFlatEdit
+          Left = 448
+          Top = 304
+          Width = 97
+          Height = 19
+          ColorFlat = clYellow
+          ImeName = '한국어(한글) (MS-IME98)'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          ParentFont = False
+          TabOrder = 11
+          Text = '(12)귀      하'
+        end
+        object SpinEdit311: TFlatSpinEditFloat
+          Left = 72
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 12
+        end
+        object SpinEdit312: TFlatSpinEditFloat
+          Left = 232
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 13
+        end
+        object SpinEdit313: TFlatSpinEditFloat
+          Left = 288
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 14
+        end
+        object SpinEdit314: TFlatSpinEditFloat
+          Left = 344
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 15
+        end
+        object SpinEdit315: TFlatSpinEditFloat
+          Left = 400
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 16
+        end
+        object SpinEdit316: TFlatSpinEditFloat
+          Left = 456
+          Top = 48
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 17
+        end
+        object SpinEdit317: TFlatSpinEditFloat
+          Left = 232
+          Top = 72
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 18
+        end
+        object SpinEdit318: TFlatSpinEditFloat
+          Left = 288
+          Top = 72
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 19
+        end
+        object SpinEdit319: TFlatSpinEditFloat
+          Left = 344
+          Top = 72
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 20
+        end
+        object SpinEdit321: TFlatSpinEditFloat
+          Left = 72
+          Top = 112
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 21
+        end
+        object SpinEdit322: TFlatSpinEditFloat
+          Left = 232
+          Top = 112
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 22
+        end
+        object SpinEdit323: TFlatSpinEditFloat
+          Left = 392
+          Top = 112
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 23
+        end
+        object SpinEdit331: TFlatSpinEditFloat
+          Left = 72
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 24
+        end
+        object SpinEdit332: TFlatSpinEditFloat
+          Left = 232
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 25
+        end
+        object SpinEdit333: TFlatSpinEditFloat
+          Left = 288
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 26
+        end
+        object SpinEdit334: TFlatSpinEditFloat
+          Left = 344
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 27
+        end
+        object SpinEdit335: TFlatSpinEditFloat
+          Left = 400
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 28
+        end
+        object SpinEdit336: TFlatSpinEditFloat
+          Left = 456
+          Top = 176
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 29
+        end
+        object SpinEdit337: TFlatSpinEditFloat
+          Left = 232
+          Top = 200
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 30
+        end
+        object SpinEdit338: TFlatSpinEditFloat
+          Left = 288
+          Top = 200
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 31
+        end
+        object SpinEdit339: TFlatSpinEditFloat
+          Left = 344
+          Top = 200
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 32
+        end
+        object SpinEdit341: TFlatSpinEditFloat
+          Left = 72
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 33
+        end
+        object SpinEdit342: TFlatSpinEditFloat
+          Left = 232
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 34
+        end
+        object SpinEdit343: TFlatSpinEditFloat
+          Left = 392
+          Top = 240
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 35
+        end
+        object SpinEdit344: TFlatSpinEditFloat
+          Left = 288
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 36
+        end
+        object SpinEdit345: TFlatSpinEditFloat
+          Left = 344
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 37
+        end
+        object SpinEdit346: TFlatSpinEditFloat
+          Left = 400
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 38
+        end
+        object SpinEdit347: TFlatSpinEditFloat
+          Left = 456
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 39
+        end
+        object SpinEdit348: TFlatSpinEditFloat
+          Left = 400
+          Top = 200
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 40
+        end
+        object SpinEdit349: TFlatSpinEditFloat
+          Left = 456
+          Top = 200
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 41
+        end
+        object SpinEdit351: TFlatSpinEditFloat
+          Left = 72
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 42
+        end
+        object SpinEdit352: TFlatSpinEditFloat
+          Left = 232
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 43
+        end
+        object SpinEdit353: TFlatSpinEditFloat
+          Left = 392
+          Top = 304
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 44
+        end
+        object SpinEdit354: TFlatSpinEditFloat
+          Left = 232
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 45
+        end
+        object SpinEdit355: TFlatSpinEditFloat
+          Left = 288
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 46
+        end
+        object SpinEdit356: TFlatSpinEditFloat
+          Left = 344
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 47
+        end
+        object SpinEdit357: TFlatSpinEditFloat
+          Left = 400
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 48
+        end
+        object SpinEdit358: TFlatSpinEditFloat
+          Left = 456
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 49
+        end
+        object SpinEdit359: TFlatSpinEditFloat
+          Left = 232
+          Top = 360
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 50
+        end
+        object SpinEdit390: TFlatSpinEditFloat
+          Left = 152
+          Top = 16
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 51
+        end
+        object SpinEdit391: TFlatSpinEditFloat
+          Left = 152
+          Top = 80
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 52
+        end
+        object SpinEdit392: TFlatSpinEditFloat
+          Left = 152
+          Top = 144
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 53
+        end
+        object SpinEdit393: TFlatSpinEditFloat
+          Left = 288
+          Top = 144
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 54
+        end
+        object SpinEdit394: TFlatSpinEditFloat
+          Left = 424
+          Top = 144
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 55
+        end
+        object SpinEdit395: TFlatSpinEditFloat
+          Left = 152
+          Top = 208
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 56
+        end
+        object SpinEdit396: TFlatSpinEditFloat
+          Left = 152
+          Top = 272
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 57
+        end
+        object SpinEdit397: TFlatSpinEditFloat
+          Left = 288
+          Top = 272
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 58
+        end
+        object SpinEdit398: TFlatSpinEditFloat
+          Left = 424
+          Top = 272
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 59
+        end
+        object SpinEdit399: TFlatSpinEditFloat
+          Left = 152
+          Top = 336
+          Width = 57
+          Height = 19
+          ColorFlat = clWhite
+          AutoSize = False
+          Digits = 0
+          Precision = 9
+          FloatFormat = ffGeneral
+          Increment = 0.5
+          TabOrder = 60
+        end
+        object Button100: TFlatButton
+          Left = 520
+          Top = 8
+          Width = 25
+          Height = 25
+          TabOrder = 61
+          OnClick = Button100Click
+        end
+      end
+    end
+  end
+end

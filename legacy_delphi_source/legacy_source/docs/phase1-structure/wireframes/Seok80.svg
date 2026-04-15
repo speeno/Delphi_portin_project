@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="355" height="295" viewBox="0 0 355 295">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">Seok80</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Seok08 | Seok80 | TSeok80</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="335.0" height="243.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="0.0" y="0.0" width="335.0" height="41.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="3.0" y="11.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="48.0" y="8.0" width="238.0" height="29.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="51.0" y="19.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">안 내 도 우 미</text>
+    <text x="51.0" y="30.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TmyLabel3d</text>
+    <rect x="0.0" y="41.0" width="335.0" height="202.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="3.0" y="52.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="24.0" y="57.0" width="107.0" height="19.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="68.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">안녕하세요.</text>
+    <rect x="24.0" y="89.0" width="261.0" height="19.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="100.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">위러브솔루션(김창영)입니다.</text>
+    <rect x="24.0" y="121.0" width="147.0" height="19.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="132.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">다름이 아니오라</text>
+    <rect x="176.0" y="121.0" width="62.0" height="19.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="179.0" y="132.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">00월분</text>
+    <rect x="24.0" y="153.0" width="281.0" height="19.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="164.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">입금이 안되어 선택하신 메뉴를</text>
+    <rect x="24.0" y="185.0" width="181.0" height="19.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="196.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">사용할 수 없습니다.</text>
+    <rect x="24.0" y="217.0" width="174.0" height="19.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="228.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">이점 양해바랍니다.</text>
+  </g>
+</svg>

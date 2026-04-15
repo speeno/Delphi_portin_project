@@ -1,0 +1,2 @@
+# Optional: phase1 figures (debug/generate_phase1_charts.py)
+matplotlib>=3.8.0

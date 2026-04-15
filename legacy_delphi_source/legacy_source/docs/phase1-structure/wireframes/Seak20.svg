@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="472" height="419" viewBox="0 0 472 419">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">자료검색</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Seak02 | Seak20 | TSeak20</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="452.0" height="367.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="8.0" y="8.0" width="433.0" height="321.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="11.0" y="19.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="24.0" y="16.0" width="401.0" height="73.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="27.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">제1검색</text>
+    <text x="27.0" y="38.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TFlatGroupBox</text>
+    <rect x="314.0" y="40.0" width="54.0" height="15.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="317.0" y="51.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">조건식:</text>
+    <rect x="40.0" y="36.0" width="129.0" height="23.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="47.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="176.0" y="36.0" width="129.0" height="23.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="179.0" y="47.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="40.0" y="36.0" width="129.0" height="23.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="47.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="24.0" y="96.0" width="401.0" height="73.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="107.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">제2검색</text>
+    <text x="27.0" y="118.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TFlatGroupBox</text>
+    <rect x="314.0" y="120.0" width="54.0" height="15.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="317.0" y="131.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">조건식:</text>
+    <rect x="40.0" y="116.0" width="129.0" height="23.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="127.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="176.0" y="116.0" width="129.0" height="23.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="179.0" y="127.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="40.0" y="116.0" width="129.0" height="23.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="127.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="24.0" y="176.0" width="401.0" height="73.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="187.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">제3검색</text>
+    <text x="27.0" y="198.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TFlatGroupBox</text>
+    <rect x="314.0" y="200.0" width="54.0" height="15.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="317.0" y="211.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">조건식:</text>
+    <rect x="40.0" y="196.0" width="129.0" height="23.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="207.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="176.0" y="196.0" width="129.0" height="23.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="179.0" y="207.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="40.0" y="196.0" width="129.0" height="23.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="207.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="24.0" y="256.0" width="401.0" height="57.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="267.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">제4검색</text>
+    <text x="27.0" y="278.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TFlatGroupBox</text>
+    <rect x="314.0" y="280.0" width="54.0" height="15.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="317.0" y="291.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">조건식:</text>
+    <rect x="40.0" y="276.0" width="129.0" height="23.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="287.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="176.0" y="276.0" width="129.0" height="23.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="179.0" y="287.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="40.0" y="276.0" width="129.0" height="23.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="287.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="104.0" y="336.0" width="105.0" height="25.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="107.0" y="347.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">선택</text>
+    <rect x="248.0" y="336.0" width="105.0" height="25.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="251.0" y="347.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">취소</text>
+    <rect x="120.0" y="336.0" width="75.0" height="25.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="123.0" y="347.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">검색</text>
+    <rect x="264.0" y="336.0" width="75.0" height="25.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="267.0" y="347.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">취소</text>
+    <rect x="112.0" y="76.0" width="40.0" height="223.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+  </g>
+</svg>

@@ -14,6 +14,8 @@ import sys
 import os
 from pathlib import Path
 
+from delphi_source_encoding import read_delphi_source
+
 
 def find_dpr_files(source_dir: str) -> list[str]:
     return sorted(str(p) for p in Path(source_dir).rglob("*.dpr"))
@@ -38,8 +40,7 @@ def parse_uses_clause(content: str) -> list[dict]:
 
 
 def parse_dpr_file(filepath: str) -> dict:
-    with open(filepath, "r", encoding="utf-8", errors="replace") as f:
-        content = f.read()
+    content = read_delphi_source(filepath)
 
     program_match = re.search(r'\bprogram\s+(\w+)\s*;', content, re.IGNORECASE)
     program_name = program_match.group(1) if program_match else Path(filepath).stem

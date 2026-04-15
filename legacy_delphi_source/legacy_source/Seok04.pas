@@ -1,0 +1,227 @@
+unit Seok04;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Grids, DBGrids, Db, DBClient, Buttons, TFlatEditUnit,
+  TFlatPanelUnit, TFlatSpeedButtonUnit, TFlatButtonUnit, ComCtrls, ToolWin,
+  ImgList, Mylabel, Mask, TFlatMaskEditUnit, ZQuery, ZMySqlQuery, RichEdit,
+  Printers, TFlatCheckBoxUnit, Registry, RxRichEd;
+
+type
+  TSeok40 = class(TForm)
+    Query0: TZMySqlQuery;
+    Panel401: TFlatPanel;
+    Panel1: TFlatPanel;
+    CheckBox1: TFlatCheckBox;
+    Button101: TFlatButton;
+    Editor: TRxRichEdit;
+    RichEdit1: TRxRichEdit;
+    RichEdit2: TRxRichEdit;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure MemoPrint(aCaption: String);
+    procedure mPrintClick(Sender: TObject);
+    procedure Button101Click(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Seok40: TSeok40;
+
+implementation
+
+{$R *.DFM}
+
+uses Base01, TcpLib;
+
+procedure TSeok40.FormShow(Sender: TObject);
+var Temp1: TStream;
+begin
+
+  With Query0 do begin
+    Close;
+    Sql.Clear;
+    Sql.add('Select Gbigo From Me_Sage ');
+    Sql.Add('WHERE Hcode = '''+'000x'+''' ');
+    Sql.Add('  AND Date1<= '''+System_Data+''' ');
+    Sql.Add('  AND Date2>= '''+System_Data+''' ');
+    Open;
+  end;
+  Temp1 := TStream.Create;
+  Temp1 := Query0.CreateBlobStream(Query0.FieldByName('Gbigo'), bmRead);
+  RichEdit1.Lines.LoadFromStream(Temp1);
+  Temp1.Free;
+  Query0.Close;
+
+  With Query0 do begin
+    Close;
+    Sql.Clear;
+    Sql.add('Select Gbigo From Me_Sage ');
+    Sql.Add('WHERE Hcode = '''+'000y'+''' ');
+    Sql.Add('  AND Date1<= '''+System_Data+''' ');
+    Sql.Add('  AND Date2>= '''+System_Data+''' ');
+    Open;
+  end;
+  Temp1 := TStream.Create;
+  Temp1 := Query0.CreateBlobStream(Query0.FieldByName('Gbigo'), bmRead);
+  RichEdit1.SelectAll;
+  RichEdit1.CopyToClipboard;
+  RichEdit2.Lines.LoadFromStream(Temp1);
+  RichEdit2.PasteFromClipboard;
+  RichEdit2.SelStart:=0;
+  RichEdit2.ReadOnly:=True;
+  Temp1.Free;
+  Query0.Close;
+
+{ Sqlen := 'Select Gbigo From Me_Sage Where Hcode=''@Hcode'' and Date1<=''@Date1'' and Date2=''@Date2'' ';
+  Translate(Sqlen, '@Hcode', Hnnnn);
+  Translate(Sqlen, '@Date1', System_Data);
+  Translate(Sqlen, '@Date2', System_Data);
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.Body_Data <> 'NODATA' then begin
+    Base10.Socket.MakeData;
+    Editor.Lines.Text:=Base10.Socket.GetData(1, 1);
+  end; }
+end;
+
+procedure TSeok40.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+//
+end;
+
+procedure TSeok40.MemoPrint(aCaption: String);
+var
+ Range: TFormatRange;
+ LastChar, MaxLen, LogX, LogY, OldMap: Integer;
+ SaveRect: TRect;
+begin
+ FillChar(Range, SizeOf(TFormatRange), 0);
+ with Printer, Range do
+ begin
+   Title := aCaption;
+   BeginDoc;
+   hdc := Handle;
+   hdcTarget := hdc;
+   LogX := GetDeviceCaps(Handle, LOGPIXELSX);
+   LogY := GetDeviceCaps(Handle, LOGPIXELSY);
+   if IsRectEmpty(Editor.PageRect) then
+   begin
+     rc.right := PageWidth * 1440 div LogX;
+     rc.bottom := PageHeight * 1440 div LogY;
+   end
+   else begin
+     rc.left := RichEdit2.PageRect.Left * 1440 div LogX;
+     rc.top := RichEdit2.PageRect.Top * 1440 div LogY;
+     rc.right := RichEdit2.PageRect.Right * 1440 div LogX;
+     rc.bottom := RichEdit2.PageRect.Bottom * 1440 div LogY;
+   end;
+
+
+   //----------------------------------------------------------
+   // 이부분만 추가 했습니다. 여백주기 위,아래,왼쪽,오른쪽 여백 -_-;
+   rc.Left := rc.Left + (500 * 1440 div LogX);
+   rc.Right := rc.Right - (500 * 1440 div LogX);
+   rc.Top := rc.Top + (80 * 1440 div LogY);
+   rc.Bottom := rc.Bottom - (80 * 1440 div LogY);
+   //----------------------------------------------------------
+   
+   rcPage := rc;
+   SaveRect := rc;
+   LastChar := 0;
+   MaxLen := RichEdit2.GetTextLen;
+   chrg.cpMax := -1;
+   // ensure printer DC is in text map mode
+   OldMap := SetMapMode(hdc, MM_TEXT);
+   SendMessage(RichEdit2.Handle, EM_FORMATRANGE, 0, 0);    // flush buffer
+   try
+   //repeat
+       rc := SaveRect;
+       chrg.cpMin := LastChar;
+       LastChar := SendMessage(RichEdit2.Handle, EM_FORMATRANGE, 1, Longint(@Range));
+       if (LastChar < MaxLen) and (LastChar <> -1) then NewPage;
+   //until (LastChar >= MaxLen) or (LastChar = -1);
+     EndDoc;
+   finally
+     SendMessage(RichEdit2.Handle, EM_FORMATRANGE, 0, 0);  // flush buffer
+     SetMapMode(hdc, OldMap);       // restore previous map mode
+   end;
+ end;
+end;
+
+//위의 메서드 호출.. (메뉴 아이템 클릭)
+procedure TSeok40.mPrintClick(Sender: TObject);
+begin
+  with TPrintDialog.Create(nil) do
+  try
+    if Execute then
+    MemoPrint(Application.Title);
+  finally
+    Free;
+  end;
+end;
+
+procedure TSeok40.Button101Click(Sender: TObject);
+begin
+  mPrintClick(Self);
+end;
+
+procedure TSeok40.CheckBox1Click(Sender: TObject);
+var
+  Reg: TRegistry;
+  MgDate1,MgDate2,MgDate3,MgDate4: String;
+begin
+
+  Sqlen := 'Select Date1,Date2 From Me_Sage Where Hcode=''@Hcode'' and Date1<=''@Date1'' and Date2>=''@Date2'' ';
+  Translate(Sqlen, '@Hcode', '000y');
+  Translate(Sqlen, '@Date1', System_Data);
+  Translate(Sqlen, '@Date2', System_Data);
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.Body_Data <> 'NODATA' then begin
+    Base10.Socket.MakeData;
+    MgDate1:=System_Data;
+  //MgDate1:=Base10.Socket.GetData(1, 1);
+    MgDate2:=Base10.Socket.GetData(1, 2);
+  end;
+
+  Sqlen := 'Select Date1,Date2 From Me_Sage Where Hcode=''@Hcode'' and Date1<=''@Date1'' and Date2>=''@Date2'' ';
+  Translate(Sqlen, '@Hcode', '000x');
+  Translate(Sqlen, '@Date1', System_Data);
+  Translate(Sqlen, '@Date2', System_Data);
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.Body_Data <> 'NODATA' then begin
+    Base10.Socket.MakeData;
+    MgDate3:=System_Data;
+  //MgDate3:=Base10.Socket.GetData(1, 1);
+    MgDate4:=Base10.Socket.GetData(1, 2);
+  end;
+
+  Reg := TRegistry.Create;
+  try
+  //Reg.RootKey := HKEY_CURRENT_USER;
+    if Reg.OpenKey('HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce', True) then begin
+       Reg.WriteString('MgDate1','' + MgDate1 + '');
+       Reg.WriteString('MgDate2','' + MgDate2 + '');
+       Reg.WriteString('MgDate3','' + MgDate3 + '');
+       Reg.WriteString('MgDate4','' + MgDate4 + '');
+    end;
+  finally
+    Reg.CloseKey;
+    Reg.Free;
+    inherited;
+  end;
+  Close;
+end;
+
+end.

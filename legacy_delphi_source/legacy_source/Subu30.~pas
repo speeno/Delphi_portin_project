@@ -1,0 +1,251 @@
+unit Subu30;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  OleCtrls, SHDocVw, dxCore, dxButtons, ExtCtrls, ActiveX, ComObj, ShellApi,
+  StdCtrls, Mylabel;
+
+type
+  TSobo30 = class(TForm)
+    Button100: TdxButton;
+    Image1: TImage;
+    myLabel3d1: TmyLabel3d;
+    procedure FormActivate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button001Click(Sender: TObject);
+    procedure Button002Click(Sender: TObject);
+    procedure Button003Click(Sender: TObject);
+    procedure Button004Click(Sender: TObject);
+    procedure Button005Click(Sender: TObject);
+    procedure Button006Click(Sender: TObject);
+    procedure Button007Click(Sender: TObject);
+    procedure Button008Click(Sender: TObject);
+    procedure Button009Click(Sender: TObject);
+    procedure Button010Click(Sender: TObject);
+    procedure Button011Click(Sender: TObject);
+    procedure Button012Click(Sender: TObject);
+    procedure Button013Click(Sender: TObject);
+    procedure Button014Click(Sender: TObject);
+    procedure Button015Click(Sender: TObject);
+    procedure Button016Click(Sender: TObject);
+    procedure Button017Click(Sender: TObject);
+    procedure Button018Click(Sender: TObject);
+    procedure Button019Click(Sender: TObject);
+    procedure Button020Click(Sender: TObject);
+    procedure Button021Click(Sender: TObject);
+    procedure Button022Click(Sender: TObject);
+    procedure Button023Click(Sender: TObject);
+    procedure Button024Click(Sender: TObject);
+    procedure Button101Click(Sender: TObject);
+    procedure Button201Click(Sender: TObject);
+    procedure Button100Click(Sender: TObject);
+    procedure myLabel3d1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure CreateParams(VAR Params: TCreateParams); override;
+  end;
+  procedure NavigateIE(const URL: WideString);
+
+var
+  Sobo30: TSobo30;
+
+implementation
+
+{$R *.DFM}
+
+uses Base01;
+
+procedure NavigateIE(const URL: WideString);
+var
+  IE : Variant;
+begin
+  try
+     IE := CreateOleObject('InternetExplorer.Application');
+  except
+     ShowMessage('익스플로러 실행 실패');
+     Exit;
+  end;
+  IE.Visible := True;
+//IE.ToolBar := False;
+//IE.Resizable := False;
+  IE.TheaterMode := False;
+  IE.Left := 0;
+  IE.Top := 0;
+  IE.Width := Screen.Width;
+  IE.Height := Screen.Height;
+  IE.Navigate2(URL);
+  IE := Unassigned;
+end;
+
+procedure TSobo30.CreateParams(var Params: TCreateParams);
+begin
+  Inherited Createparams(Params);
+  With Params DO begin
+    Style := Style-WS_BORDER-WS_DLGFRAME;
+  //Style := (Style OR WS_CHILD OR WS_BORDER) AND NOT WS_DLGFRAME;
+  //exStyle := exStyle Or WS_EX_APPWINDOW;
+  end;
+end;
+
+procedure TSobo30.FormActivate(Sender: TObject);
+begin
+  nForm:='30';
+end;
+
+procedure TSobo30.FormShow(Sender: TObject);
+begin
+//WebBrowser1.Navigate('http://www.yeskb.com');
+end;
+
+procedure TSobo30.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+//
+end;
+
+procedure TSobo30.Button001Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button002Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button003Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button004Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button005Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button006Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button007Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button008Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button009Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button010Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button011Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button012Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button013Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button014Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button015Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button016Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button017Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button018Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button019Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button020Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button021Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button022Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button023Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button024Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button101Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button201Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.Button100Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo30.myLabel3d1Click(Sender: TObject);
+begin
+  ShellExecute(Handle,'Open','http://www.yeskb.com',nil,nil,SW_Show);
+//NavigateIE('http://www.yeskb.com');
+end;
+
+end.

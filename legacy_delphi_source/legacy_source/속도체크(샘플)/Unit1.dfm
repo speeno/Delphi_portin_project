@@ -1,0 +1,354 @@
+object Form1: TForm1
+  Left = 192
+  Top = 114
+  Width = 696
+  Height = 480
+  Caption = 'Form1'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGrid1: TDBGrid
+    Left = 8
+    Top = 104
+    Width = 673
+    Height = 161
+    DataSource = DataSource4
+    ImeName = 'Microsoft IME 2003'
+    Options = [dgEditing, dgAlwaysShowEditor, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+  end
+  object DBGrid2: TDBGrid
+    Left = 8
+    Top = 272
+    Width = 673
+    Height = 161
+    DataSource = DataSource3
+    ImeName = 'Microsoft IME 2003'
+    Options = [dgEditing, dgAlwaysShowEditor, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit]
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+  end
+  object Button1: TButton
+    Left = 360
+    Top = 64
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 2
+    OnClick = Button1Click
+  end
+  object Edit1: TEdit
+    Left = 280
+    Top = 32
+    Width = 121
+    Height = 21
+    ImeName = 'Microsoft IME 2003'
+    TabOrder = 3
+  end
+  object Edit2: TEdit
+    Left = 408
+    Top = 32
+    Width = 121
+    Height = 21
+    ImeName = 'Microsoft IME 2003'
+    TabOrder = 4
+  end
+  object Database: TZMySqlDatabase
+    Host = '210.109.102.86'
+    Port = '3306'
+    Database = 'book_gs_db'
+    Encoding = etNone
+    Login = 'book_gs_user'
+    Password = 'book_gs_pw'
+    LoginPrompt = False
+    Connected = False
+    Left = 56
+    Top = 10
+  end
+  object Transact: TZMySqlTransact
+    Options = [toHourGlass]
+    AutoCommit = True
+    Database = Database
+    TransactSafe = True
+    Left = 88
+    Top = 11
+  end
+  object ZMySqlTable1: TZMySqlTable
+    Database = Database
+    Transaction = Transact
+    CachedUpdates = False
+    ShowRecordTypes = [ztModified, ztInserted, ztUnmodified]
+    Options = [doHourGlass, doAutoFillDefs, doUseRowId]
+    LinkOptions = [loAlwaysResync]
+    Constraints = <>
+    ExtraOptions = [moStoreResult]
+    TableName = 'G7_Ggeo'
+    Left = 56
+    Top = 40
+    object ZMySqlTable1gcode: TStringField
+      FieldName = 'gcode'
+      Size = 5
+    end
+    object ZMySqlTable1gname: TStringField
+      FieldName = 'gname'
+      Size = 24
+    end
+  end
+  object ZMySqlTable2: TZMySqlTable
+    Database = Database
+    Transaction = Transact
+    CachedUpdates = False
+    ShowRecordTypes = [ztModified, ztInserted, ztUnmodified]
+    Options = [doHourGlass, doAutoFillDefs, doUseRowId]
+    LinkOptions = [loAlwaysResync]
+    Constraints = <>
+    ExtraOptions = [moStoreResult]
+    TableName = 'G1_Ggeo'
+    Left = 88
+    Top = 40
+    object ZMySqlTable2gcode: TStringField
+      FieldName = 'gcode'
+      Size = 5
+    end
+    object ZMySqlTable2gname: TStringField
+      FieldName = 'gname'
+      Size = 24
+    end
+  end
+  object ZMySqlQuery1: TZMySqlQuery
+    Database = Database
+    Transaction = Transact
+    CachedUpdates = False
+    ShowRecordTypes = [ztModified, ztInserted, ztUnmodified]
+    Options = [doHourGlass, doAutoFillDefs, doUseRowId]
+    LinkOptions = [loAlwaysResync]
+    Constraints = <>
+    ExtraOptions = [moStoreResult]
+    Macros = <>
+    Sql.Strings = (
+      'select a.hcode, a.gcode, b.gcode as bcode, b.gname as bname'
+      'from S1_Ssub a, G4_Book b'
+      'where a.gdate='#39'2006.11.07'#39' and a.bcode=b.gcode')
+    RequestLive = False
+    Left = 160
+    Top = 8
+    object ZMySqlQuery1hcode: TStringField
+      DisplayWidth = 6
+      FieldName = 'hcode'
+      Size = 5
+    end
+    object ZMySqlQuery1hname: TStringField
+      DisplayWidth = 20
+      FieldKind = fkLookup
+      FieldName = 'hname'
+      LookupDataSet = ZMySqlTable1
+      LookupKeyFields = 'gcode'
+      LookupResultField = 'gname'
+      KeyFields = 'hcode'
+      Size = 24
+      Lookup = True
+    end
+    object ZMySqlQuery1gcode: TStringField
+      DisplayWidth = 6
+      FieldName = 'gcode'
+      Size = 5
+    end
+    object ZMySqlQuery1gname: TStringField
+      DisplayWidth = 22
+      FieldKind = fkLookup
+      FieldName = 'gname'
+      LookupDataSet = ZMySqlTable2
+      LookupKeyFields = 'gcode'
+      LookupResultField = 'gname'
+      KeyFields = 'gcode'
+      Size = 24
+      Lookup = True
+    end
+    object ZMySqlQuery1bcode: TStringField
+      DisplayWidth = 12
+      FieldName = 'bcode'
+      Size = 10
+    end
+    object ZMySqlQuery1bname: TStringField
+      DisplayWidth = 48
+      FieldName = 'bname'
+      Size = 40
+    end
+  end
+  object ZMySqlQuery2: TZMySqlQuery
+    Database = Database
+    Transaction = Transact
+    CachedUpdates = False
+    ShowRecordTypes = [ztModified, ztInserted, ztUnmodified]
+    Options = [doHourGlass, doAutoFillDefs, doUseRowId]
+    LinkOptions = [loAlwaysResync]
+    Constraints = <>
+    ExtraOptions = [moStoreResult]
+    Macros = <>
+    Sql.Strings = (
+      'select hcode, gcode, bcode'
+      'from S1_Ssub'
+      'where gdate='#39'2006.11.07'#39)
+    RequestLive = False
+    Left = 160
+    Top = 40
+    object ZMySqlQuery2hcode: TStringField
+      DisplayWidth = 6
+      FieldName = 'hcode'
+      Size = 5
+    end
+    object ZMySqlQuery2hname: TStringField
+      DisplayWidth = 20
+      FieldKind = fkLookup
+      FieldName = 'hname'
+      LookupDataSet = ZMySqlTable1
+      LookupKeyFields = 'gcode'
+      LookupResultField = 'gname'
+      KeyFields = 'hcode'
+      Size = 24
+      Lookup = True
+    end
+    object ZMySqlQuery2gcode: TStringField
+      DisplayWidth = 6
+      FieldName = 'gcode'
+      Size = 5
+    end
+    object ZMySqlQuery2gname: TStringField
+      DisplayWidth = 22
+      FieldKind = fkLookup
+      FieldName = 'gname'
+      LookupDataSet = ZMySqlTable2
+      LookupKeyFields = 'gcode'
+      LookupResultField = 'gname'
+      KeyFields = 'gcode'
+      Size = 24
+      Lookup = True
+    end
+    object ZMySqlQuery2bcode: TStringField
+      DisplayWidth = 12
+      FieldName = 'bcode'
+      Size = 10
+    end
+    object ZMySqlQuery2bname: TStringField
+      DisplayWidth = 48
+      FieldKind = fkLookup
+      FieldName = 'bname'
+      LookupDataSet = ZMySqlTable3
+      LookupKeyFields = 'hcode;gcode'
+      LookupResultField = 'gname'
+      KeyFields = 'hcode;bcode'
+      Size = 40
+      Lookup = True
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = ZMySqlQuery1
+    Left = 128
+    Top = 8
+  end
+  object DataSource2: TDataSource
+    DataSet = ZMySqlQuery2
+    Left = 128
+    Top = 40
+  end
+  object ZMySqlTable3: TZMySqlTable
+    Database = Database
+    Transaction = Transact
+    CachedUpdates = False
+    ShowRecordTypes = [ztModified, ztInserted, ztUnmodified]
+    Options = [doHourGlass, doAutoFillDefs, doUseRowId]
+    LinkOptions = [loAlwaysResync]
+    Constraints = <>
+    ExtraOptions = [moStoreResult]
+    TableName = 'G4_Book'
+    Left = 56
+    Top = 72
+    object ZMySqlTable3hcode: TStringField
+      FieldName = 'hcode'
+      Size = 5
+    end
+    object ZMySqlTable3gcode: TStringField
+      FieldName = 'gcode'
+      Size = 5
+    end
+    object ZMySqlTable3gname: TStringField
+      FieldName = 'gname'
+      Size = 24
+    end
+  end
+  object DataSource3: TDataSource
+    DataSet = ZMySqlTable4
+    Left = 192
+    Top = 40
+  end
+  object ZMySqlTable4: TZMySqlTable
+    Database = Database
+    Transaction = Transact
+    CachedUpdates = False
+    ShowRecordTypes = [ztModified, ztInserted, ztUnmodified]
+    Options = [doHourGlass, doAutoFillDefs, doUseRowId]
+    LinkOptions = [loAlwaysResync]
+    Constraints = <>
+    ExtraOptions = [moStoreResult]
+    TableName = 'G1_Ggeo'
+    Left = 224
+    Top = 40
+  end
+  object ZMySqlTable5: TZMySqlTable
+    Database = Database
+    Transaction = Transact
+    CachedUpdates = False
+    ShowRecordTypes = [ztModified, ztInserted, ztUnmodified]
+    Options = [doHourGlass, doAutoFillDefs, doUseRowId]
+    LinkOptions = [loAlwaysResync]
+    Constraints = <>
+    ExtraOptions = [moStoreResult]
+    TableName = 'Gg_Post'
+    Left = 576
+    Top = 32
+    object ZMySqlTable5post: TStringField
+      FieldName = 'post'
+      Size = 7
+    end
+    object ZMySqlTable5addr: TStringField
+      FieldName = 'addr'
+      Size = 55
+    end
+  end
+  object DataSource4: TDataSource
+    DataSet = ZMySqlQuery3
+    Left = 544
+    Top = 32
+  end
+  object ZMySqlQuery3: TZMySqlQuery
+    Database = Database
+    Transaction = Transact
+    CachedUpdates = False
+    ShowRecordTypes = [ztModified, ztInserted, ztUnmodified]
+    Options = [doHourGlass, doAutoFillDefs, doUseRowId]
+    LinkOptions = [loAlwaysResync]
+    Constraints = <>
+    ExtraOptions = [moStoreResult]
+    Macros = <>
+    Sql.Strings = (
+      'select Count(*) from S1_Ssub')
+    RequestLive = False
+    Left = 608
+    Top = 32
+  end
+end

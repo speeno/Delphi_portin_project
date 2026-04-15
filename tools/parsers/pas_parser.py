@@ -21,6 +21,8 @@ import os
 from pathlib import Path
 from typing import Any
 
+from delphi_source_encoding import read_delphi_source
+
 
 def find_pas_files(source_dir: str) -> list[str]:
     return sorted(str(p) for p in Path(source_dir).rglob("*.pas"))
@@ -207,8 +209,7 @@ def classify_unit(filepath: str, content: str) -> str:
 
 
 def parse_pas_file(filepath: str) -> dict:
-    with open(filepath, "r", encoding="utf-8", errors="replace") as f:
-        content = f.read()
+    content = read_delphi_source(filepath)
 
     unit_match = re.search(r'\bunit\s+(\w+)\s*;', content, re.IGNORECASE)
     unit_name = unit_match.group(1) if unit_match else Path(filepath).stem

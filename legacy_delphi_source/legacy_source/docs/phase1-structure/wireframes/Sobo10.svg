@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="304" height="212" viewBox="0 0 304 212">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">로그인</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Subu10 | Sobo10 | TSobo10</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="284.0" height="160.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="58.0" y="16.0" width="51.0" height="16.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="61.0" y="27.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">사용자</text>
+    <rect x="58.0" y="48.0" width="51.0" height="16.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="61.0" y="59.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">아이디</text>
+    <rect x="41.0" y="80.0" width="68.0" height="16.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="44.0" y="91.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">비밀번호</text>
+    <rect x="40.0" y="112.0" width="89.0" height="25.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="123.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">확인</text>
+    <rect x="152.0" y="112.0" width="89.0" height="25.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="155.0" y="123.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">종료</text>
+  </g>
+</svg>

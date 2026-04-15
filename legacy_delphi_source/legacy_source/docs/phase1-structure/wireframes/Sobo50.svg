@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="612" viewBox="0 0 800 612">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">Sobo50</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Subu50 | Sobo50 | TSobo50</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="780.0" height="560.0" fill="#fff" stroke="#333" stroke-width="1"/>
+  </g>
+</svg>

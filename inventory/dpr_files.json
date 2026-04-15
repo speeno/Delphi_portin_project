@@ -1,0 +1,105 @@
+{
+  "source_dir": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source",
+  "dpr_files": [
+    {
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Chulpan.dpr",
+      "program_name": "Chulpan",
+      "units": [
+        {
+          "name": "Forms",
+          "path": ""
+        },
+        {
+          "name": "Controls",
+          "path": ""
+        },
+        {
+          "name": "Dialogs",
+          "path": ""
+        }
+      ],
+      "unit_count": 3,
+      "file_size": 7086,
+      "line_count": 191
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Chulpan.dpr",
+      "program_name": "Chulpan",
+      "units": [
+        {
+          "name": "Forms",
+          "path": ""
+        },
+        {
+          "name": "Controls",
+          "path": ""
+        },
+        {
+          "name": "Dialogs",
+          "path": ""
+        }
+      ],
+      "unit_count": 3,
+      "file_size": 5197,
+      "line_count": 142
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/속도체크(샘플)/Project1.dpr",
+      "program_name": "Project1",
+      "units": [
+        {
+          "name": "Forms",
+          "path": ""
+        }
+      ],
+      "unit_count": 1,
+      "file_size": 188,
+      "line_count": 14
+    }
+  ],
+  "dependency_graph": {
+    "nodes": [
+      "Chulpan",
+      "Controls",
+      "Dialogs",
+      "Forms",
+      "Project1"
+    ],
+    "edges": [
+      {
+        "from": "Chulpan",
+        "to": "Forms"
+      },
+      {
+        "from": "Chulpan",
+        "to": "Controls"
+      },
+      {
+        "from": "Chulpan",
+        "to": "Dialogs"
+      },
+      {
+        "from": "Chulpan",
+        "to": "Forms"
+      },
+      {
+        "from": "Chulpan",
+        "to": "Controls"
+      },
+      {
+        "from": "Chulpan",
+        "to": "Dialogs"
+      },
+      {
+        "from": "Project1",
+        "to": "Forms"
+      }
+    ],
+    "total_nodes": 5,
+    "total_edges": 7
+  },
+  "summary": {
+    "total_dpr_files": 3,
+    "total_units_referenced": 5
+  }
+}

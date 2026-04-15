@@ -1,0 +1,685 @@
+unit Subu58;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ComCtrls, ExtCtrls, Buttons, Mylabel, Mask, Db, Grids, DBGrids,
+  TFlatPanelUnit, TFlatEditUnit, TFlatProgressBarUnit, TFlatMaskEditUnit,
+  TFlatButtonUnit, TFlatComboBoxUnit, TFlatNumberUnit, ToolEdit;
+
+type
+  TSobo58 = class(TForm)
+    DataSource1: TDataSource;
+    DataSource2: TDataSource;
+    Panel001: TFlatPanel;
+    Panel002: TFlatPanel;
+    Panel003: TFlatPanel;
+    Panel007: TFlatPanel;
+    Panel008: TFlatPanel;
+    Panel009: TFlatPanel;
+    Panel010: TFlatPanel;
+    Panel101: TFlatPanel;
+    Panel105: TFlatPanel;
+    ProgressBar0: TFlatProgressBar;
+    ProgressBar1: TProgressBar;
+    Button101: TFlatButton;
+    Button201: TFlatButton;
+    DBGrid101: TDBGrid;
+    DBGrid201: TDBGrid;
+    StBar101: TStatusBar;
+    StBar201: TStatusBar;
+    Edit101: TFlatMaskEdit;
+    Edit103: TFlatEdit;
+    Edit104: TFlatEdit;
+    Panel200: TFlatPanel;
+    Panel201: TFlatPanel;
+    Panel202: TFlatPanel;
+    Edit202: TFlatEdit;
+    Edit201: TFlatEdit;
+    Panel203: TFlatPanel;
+    Edit203: TFlatEdit;
+    Panel204: TFlatPanel;
+    Edit204: TFlatEdit;
+    Edit105: TFlatEdit;
+    Edit106: TFlatEdit;
+    Label101: TmyLabel3d;
+    Label102: TmyLabel3d;
+    Edit102: TFlatMaskEdit;
+    DateEdit1: TDateEdit;
+    DateEdit2: TDateEdit;
+    Button701: TFlatButton;
+    Button702: TFlatButton;
+    Button709: TFlatButton;
+    procedure FormActivate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button001Click(Sender: TObject);
+    procedure Button002Click(Sender: TObject);
+    procedure Button003Click(Sender: TObject);
+    procedure Button004Click(Sender: TObject);
+    procedure Button005Click(Sender: TObject);
+    procedure Button006Click(Sender: TObject);
+    procedure Button007Click(Sender: TObject);
+    procedure Button008Click(Sender: TObject);
+    procedure Button009Click(Sender: TObject);
+    procedure Button010Click(Sender: TObject);
+    procedure Button011Click(Sender: TObject);
+    procedure Button012Click(Sender: TObject);
+    procedure Button013Click(Sender: TObject);
+    procedure Button014Click(Sender: TObject);
+    procedure Button015Click(Sender: TObject);
+    procedure Button016Click(Sender: TObject);
+    procedure Button017Click(Sender: TObject);
+    procedure Button018Click(Sender: TObject);
+    procedure Button019Click(Sender: TObject);
+    procedure Button020Click(Sender: TObject);
+    procedure Button021Click(Sender: TObject);
+    procedure Button022Click(Sender: TObject);
+    procedure Button023Click(Sender: TObject);
+    procedure Button024Click(Sender: TObject);
+    procedure Button101Click(Sender: TObject);
+    procedure Button201Click(Sender: TObject);
+    procedure Edit101Change(Sender: TObject);
+    procedure Edit101KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit102KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit111KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit111KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit112KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit112KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit113KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit113KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit115KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit115KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure Edit114KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit114KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGrid101KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid101KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGrid201KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid201KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure DBGrid101TitleClick(Column: TColumn);
+    procedure DBGrid201TitleClick(Column: TColumn);
+    procedure DataSource1DataChange(Sender: TObject; Field: TField);
+    procedure DataSource2DataChange(Sender: TObject; Field: TField);
+    procedure DBGrid201DblClick(Sender: TObject);
+    procedure DateEdit1ButtonClick(Sender: TObject);
+    procedure DateEdit2ButtonClick(Sender: TObject);
+    procedure DateEdit1AcceptDate(Sender: TObject; var ADate: TDateTime; var Action: Boolean);
+    procedure DateEdit2AcceptDate(Sender: TObject; var ADate: TDateTime; var Action: Boolean);
+    procedure Button701Click(Sender: TObject);
+    procedure Button702Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Sobo58: TSobo58;
+
+implementation
+
+{$R *.DFM}
+
+uses Chul, Base01, Tong02, Tong04, TcpLib, Subu23,
+   Seak01, Seak02, Seak03, Seak04, Seak05, Seak06, Seak07, Seak08, Seak09,
+   Seek01, Seek02, Seek03, Seek04, Seek05, Seek06, Seek07, Seek08, Seek09;
+
+procedure TSobo58.FormActivate(Sender: TObject);
+begin
+  nForm:='58';
+  nSqry:=Base10.T5_Sub81;
+  mSqry:=Base10.T5_Sub82;
+end;
+
+procedure TSobo58.FormShow(Sender: TObject);
+begin
+  T00:=0;
+  Edit101.Text:=FormatDateTime('yyyy"."mm"."dd',Date);
+  Edit102.Text:=FormatDateTime('yyyy"."mm"."dd',Date);
+end;
+
+procedure TSobo58.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Release;
+  Action:=caFree;
+  Sobo58:=nil;
+  Base10.OpenExit(nSqry);
+  Base10.OpenExit(mSqry);
+end;
+
+procedure TSobo58.Button001Click(Sender: TObject);
+begin
+{ if mSqry.Active=True Then begin
+     oSqry:=mSqry;
+     Seak10.ShowModal;
+  end; }
+end;
+
+procedure TSobo58.Button002Click(Sender: TObject);
+begin
+{ if mSqry.Active=True Then begin
+     oSqry:=mSqry;
+  if Seak20.ShowModal=mrOK then
+     Tong20.Srart_58_02(Self);
+  end; }
+end;
+
+procedure TSobo58.Button003Click(Sender: TObject);
+begin
+{ if mSqry.Active=True Then begin
+     oSqry:=mSqry;
+     Seak30.ShowModal;
+  end; }
+end;
+
+procedure TSobo58.Button004Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button005Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button006Click(Sender: TObject);
+begin
+{ T00:=1;
+  Button201Click(Self); }
+end;
+
+procedure TSobo58.Button007Click(Sender: TObject);
+begin
+{ T00:=0;
+  Button201Click(Self); }
+end;
+
+procedure TSobo58.Button008Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button009Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button010Click(Sender: TObject);
+begin
+  Tong20.DBGridSaveHtml(DBGrid101, Caption);
+end;
+
+procedure TSobo58.Button011Click(Sender: TObject);
+begin
+  Tong20.DBGridSaveHtml(DBGrid201, Caption);
+end;
+
+procedure TSobo58.Button012Click(Sender: TObject);
+begin
+  oSqry:=mSqry;
+  Base10.ColumnX1(oSqry,DBGrid101,ProgressBar1);
+end;
+
+procedure TSobo58.Button013Click(Sender: TObject);
+begin
+  oSqry:=nSqry;
+  Base10.ColumnX1(oSqry,DBGrid201,ProgressBar1);
+end;
+
+procedure TSobo58.Button014Click(Sender: TObject);
+begin
+  Tong20.Print_00_00('58-01');
+end;
+
+procedure TSobo58.Button015Click(Sender: TObject);
+begin
+  Tong20.Print_00_00('58-02');
+end;
+
+procedure TSobo58.Button016Click(Sender: TObject);
+begin
+  Tong40.print_58_01(Self);
+end;
+
+procedure TSobo58.Button017Click(Sender: TObject);
+begin
+  Tong40.print_58_02(Self);
+end;
+
+procedure TSobo58.Button018Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button019Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button020Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button021Click(Sender: TObject);
+begin
+  Tong20.DBGridFont1(DBGrid101,DBGrid201,StBar101,StBar201);
+end;
+
+procedure TSobo58.Button022Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button023Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button024Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo58.Button101Click(Sender: TObject);
+var St1,St2,St3: String;
+begin
+//if Base10.Seek_Ggeo(Edit108.Text)='X' Then Exit;
+
+  Tong40.Show;
+  Tong40.Update;
+
+  Refresh;
+  Screen.Cursor:=crHourGlass;
+  DataSource2.Enabled:=False;
+  DataSource1.Enabled:=False;
+  Base10.OpenShow(nSqry);
+  Base10.OpenShow(mSqry);
+
+  St2:='X';
+
+  St1:='Gdate'+'>='+#39+Edit101.Text+#39+' and '+
+       'Gdate'+'<='+#39+Edit102.Text+#39+' and '+
+       'Gubun'+' ='+#39+'¹ÝÇ°'+#39+' and '+
+       'Ocode'+' ='+#39+'B'+#39+' and '+
+       'Scode'+' ='+#39+St2+#39;
+  if (Edit105.Text<>'') Then
+  St1:=St1+' and '+
+       'Hcode'+'>='+#39+Edit103.Text+#39+' and '+
+       'Hcode'+'<='+#39+Edit105.Text+#39;
+
+  St2:=' Order By Gdate,Hcode,Gcode,Gubun,Jubun,ID';
+
+  {-S1_Ssub-}
+  Sqlen :=
+  'Select Hcode,Count(Hcode),Sum(Gsqut)as Gsqut,Sum(Gssum)as Gssum '+
+  'From S1_Ssub Where '+St1+' Group by Hcode ';
+//Sqlen := Sqlen+' LIMIT 0,1000 ';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.MakeGrid(SGrid)
+  else ShowMessage(E_Open);
+
+  T01:=0; T02:=0; T03:=0; T04:=0;
+
+  List1:=0;
+  While SGrid.RowCount-1 > List1 do begin
+  List1:=List1+1;
+    T01:=T01+1;
+    T02:=T02+StrToIntDef(SGrid.Cells[ 1,List1],0);
+    T03:=T03+StrToIntDef(SGrid.Cells[ 2,List1],0);
+    T04:=T04+StrToIntDef(SGrid.Cells[ 3,List1],0);
+  end;
+
+  Edit201.Text:=FormatFloat('########0',T01);
+  Edit202.Text:=FormatFloat('########0',T02);
+  Edit203.Text:=FormatFloat('###,###,##0',T03);
+  Edit204.Text:=FormatFloat('###,###,##0',T04);
+
+  Sqlen := 'Select * From S1_Ssub Where '+St1+St2;
+//Sqlen := Sqlen+' LIMIT 0,1000 ';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.ClientGrid(nSqry)
+  else ShowMessage(E_Open);
+
+  nSqry.First;
+  ProgressBar1.Max:=nSqry.RecordCount;
+  While nSqry.EOF=False do begin
+  ProgressBar1.Position:=ProgressBar1.Position+1;
+
+    nSqry.Edit;
+
+    if Base10.G7_Ggeo.Locate('Gcode',nSqry.FieldByName('Hcode').AsString,[loCaseInsensitive])=true then
+    nSqry.FieldByName('Hname').AsString:=Base10.G7_Ggeo.FieldByName('Gname').AsString;
+
+    if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf(['',nSqry.FieldByName('Gcode').AsString]),[loCaseInsensitive])=true then
+    nSqry.FieldByName('Gname').AsString:=Base10.G1_Ggeo.FieldByName('Gname').AsString;
+
+    if nSqry.FieldByName('Gname').AsString='' then
+    if Base10.G1_Ggeo.Locate('Hcode;Gcode',VarArrayOf([nSqry.FieldByName('Hcode').AsString,nSqry.FieldByName('Gcode').AsString]),[loCaseInsensitive])=true then
+    nSqry.FieldByName('Gname').AsString:=Base10.G1_Ggeo.FieldByName('Gname').AsString;
+
+    if Base10.G4_Book.Locate('Hcode;Gcode',VarArrayOf([nSqry.FieldByName('Hcode').AsString,nSqry.FieldByName('Bcode').AsString]),[loCaseInsensitive])=true then
+    nSqry.FieldByName('Bname').AsString:=Base10.G4_Book.FieldByName('Gname').AsString;
+
+    if nSqry.FieldByName('Gjisa').AsString<>'' then
+    nSqry.FieldByName('Gname').AsString:=Base10.Seek_Jisa(nSqry.FieldByName('Gjisa').AsString,'2')+
+    nSqry.FieldByName('Gname').AsString+ Base10.Seek_Jisa(nSqry.FieldByName('Gjisa').AsString,'1');
+
+    //------------------------------------------------------------------------//
+    if nSqry.FieldByName('Hname').AsString='' then begin
+    Sqlen := 'Select Gname From G7_Ggeo Where Gcode=''@Gcode''';
+    Translate(Sqlen, '@Gcode', nSqry.FieldByName('Hcode').AsString);
+    nSqry.FieldByName('Hname').Value:=Base10.Seek_Name(Sqlen);
+    end;
+
+    if nSqry.FieldByName('Gname').AsString='' then begin
+    Sqlen := 'Select Gname From G1_Ggeo Where Gcode=''@Gcode'' and Hcode=''@Hcode''';
+    Translate(Sqlen, '@Gcode', nSqry.FieldByName('Gcode').AsString);
+    Translate(Sqlen, '@Hcode', '');
+    nSqry.FieldByName('Gname').Value:=Base10.Seek_Name(Sqlen);
+    end;
+
+    if nSqry.FieldByName('Gname').AsString='' then begin
+    Sqlen := 'Select Gname From G1_Ggeo Where Gcode=''@Gcode'' and Hcode=''@Hcode''';
+    Translate(Sqlen, '@Gcode', nSqry.FieldByName('Gcode').AsString);
+    Translate(Sqlen, '@Hcode', nSqry.FieldByName('Hcode').AsString);
+    nSqry.FieldByName('Gname').Value:=Base10.Seek_Name(Sqlen);
+    end;
+
+    if nSqry.FieldByName('Bname').AsString='' then begin
+    Sqlen := 'Select Gname,Gjeja From G4_Book Where Gcode=''@Gcode'' and Hcode=''@Hcode''';
+    Translate(Sqlen, '@Gcode', nSqry.FieldByName('Bcode').AsString);
+    Translate(Sqlen, '@Hcode', nSqry.FieldByName('Hcode').AsString);
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.busyloop;
+    if Base10.Socket.Body_Data <> 'NODATA' then begin
+      Base10.Socket.MakeData;
+      nSqry.FieldByName('Bname').Value:=Base10.Socket.GetData(1, 1);
+    //nSqry.FieldByName('Gjeja').Value:=Base10.Socket.GetData(1, 2);
+    end;
+    end;
+
+    nSqry.Post;
+    nSqry.Next;
+  end;
+
+  Button201Click(Self);
+
+  nSqry.First;
+  DBGrid101.SetFocus;
+  ProgressBar1.Position:=0;
+  DataSource2.Enabled:=True;
+  DataSource1.Enabled:=True;
+  Screen.Cursor:=crDefault;
+
+  Tong40.Hide;
+{ Tong40.Free; }
+end;
+
+procedure TSobo58.Button201Click(Sender: TObject);
+var St1,St2,St3,St4,St5: String;
+begin
+  nSqry.First;
+  mSqry.First;
+  While nSqry.EOF=False do begin
+    St1:=nSqry.FieldByName('Hcode').AsString;
+    St3:=nSqry.FieldByName('Scode').AsString;
+    if mSqry.Locate('Hcode;Scode',VarArrayOf([St1,St3]),[loCaseInsensitive])=False then begin
+      mSqry.Append;
+      mSqry.FieldByName('Hcode').AsString:=St1;
+      mSqry.FieldByName('Scode').AsString:=St3;
+      mSqry.FieldByName('Hname').AsString:=nSqry.FieldByName('Hname').AsString;
+      mSqry.Post;
+    end;
+    nSqry.Next;
+  end;
+  nSqry.First;
+  mSqry.First;
+end;
+
+procedure TSobo58.Edit101Change(Sender: TObject);
+var St1: Char;
+begin
+  St1:=#13;
+  if((Edit101.Focused=True)and(Edit101.SelStart=10)and(Length(Trim(Edit101.Text))=10))or
+    ((Edit104.Focused=True)and(Edit104.SelStart=24)and(Length(Trim(Edit104.Text))=24))Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+  end else
+  if((Edit106.Focused=True)and(Edit106.SelStart=24)and(Length(Trim(Edit106.Text))=24))Then begin
+      Edit114KeyPress(Self,St1);
+  end;
+end;
+
+procedure TSobo58.Edit101KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key=VK_DOWN Then PerForm(WM_NEXTDLGCTL,0,0);
+end;
+
+procedure TSobo58.Edit102KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key=VK_UP   Then PerForm(WM_NEXTDLGCTL,1,0);
+end;
+
+procedure TSobo58.Edit111KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 Then begin
+    Key:=#0; SelectNext(ActiveControl as TWinControl, True, True);
+  end;
+end;
+
+procedure TSobo58.Edit111KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key=VK_UP   Then PerForm(WM_NEXTDLGCTL,1,0);
+  if Key=VK_DOWN Then PerForm(WM_NEXTDLGCTL,0,0);
+end;
+
+procedure TSobo58.Edit112KeyPress(Sender: TObject; var Key: Char);
+begin
+//
+end;
+
+procedure TSobo58.Edit112KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+//
+end;
+
+procedure TSobo58.Edit113KeyPress(Sender: TObject; var Key: Char);
+begin
+//
+end;
+
+procedure TSobo58.Edit113KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+//
+end;
+
+procedure TSobo58.Edit115KeyPress(Sender: TObject; var Key: Char);
+begin
+//
+end;
+
+procedure TSobo58.Edit115KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+//
+end;
+
+procedure TSobo58.Edit114KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 Then begin
+  if Edit104.Focused=True Then begin
+       Edit103.Text:='';
+    if Edit104.Text<>'' Then begin
+    Seak80.Edit1.Text:=Edit104.Text;
+    Seak80.FilterTing(Edit104.Text);
+    if Seak80.Query1.RecordCount=1 Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit103.Text:=Seak80.Query1Gcode.AsString;
+      Edit104.Text:=Seak80.Query1Gname.AsString;
+    end else
+    if Seak80.ShowModal=mrOK Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit103.Text:=Seak80.Query1Gcode.AsString;
+      Edit104.Text:=Seak80.Query1Gname.AsString;
+    end;
+    end else
+      SelectNext(ActiveControl as TWinControl, True, True);
+  end else
+  if Edit106.Focused=True Then begin
+       Edit105.Text:='';
+    if Edit106.Text<>'' Then begin
+    Seak80.Edit1.Text:=Edit106.Text;
+    Seak80.FilterTing(Edit106.Text);
+    if Seak80.Query1.RecordCount=1 Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit105.Text:=Seak80.Query1Gcode.AsString;
+      Edit106.Text:=Seak80.Query1Gname.AsString;
+      Button101Click(Self);
+    end else
+    if Seak80.ShowModal=mrOK Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit105.Text:=Seak80.Query1Gcode.AsString;
+      Edit106.Text:=Seak80.Query1Gname.AsString;
+      Button101Click(Self);
+    end;
+    end else
+      Button101Click(Self);
+  end;
+  end;
+end;
+
+procedure TSobo58.Edit114KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+//
+end;
+
+procedure TSobo58.DBGrid101KeyPress(Sender: TObject; var Key: Char);
+begin
+//
+end;
+
+procedure TSobo58.DBGrid101KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if nSqry.Active=True Then begin
+  if Key=VK_ESCAPE Then Edit101.SetFocus;
+  end;
+end;
+
+procedure TSobo58.DBGrid201KeyPress(Sender: TObject; var Key: Char);
+begin
+//
+end;
+
+procedure TSobo58.DBGrid201KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if mSqry.Active=True Then begin
+  if Key=VK_ESCAPE Then Edit101.SetFocus;
+  end;
+end;
+
+procedure TSobo58.DBGrid101TitleClick(Column: TColumn);
+begin
+  Base10.ColumnSX(nSqry,Column);
+end;
+
+procedure TSobo58.DBGrid201TitleClick(Column: TColumn);
+begin
+  Base10.ColumnSX(mSqry,Column);
+end;
+
+procedure TSobo58.DataSource1DataChange(Sender: TObject; Field: TField);
+begin
+  Panel009.Caption:=IntToStr(nSqry.RecNo)+'/'+IntToStr(nSqry.RecordCount);
+end;
+
+procedure TSobo58.DataSource2DataChange(Sender: TObject; Field: TField);
+var St1: String;
+begin
+  Panel009.Caption:=IntToStr(mSqry.RecNo)+'/'+IntToStr(mSqry.RecordCount);
+
+  St1:='';
+  St1:=St1+'Hcode'+'='+#39+mSqry.FieldByName('Hcode').AsString+#39+' and ';
+  St1:=St1+'Scode'+'='+#39+mSqry.FieldByName('Scode').AsString+#39;
+  nSqry.Filter:=St1;
+  nSqry.Filtered:=True;
+  Tong20.Srart_58_01(Self);
+end;
+
+procedure TSobo58.DBGrid201DblClick(Sender: TObject);
+begin
+  if(nSqry.RecordCount>0)Then begin
+  Subu00.Menu203Click(Self);
+  Sobo23.Edit103.Text:=Base10.T5_Sub81.FieldByName('Jubun').AsString;
+  Sobo23.Edit101.Text:=Base10.T5_Sub81.FieldByName('Gdate').AsString;
+  Sobo23.Edit104.Text:=Base10.T5_Sub81.FieldByName('Gcode').AsString;
+  Sobo23.Edit105.Text:=Base10.T5_Sub81.FieldByName('Gname').AsString;
+  Sobo23.Edit107.Text:=Base10.T5_Sub82.FieldByName('Hcode').AsString;
+  Sobo23.Edit108.Text:=Base10.T5_Sub82.FieldByName('Hname').AsString;
+  Sobo23.Label100.Visible:=False;
+  Sobo23.Edit106.Visible:=False;
+  Sobo23.Edit106.Items.Clear;
+  if Base10.T5_Sub81.FieldByName('Gjisa').AsString<>'' then begin
+  Sobo23.Label100.Visible:=True;
+  Sobo23.Edit106.Visible:=True;
+  Sobo23.Edit106.Items.Add(Base10.T5_Sub81.FieldByName('Gjisa').AsString);
+  Sobo23.Edit106.ItemIndex:=0;
+  end;
+  Sobo23.Button101Click(Self);
+  end;
+end;
+
+procedure TSobo58.DateEdit1ButtonClick(Sender: TObject);
+begin
+  DateEdit1.Date :=StrToDate(Edit101.Text);
+end;
+
+procedure TSobo58.DateEdit2ButtonClick(Sender: TObject);
+begin
+  DateEdit2.Date :=StrToDate(Edit102.Text);
+end;
+
+procedure TSobo58.DateEdit1AcceptDate(Sender: TObject; var ADate: TDateTime; var Action: Boolean);
+begin
+  Edit101.Text :=DateToStr(ADate);
+end;
+
+procedure TSobo58.DateEdit2AcceptDate(Sender: TObject; var ADate: TDateTime; var Action: Boolean);
+begin
+  Edit102.Text :=DateToStr(ADate);
+end;
+
+procedure TSobo58.Button701Click(Sender: TObject);
+begin
+    Seak80.Edit1.Text:='';
+    Seak80.FilterTing('');
+    if Seak80.Query1.RecordCount=1 Then begin
+      Edit103.Text:=Seak80.Query1Gcode.AsString;
+      Edit104.Text:=Seak80.Query1Gname.AsString;
+    end else
+    if Seak80.ShowModal=mrOK Then begin
+      Edit103.Text:=Seak80.Query1Gcode.AsString;
+      Edit104.Text:=Seak80.Query1Gname.AsString;
+    end;
+end;
+
+procedure TSobo58.Button702Click(Sender: TObject);
+begin
+    Seak80.Edit1.Text:='';
+    Seak80.FilterTing('');
+    if Seak80.Query1.RecordCount=1 Then begin
+      Edit105.Text:=Seak80.Query1Gcode.AsString;
+      Edit106.Text:=Seak80.Query1Gname.AsString;
+    end else
+    if Seak80.ShowModal=mrOK Then begin
+      Edit105.Text:=Seak80.Query1Gcode.AsString;
+      Edit106.Text:=Seak80.Query1Gname.AsString;
+    end;
+end;
+
+end.

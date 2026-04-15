@@ -1,0 +1,86 @@
+# MySQL tables summary (`chul_09_db`)
+
+- **Host**: `115.68.3.153`
+- **Table count**: 79
+
+| TABLE_NAME | ENGINE | TABLE_ROWS | DATA_LENGTH | INDEX_LENGTH | COMMENT |
+|------------|--------|------------|-------------|--------------|---------|
+| `G0_Gbun` | MyISAM | 0 | 0 | 1024 |  |
+| `G1_Gbun` | MyISAM | 377 | 12564 | 16384 |  |
+| `G1_Ggeo` | MyISAM | 68102 | 11672552 | 3557376 |  |
+| `G1_Ggeo_1` | MyISAM | 46201 | 7918804 | 2169856 |  |
+| `G1_Logn` | MyISAM | 10 | 696 | 3072 |  |
+| `G2_Gbun` | MyISAM | 86 | 2920 | 3072 |  |
+| `G2_Ggwo` | MyISAM | 1631 | 201784 | 84992 |  |
+| `G3_Gbun` | MyISAM | 83 | 3012 | 3072 |  |
+| `G3_Gjeo` | MyISAM | 2449 | 775952 | 115712 |  |
+| `G4_Book` | MyISAM | 125771 | 18052964 | 8712192 |  |
+| `G4_Gbun` | MyISAM | 1037 | 40300 | 32768 |  |
+| `G5_Gbun` | MyISAM | 131 | 4380 | 7168 |  |
+| `G5_Ggeo` | MyISAM | 54327 | 7890764 | 2819072 |  |
+| `G6_Ggeo` | MyISAM | 188281 | 8959904 | 4627456 |  |
+| `G7_Gbun` | MyISAM | 0 | 0 | 1024 |  |
+| `G7_Ggeo` | MyISAM | 194 | 49204 | 17408 |  |
+| `G7_Logn` | MyISAM | 73 | 4988 | 3072 |  |
+| `G8_Gbun` | MyISAM | 0 | 0 | 1024 |  |
+| `G8_Ggeo` | MyISAM | 0 | 0 | 1024 |  |
+| `Gg_Book` | MyISAM | 0 | 0 | 1024 |  |
+| `Gg_Magn` | MyISAM | 302 | 22712 | 10240 |  |
+| `Gg_Megn` | MyISAM | 362 | 16032 | 10240 |  |
+| `Gg_Memo` | MyISAM | 0 | 0 | 1024 |  |
+| `Gg_Post` | MyISAM | 50999 | 2652492 | 312320 |  |
+| `Gg_Prnt` | MyISAM | 0 | 0 | 1024 |  |
+| `Gs_Csum` | MyISAM | 0 | 0 | 1024 |  |
+| `Gs_Gsum` | MyISAM | 0 | 0 | 1024 |  |
+| `H1_Gbun` | MyISAM | 563 | 32768 | 18432 |  |
+| `H1_Ssub` | MyISAM | 1139278 | 105704400 | 46186496 |  |
+| `H2_Gbun` | MyISAM | 11415 | 562508 | 212992 |  |
+| `H4_Iyeo` | MyISAM | 14341 | 1748744 | 401408 |  |
+| `H5_Bang` | MyISAM | 85 | 6620 | 3072 |  |
+| `Id_Logn` | MyISAM | 215 | 45196 | 16384 |  |
+| `Id_Memo` | MyISAM | 0 | 0 | 1024 |  |
+| `Ie_Logn` | MyISAM | 294 | 19656 | 20480 |  |
+| `Ie_Memo` | MyISAM | 0 | 0 | 1024 |  |
+| `In_Csum` | MyISAM | 14705 | 662896 | 281600 |  |
+| `In_Gsum` | MyISAM | 5450 | 243336 | 131072 |  |
+| `J1_Sub1` | MyISAM | 0 | 0 | 1024 |  |
+| `J2_Sub1` | MyISAM | 0 | 0 | 1024 |  |
+| `J2_Sub2` | MyISAM | 0 | 0 | 1024 |  |
+| `J3_Sub1` | MyISAM | 0 | 0 | 1024 |  |
+| `J4_Sub1` | MyISAM | 0 | 0 | 1024 |  |
+| `J5_Sub1` | MyISAM | 0 | 0 | 1024 |  |
+| `J6_Sub1` | MyISAM | 0 | 0 | 1024 |  |
+| `J6_Sub2` | MyISAM | 0 | 0 | 1024 |  |
+| `J6_Sub3` | MyISAM | 0 | 0 | 1024 |  |
+| `J7_Sub1` | MyISAM | 0 | 0 | 1024 |  |
+| `J8_Sub1` | MyISAM | 0 | 0 | 1024 |  |
+| `J9_Sub1` | MyISAM | 0 | 0 | 1024 |  |
+| `J9_Sub2` | MyISAM | 0 | 0 | 1024 |  |
+| `Me_Sage` | MyISAM | 57 | 2200928 | 2048 |  |
+| `S1_Chek` | MyISAM | 591600 | 43085160 | 12537856 |  |
+| `S1_Memo` | MyISAM | 612139 | 46572192 | 19098624 |  |
+| `S1_Ssub` | MyISAM | 23622202 | 2800842044 | 1158791168 |  |
+| `S2_Ssub` | MyISAM | 128 | 9480 | 7168 |  |
+| `S3_Ssub` | MyISAM | 25 | 1984 | 3072 |  |
+| `S7_Memo` | MyISAM | 4 | 420 | 6144 |  |
+| `S7_Ssub` | MyISAM | 52 | 6352 | 9216 |  |
+| `Sb_Csum` | MyISAM | 2 | 148 | 3072 |  |
+| `Sg_Csum` | MyISAM | 124593 | 8283492 | 3352576 |  |
+| `Sg_Gsum` | MyISAM | 89731 | 5967664 | 2658304 |  |
+| `Sm_Ggeo` | MyISAM | 0 | 0 | 1024 |  |
+| `Sm_Ssub` | MyISAM | 0 | 0 | 1024 |  |
+| `Sv_Chng` | MyISAM | 52930 | 3369300 | 643072 |  |
+| `Sv_Csum` | MyISAM | 69230 | 5777428 | 1082368 |  |
+| `Sv_Ghng` | MyISAM | 70065 | 5095288 | 816128 |  |
+| `Sv_Gsum` | MyISAM | 59 | 2296 | 2048 |  |
+| `Sx_Chek` | MyISAM | 0 | 0 | 1024 |  |
+| `Sx_Host` | MyISAM | 0 | 0 | 1024 |  |
+| `Sx_Memo` | MyISAM | 8 | 364 | 2048 |  |
+| `T1_Gbun` | MyISAM | 1 | 28 | 3072 |  |
+| `T1_Ssub` | MyISAM | 0 | 0 | 1024 |  |
+| `T2_Ssub` | MyISAM | 0 | 0 | 1024 |  |
+| `T3_Ssub` | MyISAM | 0 | 0 | 1024 |  |
+| `T4_Ssub` | MyISAM | 109989 | 6572648 | 2453504 |  |
+| `T5_Ssub` | MyISAM | 0 | 0 | 1024 |  |
+| `T6_Ssub` | MyISAM | 0 | 0 | 1024 |  |
+| `T7_Ssub` | MyISAM | 0 | 0 | 1024 |  |

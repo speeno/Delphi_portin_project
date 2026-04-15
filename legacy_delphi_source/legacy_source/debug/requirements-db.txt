@@ -1,0 +1,2 @@
+# Optional: remote MySQL checks / schema export (debug/check_mysql_hosts.py)
+pymysql>=1.1.0

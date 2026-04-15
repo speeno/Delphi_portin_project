@@ -1,0 +1,470 @@
+unit Subu38_1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  TFlatRadioButtonUnit, Grids, DBGridEh, ExtCtrls, TFlatPanelUnit,
+  TFlatButtonUnit, StdCtrls, TFlatComboBoxUnit, Db, DBClient, Mylabel,
+  TFlatEditUnit, dxCore, dxButtons, ComCtrls, TFlatProgressBarUnit,
+  CornerButton, ToolEdit, Mask, TFlatMaskEditUnit;
+
+type
+  TSobo38_1 = class(TForm)
+    DataSource1: TDataSource;
+    DataSource2: TDataSource;
+    T3_Sub82: TClientDataSet;
+    T3_Sub82ID: TFloatField;
+    T3_Sub82GDATE: TStringField;
+    T3_Sub82GCODE: TStringField;
+    T3_Sub82GNAME: TStringField;
+    T3_Sub82NAME1: TStringField;
+    T3_Sub82GQUT5: TFloatField;
+    T3_Sub82GQUT6: TFloatField;
+    T3_Sub82GQUT7: TFloatField;
+    Panel001: TFlatPanel;
+    Panel002: TFlatPanel;
+    CornerButton1: TCornerButton;
+    CornerButton2: TCornerButton;
+    CornerButton9: TCornerButton;
+    Label301: TmyLabel3d;
+    Label302: TmyLabel3d;
+    Label309: TmyLabel3d;
+    Panel007: TFlatPanel;
+    ProgressBar0: TFlatProgressBar;
+    Panel008: TFlatPanel;
+    Panel009: TFlatPanel;
+    Panel010: TFlatPanel;
+    ProgressBar1: TProgressBar;
+    dxButton1: TdxButton;
+    DBGrid101: TDBGridEh;
+    Panel101: TFlatPanel;
+    Edit101: TFlatMaskEdit;
+    DateEdit1: TDateEdit;
+    T3_Sub82GQUT8: TFloatField;
+    T3_Sub82GQUT9: TFloatField;
+    T3_Sub82GSQUT: TFloatField;
+    T3_Sub82GSSUM: TFloatField;
+    T3_Sub82MEMO1: TBlobField;
+    T3_Sub82MEMO2: TMemoField;
+    procedure FormActivate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button001Click(Sender: TObject);
+    procedure Button002Click(Sender: TObject);
+    procedure Button003Click(Sender: TObject);
+    procedure Button004Click(Sender: TObject);
+    procedure Button005Click(Sender: TObject);
+    procedure Button006Click(Sender: TObject);
+    procedure Button007Click(Sender: TObject);
+    procedure Button008Click(Sender: TObject);
+    procedure Button009Click(Sender: TObject);
+    procedure Button010Click(Sender: TObject);
+    procedure Button011Click(Sender: TObject);
+    procedure Button012Click(Sender: TObject);
+    procedure Button013Click(Sender: TObject);
+    procedure Button014Click(Sender: TObject);
+    procedure Button015Click(Sender: TObject);
+    procedure Button016Click(Sender: TObject);
+    procedure Button017Click(Sender: TObject);
+    procedure Button018Click(Sender: TObject);
+    procedure Button019Click(Sender: TObject);
+    procedure Button020Click(Sender: TObject);
+    procedure Button021Click(Sender: TObject);
+    procedure Button022Click(Sender: TObject);
+    procedure Button023Click(Sender: TObject);
+    procedure Button024Click(Sender: TObject);
+    procedure Button101Click(Sender: TObject);
+    procedure Button201Click(Sender: TObject);
+    procedure Button709Click(Sender: TObject);
+    procedure Button200Click(Sender: TObject);
+    procedure Button701Click(Sender: TObject);
+    procedure DataSource1DataChange(Sender: TObject; Field: TField);
+    procedure T3_Sub82BeforePost(DataSet: TDataSet);
+    procedure T3_Sub82BeforeClose(DataSet: TDataSet);
+    procedure Edit101Change(Sender: TObject);
+    procedure DateEdit1ButtonClick(Sender: TObject);
+    procedure DateEdit1AcceptDate(Sender: TObject; var ADate: TDateTime; var Action: Boolean);
+    procedure DBGrid101KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid101KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure DBGrid101Exit(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Sobo38_1: TSobo38_1;
+
+implementation
+
+{$R *.DFM}
+
+uses Chul, Base01, Tong02, Tong04, TcpLib,
+   Seak01, Seak02, Seak03, Seak04, Seak05, Seak06, Seak07, Seak08, Seak09,
+   Seek01, Seek02, Seek03, Seek04, Seek05, Seek06, Seek07, Seek08, Seek09;
+
+procedure TSobo38_1.FormActivate(Sender: TObject);
+begin
+  nForm:='38_1';
+  nSqry:=T3_Sub82;
+end;
+
+procedure TSobo38_1.FormShow(Sender: TObject);
+begin
+  Edit101.Text:=FormatDateTime('yyyy"."mm"."dd',Date);
+end;
+
+procedure TSobo38_1.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Release;
+  Action:=caFree;
+  Sobo38_1:=nil;
+  Base10.OpenExit(nSqry);
+end;
+
+procedure TSobo38_1.Button001Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button002Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button003Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button004Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button005Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button006Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button007Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button008Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button009Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button010Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button011Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button012Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button013Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button014Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button015Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button016Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button017Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button018Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button019Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button020Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button021Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button022Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button023Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button024Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button101Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button201Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button709Click(Sender: TObject);
+var St1,St2: String;
+begin
+
+  Tong40.Show;
+  Tong40.Update;
+
+  Refresh;
+  nSqry.BeforePost:=nil;
+  Base10.OpenShow(nSqry);
+  Screen.Cursor:=crHourGlass;
+  DataSource2.Enabled:=False;
+  DataSource1.Enabled:=False;
+
+  if S_Where2<>'' then
+  St1:=St1+' and '+S_Where2;
+
+  St1:=St1+' and '+'Gubun'+' ='+#39+'03'+#39;
+
+  Sqlen := 'Select Gcode,Gname From G7_Ggeo '+
+           'Where '+D_Open+St1+' Order By Gcode';
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.body_data <> 'ERROR' then
+     Base10.Socket.ClientGrid(nSqry)
+  else ShowMessage(E_Open);
+
+  nSqry.First;
+  While nSqry.EOF=False do begin
+    Sqlen:='Select Hcode,'+
+           'Gqut5,Gqut6,Gqut7,Gqut8,Gqut9,Gsqut,Gssum,Name1 '+
+           'From T3_Ssub Where '+D_Select+
+           'Gdate'+'='+#39+Edit101.Text+#39+' and '+
+           'Hcode'+' ='+#39+nSqry.FieldByName('Gcode').AsString+#39;
+
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.busyloop;
+    if Base10.Socket.body_data <> 'ERROR' then
+       Base10.Socket.MakeGrid(SGrid)
+    else ShowMessage(E_Open);
+
+    List1:=0;
+    While SGrid.RowCount-1 > List1 do begin
+    List1:=List1+1;
+      nSqry.Edit;
+      nSqry.FieldByName('Gqut5').AsString:=SGrid.Cells[ 1,List1];
+      nSqry.FieldByName('Gqut6').AsString:=SGrid.Cells[ 2,List1];
+      nSqry.FieldByName('Gqut7').AsString:=SGrid.Cells[ 3,List1];
+      nSqry.FieldByName('Gqut8').AsString:=SGrid.Cells[ 4,List1];
+      nSqry.FieldByName('Gqut9').AsString:=SGrid.Cells[ 5,List1];
+      nSqry.FieldByName('Gsqut').AsString:=SGrid.Cells[ 6,List1];
+      nSqry.FieldByName('Gssum').AsString:=SGrid.Cells[ 7,List1];
+      nSqry.FieldByName('Name1').AsString:=SGrid.Cells[ 8,List1];
+      nSqry.Post;
+    end;
+    nSqry.Next;
+  end;
+  nSqry.First;
+
+  DBGrid101.SetFocus;
+  DataSource2.Enabled:=True;
+  DataSource1.Enabled:=True;
+  Screen.Cursor:=crDefault;
+  nSqry.BeforePost:=T3_Sub82BeforePost;
+
+  Tong40.Hide;
+{ Tong40.Free; }
+end;
+
+procedure TSobo38_1.Button200Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.Button701Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo38_1.DataSource1DataChange(Sender: TObject; Field: TField);
+begin
+  Panel009.Caption:=IntToStr(nSqry.RecNo)+'/'+IntToStr(nSqry.RecordCount);
+end;
+
+procedure TSobo38_1.T3_Sub82BeforePost(DataSet: TDataSet);
+begin
+
+  Sqlen := 'Select Hcode From T3_Ssub Where '+D_Select+
+           'Gdate=''@Gdate'' and Hcode=''@Hcode''';
+
+  Translate(Sqlen, '@Gdate', Edit101.Text);
+  Translate(Sqlen, '@Hcode', nSqry.FieldByName('Gcode').AsString);
+
+  Base10.Socket.RunSQL(Sqlen);
+  Base10.Socket.busyloop;
+  if Base10.Socket.Body_Data <> 'NODATA' then begin
+    Base10.Socket.MakeData;
+
+    Sqlen := 'UPDATE T3_Ssub SET '+
+    'Gqut5=@Gqut5 ,Gqut6=@Gqut6 ,Gqut7=@Gqut7 ,Gqut8=@Gqut8 '+
+  //'Gsqut=@Gsqut ,Gssum=@Gssum ,Name1=''@Name1'' '+
+    'WHERE Gdate=''@Gdate'' and Hcode=''@Hcode''';
+
+    TransAuto(Sqlen, '@Gqut5', nSqry.FieldByName('Gqut5').AsString);
+    TransAuto(Sqlen, '@Gqut6', nSqry.FieldByName('Gqut6').AsString);
+    TransAuto(Sqlen, '@Gqut7', nSqry.FieldByName('Gqut7').AsString);
+    TransAuto(Sqlen, '@Gqut8', nSqry.FieldByName('Gqut8').AsString);
+    TransAuto(Sqlen, '@Gqut9', nSqry.FieldByName('Gqut9').AsString);
+    TransAuto(Sqlen, '@Gsqut', nSqry.FieldByName('Gsqut').AsString);
+    TransAuto(Sqlen, '@Gssum', nSqry.FieldByName('Gssum').AsString);
+    Translate(Sqlen, '@Name1', nSqry.FieldByName('Name1').AsString);
+    Translate(Sqlen, '@Gdate', Edit101.Text);
+    Translate(Sqlen, '@Hcode', nSqry.FieldByName('Gcode').AsString);
+
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Update);
+
+  end else begin
+
+    Sqlen := 'INSERT INTO T3_Ssub '+
+    '(Hcode, Gdate, Gqut5, Gqut6, Gqut7, Gqut8) VALUES '+
+    '(''@Hcode'',''@Gdate'', @Gqut5, @Gqut6, @Gqut7, @Gqut8 )';
+
+    TransAuto(Sqlen, '@Gqut5', nSqry.FieldByName('Gqut5').AsString);
+    TransAuto(Sqlen, '@Gqut6', nSqry.FieldByName('Gqut6').AsString);
+    TransAuto(Sqlen, '@Gqut7', nSqry.FieldByName('Gqut7').AsString);
+    TransAuto(Sqlen, '@Gqut8', nSqry.FieldByName('Gqut8').AsString);
+    TransAuto(Sqlen, '@Gqut9', nSqry.FieldByName('Gqut9').AsString);
+    TransAuto(Sqlen, '@Gsqut', nSqry.FieldByName('Gsqut').AsString);
+    TransAuto(Sqlen, '@Gssum', nSqry.FieldByName('Gssum').AsString);
+    Translate(Sqlen, '@Name1', nSqry.FieldByName('Name1').AsString);
+    Translate(Sqlen, '@Gdate', Edit101.Text);
+    Translate(Sqlen, '@Hcode', nSqry.FieldByName('Gcode').AsString);
+
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Insert);
+
+  end;
+
+end;
+
+procedure TSobo38_1.T3_Sub82BeforeClose(DataSet: TDataSet);
+begin
+  With T3_Sub82 do
+  if(State in dsEditModes)Then Post;
+end;
+
+procedure TSobo38_1.Edit101Change(Sender: TObject);
+var St1: Char;
+begin
+  St1:=#13;
+  if((Edit101.Focused=True)and(Edit101.SelStart=10)and(Length(Trim(Edit101.Text))=10))Then begin
+      Button709Click(Self);
+  end;
+end;
+
+procedure TSobo38_1.DateEdit1ButtonClick(Sender: TObject);
+begin
+  DateEdit1.Date :=StrToDate(Edit101.Text);
+end;
+
+procedure TSobo38_1.DateEdit1AcceptDate(Sender: TObject; var ADate: TDateTime; var Action: Boolean);
+begin
+  Edit101.Text :=DateToStr(ADate);
+end;
+
+procedure TSobo38_1.DBGrid101KeyPress(Sender: TObject; var Key: Char);
+var sColumn: Boolean;
+    sIndexs: Integer;
+begin
+  if nSqry.Active=True Then begin
+  SIndexs:=DBGrid101.SelectedIndex;
+  sColumn:=DBGrid101.Columns.Items[SIndexs].Grid.EditorMode;
+  if Key=#13 Then begin
+    if sColumn=True Then begin
+    if SIndexs=1 Then begin
+    end else
+    if SIndexs=3 Then begin
+    end;
+    DBGrid101.SelectedIndex:=SIndexs+1;
+    end;
+  end;
+  end;
+end;
+
+procedure TSobo38_1.DBGrid101KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var sColumn: Boolean;
+    sIndexs: Integer;
+begin
+  if nSqry.Active=True Then begin
+  SIndexs:=DBGrid101.SelectedIndex;
+  sColumn:=DBGrid101.Columns.Items[SIndexs].Grid.EditorMode;
+  if Key=VK_RETURN Then begin
+    nSqry.Edit;
+    if SIndexs=8 Then begin
+      DBGrid101.SelectedIndex:=0;
+    end;
+  end;
+  if sColumn=False Then begin
+    if nSqry.IsEmpty=False Then
+    if Key=VK_ESCAPE Then Edit101.SetFocus;
+  end; end;
+end;
+
+procedure TSobo38_1.DBGrid101Exit(Sender: TObject);
+begin
+  T3_Sub82BeforeClose(T3_Sub82);
+end;
+
+end.

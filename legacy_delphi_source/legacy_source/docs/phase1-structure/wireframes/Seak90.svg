@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1030" height="385" viewBox="0 0 1030 385">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">계약내용</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Seak09 | Seak90 | TSeak90</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="1010.0" height="333.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="2.0" y="1.0" width="991.0" height="288.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="5.0" y="12.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="619.0" y="195.0" width="17.0" height="16.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="10.0" y="4.0" width="233.0" height="22.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="13.0" y="15.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="61.0" y="7.0" width="133.0" height="16.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="64.0" y="18.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">배 송 업 무 비</text>
+    <rect x="258.0" y="4.0" width="233.0" height="22.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="261.0" y="15.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="309.0" y="7.0" width="133.0" height="16.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="312.0" y="18.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">물 류 관 리 비</text>
+    <rect x="674.0" y="217.0" width="313.0" height="66.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="677.0" y="228.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="506.0" y="4.0" width="233.0" height="22.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="509.0" y="15.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="557.0" y="7.0" width="133.0" height="16.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="560.0" y="18.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">반 품 관 리 비</text>
+    <rect x="754.0" y="4.0" width="233.0" height="22.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="757.0" y="15.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="805.0" y="7.0" width="133.0" height="16.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="808.0" y="18.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">기 타 관 리 비</text>
+    <rect x="5.0" y="217.0" width="662.0" height="66.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="8.0" y="228.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="76.0" y="224.0" width="335.0" height="21.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="79.0" y="235.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="76.0" y="256.0" width="335.0" height="21.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="79.0" y="267.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="914.0" y="57.0" width="73.0" height="30.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="917.0" y="68.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">저장</text>
+    <text x="917.0" y="79.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TFlatButton</text>
+  </g>
+</svg>

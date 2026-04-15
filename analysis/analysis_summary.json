@@ -1,0 +1,16 @@
+{
+  "total_pas_files": 176,
+  "total_lines": 190532,
+  "unit_types": {
+    "data_module": 2,
+    "form": 171,
+    "unit": 2,
+    "frame": 1
+  },
+  "total_sqls": 1325,
+  "total_event_handlers": 8340,
+  "total_validations": 386,
+  "total_customer_variants": 6,
+  "dependency_graph_nodes": 269,
+  "dependency_graph_edges": 7577
+}

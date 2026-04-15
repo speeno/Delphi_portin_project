@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-04-16T03:00:01.128821",
+  "deliverables": {
+    "#1 Form Inventory": {
+      "status": "완료",
+      "file": "/Users/speeno/Delphi_porting/analysis/form_inventory.json",
+      "item_count": 173
+    },
+    "#2 Event Flow Map": {
+      "status": "완료",
+      "file": "/Users/speeno/Delphi_porting/analysis/event_flow.json",
+      "item_count": 3490
+    },
+    "#3 SQL Catalog": {
+      "status": "완료",
+      "file": "/Users/speeno/Delphi_porting/analysis/query_catalog.json",
+      "item_count": 1325
+    },
+    "#4 DB Impact Matrix": {
+      "status": "완료",
+      "file": "/Users/speeno/Delphi_porting/analysis/db_impact_matrix.json",
+      "item_count": 53
+    },
+    "#5 Validation Rules": {
+      "status": "완료",
+      "file": "/Users/speeno/Delphi_porting/analysis/validation_rules.json",
+      "item_count": 386
+    },
+    "#6 Customer Variants": {
+      "status": "완료",
+      "file": "/Users/speeno/Delphi_porting/analysis/customer_variants.json",
+      "item_count": 6
+    }
+  },
+  "legacy_object_catalog": {
+    "total_objects": 6236,
+    "risk_distribution": {
+      "high": 3066,
+      "low": 1428,
+      "medium": 1674,
+      "critical": 68
+    }
+  }
+}

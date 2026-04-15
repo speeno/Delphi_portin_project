@@ -1,0 +1,1516 @@
+﻿table,kind,file,line,unit,snippet
+G0_Gbun,from,Base01.pas,8670,Base01,"Str := 'Select gen_id(' + GENERATOR +',0),Count(*) From G0_Gbun';"
+G0_Gbun,from,Base01.pas,8686,Base01,"Str := 'Select gen_id(' + GENERATOR +',0),Count(*) From G0_Gbun';"
+G1_Gbun,from,Base01.pas,7327,Base01,St1 := 'Select Gname From G1_Gbun Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Gbun,from,Seak02.pas,544,Seak02,"Sqlen := 'Select ID, Gcode, Gname From G1_Gbun Where '+D_Select+St1+St2;"
+G1_Gbun,from,Subu11.pas,442,Subu11,St1 := 'Select Gcode From G1_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G1_Gbun,from,Subu11.pas,520,Subu11,St1 := 'Select Gcode From G1_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G1_Gbun,from,Subu11.pas,584,Subu11,St1 := 'Select Gcode From G1_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G1_Gbun,into,Subu11.pas,700,Subu11,"Sqlen := 'INSERT INTO G1_Gbun ( Gcode, Gname, Hcode ) VALUES '+"
+G1_Gbun,update,Subu11.pas,719,Subu11,"Sqlen := 'UPDATE G1_Gbun SET Gcode=''@Gcode'',Gname=''@Gname'' '+"
+G1_Gbun,from,Subu11.pas,756,Subu11,Sqlen := 'DELETE FROM G1_Gbun WHERE Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Gbun,from,Subu11.pas,1028,Subu11,Sqlen := 'Select * From G1_Gbun Where '+D_Select+St1+' Order By Gcode';
+G1_Gbun,from,Subu11.pas,1090,Subu11,Sqlen := 'Select * From G1_Gbun Where '+D_Select+St1+' Order By Gcode';
+G1_Gbun,from,Subu15.pas,439,Subu15,St1 := 'Select Gcode From G1_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G1_Gbun,from,Subu15.pas,519,Subu15,St1 := 'Select Gcode From G1_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G1_Gbun,from,Subu15.pas,583,Subu15,St1 := 'Select Gcode From G1_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G1_Gbun,into,Subu15.pas,699,Subu15,"Sqlen := 'INSERT INTO G1_Gbun ( Gcode, Gname, Hcode ) VALUES '+"
+G1_Gbun,update,Subu15.pas,718,Subu15,"Sqlen := 'UPDATE G1_Gbun SET Gcode=''@Gcode'',Gname=''@Gname'' '+"
+G1_Gbun,from,Subu15.pas,755,Subu15,Sqlen := 'DELETE FROM G1_Gbun WHERE Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Gbun,from,Subu15.pas,1029,Subu15,Sqlen := 'Select * From G1_Gbun Where '+D_Select+St1+' Order By Gcode';
+G1_Gbun,from,Subu15.pas,1093,Subu15,Sqlen := 'Select * From G1_Gbun Where '+D_Select+St1+' Order By Gcode';
+G1_Ggeo,from,Base01.pas,7281,Base01,St3 := 'From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Base01.pas,8833,Base01,Str := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Base01.pas,8854,Base01,Str := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Base01.pas,8885,Base01,Str := 'Select Jubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Base01.pas,8903,Base01,Str := 'Select Jubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Base01.pas,8958,Base01,Sqlen := 'Select Gcode From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Base01.pas,8964,Base01,Sqlen := 'Select Gcode From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Base01.pas,9042,Base01,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Base01.pas,9048,Base01,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Base01.pas,9120,Base01,"Sqlen := 'Select Hcode,Gcode,Gname,Ocode,Gubun,Pubun From G1_Ggeo '+"
+G1_Ggeo,from,Data/Subu38.pas,520,Subu38,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G1_Ggeo,from,Data/Subu64.pas,527,Subu64,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Data/Subu64.pas,543,Subu64,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Data/Subu64.pas,573,Subu64,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Data/Subu64.pas,581,Subu64,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Data/Subu64.pas,602,Subu64,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Data/Subu64.pas,610,Subu64,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Seek01.pas,81,Seek01,"'Gtel1,Gtel2,Gadd1,Gadd2 From G1_Ggeo Where '+D_Select+St1;"
+G1_Ggeo,from,Seek01.pas,97,Seek01,"'Gtel1,Gtel2,Gadd1,Gadd2 From G1_Ggeo Where '+D_Select+St1;"
+G1_Ggeo,from,Seek01.pas,164,Seek01,"'a.Gtel1,a.Gtel2,a.Gadd1,a.Gadd2 From G1_Ggeo a, G6_Ggeo b Where '+St1;"
+G1_Ggeo,from,Seek01.pas,192,Seek01,"'Gtel1,Gtel2,Gadd1,Gadd2 From G1_Ggeo Where '+D_Select+St1;"
+G1_Ggeo,from,Seek01.pas,226,Seek01,"'a.Gtel1,a.Gtel2,a.Gadd1,a.Gadd2 From G1_Ggeo a, G6_Ggeo b Where '+St1;"
+G1_Ggeo,from,Seek01.pas,277,Seek01,"'Gtel1,Gtel2,Gadd1,Gadd2 From G1_Ggeo Where '+D_Select+St1;"
+G1_Ggeo,from,Seek01.pas,343,Seek01,"'Gtel1,Gtel2,Gadd1,Gadd2 From G1_Ggeo Where '+D_Select+St1;"
+G1_Ggeo,from,Seek01.pas,370,Seek01,"'Gtel1,Gtel2,Gadd1,Gadd2 From G1_Ggeo Where '+D_Select+St1;"
+G1_Ggeo,from,Seek07.pas,202,Seek07,"Sqlen := 'Select Gcode,Gubun,Grat1,Gqut1,Gname,Gposa,Jubun,Gtel1,Gtel2 From G1_Ggeo '+"
+G1_Ggeo,into,Subu11.pas,425,Subu11,Sqlon := 'INSERT INTO G1_Ggeo '+
+G1_Ggeo,update,Subu11.pas,505,Subu11,Sq1 := 'UPDATE G1_Ggeo SET '+
+G1_Ggeo,from,Subu11.pas,661,Subu11,Sqlen := 'DELETE FROM G1_Ggeo WHERE Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Ggeo,from,Subu11.pas,784,Subu11,St1 := 'Select Gcode From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Ggeo,from,Subu11.pas,794,Subu11,St1 := 'Select Gcode From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G1_Ggeo,update,Subu11.pas,975,Subu11,Sqlen := 'UPDATE G1_Ggeo SET Scode=''@Scode'' '+
+G1_Ggeo,from,Subu11.pas,1081,Subu11,Sqlen := 'Select * From G1_Ggeo Where '+D_Select+St1+' Order By Gcode';
+G1_Ggeo,from,Subu13.pas,295,Subu13,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu13.pas,301,Subu13,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu13_1.pas,295,Subu13_1,"Sqlen := 'Select Hcode,Gcode,Gname From G1_Ggeo Where '+D_Select+St1+St2;"
+G1_Ggeo,into,Subu15.pas,420,Subu15,Sqlon := 'INSERT INTO G1_Ggeo '+
+G1_Ggeo,update,Subu15.pas,502,Subu15,Sq1 := 'UPDATE G1_Ggeo SET '+
+G1_Ggeo,from,Subu15.pas,660,Subu15,Sqlen := 'DELETE FROM G1_Ggeo WHERE Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Ggeo,from,Subu15.pas,783,Subu15,St1 := 'Select Gcode From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Ggeo,from,Subu15.pas,793,Subu15,St1 := 'Select Gcode From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Ggeo,update,Subu15.pas,976,Subu15,Sqlen := 'UPDATE G1_Ggeo SET Scode=''@Scode'' '+
+G1_Ggeo,from,Subu15.pas,1083,Subu15,' From G1_Ggeo Where '+D_Select+St1+' Order By Gcode';
+G1_Ggeo,from,Subu15.pas,1113,Subu15,Sqlen := 'Select Gcode From G1_Ggeo Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode''';
+G1_Ggeo,from,Subu16.pas,401,Subu16,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Ggeo,from,Subu16.pas,410,Subu16,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Ggeo,from,Subu16.pas,477,Subu16,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Ggeo,from,Subu16.pas,486,Subu16,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G1_Ggeo,from,Subu21.pas,459,Subu21,Sqlen := 'Select Grat9 From G1_Ggeo Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode'' ';
+G1_Ggeo,from,Subu21.pas,581,Subu21,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu21.pas,593,Subu21,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu21.pas,1049,Subu21,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu21.pas,1062,Subu21,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu21.pas,1199,Subu21,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu21.pas,1211,Subu21,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu21.pas,1412,Subu21,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,Subu21.pas,1435,Subu21,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,Subu23.pas,462,Subu23,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu23.pas,474,Subu23,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu23.pas,921,Subu23,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu23.pas,934,Subu23,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu23.pas,1060,Subu23,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu23.pas,1072,Subu23,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu23.pas,1274,Subu23,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,Subu23.pas,1297,Subu23,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,Subu26.pas,482,Subu26,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu26.pas,489,Subu26,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu26.pas,636,Subu26,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2 From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,Subu26.pas,657,Subu26,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2 From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,Subu26.pas,911,Subu26,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu26.pas,919,Subu26,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu26.pas,957,Subu26,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu26.pas,965,Subu26,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu26.pas,981,Subu26,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu26.pas,988,Subu26,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,596,Subu27,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,603,Subu27,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,843,Subu27,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,851,Subu27,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,867,Subu27,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,874,Subu27,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,1125,Subu27,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,1133,Subu27,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,1149,Subu27,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu27.pas,1156,Subu27,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu29.pas,381,Subu29,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu29.pas,388,Subu29,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu29.pas,755,Subu29,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu29.pas,767,Subu29,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Subu45.pas,883,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,891,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,912,Subu45,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,920,Subu45,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1249,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1265,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1295,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1303,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1324,Subu45,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1332,Subu45,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1516,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1532,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1562,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45.pas,1570,Subu45,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,908,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,916,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,937,Subu45_1,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,945,Subu45_1,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1282,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1298,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1328,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1336,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1357,Subu45_1,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1365,Subu45_1,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1537,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1553,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1583,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu45_1.pas,1591,Subu45_1,Sqlen := 'Select Pubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu53.pas,400,Subu53,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu53.pas,407,Subu53,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu55.pas,389,Subu55,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu55.pas,396,Subu55,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu56.pas,397,Subu56,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu56.pas,404,Subu56,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu58.pas,387,Subu58,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu58.pas,394,Subu58,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59.pas,449,Subu59,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59.pas,456,Subu59,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59.pas,575,Subu59,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59.pas,582,Subu59,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_1.pas,424,Subu59_1,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_1.pas,439,Subu59_1,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_2.pas,684,Subu59_2,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_2.pas,691,Subu59_2,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_2.pas,782,Subu59_2,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_2.pas,789,Subu59_2,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_3.pas,476,Subu59_3,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_3.pas,485,Subu59_3,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_3.pas,936,Subu59_3,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_3.pas,943,Subu59_3,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_3.pas,1034,Subu59_3,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Subu59_3.pas,1041,Subu59_3,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,Tong04.pas,684,Tong04,"Sqlen := 'Select Gname,Gtel1,Gtel2 From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';"
+G1_Ggeo,from,Tong04.pas,951,Tong04,'From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G1_Ggeo,from,Tong04.pas,1680,Tong04,Sqlen := 'Select Gbigo From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G1_Ggeo,from,Tong04.pas,1793,Tong04,'From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G1_Ggeo,from,Tong04.pas,1868,Tong04,Sqlen := 'Select Gbigo From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G1_Ggeo,from,Tong04.pas,1961,Tong04,'From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G1_Ggeo,from,Tong04.pas,2063,Tong04,Sqlen := 'Select Gbigo From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G1_Ggeo,from,Tong06.pas,265,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gfax1,Gfax2,Gadd1,Gadd2,Gnum1 From G1_Ggeo '+"
+G1_Ggeo,from,Tong06.pas,287,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gfax1,Gfax2,Gadd1,Gadd2,Gnum1 From G1_Ggeo '+"
+G1_Ggeo,from,Tong06.pas,778,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gadd1,Gadd2,Gpper,Gbigo From G1_Ggeo '+"
+G1_Ggeo,from,Tong06.pas,800,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gadd1,Gadd2,Gpper,Gbigo From G1_Ggeo '+"
+G1_Ggeo,from,Tong06.pas,1076,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2 From G1_Ggeo '+"
+G1_Ggeo,from,Tong06.pas,1098,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2 From G1_Ggeo '+"
+G1_Ggeo,from,Tong06.pas,2280,Tong06,"Sqlen := 'Select Gadd1,Gadd2,Gtel1,Gtel2,Gname,Gbigo From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,Tong06.pas,2300,Tong06,"Sqlen := 'Select Gadd1,Gadd2,Gtel1,Gtel2,Gname,Gbigo From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,Tong06.pas,2590,Tong06,'From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G1_Ggeo,from,Tong07.pas,126,Tong07,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Tong07.pas,139,Tong07,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Tong07.pas,192,Tong07,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Tong07.pas,205,Tong07,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Tong07.pas,225,Tong07,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,Tong07.pas,238,Tong07,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,494,Subu23_1,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,501,Subu23_1,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,625,Subu23_1,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,637,Subu23_1,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,1114,Subu23_1,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,1127,Subu23_1,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,1251,Subu23_1,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,1263,Subu23_1,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo '+"
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,1474,Subu23_1,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,1497,Subu23_1,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G1_Ggeo Where '+D_Select+"
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,558,Subu39,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,565,Subu39,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,617,Subu39,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,625,Subu39,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,908,Subu39,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,916,Subu39,Sqlen := 'Select Gubun From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,932,Subu39,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,939,Subu39,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu55_1.pas,465,Subu55_1,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu55_1.pas,472,Subu55_1,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu58_1.pas,464,Subu58_1,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G1_Ggeo,from,도서유통/book_kb(반품과)/Subu58_1.pas,471,Subu58_1,Sqlen := 'Select Gname From G1_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Gbun,from,Seak02.pas,561,Seak02,"Sqlen := 'Select ID, Gcode, Gname From G2_Gbun Where '+D_Select+St1+St2;"
+G2_Gbun,from,Subu12.pas,431,Subu12,St1 := 'Select Gcode From G2_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G2_Gbun,from,Subu12.pas,505,Subu12,St1 := 'Select Gcode From G2_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G2_Gbun,from,Subu12.pas,566,Subu12,St1 := 'Select Gcode From G2_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G2_Gbun,into,Subu12.pas,670,Subu12,"Sqlen := 'INSERT INTO G2_Gbun ( Gcode, Gname, Hcode ) VALUES '+"
+G2_Gbun,update,Subu12.pas,689,Subu12,"Sqlen := 'UPDATE G2_Gbun SET Gcode=''@Gcode'',Gname=''@Gname'' '+"
+G2_Gbun,from,Subu12.pas,726,Subu12,Sqlen := 'DELETE FROM G2_Gbun WHERE Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G2_Gbun,from,Subu12.pas,956,Subu12,Sqlen := 'Select * From G2_Gbun Where '+D_Select+St1+' Order By Gcode';
+G2_Gbun,from,Subu12.pas,1024,Subu12,Sqlen := 'Select * From G2_Gbun Where '+D_Select+St1+' Order By Gcode';
+G2_Ggwo,from,Base01.pas,8835,Base01,Str := 'Select Gname From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Base01.pas,8856,Base01,Str := 'Select Gname From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Base01.pas,8887,Base01,Str := 'Select Jubun From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Base01.pas,8905,Base01,Str := 'Select Jubun From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Base01.pas,8973,Base01,Sqlen := 'Select Gcode From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Base01.pas,8979,Base01,Sqlen := 'Select Gcode From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Base01.pas,9130,Base01,"Sqlen := 'Select Hcode,Gcode,Gname,Ocode,Gubun,Pubun From G2_Ggwo '+"
+G2_Ggwo,from,Seek02.pas,79,Seek02,"'Gtel1,Gtel2,Gadd1,Gadd2 From G2_Ggwo Where '+D_Select+St1;"
+G2_Ggwo,from,Seek02.pas,95,Seek02,"'Gtel1,Gtel2,Gadd1,Gadd2 From G2_Ggwo Where '+D_Select+St1;"
+G2_Ggwo,from,Seek02.pas,154,Seek02,"'Gtel1,Gtel2,Gadd1,Gadd2 From G2_Ggwo Where '+D_Select+St1;"
+G2_Ggwo,from,Seek02.pas,181,Seek02,"'Gtel1,Gtel2,Gadd1,Gadd2 From G2_Ggwo Where '+D_Select+St1;"
+G2_Ggwo,into,Subu12.pas,414,Subu12,Sqlon := 'INSERT INTO G2_Ggwo '+
+G2_Ggwo,update,Subu12.pas,492,Subu12,Sq1 := 'UPDATE G2_Ggwo SET '+
+G2_Ggwo,from,Subu12.pas,631,Subu12,Sqlen := 'DELETE FROM G2_Ggwo WHERE Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G2_Ggwo,from,Subu12.pas,749,Subu12,St1 := 'Select Gcode From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G2_Ggwo,update,Subu12.pas,903,Subu12,Sqlen := 'UPDATE G2_Ggwo SET Scode=''@Scode'' '+
+G2_Ggwo,from,Subu12.pas,1015,Subu12,Sqlen := 'Select * From G2_Ggwo Where '+D_Select+St1+' Order By Gcode';
+G2_Ggwo,from,Subu22.pas,458,Subu22,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G2_Ggwo '+"
+G2_Ggwo,from,Subu22.pas,470,Subu22,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G2_Ggwo '+"
+G2_Ggwo,from,Subu22.pas,911,Subu22,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G2_Ggwo '+"
+G2_Ggwo,from,Subu22.pas,924,Subu22,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G2_Ggwo '+"
+G2_Ggwo,from,Subu22.pas,1048,Subu22,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G2_Ggwo '+"
+G2_Ggwo,from,Subu22.pas,1060,Subu22,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G2_Ggwo '+"
+G2_Ggwo,from,Subu22.pas,1261,Subu22,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G2_Ggwo Where '+D_Select+"
+G2_Ggwo,from,Subu22.pas,1284,Subu22,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G2_Ggwo Where '+D_Select+"
+G2_Ggwo,from,Subu54.pas,376,Subu54,Sqlen := 'Select Gname From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Subu54.pas,383,Subu54,Sqlen := 'Select Gname From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Subu57.pas,388,Subu57,Sqlen := 'Select Gname From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Subu57.pas,395,Subu57,Sqlen := 'Select Gname From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G2_Ggwo,from,Tong04.pas,699,Tong04,"Sqlen := 'Select Gname,Gtel1,Gtel2 From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode''';"
+G2_Ggwo,from,Tong04.pas,972,Tong04,'From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode''';
+G2_Ggwo,from,Tong06.pas,271,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gfax1,Gfax2,Gadd1,Gadd2,Gnum1 From G2_Ggwo '+"
+G2_Ggwo,from,Tong06.pas,293,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gfax1,Gfax2,Gadd1,Gadd2,Gnum1 From G2_Ggwo '+"
+G2_Ggwo,from,Tong06.pas,784,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gadd1,Gadd2,Gpper,Gbigo From G2_Ggwo '+"
+G2_Ggwo,from,Tong06.pas,806,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gadd1,Gadd2,Gpper,Gbigo From G2_Ggwo '+"
+G2_Ggwo,from,Tong06.pas,1082,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2 From G2_Ggwo '+"
+G2_Ggwo,from,Tong06.pas,1104,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2 From G2_Ggwo '+"
+G2_Ggwo,from,Tong06.pas,2596,Tong06,'From G2_Ggwo Where '+D_Select+'Gcode=''@Gcode''';
+G2_Ggwo,from,Tong07.pas,159,Tong07,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G2_Ggwo '+"
+G2_Ggwo,from,Tong07.pas,172,Tong07,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G2_Ggwo '+"
+G3_Gbun,from,Seak02.pas,578,Seak02,"Sqlen := 'Select ID, Gcode, Gname From G3_Gbun Where '+D_Select+St1+St2;"
+G3_Gjeo,from,Seek03.pas,70,Seek03,'From G3_Gjeo Where '+D_Select+St1;
+G3_Gjeo,from,Seek03.pas,106,Seek03,'From G3_Gjeo Where '+D_Select+St1;
+G3_Gjeo,from,Tong04.pas,1468,Tong04,'From G3_Gjeo Where '+D_Select+'Gcode=''@Gcode''';
+G3_Gjeo,from,Tong06.pas,2346,Tong06,'From G3_Gjeo Where '+D_Select+'Gcode=''@Gcode''';
+G3_Gjeo,from,Tong06.pas,2452,Tong06,'From G3_Gjeo Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Base01.pas,8839,Base01,Str := 'Select Gname From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Base01.pas,8860,Base01,Str := 'Select Gname From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Base01.pas,9003,Base01,Sqlen := 'Select Gcode From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Base01.pas,9009,Base01,Sqlen := 'Select Gcode From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Base01.pas,9142,Base01,"Sqlen := 'Select Hcode,Gcode,Gname,Ocode,Gubun,Gdang,Grat8,Bigo4 From G4_Book '+"
+G4_Book,from,Data/Subu38.pas,527,Subu38,Sqlen := 'Select Gname From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Seak07.pas,140,Seak07,Sqlen := 'Select Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Seek04.pas,80,Seek04,"'Gdang,Gbjil From G4_Book Where '+D_Select+St1;"
+G4_Book,from,Seek04.pas,104,Seek04,"'Gdang,Gbjil From G4_Book Where '+D_Select+St1;"
+G4_Book,from,Seek04.pas,147,Seek04,"'Gdang,Gbjil From G4_Book Where '+D_Select+St1;"
+G4_Book,from,Seek04.pas,186,Seek04,"'Gdang,Gbjil From G4_Book Where '+D_Select+St1;"
+G4_Book,from,Seek07.pas,98,Seek07,Sqlen := 'Select Grat1 From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Seek07.pas,103,Seek07,Sqlen := 'Select Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu14.pas,297,Subu14,Sqlen := 'Select * From G4_Book Where '+D_Select+
+G4_Book,into,Subu14.pas,487,Subu14,Sqlon := 'INSERT INTO G4_Book '+
+G4_Book,update,Subu14.pas,559,Subu14,Sqlon := 'UPDATE G4_Book SET '+
+G4_Book,from,Subu14.pas,692,Subu14,Sqlen := 'DELETE FROM G4_Book WHERE Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G4_Book,from,Subu14.pas,808,Subu14,St1 := 'Select Gcode From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G4_Book,from,Subu14.pas,1095,Subu14,"Sqlen := 'Select Hcode,Gubun,Gcode,Gname,Gdang,Gisbn,Gpost From G4_Book Where '+D_Select+St1+' Order By Gcode'"
+G4_Book,from,Subu14.pas,1097,Subu14,Sqlen := 'Select * From G4_Book Where '+D_Select+St1+' Order By Gcode';
+G4_Book,from,Subu16.pas,335,Subu16,Sqlen := 'Select Gname From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G4_Book,from,Subu18.pas,295,Subu18,"Sqlen := 'Select Gcode,Yesno From G4_Book Where '+D_Select+"
+G4_Book,update,Subu18.pas,359,Subu18,Sqlen := 'UPDATE G4_Book SET Yesno=''@Yesno'' '+
+G4_Book,from,Subu21.pas,528,Subu21,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu21.pas,607,Subu21,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gname,Gjeja,Gdang,Scode From G4_Book '+"
+G4_Book,from,Subu21.pas,1111,Subu21,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,Subu21.pas,1227,Subu21,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,Subu21.pas,1642,Subu21,Sqlen := 'Select Gpost From G4_Book '+
+G4_Book,from,Subu22.pas,409,Subu22,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu22.pas,484,Subu22,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gname,Gjeja,Gdang,Scode From G4_Book '+"
+G4_Book,from,Subu22.pas,973,Subu22,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,Subu22.pas,1076,Subu22,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,Subu23.pas,413,Subu23,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu23.pas,488,Subu23,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gname,Gjeja,Gdang,Scode From G4_Book '+"
+G4_Book,from,Subu23.pas,983,Subu23,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,Subu23.pas,1088,Subu23,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,Subu24.pas,317,Subu24,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu25.pas,319,Subu25,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu26.pas,496,Subu26,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu26.pas,1574,Subu26,"Sqlen := 'Select Gpost,Opost From G4_Book '+"
+G4_Book,from,Subu27.pas,613,Subu27,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu29.pas,395,Subu29,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu29.pas,451,Subu29,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gname,Gjeja,Gdang,Scode From G4_Book '+"
+G4_Book,from,Subu29.pas,501,Subu29,Sqlen := 'Select Gname From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu29.pas,703,Subu29,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gname,Gjeja,Gdang,Ocode From G4_Book '+"
+G4_Book,from,Subu32.pas,426,Subu32,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu32.pas,554,Subu32,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu32.pas,677,Subu32,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu32.pas,891,Subu32,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu32.pas,994,Subu32,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu32.pas,1082,Subu32,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu32.pas,1155,Subu32,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu32.pas,1238,Subu32,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu32.pas,1470,Subu32,Sqlen := 'Select Grat8 From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu32.pas,1574,Subu32,Sqlen := 'Select Grat8 From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu32.pas,1676,Subu32,Sqlen := 'Select Grat8 From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu32.pas,1802,Subu32,Sqlen := 'Select Grat8 From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu32_1.pas,357,Subu32_1,Sqlen := 'Select Grat8 From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu33.pas,409,Subu33,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu33.pas,537,Subu33,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu33.pas,660,Subu33,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu33.pas,748,Subu33,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu33.pas,798,Subu33,Sqlen := 'Select Gpost From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu33.pas,807,Subu33,"Sqlen := 'Select Gpost,Opost,Apost,Bcode From G4_Book '+"
+G4_Book,from,Subu33.pas,949,Subu33,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu33.pas,1052,Subu33,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu33.pas,1140,Subu33,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu33.pas,1213,Subu33,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu33.pas,1296,Subu33,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_1.pas,403,Subu34_1,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_1.pas,531,Subu34_1,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_1.pas,654,Subu34_1,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_1.pas,742,Subu34_1,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_1.pas,953,Subu34_1,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_1.pas,1056,Subu34_1,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_1.pas,1144,Subu34_1,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_1.pas,1217,Subu34_1,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_1.pas,1300,Subu34_1,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,426,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,599,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,773,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,909,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,1060,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,1292,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,1423,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,1554,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,1695,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,1790,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_2.pas,1869,Subu34_2,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,426,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,599,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,773,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,909,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,1060,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,1292,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,1423,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,1554,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,1695,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,1790,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_3.pas,1869,Subu34_3,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,427,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,600,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,774,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,898,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,1054,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,1294,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,1425,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,1556,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,1697,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,1792,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu34_4.pas,1871,Subu34_4,"Sqlen := 'Select Gname,Ocode,Gubun,Gdang From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu45.pas,3206,Subu45,Sqlen := 'Select Grat8 From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu45.pas,3244,Subu45,Sqlen:='Select Count(*) From G4_Book Where '+D_Select+
+G4_Book,from,Subu45.pas,3251,Subu45,Sqlen:='Select Count(*) From G4_Book Where '+D_Select+
+G4_Book,from,Subu45.pas,3257,Subu45,Sqlen:='Select Count(*) From G4_Book Where '+D_Select+
+G4_Book,from,Subu45.pas,4372,Subu45,Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu45.pas,4478,Subu45,Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu45.pas,4573,Subu45,Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu45.pas,4631,Subu45,Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu45_1.pas,3121,Subu45_1,Sqlen := 'Select Grat8 From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu45_1.pas,3159,Subu45_1,Sqlen:='Select Count(*) From G4_Book Where '+D_Select+
+G4_Book,from,Subu45_1.pas,3166,Subu45_1,Sqlen:='Select Count(*) From G4_Book Where '+D_Select+
+G4_Book,from,Subu45_1.pas,3172,Subu45_1,Sqlen:='Select Count(*) From G4_Book Where '+D_Select+
+G4_Book,from,Subu45_1.pas,4287,Subu45_1,Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu45_1.pas,4393,Subu45_1,Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu45_1.pas,4488,Subu45_1,Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu45_1.pas,4546,Subu45_1,Sqlen := 'Select Grat8 From G4_Book Where '+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu51.pas,621,Subu51,"'Select Gcode,Gname From G4_Book Where '+D_Select+St1+"
+G4_Book,from,Subu52.pas,621,Subu52,"'Select Gcode,Gname From G4_Book Where '+D_Select+St1+"
+G4_Book,from,Subu53.pas,429,Subu53,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu54.pas,390,Subu54,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu55.pas,418,Subu55,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu56.pas,411,Subu56,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu57.pas,402,Subu57,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu58.pas,401,Subu58,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu59.pas,463,Subu59,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu59.pas,589,Subu59,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu59_2.pas,437,Subu59_2,Sqlen := 'Select Gisbn From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu59_2.pas,799,Subu59_2,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu59_3.pas,528,Subu59_3,Sqlen := 'Select Gisbn From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Book,from,Subu59_3.pas,1051,Subu59_3,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu91.pas,522,Subu91,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu91.pas,601,Subu91,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gname,Gjeja,Gdang,Scode From G4_Book '+"
+G4_Book,from,Subu91.pas,1105,Subu91,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,Subu91.pas,1221,Subu91,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,Subu91.pas,1636,Subu91,Sqlen := 'Select Gpost From G4_Book '+
+G4_Book,from,Subu93.pas,448,Subu93,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu96.pas,563,Subu96,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Subu96.pas,1595,Subu96,Sqlen := 'Select Gpost From G4_Book '+
+G4_Book,from,Subu97.pas,662,Subu97,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,Tong04.pas,777,Tong04,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode''';"
+G4_Book,from,Tong04.pas,862,Tong04,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode''';"
+G4_Book,from,Tong04.pas,1691,Tong04,Sqlen := 'Select Gbigo From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong04.pas,1879,Tong04,Sqlen := 'Select Gbigo From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong04.pas,2051,Tong04,Sqlen := 'Select Jubun From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong04.pas,2074,Tong04,Sqlen := 'Select Gbigo From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong06.pas,215,Tong06,"Sqlen := 'Select Gqut1,Gqut2 From G4_Book '+"
+G4_Book,from,Tong06.pas,728,Tong06,"Sqlen := 'Select Gqut1,Gqut2 From G4_Book '+"
+G4_Book,from,Tong06.pas,1235,Tong06,"Sqlen := 'Select Gqut1,Gqut2 From G4_Book '+"
+G4_Book,from,Tong06.pas,1300,Tong06,"Sqlen := 'Select Gqut1,Gqut2 From G4_Book '+"
+G4_Book,from,Tong06.pas,1338,Tong06,Sqlen := 'Select Gjeja From G4_Book '+
+G4_Book,from,Tong06.pas,1357,Tong06,Sqlen := 'Select Jubun From G4_Book '+
+G4_Book,from,Tong06.pas,1482,Tong06,"Sqlen := 'Select Gqut1,Gqut2 From G4_Book '+"
+G4_Book,from,Tong06.pas,1517,Tong06,Sqlen := 'Select Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong06.pas,1534,Tong06,Sqlen := 'Select Jubun From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong06.pas,1547,Tong06,Sqlen := 'Select Gbjil From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong06.pas,1647,Tong06,"Sqlen := 'Select Gqut1,Gqut2 From G4_Book '+"
+G4_Book,from,Tong06.pas,1685,Tong06,Sqlen := 'Select Gjeja From G4_Book '+
+G4_Book,from,Tong06.pas,1862,Tong06,Sqlen := 'Select Gisbn From G4_Book '+
+G4_Book,from,Tong06.pas,1888,Tong06,Sqlen := 'Select Gjeja From G4_Book '+
+G4_Book,from,Tong06.pas,1981,Tong06,Sqlen := 'Select Gisbn From G4_Book '+
+G4_Book,from,Tong06.pas,2007,Tong06,Sqlen := 'Select Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong06.pas,2024,Tong06,Sqlen := 'Select Jubun From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong06.pas,2037,Tong06,Sqlen := 'Select Gbjil From G4_Book Where '+D_Select+'Gcode=''@Gcode''';
+G4_Book,from,Tong06.pas,2130,Tong06,Sqlen := 'Select Gisbn From G4_Book '+
+G4_Book,from,Tong06.pas,2156,Tong06,Sqlen := 'Select Gjeja From G4_Book '+
+G4_Book,from,Tong07.pas,80,Tong07,"Sqlen := 'Select Gcode,Gname,Gjeja,Ocode,Gdang From G4_Book '+"
+G4_Book,from,Tong07.pas,254,Tong07,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,도서유통/Subu34.pas,374,Subu34,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,도서유통/Subu35.pas,374,Subu35,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,도서유통/book_kb(반품과)/Subu23_1.pas,574,Subu23_1,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,도서유통/book_kb(반품과)/Subu23_1.pas,651,Subu23_1,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gname,Gjeja,Gdang,Scode From G4_Book '+"
+G4_Book,from,도서유통/book_kb(반품과)/Subu23_1.pas,1176,Subu23_1,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,도서유통/book_kb(반품과)/Subu23_1.pas,1279,Subu23_1,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G4_Book '+"
+G4_Book,from,도서유통/book_kb(반품과)/Subu55_1.pas,479,Subu55_1,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Book,from,도서유통/book_kb(반품과)/Subu58_1.pas,478,Subu58_1,"Sqlen := 'Select Gname,Gjeja From G4_Book Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G4_Gbun,from,Seak02.pas,595,Seak02,"Sqlen := 'Select ID, Gcode, Gname From G4_Gbun Where '+D_Select+St1+St2;"
+G4_Gbun,from,Subu14.pas,501,Subu14,St1 := 'Select Gcode From G4_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G4_Gbun,from,Subu14.pas,571,Subu14,St1 := 'Select Gcode From G4_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G4_Gbun,from,Subu14.pas,629,Subu14,St1 := 'Select Gcode From G4_Gbun Where '+D_Select+'Gname=''@Gname'' and Hcode=''@Hcode'' ';
+G4_Gbun,into,Subu14.pas,729,Subu14,"Sqlen := 'INSERT INTO G4_Gbun ( Gcode, Gname, Hcode ) VALUES '+"
+G4_Gbun,update,Subu14.pas,748,Subu14,"Sqlen := 'UPDATE G4_Gbun SET Gcode=''@Gcode'',Gname=''@Gname'' '+"
+G4_Gbun,from,Subu14.pas,785,Subu14,Sqlen := 'DELETE FROM G4_Gbun WHERE Gcode=''@Gcode'' and Hcode=''@Hcode'' ';
+G4_Gbun,from,Subu14.pas,1043,Subu14,Sqlen := 'Select * From G4_Gbun Where '+D_Select+St1+' Order By Gcode';
+G4_Gbun,from,Subu14.pas,1110,Subu14,"Sqlen := 'Select ID,Gcode,Gname From G4_Gbun Where '+D_Select+St1+' Order By Gcode';"
+G4_Gbun,from,Subu32.pas,1301,Subu32,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Gbun,from,Subu33.pas,829,Subu33,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Gbun,from,Subu33.pas,1359,Subu33,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Gbun,from,Subu34_1.pas,825,Subu34_1,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Gbun,from,Subu34_1.pas,1363,Subu34_1,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G4_Gbun,from,Subu34_1.pas,1678,Subu34_1,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode''';
+G4_Gbun,from,Subu34_1.pas,1758,Subu34_1,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode''';
+G4_Gbun,from,Subu34_2.pas,1148,Subu34_2,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode''';
+G4_Gbun,from,Subu34_2.pas,1932,Subu34_2,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode''';
+G4_Gbun,from,Subu34_3.pas,1148,Subu34_3,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode''';
+G4_Gbun,from,Subu34_3.pas,1932,Subu34_3,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode''';
+G4_Gbun,from,Subu34_4.pas,1148,Subu34_4,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode''';
+G4_Gbun,from,Subu34_4.pas,1934,Subu34_4,Sqlen := 'Select Gname From G4_Gbun Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode''';
+G5_Gbun,from,Seak02.pas,612,Seak02,"Sqlen := 'Select ID, Gcode, Gname From G5_Gbun Where '+D_Select+St1+St2;"
+G5_Ggeo,from,Base01.pas,8837,Base01,"Str := 'Select Gname,Gposa From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G5_Ggeo,from,Base01.pas,8858,Base01,"Str := 'Select Gname,Gposa From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';"
+G5_Ggeo,from,Base01.pas,8889,Base01,Str := 'Select Jubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Base01.pas,8907,Base01,Str := 'Select Jubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Base01.pas,8988,Base01,Sqlen := 'Select Gcode From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Base01.pas,8994,Base01,Sqlen := 'Select Gcode From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Seek05.pas,79,Seek05,"'Gtel1,Gtel2,Gadd1,Gadd2 From G5_Ggeo Where '+D_Select+St1;"
+G5_Ggeo,from,Seek05.pas,95,Seek05,"'Gtel1,Gtel2,Gadd1,Gadd2 From G5_Ggeo Where '+D_Select+St1;"
+G5_Ggeo,from,Seek05.pas,153,Seek05,"'Gtel1,Gtel2,Gadd1,Gadd2 From G5_Ggeo Where '+D_Select+St1;"
+G5_Ggeo,from,Seek05.pas,180,Seek05,"'Gtel1,Gtel2,Gadd1,Gadd2 From G5_Ggeo Where '+D_Select+St1;"
+G5_Ggeo,from,Subu45.pas,1582,Subu45,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu45.pas,1590,Subu45,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu45_1.pas,1603,Subu45_1,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu45_1.pas,1611,Subu45_1,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu53.pas,414,Subu53,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu53.pas,421,Subu53,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu55.pas,403,Subu55,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu55.pas,410,Subu55,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu59_1.pas,431,Subu59_1,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu59_1.pas,446,Subu59_1,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu91.pas,466,Subu91,Sqlen := 'Select Grat9 From G5_Ggeo Where '+D_Select+'Hcode=''@Hcode'' and Gcode=''@Gcode'' ';
+G5_Ggeo,from,Subu91.pas,575,Subu91,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G5_Ggeo '+"
+G5_Ggeo,from,Subu91.pas,587,Subu91,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G5_Ggeo '+"
+G5_Ggeo,from,Subu91.pas,1043,Subu91,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G5_Ggeo '+"
+G5_Ggeo,from,Subu91.pas,1056,Subu91,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G5_Ggeo '+"
+G5_Ggeo,from,Subu91.pas,1193,Subu91,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G5_Ggeo '+"
+G5_Ggeo,from,Subu91.pas,1205,Subu91,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G5_Ggeo '+"
+G5_Ggeo,from,Subu91.pas,1406,Subu91,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G5_Ggeo Where '+D_Select+"
+G5_Ggeo,from,Subu91.pas,1429,Subu91,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G5_Ggeo Where '+D_Select+"
+G5_Ggeo,from,Subu93.pas,434,Subu93,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu93.pas,441,Subu93,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu96.pas,549,Subu96,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu96.pas,556,Subu96,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu96.pas,681,Subu96,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2 From G5_Ggeo Where '+D_Select+"
+G5_Ggeo,from,Subu96.pas,702,Subu96,"Sqlen := 'Select Gname,Gadd1,Gadd2,Gtel1,Gtel2 From G5_Ggeo Where '+D_Select+"
+G5_Ggeo,from,Subu96.pas,947,Subu96,Sqlen := 'Select Pubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu96.pas,955,Subu96,Sqlen := 'Select Pubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu96.pas,984,Subu96,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu96.pas,992,Subu96,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu96.pas,1003,Subu96,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu96.pas,1010,Subu96,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu97.pas,645,Subu97,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu97.pas,652,Subu97,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu97.pas,879,Subu97,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu97.pas,887,Subu97,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu97.pas,898,Subu97,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu97.pas,905,Subu97,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu99.pas,541,Subu99,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu99.pas,548,Subu99,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu99.pas,591,Subu99,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu99.pas,599,Subu99,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu99.pas,843,Subu99,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu99.pas,851,Subu99,Sqlen := 'Select Gubun From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu99.pas,862,Subu99,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Subu99.pas,869,Subu99,Sqlen := 'Select Gname From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode''';
+G5_Ggeo,from,Tong04.pas,714,Tong04,"Sqlen := 'Select Gname,Gtel1,Gtel2 From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode''';"
+G5_Ggeo,from,Tong04.pas,993,Tong04,'From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G5_Ggeo,from,Tong06.pas,277,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gfax1,Gfax2,Gadd1,Gadd2,Gnum1 From G5_Ggeo '+"
+G5_Ggeo,from,Tong06.pas,299,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gfax1,Gfax2,Gadd1,Gadd2,Gnum1 From G5_Ggeo '+"
+G5_Ggeo,from,Tong06.pas,790,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gadd1,Gadd2,Gpper,Gbigo From G5_Ggeo '+"
+G5_Ggeo,from,Tong06.pas,812,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2,Gadd1,Gadd2,Gpper,Gbigo From G5_Ggeo '+"
+G5_Ggeo,from,Tong06.pas,1088,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2 From G5_Ggeo '+"
+G5_Ggeo,from,Tong06.pas,1110,Tong06,"Sqlen := 'Select Gname,Gtel1,Gtel2 From G5_Ggeo '+"
+G5_Ggeo,from,Tong06.pas,2602,Tong06,'From G5_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G6_Ggeo,from,Base01.pas,4573,Base01,Sqlen := 'DELETE FROM G6_Ggeo WHERE ID=@ID ';
+G6_Ggeo,into,Base01.pas,4590,Base01,Sqlen := 'INSERT INTO G6_Ggeo '+
+G6_Ggeo,update,Base01.pas,4618,Base01,Sqlen := 'UPDATE G6_Ggeo SET '+
+G6_Ggeo,from,Base01.pas,4677,Base01,Sqlen := 'DELETE FROM G6_Ggeo WHERE ID=@ID ';
+G6_Ggeo,into,Base01.pas,4694,Base01,Sqlen := 'INSERT INTO G6_Ggeo '+
+G6_Ggeo,update,Base01.pas,4722,Base01,Sqlen := 'UPDATE G6_Ggeo SET '+
+G6_Ggeo,from,Seek07.pas,82,Seek07,"Sqlen := 'Select Hcode,Gcode,Bcode,Grat1 From G6_Ggeo '+"
+G6_Ggeo,from,Seek07.pas,116,Seek07,"Sqlen := 'Select S.Gcode,S.Bcode,S.Grat1,S.Gssum,Y.Gname,Y.Gposa,Y.Jubun,Y.Gtel1,Y.Gtel2 From G6_Ggeo S, G1_Ggeo Y '+"
+G6_Ggeo,update,Seek07.pas,339,Seek07,Sqlen := 'UPDATE G6_Ggeo SET Gssum=@Gssum '+'WHERE Gcode=''@Gcode'' and Bcode=''@Bcode'' and Hcode=''@Hcode''';
+G6_Ggeo,from,Subu16.pas,311,Subu16,Sqlen := 'Select * From G6_Ggeo Where '+D_Select+'Gcode=''@Gcode'' and Hcode=''@Hcode'' '+
+G6_Ggeo,from,Subu16.pas,373,Subu16,Sqlen := 'Select * From G6_Ggeo Where '+D_Select+'Bcode=''@Gcode'' and Hcode=''@Hcode'' '+
+G6_Ggeo,from,Subu16.pas,448,Subu16,Sqlen := 'Select * From G6_Ggeo Where '+D_Select+
+G6_Ggeo,from,Subu21.pas,625,Subu21,"Sqlen := 'Select Grat1,Gssum From G6_Ggeo '+"
+G6_Ggeo,from,Subu21.pas,1123,Subu21,"Sqlen := 'Select Grat1,Gssum From G6_Ggeo '+"
+G6_Ggeo,from,Subu91.pas,619,Subu91,"Sqlen := 'Select Grat1,Gssum From G6_Ggeo '+"
+G6_Ggeo,from,Subu91.pas,1117,Subu91,"Sqlen := 'Select Grat1,Gssum From G6_Ggeo '+"
+G6_Ggeo,from,Tong02.pas,2114,Tong02,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gssum From G6_Ggeo '+"
+G6_Ggeo,from,Tong02.pas,2144,Tong02,"Sqlen := 'Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6,Gssum From G6_Ggeo '+"
+G6_Ggeo,from,Tong07.pas,269,Tong07,"Sqlen := 'Select Grat1,Gssum From G6_Ggeo '+"
+G7_Gbun,from,Seak02.pas,629,Seak02,"Sqlen := 'Select ID, Gcode, Gname From G7_Gbun Where '+D_Select+St1+St2;"
+G7_Gbun,from,Subu17.pas,766,Subu17,St1 := 'Select Gcode From G7_Gbun Where '+D_Select+'Gname = ''@Gname''';
+G7_Gbun,from,Subu17.pas,836,Subu17,St1 := 'Select Gcode From G7_Gbun Where '+D_Select+'Gname = ''@Gname''';
+G7_Gbun,from,Subu17.pas,895,Subu17,St1 := 'Select Gcode From G7_Gbun Where '+D_Select+'Gname = ''@Gname''';
+G7_Gbun,into,Subu17.pas,996,Subu17,"Sqlen := 'INSERT INTO G7_Gbun ( Gcode, Gname ) VALUES '+"
+G7_Gbun,update,Subu17.pas,1014,Subu17,"Sqlen := 'UPDATE G7_Gbun SET Gcode=''@Gcode'',Gname=''@Gname'' '+"
+G7_Gbun,from,Subu17.pas,1050,Subu17,Sqlen := 'DELETE FROM G7_Gbun WHERE Gcode=''@Gcode''';
+G7_Gbun,from,Subu17.pas,1279,Subu17,Sqlen := 'Select * From G7_Gbun Where '+D_Select+' Order By Gcode';
+G7_Gbun,from,Subu17.pas,1341,Subu17,Sqlen := 'Select * From G7_Gbun Where '+D_Open+' Order By Gcode';
+G7_Gbun,from,Subu17_1.pas,786,Subu17_1,St1 := 'Select Gcode From G7_Gbun Where '+D_Select+'Gname = ''@Gname''';
+G7_Gbun,from,Subu17_1.pas,856,Subu17_1,St1 := 'Select Gcode From G7_Gbun Where '+D_Select+'Gname = ''@Gname''';
+G7_Gbun,from,Subu17_1.pas,915,Subu17_1,St1 := 'Select Gcode From G7_Gbun Where '+D_Select+'Gname = ''@Gname''';
+G7_Gbun,into,Subu17_1.pas,1016,Subu17_1,"Sqlen := 'INSERT INTO G7_Gbun ( Gcode, Gname ) VALUES '+"
+G7_Gbun,update,Subu17_1.pas,1034,Subu17_1,"Sqlen := 'UPDATE G7_Gbun SET Gcode=''@Gcode'',Gname=''@Gname'' '+"
+G7_Gbun,from,Subu17_1.pas,1070,Subu17_1,Sqlen := 'DELETE FROM G7_Gbun WHERE Gcode=''@Gcode''';
+G7_Gbun,from,Subu17_1.pas,1304,Subu17_1,Sqlen := 'Select * From G7_Gbun Where '+D_Select+' Order By Gcode';
+G7_Gbun,from,Subu17_1.pas,1369,Subu17_1,Sqlen := 'Select * From G7_Gbun Where '+D_Open+' Order By Gcode';
+G7_Ggeo,from,Base01.pas,9105,Base01,"Sqlen := 'Select Hcode,Gcode,Gname,Chek1,Chek2,Yes35 From G7_Ggeo '+"
+G7_Ggeo,from,Chul.pas,479,Chul,Sqlen := 'Select Gcode From G7_Ggeo '+
+G7_Ggeo,from,Data/Subu36.pas,368,Subu36,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Data/Subu37.pas,338,Subu37,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Seak08.pas,74,Seak08,"'Gtel1,Gtel2,Gadd1,Gadd2 From G7_Ggeo Where '+D_Select+St1;"
+G7_Ggeo,from,Seak08.pas,108,Seak08,"'Gtel1,Gtel2,Gadd1,Gadd2 From G7_Ggeo Where '+D_Select+St1;"
+G7_Ggeo,from,Seak09.pas,443,Seak09,'From G7_Ggeo Where '+D_Select+
+G7_Ggeo,from,Seok02.pas,102,Seok02,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Seok02.pas,135,Seok02,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Seok03.pas,347,Seok03,"Sqlen := 'Select Gcode,Gname From G7_Ggeo Where '+D_Open+St1+' Order By Gcode';"
+G7_Ggeo,update,Subu17.pas,586,Subu17,Sqlen := 'UPDATE G7_Ggeo SET Ocode=''@Ocode'' '+
+G7_Ggeo,into,Subu17.pas,754,Subu17,Sqlon := 'INSERT INTO G7_Ggeo '+
+G7_Ggeo,update,Subu17.pas,825,Subu17,Sqlon := 'UPDATE G7_Ggeo SET '+
+G7_Ggeo,from,Subu17.pas,958,Subu17,Sqlen := 'DELETE FROM G7_Ggeo WHERE Gcode=''@Gcode''';
+G7_Ggeo,from,Subu17.pas,1072,Subu17,St1 := 'Select Gcode From G7_Ggeo Where '+D_Select+'Gcode = ''@Gcode''';
+G7_Ggeo,from,Subu17.pas,1337,Subu17,Sqlen := 'Select * From G7_Ggeo Where '+D_Select+St1+//' Order By Gcode';
+G7_Ggeo,from,Subu17.pas,1378,Subu17,Sqlen := 'Select distinct Bigo2 From G7_Ggeo '+
+G7_Ggeo,from,Subu17.pas,1383,Subu17,Sqlen := 'Select distinct Bigo2 From G7_Ggeo '+
+G7_Ggeo,from,Subu17.pas,1650,Subu17,'From G7_Ggeo Where '+D_Select+'Gcode'+'='+#39+nSqry.FieldByName('Gcode').AsString+#39;
+G7_Ggeo,from,Subu17.pas,1747,Subu17,'From G7_Ggeo Where '+D_Select+'Gcode'+'='+#39+nSqry.FieldByName('Gcode').AsString+#39;
+G7_Ggeo,update,Subu17.pas,1816,Subu17,Sqlon := 'UPDATE G7_Ggeo SET '+
+G7_Ggeo,from,Subu17.pas,1985,Subu17,Sql.add('Select Memos From G7_Ggeo ');
+G7_Ggeo,update,Subu17.pas,2004,Subu17,Sql.add('UPDATE G7_Ggeo SET ');
+G7_Ggeo,into,Subu17_1.pas,774,Subu17_1,Sqlon := 'INSERT INTO G7_Ggeo '+
+G7_Ggeo,update,Subu17_1.pas,845,Subu17_1,Sqlon := 'UPDATE G7_Ggeo SET '+
+G7_Ggeo,from,Subu17_1.pas,978,Subu17_1,Sqlen := 'DELETE FROM G7_Ggeo WHERE Gcode=''@Gcode''';
+G7_Ggeo,from,Subu17_1.pas,1092,Subu17_1,St1 := 'Select Gcode From G7_Ggeo Where '+D_Select+'Gcode = ''@Gcode''';
+G7_Ggeo,from,Subu17_1.pas,1362,Subu17_1,Sqlen := 'Select * From G7_Ggeo Where '+D_Select+St1+' Order By Gcode';
+G7_Ggeo,from,Subu17_1.pas,1405,Subu17_1,Sqlen := 'Select distinct Bigo2 From G7_Ggeo '+
+G7_Ggeo,from,Subu17_1.pas,1639,Subu17_1,'From G7_Ggeo Where '+D_Select+'Gcode'+'='+#39+nSqry.FieldByName('Gcode').AsString+#39;
+G7_Ggeo,from,Subu17_1.pas,1736,Subu17_1,'From G7_Ggeo Where '+D_Select+'Gcode'+'='+#39+nSqry.FieldByName('Gcode').AsString+#39;
+G7_Ggeo,update,Subu17_1.pas,1805,Subu17_1,Sqlon := 'UPDATE G7_Ggeo SET '+
+G7_Ggeo,from,Subu17_1.pas,1974,Subu17_1,Sql.add('Select Memos From G7_Ggeo ');
+G7_Ggeo,update,Subu17_1.pas,1993,Subu17_1,Sql.add('UPDATE G7_Ggeo SET ');
+G7_Ggeo,from,Subu18.pas,280,Subu18,Sqlen := 'Select Gcode From G7_Ggeo Where '+D_Select+'Gname=''@Gname'' ';
+G7_Ggeo,from,Subu18.pas,284,Subu18,Sqlen := 'Select Yesno From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,update,Subu18.pas,374,Subu18,Sqlen := 'UPDATE G7_Ggeo SET Yesno=''@Yesno'' '+
+G7_Ggeo,from,Subu26.pas,476,Subu26,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu26.pas,826,Subu26,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu27.pas,343,Subu27,"Sqlen := 'Select Gcode,Gname,Gtel1,Gtel2 From G7_Ggeo Where '+D_Open+St1+//' Order By Gcode';"
+G7_Ggeo,from,Subu27.pas,590,Subu27,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu27.pas,714,Subu27,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu27.pas,996,Subu27,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu28.pas,395,Subu28,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu28.pas,448,Subu28,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu31.pas,282,Subu31,Sqlen := 'Select Scode From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu31.pas,1013,Subu31,Sqlen := 'Select Scode From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu31.pas,1747,Subu31,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu31.pas,1761,Subu31,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu32.pas,293,Subu32,Sqlen := 'Select Scode From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu32_1.pas,298,Subu32_1,"Sqlen := 'Select Gcode,Gname,Chek1 From G7_Ggeo Where '+D_Open;"
+G7_Ggeo,from,Subu32_1.pas,344,Subu32_1,Sqlen := 'Select Chek3 From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu33.pas,331,Subu33,Sqlen := 'Select Scode From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu34_1.pas,325,Subu34_1,Sqlen := 'Select Scode From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu34_2.pas,344,Subu34_2,Sqlen := 'Select Scode From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu34_3.pas,344,Subu34_3,Sqlen := 'Select Scode From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu34_4.pas,345,Subu34_4,Sqlen := 'Select Scode From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu38_1.pas,277,Subu38_1,"Sqlen := 'Select Gcode,Gname From G7_Ggeo '+"
+G7_Ggeo,from,Subu41.pas,338,Subu41,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu42.pas,294,Subu42,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu43.pas,336,Subu43,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu44.pas,310,Subu44,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu45.pas,559,Subu45,"Sqlen := 'Select Gcode,Gname,Gtel1,Gtel2,Jumin,Giqut,Gisum,Yes35,Gssum,Chek1 From G7_Ggeo Where '+D_Open;"
+G7_Ggeo,from,Subu45.pas,1379,Subu45,Sqlen := 'Select Chek5 From G7_Ggeo Where '+D_Select+
+G7_Ggeo,from,Subu45.pas,1965,Subu45,'Bigo1 From G7_Ggeo Where '+D_Select+
+G7_Ggeo,from,Subu45.pas,2021,Subu45,'From G7_Ggeo Where '+D_Select+
+G7_Ggeo,from,Subu45.pas,3192,Subu45,Sqlen := 'Select Chek3 From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu45.pas,3240,Subu45,Sqlen := 'Select Yesno From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu45_1.pas,591,Subu45_1,"Sqlen := 'Select Gcode,Gname,Gtel1,Gtel2,Jumin,Giqut,Gisum,Yes35,Gssum,Chek1 From G7_Ggeo Where '+D_Open;"
+G7_Ggeo,from,Subu45_1.pas,1396,Subu45_1,Sqlen := 'Select Chek5 From G7_Ggeo Where '+D_Select+
+G7_Ggeo,from,Subu45_1.pas,1940,Subu45_1,'Bigo1 From G7_Ggeo Where '+D_Select+
+G7_Ggeo,from,Subu45_1.pas,1996,Subu45_1,'From G7_Ggeo Where '+D_Select+
+G7_Ggeo,from,Subu45_1.pas,3107,Subu45_1,Sqlen := 'Select Chek3 From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu45_1.pas,3155,Subu45_1,Sqlen := 'Select Yesno From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu46.pas,488,Subu46,"Sqlen := 'Select Gcode,Gname,Gtel1,Gtel2,Jumin,Giqut,Gisum,Yes35,Gssum From G7_Ggeo Where '+D_Open;"
+G7_Ggeo,from,Subu48.pas,275,Subu48,"Sqlen := 'Select Gcode,Gname,Chek3,Scode as Yesno From G7_Ggeo '+"
+G7_Ggeo,update,Subu48.pas,337,Subu48,Sqlen := 'UPDATE G7_Ggeo SET Scode=''@Yesno'' '+
+G7_Ggeo,update,Subu48.pas,372,Subu48,Sqlen := 'UPDATE G7_Ggeo SET Chek3=''@Chek3'' '+
+G7_Ggeo,update,Subu48.pas,389,Subu48,Sqlen := 'UPDATE G7_Ggeo SET Scode=''@Yesno'' '+
+G7_Ggeo,from,Subu49.pas,363,Subu49,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu53.pas,393,Subu53,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu54.pas,370,Subu54,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu55.pas,382,Subu55,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu56.pas,391,Subu56,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu57.pas,382,Subu57,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu58.pas,381,Subu58,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu59.pas,443,Subu59,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu59.pas,569,Subu59,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu59_1.pas,417,Subu59_1,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu59_2.pas,651,Subu59_2,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu59_2.pas,776,Subu59_2,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu59_3.pas,459,Subu59_3,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu59_3.pas,904,Subu59_3,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu59_3.pas,1028,Subu59_3,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu93.pas,428,Subu93,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu96.pas,543,Subu96,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu96.pas,871,Subu96,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu97.pas,397,Subu97,"Sqlen := 'Select Gcode,Gname,Gtel1,Gtel2 From G7_Ggeo Where '+D_Open+St1+' Order By Gcode';"
+G7_Ggeo,from,Subu97.pas,639,Subu97,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu97.pas,762,Subu97,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Subu98.pas,376,Subu98,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu98.pas,429,Subu98,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu99.pas,535,Subu99,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,Subu99.pas,742,Subu99,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Tong04.pas,2484,Tong04,'From G7_Ggeo Where '+D_Select+'Gcode'+'='+#39+oSqry.FieldByName('Gcode').AsString+#39;
+G7_Ggeo,from,Tong04.pas,3773,Tong04,Sqlen := 'Select Bigo2 From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Tong04.pas,3930,Tong04,Sqlen := 'Select Bigo2 From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Tong04.pas,4082,Tong04,Sqlen := 'Select Bigo2 From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,Tong06.pas,330,Tong06,Sqlen := 'Select Gnum1 From G7_Ggeo Where '+D_Select+'Gcode = ''@Gcode''';
+G7_Ggeo,from,Tong06.pas,365,Tong06,Sqlen := 'Select Gnum1 From G7_Ggeo Where '+D_Select+'Gcode = ''@Gcode''';
+G7_Ggeo,from,Tong06.pas,409,Tong06,Sqlen := 'Select Gnum1 From G7_Ggeo Where '+D_Select+'Gcode = ''@Gcode''';
+G7_Ggeo,from,Tong06.pas,423,Tong06,"Sqlen := 'Select Gnumb,Gname,Gposa,Gadd1,Gadd2,Gtel1,Gtel2,Gfax1,Gfax2 From G7_Ggeo '+"
+G7_Ggeo,from,Tong06.pas,876,Tong06,"Sqlen := 'Select Gnumb,Gname,Gposa,Gadd1,Gadd2,Gtel1,Gtel2,Gfax1,Gfax2 From G7_Ggeo '+"
+G7_Ggeo,from,Tong06.pas,1144,Tong06,"Sqlen := 'Select Gnumb,Gname,Gposa,Gadd1,Gadd2,Gtel1,Gtel2,Gfax1,Gfax2 From G7_Ggeo '+"
+G7_Ggeo,from,Tong06.pas,2319,Tong06,"Sqlen := 'Select Gadd1,Gadd2,Gtel1,Gtel2,Gname,Gbigo From G7_Ggeo Where '+D_Select+"
+G7_Ggeo,from,Tong06.pas,2686,Tong06,'From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,도서유통/book_kb(반품과)/Seak08_1.pas,74,Seak08_1,"'Gtel1,Gtel2,Gadd1,Gadd2 From G7_Ggeo Where '+D_Select+St1;"
+G7_Ggeo,from,도서유통/book_kb(반품과)/Seak08_1.pas,106,Seak08_1,"'Gtel1,Gtel2,Gadd1,Gadd2 From G7_Ggeo Where '+D_Select+St1;"
+G7_Ggeo,from,도서유통/book_kb(반품과)/Seak08_1.pas,139,Seak08_1,"'Gtel1,Gtel2,Gadd1,Gadd2 From G7_Ggeo Where '+D_Select+St1;"
+G7_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,416,Subu23_1,'From G7_Ggeo Where '+D_Select+Sp1+' Order By Gcode ';
+G7_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,441,Subu23_1,"Sqlen := 'Select Gcode as Hcode,Gname as Hname From G7_Ggeo Where '+D_Select+Sp1;"
+G7_Ggeo,from,도서유통/book_kb(반품과)/Subu23_1.pas,488,Subu23_1,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,552,Subu39,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,도서유통/book_kb(반품과)/Subu39.pas,791,Subu39,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode'' ';
+G7_Ggeo,from,도서유통/book_kb(반품과)/Subu55_1.pas,357,Subu55_1,'From G7_Ggeo Where '+D_Select+Sp1+' Order By Gcode ';
+G7_Ggeo,from,도서유통/book_kb(반품과)/Subu55_1.pas,459,Subu55_1,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G7_Ggeo,from,도서유통/book_kb(반품과)/Subu58_1.pas,356,Subu58_1,'From G7_Ggeo Where '+D_Select+Sp1+' Order By Gcode ';
+G7_Ggeo,from,도서유통/book_kb(반품과)/Subu58_1.pas,458,Subu58_1,Sqlen := 'Select Gname From G7_Ggeo Where '+D_Select+'Gcode=''@Gcode''';
+G8_Ggeo,from,Seek08.pas,85,Seek08,"Sqlen := 'Select Gcode,Gname,Gphon,Gtel1,Gtel2 From G8_Ggeo Where '+D_Select+St1;"
+Gg_Magn,from,Chul.pas,2056,Chul,"Sqlen :='Select Top,L11,L61,L62 From Gg_Magn Where '+'Gu'+'='+#39+'0'+#39;"
+Gg_Magn,from,Chul.pas,2088,Chul,"Sqlen :='Select Top,L11,L61,L62 From Gg_Magn Where '+'Gu'+'='+#39+'8'+#39;"
+Gg_Magn,from,Seak05.pas,56,Seak05,"Sqlen :='Select Top,L11,L61,L62 From Gg_Magn Where '+'Gu'+'='+#39+'0'+#39;"
+Gg_Magn,update,Seak05.pas,81,Seak05,Sqlen := 'UPDATE Gg_Magn SET '+
+Gg_Magn,from,Seak06.pas,299,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,322,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,338,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,355,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,371,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,387,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,409,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,429,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,452,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,474,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,494,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,509,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,528,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,550,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,567,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,592,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,615,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,637,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,653,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,675,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,697,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,from,Seak06.pas,719,Seak06,'From Gg_Magn Where Gu=''@Gu''';
+Gg_Magn,update,Seak06.pas,742,Seak06,'UPDATE Gg_Magn SET '+
+Gg_Magn,update,Seak06.pas,802,Seak06,'UPDATE Gg_Magn SET '+
+Gg_Magn,update,Seak06.pas,886,Seak06,'UPDATE Gg_Magn SET '+
+Gg_Magn,from,Seak06.pas,968,Seak06,Sqlen := 'Select * From Gg_Magn Where Gu'+'>='+#39+'1'+#39;
+Gg_Magn,update,Seep13.pas,426,Seep13,Sqlen := 'UPDATE Gg_Magn SET '+
+Gg_Magn,update,Seep13.pas,458,Seep13,Sqlen := 'UPDATE Gg_Magn SET '+
+Gg_Magn,update,Seep13.pas,490,Seep13,Sqlen := 'UPDATE Gg_Magn SET '+
+Gg_Magn,update,Seep13.pas,522,Seep13,Sqlen := 'UPDATE Gg_Magn SET '+
+Gg_Magn,update,Seep13.pas,554,Seep13,Sqlen := 'UPDATE Gg_Magn SET '+
+Gg_Magn,from,Tong04.pas,5466,Tong04,Sqlen := 'Select * From Gg_Magn Where Gu='+#39+Str+#39;
+Gg_Magn,from,Tong05.pas,197,Tong05,"Sqlen := 'Select F11,F12,F21,F22,F31,F32 From Gg_Magn '+"
+Gg_Magn,into,Tong05.pas,210,Tong05,Sqlen := 'INSERT INTO Gg_Magn '+
+Gg_Magn,update,Tong05.pas,223,Tong05,Sqlen := 'UPDATE Gg_Magn SET '+
+Gg_Megn,from,Seep11.pas,101,Seep11,"'Select Gubun,Gname,Gfild,Gnumb From Gg_Megn Where Gubun'+'='+#39+St0+#39;"
+Gg_Megn,into,Seep11.pas,337,Seep11,Sqlen := 'INSERT INTO Gg_Megn '+
+Gg_Megn,from,Seep11.pas,364,Seep11,Sqlen := 'DELETE FROM Gg_Megn WHERE Gubun=''@Gubun'' and Gname=''@Gname''';
+Gg_Megn,update,Seep11.pas,386,Seep11,Sqlen := 'UPDATE Gg_Megn SET '+
+Gg_Megn,from,Seep11.pas,409,Seep11,"Sqlen := 'Select Gubun,Gname,Gfild,Gnumb From Gg_Megn Where '+St1;"
+Gg_Megn,from,Seep11.pas,535,Seep11,"Sqlen := 'Select Gubun,Gname,Gfild,Gnumb From Gg_Megn Where '+St1;"
+Gg_Post,from,Seak04.pas,78,Seak04,'From Gg_Post Where '+St1;
+H1_Gbun,from,Base01.pas,8156,Base01,"Sqlen := 'Select %Gsum1,Gdate From H1_Gbun Where '+D_Select+"
+H1_Gbun,update,Base01.pas,8175,Base01,Sqlen := 'UPDATE H1_Gbun SET '+
+H1_Gbun,from,Seek06.pas,83,Seek06,Sqlen := 'Select * From H1_Gbun Where '+D_Select+St1;
+H1_Gbun,from,Seek06.pas,127,Seek06,Sqlen := 'Select * From H1_Gbun Where '+D_Select+St1;
+H1_Ssub,from,Data/Subu65.pas,384,Subu65,"St3:=St3+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St4+D_Select+St1+' ) as Gosum,';"
+H1_Ssub,from,Data/Subu65.pas,385,Subu65,St3:=St3+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St5+D_Select+St1+' ) as Gbsum ';
+H1_Ssub,from,Data/Subu65.pas,386,Subu65,St3:=St3+' From H1_Ssub S Where '+D_Select+St1;
+H1_Ssub,from,Data/Subu65.pas,393,Subu65,St3:=St3+' From H1_Ssub S Where '+D_Select+St1;
+H1_Ssub,from,Data/Subu66.pas,404,Subu66,"St3:=St3+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St4+D_Select+St1+' ) as Gosum,';"
+H1_Ssub,from,Data/Subu66.pas,405,Subu66,St3:=St3+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St5+D_Select+St1+' ) as Gbsum ';
+H1_Ssub,from,Data/Subu66.pas,406,Subu66,St3:=St3+' From H1_Ssub S Where '+D_Select+St1;
+H1_Ssub,from,Data/Subu66.pas,413,Subu66,St3:=St3+' From H1_Ssub S Where '+D_Select+St1;
+H1_Ssub,from,Subu62.pas,414,Subu62,"St3:=St3+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St4+D_Select+St1+' ) as Gosum,';"
+H1_Ssub,from,Subu62.pas,415,Subu62,St3:=St3+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St5+D_Select+St1+' ) as Gbsum ';
+H1_Ssub,from,Subu62.pas,416,Subu62,St3:=St3+' From H1_Ssub S Where '+D_Select+St1;
+H1_Ssub,from,Subu62.pas,423,Subu62,St3:=St3+' From H1_Ssub S Where '+D_Select+St1;
+H1_Ssub,from,Tong04.pas,2131,Tong04,"St1:=St1+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St2+D_Select+_S1_Ssub+' ) as Gosum,';"
+H1_Ssub,from,Tong04.pas,2132,Tong04,St1:=St1+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St3+D_Select+_S1_Ssub+' ) as Gbsum ';
+H1_Ssub,from,Tong04.pas,2133,Tong04,St1:=St1+' From H1_Ssub S Where '+D_Select+_S1_Ssub;
+H1_Ssub,from,Tong04.pas,2141,Tong04,St1:=St1+' From H1_Ssub S Where '+D_Select+_S1_Ssub;
+H1_Ssub,from,Tong04.pas,5523,Tong04,"'From H1_Ssub Where '+D_Select+_H1_Ssub+' Group By Ocode,Gubun ';"
+H1_Ssub,from,Tong04.pas,6029,Tong04,"St4:=St4+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St5+D_Select+_S1_Ssub+' ) as Gosum,';"
+H1_Ssub,from,Tong04.pas,6030,Tong04,St4:=St4+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St6+D_Select+_S1_Ssub+' ) as Gbsum ';
+H1_Ssub,from,Tong04.pas,6031,Tong04,St4:=St4+' From H1_Ssub S Where '+D_Select+_S1_Ssub;
+H1_Ssub,from,Tong04.pas,6039,Tong04,St4:=St4+' From H1_Ssub S Where '+D_Select+_S1_Ssub;
+H1_Ssub,from,Tong04.pas,6411,Tong04,"St4:=St4+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St5+D_Select+_S1_Ssub+' ) as Gosum,';"
+H1_Ssub,from,Tong04.pas,6412,Tong04,St4:=St4+'(Select Sum(Gssum) From H1_Ssub Y Where S.Gcode=Y.Gcode and '+St6+D_Select+_S1_Ssub+' ) as Gbsum ';
+H1_Ssub,from,Tong04.pas,6413,Tong04,St4:=St4+' From H1_Ssub S Where '+D_Select+_S1_Ssub;
+H1_Ssub,from,Tong04.pas,6421,Tong04,St4:=St4+' From H1_Ssub S Where '+D_Select+_S1_Ssub;
+H1_Ssub,from,Tong04.pas,6488,Tong04,'From H1_Ssub Where '+D_Select+St1+' Order By Gdate ';
+H2_Gbun,from,Base01.pas,5849,Base01,Sqlen := 'DELETE FROM H2_Gbun WHERE ID=@ID ';
+H2_Gbun,into,Base01.pas,5866,Base01,Sqlen := 'INSERT INTO H2_Gbun '+
+H2_Gbun,update,Base01.pas,5882,Base01,Sqlen := 'UPDATE H2_Gbun SET '+
+H2_Gbun,from,Base01.pas,5929,Base01,Sqlen := 'DELETE FROM H2_Gbun WHERE ID=@ID ';
+H2_Gbun,into,Base01.pas,5946,Base01,Sqlen := 'INSERT INTO H2_Gbun '+
+H2_Gbun,update,Base01.pas,5962,Base01,Sqlen := 'UPDATE H2_Gbun SET '+
+H2_Gbun,from,Data/Subu63.pas,371,Subu63,"Sqlen := 'Select Hcode,Scode,Gcode,Gname,Jubun,Gdate From H2_Gbun Where '+D_Open;"
+H2_Gbun,from,Data/Subu64.pas,397,Subu64,"Sqlen := 'Select Hcode,Scode,Gcode,Gname,Jubun,Gdate From H2_Gbun Where '+D_Open;"
+H2_Gbun,from,Seek06.pas,73,Seek06,Sqlen := 'Select * From H2_Gbun Where '+D_Select+St1;
+H2_Gbun,from,Seek06.pas,117,Seek06,Sqlen := 'Select * From H2_Gbun Where '+D_Select+St1;
+H2_Gbun,from,Seek07.pas,168,Seek07,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Seek07.pas,254,Seek07,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Seok01.pas,73,Seok01,Sqlen :='Select * From H2_Gbun Where '+D_Select+St1+St2;
+H2_Gbun,from,Seok01.pas,139,Seok01,Sqlen := 'DELETE FROM H2_Gbun WHERE ID=@ID';
+H2_Gbun,into,Seok01.pas,156,Seok01,Sqlen := 'INSERT INTO H2_Gbun '+
+H2_Gbun,update,Seok01.pas,180,Seok01,Sqlen := 'UPDATE H2_Gbun SET '+
+H2_Gbun,from,Subu13_1.pas,325,Subu13_1,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu20.pas,592,Subu20,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu20.pas,644,Subu20,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu20.pas,696,Subu20,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu21.pas,468,Subu21,Sqlen := 'Select Gbigo From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu21.pas,898,Subu21,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu21.pas,966,Subu21,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu21.pas,1611,Subu21,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu22.pas,762,Subu22,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu22.pas,830,Subu22,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu22.pas,1450,Subu22,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu22_1.pas,535,Subu22_1,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu22_1.pas,588,Subu22_1,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu22_2.pas,544,Subu22_2,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu22_2.pas,597,Subu22_2,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu23.pas,767,Subu23,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu23.pas,835,Subu23,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu23.pas,1463,Subu23,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu26.pas,932,Subu26,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu27.pas,789,Subu27,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu27.pas,818,Subu27,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu27.pas,1071,Subu27,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu27.pas,1100,Subu27,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu45.pas,513,Subu45,"Sqlen := 'Select Hcode,Scode,Gcode,Gname,Jubun,Gdate From H2_Gbun Where '+D_Open;"
+H2_Gbun,from,Subu45_1.pas,554,Subu45_1,"Sqlen := 'Select Hcode,Scode,Gcode,Gname,Jubun,Gdate From H2_Gbun Where '+D_Open;"
+H2_Gbun,from,Subu91.pas,892,Subu91,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu91.pas,960,Subu91,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu91.pas,1605,Subu91,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,Subu96.pas,968,Subu96,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu97.pas,837,Subu97,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu97.pas,863,Subu97,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu99.pas,396,Subu99,"Sqlen := 'Select Hcode,Scode,Gcode,Gname,Jubun,Gdate From H2_Gbun Where '+D_Open;"
+H2_Gbun,from,Subu99.pas,801,Subu99,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Subu99.pas,827,Subu99,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Tong06.pas,346,Tong06,Sqlen := 'Select Gnum1 From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Tong06.pas,376,Tong06,Sqlen := 'Select Gnum1 From H2_Gbun Where '+D_Select+
+H2_Gbun,from,Tong06.pas,398,Tong06,Sqlen := 'Select Gnum1 From H2_Gbun Where '+D_Select+
+H2_Gbun,from,도서유통/book_kb(반품과)/Subu23_1.pas,951,Subu23_1,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,도서유통/book_kb(반품과)/Subu23_1.pas,1031,Subu23_1,"Sqlen := 'Select Gname,Jubun From H2_Gbun Where '+D_Select+St1+' Order By Oname,Gname';"
+H2_Gbun,from,도서유통/book_kb(반품과)/Subu39.pas,401,Subu39,"Sqlen := 'Select Hcode,Scode,Gcode,Gname,Jubun,Gdate From H2_Gbun Where '+D_Open;"
+H2_Gbun,from,도서유통/book_kb(반품과)/Subu39.pas,850,Subu39,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H2_Gbun,from,도서유통/book_kb(반품과)/Subu39.pas,883,Subu39,Sqlen := 'Select Gdate From H2_Gbun Where '+D_Select+
+H5_Bang,from,Base01.pas,8261,Base01,"Sqlen := 'Select %Gsum1,Gdate From H5_Bang Where '+D_Select+"
+H5_Bang,update,Base01.pas,8279,Base01,Sqlen := 'UPDATE H5_Bang SET '+
+Id_Logn,from,Base01.pas,8930,Base01,Sqlen :='Select @F11 From Id_Logn Where '+
+Id_Logn,from,Chul.pas,430,Chul,"Sqlen :='Select Hcode,Hname,Gpass From Id_Logn '+"
+Id_Logn,from,Chul.pas,1724,Chul,Sqlen:='Select Gpass From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,update,Chul.pas,1732,Chul,Sqlen := 'UPDATE Id_Logn SET Gcode=''@Gcode'' '+
+Id_Logn,from,Chul.pas,2451,Chul,"Sqlen :='Select Hcode,Hname,Gpass From Id_Logn '+"
+Id_Logn,update,Chul.pas,2460,Chul,"Sqlen := 'UPDATE Id_Logn SET Gcode=''@Gcode'',Gname=''@Gname'',Gpass=''@Gpass'' '+"
+Id_Logn,from,Chul.pas,3028,Chul,Sqlen:='Select Gname From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Chul.pas,3127,Chul,Sqlen:='Select Gpass From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Chul.pas,3160,Chul,Sqlen:='Select Gpass From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Chul.pas,3193,Chul,Sqlen:='Select Gpass From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Chul.pas,3278,Chul,Sqlen:='Select Gname From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Chul.pas,3345,Chul,Sqlen:='Select Gname From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Chul.pas,3377,Chul,Sqlen:='Select Gpass From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Chul.pas,3421,Chul,Sqlen:='Select Gname From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Chul.pas,3457,Chul,Sqlen:='Select Gpass From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Chul.pas,3492,Chul,Sqlen:='Select Gpass From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Subu17.pas,1802,Subu17,Sqlen:='Select Gpass From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,from,Subu17_1.pas,1791,Subu17_1,Sqlen:='Select Gpass From Id_Logn Where '+D_Select+'Hcode=''@Hcode''';
+Id_Logn,update,Subu45.pas,364,Subu45,Sqlen := 'UPDATE Id_Logn SET Gpass=''@Gpass'' '+
+Me_Sage,from,Chul.pas,4191,Chul,"Sqlen := 'Select Date1,Date2 From Me_Sage Where Hcode=''@Hcode'' and Date1<=''@Date1'' and Date2>=''@Date2'' ';"
+Me_Sage,from,Chul.pas,4204,Chul,"Sqlen := 'Select Date1,Date2 From Me_Sage Where Hcode=''@Hcode'' and Date1<=''@Date1'' and Date2>=''@Date2'' ';"
+Me_Sage,from,Chul.pas,4219,Chul,"Sqlen := 'Select Date1,Date2 From Me_Sage Where Hcode=''@Hcode'' and Date1<=''@Date1'' and Date2>=''@Date2'' ';"
+Me_Sage,from,Seok03.pas,357,Seok03,"Sqlen := 'Select Hcode,Count(*) From Me_Sage '+' Group by Hcode'"
+Me_Sage,from,Seok03.pas,359,Seok03,"Sqlen := 'Select Hcode,Count(*) From Me_Sage Where '+D_Open+' Group by Hcode';"
+Me_Sage,from,Seok03.pas,396,Seok03,Sqlen := 'Select Gdate From Me_Sage Where '+D_Select+'Hcode=''@Hcode'' Order By Gdate DESC'
+Me_Sage,from,Seok03.pas,398,Seok03,Sqlen := 'Select Gdate From Me_Sage Where '+D_Open+' and '+D_Select+'Hcode=''@Hcode'' Order By Gdate DESC';
+Me_Sage,from,Seok03.pas,421,Seok03,"Sql.add('Select Date1,Date2,Gbigo From Me_Sage ');"
+Me_Sage,from,Seok03.pas,447,Seok03,Sqlen := 'Select Gdate From Me_Sage Where '+D_Select+'Hcode=''@Hcode'' and Gdate=''@Gdate'' and `Check`=''@Check'' ';
+Me_Sage,update,Seok03.pas,459,Seok03,Sql.add('UPDATE Me_Sage SET ');
+Me_Sage,into,Seok03.pas,483,Seok03,Sql.add('INSERT INTO Me_Sage ');
+Me_Sage,from,Seok03.pas,510,Seok03,Sqlen := 'Select Gdate From Me_Sage Where '+D_Select+'Hcode=''@Hcode'' and Gdate=''@Gdate'' ';
+Me_Sage,update,Seok03.pas,521,Seok03,Sql.add('UPDATE Me_Sage SET ');
+Me_Sage,into,Seok03.pas,543,Seok03,Sql.add('INSERT INTO Me_Sage ');
+Me_Sage,from,Seok03.pas,577,Seok03,Sqlen := 'DELETE From Me_Sage '+
+Me_Sage,from,Seok04.pas,50,Seok04,Sql.add('Select Gbigo From Me_Sage ');
+Me_Sage,from,Seok04.pas,65,Seok04,Sql.add('Select Gbigo From Me_Sage ');
+Me_Sage,from,Seok04.pas,172,Seok04,"Sqlen := 'Select Date1,Date2 From Me_Sage Where Hcode=''@Hcode'' and Date1<=''@Date1'' and Date2>=''@Date2'' ';"
+Me_Sage,from,Seok04.pas,186,Seok04,"Sqlen := 'Select Date1,Date2 From Me_Sage Where Hcode=''@Hcode'' and Date1<=''@Date1'' and Date2>=''@Date2'' ';"
+S1_Chek,from,Subu59_1.pas,454,Subu59_1,"Sqlen := 'Select Yesno,Time1 From S1_Chek Where '+D_Select+"
+S1_Chek,from,Subu59_1.pas,745,Subu59_1,Sqlen := 'Select Time1 From S1_Chek Where '+D_Select+
+S1_Chek,into,Subu59_1.pas,759,Subu59_1,Sqlen := 'INSERT INTO S1_Chek '+
+S1_Chek,from,Subu59_1.pas,781,Subu59_1,Sqlen := 'Select Time1 From S1_Chek Where '+D_Select+
+S1_Chek,update,Subu59_1.pas,801,Subu59_1,Sqlen := 'UPDATE S1_Chek SET '+
+S1_Chek,from,Subu59_2.pas,442,Subu59_2,"Sqlen := 'Select Yesno,Gnumb From S1_Chek Where '+D_Select+"
+S1_Chek,from,Subu59_2.pas,466,Subu59_2,Sqlen := 'Select Time1 From S1_Chek Where '+D_Select+
+S1_Chek,into,Subu59_2.pas,533,Subu59_2,Sqlen := 'INSERT INTO S1_Chek '+
+S1_Chek,from,Subu59_2.pas,555,Subu59_2,Sqlen := 'Select Time1 From S1_Chek Where '+D_Select+
+S1_Chek,update,Subu59_2.pas,597,Subu59_2,Sqlen := 'UPDATE S1_Chek SET '+
+S1_Chek,from,Subu59_3.pas,533,Subu59_3,"Sqlen := 'Select Yesno,Gnumb From S1_Chek Where '+D_Select+"
+S1_Chek,from,Subu59_3.pas,564,Subu59_3,Sqlen := 'Select Time1 From S1_Chek Where '+D_Select+
+S1_Chek,into,Subu59_3.pas,636,Subu59_3,Sqlen := 'INSERT INTO S1_Chek '+
+S1_Chek,from,Subu59_3.pas,659,Subu59_3,Sqlen := 'Select Time1 From S1_Chek Where '+D_Select+
+S1_Chek,update,Subu59_3.pas,780,Subu59_3,Sqlen := 'UPDATE S1_Chek SET '+
+S1_Chek,from,도서유통/book_kb(반품과)/Subu39.pas,646,Subu39,Sqlen := 'Select Gnumb From S1_Chek Where '+
+S1_Memo,update,Subu20.pas,364,Subu20,Sqlon := 'UPDATE S1_Memo SET '+
+S1_Memo,from,Subu21.pas,658,Subu21,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname,Gpost From S1_Memo Where '+D_Select+"
+S1_Memo,from,Subu21.pas,1302,Subu21,Sqlen := 'Select Gbigo From S1_Memo Where '+D_Select+
+S1_Memo,update,Subu21.pas,1321,Subu21,"'UPDATE S1_Memo SET Gbigo=''@Gbigo'' ,Sbigo=''@Sbigo'' ,Gtel1=''@Gtel1'','+"
+S1_Memo,into,Subu21.pas,1364,Subu21,'INSERT INTO S1_Memo '+
+S1_Memo,from,Subu22.pas,524,Subu22,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname,Gpost From S1_Memo Where '+D_Select+"
+S1_Memo,from,Subu22.pas,1151,Subu22,Sqlen := 'Select Gbigo From S1_Memo Where '+D_Select+
+S1_Memo,update,Subu22.pas,1170,Subu22,"'UPDATE S1_Memo SET Gbigo=''@Gbigo'' ,Sbigo=''@Sbigo'' ,Gtel1=''@Gtel1'','+"
+S1_Memo,into,Subu22.pas,1213,Subu22,'INSERT INTO S1_Memo '+
+S1_Memo,from,Subu23.pas,528,Subu23,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname,Gpost From S1_Memo Where '+D_Select+"
+S1_Memo,from,Subu23.pas,1164,Subu23,Sqlen := 'Select Gbigo From S1_Memo Where '+D_Select+
+S1_Memo,update,Subu23.pas,1183,Subu23,"'UPDATE S1_Memo SET Gbigo=''@Gbigo'' ,Sbigo=''@Sbigo'' ,Gtel1=''@Gtel1'','+"
+S1_Memo,into,Subu23.pas,1226,Subu23,'INSERT INTO S1_Memo '+
+S1_Memo,from,Subu26.pas,603,Subu26,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname,Gpost From S1_Memo Where '+D_Select+"
+S1_Memo,from,Subu26.pas,685,Subu26,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname From S1_Memo Where '+D_Select+"
+S1_Memo,update,Subu26.pas,704,Subu26,"'UPDATE S1_Memo SET Gbigo=''@Gbigo'' ,Sbigo=''@Sbigo'' ,Gtel1=''@Gtel1'','+"
+S1_Memo,into,Subu26.pas,747,Subu26,'INSERT INTO S1_Memo '+
+S1_Memo,from,Subu28.pas,490,Subu28,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname From S1_Memo Where '+D_Select+"
+S1_Memo,from,Subu29.pas,884,Subu29,Sqlen := 'Select Gbigo From S1_Memo Where '+D_Select+
+S1_Memo,update,Subu29.pas,903,Subu29,"'UPDATE S1_Memo SET Gbigo=''@Gbigo'' ,Sbigo=''@Sbigo'' ,'+"
+S1_Memo,into,Subu29.pas,942,Subu29,'INSERT INTO S1_Memo '+
+S1_Memo,from,Subu91.pas,652,Subu91,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname,Gpost From S1_Memo Where '+D_Select+"
+S1_Memo,from,Subu91.pas,1296,Subu91,Sqlen := 'Select Gbigo From S1_Memo Where '+D_Select+
+S1_Memo,update,Subu91.pas,1315,Subu91,"'UPDATE S1_Memo SET Gbigo=''@Gbigo'' ,Sbigo=''@Sbigo'' ,Gtel1=''@Gtel1'','+"
+S1_Memo,into,Subu91.pas,1358,Subu91,'INSERT INTO S1_Memo '+
+S1_Memo,from,Subu96.pas,648,Subu96,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname,Gpost From S1_Memo Where '+D_Select+"
+S1_Memo,from,Subu96.pas,730,Subu96,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname From S1_Memo Where '+D_Select+"
+S1_Memo,update,Subu96.pas,749,Subu96,"'UPDATE S1_Memo SET Gbigo=''@Gbigo'' ,Sbigo=''@Sbigo'' ,Gtel1=''@Gtel1'','+"
+S1_Memo,into,Subu96.pas,792,Subu96,'INSERT INTO S1_Memo '+
+S1_Memo,from,Subu98.pas,471,Subu98,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname From S1_Memo Where '+D_Select+"
+S1_Memo,from,Tong06.pas,479,Tong06,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname From S1_Memo Where '+D_Select+"
+S1_Memo,from,Tong06.pas,909,Tong06,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname,Gpost From S1_Memo Where '+D_Select+"
+S1_Memo,from,Tong06.pas,916,Tong06,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname From S1_Memo Where '+D_Select+"
+S1_Memo,from,Tong06.pas,2251,Tong06,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname From S1_Memo Where '+D_Select+"
+S1_Memo,from,도서유통/book_kb(반품과)/Subu23_1.pas,691,Subu23_1,"Sqlen := 'Select Gbigo,Sbigo,Gtel1,Gtel2,Gname,Gpost From S1_Memo Where '+D_Select+"
+S1_Memo,from,도서유통/book_kb(반품과)/Subu23_1.pas,1364,Subu23_1,Sqlen := 'Select Gbigo From S1_Memo Where '+D_Select+
+S1_Memo,update,도서유통/book_kb(반품과)/Subu23_1.pas,1383,Subu23_1,"'UPDATE S1_Memo SET Gbigo=''@Gbigo'' ,Sbigo=''@Sbigo'' ,Gtel1=''@Gtel1'','+"
+S1_Memo,into,도서유통/book_kb(반품과)/Subu23_1.pas,1426,Subu23_1,'INSERT INTO S1_Memo '+
+S1_Ssub,from,Base01.pas,4784,Base01,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Base01.pas,4795,Base01,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,into,Base01.pas,4819,Base01,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,Base01.pas,4860,Base01,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Base01.pas,4933,Base01,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Base01.pas,4940,Base01,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,into,Base01.pas,4960,Base01,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,Base01.pas,4998,Base01,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Base01.pas,5068,Base01,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Base01.pas,5075,Base01,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,into,Base01.pas,5097,Base01,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,Base01.pas,5135,Base01,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Base01.pas,5206,Base01,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Base01.pas,5213,Base01,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,into,Base01.pas,5233,Base01,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,Base01.pas,5271,Base01,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Base01.pas,5344,Base01,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Bdate=''@Gdate''';
+S1_Ssub,update,Base01.pas,5351,Base01,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Bdate=''@Gdate''';
+S1_Ssub,into,Base01.pas,5371,Base01,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,Base01.pas,5409,Base01,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Base01.pas,5478,Base01,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Base01.pas,5489,Base01,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Base01.pas,5522,Base01,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Base01.pas,5718,Base01,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Base01.pas,5725,Base01,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,into,Base01.pas,5745,Base01,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,Base01.pas,5783,Base01,Sqlen := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Base01.pas,8700,Base01,Str := 'Select ID From S1_Ssub Where ID=@ID';
+S1_Ssub,from,Base01.pas,8713,Base01,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Base01.pas,8730,Base01,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,update,Base01.pas,8741,Base01,Sqlen := 'UPDATE S1_Ssub SET Idnum=@Idnum '+
+S1_Ssub,from,Base01.pas,8758,Base01,"Sqlen := 'Select Max(Idnum),Max(Icode) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Base01.pas,8784,Base01,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,update,Base01.pas,8800,Base01,"Sqlen := 'UPDATE S1_Ssub SET Idnum=@Idnum, Icode=@Icode '+"
+S1_Ssub,from,Data/Subu63.pas,417,Subu63,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Data/Subu64.pas,443,Subu64,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Data/Subu65.pas,323,Subu65,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Data/Subu65.pas,468,Subu65,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Data/Subu66.pas,323,Subu66,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Data/Subu66.pas,491,Subu66,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Seek07.pas,396,Seek07,"Sqlen := 'Select Gcode,Gjisa,Grat1,Gsqut From S1_Ssub Where '+D_Select+St1;"
+S1_Ssub,from,Seok02.pas,80,Seok02,"'From S1_Ssub S, G1_Ggeo Y '+"
+S1_Ssub,from,Seok02.pas,113,Seok02,"'From S1_Ssub S, G1_Ggeo Y '+"
+S1_Ssub,update,Subu20.pas,332,Subu20,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Subu21.pas,281,Subu21,"Sqlen := 'Select Time3,Time4 From S1_Ssub Where '+D_Select+"
+S1_Ssub,update,Subu21.pas,326,Subu21,Sqlen := 'UPDATE S1_Ssub SET Time4= now() '+
+S1_Ssub,from,Subu21.pas,362,Subu21,"Sqlen := 'Select Time3,Time4 From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu21.pas,495,Subu21,Sqlen := 'Select * From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu21.pas,860,Subu21,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu21.pas,878,Subu21,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu21.pas,928,Subu21,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu21.pas,946,Subu21,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu21.pas,1573,Subu21,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu21.pas,1591,Subu21,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,update,Subu22.pas,236,Subu22,Sqlen := 'UPDATE S1_Ssub SET Time4= now() '+
+S1_Ssub,from,Subu22.pas,376,Subu22,Sqlen := 'Select * From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu22.pas,724,Subu22,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu22.pas,742,Subu22,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu22.pas,792,Subu22,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu22.pas,810,Subu22,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu22.pas,1412,Subu22,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu22.pas,1430,Subu22,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,update,Subu23.pas,285,Subu23,Sqlen := 'UPDATE S1_Ssub SET Time4= now() '+
+S1_Ssub,from,Subu23.pas,364,Subu23,Sqlen := 'Select * From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu23.pas,380,Subu23,Sqlen := 'Select * From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu23.pas,729,Subu23,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu23.pas,747,Subu23,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu23.pas,797,Subu23,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu23.pas,815,Subu23,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu23.pas,1425,Subu23,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu23.pas,1443,Subu23,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu24.pas,298,Subu24,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu25.pas,300,Subu25,'From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu26.pas,442,Subu26,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu26.pas,814,Subu26,"Sqlen := 'Select Gcode,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu26.pas,1090,Subu26,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,update,Subu26.pas,1103,Subu26,"Sqlen := 'UPDATE S1_Ssub SET Yesno=''@Yesno'' ,Time4= now()'+"
+S1_Ssub,from,Subu27.pas,380,Subu27,"Sqlen := 'Select Hcode,Count(*) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu27.pas,416,Subu27,"Sqlen := 'Select Hcode,Count(*) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu27.pas,453,Subu27,"Sqlen := 'Select Hcode,Gcode,Jubun,Gjisa,Count(*) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu27.pas,493,Subu27,"Sqlen := 'Select Hcode,Gcode,Jubun,Gjisa,Count(*) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu27.pas,566,Subu27,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,update,Subu27.pas,632,Subu27,"Sqlen := 'UPDATE S1_Ssub SET Yesno=''@Yesno'' ,Time3= now()'+"
+S1_Ssub,from,Subu27.pas,702,Subu27,"Sqlen := 'Select Gcode,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu27.pas,984,Subu27,"Sqlen := 'Select Gcode,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu27.pas,1280,Subu27,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,from,Subu28.pas,366,Subu28,"'From S1_Ssub S, G1_Ggeo Y '+"
+S1_Ssub,from,Subu28.pas,419,Subu28,"'From S1_Ssub S, G1_Ggeo Y '+"
+S1_Ssub,from,Subu29.pas,350,Subu29,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1;
+S1_Ssub,from,Subu29.pas,488,Subu29,"Sqlen := 'Select Gdate,Bcode,Jubun From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu31.pas,367,Subu31,"'From S1_Ssub Where '+D_Select+St1+' Order By Gdate,Jubun,Id ';"
+S1_Ssub,from,Subu31.pas,468,Subu31,"'From S1_Ssub Where '+D_Select+St1+' Order By Bdate,Jubun,Id ';"
+S1_Ssub,from,Subu31.pas,750,Subu31,"'From S1_Ssub Where '+D_Select+St1+' Order By Gdate,Jubun,Id ';"
+S1_Ssub,from,Subu31.pas,1065,Subu31,"'From S1_Ssub Where '+D_Select+St1+' Order By Gdate,Jubun,Gubun,Gjisa DESC,Id ';"
+S1_Ssub,from,Subu31.pas,1219,Subu31,"'From S1_Ssub Where '+D_Select+St1+' Order By Bdate,Jubun,Gubun,Gjisa DESC,Id ';"
+S1_Ssub,from,Subu31.pas,1469,Subu31,"'From S1_Ssub Where '+D_Select+St1+' Order By Gdate,Jubun,Gubun,Gjisa DESC,Id ';"
+S1_Ssub,from,Subu32.pas,393,Subu32,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu32.pas,521,Subu32,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu32.pas,858,Subu32,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu32.pas,1438,Subu32,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu32.pas,1542,Subu32,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu33.pas,376,Subu33,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu33.pas,504,Subu33,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu33.pas,916,Subu33,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_1.pas,370,Subu34_1,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_1.pas,498,Subu34_1,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_1.pas,920,Subu34_1,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_2.pas,394,Subu34_2,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_2.pas,567,Subu34_2,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_2.pas,741,Subu34_2,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_2.pas,1261,Subu34_2,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_2.pas,1392,Subu34_2,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_3.pas,394,Subu34_3,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_3.pas,567,Subu34_3,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_3.pas,741,Subu34_3,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_3.pas,1261,Subu34_3,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_3.pas,1392,Subu34_3,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_4.pas,395,Subu34_4,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_4.pas,568,Subu34_4,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_4.pas,742,Subu34_4,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_4.pas,1263,Subu34_4,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_4.pas,1394,Subu34_4,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu34_4.pas,2255,Subu34_4,'From S1_Ssub Where '+D_Select+_S1_Ssub+
+S1_Ssub,from,Subu34_4.pas,2342,Subu34_4,'From S1_Ssub Where '+D_Select+_S1_Ssub+
+S1_Ssub,from,Subu45.pas,672,Subu45,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut,Substring(S.Gdate,9,2) From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,from,Subu45.pas,708,Subu45,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut,Substring(S.Gdate,9,2) From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,from,Subu45.pas,771,Subu45,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45.pas,783,Subu45,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45.pas,1113,Subu45,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45.pas,1126,Subu45,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45.pas,1386,Subu45,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45.pas,1398,Subu45,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45.pas,1756,Subu45,"Sqlen:='Select Substring(Bdate,9,2),Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45.pas,3263,Subu45,Sqlen:='Select Count(Distinct Bcode) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu45.pas,3277,Subu45,Sqlen:='Select Count(Distinct Bcode) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu45.pas,3293,Subu45,"Sqlen := 'Select Gdate,Gcode,Gubun,Gjisa,Jubun,Round(Count(*)/11 + 0.45) From S1_Ssub '+"
+S1_Ssub,from,Subu45.pas,4340,Subu45,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu45.pas,4446,Subu45,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu45_1.pas,693,Subu45_1,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut,Substring(S.Gdate,9,2) From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,from,Subu45_1.pas,729,Subu45_1,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut,Substring(S.Gdate,9,2) From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,from,Subu45_1.pas,792,Subu45_1,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45_1.pas,804,Subu45_1,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45_1.pas,1146,Subu45_1,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45_1.pas,1159,Subu45_1,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45_1.pas,1403,Subu45_1,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45_1.pas,1415,Subu45_1,"Sqlen:='Select Substring(Gdate,9,2),Gcode,Jubun,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45_1.pas,1750,Subu45_1,"Sqlen:='Select Substring(Bdate,9,2),Sum(Gsqut) From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu45_1.pas,3178,Subu45_1,Sqlen:='Select Count(Distinct Bcode) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu45_1.pas,3192,Subu45_1,Sqlen:='Select Count(Distinct Bcode) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu45_1.pas,3208,Subu45_1,"Sqlen := 'Select Gdate,Gcode,Gubun,Gjisa,Jubun,Round(Count(*)/11 + 0.45) From S1_Ssub '+"
+S1_Ssub,from,Subu45_1.pas,4255,Subu45_1,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu45_1.pas,4361,Subu45_1,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu53.pas,324,Subu53,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,Subu53.pas,349,Subu53,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu54.pas,310,Subu54,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,Subu54.pas,335,Subu54,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu55.pas,313,Subu55,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,Subu55.pas,338,Subu55,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu56.pas,331,Subu56,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,Subu56.pas,356,Subu56,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu57.pas,322,Subu57,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,Subu57.pas,347,Subu57,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu58.pas,321,Subu58,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,Subu58.pas,346,Subu58,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu59.pas,381,Subu59,"'From S1_Ssub S, G1_Ggeo Y '+"
+S1_Ssub,from,Subu59.pas,407,Subu59,"'From S1_Ssub S, G1_Ggeo Y '+"
+S1_Ssub,from,Subu59.pas,494,Subu59,"'From S1_Ssub S, G1_Ggeo Y '+"
+S1_Ssub,from,Subu59.pas,520,Subu59,"'From S1_Ssub S, G1_Ggeo Y '+"
+S1_Ssub,from,Subu59_1.pas,345,Subu59_1,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,Subu59_1.pas,373,Subu59_1,' From S1_Ssub Where '+D_Select+St1+St3;
+S1_Ssub,from,Subu59_2.pas,397,Subu59_2,' From S1_Ssub Where '+D_Select+St1+St3;
+S1_Ssub,from,Subu59_2.pas,484,Subu59_2,"Sqlen := 'Select ID,Icode From S1_Ssub Where '+D_Select+"
+S1_Ssub,from,Subu59_2.pas,752,Subu59_2,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu59_2.pas,894,Subu59_2,"Sqlen := 'Select Hcode,Gdate,Scode,Gcode,Gubun,Jubun,Gjisa From S1_Ssub Where '+D_Select+'Icode=@Icode ';"
+S1_Ssub,from,Subu59_2.pas,908,Subu59_2,"Sqlen := 'Select Hcode,Gdate,Scode,Gcode,Gubun,Jubun,Gjisa From S1_Ssub Where '+D_Select+'ID=@Icode ';"
+S1_Ssub,from,Subu59_3.pas,425,Subu59_3,' From S1_Ssub Where '+D_Select+St1+St3;
+S1_Ssub,from,Subu59_3.pas,1004,Subu59_3,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu59_3.pas,1142,Subu59_3,"Sqlen := 'Select Hcode,Gdate,Scode,Gcode,Gubun,Jubun,Gjisa From S1_Ssub Where '+D_Select+'Icode=@Icode ';"
+S1_Ssub,from,Subu59_3.pas,1156,Subu59_3,"Sqlen := 'Select Hcode,Gdate,Scode,Gcode,Gubun,Jubun,Gjisa From S1_Ssub Where '+D_Select+'ID=@Icode ';"
+S1_Ssub,from,Subu61.pas,325,Subu61,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu61.pas,503,Subu61,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu62.pas,331,Subu62,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu62.pas,503,Subu62,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu67.pas,325,Subu67,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu67.pas,509,Subu67,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu68.pas,327,Subu68,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu68.pas,481,Subu68,'From S1_Ssub Where '+D_Select+St1+
+S1_Ssub,from,Subu68.pas,488,Subu68,'From S1_Ssub Where '+D_Select+St1+' and '+'Gjisa'+'='+#39+nSqry.FieldByName('Gjisa').AsString+#39+
+S1_Ssub,update,Subu91.pas,370,Subu91,Sqlen := 'UPDATE S1_Ssub SET Time4= now() '+
+S1_Ssub,from,Subu91.pas,489,Subu91,Sqlen := 'Select * From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu91.pas,854,Subu91,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu91.pas,872,Subu91,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu91.pas,922,Subu91,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu91.pas,940,Subu91,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu91.pas,1567,Subu91,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu91.pas,1585,Subu91,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,Subu91.pas,1700,Subu91,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Subu91.pas,1711,Subu91,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,into,Subu91.pas,1735,Subu91,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,Subu91.pas,1775,Subu91,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Subu93.pas,373,Subu93,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,Subu93.pas,398,Subu93,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu96.pas,514,Subu96,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,Subu96.pas,859,Subu96,"Sqlen := 'Select Gcode,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu96.pas,1112,Subu96,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,update,Subu96.pas,1125,Subu96,"Sqlen := 'UPDATE S1_Ssub SET Yesno=''@Yesno'' ,Time4= now()'+"
+S1_Ssub,from,Subu96.pas,1654,Subu96,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Subu96.pas,1665,Subu96,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,Subu96.pas,1698,Subu96,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,Subu97.pas,434,Subu97,"Sqlen := 'Select Hcode,Count(*) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu97.pas,470,Subu97,"Sqlen := 'Select Hcode,Count(*) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu97.pas,507,Subu97,"Sqlen := 'Select Hcode,Gcode,Jubun,Gjisa,Count(*) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu97.pas,547,Subu97,"Sqlen := 'Select Hcode,Gcode,Jubun,Gjisa,Count(*) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu97.pas,620,Subu97,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,update,Subu97.pas,681,Subu97,"Sqlen := 'UPDATE S1_Ssub SET Yesno=''@Yesno'' ,Time3= now()'+"
+S1_Ssub,from,Subu97.pas,750,Subu97,"Sqlen := 'Select Gcode,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu97.pas,1017,Subu97,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,from,Subu98.pas,346,Subu98,"'From S1_Ssub S, G5_Ggeo Y '+"
+S1_Ssub,from,Subu98.pas,400,Subu98,"'From S1_Ssub S, G5_Ggeo Y '+"
+S1_Ssub,from,Subu99.pas,462,Subu99,"Sqlen := 'Select Hcode,Gcode,Gjisa,Jubun,Sum(Gsqut)as Gsqut From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu99.pas,730,Subu99,"Sqlen := 'Select Gcode,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,Subu99.pas,996,Subu99,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,from,Tong04.pas,2172,Tong04,'From S1_Ssub Where '+D_Select+_S1_Ssub+' Group By Gcode ';
+S1_Ssub,from,Tong04.pas,5586,Tong04,'From S1_Ssub Where '+D_Select+_S1_Ssub+' Group By Gcode ';
+S1_Ssub,from,Tong04.pas,5696,Tong04,'From S1_Ssub Where '+D_Select+_S1_Ssub+
+S1_Ssub,from,Tong04.pas,5783,Tong04,'From S1_Ssub Where '+D_Select+_S1_Ssub+
+S1_Ssub,from,Tong04.pas,6084,Tong04,"'From S1_Ssub Where '+D_Select+_S1_Ssub+' Group By Gcode,Gubun ';"
+S1_Ssub,from,Tong04.pas,6252,Tong04,'From S1_Ssub Where '+D_Select+_S1_Ssub+
+S1_Ssub,from,Tong04.pas,6433,Tong04,"'From S1_Ssub Where '+D_Select+St1+' Order By Gdate,Jubun,Id ';"
+S1_Ssub,from,Tong06.pas,613,Tong06,Sqlen := 'Select Idnum From S1_Ssub Where '+D_Select+'Id=@Id';
+S1_Ssub,from,Tong06.pas,1009,Tong06,Sqlen := 'Select Idnum From S1_Ssub Where '+D_Select+'Id=@Id';
+S1_Ssub,from,도서유통/Subu24_9.pas,289,Subu24_9,"Sqlen := 'Select Gdate,Gcode,Gubun,Gjisa,Jubun,Count(*),Round(Count(*)/11 + 0.45) From S1_Ssub '+"
+S1_Ssub,from,도서유통/Subu34.pas,355,Subu34,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,도서유통/Subu34.pas,669,Subu34,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,도서유통/Subu34.pas,676,Subu34,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,into,도서유통/Subu34.pas,696,Subu34,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,도서유통/Subu34.pas,733,Subu34,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,도서유통/Subu35.pas,355,Subu35,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,도서유통/Subu35.pas,669,Subu35,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,도서유통/Subu35.pas,676,Subu35,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,into,도서유통/Subu35.pas,696,Subu35,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,도서유통/Subu35.pas,733,Subu35,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,update,도서유통/book_kb(반품과)/Subu23_1.pas,333,Subu23_1,Sqlen := 'UPDATE S1_Ssub SET Time4= now() '+
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu23_1.pas,452,Subu23_1,"Sqlen := 'Select Gdate,Hcode,Gcode,Gjisa,Jubun From S1_Ssub '+"
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu23_1.pas,537,Subu23_1,Sqlen := 'Select * From S1_Ssub Where '+D_Select+
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu23_1.pas,901,Subu23_1,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu23_1.pas,919,Subu23_1,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu23_1.pas,981,Subu23_1,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu23_1.pas,999,Subu23_1,Sqlen := 'Select Max(Idnum) From S1_Ssub Where '+D_Select+
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu23_1.pas,1611,Subu23_1,Sqlen := 'DELETE FROM S1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,update,도서유통/book_kb(반품과)/Subu23_1.pas,1618,Subu23_1,Sqlen := 'UPDATE S1_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S1_Ssub,into,도서유통/book_kb(반품과)/Subu23_1.pas,1642,Subu23_1,Sqlon := 'INSERT INTO S1_Ssub '+
+S1_Ssub,update,도서유통/book_kb(반품과)/Subu23_1.pas,1684,Subu23_1,Sqlon := 'UPDATE S1_Ssub SET '+
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu39.pas,467,Subu39,"Sqlen := 'Select Hcode,Gcode,Gjisa,Jubun,Sum(Gsqut)as Gsqut From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu39.pas,779,Subu39,"Sqlen := 'Select Gcode,Gjisa,Sum(Gsqut) From S1_Ssub Where '+D_Select+St1+St2;"
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu39.pas,1066,Subu39,"Sqlen := 'Select S.Hcode,S.Gcode,S.Gjisa,S.Jubun,S.Bcode,Y.Grat8,S.Gsqut From S1_Ssub S, G4_Book Y '+"
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu39_3.pas,343,Subu39_3,"'From S1_Ssub Where '+D_Select+St1+' Order By Gdate,Gcode,Jubun,Id ';"
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu39_3.pas,426,Subu39_3,"'From S1_Ssub Where '+D_Select+St1+' Order By Bdate,Gcode,Jubun,Id ';"
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu39_4.pas,370,Subu39_4,"'From S1_Ssub Where '+D_Select+St1+' Order By Gdate,Jubun,Id ';"
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu39_4.pas,443,Subu39_4,"'From S1_Ssub Where '+D_Select+St1+' Order By Bdate,Jubun,Id ';"
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu55_1.pas,399,Subu55_1,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu55_1.pas,424,Subu55_1,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu58_1.pas,398,Subu58_1,'From S1_Ssub Where '+D_Select+St1+' Group by Hcode ';
+S1_Ssub,from,도서유통/book_kb(반품과)/Subu58_1.pas,423,Subu58_1,Sqlen := 'Select * From S1_Ssub Where '+D_Select+St1+St2;
+S3_Ssub,from,Tong04.pas,355,Tong04,Sqlen := 'Select * From S3_Ssub Where '+D_Select+Sp2+Sp1;
+S3_Ssub,from,Tong04.pas,386,Tong04,Sqlen := 'Select * From S3_Ssub Where '+D_Select+Sp2+Sp1;
+S3_Ssub,from,Tong04.pas,414,Tong04,Sqlen := 'Select * From S3_Ssub Where '+D_Select+Sp2+Sp1;
+S3_Ssub,from,Tong04.pas,448,Tong04,Sqlen := 'Select * From S3_Ssub Where '+D_Select+Sp2+Sp1;
+S3_Ssub,from,Tong04.pas,484,Tong04,Sqlen := 'Select * From S3_Ssub Where '+D_Select+Sp2+Sp1;
+S3_Ssub,from,Tong04.pas,513,Tong04,Sqlen := 'Select * From S3_Ssub Where '+D_Select+Sp2+Sp1;
+S4_Ssub,from,Subu22_1.pas,356,Subu22_1,Sqlen := 'Select * From S4_Ssub Where '+D_Select+
+S4_Ssub,from,Subu22_1.pas,709,Subu22_1,Sqlen := 'Select Max(Idnum) From S4_Ssub Where '+D_Select+
+S4_Ssub,from,Subu22_1.pas,727,Subu22_1,Sqlen := 'Select Max(Idnum) From S4_Ssub Where '+D_Select+
+S4_Ssub,from,Subu22_1.pas,746,Subu22_1,"Sqlen := 'Select Max(Jubun),Count(*) From S4_Ssub Where '+D_Select+"
+S4_Ssub,from,Subu22_1.pas,823,Subu22_1,Sqlen := 'DELETE FROM S4_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+S4_Ssub,update,Subu22_1.pas,830,Subu22_1,Sqlen := 'UPDATE S4_Ssub SET Scode=''@Scode'' WHERE ID=@ID and Gdate=''@Gdate''';
+S4_Ssub,into,Subu22_1.pas,850,Subu22_1,Sqlon := 'INSERT INTO S4_Ssub '+
+S4_Ssub,update,Subu22_1.pas,877,Subu22_1,Sqlon := 'UPDATE S4_Ssub SET '+
+S4_Ssub,from,Subu22_2.pas,373,Subu22_2,Sqlen := 'Select * From S4_Ssub Where '+D_Select+St1+St2;
+S4_Ssub,from,Subu22_2.pas,715,Subu22_2,Sqlen := 'Select Max(Idnum) From S4_Ssub Where '+D_Select+
+S4_Ssub,from,Subu22_2.pas,733,Subu22_2,Sqlen := 'Select Max(Idnum) From S4_Ssub Where '+D_Select+
+S4_Ssub,from,Subu22_2.pas,752,Subu22_2,"Sqlen := 'Select Max(Jubun),Count(*) From S4_Ssub Where '+D_Select+"
+S4_Ssub,from,Subu27.pas,527,Subu27,Sqlen := 'Select Count(*) From S4_Ssub Where '+D_Select+
+S4_Ssub,from,Subu97.pas,581,Subu97,Sqlen := 'Select Count(*) From S4_Ssub Where '+D_Select+
+Sb_Csum,from,Data/Subu39_1.pas,316,Subu39_1,Sqlen := 'Select * From Sb_Csum Where '+D_Select+St1+St2;
+Sb_Csum,from,Data/Subu39_1.pas,683,Subu39_1,Sqlen := 'DELETE FROM Sb_Csum WHERE ID=@ID ';
+Sb_Csum,update,Data/Subu39_1.pas,689,Subu39_1,Sqlen := 'UPDATE Sb_Csum SET Scode=''@Scode'' WHERE ID=@ID ';
+Sb_Csum,into,Data/Subu39_1.pas,708,Subu39_1,Sqlen := 'INSERT INTO Sb_Csum '+
+Sb_Csum,update,Data/Subu39_1.pas,728,Subu39_1,Sqlen := 'UPDATE Sb_Csum SET '+
+Sb_Csum,from,Data/Subu39_2.pas,369,Subu39_2,"Sqlen := 'Select Gcode,Gubun,Gsqut From Sb_Csum Where '+D_Select+St1+St2;"
+Sb_Csum,from,Data/Subu39_5.pas,316,Subu39_5,Sqlen := 'Select * From Sb_Csum Where '+D_Select+St1+St2;
+Sb_Csum,from,Data/Subu39_5.pas,683,Subu39_5,Sqlen := 'DELETE FROM Sb_Csum WHERE ID=@ID ';
+Sb_Csum,update,Data/Subu39_5.pas,689,Subu39_5,Sqlen := 'UPDATE Sb_Csum SET Scode=''@Scode'' WHERE ID=@ID ';
+Sb_Csum,into,Data/Subu39_5.pas,708,Subu39_5,Sqlen := 'INSERT INTO Sb_Csum '+
+Sb_Csum,update,Data/Subu39_5.pas,728,Subu39_5,Sqlen := 'UPDATE Sb_Csum SET '+
+Sb_Csum,from,Subu31.pas,882,Subu31,"Sqlen := 'Select Gdate,Gubun,Gsqut From Sb_Csum Where '+D_Select+St1+"
+Sb_Csum,from,Subu31.pas,1559,Subu31,"Sqlen := 'Select Gdate,Gubun,Gsqut From Sb_Csum Where '+D_Select+St1+' Order By Gdate,Gubun';"
+Sb_Csum,from,Subu32.pas,1123,Subu32,"Sqlen := 'Select Gcode,Gubun,Gsqut From Sb_Csum Where '+D_Select+St1+"
+Sb_Csum,from,Subu33.pas,1181,Subu33,"Sqlen := 'Select Gcode,Gubun,Gsqut From Sb_Csum Where '+D_Select+St1+"
+Sb_Csum,from,Subu34_1.pas,1185,Subu34_1,"Sqlen := 'Select Gcode,Gubun,Gsqut From Sb_Csum Where '+D_Select+St1+"
+Sb_Csum,from,Subu34_2.pas,1761,Subu34_2,"Sqlen := 'Select Gcode,Gubun,Gsqut From Sb_Csum Where '+D_Select+St1+St2;"
+Sb_Csum,from,Subu34_3.pas,1761,Subu34_3,"Sqlen := 'Select Gcode,Gubun,Gsqut From Sb_Csum Where '+D_Select+St1+St2;"
+Sb_Csum,from,Subu34_4.pas,869,Subu34_4,'From Sb_Csum Where '+D_Select+St1+
+Sb_Csum,from,Subu34_4.pas,1763,Subu34_4,"Sqlen := 'Select Gcode,Gubun,Gsqut From Sb_Csum Where '+D_Select+St1+St2;"
+Sb_Csum,from,Subu34_4.pas,2444,Subu34_4,"'From Sb_Csum Where '+D_Select+_Sb_Csum+' Group By Scode,Gcode ';"
+Sb_Csum,from,Tong04.pas,5921,Tong04,"'From Sb_Csum Where '+D_Select+_Sb_Csum+' Group By Gcode,Gubun ';"
+Sg_Csum,from,Base01.pas,6348,Base01,Sqlen := 'DELETE FROM Sg_Csum WHERE ID=@ID ';
+Sg_Csum,update,Base01.pas,6354,Base01,Sqlen := 'UPDATE Sg_Csum SET Scode=''@Scode'' WHERE ID=@ID ';
+Sg_Csum,into,Base01.pas,6373,Base01,Sqlen := 'INSERT INTO Sg_Csum '+
+Sg_Csum,update,Base01.pas,6396,Base01,Sqlen := 'UPDATE Sg_Csum SET '+
+Sg_Csum,from,Base01.pas,6549,Base01,Sqlen := 'DELETE FROM Sg_Csum WHERE ID=@ID ';
+Sg_Csum,update,Base01.pas,6555,Base01,Sqlen := 'UPDATE Sg_Csum SET Scode=''@Scode'' WHERE ID=@ID ';
+Sg_Csum,into,Base01.pas,6574,Base01,Sqlen := 'INSERT INTO Sg_Csum '+
+Sg_Csum,update,Base01.pas,6597,Base01,Sqlen := 'UPDATE Sg_Csum SET '+
+Sg_Csum,from,Base01.pas,6653,Base01,Sqlen := 'DELETE FROM Sg_Csum WHERE ID=@ID ';
+Sg_Csum,into,Base01.pas,6670,Base01,Sqlen := 'INSERT INTO Sg_Csum '+
+Sg_Csum,update,Base01.pas,6693,Base01,Sqlen := 'UPDATE Sg_Csum SET '+
+Sg_Csum,from,Subu31.pas,567,Subu31,'From Sg_Csum Where '+D_Select+St1+' Order By Gdate ';
+Sg_Csum,from,Subu31.pas,826,Subu31,'From Sg_Csum Where '+D_Select+St1+' Order By Gdate ';
+Sg_Csum,from,Subu31.pas,1372,Subu31,'From Sg_Csum Where '+D_Select+St1+' Order By Gdate ';
+Sg_Csum,from,Subu31.pas,1617,Subu31,'From Sg_Csum Where '+D_Select+St1+' Order By Gdate ';
+Sg_Csum,from,Subu32.pas,647,Subu32,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu32.pas,964,Subu32,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu32.pas,1647,Subu32,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu33.pas,630,Subu33,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu33.pas,1022,Subu33,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu34_1.pas,624,Subu34_1,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu34_1.pas,1026,Subu34_1,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu34_2.pas,880,Subu34_2,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu34_2.pas,1526,Subu34_2,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu34_3.pas,880,Subu34_3,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu34_3.pas,1526,Subu34_3,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu34_4.pas,1528,Subu34_4,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu34_4.pas,2415,Subu34_4,"'From Sg_Csum Where '+D_Select+_Sg_Csum+' Group By Scode,Gcode ';"
+Sg_Csum,from,Subu45.pas,4544,Subu45,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu45_1.pas,4459,Subu45_1,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu51.pas,299,Subu51,Sqlen := 'Select * From Sg_Csum Where '+D_Select+St1+St2;
+Sg_Csum,from,Subu52.pas,299,Subu52,Sqlen := 'Select * From Sg_Csum Where '+D_Select+St1+St2;
+Sg_Csum,from,Subu61.pas,406,Subu61,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu67.pas,409,Subu67,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Subu67.pas,605,Subu67,'From Sg_Csum Where '+D_Select+St1+
+Sg_Csum,from,Tong04.pas,5856,Tong04,"'From Sg_Csum Where '+D_Select+_Sg_Csum+' Group By Scode,Gcode ';"
+Sg_Csum,from,Tong04.pas,6315,Tong04,'From Sg_Csum Where '+D_Select+_Sg_Csum+
+Sg_Csum,from,도서유통/book_kb(반품과)/Subu39_3.pas,506,Subu39_3,'From Sg_Csum Where '+D_Select+St1+' Order By Gdate ';
+Sg_Csum,from,도서유통/book_kb(반품과)/Subu39_4.pas,513,Subu39_4,'From Sg_Csum Where '+D_Select+St1+' Order By Gdate ';
+Sg_Gsum,from,Base01.pas,6452,Base01,Sqlen := 'DELETE FROM Sg_Gsum WHERE ID=@ID ';
+Sg_Gsum,into,Base01.pas,6469,Base01,Sqlen := 'INSERT INTO Sg_Gsum '+
+Sg_Gsum,update,Base01.pas,6492,Base01,Sqlen := 'UPDATE Sg_Gsum SET '+
+Sg_Gsum,from,Tong04.pas,2221,Tong04,'From Sg_Gsum Where '+D_Select+_Sg_Gsum+' Group By Gcode ';
+Sg_Gsum,from,Tong04.pas,5635,Tong04,'From Sg_Gsum Where '+D_Select+_Sg_Gsum+' Group By Gcode ';
+Sg_Gsum,from,Tong04.pas,6147,Tong04,'From Sg_Gsum Where '+D_Select+_Sg_Gsum+' Group By Gcode ';
+Sg_Gsum,from,Tong04.pas,6538,Tong04,'From Sg_Gsum Where '+D_Select+St1+' Order By Gdate ';
+Sv_Chng,from,Base01.pas,7401,Base01,"Sqlen := 'Select %Gqut1,%Gsum1,%Gsum2,Gdate From Sv_Chng Where '+D_Select+"
+Sv_Chng,update,Base01.pas,7425,Base01,Sqlen := 'UPDATE Sv_Chng SET '+
+Sv_Chng,into,Base01.pas,7447,Base01,Sqlen := 'INSERT INTO Sv_Chng '+
+Sv_Chng,from,Base01.pas,7476,Base01,"Sqlen := 'Select %Gqut1,%Gsum1,%Gsum2,Gdate From Sv_Chng Where '+D_Select+"
+Sv_Chng,update,Base01.pas,7500,Base01,Sqlen := 'UPDATE Sv_Chng SET '+
+Sv_Chng,into,Base01.pas,7522,Base01,Sqlen := 'INSERT INTO Sv_Chng '+
+Sv_Chng,from,Base01.pas,7776,Base01,"Sqlen := 'Select %Gqut1,%Gsum1,%Gsum2,Gdate From Sv_Chng Where '+D_Select+"
+Sv_Chng,update,Base01.pas,7801,Base01,Sqlen := 'UPDATE Sv_Chng SET '+
+Sv_Chng,into,Base01.pas,7823,Base01,Sqlen := 'INSERT INTO Sv_Chng '+
+Sv_Chng,from,Base01.pas,7852,Base01,"Sqlen := 'Select %Gqut1,%Gsum1,%Gsum2,Gdate From Sv_Chng Where '+D_Select+"
+Sv_Chng,update,Base01.pas,7877,Base01,Sqlen := 'UPDATE Sv_Chng SET '+
+Sv_Chng,into,Base01.pas,7899,Base01,Sqlen := 'INSERT INTO Sv_Chng '+
+Sv_Chng,from,Tong04.pas,2111,Tong04,Sqlen :='Select Max(Gdate)as Gdate From Sv_Chng '+
+Sv_Chng,from,Tong04.pas,2147,Tong04,'From Sv_Chng Where '+D_Select+_Sv_Chng+' Group By Gcode ';
+Sv_Chng,from,Tong04.pas,5561,Tong04,'From Sv_Chng Where '+D_Select+_Sv_Chng+' Group By Gcode ';
+Sv_Chng,from,Tong04.pas,6007,Tong04,Sqlen :='Select Max(Gdate)as Gdate From Sv_Chng '+
+Sv_Chng,from,Tong04.pas,6048,Tong04,'From Sv_Chng Where '+D_Select+_Sv_Chng+' Group By Gcode ';
+Sv_Chng,from,Tong04.pas,6389,Tong04,Sqlen :='Select Max(Gdate)as Gdate From Sv_Chng '+
+Sv_Ghng,from,Base01.pas,7551,Base01,"Sqlen := 'Select %Gqut1,%Gqut2,%Gsum1,Gdate From Sv_Ghng Where '+D_Select+"
+Sv_Ghng,update,Base01.pas,7575,Base01,Sqlen := 'UPDATE Sv_Ghng SET '+
+Sv_Ghng,into,Base01.pas,7597,Base01,Sqlen := 'INSERT INTO Sv_Ghng '+
+Sv_Ghng,from,Base01.pas,7626,Base01,"Sqlen := 'Select %Gqut1,%Gqut2,%Gsum1,Gdate From Sv_Ghng Where '+D_Select+"
+Sv_Ghng,update,Base01.pas,7650,Base01,Sqlen := 'UPDATE Sv_Ghng SET '+
+Sv_Ghng,into,Base01.pas,7672,Base01,Sqlen := 'INSERT INTO Sv_Ghng '+
+Sv_Ghng,from,Base01.pas,7701,Base01,"Sqlen := 'Select %Gqut1,%Gqut2,%Gsum1,Gdate From Sv_Ghng Where '+D_Select+"
+Sv_Ghng,update,Base01.pas,7725,Base01,Sqlen := 'UPDATE Sv_Ghng SET '+
+Sv_Ghng,into,Base01.pas,7747,Base01,Sqlen := 'INSERT INTO Sv_Ghng '+
+Sv_Ghng,from,Base01.pas,7928,Base01,"Sqlen := 'Select %Gqut1,%Gqut2,%Gsum1,Gdate From Sv_Ghng Where '+D_Select+"
+Sv_Ghng,update,Base01.pas,7953,Base01,Sqlen := 'UPDATE Sv_Ghng SET '+
+Sv_Ghng,into,Base01.pas,7975,Base01,Sqlen := 'INSERT INTO Sv_Ghng '+
+Sv_Ghng,from,Base01.pas,8004,Base01,"Sqlen := 'Select %Gqut1,%Gqut2,%Gsum1,Gdate From Sv_Ghng Where '+D_Select+"
+Sv_Ghng,update,Base01.pas,8029,Base01,Sqlen := 'UPDATE Sv_Ghng SET '+
+Sv_Ghng,into,Base01.pas,8051,Base01,Sqlen := 'INSERT INTO Sv_Ghng '+
+Sv_Ghng,from,Base01.pas,8080,Base01,"Sqlen := 'Select %Gqut1,%Gqut2,%Gsum1,Gdate From Sv_Ghng Where '+D_Select+"
+Sv_Ghng,update,Base01.pas,8105,Base01,Sqlen := 'UPDATE Sv_Ghng SET '+
+Sv_Ghng,into,Base01.pas,8127,Base01,Sqlen := 'INSERT INTO Sv_Ghng '+
+Sv_Ghng,from,Data/Subu39_2.pas,301,Subu39_2,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu31.pas,336,Subu31,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu31.pas,722,Subu31,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu31.pas,928,Subu31,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu32.pas,712,Subu32,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu32.pas,1026,Subu32,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu32.pas,1196,Subu32,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu32.pas,1697,Subu32,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu32.pas,1763,Subu32,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu32_1.pas,322,Subu32_1,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu32_1.pas,565,Subu32_1,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu33.pas,692,Subu33,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu33.pas,1084,Subu33,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu33.pas,1254,Subu33,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_1.pas,686,Subu34_1,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_1.pas,1088,Subu34_1,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_1.pas,1258,Subu34_1,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_2.pas,972,Subu34_2,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_2.pas,1608,Subu34_2,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_2.pas,1829,Subu34_2,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_3.pas,972,Subu34_3,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_3.pas,1608,Subu34_3,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_3.pas,1829,Subu34_3,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_4.pas,954,Subu34_4,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_4.pas,1610,Subu34_4,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_4.pas,1831,Subu34_4,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu34_4.pas,2228,Subu34_4,'From Sv_Ghng Where '+D_Select+_Sv_Ghng+' Group By Gcode ';
+Sv_Ghng,from,Subu45.pas,3170,Subu45,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu45.pas,4592,Subu45,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu45_1.pas,3085,Subu45_1,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu45_1.pas,4507,Subu45_1,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu51.pas,482,Subu51,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu51.pas,642,Subu51,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu51.pas,706,Subu51,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu52.pas,482,Subu52,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu52.pas,642,Subu52,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Subu52.pas,706,Subu52,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Tong02.pas,1859,Tong02,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Tong02.pas,1915,Tong02,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Tong02.pas,1979,Tong02,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Tong02.pas,2023,Tong02,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Tong04.pas,5669,Tong04,'From Sv_Ghng Where '+D_Select+_Sv_Ghng+' Group By Gcode ';
+Sv_Ghng,from,Tong04.pas,5894,Tong04,'From Sv_Ghng Where '+D_Select+_Sv_Ghng+' Group By Gcode ';
+Sv_Ghng,from,Tong04.pas,6183,Tong04,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,Tong04.pas,6221,Tong04,'From Sv_Ghng Where '+D_Select+_Sv_Ghng+
+Sv_Ghng,from,도서유통/book_kb(반품과)/Subu39_3.pas,305,Subu39_3,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Ghng,from,도서유통/book_kb(반품과)/Subu39_4.pas,304,Subu39_4,Sqlen :='Select Max(Gdate)as Gdate From Sv_Ghng '+
+Sv_Gsum,from,Base01.pas,8200,Base01,"Sqlen := 'Select %Gsum1,Gdate From Sv_Gsum Where '+D_Select+"
+Sv_Gsum,update,Base01.pas,8218,Base01,Sqlen := 'UPDATE Sv_Gsum SET '+
+Sv_Gsum,into,Base01.pas,8236,Base01,Sqlen := 'INSERT INTO Sv_Gsum '+
+Sv_Gsum,from,Tong04.pas,5487,Tong04,"'From Sv_Gsum Where '+D_Select+_Sv_Gsum+' Group By Scode,Gcode ';"
+T0_Gbun,from,Subu13_1.pas,354,Subu13_1,"Sqlen := 'Select Hcode,Gcode,Gjisa,Bebon From T0_Gbun Where '+D_Select+St1+St2;"
+T0_Gbun,from,Subu13_1.pas,623,Subu13_1,Sqlen := 'Select Count(*) From T0_Gbun Where '+D_Select+
+T0_Gbun,into,Subu13_1.pas,630,Subu13_1,Sqlen := 'INSERT INTO T0_Gbun '+
+T0_Gbun,update,Subu13_1.pas,645,Subu13_1,Sqlen := 'UPDATE T0_Gbun SET '+
+T1_Gbun,from,Base01.pas,5628,Base01,Sqlen := 'DELETE FROM T1_Gbun WHERE ID=@ID ';
+T1_Gbun,into,Base01.pas,5645,Base01,Sqlen := 'INSERT INTO T1_Gbun '+
+T1_Gbun,update,Base01.pas,5664,Base01,Sqlen := 'UPDATE T1_Gbun SET '+
+T1_Gbun,from,Data/Subu63.pas,379,Subu63,"Sqlen := 'Select Hcode,Gcode,Gjisa,Jubun,Gname From T1_Gbun Where '+D_Open;"
+T1_Gbun,from,Data/Subu64.pas,405,Subu64,"Sqlen := 'Select Hcode,Gcode,Gjisa,Jubun,Gname From T1_Gbun Where '+D_Open;"
+T1_Gbun,from,Subu13.pas,279,Subu13,Sqlen := 'Select * From T1_Gbun Where '+D_Select+St1+St2;
+T1_Gbun,from,Subu26.pas,867,Subu26,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu26.pas,884,Subu26,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu27.pas,756,Subu27,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu27.pas,773,Subu27,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu27.pas,1038,Subu27,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu27.pas,1055,Subu27,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu45.pas,524,Subu45,"Sqlen := 'Select Hcode,Gcode,Gjisa,Jubun,Gname From T1_Gbun Where '+D_Open;"
+T1_Gbun,from,Subu45_1.pas,562,Subu45_1,"Sqlen := 'Select Hcode,Gcode,Gjisa,Jubun,Gname From T1_Gbun Where '+D_Open;"
+T1_Gbun,from,Subu96.pas,912,Subu96,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu96.pas,929,Subu96,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu97.pas,804,Subu97,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu97.pas,821,Subu97,"Sqlen := 'Select Gname,Bebon From T1_Gbun Where '+D_Select+"
+T1_Gbun,from,Subu99.pas,404,Subu99,"Sqlen := 'Select Hcode,Gcode,Gjisa,Jubun,Gname From T1_Gbun Where '+D_Open;"
+T1_Gbun,from,도서유통/book_kb(반품과)/Subu39.pas,409,Subu39,"Sqlen := 'Select Hcode,Gcode,Gjisa,Jubun,Gname From T1_Gbun Where '+D_Open;"
+T1_Ssub,from,Base01.pas,6209,Base01,Sqlen := 'DELETE FROM T1_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+T1_Ssub,into,Base01.pas,6227,Base01,Sqlen := 'INSERT INTO T1_Ssub '+
+T1_Ssub,update,Base01.pas,6253,Base01,Sqlen := 'UPDATE T1_Ssub SET '+
+T1_Ssub,from,Subu43.pas,321,Subu43,Sqlen := 'Select * From T1_Ssub Where '+D_Select+St1+St2;
+T1_Ssub,from,Subu44.pas,295,Subu44,Sqlen := 'Select * From T1_Ssub Where '+D_Select+St1+St2;
+T1_Ssub,from,Subu45.pas,941,Subu45,"Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+"
+T1_Ssub,from,Subu45.pas,947,Subu45,"Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+"
+T1_Ssub,from,Subu45.pas,1671,Subu45,"Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+"
+T1_Ssub,from,Subu45.pas,3713,Subu45,"Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+"
+T1_Ssub,from,Subu45_1.pas,968,Subu45_1,"Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+"
+T1_Ssub,from,Subu45_1.pas,974,Subu45_1,"Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+"
+T1_Ssub,from,Subu45_1.pas,1690,Subu45_1,"Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+"
+T1_Ssub,from,Subu45_1.pas,3628,Subu45_1,"Sqlen:='Select Gdate,Gcode,Gname,Name1,Name2,Gssum From T1_Ssub Where '+D_Select+"
+T2_Ssub,from,Seak09.pas,245,Seak09,'From T2_Ssub Where '+D_Select+
+T2_Ssub,from,Subu42.pas,278,Subu42,"Sqlen := 'Select Hcode,Sum26,Sum27,Sum28 From T2_Ssub Where '+D_Select+St1+St2;"
+T2_Ssub,from,Subu42_1.pas,297,Subu42_1,"Sqlen := 'Select Gdate,Sum26,Sum27,Sum28 From T2_Ssub Where '+D_Select+St1+St2;"
+T2_Ssub,from,Subu45.pas,601,Subu45,"Sqlen := 'Select Hcode,Chek1,Chek2 From T2_Ssub '+"
+T2_Ssub,from,Subu45.pas,1869,Subu45,Sqlen:='Select Max(Gdate) From T2_Ssub Where '+D_Select+
+T2_Ssub,from,Subu45.pas,1893,Subu45,"'Sum68,Bigo1,Bigo2,Yesno From T2_Ssub Where '+D_Select+"
+T2_Ssub,from,Subu45.pas,2343,Subu45,'From T2_Ssub Where '+D_Select+
+T2_Ssub,from,Subu45.pas,2487,Subu45,"Sqlen := 'Select Hcode,Sum26,Sum27,Sum28 From T2_Ssub Where '+D_Select+St1;"
+T2_Ssub,from,Subu45.pas,2538,Subu45,Sqlen := 'Select Gdate From T2_Ssub Where '+D_Select+'Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+T2_Ssub,into,Subu45.pas,2543,Subu45,Sqlon := 'INSERT INTO T2_Ssub '+
+T2_Ssub,update,Subu45.pas,2663,Subu45,Sq1 := 'UPDATE T2_Ssub SET '+
+T2_Ssub,from,Subu45.pas,2970,Subu45,'From T2_Ssub Where '+D_Select+St1;
+T2_Ssub,from,Subu45.pas,3654,Subu45,Sqlen:='Select Yesno From T2_Ssub Where '+D_Select+
+T2_Ssub,from,Subu45.pas,4030,Subu45,"'Sum59,Sum67,Sum68,Gsusu,Vdate,Bigo1,Bigo2,Yesno From T2_Ssub Where '+D_Select+"
+T2_Ssub,from,Subu45_1.pas,622,Subu45_1,"Sqlen := 'Select Hcode,Chek1,Chek2 From T2_Ssub '+"
+T2_Ssub,from,Subu45_1.pas,1844,Subu45_1,Sqlen:='Select Max(Gdate) From T2_Ssub Where '+D_Select+
+T2_Ssub,from,Subu45_1.pas,1868,Subu45_1,"'Sum68,Bigo1,Bigo2,Yesno From T2_Ssub Where '+D_Select+"
+T2_Ssub,from,Subu45_1.pas,2262,Subu45_1,'From T2_Ssub Where '+D_Select+
+T2_Ssub,from,Subu45_1.pas,2406,Subu45_1,"Sqlen := 'Select Hcode,Sum26,Sum27,Sum28 From T2_Ssub Where '+D_Select+St1;"
+T2_Ssub,from,Subu45_1.pas,2457,Subu45_1,Sqlen := 'Select Gdate From T2_Ssub Where '+D_Select+'Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+T2_Ssub,into,Subu45_1.pas,2462,Subu45_1,Sqlon := 'INSERT INTO T2_Ssub '+
+T2_Ssub,update,Subu45_1.pas,2581,Subu45_1,Sq1 := 'UPDATE T2_Ssub SET '+
+T2_Ssub,from,Subu45_1.pas,2887,Subu45_1,'From T2_Ssub Where '+D_Select+St1;
+T2_Ssub,from,Subu45_1.pas,3569,Subu45_1,Sqlen:='Select Yesno From T2_Ssub Where '+D_Select+
+T2_Ssub,from,Subu45_1.pas,3945,Subu45_1,"'Sum59,Sum67,Sum68,Gsusu,Vdate,Bigo1,Bigo2,Yesno From T2_Ssub Where '+D_Select+"
+T2_Ssub,from,Subu46.pas,518,Subu46,"Sqlen := 'Select Hcode,Chek1,Chek2,Yesno From T2_Ssub '+"
+T2_Ssub,from,Subu46.pas,645,Subu46,' From T2_Ssub Where '+D_Select+St1;
+T2_Ssub,from,Subu47.pas,280,Subu47,"Sqlen := 'Select Gdate,Sum(Sum26),Sum(Sum27),Sum(Sum28) From T2_Ssub Where '+D_Select+St1+St2;"
+T2_Ssub,from,Subu49.pas,335,Subu49,"Sqlen := 'Select Hcode,Sum26,Sum27,Sum28,Chek3,Sdate From T2_Ssub Where '+D_Select+St1+St2;"
+T2_Ssub,update,Subu49.pas,621,Subu49,Sqlen := 'UPDATE T2_Ssub SET Sdate=''@Sdate'' '+
+T2_Ssub,update,Subu49.pas,658,Subu49,Sqlen := 'UPDATE T2_Ssub SET Chek3=''@Chek3'' '+
+T2_Ssub,update,Subu49.pas,682,Subu49,Sqlen := 'UPDATE T2_Ssub SET Chek3=''@Chek3'' '+
+T2_Ssub,update,Subu49.pas,711,Subu49,Sqlen := 'UPDATE T2_Ssub SET Chek3=''@Chek3'' '+
+T3_Ssub,from,Subu38_1.pas,290,Subu38_1,'From T3_Ssub Where '+D_Select+
+T3_Ssub,from,Subu38_1.pas,346,Subu38_1,Sqlen := 'Select Hcode From T3_Ssub Where '+D_Select+
+T3_Ssub,update,Subu38_1.pas,357,Subu38_1,Sqlen := 'UPDATE T3_Ssub SET '+
+T3_Ssub,into,Subu38_1.pas,379,Subu38_1,Sqlen := 'INSERT INTO T3_Ssub '+
+T3_Ssub,from,Subu45.pas,1040,Subu45,'From T3_Ssub Where '+D_Select+
+T3_Ssub,from,Subu45.pas,2787,Subu45,Sqlen := 'Select Gdate From T3_Ssub Where '+D_Select+'Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+T3_Ssub,into,Subu45.pas,2792,Subu45,Sqlon := 'INSERT INTO T3_Ssub '+
+T3_Ssub,update,Subu45.pas,2832,Subu45,Sq1 := 'UPDATE T3_Ssub SET '+
+T3_Ssub,from,Subu45.pas,3111,Subu45,' From T3_Ssub Where '+D_Select+St1;
+T3_Ssub,from,Subu45.pas,3968,Subu45,'From T3_Ssub Where '+D_Select+
+T3_Ssub,from,Subu45.pas,4150,Subu45,Sqlen := 'Select Gdate From T3_Ssub Where '+D_Select+'Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+T3_Ssub,into,Subu45.pas,4155,Subu45,Sqlon := 'INSERT INTO T3_Ssub '+
+T3_Ssub,update,Subu45.pas,4192,Subu45,Sq1 := 'UPDATE T3_Ssub SET '+
+T3_Ssub,from,Subu45_1.pas,1067,Subu45_1,'From T3_Ssub Where '+D_Select+
+T3_Ssub,from,Subu45_1.pas,2704,Subu45_1,Sqlen := 'Select Gdate From T3_Ssub Where '+D_Select+'Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+T3_Ssub,into,Subu45_1.pas,2709,Subu45_1,Sqlon := 'INSERT INTO T3_Ssub '+
+T3_Ssub,update,Subu45_1.pas,2749,Subu45_1,Sq1 := 'UPDATE T3_Ssub SET '+
+T3_Ssub,from,Subu45_1.pas,3026,Subu45_1,' From T3_Ssub Where '+D_Select+St1;
+T3_Ssub,from,Subu45_1.pas,3883,Subu45_1,'From T3_Ssub Where '+D_Select+
+T3_Ssub,from,Subu45_1.pas,4065,Subu45_1,Sqlen := 'Select Gdate From T3_Ssub Where '+D_Select+'Gdate=''@Gdate'' and Hcode=''@Hcode'' ';
+T3_Ssub,into,Subu45_1.pas,4070,Subu45_1,Sqlon := 'INSERT INTO T3_Ssub '+
+T3_Ssub,update,Subu45_1.pas,4107,Subu45_1,Sq1 := 'UPDATE T3_Ssub SET '+
+T3_Ssub,from,Subu46.pas,776,Subu46,' From T3_Ssub Where '+D_Select+St1;
+T4_Ssub,from,Subu26.pas,1017,Subu26,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu26.pas,1038,Subu26,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu27.pas,908,Subu27,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu27.pas,931,Subu27,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu27.pas,1192,Subu27,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu27.pas,1216,Subu27,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu45.pas,535,Subu45,"Sqlen := 'Select Hcode,Gcode,Gdate,Gjisa,Jubun,Pubun,Gqut1,Gqut2,Gqut3 From T4_Ssub '+"
+T4_Ssub,from,Subu45.pas,538,Subu45,"Sqlen := 'Select Hcode,Gcode,Gdate,Gjisa,Jubun,Pubun,Gqut1,Gqut2,Gqut3 From T4_Ssub '+"
+T4_Ssub,from,Subu45_1.pas,570,Subu45_1,"Sqlen := 'Select Hcode,Gcode,Gdate,Gjisa,Jubun,Pubun,Gqut1,Gqut2,Gqut3 From T4_Ssub '+"
+T4_Ssub,from,Subu59_3.pas,593,Subu59_3,"'Select Gqut1,Gqut2,Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu59_3.pas,695,Subu59_3,'Select * From T4_Ssub Where '+D_Select+
+T4_Ssub,update,Subu59_3.pas,706,Subu59_3,"Sqlen := 'UPDATE T4_Ssub SET Pubun=''@Pubun'' ,Gqut1= @Gqut1 ,Gqut2= @Gqut2 ,Gqut3= @Gqut3 WHERE '+"
+T4_Ssub,into,Subu59_3.pas,725,Subu59_3,Sqlen := 'INSERT INTO T4_Ssub '+
+T4_Ssub,from,Subu59_3.pas,818,Subu59_3,'Select * From T4_Ssub Where '+D_Select+
+T4_Ssub,update,Subu59_3.pas,829,Subu59_3,"Sqlen := 'UPDATE T4_Ssub SET Pubun=''@Pubun'' ,Gqut1= @Gqut1 ,Gqut2= @Gqut2 ,Gqut3= @Gqut3 WHERE '+"
+T4_Ssub,into,Subu59_3.pas,848,Subu59_3,Sqlen := 'INSERT INTO T4_Ssub '+
+T4_Ssub,from,Subu96.pas,1039,Subu96,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu96.pas,1060,Subu96,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu97.pas,934,Subu97,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu97.pas,955,Subu97,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu99.pas,412,Subu99,"Sqlen := 'Select Hcode,Gcode,Gdate,Gjisa,Jubun,Gqut1,Gqut2,Gqut3 From T4_Ssub '+"
+T4_Ssub,from,Subu99.pas,898,Subu99,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu99.pas,919,Subu99,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,Subu99.pas,1217,Subu99,'Select * From T4_Ssub Where '+D_Select+
+T4_Ssub,update,Subu99.pas,1228,Subu99,"Sqlen := 'UPDATE T4_Ssub SET Gqut1= @Gqut1 ,Gqut2= @Gqut2 ,Gqut3= @Gqut3 WHERE '+"
+T4_Ssub,into,Subu99.pas,1246,Subu99,Sqlen := 'INSERT INTO T4_Ssub '+
+T4_Ssub,from,Tong06.pas,664,Tong06,Sqlen := 'Select Gqut1 From T4_Ssub Where '+D_Select+
+T4_Ssub,from,도서유통/book_kb(반품과)/Subu39.pas,417,Subu39,"Sqlen := 'Select Hcode,Gcode,Gdate,Gjisa,Jubun,Yesno,Gqut1,Gqut2,Gqut3 From T4_Ssub '+"
+T4_Ssub,from,도서유통/book_kb(반품과)/Subu39.pas,968,Subu39,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,도서유통/book_kb(반품과)/Subu39.pas,989,Subu39,"'Select Sum(Gqut1)as Gqut1,Sum(Gqut2)as Gqut2,Sum(Gqut3)as Gqut3 From T4_Ssub Where '+D_Select+"
+T4_Ssub,from,도서유통/book_kb(반품과)/Subu39.pas,1287,Subu39,'Select * From T4_Ssub Where '+D_Select+
+T4_Ssub,update,도서유통/book_kb(반품과)/Subu39.pas,1298,Subu39,"Sqlen := 'UPDATE T4_Ssub SET Gqut1= @Gqut1 ,Gqut2= @Gqut2 ,Gqut3= @Gqut3 WHERE '+"
+T4_Ssub,into,도서유통/book_kb(반품과)/Subu39.pas,1316,Subu39,Sqlen := 'INSERT INTO T4_Ssub '+
+T4_Ssub,from,도서유통/book_kb(반품과)/Subu39.pas,1460,Subu39,'Select * From T4_Ssub Where '+D_Select+
+T4_Ssub,update,도서유통/book_kb(반품과)/Subu39.pas,1471,Subu39,"Sqlen := 'UPDATE T4_Ssub SET Yesno=''@Yesno'',Gqut1= @Gqut1 ,Gqut2= @Gqut2 ,Gqut3= @Gqut3 WHERE '+"
+T4_Ssub,into,도서유통/book_kb(반품과)/Subu39.pas,1492,Subu39,Sqlen := 'INSERT INTO T4_Ssub '+
+T5_Ssub,from,Base01.pas,6011,Base01,Sqlen := 'DELETE FROM T5_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+T5_Ssub,into,Base01.pas,6029,Base01,Sqlen := 'INSERT INTO T5_Ssub '+
+T5_Ssub,update,Base01.pas,6048,Base01,Sqlen := 'UPDATE T5_Ssub SET '+
+T5_Ssub,from,Subu41.pas,323,Subu41,Sqlen := 'Select * From T5_Ssub Where '+D_Select+St1+St2;
+T5_Ssub,from,Subu42.pas,324,Subu42,"Sqlen := 'Select Hcode,Gdate,Gssum From T5_Ssub Where '+D_Select+St1+St2;"
+T5_Ssub,from,Subu42_1.pas,349,Subu42_1,"Sqlen := 'Select Sdate,Gdate,Gssum From T5_Ssub Where '+D_Select+St1+St2;"
+T5_Ssub,from,Subu45.pas,2509,Subu45,"Sqlen := 'Select Hcode,Gdate,Gssum From T5_Ssub Where '+D_Select+St1+St2;"
+T5_Ssub,from,Subu45_1.pas,2428,Subu45_1,"Sqlen := 'Select Hcode,Gdate,Gssum From T5_Ssub Where '+D_Select+St1+St2;"
+T6_Ssub,from,Data/Subu36.pas,353,Subu36,Sqlen := 'Select * From T6_Ssub Where '+D_Select+St1+St2;
+T6_Ssub,from,Data/Subu36.pas,764,Subu36,Sqlen := 'DELETE FROM T6_Ssub WHERE ID=@ID and Gdate=''@Gdate''';
+T6_Ssub,into,Data/Subu36.pas,782,Subu36,Sqlen := 'INSERT INTO T6_Ssub '+
+T6_Ssub,update,Data/Subu36.pas,805,Subu36,Sqlen := 'UPDATE T6_Ssub SET '+
+T6_Ssub,from,Data/Subu37.pas,323,Subu37,Sqlen := 'Select * From T6_Ssub Where '+D_Select+St1+St2;
+T6_Ssub,from,Subu45.pas,992,Subu45,"Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+"
+T6_Ssub,from,Subu45.pas,999,Subu45,"Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+"
+T6_Ssub,from,Subu45.pas,1718,Subu45,"Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+"
+T6_Ssub,from,Subu45_1.pas,1019,Subu45_1,"Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+"
+T6_Ssub,from,Subu45_1.pas,1026,Subu45_1,"Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+"
+T6_Ssub,from,Subu45_1.pas,1737,Subu45_1,"Sqlen:='Select Gdate,Sum(Gqut1),Sum(Gqut2) From T6_Ssub Where '+D_Select+"
+T8_Gbun,from,Seek09.pas,60,Seek09,Sqlen := 'Select * From T8_Gbun Where '+D_Select+St1;
+T8_Gbun,from,Seek09.pas,86,Seek09,Sqlen := 'Select * From T8_Gbun Where '+D_Select+St1;

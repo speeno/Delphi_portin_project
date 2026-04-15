@@ -1,0 +1,614 @@
+unit Subu59;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ComCtrls, ExtCtrls, Buttons, Mylabel, Mask, Db, Grids, DBGrids,
+  TFlatPanelUnit, TFlatEditUnit, TFlatProgressBarUnit, TFlatMaskEditUnit,
+  TFlatButtonUnit, TFlatComboBoxUnit, TFlatNumberUnit, Gauges;
+
+type
+  TSobo59 = class(TForm)
+    FlatPanel1: TFlatPanel;
+    RadioGroup1: TRadioGroup;
+    RadioGroup2: TRadioGroup;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    Button101: TFlatButton;
+    Label101: TmyLabel3d;
+    Label102: TmyLabel3d;
+    Label103: TmyLabel3d;
+    Edit101: TFlatMaskEdit;
+    Edit102: TFlatMaskEdit;
+    Edit103: TFlatEdit;
+    Gauge1: TGauge;
+    Edit107: TFlatEdit;
+    Edit108: TFlatEdit;
+    Label104: TmyLabel3d;
+    procedure FormActivate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button001Click(Sender: TObject);
+    procedure Button002Click(Sender: TObject);
+    procedure Button003Click(Sender: TObject);
+    procedure Button004Click(Sender: TObject);
+    procedure Button005Click(Sender: TObject);
+    procedure Button006Click(Sender: TObject);
+    procedure Button007Click(Sender: TObject);
+    procedure Button008Click(Sender: TObject);
+    procedure Button009Click(Sender: TObject);
+    procedure Button010Click(Sender: TObject);
+    procedure Button011Click(Sender: TObject);
+    procedure Button012Click(Sender: TObject);
+    procedure Button013Click(Sender: TObject);
+    procedure Button014Click(Sender: TObject);
+    procedure Button015Click(Sender: TObject);
+    procedure Button016Click(Sender: TObject);
+    procedure Button017Click(Sender: TObject);
+    procedure Button018Click(Sender: TObject);
+    procedure Button019Click(Sender: TObject);
+    procedure Button020Click(Sender: TObject);
+    procedure Button021Click(Sender: TObject);
+    procedure Button022Click(Sender: TObject);
+    procedure Button023Click(Sender: TObject);
+    procedure Button024Click(Sender: TObject);
+    procedure Button101Click(Sender: TObject);
+    procedure Button201Click(Sender: TObject);
+    procedure Edit114KeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Sobo59: TSobo59;
+
+implementation
+
+{$R *.DFM}
+
+uses Chul, Base01, Tong02, Tong04, TcpLib,
+   Seek01, Seek02, Seek03, Seek04, Seek05, Seek06, Seek07, Seek08, Seek09;
+
+procedure TSobo59.FormActivate(Sender: TObject);
+begin
+  nForm:='59';
+end;
+
+procedure TSobo59.FormShow(Sender: TObject);
+begin
+  T00:=0;
+  Edit101.Text:=FormatDateTime('yyyy"."mm"."dd',Date);
+  Edit102.Text:=FormatDateTime('yyyy"."mm"."dd',Date);
+end;
+
+procedure TSobo59.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Release;
+  Action:=caFree;
+  Sobo59:=nil;
+end;
+
+procedure TSobo59.Button001Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button002Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button003Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button004Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button005Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button006Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button007Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button008Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button009Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button010Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button011Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button012Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button013Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button014Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button015Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button016Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button017Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button018Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button019Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button020Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button021Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button022Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button023Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button024Click(Sender: TObject);
+begin
+//
+end;
+
+procedure TSobo59.Button101Click(Sender: TObject);
+var St0,St1,St2,St3,St4: String;
+begin
+  if Base10.Seek_Ggeo(Edit107.Text)='X' Then Exit;
+
+  St1:=Edit101.Text;
+  St2:=Edit102.Text;
+  St3:=Edit103.Text;
+  St4:='등록된 코드가 없습니다. 다시할려면YES, 계속할려면NO를 선택하세요.';
+  if(RadioGroup1.ItemIndex=0)Then begin
+
+    if Base10.Seek_Code(St3,'X',Edit107.Text)='' Then
+    if MessageDlg(St4,mtConfirmation,[mbYes,mbNo],0)=mrYes then Exit;
+
+  end;
+  if(RadioGroup1.ItemIndex=1)Then begin
+
+    if Base10.Seek_Code(St3,'Y',Edit107.Text)='' Then
+    if MessageDlg(St4,mtConfirmation,[mbYes,mbNo],0)=mrYes then Exit;
+
+  end;
+  if(RadioGroup1.ItemIndex=2)Then begin
+
+    if Base10.Seek_Code(St3,'Z',Edit107.Text)='' Then
+    if MessageDlg(St4,mtConfirmation,[mbYes,mbNo],0)=mrYes then Exit;
+
+  end;
+  if(RadioGroup1.ItemIndex=3)Then begin
+
+    Sqlen := 'Select Gcode From G3_Gjeo Where Gcode=''@Gcode'' and Hcode=''@Hcode''';
+    Translate(Sqlen, '@Gcode', St3);
+    Translate(Sqlen, '@Hcode', Edit107.Text);
+    if Base10.Seek_Name(Sqlen)='' Then
+    if MessageDlg(St4,mtConfirmation,[mbYes,mbNo],0)=mrYes then Exit;
+
+  end;
+  if(RadioGroup1.ItemIndex=4)Then begin
+
+    if Base10.Seek_Code(St3,'B',Edit107.Text)='' Then
+    if MessageDlg(St4,mtConfirmation,[mbYes,mbNo],0)=mrYes then Exit;
+
+  end;
+
+  St4:='정말 삭제 할까요?';
+  if MessageDlg(St4,mtConfirmation,[mbYes,mbNo],0)=mrNo then Exit;
+
+  Screen.Cursor:=crHourGlass;
+  //-- 0 --//
+  if(RadioGroup1.ItemIndex=0)or(RadioGroup1.ItemIndex=1)or(RadioGroup1.ItemIndex=2)Then begin
+    if RadioGroup1.ItemIndex=0 Then St0:='X';
+    if RadioGroup1.ItemIndex=1 Then St0:='Y';
+    if RadioGroup1.ItemIndex=2 Then St0:='Z';
+
+    St4:='Scode'+'='+#39+St0+#39+' and '+
+         'Gcode'+'='+#39+St3+#39+' and '+
+         'Hcode'+'='+#39+Edit107.Text+#39;
+
+    RadioGroup2.ItemIndex:=0;
+
+    Sqlen := 'DELETE FROM S1_Ssub WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    RadioGroup2.ItemIndex:=1;
+
+    Sqlen := 'DELETE FROM H1_Ssub WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    RadioGroup2.ItemIndex:=2;
+
+    Sqlen := 'DELETE FROM Sv_Gsum WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    RadioGroup2.ItemIndex:=3;
+
+    Sqlen := 'DELETE FROM Sv_Chng WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    RadioGroup2.ItemIndex:=4;
+
+    Sqlen := 'DELETE FROM Gs_Gsum WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    Sqlen := 'DELETE FROM Sg_Gsum WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    Sqlen := 'DELETE FROM In_Gsum WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+  end;
+  //-- 0 --//
+  if RadioGroup1.ItemIndex=0 Then begin
+
+    St4:='Gcode'+'='+#39+St3+#39+' and '+
+         'Hcode'+'='+#39+Edit107.Text+#39;
+
+    Sqlen := 'DELETE FROM G6_Ggeo WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+  end;
+  //-- 0 --//
+  if RadioGroup1.ItemIndex=0 Then begin
+
+    St4:='Gcode'+'='+#39+St3+#39+' and '+
+         'Hcode'+'='+#39+Edit107.Text+#39;
+
+    Sqlen := 'DELETE FROM G1_Ggeo WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+  end;
+  //-- 1 --//
+  if RadioGroup1.ItemIndex=1 Then begin
+
+    St4:='Gcode'+'='+#39+St3+#39+' and '+
+         'Hcode'+'='+#39+Edit107.Text+#39;
+
+    Sqlen := 'DELETE FROM G2_Ggwo WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+  end;
+  //-- 2 --//
+  if RadioGroup1.ItemIndex=2 Then begin
+
+    St4:='Gcode'+'='+#39+St3+#39+' and '+
+         'Hcode'+'='+#39+Edit107.Text+#39;
+
+    Sqlen := 'DELETE FROM G5_Ggeo WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+  end;
+  //-- 3 --//
+  if RadioGroup1.ItemIndex=3 Then begin
+
+    RadioGroup2.ItemIndex:=2;
+    St4:='Gcode'+'='+#39+St3+#39+' and '+
+         'Hcode'+'='+#39+Edit107.Text+#39;
+
+    Sqlen := 'DELETE FROM S3_Ssub WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    Sqlen := 'DELETE FROM G3_Gjeo WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+  end;
+  //-- 4 --//
+  if RadioGroup1.ItemIndex=4 Then begin
+
+    RadioGroup2.ItemIndex:=0;
+    St4:='Bcode'+'='+#39+St3+#39+' and '+
+         'Hcode'+'='+#39+Edit107.Text+#39;
+
+    Sqlen := 'DELETE FROM S1_Ssub WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    RadioGroup2.ItemIndex:=3;
+    St4:='Gcode'+'='+#39+St3+#39+' and '+
+         'Hcode'+'='+#39+Edit107.Text+#39;
+
+    Sqlen := 'DELETE FROM Sv_Csum WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    Sqlen := 'DELETE FROM Sv_Ghng WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    RadioGroup2.ItemIndex:=5;
+
+    Sqlen := 'DELETE FROM Gs_Csum WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    Sqlen := 'DELETE FROM Sg_Csum WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    Sqlen := 'DELETE FROM In_Csum WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+    Sqlen := 'DELETE FROM G4_Book WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+  end;
+  //-- 5 --//
+  if RadioGroup1.ItemIndex=5 Then begin
+
+    RadioGroup2.ItemIndex:=5;
+    St4:='Gdate'+'>='+#39+St1+#39+' and '+
+         'Gdate'+'<='+#39+St2+#39+' and '+
+         'Hcode'+' ='+#39+Edit107.Text+#39;
+  { if Edit103.Text<>'' then
+    St4:=St4+' and '+
+         'Scode'+' ='+#39+'X'+#39+' and '+'Gcode'+' ='+#39+St3+#39; }
+
+    Sqlen := 'DELETE FROM S1_Ssub WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+  end;
+  //-- 6 --//
+  if RadioGroup1.ItemIndex=6 Then begin
+
+    RadioGroup2.ItemIndex:=6;
+    St4:='Gdate'+'>='+#39+St1+#39+' and '+
+         'Gdate'+'<='+#39+St2+#39+' and '+
+         'Hcode'+' ='+#39+Edit107.Text+#39;
+  { if Edit103.Text<>'' then
+    St4:=St4+' and '+
+         'Scode'+' ='+#39+'X'+#39+' and '+'Gcode'+' ='+#39+St3+#39; }
+
+    Sqlen := 'DELETE FROM H1_Ssub WHERE '+St4;
+    Base10.Socket.RunSQL(Sqlen);
+    Base10.Socket.BusyLoop;
+    if Base10.Socket.Body_Data = 'ERROR' then ShowMessage(E_Delete);
+
+  end;
+
+  Gauge1.Progress:=0;
+  RadioGroup1.ItemIndex:=-1;
+  RadioGroup2.ItemIndex:=-1;
+  Button101.Enabled:=False;
+  Screen.Cursor:=crDefault;
+  ShowMessage('완료');
+end;
+
+procedure TSobo59.Button201Click(Sender: TObject);
+begin
+  if RadioGroup1.ItemIndex=0 Then begin
+     Label101.Visible:=False; Edit101.Visible:=False;
+     Label102.Visible:=False; Edit102.Visible:=False;
+     Label103.Visible:=True;  Edit103.Visible:=True;
+     Button101.Enabled:=True;
+  end;
+  if RadioGroup1.ItemIndex=1 Then begin
+     Label101.Visible:=False; Edit101.Visible:=False;
+     Label102.Visible:=False; Edit102.Visible:=False;
+     Label103.Visible:=True;  Edit103.Visible:=True;
+     Button101.Enabled:=True;
+  end;
+  if RadioGroup1.ItemIndex=2 Then begin
+     Label101.Visible:=False; Edit101.Visible:=False;
+     Label102.Visible:=False; Edit102.Visible:=False;
+     Label103.Visible:=True;  Edit103.Visible:=True;
+     Button101.Enabled:=True;
+  end;
+  if RadioGroup1.ItemIndex=3 Then begin
+     Label101.Visible:=False; Edit101.Visible:=False;
+     Label102.Visible:=False; Edit102.Visible:=False;
+     Label103.Visible:=True;  Edit103.Visible:=True;
+     Button101.Enabled:=True;
+  end;
+  if RadioGroup1.ItemIndex=4 Then begin
+     Label101.Visible:=False; Edit101.Visible:=False;
+     Label102.Visible:=False; Edit102.Visible:=False;
+     Label103.Visible:=True;  Edit103.Visible:=True;
+     Button101.Enabled:=True;
+  end;
+  if RadioGroup1.ItemIndex=5 Then begin
+     Label101.Visible:=True;  Edit101.Visible:=True;
+     Label102.Visible:=True;  Edit102.Visible:=True;
+     Label103.Visible:=False; Edit103.Visible:=False;
+     Button101.Enabled:=True;
+  end;
+  if RadioGroup1.ItemIndex=6 Then begin
+     Label101.Visible:=True;  Edit101.Visible:=True;
+     Label102.Visible:=True;  Edit102.Visible:=True;
+     Label103.Visible:=False; Edit103.Visible:=False;
+     Button101.Enabled:=True;
+  end;
+end;
+
+procedure TSobo59.Edit114KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 Then begin
+  if Edit108.Focused=True Then begin
+       Edit107.Text:='';
+    if Edit108.Text<>'' Then begin
+    Seak80.Edit1.Text:=Edit108.Text;
+    Seak80.FilterTing(Edit108.Text);
+    if Seak80.Query1.RecordCount=1 Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit107.Text:=Seak80.Query1Gcode.AsString;
+      Edit108.Text:=Seak80.Query1Gname.AsString;
+    end else
+    if Seak80.ShowModal=mrOK Then begin
+      SelectNext(ActiveControl as TWinControl, True, True);
+      Edit107.Text:=Seak80.Query1Gcode.AsString;
+      Edit108.Text:=Seak80.Query1Gname.AsString;
+    end;
+    end;
+  end else
+  if RadioGroup1.ItemIndex=0 Then begin
+    if(Edit103.Focused=True)Then begin
+      Seek10.Edit1.Text:=Edit103.Text;
+      Seek10.FilterTing(Edit103.Text,Edit107.Text);
+      if Seek10.Query1.RecordCount=1 Then begin
+        Edit103.Text:=Seek10.Query1Gcode.AsString;
+      { Button101Click(Self); }
+      end else
+      if Seek10.ShowModal=mrOK Then begin
+        Edit103.Text:=Seek10.Query1Gcode.AsString;
+      { Button101Click(Self); }
+      end;
+    end;
+  end;
+  if RadioGroup1.ItemIndex=1 Then begin
+    if(Edit103.Focused=True)Then begin
+      Seek20.Edit1.Text:=Edit103.Text;
+      Seek20.FilterTing(Edit103.Text,Edit107.Text);
+      if Seek20.Query1.RecordCount=1 Then begin
+        Edit103.Text:=Seek20.Query1Gcode.AsString;
+      { Button101Click(Self); }
+      end else
+      if Seek20.ShowModal=mrOK Then begin
+        Edit103.Text:=Seek20.Query1Gcode.AsString;
+      { Button101Click(Self); }
+      end;
+    end;
+  end;
+  if RadioGroup1.ItemIndex=2 Then begin
+    if(Edit103.Focused=True)Then begin
+      Seek50.Edit1.Text:=Edit103.Text;
+      Seek50.FilterTing(Edit103.Text,Edit107.Text);
+      if Seek50.Query1.RecordCount=1 Then begin
+        Edit103.Text:=Seek50.Query1Gcode.AsString;
+      { Button101Click(Self); }
+      end else
+      if Seek50.ShowModal=mrOK Then begin
+        Edit103.Text:=Seek50.Query1Gcode.AsString;
+      { Button101Click(Self); }
+      end;
+    end;
+  end;
+  if RadioGroup1.ItemIndex=3 Then begin
+    if(Edit103.Focused=True)Then begin
+      Seek30.Edit1.Text:=Edit103.Text;
+      Seek30.FilterTing(Edit103.Text,Edit107.Text);
+      if Seek30.Query1.RecordCount=1 Then begin
+        Edit103.Text:=Seek30.Query1Gcode.AsString;
+        Button101Click(Self);
+      end else
+      if Seek30.ShowModal=mrOK Then begin
+        Edit103.Text:=Seek30.Query1Gcode.AsString;
+        Button101Click(Self);
+      end;
+    end;
+  end;
+  if RadioGroup1.ItemIndex=4 Then begin
+    if(Edit103.Focused=True)Then begin
+      Seek40.Edit1.Text:=Edit103.Text;
+      Seek40.FilterTing(Edit103.Text,Edit107.Text);
+      if Seek40.Query1.RecordCount=1 Then begin
+        Edit103.Text:=Seek40.Query1Gcode.AsString;
+        Button101Click(Self);
+      end else
+      if Seek40.ShowModal=mrOK Then begin
+        Edit103.Text:=Seek40.Query1Gcode.AsString;
+        Button101Click(Self);
+      end;
+    end;
+  end;
+  end;
+end;
+
+end.

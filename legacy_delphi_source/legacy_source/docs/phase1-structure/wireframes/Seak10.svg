@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="318" height="205" viewBox="0 0 318 205">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">자료찾기</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Seak01 | Seak10 | TSeak10</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="298.0" height="153.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="8.0" y="8.0" width="281.0" height="105.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="11.0" y="19.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="128.0" y="28.0" width="137.0" height="21.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="131.0" y="39.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatComboBox</text>
+    <rect x="128.0" y="68.0" width="137.0" height="22.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="131.0" y="79.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="24.0" y="120.0" width="105.0" height="25.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="131.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">선택</text>
+    <rect x="168.0" y="120.0" width="105.0" height="25.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="171.0" y="131.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">취소</text>
+    <rect x="40.0" y="120.0" width="75.0" height="25.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="43.0" y="131.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">찾기</text>
+    <rect x="184.0" y="120.0" width="75.0" height="25.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="187.0" y="131.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">취소</text>
+  </g>
+</svg>

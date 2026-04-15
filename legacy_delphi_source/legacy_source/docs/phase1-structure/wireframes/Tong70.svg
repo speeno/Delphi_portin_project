@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="430" height="202" viewBox="0 0 430 202">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">Tong70</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Tong07 | Tong70 | Tong70</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="410.0" height="150.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="0.0" y="0.0" width="410.0" height="100.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="3.0" y="11.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="112.0" y="20.0" width="177.0" height="22.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="115.0" y="31.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="312.0" y="44.0" width="89.0" height="21.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="315.0" y="55.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">포트설정</text>
+    <rect x="312.0" y="71.0" width="89.0" height="21.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="315.0" y="82.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">터미널설정</text>
+  </g>
+</svg>

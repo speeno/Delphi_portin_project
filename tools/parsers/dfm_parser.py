@@ -18,9 +18,16 @@ import os
 from pathlib import Path
 from typing import Any
 
+from delphi_source_encoding import read_delphi_source
+
 
 def find_dfm_files(source_dir: str) -> list[str]:
-    return sorted(str(p) for p in Path(source_dir).rglob("*.dfm"))
+    """소문자·대문자 확장자 모두 수집(중복 경로 제거)."""
+    root = Path(source_dir)
+    paths: set[Path] = set()
+    for pat in ("*.dfm", "*.DFM"):
+        paths.update(root.rglob(pat))
+    return sorted(str(p) for p in paths)
 
 
 def parse_component(lines: list[str], index: int, depth: int = 0) -> tuple[dict, int]:
@@ -70,8 +77,7 @@ def parse_component(lines: list[str], index: int, depth: int = 0) -> tuple[dict,
 
 
 def parse_dfm_file(filepath: str) -> dict:
-    with open(filepath, "r", encoding="utf-8", errors="replace") as f:
-        content = f.read()
+    content = read_delphi_source(filepath)
 
     lines = content.split("\n")
 
@@ -89,6 +95,8 @@ def parse_dfm_file(filepath: str) -> dict:
             "file": filepath,
             "form_name": Path(filepath).stem,
             "form_class": "unknown",
+            "component_count": 0,
+            "event_count": 0,
             "components": [],
             "events": [],
             "component_summary": {},
@@ -162,7 +170,26 @@ def main():
 
     dfm_files = find_dfm_files(source_dir)
     if not dfm_files:
-        print(f"No .dfm files found in {source_dir}")
+        # 산출물 경로를 항상 남겨 sprint1_report·catalog_builder와 일치시킨다(빈 트리도 동일 형식).
+        print(f"WARNING: No .dfm files found under {source_dir}; writing empty #1/#2 outputs.")
+        inv_path = os.path.join(output_dir, "form_inventory.json")
+        flow_path = os.path.join(output_dir, "event_flow.json")
+        summary_path = os.path.join(output_dir, "dfm_summary.json")
+        with open(inv_path, "w", encoding="utf-8") as f:
+            json.dump([], f, ensure_ascii=False, indent=2)
+        with open(flow_path, "w", encoding="utf-8") as f:
+            json.dump([], f, ensure_ascii=False, indent=2)
+        empty_summary = {
+            "total_dfm_files": 0,
+            "total_forms": 0,
+            "total_components": 0,
+            "total_events": 0,
+            "form_classes": {},
+        }
+        with open(summary_path, "w", encoding="utf-8") as f:
+            json.dump(empty_summary, f, ensure_ascii=False, indent=2)
+        print(f"  Form Inventory: {inv_path}")
+        print(f"  Event Flow Map: {flow_path}")
         sys.exit(0)
 
     print(f"Parsing {len(dfm_files)} .dfm files...")

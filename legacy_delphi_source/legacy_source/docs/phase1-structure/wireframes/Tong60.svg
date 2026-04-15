@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="566" height="437" viewBox="0 0 566 437">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">Tong60</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Tong06 | Tong60 | TTong60</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="546.0" height="385.0" fill="#fff" stroke="#333" stroke-width="1"/>
+  </g>
+</svg>

@@ -1,0 +1,44 @@
+[
+  {
+    "unit": "Subu59_3",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_3.pas",
+    "variant_value": "해피데이",
+    "code": "if gCompany_name = '해피데이'",
+    "line": 1877
+  },
+  {
+    "unit": "Subu59_3",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_3.pas",
+    "variant_value": "해피데이",
+    "code": "if gCompany_name = '해피데이'",
+    "line": 1889
+  },
+  {
+    "unit": "Tong06",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong06.pas",
+    "variant_value": "한강북",
+    "code": "if (gCompany_name = '한강물류') or (gCompany_name = '한강북'",
+    "line": 568
+  },
+  {
+    "unit": "Tong06",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong06.pas",
+    "variant_value": "한강북",
+    "code": "if (gCompany_name = '한강물류') or (gCompany_name = '한강북'",
+    "line": 571
+  },
+  {
+    "unit": "Tong06",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong06.pas",
+    "variant_value": "해피데이",
+    "code": "if gCompany_name = '해피데이'",
+    "line": 1335
+  },
+  {
+    "unit": "Tong06",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong06.pas",
+    "variant_value": "해피데이",
+    "code": "if gCompany_name = '해피데이'",
+    "line": 1724
+  }
+]

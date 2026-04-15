@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="446" height="384" viewBox="0 0 446 384">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">메일전송</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Tong05 | Tong50 | TTong50</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="426.0" height="332.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="0.0" y="30.0" width="418.0" height="73.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="3.0" y="41.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TPanel</text>
+    <rect x="0.0" y="30.0" width="414.0" height="69.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="3.0" y="41.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TPaintBox</text>
+    <rect x="0.0" y="30.0" width="89.0" height="69.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="3.0" y="41.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TPanel</text>
+    <rect x="8.0" y="78.0" width="29.0" height="13.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="8.0" y="38.0" width="53.0" height="13.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="11.0" y="49.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">받는사람:</text>
+    <rect x="8.0" y="58.0" width="29.0" height="13.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="68.0" y="37.0" width="15.0" height="15.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="68.0" y="57.0" width="15.0" height="15.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="0.0" y="0.0" width="418.0" height="30.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="3.0" y="11.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TPanel</text>
+    <rect x="0.0" y="244.0" width="418.0" height="61.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="3.0" y="255.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TListView</text>
+    <rect x="0.0" y="103.0" width="418.0" height="3.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="0.0" y="106.0" width="418.0" height="136.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="3.0" y="117.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TRichEdit</text>
+    <rect x="0.0" y="242.0" width="418.0" height="2.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+  </g>
+</svg>

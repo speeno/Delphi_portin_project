@@ -1,0 +1,37 @@
+---
+description: Seak80 sample 프론트엔드 한글·인코딩 규칙 (UTF-8 저장, JS 이스케이프)
+globs: web/seak80-sample/frontend/**/*
+alwaysApply: false
+---
+
+# Seak80 sample 프론트엔드 인코딩 규칙
+
+## 핵심 원칙 (아래 항목은 반복 검토)
+
+1. **디스크 저장은 UTF-8**  
+   `<meta charset="UTF-8">`인데 파일이 **EUC-KR(CP949)** 로 저장되면 브라우저는 UTF-8로 읽어 **깨진 글자**가 된다. (`xxd`로 한글 바이트가 `ea b8` 계열이 아니라 `b0 ed` 식이면 의심)
+2. **UTF-8로 잘못 재인코딩된 본문**  
+   한글이 **`?`(0x3f)로만 보이는 경우**는 이미 **정보 손실**이라 코드로 복구 불가. Git/에디터 설정을 맞추거나 UTF-8로 **원문을 다시 입력**해야 한다.
+3. **에이전트 Write/apply_patch**  
+   일부 환경에서 UTF-8 한글 리터럴이 **다른 인코딩으로 깨져 저장**될 수 있다. 저장 후 **`file -I` / UTF-8 decode**를 필수로 한다.
+3b. **한글 HTML이 디스크에서 CP949로만 남는 경우**  
+   소스에 한글 리터럴 없이 유지하며 UTF-8로 다시 쓰려면 `python3 debug/emit_frontend_html_utf8.py` 를 사용 (기초관리·1단계 POC 관련 HTML).
+
+## 실무 (저장·검증 시 필수)
+
+1. **`web/seak80-sample/frontend`의 `*.html`, `*.js`, `*.css`**는 **UTF-8(무 BOM 권장)**로만 저장한다.  
+   - 루트 `.editorconfig`에 `charset = utf-8`, `eol = lf`가 있다.
+2. **저장 검증** (자동화 또는 수동):  
+   - `python3 -c "p=open('...','rb').read(); ..."` 등으로 UTF-8 한글 시그니처 확인, 또는  
+   - 에디터가 UTF-8이면 `python3`의 `write_text(..., encoding='utf-8', newline='\n')`로 **새 파일 생성**을 선호한다.
+3. **UI 문자열이 있는 `*.js` (메시지·라벨)**  
+   한글은 **ASCII만 쓰고 `\\uXXXX` 이스케이프**로 둔다. (`seek20.js` 패턴, `sobo12.js`/`sobo13.js` 상태 메시지)  
+   - 런타임에는 브라우저가 정상 디코딩되어 한글로 표시된다.
+4. **`*.html`에 직접 쓴 한글**  
+   - UTF-8로 저장하고, 커밋 전 **`file -I` / `xxd`로 UTF-8임을 확인**한다.  
+   - 깨진 파일을 발견하면 에디터를 UTF-8로 맞춘 후 `python3` 스크립트로 HTML을 재생성한다.
+
+## 피할 것
+
+- CP949/EUC-KR로 저장한 채 `charset="UTF-8"`만 붙이기.
+- 깨진 문자열을 그대로 두고 다른 화면만 수정하기 (동일 원인 재발).

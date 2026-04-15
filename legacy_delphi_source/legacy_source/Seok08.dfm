@@ -1,0 +1,170 @@
+object Seok80: TSeok80
+  Left = 192
+  Top = 107
+  AutoScroll = False
+  BorderIcons = [biSystemMenu]
+  ClientHeight = 243
+  ClientWidth = 335
+  Color = clBtnFace
+  Font.Charset = HANGEUL_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = '굴림'
+  Font.Style = [fsBold]
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnClose = FormClose
+  PixelsPerInch = 96
+  TextHeight = 12
+  object Panel001: TFlatPanel
+    Left = 0
+    Top = 0
+    Width = 335
+    Height = 41
+    ParentColor = True
+    ColorHighLight = clBtnFace
+    Align = alTop
+    TabOrder = 0
+    UseDockManager = True
+    object myLabel3d1: TmyLabel3d
+      Left = 48
+      Top = 8
+      Width = 238
+      Height = 29
+      Caption = '안  내  도  우  미'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clRed
+      Font.Height = -29
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AStyle3D = Raised3d
+      AShadeLTSet = False
+    end
+  end
+  object Panel002: TFlatPanel
+    Left = 0
+    Top = 41
+    Width = 335
+    Height = 202
+    ParentColor = True
+    ColorHighLight = clBtnFace
+    Align = alClient
+    TabOrder = 1
+    UseDockManager = True
+    object myLabel3d2: TmyLabel3d
+      Left = 24
+      Top = 16
+      Width = 107
+      Height = 19
+      Caption = '안녕하세요.'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object myLabel3d6: TmyLabel3d
+      Left = 24
+      Top = 48
+      Width = 261
+      Height = 19
+      Caption = '위러브솔루션(김창영)입니다.'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object myLabel3d7: TmyLabel3d
+      Left = 24
+      Top = 80
+      Width = 147
+      Height = 19
+      Caption = '다름이 아니오라'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label3: TmyLabel3d
+      Left = 176
+      Top = 80
+      Width = 62
+      Height = 19
+      Caption = '00월분'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlue
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object myLabel3d3: TmyLabel3d
+      Left = 24
+      Top = 112
+      Width = 281
+      Height = 19
+      Caption = '입금이 안되어 선택하신 메뉴를'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object myLabel3d4: TmyLabel3d
+      Left = 24
+      Top = 144
+      Width = 181
+      Height = 19
+      Caption = '사용할 수 없습니다.'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object myLabel3d5: TmyLabel3d
+      Left = 24
+      Top = 176
+      Width = 174
+      Height = 19
+      Caption = '이점 양해바랍니다.'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+  end
+end

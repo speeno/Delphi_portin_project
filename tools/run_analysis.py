@@ -8,8 +8,9 @@ Sprint 1의 정적 분석(L2) 도구를 순차적으로 실행하여
 1. .dpr 파서 → 프로젝트 구조 + 유닛 의존 관계
 2. .dfm 파서 → Form Inventory(#1) + Event Flow Map(#2)
 3. .pas 파서 → SQL Catalog(#3) + Validation Rules(#5) + Customer Variants(#6)
-4. Legacy Object Catalog 빌더 → 통합 카탈로그
-5. 분석 요약 보고서 생성
+4. DB Impact Matrix 빌더(산출물 #4, SQL 카탈로그 기반)
+5. Legacy Object Catalog 빌더 → 통합 카탈로그
+6. 분석 요약 보고서 생성
 
 사용법:
   python run_analysis.py <delphi_source_dir>
@@ -42,6 +43,18 @@ def run_step(name: str, cmd: list[str]) -> bool:
     return True
 
 
+def _deliverable_item_count(name: str, data) -> int:
+    """리포트용 건수: 리스트는 길이, #4는 summary.total_tables, 그 외 dict는 최상위 키 개수."""
+    if isinstance(data, list):
+        return len(data)
+    if isinstance(data, dict):
+        if name == "#4 DB Impact Matrix":
+            summary = data.get("summary") or {}
+            return int(summary.get("total_tables", 0))
+        return len(data)
+    return 0
+
+
 def generate_summary_report():
     """분석 요약 보고서를 생성한다."""
     report = {
@@ -62,7 +75,7 @@ def generate_summary_report():
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 data = json.load(f)
-            count = len(data) if isinstance(data, list) else len(data.keys()) if isinstance(data, dict) else 0
+            count = _deliverable_item_count(name, data)
             report["deliverables"][name] = {
                 "status": "완료",
                 "file": path,
@@ -126,7 +139,16 @@ def main():
             [python, os.path.join(parsers, "pas_parser.py"), source_dir, ANALYSIS_DIR],
         ),
         (
-            "4. Legacy Object Catalog 빌더",
+            "4. DB Impact Matrix 빌더 (산출물 #4)",
+            [
+                python,
+                os.path.join(TOOLS_DIR, "db", "db_impact_builder.py"),
+                ANALYSIS_DIR,
+                os.path.join(ANALYSIS_DIR, "db_impact_matrix.json"),
+            ],
+        ),
+        (
+            "5. Legacy Object Catalog 빌더",
             [python, os.path.join(TOOLS_DIR, "catalog_builder.py"), ANALYSIS_DIR, os.path.join(ANALYSIS_DIR, "legacy_object_catalog.json")],
         ),
     ]

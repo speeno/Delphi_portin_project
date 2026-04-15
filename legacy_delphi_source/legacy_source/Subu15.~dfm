@@ -1,0 +1,1799 @@
+object Sobo15: TSobo15
+  Left = 71
+  Top = 120
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = '거래처관리-개별'
+  ClientHeight = 566
+  ClientWidth = 901
+  Color = clBtnFace
+  Font.Charset = HANGEUL_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = '굴림'
+  Font.Style = [fsBold]
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Visible = True
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnPaint = FormPaint
+  PixelsPerInch = 96
+  TextHeight = 12
+  object CornerButton2: TCornerButton
+    Left = 4
+    Top = 3
+    Width = 21
+    Height = 406
+    Cursor = crArrow
+    BevelColor = clBlue
+    BevelWidth = 1
+    MouseDownColor = clBlue
+    Transparent = False
+    CornerOptions = [cnTopLeft, cnBottomLeft]
+    CornerSize = 10
+  end
+  object CornerButton3: TCornerButton
+    Left = 4
+    Top = 415
+    Width = 21
+    Height = 114
+    Cursor = crArrow
+    BevelColor = clTeal
+    BevelWidth = 1
+    MouseDownColor = clTeal
+    Transparent = False
+    CornerOptions = [cnTopLeft, cnBottomLeft]
+    CornerSize = 10
+  end
+  object CornerButton4: TCornerButton
+    Left = 4
+    Top = 533
+    Width = 21
+    Height = 30
+    Cursor = crArrow
+    BevelColor = clBlack
+    BevelWidth = 1
+    MouseDownColor = clBlack
+    Transparent = False
+    CornerOptions = [cnTopLeft, cnBottomLeft]
+    CornerSize = 10
+  end
+  object Label002: TmyLabel3d
+    Left = 9
+    Top = 168
+    Width = 13
+    Height = 65
+    Caption = '거'#13#10'래'#13#10'처'#13#10'현'#13#10'황'
+    Font.Charset = HANGEUL_CHARSET
+    Font.Color = clBlue
+    Font.Height = -13
+    Font.Name = '굴림'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    Transparent = True
+    AShadeLTSet = False
+  end
+  object Label003: TmyLabel3d
+    Left = 9
+    Top = 456
+    Width = 13
+    Height = 26
+    Caption = '구'#13#10'분'
+    Font.Charset = HANGEUL_CHARSET
+    Font.Color = clTeal
+    Font.Height = -13
+    Font.Name = '굴림'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    Transparent = True
+    AShadeLTSet = False
+  end
+  object Label309: TmyLabel3d
+    Left = 10
+    Top = 537
+    Width = 12
+    Height = 24
+    Caption = '상'#13#10'태'
+    Font.Charset = HANGEUL_CHARSET
+    Font.Color = clBlack
+    Font.Height = -12
+    Font.Name = '굴림'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    Transparent = True
+    AShadeLTSet = False
+  end
+  object Panel001: TFlatPanel
+    Left = 24
+    Top = 4
+    Width = 265
+    Height = 405
+    ParentColor = True
+    TabOrder = 0
+    UseDockManager = True
+    object DBGrid101: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 263
+      Height = 403
+      Align = alClient
+      BorderStyle = bsNone
+      DataSource = DataSource1
+      ImeName = '한국어(한글)'
+      Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgMultiSelect]
+      TabOrder = 0
+      TitleFont.Charset = HANGEUL_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = '굴림'
+      TitleFont.Style = [fsBold]
+      OnDblClick = DBGrid101DblClick
+      OnEnter = DBGrid101Enter
+      OnExit = DBGrid101Exit
+      OnKeyDown = DBGrid101KeyDown
+      OnKeyPress = DBGrid101KeyPress
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'GCODE'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          Title.Alignment = taCenter
+          Title.Caption = '코드'
+          Title.Font.Charset = HANGEUL_CHARSET
+          Title.Font.Color = clBlack
+          Title.Font.Height = -12
+          Title.Font.Name = '굴림체'
+          Title.Font.Style = [fsBold]
+          Width = 40
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'GNAME'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          Title.Alignment = taCenter
+          Title.Caption = '거래처명'
+          Title.Font.Charset = HANGEUL_CHARSET
+          Title.Font.Color = clBlack
+          Title.Font.Height = -12
+          Title.Font.Name = '굴림체'
+          Title.Font.Style = [fsBold]
+          Width = 174
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'SCODE'
+          Title.Alignment = taCenter
+          Title.Caption = '^'
+          Title.Font.Charset = HANGEUL_CHARSET
+          Title.Font.Color = clBlack
+          Title.Font.Height = -12
+          Title.Font.Name = '굴림체'
+          Title.Font.Style = [fsBold]
+          Width = 16
+          Visible = True
+        end>
+    end
+  end
+  object Panel002: TFlatPanel
+    Left = 288
+    Top = 4
+    Width = 609
+    Height = 405
+    ParentColor = True
+    TabOrder = 1
+    UseDockManager = True
+    object Label100: TmyLabel3d
+      Left = 8
+      Top = 8
+      Width = 100
+      Height = 19
+      Caption = '거래처현황'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clRed
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label101: TmyLabel3d
+      Left = 120
+      Top = 256
+      Width = 26
+      Height = 12
+      Caption = '위탁'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label102: TmyLabel3d
+      Left = 184
+      Top = 256
+      Width = 26
+      Height = 12
+      Caption = '현매'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label103: TmyLabel3d
+      Left = 248
+      Top = 256
+      Width = 26
+      Height = 12
+      Caption = '매절'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label104: TmyLabel3d
+      Left = 312
+      Top = 256
+      Width = 26
+      Height = 12
+      Caption = '납품'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label105: TmyLabel3d
+      Left = 376
+      Top = 256
+      Width = 26
+      Height = 12
+      Caption = '특별'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label106: TmyLabel3d
+      Left = 440
+      Top = 256
+      Width = 26
+      Height = 12
+      Caption = '한도'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label107: TmyLabel3d
+      Left = 488
+      Top = 256
+      Width = 52
+      Height = 12
+      Caption = '신간수량'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label108: TmyLabel3d
+      Left = 169
+      Top = 75
+      Width = 15
+      Height = 19
+      Caption = '~'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label109: TmyLabel3d
+      Left = 417
+      Top = 156
+      Width = 15
+      Height = 19
+      Caption = '~'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label110: TmyLabel3d
+      Left = 417
+      Top = 183
+      Width = 15
+      Height = 19
+      Caption = '~'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label300: TmyLabel3d
+      Left = 8
+      Top = 32
+      Width = 40
+      Height = 13
+      Caption = '_____'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AStyle3D = Resit3d
+      AShadeLTSet = False
+    end
+    object Label301: TmyLabel3d
+      Left = 56
+      Top = 32
+      Width = 40
+      Height = 13
+      Caption = '_____'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlue
+      Font.Height = -13
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AStyle3D = Resit3d
+      AShadeLTSet = False
+    end
+    object Label111: TmyLabel3d
+      Left = 485
+      Top = 50
+      Width = 36
+      Height = 22
+      Alignment = taCenter
+      Caption = '출고증'#13#10'구분'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -11
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Label130: TmyLabel3d
+      Left = 515
+      Top = 106
+      Width = 26
+      Height = 12
+      Caption = '번호'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Panel100: TFlatPanel
+      Left = 303
+      Top = 1
+      Width = 298
+      Height = 41
+      ParentColor = True
+      ColorHighLight = clBtnFace
+      ColorShadow = clBtnFace
+      TabOrder = 49
+      UseDockManager = True
+      object Button101: TdxButton
+        Left = 17
+        Top = 6
+        Width = 88
+        Height = 26
+        OnClick = Button101Click
+        Caption = '새화면'
+        TabOrder = 0
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000C30E0000C30E00000000000000000000FAFAFAFAFAFA
+          FAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFA
+          FAFAFAFAFAFAFAFAFAFA99999999999999999999999999999999999999999999
+          9999999999999999999999999999999999999999999999999999999999666666
+          6666666666666666666666666666666666666666666666666666666666666666
+          66666666666666999999666666E8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8
+          DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDF666666666666E8DFDF
+          FAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFA000033FAFA
+          FA000033E8DFDF666666666666E8DFDFFAFAFA666666FAFAFA666666FAFAFAFA
+          FAFAFAFAFAFAFAFAFAFAFA000033000033000033E8DFDF666666666666E8DFDF
+          FAFAFAFAFAFA666666FAFAFAFAFAFA8181812D2D2D2D2D2DFAFAFA000033FAFA
+          FA000033E8DFDF666666666666E8DFDFFAFAFAFAFAFA666666FAFAFAFAFAFA2D
+          2D2D33CCFF0066992D2D2DFAFAFA000033000033E8DFDF666666666666E8DFDF
+          FAFAFAFAFAFA666666FAFAFAFAFAFA2D2D2D00F2FF33CCFF0066992D2D2DFAFA
+          FAFAFAFAE8DFDF666666666666E8DFDFFAFAFAFAFAFA666666FAFAFAFAFAFAFA
+          FAFA2D2D2D00F2FF33CCFF0066992D2D2DFAFAFAE8DFDF666666666666E8DFDF
+          FAFAFA666666FAFAFA666666FAFAFAFAFAFAFAFAFA2D2D2D00F2FF33CCFF0066
+          992D2D2DFAFAFA666666666666E8DFDFFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFA
+          FAFAFAFAFAFAFAFA4C144C3476B14D63B12A3B842E2C2E835783666666E8DFDF
+          E8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFB686B62D2D2D00F2
+          FF4878C02E2C2E2C007199999966666666666666666666666666666666666666
+          6666666666666666662E667F4A7F441A44441A443A12B22D0071999999999999
+          999999999999999999999999999999999999999999999999815081948B94958C
+          952A0072120076979297FAFAFAFAFAFAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA
+          FAFAFAFAFAFAFAFAD8BDD8BE93BEC39BC3E5D3E5F9F9F9FAFAFA}
+      end
+      object Button102: TdxButton
+        Left = 113
+        Top = 6
+        Width = 88
+        Height = 26
+        OnClick = Button102Click
+        Caption = '저장'
+        TabOrder = 1
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000120B0000120B00000000000000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC6C6C61A1A1A1A1A1A1B1B1B1A1A1A1B1B
+          1B1B1B1B1C1C1C858585FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6D6D6DFFFFFF90
+          9090D9D9D9D9D9D9DADADAE1E0E0E6E2E2DEDEDEDCDCDC565656FFFFFFFFFFFF
+          FFFFFF6D6D6D6D6D6D6D6D6D6D6D6D989898FAFAFAFAFAFAFBFBFB8C92925884
+          84C3BCBCFAFAFA545454FFFFFFFFFFFF6D6D6DFFFFFFFFFFFF6D6D6DFFFFFF97
+          9797FAFAFA7474746E75752C9F9F02A6A60D5757E5E3E3585757FFFFFFFFFFFF
+          6D6D6DFFFFFFFFFFFFFFFFFFFFFFFF989898FAFAFA9D9D9D7288881AB5B5019B
+          9B017878E2E3E3595858FFFFFFFFFFFF6D6D6DFFFFFFFFFFFFFFFFFFFFFFFF97
+          9797FAFAFAB0B0B0BAB6B696B2B2239C9CAEAEAEFAFAFA555555FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF989898FAFAFA8787876061615350505553
+          53CAC8C8FAFAFA555555FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF98
+          9898FAFAFA979797797979D8D8D87E7E7ECDCDCDFAFAFA555555FFFFFFE8E8F0
+          575758FCFCFCFFFFFFFFFFFFFFFFFF979797FAFAFAD4D4D4C7C7C7F1F1F1C8C8
+          C8EDEDEDFAFAFA535353F5F5FDB7B786282819848485FFFFFFFFFFFFFFFFFF9E
+          9E9ED8D8D8DFDFDFD5D5D5CDCDCDE1E1E1DADADAC8C8C8646464B2B28AE5E510
+          4747295C5C629F9F9FFFFFFFFFFFFFC2C2C2767676A7A7A7A0A0A09E9E9EA4A4
+          A4A6A6A68B8B8B888888999967C9C93E9C9C0B58585249494CFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFAC75AC693569B17CB1BF94BFFDFBFDBD91BD8F8F76BFBF1A
+          C7C7019191071E1E21FFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB889B86D6D6DFFFF
+          FFC096C0FCF9FCBD91BDD4D4CBBDBD2FBFBF00C6C6006A6A06FFFFFF6D6D6D6D
+          6D6D6D6D6D6D6D6D693269B17CB1C096C0C096C0C49CC4BB8EBBFFFFFFD3D3CE
+          BFBF22BFBF22D6D6CCFFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB685B6F1E7F1F2E9
+          F2C096C0E4D1E4F9F4F9FFFFFFFFFFFFC8C8A8C8C8A8FFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFD8BDD8BE93BEC39BC3E5D3E5FEFDFEFFFFFF}
+      end
+      object Button103: TdxButton
+        Left = 209
+        Top = 6
+        Width = 88
+        Height = 26
+        OnClick = Button103Click
+        Caption = '삭제'
+        TabOrder = 2
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000120B0000120B00000000000000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6D6D6DFFFFFF00000000
+          0000000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF
+          6D6D6D6D6D6D6D6D6D6D6D6D808080FFFFFFFFFF00808000FFFFFFFFFF008080
+          00000000000000FFFFFFFFFFFF6D6D6DFFFFFFFFFFFF6D6D6DFFFFFF808080FF
+          FF00FFFFFF808000FFFF00FFFFFF808000000000808000000000FFFFFF6D6D6D
+          FFFFFFFFFFFFFFFFFFFFFFFF808080808000808000000000808000FFFFFF8080
+          00000000808000000000FFFFFF6D6D6DFFFFFFFFFFFFFFFFFFFFFFFF808080FF
+          FFFFFFFF00808000000000000000000000000000808000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFF808080FFFF00FFFFFF8080000000008080008080
+          00808000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF80
+          8080FFFF00FFFFFF000000808000FFFFFF808000808000000000FFFFFFE8E8F0
+          575758FCFCFCFFFFFFFFFFFFFFFFFFFFFFFF808080808000808000FFFFFFFFFF
+          00808000808000000000F5F5FDB7B786282819848485FFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFF808080808080808080808080808080808080808080B2B28AE5E510
+          4747295C5C629F9F9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6D6D6DFFFF
+          FFFFFFFFFFFFFFFFFFFF999967C9C93E9C9C0B58585249494CFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFAC75AC693569B17CB1BF94BFFDFBFDBD91BD8F8F76BFBF1A
+          C7C7019191071E1E21FFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB889B86D6D6DFFFF
+          FFC096C0FCF9FCBD91BDD4D4CBBDBD2FBFBF00C6C6006A6A06FFFFFF6D6D6D6D
+          6D6D6D6D6D6D6D6D693269B17CB1C096C0C096C0C49CC4BB8EBBFFFFFFD3D3CE
+          BFBF22BFBF22D6D6CCFFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB685B6F1E7F1F2E9
+          F2C096C0E4D1E4F9F4F9FFFFFFFFFFFFC8C8A8C8C8A8FFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFD8BDD8BE93BEC39BC3E5D3E5FEFDFEFFFFFF}
+      end
+    end
+    object Panel101: TFlatPanel
+      Left = 16
+      Top = 47
+      Width = 90
+      Height = 22
+      Caption = '거래처구분'
+      ParentColor = True
+      TabOrder = 31
+      UseDockManager = True
+    end
+    object Panel103: TFlatPanel
+      Left = 16
+      Top = 74
+      Width = 90
+      Height = 22
+      Caption = '거래처코드'
+      ParentColor = True
+      TabOrder = 33
+      UseDockManager = True
+    end
+    object Panel102: TFlatPanel
+      Left = 280
+      Top = 47
+      Width = 90
+      Height = 22
+      Caption = '거래처지역'
+      ParentColor = True
+      TabOrder = 32
+      UseDockManager = True
+    end
+    object Panel105: TFlatPanel
+      Left = 280
+      Top = 74
+      Width = 90
+      Height = 22
+      Caption = '거래처명'
+      ParentColor = True
+      TabOrder = 34
+      UseDockManager = True
+    end
+    object Panel106: TFlatPanel
+      Left = 16
+      Top = 101
+      Width = 90
+      Height = 22
+      Caption = '대 표 자'
+      ParentColor = True
+      TabOrder = 35
+      UseDockManager = True
+    end
+    object Panel107: TFlatPanel
+      Left = 280
+      Top = 101
+      Width = 90
+      Height = 22
+      Caption = '사업자번호'
+      ParentColor = True
+      TabOrder = 36
+      UseDockManager = True
+    end
+    object Panel109: TFlatPanel
+      Left = 280
+      Top = 128
+      Width = 90
+      Height = 22
+      Caption = '종     목'
+      ParentColor = True
+      TabOrder = 38
+      UseDockManager = True
+    end
+    object Panel108: TFlatPanel
+      Left = 16
+      Top = 128
+      Width = 90
+      Height = 22
+      Caption = '업     태'
+      ParentColor = True
+      TabOrder = 37
+      UseDockManager = True
+    end
+    object Panel110: TFlatPanel
+      Left = 16
+      Top = 155
+      Width = 90
+      Height = 22
+      Caption = '담 당 자'
+      ParentColor = True
+      TabOrder = 39
+      UseDockManager = True
+    end
+    object Panel112: TFlatPanel
+      Left = 280
+      Top = 155
+      Width = 90
+      Height = 22
+      Caption = '전화번호'
+      ParentColor = True
+      TabOrder = 40
+      UseDockManager = True
+    end
+    object Panel114: TFlatPanel
+      Left = 280
+      Top = 182
+      Width = 90
+      Height = 22
+      Caption = '팩스번호'
+      ParentColor = True
+      TabOrder = 42
+      UseDockManager = True
+    end
+    object Panel111: TFlatPanel
+      Left = 16
+      Top = 182
+      Width = 90
+      Height = 22
+      Caption = '우편번호'
+      ParentColor = True
+      TabOrder = 41
+      UseDockManager = True
+    end
+    object Panel116: TFlatPanel
+      Left = 16
+      Top = 209
+      Width = 90
+      Height = 46
+      Caption = '주소'
+      ParentColor = True
+      TabOrder = 43
+      UseDockManager = True
+    end
+    object Panel118: TFlatPanel
+      Left = 16
+      Top = 268
+      Width = 90
+      Height = 22
+      Caption = '비율'
+      ParentColor = True
+      TabOrder = 44
+      UseDockManager = True
+    end
+    object Panel125: TFlatPanel
+      Left = 16
+      Top = 349
+      Width = 90
+      Height = 22
+      Caption = '비고1'
+      ParentColor = True
+      TabOrder = 46
+      UseDockManager = True
+    end
+    object Edit101: TFlatComboBox
+      Left = 112
+      Top = 47
+      Width = 129
+      Height = 23
+      Color = clWindow
+      DropDownCount = 9
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -15
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ItemHeight = 15
+      ParentFont = False
+      TabOrder = 0
+      ItemIndex = -1
+      OnChange = Edit101Change
+      OnKeyDown = Edit112KeyDown
+      OnKeyPress = Edit112KeyPress
+    end
+    object Edit102: TFlatEdit
+      Left = 376
+      Top = 47
+      Width = 81
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 6
+      ParentFont = False
+      TabOrder = 1
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit103: TFlatEdit
+      Left = 112
+      Top = 74
+      Width = 57
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Enabled = False
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 5
+      ParentFont = False
+      TabOrder = 3
+      OnChange = Edit101Change
+      OnExit = Edit101Exit
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit104: TFlatEdit
+      Left = 184
+      Top = 74
+      Width = 57
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 5
+      ParentFont = False
+      TabOrder = 4
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit105: TFlatEdit
+      Left = 376
+      Top = 74
+      Width = 209
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 50
+      ParentFont = False
+      TabOrder = 5
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit106: TFlatEdit
+      Left = 112
+      Top = 101
+      Width = 153
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 30
+      ParentFont = False
+      TabOrder = 6
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit107: TFlatEdit
+      Left = 376
+      Top = 101
+      Width = 129
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 12
+      ParentFont = False
+      TabOrder = 7
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit108: TFlatEdit
+      Left = 112
+      Top = 128
+      Width = 153
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 30
+      ParentFont = False
+      TabOrder = 8
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit109: TFlatEdit
+      Left = 376
+      Top = 128
+      Width = 153
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 30
+      ParentFont = False
+      TabOrder = 9
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit110: TFlatEdit
+      Left = 112
+      Top = 155
+      Width = 113
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 20
+      ParentFont = False
+      TabOrder = 10
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit111: TFlatEdit
+      Left = 112
+      Top = 182
+      Width = 89
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 7
+      ParentFont = False
+      TabOrder = 11
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit114KeyPress
+    end
+    object Edit112: TFlatEdit
+      Left = 376
+      Top = 155
+      Width = 42
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 4
+      ParentFont = False
+      TabOrder = 12
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit113: TFlatEdit
+      Left = 432
+      Top = 155
+      Width = 153
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 20
+      ParentFont = False
+      TabOrder = 13
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit114: TFlatEdit
+      Left = 376
+      Top = 182
+      Width = 42
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 4
+      ParentFont = False
+      TabOrder = 14
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit115: TFlatEdit
+      Left = 432
+      Top = 182
+      Width = 153
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 20
+      ParentFont = False
+      TabOrder = 15
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit116: TFlatEdit
+      Left = 112
+      Top = 209
+      Width = 473
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 90
+      ParentFont = False
+      TabOrder = 16
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit117: TFlatEdit
+      Left = 112
+      Top = 233
+      Width = 473
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 90
+      ParentFont = False
+      TabOrder = 17
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit125: TFlatEdit
+      Left = 112
+      Top = 349
+      Width = 473
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 50
+      ParentFont = False
+      TabOrder = 29
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Button104: TFlatButton
+      Left = 200
+      Top = 182
+      Width = 25
+      Height = 22
+      Color = clBtnFace
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000130B0000130B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        333333333333333333FF33333333333330003FF3FFFFF3333777003000003333
+        300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333
+        330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000
+        333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000
+        339977FF777777773377000BFB03333333337773FF733333333F333000333333
+        3300333777333333337733333333333333003333333333333377333333333333
+        333333333333333333FF33333333333330003333333333333777333333333333
+        3000333333333333377733333333333333333333333333333333}
+      Layout = blGlyphLeft
+      NumGlyphs = 2
+      ParentColor = False
+      TabOrder = 48
+      OnClick = Button104Click
+    end
+    object Edit118: TFlatNumber
+      Left = 112
+      Top = 268
+      Width = 41
+      Height = 21
+      Digits = 0
+      Max = 999
+      FormatStr = '%3.0n'
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 3
+      ParentFont = False
+      TabOrder = 18
+      Text = '0'
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit119: TFlatNumber
+      Left = 176
+      Top = 268
+      Width = 41
+      Height = 21
+      Digits = 0
+      Max = 999
+      FormatStr = '%3.0n'
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 3
+      ParentFont = False
+      TabOrder = 19
+      Text = '0'
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit120: TFlatNumber
+      Left = 240
+      Top = 268
+      Width = 41
+      Height = 21
+      Digits = 0
+      Max = 999
+      FormatStr = '%3.0n'
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 3
+      ParentFont = False
+      TabOrder = 20
+      Text = '0'
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit121: TFlatNumber
+      Left = 304
+      Top = 268
+      Width = 41
+      Height = 21
+      Digits = 0
+      Max = 999
+      FormatStr = '%3.0n'
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 3
+      ParentFont = False
+      TabOrder = 21
+      Text = '0'
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit122: TFlatNumber
+      Left = 368
+      Top = 268
+      Width = 41
+      Height = 21
+      Digits = 0
+      Max = 999
+      FormatStr = '%3.0n'
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 3
+      ParentFont = False
+      TabOrder = 22
+      Text = '0'
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit123: TFlatNumber
+      Left = 432
+      Top = 268
+      Width = 41
+      Height = 21
+      Digits = 0
+      Max = 999
+      FormatStr = '%3.0n'
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 3
+      ParentFont = False
+      TabOrder = 23
+      Text = '0'
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit124: TFlatNumber
+      Left = 488
+      Top = 268
+      Width = 49
+      Height = 21
+      Digits = 0
+      Max = 99999.000064
+      FormatStr = '%5.0n'
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 5
+      ParentFont = False
+      TabOrder = 24
+      Text = '0'
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Panel126: TFlatPanel
+      Left = 16
+      Top = 373
+      Width = 90
+      Height = 22
+      Caption = '비고2'
+      ParentColor = True
+      TabOrder = 47
+      UseDockManager = True
+    end
+    object Edit126: TFlatEdit
+      Left = 112
+      Top = 373
+      Width = 473
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 50
+      ParentFont = False
+      TabOrder = 30
+      OnChange = Edit101Change
+      OnKeyDown = Edit102KeyDown
+      OnKeyPress = Edit102KeyPress
+    end
+    object Panel127: TFlatPanel
+      Left = 16
+      Top = 295
+      Width = 90
+      Height = 22
+      Caption = '계 산 서'
+      ParentColor = True
+      TabOrder = 45
+      UseDockManager = True
+    end
+    object Edit127: TFlatEdit
+      Left = 304
+      Top = 295
+      Width = 281
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 50
+      ParentFont = False
+      TabOrder = 26
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object CheckBox1: TFlatCheckBox
+      Left = 112
+      Top = 298
+      Width = 192
+      Height = 17
+      Caption = '발행유무           거래처명->'
+      Color = clBtnFace
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 25
+      TabStop = True
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Panel129: TFlatPanel
+      Left = 16
+      Top = 322
+      Width = 90
+      Height = 22
+      Caption = '출고정지'
+      ParentColor = True
+      TabOrder = 50
+      UseDockManager = True
+    end
+    object CheckBox2: TFlatCheckBox
+      Left = 112
+      Top = 325
+      Width = 192
+      Height = 17
+      Caption = '정지유무           정지사유->'
+      Color = clBtnFace
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 27
+      TabStop = True
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit129: TFlatEdit
+      Left = 304
+      Top = 322
+      Width = 281
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 50
+      ParentFont = False
+      TabOrder = 28
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit128: TFlatComboBox
+      Left = 528
+      Top = 47
+      Width = 57
+      Height = 23
+      Color = clWindow
+      DropDownCount = 9
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -15
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ItemHeight = 15
+      Items.Strings = (
+        '01'
+        '02'
+        '03'
+        '04'
+        '05'
+        '06'
+        '07'
+        '08'
+        '09'
+        '10')
+      MaxLength = 2
+      ParentFont = False
+      TabOrder = 2
+      Text = '01'
+      ItemIndex = 0
+      OnChange = Edit101Change
+      OnKeyDown = Edit115KeyDown
+      OnKeyPress = Edit115KeyPress
+    end
+    object Button000: TdxButton
+      Left = 176
+      Top = 7
+      Width = 89
+      Height = 26
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clRed
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = FormShow
+      Style.Theme = OfficeXP
+      Caption = '검색'
+      TabOrder = 51
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        18000000000000030000610B0000610B0000000000000000000099FF99686568
+        6666666666666666666666666666666666666666666666666666666666666666
+        66183D6064687366666699FF99686568EAEAEA686568666666EAEAEAEAEAEAEA
+        EAEAEAEAEAEAEAEAEAEAEAEAEAEA183D604D5A9151719864687399FF99686568
+        666666666666666666666666666666666666666666666666666666183D604D5A
+        914995E198D8F83C98E499FF99686568C8B3A4FFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFF183D604D5A91468EDD98D8F83C98E466666699FF99686568
+        C8B3A4F6F2F0F4EEEBF1EAE6AA8882AA8882AA8882AA88829B949A6394CA98D8
+        F83C98E4EAEAEA66666699FF99686568C8B3A4F9F6F5E6D9D3AA8882F6E9C4FF
+        EABDFFF2D5FCF5DEAA8882AFB0B63C98E4666666EAEAEA66666699FF99686568
+        C8B3A4FCFBFAAA8882EFE0C0FFE1AFFFECCCFFF2DDFFFBF5FDFBF3AA8882FFFF
+        FF666666EAEAEA66666699FF99686568C8B3A4FFFFFFAA8882FBECC3FFDBA6FF
+        E9C7FFEFD8FFF4E2FFF1D7AA8882FFFFFF666666EAEAEA66666699FF99686568
+        C8B3A4FFFFFFAA8882F9EEC9FFE6C2FFDFB3FFE8C6FFEAC9FFE4B2AA8882FFFF
+        FF666666EAEAEA66666699FF99686568C8B3A4FFFFFFAA8882E9DCCBFEFEFBFF
+        E8C6FFDAA3FFDFA9F9EBC2AA8882FFFFFF666666EAEAEA66666699FF99686568
+        C8B3A4FFFFFFF6F2F0AA8882EBE0CEFAEFCAFCEDC3EFE0BFAA8882E6D9D3FFFF
+        FF666666EAEAEA66666699FF99686568C8B3A4FFFFFFFFFFFFF6F2F0AA8882AA
+        8882AA8882AA8882A16398B17CB1B17CB1663B66E8E7E8663A6699FF99686568
+        C8B3A4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDFDFDB686B5FFFFFFFFFF
+        FF663C66666366663A6699FF99686568C8B3A4FFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFAB74ABB17CB1C096C0663C66663E6666396699FF99686568
+        C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4995D86BFA29EC0A4
+        9F663C66D3C0D366616699FF9966666667676767676767676767676767676767
+        6767676767676767674C67663B66673E67665466666566666666}
+    end
+    object Edit130: TFlatEdit
+      Left = 544
+      Top = 101
+      Width = 41
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 10
+      ParentFont = False
+      TabOrder = 52
+      OnChange = Edit101Change
+      OnKeyDown = Edit111KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+  end
+  object Panel003: TFlatPanel
+    Left = 24
+    Top = 416
+    Width = 265
+    Height = 113
+    ParentColor = True
+    TabOrder = 2
+    UseDockManager = True
+    object DBGrid201: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 263
+      Height = 111
+      Align = alClient
+      BorderStyle = bsNone
+      DataSource = DataSource2
+      ImeName = '한국어(한글)'
+      Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgMultiSelect]
+      TabOrder = 0
+      TitleFont.Charset = HANGEUL_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = '굴림'
+      TitleFont.Style = [fsBold]
+      OnExit = DBGrid201Exit
+      OnKeyDown = DBGrid201KeyDown
+      OnKeyPress = DBGrid201KeyPress
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'GCODE'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          Title.Alignment = taCenter
+          Title.Caption = '코드'
+          Title.Font.Charset = HANGEUL_CHARSET
+          Title.Font.Color = clBlack
+          Title.Font.Height = -12
+          Title.Font.Name = '굴림체'
+          Title.Font.Style = [fsBold]
+          Width = 40
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'GNAME'
+          Font.Charset = HANGEUL_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = '굴림'
+          Font.Style = [fsBold]
+          Title.Alignment = taCenter
+          Title.Caption = '거래처구분'
+          Title.Font.Charset = HANGEUL_CHARSET
+          Title.Font.Color = clBlack
+          Title.Font.Height = -12
+          Title.Font.Name = '굴림체'
+          Title.Font.Style = [fsBold]
+          Width = 191
+          Visible = True
+        end>
+    end
+  end
+  object Panel004: TFlatPanel
+    Left = 288
+    Top = 416
+    Width = 609
+    Height = 113
+    ParentColor = True
+    TabOrder = 3
+    UseDockManager = True
+    object Label200: TmyLabel3d
+      Left = 8
+      Top = 8
+      Width = 100
+      Height = 19
+      Caption = '거래처구분'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clRed
+      Font.Height = -19
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Panel200: TFlatPanel
+      Left = 303
+      Top = 1
+      Width = 298
+      Height = 41
+      ParentColor = True
+      ColorHighLight = clBtnFace
+      ColorShadow = clBtnFace
+      TabOrder = 4
+      UseDockManager = True
+      object Button201: TdxButton
+        Left = 17
+        Top = 6
+        Width = 88
+        Height = 26
+        OnClick = Button201Click
+        Caption = '새화면'
+        TabOrder = 0
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000C30E0000C30E00000000000000000000FAFAFAFAFAFA
+          FAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFA
+          FAFAFAFAFAFAFAFAFAFA99999999999999999999999999999999999999999999
+          9999999999999999999999999999999999999999999999999999999999666666
+          6666666666666666666666666666666666666666666666666666666666666666
+          66666666666666999999666666E8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8
+          DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDF666666666666E8DFDF
+          FAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFA000033FAFA
+          FA000033E8DFDF666666666666E8DFDFFAFAFA666666FAFAFA666666FAFAFAFA
+          FAFAFAFAFAFAFAFAFAFAFA000033000033000033E8DFDF666666666666E8DFDF
+          FAFAFAFAFAFA666666FAFAFAFAFAFA8181812D2D2D2D2D2DFAFAFA000033FAFA
+          FA000033E8DFDF666666666666E8DFDFFAFAFAFAFAFA666666FAFAFAFAFAFA2D
+          2D2D33CCFF0066992D2D2DFAFAFA000033000033E8DFDF666666666666E8DFDF
+          FAFAFAFAFAFA666666FAFAFAFAFAFA2D2D2D00F2FF33CCFF0066992D2D2DFAFA
+          FAFAFAFAE8DFDF666666666666E8DFDFFAFAFAFAFAFA666666FAFAFAFAFAFAFA
+          FAFA2D2D2D00F2FF33CCFF0066992D2D2DFAFAFAE8DFDF666666666666E8DFDF
+          FAFAFA666666FAFAFA666666FAFAFAFAFAFAFAFAFA2D2D2D00F2FF33CCFF0066
+          992D2D2DFAFAFA666666666666E8DFDFFAFAFAFAFAFAFAFAFAFAFAFAFAFAFAFA
+          FAFAFAFAFAFAFAFA4C144C3476B14D63B12A3B842E2C2E835783666666E8DFDF
+          E8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFE8DFDFB686B62D2D2D00F2
+          FF4878C02E2C2E2C007199999966666666666666666666666666666666666666
+          6666666666666666662E667F4A7F441A44441A443A12B22D0071999999999999
+          999999999999999999999999999999999999999999999999815081948B94958C
+          952A0072120076979297FAFAFAFAFAFAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA
+          FAFAFAFAFAFAFAFAD8BDD8BE93BEC39BC3E5D3E5F9F9F9FAFAFA}
+      end
+      object Button202: TdxButton
+        Left = 113
+        Top = 6
+        Width = 88
+        Height = 26
+        OnClick = Button202Click
+        Caption = '저장'
+        TabOrder = 1
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000120B0000120B00000000000000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC6C6C61A1A1A1A1A1A1B1B1B1A1A1A1B1B
+          1B1B1B1B1C1C1C858585FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6D6D6DFFFFFF90
+          9090D9D9D9D9D9D9DADADAE1E0E0E6E2E2DEDEDEDCDCDC565656FFFFFFFFFFFF
+          FFFFFF6D6D6D6D6D6D6D6D6D6D6D6D989898FAFAFAFAFAFAFBFBFB8C92925884
+          84C3BCBCFAFAFA545454FFFFFFFFFFFF6D6D6DFFFFFFFFFFFF6D6D6DFFFFFF97
+          9797FAFAFA7474746E75752C9F9F02A6A60D5757E5E3E3585757FFFFFFFFFFFF
+          6D6D6DFFFFFFFFFFFFFFFFFFFFFFFF989898FAFAFA9D9D9D7288881AB5B5019B
+          9B017878E2E3E3595858FFFFFFFFFFFF6D6D6DFFFFFFFFFFFFFFFFFFFFFFFF97
+          9797FAFAFAB0B0B0BAB6B696B2B2239C9CAEAEAEFAFAFA555555FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF989898FAFAFA8787876061615350505553
+          53CAC8C8FAFAFA555555FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF98
+          9898FAFAFA979797797979D8D8D87E7E7ECDCDCDFAFAFA555555FFFFFFE8E8F0
+          575758FCFCFCFFFFFFFFFFFFFFFFFF979797FAFAFAD4D4D4C7C7C7F1F1F1C8C8
+          C8EDEDEDFAFAFA535353F5F5FDB7B786282819848485FFFFFFFFFFFFFFFFFF9E
+          9E9ED8D8D8DFDFDFD5D5D5CDCDCDE1E1E1DADADAC8C8C8646464B2B28AE5E510
+          4747295C5C629F9F9FFFFFFFFFFFFFC2C2C2767676A7A7A7A0A0A09E9E9EA4A4
+          A4A6A6A68B8B8B888888999967C9C93E9C9C0B58585249494CFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFAC75AC693569B17CB1BF94BFFDFBFDBD91BD8F8F76BFBF1A
+          C7C7019191071E1E21FFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB889B86D6D6DFFFF
+          FFC096C0FCF9FCBD91BDD4D4CBBDBD2FBFBF00C6C6006A6A06FFFFFF6D6D6D6D
+          6D6D6D6D6D6D6D6D693269B17CB1C096C0C096C0C49CC4BB8EBBFFFFFFD3D3CE
+          BFBF22BFBF22D6D6CCFFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB685B6F1E7F1F2E9
+          F2C096C0E4D1E4F9F4F9FFFFFFFFFFFFC8C8A8C8C8A8FFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFD8BDD8BE93BEC39BC3E5D3E5FEFDFEFFFFFF}
+      end
+      object Button203: TdxButton
+        Left = 209
+        Top = 6
+        Width = 88
+        Height = 26
+        OnClick = Button203Click
+        Caption = '삭제'
+        TabOrder = 2
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          18000000000000030000120B0000120B00000000000000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6D6D6DFFFFFF00000000
+          0000000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF
+          6D6D6D6D6D6D6D6D6D6D6D6D808080FFFFFFFFFF00808000FFFFFFFFFF008080
+          00000000000000FFFFFFFFFFFF6D6D6DFFFFFFFFFFFF6D6D6DFFFFFF808080FF
+          FF00FFFFFF808000FFFF00FFFFFF808000000000808000000000FFFFFF6D6D6D
+          FFFFFFFFFFFFFFFFFFFFFFFF808080808000808000000000808000FFFFFF8080
+          00000000808000000000FFFFFF6D6D6DFFFFFFFFFFFFFFFFFFFFFFFF808080FF
+          FFFFFFFF00808000000000000000000000000000808000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFF808080FFFF00FFFFFF8080000000008080008080
+          00808000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF80
+          8080FFFF00FFFFFF000000808000FFFFFF808000808000000000FFFFFFE8E8F0
+          575758FCFCFCFFFFFFFFFFFFFFFFFFFFFFFF808080808000808000FFFFFFFFFF
+          00808000808000000000F5F5FDB7B786282819848485FFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFF808080808080808080808080808080808080808080B2B28AE5E510
+          4747295C5C629F9F9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6D6D6DFFFF
+          FFFFFFFFFFFFFFFFFFFF999967C9C93E9C9C0B58585249494CFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFAC75AC693569B17CB1BF94BFFDFBFDBD91BD8F8F76BFBF1A
+          C7C7019191071E1E21FFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB889B86D6D6DFFFF
+          FFC096C0FCF9FCBD91BDD4D4CBBDBD2FBFBF00C6C6006A6A06FFFFFF6D6D6D6D
+          6D6D6D6D6D6D6D6D693269B17CB1C096C0C096C0C49CC4BB8EBBFFFFFFD3D3CE
+          BFBF22BFBF22D6D6CCFFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB685B6F1E7F1F2E9
+          F2C096C0E4D1E4F9F4F9FFFFFFFFFFFFC8C8A8C8C8A8FFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFD8BDD8BE93BEC39BC3E5D3E5FEFDFEFFFFFF}
+      end
+    end
+    object Panel201: TFlatPanel
+      Left = 16
+      Top = 44
+      Width = 90
+      Height = 22
+      Caption = '구분코드'
+      ParentColor = True
+      TabOrder = 2
+      UseDockManager = True
+    end
+    object Panel202: TFlatPanel
+      Left = 16
+      Top = 76
+      Width = 90
+      Height = 22
+      Caption = '구 분 명'
+      ParentColor = True
+      TabOrder = 3
+      UseDockManager = True
+    end
+    object Edit201: TFlatEdit
+      Left = 112
+      Top = 44
+      Width = 65
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 5
+      ParentFont = False
+      TabOrder = 0
+      OnChange = Edit101Change
+      OnKeyDown = Edit101KeyDown
+      OnKeyPress = Edit111KeyPress
+    end
+    object Edit202: TFlatEdit
+      Left = 112
+      Top = 76
+      Width = 209
+      Height = 22
+      ColorFlat = clWhite
+      ImeName = '한국어(한글) (MS-IME98)'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 20
+      ParentFont = False
+      TabOrder = 1
+      OnChange = Edit101Change
+      OnKeyDown = Edit113KeyDown
+      OnKeyPress = Edit113KeyPress
+    end
+  end
+  object Panel007: TFlatPanel
+    Left = 24
+    Top = 534
+    Width = 873
+    Height = 29
+    Color = clInfoBk
+    TabOrder = 4
+    UseDockManager = True
+    object ProgressBar0: TFlatProgressBar
+      Left = 528
+      Top = 5
+      Width = 336
+      Height = 19
+      Min = 0
+      Max = 100
+    end
+    object Panel008: TFlatPanel
+      Left = 8
+      Top = 5
+      Width = 97
+      Height = 19
+      Caption = '레코드'
+      ParentColor = True
+      TabOrder = 0
+      UseDockManager = True
+    end
+    object Panel009: TFlatPanel
+      Left = 112
+      Top = 5
+      Width = 97
+      Height = 19
+      ParentColor = True
+      TabOrder = 1
+      UseDockManager = True
+    end
+    object Panel010: TFlatPanel
+      Left = 424
+      Top = 5
+      Width = 97
+      Height = 19
+      Caption = '검색진행'
+      ParentColor = True
+      TabOrder = 2
+      UseDockManager = True
+    end
+    object ProgressBar1: TProgressBar
+      Left = 528
+      Top = 5
+      Width = 335
+      Height = 18
+      Min = 0
+      Max = 100
+      TabOrder = 3
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = Base10.T1_Sub51
+    OnDataChange = DataSource1DataChange
+    Left = 34
+    Top = 126
+  end
+  object DataSource2: TDataSource
+    DataSet = Base10.T1_Sub52
+    OnDataChange = DataSource2DataChange
+    Left = 66
+    Top = 126
+  end
+end

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="921" height="601" viewBox="0 0 921 601">
+  <rect x="0" y="0" width="100%" height="100%" fill="#f4f4f4"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">신간명세서</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Subu29 | Sobo29 | TSobo29</text>
+  <g transform="translate(10 36)">
+    <rect x="0" y="0" width="901.0" height="549.0" fill="#fff" stroke="#333" stroke-width="1"/>
+    <rect x="9.0" y="51.0" width="13.0" height="26.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="9.0" y="288.0" width="13.0" height="52.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="9.0" y="498.0" width="13.0" height="26.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="24.0" y="4.0" width="40.0" height="133.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="257.0" y="57.0" width="120.0" height="19.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="260.0" y="68.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">━━━━━＞</text>
+    <rect x="72.0" y="118.0" width="51.0" height="16.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="75.0" y="129.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">지점명</text>
+    <rect x="838.0" y="124.0" width="26.0" height="12.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="128.0" y="88.0" width="241.0" height="22.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="131.0" y="99.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="392.0" y="47.0" width="210.0" height="89.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="395.0" y="58.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="393.0" y="48.0" width="84.0" height="87.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="396.0" y="59.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TDBGrid</text>
+    <rect x="328.0" y="12.0" width="185.0" height="22.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="331.0" y="23.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="790.0" y="47.0" width="65.0" height="50.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="793.0" y="58.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">검색</text>
+    <text x="793.0" y="69.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TdxButton</text>
+    <rect x="24.0" y="140.0" width="70.0" height="334.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="151.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="25.0" y="141.0" width="50.0" height="332.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="28.0" y="152.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TDBGridEh</text>
+    <rect x="24.0" y="476.0" width="873.0" height="69.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="27.0" y="487.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="448.0" y="505.0" width="336.0" height="19.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="451.0" y="516.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatProgressBar</text>
+    <rect x="448.0" y="505.0" width="335.0" height="18.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="451.0" y="516.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TProgressBar</text>
+    <rect x="322.0" y="477.0" width="575.0" height="68.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="325.0" y="488.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatPanel</text>
+    <rect x="330.0" y="506.0" width="57.0" height="12.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="394.0" y="506.0" width="7.0" height="12.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="426.0" y="481.0" width="73.0" height="58.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="429.0" y="492.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">전체메모</text>
+    <text x="429.0" y="503.0" font-family="system-ui,sans-serif" font-size="7" fill="#666">TFlatPanel</text>
+    <rect x="504.0" y="481.0" width="353.0" height="18.0" fill="#f3e5f5" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="507.0" y="492.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="504.0" y="501.0" width="353.0" height="18.0" fill="#eceff1" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="507.0" y="512.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">TFlatEdit</text>
+    <rect x="860.0" y="480.0" width="33.0" height="58.0" fill="#d7ccc8" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <rect x="528.0" y="524.0" width="69.0" height="13.0" fill="#cfe8fc" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="531.0" y="535.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">핸드폰번호</text>
+    <rect x="652.0" y="524.0" width="56.0" height="13.0" fill="#e8f5e9" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="655.0" y="535.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">전화번호</text>
+    <rect x="767.0" y="524.0" width="56.0" height="13.0" fill="#fff3e0" stroke="#666" stroke-width="0.6" opacity="0.95"/>
+    <text x="770.0" y="535.0" font-family="system-ui,sans-serif" font-size="9" fill="#222">받는사람</text>
+  </g>
+</svg>

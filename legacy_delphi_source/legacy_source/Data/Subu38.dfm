@@ -1,0 +1,627 @@
+object Sobo38: TSobo38
+  Left = 43
+  Top = 94
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = '전송자료받기'
+  ClientHeight = 606
+  ClientWidth = 964
+  Color = clBtnFace
+  Font.Charset = HANGEUL_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = '굴림'
+  Font.Style = [fsBold]
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Visible = True
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 12
+  object myLabel3d1: TmyLabel3d
+    Left = 228
+    Top = 431
+    Width = 254
+    Height = 19
+    Caption = '전송된자료(텍스트파일내용)'
+    Font.Charset = HANGEUL_CHARSET
+    Font.Color = clGreen
+    Font.Height = -19
+    Font.Name = '굴림'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    Transparent = True
+    AShadeLTSet = False
+  end
+  object Panel003: TFlatPanel
+    Left = 226
+    Top = 42
+    Width = 735
+    Height = 383
+    ParentColor = True
+    TabOrder = 1
+    UseDockManager = True
+    object DBGrid101: TDBGridEh
+      Left = 1
+      Top = 1
+      Width = 733
+      Height = 381
+      Align = alClient
+      BorderStyle = bsNone
+      DataSource = DataSource1
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      FooterColor = 16311512
+      FooterFont.Charset = HANGEUL_CHARSET
+      FooterFont.Color = clWindowText
+      FooterFont.Height = -12
+      FooterFont.Name = '굴림'
+      FooterFont.Style = [fsBold]
+      FooterRowCount = 1
+      ImeName = '한국어 입력 시스템 (IME 2000)'
+      Options = [dgEditing, dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgCancelOnExit]
+      ParentFont = False
+      SumList.Active = True
+      SumList.VirtualRecords = True
+      TabOrder = 0
+      TitleFont.Charset = HANGEUL_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = '굴림'
+      TitleFont.Style = [fsBold]
+      UseMultiTitle = True
+      VTitleMargin = 7
+      OnKeyDown = DBGrid201KeyDown
+      OnKeyPress = DBGrid201KeyPress
+      Columns = <
+        item
+          Alignment = taCenter
+          Color = 12056530
+          EditButtons = <>
+          FieldName = 'GDATE'
+          Footers = <>
+          Title.Caption = '일자'
+          Width = 70
+        end
+        item
+          EditButtons = <>
+          FieldName = 'GNAME'
+          Footers = <>
+          Title.Caption = '거래처명'
+          Width = 160
+        end
+        item
+          EditButtons = <>
+          FieldName = 'BNAME'
+          Footers = <>
+          Title.Caption = '도서명'
+          Width = 180
+        end
+        item
+          Alignment = taCenter
+          EditButtons = <>
+          FieldName = 'PUBUN'
+          Footers = <>
+          Layout = tlCenter
+          PickList.Strings = (
+            '0')
+          ShowImageAndText = True
+          Title.Caption = '구분1'
+          Width = 40
+        end
+        item
+          Alignment = taCenter
+          EditButtons = <>
+          FieldName = 'JUBUN'
+          Footers = <>
+          Title.Caption = '구분2'
+          Width = 40
+        end
+        item
+          ButtonStyle = cbsNone
+          Color = 11861755
+          EditButtons = <>
+          FieldName = 'GSQUT'
+          Footer.ValueType = fvtSum
+          Footers = <>
+          PickList.Strings = (
+            '2')
+          ShowImageAndText = True
+          Title.Caption = '수량'
+          Width = 45
+          WordWrap = True
+        end
+        item
+          EditButtons = <>
+          FieldName = 'GDANG'
+          Footers = <>
+          Title.Caption = '단가'
+          Width = 50
+        end
+        item
+          EditButtons = <>
+          FieldName = 'GRAT1'
+          Footers = <>
+          Title.Caption = '비율'
+          Width = 30
+          WordWrap = True
+        end
+        item
+          Color = 12056530
+          EditButtons = <>
+          FieldName = 'GSSUM'
+          Footers = <>
+          Title.Caption = '금액'
+          Width = 80
+        end>
+    end
+    object DBGrid201: TDBGridEh
+      Left = 1
+      Top = 224
+      Width = 704
+      Height = 234
+      BorderStyle = bsNone
+      DataSource = DataSource2
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      FooterColor = 16311512
+      FooterFont.Charset = HANGEUL_CHARSET
+      FooterFont.Color = clWindowText
+      FooterFont.Height = -12
+      FooterFont.Name = '굴림'
+      FooterFont.Style = [fsBold]
+      FooterRowCount = 1
+      ImeName = '한국어 입력 시스템 (IME 2000)'
+      Options = [dgEditing, dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgCancelOnExit]
+      ParentFont = False
+      SumList.Active = True
+      SumList.VirtualRecords = True
+      TabOrder = 1
+      TitleFont.Charset = HANGEUL_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = '굴림'
+      TitleFont.Style = [fsBold]
+      UseMultiTitle = True
+      Visible = False
+      VTitleMargin = 7
+      OnKeyDown = DBGrid201KeyDown
+      OnKeyPress = DBGrid201KeyPress
+      Columns = <
+        item
+          Alignment = taCenter
+          Color = 12056530
+          EditButtons = <>
+          FieldName = 'GDATE'
+          Footers = <>
+          Title.Caption = '일자'
+          Width = 70
+        end
+        item
+          EditButtons = <>
+          FieldName = 'BNAME'
+          Footers = <>
+          Title.Caption = '도서명'
+          Width = 398
+        end
+        item
+          Color = 11861755
+          EditButtons = <>
+          FieldName = 'GQUT1'
+          Footer.ValueType = fvtSum
+          Footers = <>
+          PickList.Strings = (
+            '2')
+          Title.Caption = '정상재고'
+          Width = 100
+          WordWrap = True
+        end
+        item
+          EditButtons = <>
+          FieldName = 'GQUT2'
+          Footer.ValueType = fvtSum
+          Footers = <>
+          Title.Caption = '반품재고'
+          Width = 100
+          WordWrap = True
+        end>
+    end
+  end
+  object Panel007: TFlatPanel
+    Left = 2
+    Top = 574
+    Width = 959
+    Height = 29
+    Color = clInfoBk
+    TabOrder = 2
+    UseDockManager = True
+    object ProgressBar0: TFlatProgressBar
+      Left = 616
+      Top = 5
+      Width = 336
+      Height = 19
+      Min = 0
+      Max = 100
+    end
+    object Panel008: TFlatPanel
+      Left = 8
+      Top = 5
+      Width = 97
+      Height = 19
+      Caption = '레코드'
+      ParentColor = True
+      TabOrder = 0
+      UseDockManager = True
+    end
+    object Panel009: TFlatPanel
+      Left = 112
+      Top = 5
+      Width = 97
+      Height = 19
+      ParentColor = True
+      TabOrder = 1
+      UseDockManager = True
+    end
+    object Panel010: TFlatPanel
+      Left = 512
+      Top = 5
+      Width = 97
+      Height = 19
+      Caption = '검색진행'
+      ParentColor = True
+      TabOrder = 2
+      UseDockManager = True
+    end
+    object ProgressBar1: TProgressBar
+      Left = 616
+      Top = 5
+      Width = 335
+      Height = 18
+      Min = 0
+      Max = 100
+      TabOrder = 3
+    end
+  end
+  object Panel001: TFlatPanel
+    Left = 2
+    Top = 4
+    Width = 959
+    Height = 37
+    Color = clInfoBk
+    TabOrder = 0
+    UseDockManager = True
+    object Label101: TmyLabel3d
+      Left = 232
+      Top = 16
+      Width = 528
+      Height = 21
+      Caption = '____________________________________________'
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clGreen
+      Font.Height = -21
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = True
+      AShadeLTSet = False
+    end
+    object Button101: TFlatButton
+      Left = 928
+      Top = 8
+      Width = 25
+      Height = 25
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000130B0000130B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        333333333333333333FF33333333333330003FF3FFFFF3333777003000003333
+        300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333
+        330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000
+        333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000
+        339977FF777777773377000BFB03333333337773FF733333333F333000333333
+        3300333777333333337733333333333333003333333333333377333333333333
+        333333333333333333FF33333333333330003333333333333777333333333333
+        3000333333333333377733333333333333333333333333333333}
+      NumGlyphs = 2
+      TabOrder = 0
+      Visible = False
+      OnClick = Button101Click
+    end
+    object Button201: TFlatButton
+      Left = 824
+      Top = 6
+      Width = 121
+      Height = 25
+      Caption = '자료불러오기'
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000130B0000130B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        333333333333333333FF33333333333330003FF3FFFFF3333777003000003333
+        300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333
+        330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000
+        333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000
+        339977FF777777773377000BFB03333333337773FF733333333F333000333333
+        3300333777333333337733333333333333003333333333333377333333333333
+        333333333333333333FF33333333333330003333333333333777333333333333
+        3000333333333333377733333333333333333333333333333333}
+      Layout = blGlyphLeft
+      NumGlyphs = 2
+      TabOrder = 1
+      OnClick = Button201Click
+      BiDiMode = bdLeftToRight
+      ParentBiDiMode = False
+    end
+    object Panel101: TFlatPanel
+      Left = 8
+      Top = 8
+      Width = 90
+      Height = 22
+      Caption = '전송일자'
+      ParentColor = True
+      TabOrder = 2
+      UseDockManager = True
+    end
+    object Edit101: TFlatMaskEdit
+      Left = 104
+      Top = 8
+      Width = 97
+      Height = 22
+      ColorFlat = clWhite
+      AutoSize = False
+      BorderStyle = bsNone
+      Color = clWhite
+      EditMask = '!9999.!99.99;1; '
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clBlack
+      Font.Height = -16
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      MaxLength = 10
+      ParentFont = False
+      TabOrder = 3
+      Text = '1999.01.01'
+      ImeName = '한국어(한글) (MS-IME98)'
+    end
+    object DateEdit1: TDateEdit
+      Left = 201
+      Top = 8
+      Width = 19
+      Height = 22
+      BorderStyle = bsNone
+      ImeName = 'Microsoft IME 2003'
+      NumGlyphs = 2
+      StartOfWeek = Sun
+      TabOrder = 4
+      OnAcceptDate = DateEdit1AcceptDate
+      OnButtonClick = DateEdit1ButtonClick
+    end
+  end
+  object Panel002: TFlatPanel
+    Left = 2
+    Top = 42
+    Width = 223
+    Height = 529
+    ParentColor = True
+    TabOrder = 3
+    UseDockManager = True
+    object DBGridEh1: TDBGridEh
+      Left = 1
+      Top = 1
+      Width = 221
+      Height = 527
+      Align = alClient
+      BorderStyle = bsNone
+      DataSource = DataSource2
+      Font.Charset = HANGEUL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = '굴림'
+      Font.Style = [fsBold]
+      FooterColor = 16311512
+      FooterFont.Charset = HANGEUL_CHARSET
+      FooterFont.Color = clWindowText
+      FooterFont.Height = -12
+      FooterFont.Name = '굴림'
+      FooterFont.Style = [fsBold]
+      ImeName = '한국어 입력 시스템 (IME 2000)'
+      Options = [dgEditing, dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgCancelOnExit]
+      ParentFont = False
+      SumList.Active = True
+      SumList.VirtualRecords = True
+      TabOrder = 0
+      TitleFont.Charset = HANGEUL_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -12
+      TitleFont.Name = '굴림'
+      TitleFont.Style = [fsBold]
+      UseMultiTitle = True
+      VTitleMargin = 7
+      OnKeyDown = DBGrid201KeyDown
+      OnKeyPress = DBGrid201KeyPress
+      Columns = <
+        item
+          EditButtons = <>
+          FieldName = 'BNAME'
+          Footers = <>
+          Title.Caption = '파일명'
+          Width = 190
+        end>
+    end
+  end
+  object FlatButton1: TFlatButton
+    Left = 488
+    Top = 430
+    Width = 113
+    Height = 21
+    Caption = '자료'
+    Glyph.Data = {
+      76010000424D7601000000000000760000002800000020000000100000000100
+      04000000000000010000130B0000130B00001000000000000000000000000000
+      800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+      333333333333333333FF33333333333330003FF3FFFFF3333777003000003333
+      300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333
+      330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000
+      333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000
+      339977FF777777773377000BFB03333333337773FF733333333F333000333333
+      3300333777333333337733333333333333003333333333333377333333333333
+      333333333333333333FF33333333333330003333333333333777333333333333
+      3000333333333333377733333333333333333333333333333333}
+    Layout = blGlyphLeft
+    NumGlyphs = 2
+    TabOrder = 4
+    OnClick = FlatButton1Click
+    BiDiMode = bdLeftToRight
+    ParentBiDiMode = False
+  end
+  object Panel004: TFlatPanel
+    Left = 226
+    Top = 453
+    Width = 735
+    Height = 118
+    ParentColor = True
+    TabOrder = 5
+    UseDockManager = True
+    object Memo1: TMemo
+      Left = 1
+      Top = 1
+      Width = 733
+      Height = 116
+      Align = alClient
+      BorderStyle = bsNone
+      ImeName = 'Microsoft IME 2003'
+      ScrollBars = ssBoth
+      TabOrder = 0
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = T3_Sub81
+    OnDataChange = DataSource1DataChange
+    Left = 10
+    Top = 126
+  end
+  object DataSource2: TDataSource
+    DataSet = T3_Sub82
+    OnDataChange = DataSource2DataChange
+    Left = 42
+    Top = 126
+  end
+  object T3_Sub81: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 10
+    Top = 158
+    object T3_Sub81GDATE: TStringField
+      FieldName = 'GDATE'
+      EditMask = '!0000.!90.90;1; '
+      Size = 10
+    end
+    object T3_Sub81GCODE: TStringField
+      FieldName = 'GCODE'
+    end
+    object T3_Sub81GNAME: TStringField
+      FieldName = 'GNAME'
+      Size = 100
+    end
+    object T3_Sub81BCODE: TStringField
+      FieldName = 'BCODE'
+    end
+    object T3_Sub81BNAME: TStringField
+      FieldName = 'BNAME'
+      Size = 100
+    end
+    object T3_Sub81GUBUN: TStringField
+      FieldName = 'GUBUN'
+      Size = 4
+    end
+    object T3_Sub81PUBUN: TStringField
+      FieldName = 'PUBUN'
+      Size = 4
+    end
+    object T3_Sub81JUBUN: TStringField
+      FieldName = 'JUBUN'
+      Size = 4
+    end
+    object T3_Sub81GRAT1: TFloatField
+      FieldName = 'GRAT1'
+    end
+    object T3_Sub81GSQUT: TFloatField
+      FieldName = 'GSQUT'
+      DisplayFormat = '###,###,###0'
+      EditFormat = '#########0'
+    end
+    object T3_Sub81GDANG: TFloatField
+      FieldName = 'GDANG'
+      DisplayFormat = '###,###,###0'
+      EditFormat = '#########0'
+    end
+    object T3_Sub81GSSUM: TFloatField
+      FieldName = 'GSSUM'
+      DisplayFormat = '###,###,###0'
+      EditFormat = '#########0'
+    end
+  end
+  object T3_Sub82: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 42
+    Top = 158
+    object T3_Sub82GDATE: TStringField
+      FieldName = 'GDATE'
+      EditMask = '!0000.!90.90;1; '
+      Size = 10
+    end
+    object T3_Sub82GCODE: TStringField
+      FieldName = 'GCODE'
+    end
+    object T3_Sub82GNAME: TStringField
+      FieldName = 'GNAME'
+      Size = 100
+    end
+    object T3_Sub82BCODE: TStringField
+      FieldName = 'BCODE'
+    end
+    object T3_Sub82BNAME: TStringField
+      FieldName = 'BNAME'
+      Size = 100
+    end
+    object T3_Sub82GQUT1: TFloatField
+      FieldName = 'GQUT1'
+      DisplayFormat = '###,###,###0'
+      EditFormat = '#########0'
+    end
+    object T3_Sub82GQUT2: TFloatField
+      FieldName = 'GQUT2'
+      DisplayFormat = '###,###,###0'
+      EditFormat = '#########0'
+    end
+    object T3_Sub82MEMO1: TBlobField
+      FieldName = 'MEMO1'
+      BlobType = ftBlob
+    end
+    object T3_Sub82MEMO2: TMemoField
+      FieldName = 'MEMO2'
+      BlobType = ftMemo
+    end
+  end
+  object T3_Sub83: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 74
+    Top = 158
+  end
+end

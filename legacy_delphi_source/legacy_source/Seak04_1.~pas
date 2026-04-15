@@ -1,0 +1,65 @@
+unit Seak04_1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Grids, DBGrids, Db, DBClient, Buttons, TFlatEditUnit,
+  TFlatPanelUnit, TFlatButtonUnit, OleCtrls, SHDocVw;
+
+type
+  TSeak40_1 = class(TForm)
+    Panel201: TFlatPanel;
+    Button101: TFlatButton;
+    Button102: TFlatButton;
+    BitBtn101: TBitBtn;
+    BitBtn102: TBitBtn;
+    WebBrowser1: TWebBrowser;
+    BitBtn103: TBitBtn;
+    procedure FormShow(Sender: TObject);
+    procedure BitBtn101Click(Sender: TObject);
+    procedure BitBtn102Click(Sender: TObject);
+    procedure BitBtn103Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Seak40_1: TSeak40_1;
+
+implementation
+
+{$R *.DFM}
+
+uses Base01;
+
+procedure TSeak40_1.FormShow(Sender: TObject);
+begin
+//WebBrowser1.OleObject.Document.Body.Style.Zoom := '1';
+  BitBtn101Click(Self);
+end;
+
+procedure TSeak40_1.BitBtn101Click(Sender: TObject);
+var St1:String;
+begin
+  St1:='http://nxd.search.naver.com/dsearch_r0/zipcode.naver?p1=%EC%84%9C%EC%9A%B8%EC%8B%9C+%EC%A2%85%EB%A1%9C%EA%B5%AC+%EC%A2%85%EB%A1%9C1%EA%B0%80&where=zipcode_svc';
+  WebBrowser1.Navigate(St1);
+end;
+
+procedure TSeak40_1.BitBtn102Click(Sender: TObject);
+var St1:String;
+begin
+  St1:='http://search.daum.net/search?nil_suggest=btn&nil_ch=&rtupcoll=&w=tot&m=&f=&lpp=&DA=SBCO&sug=&sq=&o=&sugo=&q=%EC%9A%B0%ED%8E%B8%EB%B2%88%ED%98%B8+%EC%A2%85%EB%A1%9C1%EA%B8%B8';
+  WebBrowser1.Navigate(St1);
+end;
+
+procedure TSeak40_1.BitBtn103Click(Sender: TObject);
+var St1:String;
+begin
+  St1:='http://www.zipfinder.co.kr/search/zipsearch.htm';
+  WebBrowser1.Navigate(St1);
+end;
+
+end.

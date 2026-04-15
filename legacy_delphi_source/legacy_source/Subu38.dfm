@@ -1,0 +1,20 @@
+object Sobo38: TSobo38
+  Left = 200
+  Top = 120
+  BorderStyle = bsSingle
+  Caption = 'Sobo38'
+  ClientHeight = 533
+  ClientWidth = 772
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = '±¼¸²'
+  Font.Style = [fsBold]
+  OldCreateOrder = False
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 12
+end

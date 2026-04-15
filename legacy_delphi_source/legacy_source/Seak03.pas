@@ -1,0 +1,485 @@
+unit Seak03;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Buttons, TFlatPanelUnit, TFlatButtonUnit,
+  TFlatComboBoxUnit, TFlatGroupBoxUnit;
+
+type
+  TSeak30 = class(TForm)
+    Panel100: TFlatPanel;
+    FlatGroupBox1: TFlatGroupBox;
+    FlatGroupBox2: TFlatGroupBox;
+    FlatGroupBox3: TFlatGroupBox;
+    FlatGroupBox4: TFlatGroupBox;
+    ComboBox01: TFlatComboBox;
+    ComboBox02: TFlatComboBox;
+    ComboBox03: TFlatComboBox;
+    ComboBox04: TFlatComboBox;
+    ComboBox14: TFlatComboBox;
+    ComboBox13: TFlatComboBox;
+    ComboBox12: TFlatComboBox;
+    ComboBox11: TFlatComboBox;
+    ComboBox21: TFlatComboBox;
+    ComboBox22: TFlatComboBox;
+    ComboBox23: TFlatComboBox;
+    ComboBox24: TFlatComboBox;
+    ComboBox31: TFlatComboBox;
+    ComboBox32: TFlatComboBox;
+    ComboBox33: TFlatComboBox;
+    ComboBox34: TFlatComboBox;
+    Label31: TLabel;
+    Label32: TLabel;
+    Label33: TLabel;
+    Label34: TLabel;
+    Button101: TFlatButton;
+    Button102: TFlatButton;
+    BitBtn101: TBitBtn;
+    BitBtn102: TBitBtn;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BitBtn101Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Seak30: TSeak30;
+
+implementation
+
+{$R *.DFM}
+
+uses Base01;
+
+procedure TSeak30.FormShow(Sender: TObject);
+var St0,St1:Integer;
+    St8:array [0..41] of String;
+    St9:array [0..41] of String;
+begin
+  if nForm='11' Then begin
+     St8[00]:='GUBUN'; St9[00]:='거래처구분';
+     St8[01]:='JUBUN'; St9[01]:='거래처지역';
+     St8[02]:='GCODE'; St9[02]:='거래처코드';
+     St8[03]:='GNAME'; St9[03]:='거래처명';
+     St8[04]:='GPOSA'; St9[04]:='대표자명';
+     St8[05]:='GNUMB'; St9[05]:='사업자번호';
+     St8[06]:='GUPER'; St9[06]:='업    태';
+     St8[07]:='GJOMO'; St9[07]:='종    목';
+     St8[08]:='GTEL2'; St9[08]:='전화번호';
+     St8[09]:='GFAX2'; St9[09]:='팩스번호';
+     St8[10]:='GPOST'; St9[10]:='우편번호';
+     St8[11]:='GADD1'; St9[11]:='주    소';
+     St8[12]:='GBIGO'; St9[12]:='비    고';
+     St1:=13;
+  end;
+  if nForm='12' Then begin
+     St8[00]:='GUBUN'; St9[00]:='입고처구분';
+     St8[01]:='JUBUN'; St9[01]:='입고처지역';
+     St8[02]:='GCODE'; St9[02]:='입고처코드';
+     St8[03]:='GNAME'; St9[03]:='입고처명';
+     St8[04]:='GPOSA'; St9[04]:='대표자명';
+     St8[05]:='GNUMB'; St9[05]:='사업자번호';
+     St8[06]:='GUPER'; St9[06]:='업    태';
+     St8[07]:='GJOMO'; St9[07]:='종    목';
+     St8[08]:='GTEL2'; St9[08]:='전화번호';
+     St8[09]:='GFAX2'; St9[09]:='팩스번호';
+     St8[10]:='GPOST'; St9[10]:='우편번호';
+     St8[11]:='GADD1'; St9[11]:='주    소';
+     St8[12]:='GBIGO'; St9[12]:='비    고';
+     St1:=13;
+  end;
+  if nForm='13' Then begin
+     St8[00]:='GUBUN'; St9[00]:='저자구분';
+     St8[01]:='DATA1'; St9[01]:='등록일자';
+     St8[02]:='GCODE'; St9[02]:='저자코드';
+     St8[03]:='GPOSA'; St9[03]:='저 자 명';
+     St8[04]:='GNAME'; St9[04]:='직 장 명';
+     St8[05]:='GJICE'; St9[05]:='직    책';
+     St8[06]:='GSCHO'; St9[06]:='출신학교';
+     St8[07]:='GNUMB'; St9[07]:='사업자번호';
+     St8[08]:='GNUM1'; St9[08]:='주민등록';
+     St8[09]:='GNUM2'; St9[09]:='계좌번호';
+     St8[10]:='GTEL2'; St9[10]:='전화번호';
+     St8[11]:='GFAX2'; St9[11]:='팩스번호';
+     St8[12]:='GBIGO'; St9[12]:='비    고';
+     St1:=13;
+  end;
+  if nForm='14' Then begin
+     St8[00]:='GUBUN'; St9[00]:='도서분류';
+     St8[01]:='JUBUN'; St9[01]:='도서처리';
+     St8[02]:='GCODE'; St9[02]:='도서코드';
+     St8[03]:='GNAME'; St9[03]:='도 서 명';
+     St8[04]:='GJEJA'; St9[04]:='저 자 명';
+     St8[05]:='GDABI'; St9[05]:='단    위';
+     St8[06]:='GDANG'; St9[06]:='단    가';
+     St8[07]:='GISBN'; St9[07]:='ISBN번호';
+     St8[08]:='GBJIL'; St9[08]:='도 서 질';
+     St8[09]:='GRAT8'; St9[09]:='셋    트';
+     St8[10]:='GBIGO'; St9[10]:='비    고';
+     St1:=11;
+  end;
+  if nForm='15' Then begin
+     St8[00]:='GUBUN'; St9[00]:='구    분';
+     St8[01]:='JUBUN'; St9[01]:='거래처지역';
+     St8[02]:='GCODE'; St9[02]:='거래처코드';
+     St8[03]:='GNAME'; St9[03]:='거래처명';
+     St8[04]:='GPOSA'; St9[04]:='대표자명';
+     St8[05]:='GNUMB'; St9[05]:='사업자번호';
+     St8[06]:='GUPER'; St9[06]:='업    태';
+     St8[07]:='GJOMO'; St9[07]:='종    목';
+     St8[08]:='GTEL2'; St9[08]:='전화번호';
+     St8[09]:='GFAX2'; St9[09]:='팩스번호';
+     St8[10]:='GPOST'; St9[10]:='우편번호';
+     St8[11]:='GADD1'; St9[11]:='주    소';
+     St8[12]:='GBIGO'; St9[12]:='비    고';
+     St1:=13;
+  end;
+  if nForm='17' Then begin
+     St8[00]:='GUBUN'; St9[00]:='출판사구분';
+     St8[01]:='JUBUN'; St9[01]:='출판사지역';
+     St8[02]:='GCODE'; St9[02]:='출판사코드';
+     St8[03]:='GNAME'; St9[03]:='출판사명';
+     St8[04]:='GPOSA'; St9[04]:='대표자명';
+     St8[05]:='GNUMB'; St9[05]:='사업자번호';
+     St8[06]:='GUPER'; St9[06]:='업    태';
+     St8[07]:='GJOMO'; St9[07]:='종    목';
+     St8[08]:='GTEL2'; St9[08]:='전화번호';
+     St8[09]:='GFAX2'; St9[09]:='팩스번호';
+     St8[10]:='GPOST'; St9[10]:='우편번호';
+     St8[11]:='GADD1'; St9[11]:='주    소';
+     St8[12]:='GBIGO'; St9[12]:='비    고';
+     St1:=13;
+  end;
+  if nForm='24' Then begin
+     St8[00]:='GCODE'; St9[00]:='코    드';
+     St8[01]:='GNAME'; St9[01]:='거래처명';
+     St8[02]:='GIQUT'; St9[02]:='입고수량';
+     St8[03]:='GOQUT'; St9[03]:='출고수량';
+     St8[04]:='GJQUT'; St9[04]:='증정수량';
+     St8[05]:='GBQUT'; St9[05]:='반품수량';
+     St8[06]:='GSUSU'; St9[06]:='폐기수량';
+     St8[07]:='GOSUM'; St9[07]:='출고금액';
+     St8[08]:='GBSUM'; St9[08]:='반품금액';
+     St1:=8;
+  end;
+  if nForm='25' Then begin
+     St8[00]:='GCODE'; St9[00]:='코    드';
+     St8[01]:='GNAME'; St9[01]:='거래처명';
+     St8[02]:='GIQUT'; St9[02]:='출고수량';
+     St8[03]:='GOQUT'; St9[03]:='출고금액';
+     St8[04]:='GJQUT'; St9[04]:='증정수량';
+     St8[05]:='GBQUT'; St9[05]:='반품수량';
+     St8[06]:='GSUSU'; St9[06]:='반품금액';
+     St8[07]:='GOSUM'; St9[07]:='수 금 액';
+     St8[08]:='GBSUM'; St9[08]:='판매금액';
+     St1:=8;
+  end;
+  if nForm='26' Then begin
+     St8[00]:='GCODE'; St9[00]:='거래일자';
+     St8[01]:='GNAME'; St9[01]:='코    드';
+     St8[02]:='GIQUT'; St9[02]:='거래처명';
+     St8[03]:='GOQUT'; St9[03]:='계정코드';
+     St8[04]:='GJQUT'; St9[04]:='계정과목';
+     St8[05]:='GBQUT'; St9[05]:='금    액';
+     St8[06]:='GSUSU'; St9[06]:='비    고';
+     St1:=6;
+  end;
+  if nForm='27' Then begin
+     St8[00]:='GCODE'; St9[00]:='거래일자';
+     St8[01]:='GNAME'; St9[01]:='코    드';
+     St8[02]:='GIQUT'; St9[02]:='거래처명';
+     St8[03]:='GOQUT'; St9[03]:='계정코드';
+     St8[04]:='GJQUT'; St9[04]:='계정과목';
+     St8[05]:='GBQUT'; St9[05]:='금    액';
+     St8[06]:='GSUSU'; St9[06]:='비    고';
+     St1:=6;
+  end;
+  if nForm='28' Then begin
+     St8[00]:='GDATE'; St9[00]:='거래일자';
+     St8[01]:='GCODE'; St9[01]:='저자코드';
+     St8[02]:='GSSUM'; St9[02]:='지 급 액';
+     St8[03]:='GISUM'; St9[03]:='소 득 세';
+     St8[04]:='GOSUM'; St9[04]:='주 민 세';
+     St8[05]:='GBSUM'; St9[05]:='합    계';
+     St8[06]:='BCODE'; St9[06]:='적    요';
+     St1:=6;
+  end;
+  if nForm='32_1' Then begin
+     St8[00]:='GCODE'; St9[00]:='코드';
+     St8[01]:='GNAME'; St9[01]:='출판사명';
+     St8[02]:='GSUMX'; St9[02]:='정품재고';
+     St8[03]:='GSSUM'; St9[03]:='비품재고';
+     St1:=3;
+  end;
+  if nForm='33' Then begin
+     St8[00]:='GCODE'; St9[00]:='도서코드';
+     St8[01]:='GNAME'; St9[01]:='도 서 명';
+     St8[02]:='GSUMX'; St9[02]:='전일재고';
+     St8[03]:='GIQUT'; St9[03]:='입고수량';
+     St8[04]:='GISUM'; St9[04]:='재 입 고';
+     St8[05]:='GOQUT'; St9[05]:='출고수량';
+     St8[06]:='GJQUT'; St9[06]:='증정수량';
+     St8[07]:='GBQUT'; St9[07]:='반품수량';
+     St8[08]:='GPQUT'; St9[08]:='폐기수량';
+     St8[09]:='GSQUT'; St9[09]:='변경수량';
+     St8[10]:='GSUMY'; St9[10]:='현재재고';
+     St8[11]:='GSSUM'; St9[11]:='현재고(반)';
+     St1:=11;
+  end;
+  if nForm='34' Then begin
+     St8[00]:='GCODE'; St9[00]:='도서코드';
+     St8[01]:='GNAME'; St9[01]:='도 서 명';
+     St8[02]:='GSUMX'; St9[02]:='전일재고';
+     St8[03]:='GIQUT'; St9[03]:='입고수량';
+     St8[04]:='GOQUT'; St9[04]:='출고수량';
+     St8[05]:='GJQUT'; St9[05]:='증정수량';
+     St8[06]:='GBQUT'; St9[06]:='반품수량';
+     St8[07]:='GPQUT'; St9[07]:='폐기수량';
+     St8[08]:='GSUMY'; St9[08]:='현재재고';
+     St1:=8;
+  end;
+  if nForm='35' Then begin
+     St8[00]:='GCODE'; St9[00]:='코    드';
+     St8[01]:='GNAME'; St9[01]:='거래처명';
+     St8[02]:='GOQUT'; St9[02]:='출고수량';
+     St8[03]:='GOSUM'; St9[03]:='출고금액';
+     St8[04]:='GBQUT'; St9[04]:='반품수량';
+     St8[05]:='GBSUM'; St9[05]:='반품금액';
+     St8[06]:='GJQUT'; St9[06]:='증정수량';
+     St8[07]:='GSUSU'; St9[07]:='수 금 액';
+     St8[08]:='GSUMY'; St9[08]:='미 수 금';
+     St1:=8;
+  end;
+  if nForm='36' Then begin
+     St8[00]:='GCODE'; St9[00]:='도서코드';
+     St8[01]:='GNAME'; St9[01]:='도 서 명';
+     St8[02]:='GIQUT'; St9[02]:='입고수량';
+     St8[03]:='GOQUT'; St9[03]:='출고수량';
+     St8[04]:='GJQUT'; St9[04]:='증정수량';
+     St8[05]:='GBQUT'; St9[05]:='반품수량';
+     St8[06]:='GPQUT'; St9[06]:='폐기수량';
+     St8[07]:='GSUMX'; St9[07]:='판매금액';
+     St8[08]:='GSUMY'; St9[08]:='현재재고';
+     St1:=8;
+  end;
+  if nForm='37' Then begin
+     St8[00]:='GCODE'; St9[00]:='코    드';
+     St8[01]:='GNAME'; St9[01]:='거래처명';
+     St8[02]:='GSUMX'; St9[02]:='전일미수';
+     St8[03]:='GOSUM'; St9[03]:='신간금액';
+     St8[04]:='GJQUT'; St9[04]:='주문수량';
+     St8[05]:='GJSUM'; St9[05]:='주문금액';
+     St8[06]:='GBSUM'; St9[06]:='반품금액';
+     St8[07]:='GSUSU'; St9[07]:='수 금 액';
+     St8[08]:='GSUMY'; St9[08]:='미 수 금';
+     St1:=8;
+  end;
+  if nForm='46' Then begin
+     St8[00]:='GNUMB'; St9[00]:='어음번호';
+     St8[01]:='SCODE'; St9[01]:='처리코드';
+     St8[02]:='GNAME'; St9[02]:='발 행 처';
+     St8[03]:='GPOSA'; St9[03]:='발 행 인';
+     St8[04]:='DATE1'; St9[04]:='발행일자';
+     St8[05]:='DATE2'; St9[05]:='받은일자';
+     St8[06]:='DATE3'; St9[06]:='지급일자';
+     St8[07]:='NAME1'; St9[07]:='지 급 처';
+     St8[08]:='GBANG'; St9[08]:='지급은행';
+     St8[09]:='NAME2'; St9[09]:='지급지점';
+     St8[10]:='DATE4'; St9[10]:='만기일자';
+     St8[11]:='GSSUM'; St9[11]:='금    액';
+     St8[12]:='GRAT1'; St9[12]:='할 인 율';
+     St8[13]:='GOSUM'; St9[13]:='할인금액';
+     St8[14]:='GBIGO'; St9[14]:='비    고';
+     St1:=14;
+  end;
+  if nForm='49' Then begin
+     St8[00]:='GCODE'; St9[00]:='코    드';
+     St8[01]:='GNAME'; St9[01]:='거래처명';
+     St8[02]:='GOQUT'; St9[02]:='출고수량';
+     St8[03]:='GOSUM'; St9[03]:='출고금액';
+     St8[04]:='GBQUT'; St9[04]:='반품수량';
+     St8[05]:='GBSUM'; St9[05]:='반품금액';
+     St8[06]:='GSUSU'; St9[06]:='수 금 액';
+     St8[07]:='GSSUM'; St9[07]:='판매금액';
+     St1:=7;
+  end;
+  if nForm='51' Then begin
+     St8[00]:='GDATE'; St9[00]:='거래일자';
+     St8[01]:='GCODE'; St9[01]:='코    드';
+     St8[02]:='GSSUM'; St9[02]:='대조금액';
+     St8[03]:='GOSUM'; St9[03]:='원장금액';
+     St8[04]:='GBSUM'; St9[04]:='장부차액';
+     St8[05]:='GBIGO'; St9[05]:='비    고';
+     St1:=5;
+  end;
+  if nForm='52' Then begin
+     St8[00]:='GDATE'; St9[00]:='거래일자';
+     St8[01]:='GCODE'; St9[01]:='도서코드';
+     St8[02]:='GSSUM'; St9[02]:='대조재고';
+     St8[03]:='GOSUM'; St9[03]:='원장재고';
+     St8[04]:='GBSUM'; St9[04]:='변경수량';
+     St8[05]:='GBIGO'; St9[05]:='비    고';
+     St1:=5;
+  end;
+  if nForm='53' Then begin
+     St8[00]:='GDATE'; St9[00]:='초기일자';
+     St8[01]:='GCODE'; St9[01]:='코    드';
+     St8[02]:='GSSUM'; St9[02]:='금    액';
+     St1:=2;
+  end;
+  if nForm='54' Then begin
+     St8[00]:='GDATE'; St9[00]:='초기일자';
+     St8[01]:='GCODE'; St9[01]:='도서코드';
+     St8[02]:='GSSUM'; St9[02]:='재    고';
+     St1:=2;
+  end;
+  if nForm='61' Then begin
+     St8[00]:='GCODE'; St9[00]:='도서코드';
+     St8[01]:='GNAME'; St9[01]:='도 서 명';
+     St8[02]:='GIQUT'; St9[02]:='입고수량';
+     St8[03]:='GOQUT'; St9[03]:='출고수량';
+     St8[04]:='GJQUT'; St9[04]:='증정수량';
+     St8[05]:='GBQUT'; St9[05]:='반품수량';
+     St8[06]:='GPQUT'; St9[06]:='폐기수량';
+     St8[07]:='GOSUM'; St9[07]:='출고금액';
+     St8[08]:='GBSUM'; St9[08]:='반품금액';
+     St1:=8;
+  end;
+  if nForm='62' Then begin
+     St8[00]:='GCODE'; St9[00]:='코    드';
+     St8[01]:='GNAME'; St9[01]:='거래처명';
+     St8[02]:='GOQUT'; St9[02]:='출고수량';
+     St8[03]:='GOSUM'; St9[03]:='출고금액';
+     St8[04]:='GJQUT'; St9[04]:='증정수량';
+     St8[05]:='GBQUT'; St9[05]:='반품수량';
+     St8[06]:='GBSUM'; St9[06]:='반품금액';
+     St8[07]:='GSUSU'; St9[07]:='수 금 액';
+     St8[08]:='GSSUM'; St9[08]:='판매금액';
+     St1:=8;
+  end;
+  if nForm='63' Then begin
+     St8[00]:='GCODE'; St9[00]:='도서코드';
+     St8[01]:='GNAME'; St9[01]:='도 서 명';
+     St8[02]:='GOQUT'; St9[02]:='신    간';
+     St8[03]:='GOSUM'; St9[03]:='위    탁';
+     St8[04]:='GBQUT'; St9[04]:='현    매';
+     St8[05]:='GBSUM'; St9[05]:='매    절';
+     St8[06]:='GJQUT'; St9[06]:='증    정';
+     St8[07]:='GSUMX'; St9[07]:='납    품';
+     St8[08]:='GSUMY'; St9[08]:='특    별';
+     St1:=8;
+  end;
+  if nForm='64' Then begin
+     St8[00]:='GCODE'; St9[00]:='도서코드';
+     St8[01]:='GNAME'; St9[01]:='도 서 명';
+     St8[02]:='GOQUT'; St9[02]:='신    간';
+     St8[03]:='GOSUM'; St9[03]:='위    탁';
+     St8[04]:='GBQUT'; St9[04]:='현    매';
+     St8[05]:='GBSUM'; St9[05]:='매    절';
+     St8[06]:='GJQUT'; St9[06]:='증    정';
+     St8[07]:='GSUMX'; St9[07]:='납    품';
+     St8[08]:='GSUMY'; St9[08]:='특    별';
+     St1:=8;
+  end;
+  if nForm='65' Then begin
+     St8[00]:='GCODE'; St9[00]:='코    드';
+     St8[01]:='GNAME'; St9[01]:='거래처명';
+     St1:=1;
+  end;
+  if nForm='66' Then begin
+     St8[00]:='GCODE'; St9[00]:='도서코드';
+     St8[01]:='GNAME'; St9[01]:='도 서 명';
+     St1:=1;
+  end;
+  if nForm='67' Then begin
+     St8[00]:='GCODE'; St9[00]:='도서코드';
+     St8[01]:='GNAME'; St9[01]:='도 서 명';
+     St8[02]:='GIQUT'; St9[02]:='입고수량';
+     St8[03]:='GOQUT'; St9[03]:='출고수량';
+     St8[04]:='GJQUT'; St9[04]:='증정수량';
+     St8[05]:='GBQUT'; St9[05]:='반품수량';
+     St8[06]:='GSUSU'; St9[06]:='폐기수량';
+     St8[07]:='GOSUM'; St9[07]:='출고금액';
+     St8[08]:='GBSUM'; St9[08]:='반품금액';
+     St1:=8;
+  end;
+  if nForm='68' Then begin
+     St8[00]:='GCODE'; St9[00]:='코    드';
+     St8[01]:='GNAME'; St9[01]:='거래처명';
+     St8[02]:='GOQUT'; St9[02]:='출고수량';
+     St8[03]:='GOSUM'; St9[03]:='출고금액';
+     St8[04]:='GJQUT'; St9[04]:='증정수량';
+     St8[05]:='GBQUT'; St9[05]:='반품수량';
+     St8[06]:='GBSUM'; St9[06]:='반품금액';
+     St8[07]:='GSUSU'; St9[07]:='수 금 액';
+     St8[08]:='GSSUM'; St9[08]:='판매금액';
+     St1:=8;
+  end;
+  for St0:=0 to St1 do begin
+  Seak30.ComboBox01.Items.Add(St8[St0]);
+  Seak30.ComboBox02.Items.Add(St8[St0]);
+  Seak30.ComboBox03.Items.Add(St8[St0]);
+  Seak30.ComboBox04.Items.Add(St8[St0]);
+  Seak30.ComboBox11.Items.Add(St9[St0]);
+  Seak30.ComboBox12.Items.Add(St9[St0]);
+  Seak30.ComboBox13.Items.Add(St9[St0]);
+  Seak30.ComboBox14.Items.Add(St9[St0]);
+  end;
+  if ComboBox21.ItemIndex = -1 Then ComboBox21.ItemIndex:=0;
+  if ComboBox22.ItemIndex = -1 Then ComboBox22.ItemIndex:=0;
+  if ComboBox23.ItemIndex = -1 Then ComboBox23.ItemIndex:=0;
+  if ComboBox24.ItemIndex = -1 Then ComboBox24.ItemIndex:=0;
+end;
+
+procedure TSeak30.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  ComboBox01.Items.Clear; ComboBox11.Items.Clear;
+  ComboBox02.Items.Clear; ComboBox12.Items.Clear;
+  ComboBox03.Items.Clear; ComboBox13.Items.Clear;
+  ComboBox04.Items.Clear; ComboBox14.Items.Clear;
+end;
+
+procedure TSeak30.BitBtn101Click(Sender: TObject);
+var St1,St2,St3: String;
+    St4,St5: String;
+begin
+  Code2:=''; St1:='';
+  if (ComboBox11.Text<>'') and (ComboBox21.Text<>'') Then begin
+    ComboBox01.ItemIndex:=ComboBox11.ItemIndex;
+    ComboBox31.ItemIndex:=ComboBox21.ItemIndex;
+    St2:=ComboBox01.Text; St3:=ComboBox31.Text;
+    St1:=St1+' '+St2+' '+St3;
+    St4:=ComboBox01.Text;
+    St5:=ComboBox31.Text;
+  end;
+  if (ComboBox12.Text<>'') and (ComboBox22.Text<>'') Then begin
+    ComboBox02.ItemIndex:=ComboBox12.ItemIndex;
+    ComboBox32.ItemIndex:=ComboBox22.ItemIndex;
+    St2:=ComboBox02.Text; St3:=ComboBox32.Text;
+    St1:=St1+','+St2+' '+St3;
+  end;
+  if (ComboBox13.Text<>'') and (ComboBox23.Text<>'') Then begin
+    ComboBox03.ItemIndex:=ComboBox13.ItemIndex;
+    ComboBox33.ItemIndex:=ComboBox23.ItemIndex;
+    St2:=ComboBox03.Text; St3:=ComboBox33.Text;
+    St1:=St1+','+St2+' '+St3;
+  end;
+  if (ComboBox14.Text<>'') and (ComboBox24.Text<>'') Then begin
+    ComboBox04.ItemIndex:=ComboBox14.ItemIndex;
+    ComboBox34.ItemIndex:=ComboBox24.ItemIndex;
+    St2:=ComboBox04.Text; St3:=ComboBox34.Text;
+    St1:=St1+','+St2+' '+St3;
+  end;
+  if St1<>'' Then Code2:='Order By '+St1;
+  if St4<>'' Then begin
+     if St5='ASC' Then oSqry.IndexName := 'IDX'+St4+'DOWN';
+     if St5='DESC'  Then oSqry.IndexName := 'IDX'+St4+'UP';
+  end;
+end;
+
+end.

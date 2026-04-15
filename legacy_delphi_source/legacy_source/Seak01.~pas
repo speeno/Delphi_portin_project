@@ -1,0 +1,190 @@
+unit Seak01;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, ExtCtrls, Grids, DBGrids, Db, DBClient, Buttons, TFlatEditUnit,
+  TFlatPanelUnit, TFlatSpeedButtonUnit, TFlatButtonUnit, TFlatComboBoxUnit;
+
+type
+  TSeak10 = class(TForm)
+    Panel100: TFlatPanel;
+    Panel101: TFlatPanel;
+    Panel102: TFlatPanel;
+    ComboBox1: TFlatComboBox;
+    Edit1: TFlatEdit;
+    Button101: TFlatButton;
+    Button102: TFlatButton;
+    BitBtn101: TBitBtn;
+    BitBtn102: TBitBtn;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BitBtn101Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Seak10: TSeak10;
+  St9:array [0..9] of String;
+
+implementation
+
+{$R *.DFM}
+
+uses Base01;
+
+procedure TSeak10.FormShow(Sender: TObject);
+begin
+     Seak10.ComboBox1.Items.Clear;
+  if nForm='11' Then begin
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[00]:='Gname';
+     Seak10.ComboBox1.Items.Add('대표자명'); St9[01]:='Gposa';
+  end;
+  if nForm='12' Then begin
+     Seak10.ComboBox1.Items.Add('입고처명'); St9[00]:='Gname';
+     Seak10.ComboBox1.Items.Add('대표자명'); St9[01]:='Gposa';
+  end;
+  if nForm='13' Then begin
+     Seak10.ComboBox1.Items.Add('직 장 명'); St9[00]:='Gname';
+     Seak10.ComboBox1.Items.Add('저 자 명'); St9[01]:='Gposa';
+  end;
+  if nForm='14' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('도 서 명'); St9[01]:='Gname';
+     Seak10.ComboBox1.Items.Add('저 자 명'); St9[02]:='Gjeja';
+  end;
+  if nForm='15' Then begin
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[00]:='Gname';
+     Seak10.ComboBox1.Items.Add('대표자명'); St9[01]:='Gposa';
+  end;
+  if nForm='17' Then begin
+     Seak10.ComboBox1.Items.Add('출판사명'); St9[00]:='Gname';
+     Seak10.ComboBox1.Items.Add('대표자명'); St9[01]:='Gposa';
+  end;
+  if nForm='21' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Bcode';
+  end;
+  if nForm='22' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Bcode';
+  end;
+  if nForm='23' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Bcode';
+  end;
+  if nForm='24' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+  end;
+  if nForm='25' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+  end;
+  if nForm='26' Then begin
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[00]:='Gname';
+     Seak10.ComboBox1.Items.Add('계정과목'); St9[00]:='Oname';
+  end;
+  if nForm='27' Then begin
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[00]:='Gname';
+     Seak10.ComboBox1.Items.Add('계정과목'); St9[00]:='Oname';
+  end;
+  if nForm='28' Then begin
+     Seak10.ComboBox1.Items.Add('거래일자'); St9[00]:='Gdate';
+     Seak10.ComboBox1.Items.Add('저자코드'); St9[01]:='Gcode';
+  end;
+  if nForm='29' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Bcode';
+  end;
+  if nForm='31' Then begin
+     Seak10.ComboBox1.Items.Add('거래내역'); St9[00]:='Gname';
+  end;
+  if nForm='32' Then begin
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[00]:='Gname';
+  end;
+  if nForm='33' Then begin
+     Seak10.ComboBox1.Items.Add('코    드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[01]:='Gname';
+  end;
+  if nForm='34' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('도 서 명'); St9[01]:='Gname';
+  end;
+  if nForm='35' Then begin
+     Seak10.ComboBox1.Items.Add('코    드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[01]:='Gname';
+  end;
+  if nForm='36' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('도 서 명'); St9[01]:='Gname';
+  end;
+  if nForm='37' Then begin
+     Seak10.ComboBox1.Items.Add('코    드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[01]:='Gname';
+  end;
+  if nForm='51' Then begin
+     Seak10.ComboBox1.Items.Add('코    드'); St9[00]:='Gcode';
+  end;
+  if nForm='52' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+  end;
+  if nForm='53' Then begin
+     Seak10.ComboBox1.Items.Add('코    드'); St9[00]:='Gcode';
+  end;
+  if nForm='54' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+  end;
+  if nForm='61' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('도 서 명'); St9[01]:='Gname';
+  end;
+  if nForm='62' Then begin
+     Seak10.ComboBox1.Items.Add('코    드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[01]:='Gname';
+  end;
+  if nForm='63' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('도 서 명'); St9[01]:='Gname';
+  end;
+  if nForm='64' Then begin
+     Seak10.ComboBox1.Items.Add('코    드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[01]:='Gname';
+  end;
+  if nForm='65' Then begin
+     Seak10.ComboBox1.Items.Add('코    드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[01]:='Gname';
+  end;
+  if nForm='66' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('도 서 명'); St9[01]:='Gname';
+  end;
+  if nForm='67' Then begin
+     Seak10.ComboBox1.Items.Add('도서코드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('도 서 명'); St9[01]:='Gname';
+  end;
+  if nForm='68' Then begin
+     Seak10.ComboBox1.Items.Add('코    드'); St9[00]:='Gcode';
+     Seak10.ComboBox1.Items.Add('거래처명'); St9[01]:='Gname';
+  end;
+  Seak10.ComboBox1.ItemIndex:=0;
+  Seak10.Edit1.Text:='';
+end;
+
+procedure TSeak10.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+//
+end;
+
+procedure TSeak10.BitBtn101Click(Sender: TObject);
+var St1,St2: String;
+    Bmark: TBookMark;
+begin
+   St1:=St9[Seak10.ComboBox1.ItemIndex];
+   St2:=Seak10.Edit1.Text;
+   Bmark:=oSqry.GetBookmark; oSqry.DisableControls;
+   if oSqry.Locate(St1,St2,[loCaseInsensitive,loPartialKey])=False then begin
+   MessageDlg( '찾는 자료가 없습니다!', mtInformation, [mbOK], 0 );
+   oSqry.GotoBookmark(Bmark); oSqry.FreeBookmark(Bmark); end;
+   oSqry.EnableControls;
+end;
+
+end.

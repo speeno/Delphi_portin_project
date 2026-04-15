@@ -1,0 +1,2897 @@
+[
+  {
+    "form_name": "Base01",
+    "form_class": "unknown",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Base01.dfm",
+    "component_count": 0,
+    "event_count": 0,
+    "component_summary": {}
+  },
+  {
+    "form_name": "Subu00",
+    "form_class": "TSubu00",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Chul.dfm",
+    "component_count": 182,
+    "event_count": 123,
+    "component_summary": {
+      "TSubu00": 1,
+      "TToolBar": 1,
+      "TToolButton": 33,
+      "TStringGrid": 2,
+      "TWebBrowser": 1,
+      "TMainMenu": 1,
+      "TMenuItem": 130,
+      "TPopupMenu": 2,
+      "TOpenDialog": 1,
+      "TSaveDialog": 1,
+      "TPrintDialog": 1,
+      "TPrinterSetupDialog": 1,
+      "TImageList": 2,
+      "TPing": 1,
+      "TTimer": 2,
+      "TMDIWallpaper": 1,
+      "TApplicationEvents": 1
+    }
+  },
+  {
+    "form_name": "Sobo36",
+    "form_class": "TSobo36",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu36.dfm",
+    "component_count": 23,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo36": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 5,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 3,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo37",
+    "form_class": "TSobo37",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu37.dfm",
+    "component_count": 26,
+    "event_count": 31,
+    "component_summary": {
+      "TSobo37": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 3,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo38",
+    "form_class": "TSobo38",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu38.dfm",
+    "component_count": 4,
+    "event_count": 5,
+    "component_summary": {
+      "TSobo38": 1,
+      "TmyLabel3d": 1,
+      "TFlatPanel": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo39",
+    "form_class": "TSobo39",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu39.dfm",
+    "component_count": 3,
+    "event_count": 7,
+    "component_summary": {
+      "TSobo39": 1,
+      "TFlatPanel": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo39_1",
+    "form_class": "TSobo39_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu39_1.dfm",
+    "component_count": 31,
+    "event_count": 32,
+    "component_summary": {
+      "TSobo39_1": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo39_2",
+    "form_class": "TSobo39_2",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu39_2.dfm",
+    "component_count": 31,
+    "event_count": 32,
+    "component_summary": {
+      "TSobo39_2": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo39_5",
+    "form_class": "TSobo39_5",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu39_5.dfm",
+    "component_count": 31,
+    "event_count": 32,
+    "component_summary": {
+      "TSobo39_5": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo43",
+    "form_class": "TSobo43",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu43.dfm",
+    "component_count": 17,
+    "event_count": 26,
+    "component_summary": {
+      "TSobo43": 1,
+      "TFlatPanel": 5,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo45",
+    "form_class": "TSobo45",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu45.dfm",
+    "component_count": 15,
+    "event_count": 17,
+    "component_summary": {
+      "TSobo45": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TDBGrid": 1,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Sobo45",
+    "form_class": "TSobo45",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu45_1.dfm",
+    "component_count": 15,
+    "event_count": 17,
+    "component_summary": {
+      "TSobo45": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TDBGrid": 1,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Sobo51",
+    "form_class": "TSobo51",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu51.dfm",
+    "component_count": 16,
+    "event_count": 7,
+    "component_summary": {
+      "TSobo51": 1,
+      "TFlatPanel": 1,
+      "TRadioGroup": 2,
+      "TGroupBox": 2,
+      "TmyLabel3d": 4,
+      "TFlatEdit": 4,
+      "TFlatButton": 1,
+      "TGauge": 1
+    }
+  },
+  {
+    "form_name": "Sobo63",
+    "form_class": "TSobo63",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu63.dfm",
+    "component_count": 28,
+    "event_count": 26,
+    "component_summary": {
+      "TSobo63": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 4,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TDateEdit": 2,
+      "TFlatCheckBox": 1,
+      "TdxButton": 1,
+      "TImVarGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo64",
+    "form_class": "TSobo64",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu64.dfm",
+    "component_count": 28,
+    "event_count": 26,
+    "component_summary": {
+      "TSobo64": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 4,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TDateEdit": 2,
+      "TFlatCheckBox": 1,
+      "TdxButton": 1,
+      "TImVarGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo65",
+    "form_class": "TSobo65",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu65.dfm",
+    "component_count": 35,
+    "event_count": 36,
+    "component_summary": {
+      "TSobo65": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo66",
+    "form_class": "TSobo66",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Data/Subu66.dfm",
+    "component_count": 35,
+    "event_count": 36,
+    "component_summary": {
+      "TSobo66": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Exls10",
+    "form_class": "TExls10",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Exls01.dfm",
+    "component_count": 4,
+    "event_count": 3,
+    "component_summary": {
+      "TExls10": 1,
+      "TFlatPanel": 2,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Exls70",
+    "form_class": "TExls70",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Exls07.dfm",
+    "component_count": 17,
+    "event_count": 7,
+    "component_summary": {
+      "TExls70": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 6,
+      "TdxButton": 1,
+      "TFlatProgressBar": 1,
+      "TProgressBar": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Base01",
+    "form_class": "unknown",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Base01.dfm",
+    "component_count": 0,
+    "event_count": 0,
+    "component_summary": {}
+  },
+  {
+    "form_name": "Subu00",
+    "form_class": "TSubu00",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Chul.dfm",
+    "component_count": 116,
+    "event_count": 74,
+    "component_summary": {
+      "TSubu00": 1,
+      "TToolBar": 1,
+      "TToolButton": 33,
+      "TStringGrid": 2,
+      "TMainMenu": 1,
+      "TMenuItem": 69,
+      "TPopupMenu": 1,
+      "TOpenDialog": 1,
+      "TSaveDialog": 1,
+      "TPrintDialog": 1,
+      "TPrinterSetupDialog": 1,
+      "TImageList": 1,
+      "TPing": 1,
+      "TTimer": 1,
+      "TMDIWallpaper": 1
+    }
+  },
+  {
+    "form_name": "Seek10",
+    "form_class": "TSeek10",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Seek01.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek10": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek20",
+    "form_class": "TSeek20",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Seek02.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek20": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek30",
+    "form_class": "TSeek30",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Seek03.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek30": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek40",
+    "form_class": "TSeek40",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Seek04.dfm",
+    "component_count": 10,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek40": 1,
+      "TFlatPanel": 4,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TFlatNumber": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek50",
+    "form_class": "TSeek50",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Seek05.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek50": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek60",
+    "form_class": "TSeek60",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Seek06.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek60": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek70",
+    "form_class": "TSeek70",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Seek07.dfm",
+    "component_count": 12,
+    "event_count": 8,
+    "component_summary": {
+      "TSeek70": 1,
+      "TFlatPanel": 6,
+      "TFlatEdit": 3,
+      "TFlatNumber": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek80",
+    "form_class": "TSeek80",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Seek08.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek80": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek90",
+    "form_class": "TSeek90",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Seek09.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek90": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo17",
+    "form_class": "TSobo17",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu17.dfm",
+    "component_count": 3,
+    "event_count": 9,
+    "component_summary": {
+      "TSobo17": 1,
+      "TFlatPanel": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo21",
+    "form_class": "TSobo21",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu21.dfm",
+    "component_count": 21,
+    "event_count": 32,
+    "component_summary": {
+      "TSobo21": 1,
+      "TFlatPanel": 8,
+      "TmyLabel3d": 1,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 1,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 5,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo38",
+    "form_class": "TSobo38",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu38.dfm",
+    "component_count": 20,
+    "event_count": 3,
+    "component_summary": {
+      "TSobo38": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatRadioButton": 3,
+      "TDateEdit": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo45",
+    "form_class": "TSobo45",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu45.dfm",
+    "component_count": 19,
+    "event_count": 23,
+    "component_summary": {
+      "TSobo45": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TDateEdit": 1,
+      "TDBGrid": 1,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Sobo51",
+    "form_class": "TSobo51",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu51.dfm",
+    "component_count": 13,
+    "event_count": 14,
+    "component_summary": {
+      "TSobo51": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 2,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Sobo53",
+    "form_class": "TSobo53",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu53.dfm",
+    "component_count": 21,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo53": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 5,
+      "TDateEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo54",
+    "form_class": "TSobo54",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu54.dfm",
+    "component_count": 21,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo54": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 5,
+      "TDateEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo55",
+    "form_class": "TSobo55",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu55.dfm",
+    "component_count": 21,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo55": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 5,
+      "TDateEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo56",
+    "form_class": "TSobo56",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu56.dfm",
+    "component_count": 22,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo56": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 5,
+      "TDateEdit": 2,
+      "TDBGrid": 1,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Sobo57",
+    "form_class": "TSobo57",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu57.dfm",
+    "component_count": 22,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo57": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 5,
+      "TDateEdit": 2,
+      "TDBGrid": 1,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Sobo58",
+    "form_class": "TSobo58",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Subu58.dfm",
+    "component_count": 22,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo58": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 5,
+      "TDateEdit": 2,
+      "TDBGrid": 1,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Tong40",
+    "form_class": "TTong40",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Tong04.dfm",
+    "component_count": 3,
+    "event_count": 2,
+    "component_summary": {
+      "TTong40": 1,
+      "TmyLabel3d": 1,
+      "TFontDialog": 1
+    }
+  },
+  {
+    "form_name": "Seak10",
+    "form_class": "TSeak10",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak01.dfm",
+    "component_count": 10,
+    "event_count": 3,
+    "component_summary": {
+      "TSeak10": 1,
+      "TFlatPanel": 3,
+      "TFlatComboBox": 1,
+      "TFlatEdit": 1,
+      "TFlatButton": 2,
+      "TBitBtn": 2
+    }
+  },
+  {
+    "form_name": "Seak20",
+    "form_class": "TSeak20",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak02.dfm",
+    "component_count": 45,
+    "event_count": 26,
+    "component_summary": {
+      "TSeak20": 1,
+      "TFlatPanel": 1,
+      "TFlatGroupBox": 4,
+      "TFlatSpeedButton": 4,
+      "TLabel": 4,
+      "TFlatComboBox": 16,
+      "TFlatEdit": 4,
+      "TRadioButton": 6,
+      "TFlatButton": 2,
+      "TBitBtn": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seak30",
+    "form_class": "TSeak30",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak03.dfm",
+    "component_count": 30,
+    "event_count": 3,
+    "component_summary": {
+      "TSeak30": 1,
+      "TFlatPanel": 1,
+      "TFlatGroupBox": 4,
+      "TLabel": 4,
+      "TFlatComboBox": 16,
+      "TFlatButton": 2,
+      "TBitBtn": 2
+    }
+  },
+  {
+    "form_name": "Seak40",
+    "form_class": "TSeak40",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak04.dfm",
+    "component_count": 7,
+    "event_count": 5,
+    "component_summary": {
+      "TSeak40": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seak40_1",
+    "form_class": "TSeak40_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak04_1.dfm",
+    "component_count": 8,
+    "event_count": 4,
+    "component_summary": {
+      "TSeak40_1": 1,
+      "TFlatPanel": 1,
+      "TWebBrowser": 1,
+      "TFlatButton": 2,
+      "TBitBtn": 3
+    }
+  },
+  {
+    "form_name": "Seak50",
+    "form_class": "TSeak50",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak05.dfm",
+    "component_count": 19,
+    "event_count": 9,
+    "component_summary": {
+      "TSeak50": 1,
+      "TFlatGroupBox": 2,
+      "TStaticText": 4,
+      "TFlatSpinEditInteger": 4,
+      "TRadioButton": 2,
+      "TFlatButton": 4,
+      "TBitBtn": 1,
+      "TFontDialog": 1
+    }
+  },
+  {
+    "form_name": "Seak60",
+    "form_class": "TSeak60",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak06.dfm",
+    "component_count": 250,
+    "event_count": 7,
+    "component_summary": {
+      "TSeak60": 1,
+      "TPageControl": 1,
+      "TTabSheet": 3,
+      "TFlatGroupBox": 6,
+      "TLabel": 50,
+      "TFlatButton": 7,
+      "TFlatSpinEditFloat": 145,
+      "TFlatEdit": 37
+    }
+  },
+  {
+    "form_name": "Seak70",
+    "form_class": "TSeak70",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak07.dfm",
+    "component_count": 9,
+    "event_count": 5,
+    "component_summary": {
+      "TSeak70": 1,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 2,
+      "TDBGrid": 2
+    }
+  },
+  {
+    "form_name": "Seak80",
+    "form_class": "TSeak80",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak08.dfm",
+    "component_count": 7,
+    "event_count": 5,
+    "component_summary": {
+      "TSeak80": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seak90",
+    "form_class": "TSeak90",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak09.dfm",
+    "component_count": 139,
+    "event_count": 141,
+    "component_summary": {
+      "TSeak90": 1,
+      "TFlatPanel": 58,
+      "TmyLabel3d": 5,
+      "TFlatCheckBox": 3,
+      "TFlatNumber": 68,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 2,
+      "TFlatButton": 1
+    }
+  },
+  {
+    "form_name": "Seak90",
+    "form_class": "TSeak90",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak09_1.dfm",
+    "component_count": 128,
+    "event_count": 77,
+    "component_summary": {
+      "TSeak90": 1,
+      "TFlatPanel": 58,
+      "TFlatButton": 2,
+      "TBitBtn": 2,
+      "TFlatComboBox": 1,
+      "TFlatEdit": 9,
+      "TFlatMaskEdit": 4,
+      "TFlatNumber": 23,
+      "TRadioButton": 26,
+      "TmyLabel3d": 2
+    }
+  },
+  {
+    "form_name": "Seek10",
+    "form_class": "TSeek10",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek01.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek10": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek20",
+    "form_class": "TSeek20",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek02.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek20": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek30",
+    "form_class": "TSeek30",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek03.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek30": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek40",
+    "form_class": "TSeek40",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek04.dfm",
+    "component_count": 10,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek40": 1,
+      "TFlatPanel": 4,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TFlatNumber": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek50",
+    "form_class": "TSeek50",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek05.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek50": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek60",
+    "form_class": "TSeek60",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek06.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek60": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek70",
+    "form_class": "TSeek70",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek07.dfm",
+    "component_count": 13,
+    "event_count": 9,
+    "component_summary": {
+      "TSeek70": 1,
+      "TFlatPanel": 6,
+      "TFlatEdit": 3,
+      "TFlatNumber": 1,
+      "TBitBtn": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek80",
+    "form_class": "TSeek80",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek08.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek80": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seek90",
+    "form_class": "TSeek90",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek09.dfm",
+    "component_count": 8,
+    "event_count": 5,
+    "component_summary": {
+      "TSeek90": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seep11",
+    "form_class": "unknown",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seep11.dfm",
+    "component_count": 0,
+    "event_count": 0,
+    "component_summary": {}
+  },
+  {
+    "form_name": "Seep13",
+    "form_class": "unknown",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seep13.dfm",
+    "component_count": 0,
+    "event_count": 0,
+    "component_summary": {}
+  },
+  {
+    "form_name": "Seok10",
+    "form_class": "TSeok10",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok01.dfm",
+    "component_count": 8,
+    "event_count": 4,
+    "component_summary": {
+      "TSeok10": 1,
+      "TFlatPanel": 2,
+      "TFlatButton": 2,
+      "TBitBtn": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Seok20",
+    "form_class": "TSeok20",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok02.dfm",
+    "component_count": 7,
+    "event_count": 4,
+    "component_summary": {
+      "TSeok20": 1,
+      "TFlatPanel": 3,
+      "TFlatSpeedButton": 1,
+      "TFlatEdit": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Seok30",
+    "form_class": "TSeok30",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok03.dfm",
+    "component_count": 38,
+    "event_count": 22,
+    "component_summary": {
+      "TSeok30": 1,
+      "TFlatPanel": 6,
+      "TmyLabel3d": 1,
+      "TDBGrid": 2,
+      "TRichEdit": 1,
+      "TRxRichEdit": 1,
+      "TFlatMaskEdit": 3,
+      "TToolBar": 1,
+      "TToolButton": 13,
+      "TComboBox": 1,
+      "TEdit": 1,
+      "TUpDown": 1,
+      "TBitBtn": 1,
+      "TDateEdit": 3,
+      "TFlatCheckBox": 1,
+      "TFlatButton": 1
+    }
+  },
+  {
+    "form_name": "Seok30",
+    "form_class": "TSeok30",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok03_1.dfm",
+    "component_count": 35,
+    "event_count": 21,
+    "component_summary": {
+      "TSeok30": 1,
+      "TFlatPanel": 6,
+      "TmyLabel3d": 1,
+      "TDBGrid": 2,
+      "TRichEdit": 1,
+      "TFlatMaskEdit": 3,
+      "TToolBar": 1,
+      "TToolButton": 13,
+      "TComboBox": 1,
+      "TEdit": 1,
+      "TUpDown": 1,
+      "TBitBtn": 1,
+      "TDateEdit": 3
+    }
+  },
+  {
+    "form_name": "Seok40",
+    "form_class": "TSeok40",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok04.dfm",
+    "component_count": 9,
+    "event_count": 4,
+    "component_summary": {
+      "TSeok40": 1,
+      "TFlatPanel": 2,
+      "TFlatCheckBox": 1,
+      "TFlatButton": 1,
+      "TRxRichEdit": 3,
+      "TZMySqlQuery": 1
+    }
+  },
+  {
+    "form_name": "Seok80",
+    "form_class": "TSeok80",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok08.dfm",
+    "component_count": 11,
+    "event_count": 1,
+    "component_summary": {
+      "TSeok80": 1,
+      "TFlatPanel": 2,
+      "TmyLabel3d": 8
+    }
+  },
+  {
+    "form_name": "Seok90",
+    "form_class": "TSeok90",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok09.dfm",
+    "component_count": 21,
+    "event_count": 11,
+    "component_summary": {
+      "TSeok90": 1,
+      "TShape": 1,
+      "TPanel": 3,
+      "TLabel": 6,
+      "TFileListBox": 1,
+      "TProgressBar": 1,
+      "TCheckListBox": 1,
+      "TSpeedButton": 4,
+      "TTimer": 1,
+      "TIdFTP": 1,
+      "TIdAntiFreeze": 1
+    }
+  },
+  {
+    "form_name": "Sobo10",
+    "form_class": "TSobo10",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu10.dfm",
+    "component_count": 9,
+    "event_count": 5,
+    "component_summary": {
+      "TSobo10": 1,
+      "TmyLabel3d": 3,
+      "TFlatComboBox": 1,
+      "TFlatEdit": 2,
+      "TFlatButton": 2
+    }
+  },
+  {
+    "form_name": "Sobo11",
+    "form_class": "TSobo11",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu11.dfm",
+    "component_count": 9,
+    "event_count": 8,
+    "component_summary": {
+      "TSobo11": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo12",
+    "form_class": "TSobo12",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu12.dfm",
+    "component_count": 9,
+    "event_count": 9,
+    "component_summary": {
+      "TSobo12": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo13",
+    "form_class": "TSobo13",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu13.dfm",
+    "component_count": 26,
+    "event_count": 19,
+    "component_summary": {
+      "TSobo13": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 8,
+      "TFlatProgressBar": 1,
+      "TProgressBar": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 3,
+      "TdxButton": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo13_1",
+    "form_class": "TSobo13_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu13_1.dfm",
+    "component_count": 26,
+    "event_count": 19,
+    "component_summary": {
+      "TSobo13_1": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 8,
+      "TFlatProgressBar": 1,
+      "TProgressBar": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 3,
+      "TdxButton": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo14",
+    "form_class": "TSobo14",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu14.dfm",
+    "component_count": 9,
+    "event_count": 8,
+    "component_summary": {
+      "TSobo14": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo14_1",
+    "form_class": "TSobo14_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu14_1.dfm",
+    "component_count": 19,
+    "event_count": 14,
+    "component_summary": {
+      "TSobo14_1": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 3,
+      "TFlatComboBox": 1,
+      "TFlatEdit": 3,
+      "TFlatButton": 1,
+      "TdxButton": 2,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo15",
+    "form_class": "TSobo15",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu15.dfm",
+    "component_count": 9,
+    "event_count": 8,
+    "component_summary": {
+      "TSobo15": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo16",
+    "form_class": "TSobo16",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu16.dfm",
+    "component_count": 17,
+    "event_count": 17,
+    "component_summary": {
+      "TSobo16": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 4,
+      "TFlatEdit": 4,
+      "TFlatButton": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo17",
+    "form_class": "TSobo17",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu17.dfm",
+    "component_count": 9,
+    "event_count": 10,
+    "component_summary": {
+      "TSobo17": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo17_1",
+    "form_class": "TSobo17_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu17_1.dfm",
+    "component_count": 9,
+    "event_count": 10,
+    "component_summary": {
+      "TSobo17_1": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo18",
+    "form_class": "TSobo18",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu18.dfm",
+    "component_count": 17,
+    "event_count": 8,
+    "component_summary": {
+      "TSobo18": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 3,
+      "TFlatComboBox": 1,
+      "TFlatEdit": 2,
+      "TFlatButton": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo19",
+    "form_class": "TSobo19",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu19.dfm",
+    "component_count": 11,
+    "event_count": 8,
+    "component_summary": {
+      "TSobo19": 1,
+      "TFlatPanel": 1,
+      "TmyLabel3d": 2,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 3,
+      "TFlatButton": 2
+    }
+  },
+  {
+    "form_name": "Sobo19_1",
+    "form_class": "TSobo19_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu19_1.dfm",
+    "component_count": 8,
+    "event_count": 6,
+    "component_summary": {
+      "TSobo19_1": 1,
+      "TFlatPanel": 1,
+      "TmyLabel3d": 1,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 1,
+      "TFlatButton": 2
+    }
+  },
+  {
+    "form_name": "Sobo1A",
+    "form_class": "TSobo1A",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu1A.dfm",
+    "component_count": 7,
+    "event_count": 3,
+    "component_summary": {
+      "TSobo1A": 1,
+      "TFlatGroupBox": 1,
+      "TLabel": 1,
+      "TFlatCheckBox": 1,
+      "TFlatNumber": 1,
+      "TdxButton": 2
+    }
+  },
+  {
+    "form_name": "Sobo20",
+    "form_class": "TSobo20",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu20.dfm",
+    "component_count": 21,
+    "event_count": 26,
+    "component_summary": {
+      "TSobo20": 1,
+      "TFlatPanel": 7,
+      "TmyLabel3d": 1,
+      "TFlatMaskEdit": 1,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 5,
+      "TFlatButton": 2,
+      "TBitBtn": 2
+    }
+  },
+  {
+    "form_name": "Sobo21",
+    "form_class": "TSobo21",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
+    "component_count": 35,
+    "event_count": 40,
+    "component_summary": {
+      "TSobo21": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 8,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 1,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo22",
+    "form_class": "TSobo22",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22.dfm",
+    "component_count": 35,
+    "event_count": 40,
+    "component_summary": {
+      "TSobo22": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 8,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 1,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo22_1",
+    "form_class": "TSobo22_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22_1.dfm",
+    "component_count": 22,
+    "event_count": 29,
+    "component_summary": {
+      "TSobo22_1": 1,
+      "TFlatPanel": 7,
+      "TmyLabel3d": 2,
+      "TFlatButton": 3,
+      "TFlatMaskEdit": 1,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 4,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo22_2",
+    "form_class": "TSobo22_2",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22_2.dfm",
+    "component_count": 26,
+    "event_count": 32,
+    "component_summary": {
+      "TSobo22_2": 1,
+      "TFlatPanel": 7,
+      "TmyLabel3d": 3,
+      "TFlatButton": 3,
+      "TFlatMaskEdit": 2,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 4,
+      "TdxButton": 1,
+      "TDateEdit": 2,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo23",
+    "form_class": "TSobo23",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu23.dfm",
+    "component_count": 35,
+    "event_count": 40,
+    "component_summary": {
+      "TSobo23": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 8,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 1,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo24",
+    "form_class": "TSobo24",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu24.dfm",
+    "component_count": 23,
+    "event_count": 25,
+    "component_summary": {
+      "TSobo24": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 4,
+      "TFlatButton": 3,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo25",
+    "form_class": "TSobo25",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm",
+    "component_count": 23,
+    "event_count": 25,
+    "component_summary": {
+      "TSobo25": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 4,
+      "TFlatButton": 3,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo26",
+    "form_class": "TSobo26",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu26.dfm",
+    "component_count": 20,
+    "event_count": 25,
+    "component_summary": {
+      "TSobo26": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatRadioButton": 3,
+      "TDateEdit": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo27",
+    "form_class": "TSobo27",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu27.dfm",
+    "component_count": 18,
+    "event_count": 23,
+    "component_summary": {
+      "TSobo27": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo27",
+    "form_class": "TSobo27",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu27_1.dfm",
+    "component_count": 18,
+    "event_count": 23,
+    "component_summary": {
+      "TSobo27": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo28",
+    "form_class": "TSobo28",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu28.dfm",
+    "component_count": 18,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo28": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo29",
+    "form_class": "TSobo29",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu29.dfm",
+    "component_count": 26,
+    "event_count": 20,
+    "component_summary": {
+      "TSobo29": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 7,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 1,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 3,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo30",
+    "form_class": "TSobo30",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu30.dfm",
+    "component_count": 4,
+    "event_count": 3,
+    "component_summary": {
+      "TSobo30": 1,
+      "TImage": 1,
+      "TmyLabel3d": 1,
+      "TdxButton": 1
+    }
+  },
+  {
+    "form_name": "Sobo31",
+    "form_class": "TSobo31",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu31.dfm",
+    "component_count": 34,
+    "event_count": 36,
+    "component_summary": {
+      "TSobo31": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 7,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo32",
+    "form_class": "TSobo32",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu32.dfm",
+    "component_count": 31,
+    "event_count": 32,
+    "component_summary": {
+      "TSobo32": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo32_1",
+    "form_class": "TSobo32_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu32_1.dfm",
+    "component_count": 24,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo32_1": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 4,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 1,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo32",
+    "form_class": "TSobo32",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu32_9.dfm",
+    "component_count": 21,
+    "event_count": 30,
+    "component_summary": {
+      "TSobo32": 1,
+      "TFlatPanel": 7,
+      "TmyLabel3d": 2,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo33",
+    "form_class": "TSobo33",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu33.dfm",
+    "component_count": 34,
+    "event_count": 33,
+    "component_summary": {
+      "TSobo33": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo34",
+    "form_class": "TSobo34",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34.dfm",
+    "component_count": 19,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo34": 1,
+      "TFlatPanel": 5,
+      "TmyLabel3d": 2,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo34_1",
+    "form_class": "TSobo34_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_1.dfm",
+    "component_count": 40,
+    "event_count": 39,
+    "component_summary": {
+      "TSobo34_1": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 8,
+      "TFlatPanel": 5,
+      "TFlatButton": 6,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 3,
+      "TFlatNumber": 1,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo34_2",
+    "form_class": "TSobo34_2",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_2.dfm",
+    "component_count": 34,
+    "event_count": 33,
+    "component_summary": {
+      "TSobo34_2": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 1,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo34_3",
+    "form_class": "TSobo34_3",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_3.dfm",
+    "component_count": 34,
+    "event_count": 33,
+    "component_summary": {
+      "TSobo34_3": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 1,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo34_4",
+    "form_class": "TSobo34_4",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_4.dfm",
+    "component_count": 34,
+    "event_count": 33,
+    "component_summary": {
+      "TSobo34_4": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 1,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo35",
+    "form_class": "TSobo35",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu35.dfm",
+    "component_count": 20,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo35": 1,
+      "TFlatPanel": 5,
+      "TmyLabel3d": 3,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo36",
+    "form_class": "TSobo36",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu36.dfm",
+    "component_count": 20,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo36": 1,
+      "TFlatPanel": 5,
+      "TmyLabel3d": 3,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo37",
+    "form_class": "TSobo37",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu37.dfm",
+    "component_count": 19,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo37": 1,
+      "TFlatPanel": 5,
+      "TmyLabel3d": 2,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo38",
+    "form_class": "TSobo38",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu38.dfm",
+    "component_count": 1,
+    "event_count": 3,
+    "component_summary": {
+      "TSobo38": 1
+    }
+  },
+  {
+    "form_name": "Sobo38_1",
+    "form_class": "TSobo38_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu38_1.dfm",
+    "component_count": 20,
+    "event_count": 11,
+    "component_summary": {
+      "TSobo38_1": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 7,
+      "TdxButton": 1,
+      "TFlatMaskEdit": 1,
+      "TDateEdit": 1,
+      "TFlatProgressBar": 1,
+      "TProgressBar": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo38_2",
+    "form_class": "TSobo38_2",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu38_2.dfm",
+    "component_count": 23,
+    "event_count": 25,
+    "component_summary": {
+      "TSobo38_2": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 4,
+      "TFlatButton": 3,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo39",
+    "form_class": "TSobo39",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu39.dfm",
+    "component_count": 3,
+    "event_count": 6,
+    "component_summary": {
+      "TSobo39": 1,
+      "TFlatPanel": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo40",
+    "form_class": "TSobo40",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu40.dfm",
+    "component_count": 5,
+    "event_count": 4,
+    "component_summary": {
+      "TSobo40": 1,
+      "TmyLabel3d": 1,
+      "TFlatEdit": 1,
+      "TFlatButton": 2
+    }
+  },
+  {
+    "form_name": "Sobo41",
+    "form_class": "TSobo41",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu41.dfm",
+    "component_count": 23,
+    "event_count": 23,
+    "component_summary": {
+      "TSobo41": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 4,
+      "TFlatButton": 3,
+      "TFlatMaskEdit": 2,
+      "TDateEdit": 2,
+      "TFlatEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo42",
+    "form_class": "TSobo42",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu42.dfm",
+    "component_count": 20,
+    "event_count": 18,
+    "component_summary": {
+      "TSobo42": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 4,
+      "TFlatButton": 3,
+      "TDateEdit": 1,
+      "TFlatEdit": 2,
+      "TFlatComboBox": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo42_1",
+    "form_class": "TSobo42_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu42_1.dfm",
+    "component_count": 23,
+    "event_count": 21,
+    "component_summary": {
+      "TSobo42_1": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 4,
+      "TFlatButton": 3,
+      "TDateEdit": 2,
+      "TFlatEdit": 2,
+      "TFlatComboBox": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo43",
+    "form_class": "TSobo43",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu43.dfm",
+    "component_count": 23,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo43": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 5,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 3,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo43_1",
+    "form_class": "TSobo43_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu43_1.dfm",
+    "component_count": 23,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo43_1": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 5,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 3,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo44",
+    "form_class": "TSobo44",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu44.dfm",
+    "component_count": 26,
+    "event_count": 31,
+    "component_summary": {
+      "TSobo44": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 3,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo44_1",
+    "form_class": "TSobo44_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu44_1.dfm",
+    "component_count": 26,
+    "event_count": 31,
+    "component_summary": {
+      "TSobo44_1": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 3,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo45",
+    "form_class": "TSobo45",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu45.dfm",
+    "component_count": 19,
+    "event_count": 22,
+    "component_summary": {
+      "TSobo45": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TDateEdit": 1,
+      "TFlatComboBox": 1,
+      "TdxButton": 1,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Sobo45_1",
+    "form_class": "TSobo45_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu45_1.dfm",
+    "component_count": 19,
+    "event_count": 22,
+    "component_summary": {
+      "TSobo45_1": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TDateEdit": 1,
+      "TFlatComboBox": 1,
+      "TdxButton": 1,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Sobo46",
+    "form_class": "TSobo46",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu46.dfm",
+    "component_count": 137,
+    "event_count": 144,
+    "component_summary": {
+      "TSobo46": 1,
+      "TFlatPanel": 56,
+      "TFlatButton": 1,
+      "TFlatCheckBox": 3,
+      "TFlatNumber": 68,
+      "TmyLabel3d": 4,
+      "TFlatEdit": 2,
+      "TFlatMaskEdit": 1,
+      "TStatusBar": 1
+    }
+  },
+  {
+    "form_name": "Sobo47",
+    "form_class": "TSobo47",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu47.dfm",
+    "component_count": 26,
+    "event_count": 25,
+    "component_summary": {
+      "TSobo47": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 6,
+      "TFlatEdit": 4,
+      "TFlatButton": 3,
+      "TFlatComboBox": 3,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo48",
+    "form_class": "TSobo48",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu48.dfm",
+    "component_count": 21,
+    "event_count": 8,
+    "component_summary": {
+      "TSobo48": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 3,
+      "TFlatPanel": 7,
+      "TdxButton": 1,
+      "TFlatRadioButton": 2,
+      "TFlatButton": 1,
+      "TFlatProgressBar": 1,
+      "TProgressBar": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo49",
+    "form_class": "TSobo49",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu49.dfm",
+    "component_count": 24,
+    "event_count": 22,
+    "component_summary": {
+      "TSobo49": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 4,
+      "TFlatButton": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatComboBox": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo50",
+    "form_class": "TSobo50",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu50.dfm",
+    "component_count": 1,
+    "event_count": 0,
+    "component_summary": {
+      "TSobo50": 1
+    }
+  },
+  {
+    "form_name": "Sobo51",
+    "form_class": "TSobo51",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu51.dfm",
+    "component_count": 23,
+    "event_count": 25,
+    "component_summary": {
+      "TSobo51": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 4,
+      "TFlatButton": 3,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo52",
+    "form_class": "TSobo52",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu52.dfm",
+    "component_count": 23,
+    "event_count": 25,
+    "component_summary": {
+      "TSobo52": 1,
+      "TCornerButton": 3,
+      "TmyLabel3d": 4,
+      "TFlatPanel": 4,
+      "TFlatButton": 3,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo53",
+    "form_class": "TSobo53",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu53.dfm",
+    "component_count": 21,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo53": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo54",
+    "form_class": "TSobo54",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu54.dfm",
+    "component_count": 21,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo54": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo55",
+    "form_class": "TSobo55",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu55.dfm",
+    "component_count": 21,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo55": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo56",
+    "form_class": "TSobo56",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu56.dfm",
+    "component_count": 22,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo56": 1,
+      "TFlatPanel": 5,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo57",
+    "form_class": "TSobo57",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu57.dfm",
+    "component_count": 22,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo57": 1,
+      "TFlatPanel": 5,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo58",
+    "form_class": "TSobo58",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu58.dfm",
+    "component_count": 22,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo58": 1,
+      "TFlatPanel": 5,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo59",
+    "form_class": "TSobo59",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59.dfm",
+    "component_count": 21,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo59": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo59_1",
+    "form_class": "TSobo59_1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_1.dfm",
+    "component_count": 23,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo59_1": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TFlatRadioButton": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo59_2",
+    "form_class": "TSobo59_2",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_2.dfm",
+    "component_count": 21,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo59_2": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo59_3",
+    "form_class": "TSobo59_3",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_3 - 복사본.dfm",
+    "component_count": 18,
+    "event_count": 11,
+    "component_summary": {
+      "TSobo59_3": 1,
+      "TFlatPanel": 2,
+      "TmyLabel3d": 6,
+      "TFlatButton": 2,
+      "TFlatEdit": 1,
+      "TFlatNumber": 1,
+      "TFlatCheckBox": 1,
+      "TSpinEdit": 3,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo59_3",
+    "form_class": "TSobo59_3",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_3.dfm",
+    "component_count": 29,
+    "event_count": 14,
+    "component_summary": {
+      "TSobo59_3": 1,
+      "TFlatPanel": 2,
+      "TmyLabel3d": 15,
+      "TFlatButton": 2,
+      "TFlatEdit": 2,
+      "TFlatNumber": 1,
+      "TFlatCheckBox": 1,
+      "TSpinEdit": 3,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo59",
+    "form_class": "TSobo59",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_9.dfm",
+    "component_count": 17,
+    "event_count": 7,
+    "component_summary": {
+      "TSobo59": 1,
+      "TFlatPanel": 1,
+      "TRadioGroup": 2,
+      "TGroupBox": 2,
+      "TmyLabel3d": 4,
+      "TFlatMaskEdit": 2,
+      "TFlatButton": 1,
+      "TFlatEdit": 3,
+      "TGauge": 1
+    }
+  },
+  {
+    "form_name": "Sobo60",
+    "form_class": "TSobo60",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu60.dfm",
+    "component_count": 1,
+    "event_count": 0,
+    "component_summary": {
+      "TSobo60": 1
+    }
+  },
+  {
+    "form_name": "Sobo61",
+    "form_class": "TSobo61",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu61.dfm",
+    "component_count": 35,
+    "event_count": 36,
+    "component_summary": {
+      "TSobo61": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo62",
+    "form_class": "TSobo62",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu62.dfm",
+    "component_count": 35,
+    "event_count": 36,
+    "component_summary": {
+      "TSobo62": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo63",
+    "form_class": "TSobo63",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu63.dfm",
+    "component_count": 34,
+    "event_count": 34,
+    "component_summary": {
+      "TSobo63": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 2,
+      "TFlatCheckBox": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo64",
+    "form_class": "TSobo64",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu64.dfm",
+    "component_count": 35,
+    "event_count": 36,
+    "component_summary": {
+      "TSobo64": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo65",
+    "form_class": "TSobo65",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu65.dfm",
+    "component_count": 33,
+    "event_count": 44,
+    "component_summary": {
+      "TSobo65": 1,
+      "TFlatPanel": 5,
+      "TmyLabel3d": 2,
+      "TFlatButton": 8,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 10,
+      "TFlatCheckBox": 2,
+      "TDateEdit": 2,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo66",
+    "form_class": "TSobo66",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu66.dfm",
+    "component_count": 32,
+    "event_count": 42,
+    "component_summary": {
+      "TSobo66": 1,
+      "TFlatPanel": 5,
+      "TmyLabel3d": 2,
+      "TFlatButton": 8,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 10,
+      "TDateEdit": 2,
+      "TFlatCheckBox": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo67",
+    "form_class": "TSobo67",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu67.dfm",
+    "component_count": 34,
+    "event_count": 34,
+    "component_summary": {
+      "TSobo67": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 2,
+      "TFlatCheckBox": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo68",
+    "form_class": "TSobo68",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu68.dfm",
+    "component_count": 35,
+    "event_count": 36,
+    "component_summary": {
+      "TSobo68": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 6,
+      "TFlatPanel": 5,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 6,
+      "TFlatCheckBox": 2,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo69",
+    "form_class": "TSobo69",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu69.dfm",
+    "component_count": 1,
+    "event_count": 3,
+    "component_summary": {
+      "TSobo69": 1
+    }
+  },
+  {
+    "form_name": "Sobo71",
+    "form_class": "TSobo71",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu71.dfm",
+    "component_count": 3,
+    "event_count": 0,
+    "component_summary": {
+      "TSobo71": 1,
+      "TFlatPanel": 1,
+      "TDBGrid": 1
+    }
+  },
+  {
+    "form_name": "Sobo91",
+    "form_class": "TSobo91",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu91.dfm",
+    "component_count": 35,
+    "event_count": 40,
+    "component_summary": {
+      "TSobo91": 1,
+      "TCornerButton": 4,
+      "TmyLabel3d": 5,
+      "TFlatPanel": 8,
+      "TFlatButton": 5,
+      "TFlatMaskEdit": 1,
+      "TFlatComboBox": 2,
+      "TFlatEdit": 6,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo93",
+    "form_class": "TSobo93",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu93.dfm",
+    "component_count": 21,
+    "event_count": 27,
+    "component_summary": {
+      "TSobo93": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 2,
+      "TFlatMaskEdit": 2,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 2,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo96",
+    "form_class": "TSobo96",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu96.dfm",
+    "component_count": 20,
+    "event_count": 25,
+    "component_summary": {
+      "TSobo96": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatRadioButton": 3,
+      "TDateEdit": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo97",
+    "form_class": "TSobo97",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu97.dfm",
+    "component_count": 18,
+    "event_count": 23,
+    "component_summary": {
+      "TSobo97": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo98",
+    "form_class": "TSobo98",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu98.dfm",
+    "component_count": 18,
+    "event_count": 24,
+    "component_summary": {
+      "TSobo98": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatButton": 4,
+      "TDateEdit": 1,
+      "TdxButton": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Sobo99",
+    "form_class": "TSobo99",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu99.dfm",
+    "component_count": 3,
+    "event_count": 6,
+    "component_summary": {
+      "TSobo99": 1,
+      "TFlatPanel": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Tong01",
+    "form_class": "unknown",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong01.dfm",
+    "component_count": 0,
+    "event_count": 0,
+    "component_summary": {}
+  },
+  {
+    "form_name": "Tong02",
+    "form_class": "unknown",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong02.dfm",
+    "component_count": 0,
+    "event_count": 0,
+    "component_summary": {}
+  },
+  {
+    "form_name": "Tong30",
+    "form_class": "TTong30",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong03.dfm",
+    "component_count": 15,
+    "event_count": 11,
+    "component_summary": {
+      "TTong30": 1,
+      "TFlatPanel": 3,
+      "TStringGrid": 1,
+      "TSpeedButton": 7,
+      "TStaticText": 1,
+      "TLabel": 1,
+      "TFlatEdit": 1
+    }
+  },
+  {
+    "form_name": "Tong40",
+    "form_class": "TTong40",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong04.dfm",
+    "component_count": 3,
+    "event_count": 2,
+    "component_summary": {
+      "TTong40": 1,
+      "TmyLabel3d": 1,
+      "TFontDialog": 1
+    }
+  },
+  {
+    "form_name": "Tong50",
+    "form_class": "TTong50",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong05.dfm",
+    "component_count": 33,
+    "event_count": 23,
+    "component_summary": {
+      "TTong50": 1,
+      "TPanel": 5,
+      "TPaintBox": 1,
+      "TLabel": 3,
+      "TButton": 2,
+      "TEdit": 3,
+      "TSpeedButton": 5,
+      "TCheckBox": 1,
+      "TListView": 1,
+      "TRichEdit": 1,
+      "TOpenDialog": 1,
+      "TImageList": 1,
+      "TEmail": 1,
+      "TFontDialog": 1,
+      "TPopupMenu": 1,
+      "TMenuItem": 5
+    }
+  },
+  {
+    "form_name": "Tong60",
+    "form_class": "TTong60",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong06.dfm",
+    "component_count": 46,
+    "event_count": 14,
+    "component_summary": {
+      "TTong60": 1,
+      "TfrReport": 10,
+      "TfrDBDataSet": 9,
+      "TfrUserDataset": 8,
+      "TfrOLEObject": 1,
+      "TfrRichObject": 1,
+      "TfrRoundRectObject": 1,
+      "TfrCheckBoxObject": 1,
+      "TfrBarCodeObject": 1,
+      "TfrShapeObject": 1,
+      "TfrDialogControls": 1,
+      "TfrCrossObject": 1,
+      "TfrTextExport": 1,
+      "TfrCSVExport": 1,
+      "TfrRTFExport": 1,
+      "TfrHTMExport": 1,
+      "TfrHTML2Export": 1,
+      "TfrOLEExcelExport": 1,
+      "TfrBMPExport": 1,
+      "TfrJPEGExport": 1,
+      "TfrTIFFExport": 1,
+      "TfrRtfAdvExport": 1
+    }
+  },
+  {
+    "form_name": "Tong70",
+    "form_class": "TTong70",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong07.dfm",
+    "component_count": 12,
+    "event_count": 6,
+    "component_summary": {
+      "TTong70": 1,
+      "TFlatPanel": 3,
+      "TFlatEdit": 1,
+      "TFlatNumber": 1,
+      "TRadioButton": 2,
+      "TFlatButton": 4
+    }
+  },
+  {
+    "form_name": "Tong80",
+    "form_class": "TTong80",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong08.dfm",
+    "component_count": 3,
+    "event_count": 2,
+    "component_summary": {
+      "TTong80": 1,
+      "TComTerminal": 1,
+      "TComPort": 1
+    }
+  },
+  {
+    "form_name": "Sobo26",
+    "form_class": "TSobo26",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/version/Subu26.dfm",
+    "component_count": 20,
+    "event_count": 25,
+    "component_summary": {
+      "TSobo26": 1,
+      "TFlatPanel": 4,
+      "TmyLabel3d": 1,
+      "TFlatButton": 4,
+      "TFlatMaskEdit": 1,
+      "TFlatEdit": 4,
+      "TFlatRadioButton": 3,
+      "TDateEdit": 1,
+      "TDBGridEh": 1
+    }
+  },
+  {
+    "form_name": "Form1",
+    "form_class": "TForm1",
+    "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/속도체크(샘플)/Unit1.dfm",
+    "component_count": 41,
+    "event_count": 1,
+    "component_summary": {
+      "TForm1": 1,
+      "TDBGrid": 2,
+      "TButton": 1,
+      "TEdit": 2,
+      "TZMySqlDatabase": 1,
+      "TZMySqlTransact": 1,
+      "TZMySqlTable": 5,
+      "TStringField": 21,
+      "TZMySqlQuery": 3,
+      "TDataSource": 4
+    }
+  }
+]

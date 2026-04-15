@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="452">
+  <rect width="100%" height="100%" fill="#fafafa"/>
+  <text x="10" y="22" font-family="system-ui,sans-serif" font-size="13" font-weight="bold">Tong20</text>
+  <text x="10" y="38" font-family="system-ui,sans-serif" font-size="10" fill="#444">Tong02 | Tong20 | Tong20</text>
+  <text x="10" y="50" font-family="system-ui,sans-serif" font-size="10" fill="#666">(DFM 없음/이진: 컴포넌트 개수 기반 와이어)</text>
+  <g transform="translate(10 60)">
+    <rect x="0" y="0" width="640.0" height="400.0" fill="#fff" stroke="#333"/>
+    <rect x="4" y="8.0" width="632.0" height="60.0" fill="#e3f2fd" stroke="#666"/>
+    <text x="8" y="22.0" font-size="9">Panel-like x0</text>
+    <rect x="4" y="140.0" width="632.0" height="140.0" fill="#e8f5e9" stroke="#666"/>
+    <text x="8" y="154.0" font-size="9">TDBGrid (1)</text>
+    <text x="4" y="392.0" font-size="8" fill="#888">TEdit x0</text>
+  </g>
+</svg>

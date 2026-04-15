@@ -1,0 +1,59 @@
+unit Tong08;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  CPort, CPortCtl;
+
+type
+  TTong80 = class(TForm)
+    ComTerminal: TComTerminal;
+    ComPort: TComPort;
+    procedure ComTerminalStrRecieved(Sender: TObject; var Str: String);
+    procedure ComPortRxChar(Sender: TObject; Count: Integer);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Tong80: TTong80;
+
+implementation
+
+{$R *.DFM}
+
+uses Chul, Base01, Tong07, Subu21, Subu22, Subu23;
+
+procedure TTong80.ComTerminalStrRecieved(Sender: TObject; var Str: String);
+begin
+{ p_Code:=p_Code+Str;
+  if Copy(Str,1,1)<>#2 then begin
+     p_Code:=Copy(p_Code,2,10);
+     Edit101.Text:=p_Code;
+     p_Code:='';
+  end; }
+end;
+
+procedure TTong80.ComPortRxChar(Sender: TObject; Count: Integer);
+var
+ Buf : array [1..100] of Char;
+ I, J : Integer;
+ nBarcode : String;
+begin
+ nBarcode:='';
+ I := ComPort.Read(Buf, Count);
+ for J := 0 to I - 1 do begin
+   if Buf[J] = #13 then begin
+     if nForm='21' Then
+     Sobo21.FTong07.Button104Click(nBarcode);
+   //Keybd_event(VK_RETURN,0,0,0);
+     Break;
+   end;
+   nBarcode := nBarcode + Buf[J];
+ end;
+end;
+
+end.
