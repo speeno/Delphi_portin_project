@@ -29,7 +29,7 @@
 
 ## 대시보드·상태
 
-- 호스트별 연결 요약: [`dashboard/data/db-status.json`](../dashboard/data/db-status.json)
+- 호스트별 연결 요약: [`dashboard/data/db-status.json`](../dashboard/data/db-status.json) — `pocStatus`에 **구현·연동 확인 완료** 반영(4대 3306·쿼리 POC).
 - 재프로브(단순 경로): [`debug/db_connect_probe.py`](../debug/db_connect_probe.py) — **154/155는 기본 스크립트와 다른 클라이언트가 필요할 수 있음**
 
 ## 후속 작업 제안
