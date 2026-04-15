@@ -175,7 +175,9 @@ Delphi_porting/
 │       └── utils/api.js               ← API 클라이언트
 │
 └── docs/                              ← 운영 문서
-    └── harness_runbook.md             ← 하네스 운영 런북
+    ├── harness_runbook.md             ← 하네스 운영 런북
+    ├── delphi-source-analysis-procedure.md
+    └── mysql-3.23-legacy-connection-notes.md  ← 154/155 MySQL 3.23 접속 호환 테스트 메모
 ```
 
 ---

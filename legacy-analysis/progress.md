@@ -6,8 +6,8 @@
 - [x] 델파이 소스 **1차** 확보 — 레포지토리 [`WeLove_FTP/`](../WeLove_FTP/) (도서유통-New·도서유통-출판 등, 고객사·빌드 변형 다수)
 - [ ] 델파이 소스 **정리·단일 분석 루트** 확정 (`delphi-source/` 또는 `WeLove_FTP/` 내 대표 트리 선정, `.dcu`/`.~pas` 등 스캔 제외 정책)
 - [x] DB 서버 접근 정보 확보 (MariaDB) — 후보 호스트 4대(115.68.3.153, 115.68.3.154, 115.68.3.155, 115.68.7.138). DB명·포트(기본 3306)·역할(마스터/슬레이브 등)은 합의 후 기록. **계정·비밀번호는 `.env`에만 저장**(Git 미추적).
-- [x] MariaDB **호스트별 프로브** — `debug/db_connect_probe.py` 또는 `dashboard/data/db-status.json` 참고. 3306·utf8 기준 **2/4대 성공**(153, 138). 154·155 3306 추가 조사. SSH(22)와 DB 포트(3306) 구분.
-- [ ] MariaDB **154·155 접속** 또는 **스키마 추출** — 성공 호스트에서 `schema_extractor`(charset=utf8 권장)·산출물 #4.
+- [x] MariaDB **호스트별 프로브·접속 검증** — `dashboard/data/db-status.json`. **4/4대** 접속·쿼리 테스트 성공. 153·138은 utf8 모던 클라이언트. 154·155는 MySQL 3.23.58 전용 호환(`pymysql_compat` 등, [`docs/mysql-3.23-legacy-connection-notes.md`](../docs/mysql-3.23-legacy-connection-notes.md)).
+- [ ] MariaDB **스키마 추출·산출물 #4** — 모던 인스턴스는 `schema_extractor`(utf8). 3.23 인스턴스는 버전별 덤프/별도 도구 합의 후 진행.
 - [x] DFM 텍스트 파일이 트리 내에 존재(백업 `.~dfm` 등 혼재)
 
 ### Sprint 0 진행 상황
@@ -71,8 +71,8 @@
 ### 분석 대상 요약
 - 소스 트리(1차): `WeLove_FTP/` (하위 다중 제품·변형 경로)
 - 소스 유형: .dpr, .pas, .dfm (+ 컴파일 산출 .dcu 등, 분석 시 제외 권장)
-- DB: MariaDB — 호스트·자격 증명 확보(`.env`). **호스트별 프로브 2/4 성공**(상세 `db-status.json`). 스키마 추출·#4는 성공 호스트부터.
+- DB: MariaDB/MySQL — 호스트 4대 **접속·쿼리 검증 완료**(`db-status.json`). 154/155는 3.23 레거시 호환 경로. 스키마·#4는 버전별 전략 필요.
 - 빌드/구동: 환경별 확인 필요
 
 ---
-*최종 업데이트: MariaDB 호스트 확보·DB 자산 진행중 반영*
+*최종 업데이트: 4대 DB 접속·쿼리 검증 완료(154/155 MySQL 3.23 호환 메모 docs 반영)*

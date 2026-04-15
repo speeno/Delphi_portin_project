@@ -95,7 +95,7 @@ python3 tools/catalog_builder.py analysis/ analysis/legacy_object_catalog.json
 
 자세한 인자는 [README.md](../README.md) 「DB 정보 입수 후 실행 가이드」 참고.
 
-호스트별 **연결만** 빠르게 확인할 때는 [`debug/db_connect_probe.py`](../debug/db_connect_probe.py)로 `MARIADB_PASSWORD` 등을 환경 변수로 준 뒤 실행하고, `--write-json dashboard/data/db-status.json`으로 대시보드용 요약을 갱신할 수 있습니다(비밀은 JSON에 쓰이지 않음).
+호스트별 **연결만** 빠르게 확인할 때는 [`debug/db_connect_probe.py`](../debug/db_connect_probe.py)로 `MARIADB_PASSWORD` 등을 환경 변수로 준 뒤 실행하고, `--write-json dashboard/data/db-status.json`으로 대시보드용 요약을 갱신할 수 있습니다(비밀은 JSON에 쓰이지 않음). **MySQL 3.23(극구버전)** 인스턴스는 이 스크립트와 다른 클라이언트가 필요할 수 있으며, 115.68.3.154/155 테스트 요약은 [`mysql-3.23-legacy-connection-notes.md`](mysql-3.23-legacy-connection-notes.md)를 참고합니다.
 
 ## 5. 산출물 점검 체크리스트
 

@@ -9,6 +9,9 @@ MariaDB 접속 프로브 (레거시 서버: charset=utf8 권장).
   python3 debug/db_connect_probe.py --write-json dashboard/data/db-status.json
 
 호스트 목록: 환경 변수 MARIADB_HOSTS (쉼표 구분) 또는 아래 기본값.
+
+주의: 115.68.3.154·155 처럼 MySQL 3.23 극구버전은 mysql-connector 기본 핸드셰이크와 맞지 않을 수 있음.
+해당 호스트는 docs/mysql-3.23-legacy-connection-notes.md 의 전용 클라이언트로 검증함.
 """
 
 from __future__ import annotations
