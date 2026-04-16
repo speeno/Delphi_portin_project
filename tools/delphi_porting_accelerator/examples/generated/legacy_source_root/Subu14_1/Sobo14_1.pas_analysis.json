@@ -1,0 +1,307 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "Button001Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button002Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button003Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button004Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button005Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button006Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button007Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button008Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button009Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button010Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button011Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button012Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button013Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button014Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button015Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button016Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button017Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button018Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button019Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button020Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button021Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button022Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button023Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button024Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button201Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button709Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button200Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button300Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button701Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit114KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit114KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit115KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit115KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid101KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DataSource1DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "DateEdit1ButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DateEdit1AcceptDate",
+      "signature": "Sender: TObject; var ADate: TDateTime; var Action: Boolean"
+    },
+    {
+      "name": "DBGrid101TitleClick",
+      "signature": "Column: TColumnEh"
+    },
+    {
+      "name": "T1_Sub81BeforePost",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T1_Sub81BeforeClose",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "DBGrid101DrawColumnCell",
+      "signature": "Sender: TObject;\r\n  const Rect: TRect; DataCol: Integer; Column: TColumnEh;\r\n  State: TGridDrawState"
+    },
+    {
+      "name": "CheckBox1Click",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "FormatDateTime('yyyy\".\"mm\".\"dd',Date)"
+    },
+    {
+      "component": "DataSource2",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Label100",
+      "property": "Caption",
+      "expression": "Base10.Seek_Name(Sqlen)"
+    },
+    {
+      "component": "DataSource2",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Seak80.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Seak80.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Seak80.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Seak80.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit102.Text"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Seak80.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Seak80.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Seak80.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Seak80.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit202",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Panel009",
+      "property": "Caption",
+      "expression": "IntToStr(nSqry.RecNo)+'/'+IntToStr(nSqry.RecordCount)"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "DateToStr(ADate)"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Open",
+    "E_Update",
+    "'출판사코드, 도서명을 확인하시기 바랍니다'",
+    "E_Update"
+  ]
+}

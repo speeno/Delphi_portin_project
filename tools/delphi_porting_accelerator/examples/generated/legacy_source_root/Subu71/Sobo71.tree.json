@@ -1,0 +1,116 @@
+{
+  "kind": "object",
+  "name": "Sobo71",
+  "class_name": "TSobo71",
+  "props": {
+    "Left": 190,
+    "Top": 205,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "BorderStyle": "bsSingle",
+    "ClientHeight": 448,
+    "ClientWidth": 194,
+    "Color": "clBtnFace",
+    "Font.Charset": "ANSI_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "FormStyle": "fsStayOnTop",
+    "OldCreateOrder": false,
+    "Position": "poScreenCenter",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": [
+    {
+      "kind": "object",
+      "name": "Panel002",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 0,
+        "Top": 0,
+        "Width": 194,
+        "Height": 291,
+        "ParentColor": true,
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "DBGrid101",
+          "class_name": "TDBGrid",
+          "props": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 192,
+            "Height": 289,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "DragCursor": "crDefault",
+            "ImeName": "한국어(한글)",
+            "Options": [
+              "dgEditing",
+              "dgTitles",
+              "dgIndicator",
+              "dgColLines",
+              "dgRowLines",
+              "dgTabs",
+              "dgAlwaysShowSelection",
+              "dgCancelOnExit"
+            ],
+            "TabOrder": 0,
+            "TitleFont.Charset": "ANSI_CHARSET",
+            "TitleFont.Color": "clWindowText",
+            "TitleFont.Height": -12,
+            "TitleFont.Name": "굴림",
+            "TitleFont.Style": [
+              "fsBold"
+            ],
+            "Columns": [
+              {
+                "Alignment": "taCenter",
+                "DropDownRows": 9,
+                "Expanded": false,
+                "FieldName": "GCODE",
+                "PickList.Strings": "(",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "코드",
+                "Width": 50,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "BCODE",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "교수명",
+                "Width": 110,
+                "Visible": true
+              }
+            ]
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel003",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 0,
+        "Top": 294,
+        "Width": 194,
+        "Height": 152,
+        "ParentColor": true,
+        "TabOrder": 1,
+        "UseDockManager": true
+      },
+      "children": []
+    }
+  ]
+}

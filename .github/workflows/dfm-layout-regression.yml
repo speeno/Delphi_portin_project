@@ -1,0 +1,37 @@
+# DFM 파서·레이아웃 HTML 관련 pytest (선택 실행 + tools 변경 시 PR)
+name: DFM layout regression
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - "tools/parsers/**"
+      - "tools/dfm_*.py"
+      - "tools/dfm_component_registry.json"
+      - "tools/dfm2html_layout_adapter.py"
+      - "tools/res_string_bridge.py"
+      - "test/test_dfm*.py"
+      - "test/test_delphi_string_normalize.py"
+      - "test/test_dfm_grid_columns.py"
+      - "test/test_res_string_bridge.py"
+      - "test/test_delphi_scalar.py"
+      - "test/test_dfm2html_adapter.py"
+      - "test/fixtures/**"
+      - ".github/workflows/dfm-layout-regression.yml"
+
+jobs:
+  pytest-dfm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: pytest (DFM 관련)
+        run: |
+          python -m pytest test/test_dfm_merge_blocks.py test/test_dfm_layout_export.py \
+            test/test_dfm_layout_ir.py test/test_dfm_parser_emits_empty_when_no_dfm.py \
+            test/test_dfm_visual_regression.py test/test_delphi_string_normalize.py \
+            test/test_dfm_grid_columns.py test/test_res_string_bridge.py \
+            test/test_delphi_scalar.py test/test_dfm2html_adapter.py -q --tb=short

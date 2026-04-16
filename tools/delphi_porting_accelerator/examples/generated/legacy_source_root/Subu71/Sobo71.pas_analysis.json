@@ -1,0 +1,13 @@
+{
+  "encoding": "utf-8-sig",
+  "event_handlers": [
+    {
+      "name": "WndProc",
+      "signature": "var msg: TMessage"
+    }
+  ],
+  "runtime_assignments": [],
+  "resourcestrings": {},
+  "sql_calls": [],
+  "messages": []
+}

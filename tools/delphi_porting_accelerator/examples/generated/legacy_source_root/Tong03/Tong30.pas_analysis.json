@@ -1,0 +1,75 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "MakeChar",
+      "signature": "fi,fl,si,sl : Integer"
+    },
+    {
+      "name": "FormCreate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "btnJGClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "btnDHClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "btnLCClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "btnJPClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "btnDWClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "btnGTClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "btnHJClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "StringGrid1DblClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "StringGrid1SelectCell",
+      "signature": "Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean"
+    },
+    {
+      "name": "StaticText1DblClick",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit1.Text+StaticText1.Caption"
+    },
+    {
+      "component": "StaticText1",
+      "property": "Caption",
+      "expression": "StringGrid1.Cells[ACol,ARow]"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Format('코드값 : %d+%d',[ord(a),ord(b)])"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [],
+  "messages": [
+    "'scktsrvr.exe 등록되었습니다.'"
+  ]
+}

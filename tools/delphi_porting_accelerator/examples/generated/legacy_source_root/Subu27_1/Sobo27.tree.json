@@ -1,0 +1,974 @@
+{
+  "kind": "object",
+  "name": "Sobo27",
+  "class_name": "TSobo27",
+  "props": {
+    "Left": 22,
+    "Top": 93,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "BorderStyle": "bsSingle",
+    "Caption": "출고접수관리",
+    "ClientHeight": 606,
+    "ClientWidth": 964,
+    "Color": "clBtnFace",
+    "Font.Charset": "HANGEUL_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "FormStyle": "fsMDIChild",
+    "OldCreateOrder": false,
+    "Position": "poMainFormCenter",
+    "Visible": true,
+    "OnActivate": "FormActivate",
+    "OnClose": "FormClose",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": [
+    {
+      "kind": "object",
+      "name": "Panel001",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 2,
+        "Top": 4,
+        "Width": 959,
+        "Height": 45,
+        "Color": 14416873,
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Label101",
+          "class_name": "TmyLabel3d",
+          "props": {
+            "Left": 556,
+            "Top": 15,
+            "Width": 12,
+            "Height": 15,
+            "Caption": "~",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -15,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentColor": false,
+            "ParentFont": false,
+            "Transparent": true,
+            "AShadeLTSet": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel101",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 24,
+            "Top": 12,
+            "Width": 87,
+            "Height": 22,
+            "Caption": "거래일자",
+            "ParentColor": true,
+            "TabOrder": 5,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel102",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 248,
+            "Top": 12,
+            "Width": 87,
+            "Height": 22,
+            "Caption": "출판사명",
+            "ParentColor": true,
+            "TabOrder": 6,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit101",
+          "class_name": "TFlatMaskEdit",
+          "props": {
+            "Left": 112,
+            "Top": 12,
+            "Width": 97,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "AutoSize": false,
+            "BorderStyle": "bsNone",
+            "Color": "clWhite",
+            "EditMask": "!9999.!99.99;1; ",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 10,
+            "ParentFont": false,
+            "TabOrder": 0,
+            "Text": "1999.01.01",
+            "OnChange": "Edit101Change",
+            "OnKeyDown": "Edit101KeyDown",
+            "OnKeyPress": "Edit111KeyPress",
+            "ImeName": "한국어(한글) (MS-IME98)"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit103",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 336,
+            "Top": 12,
+            "Width": 201,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 50,
+            "ParentFont": false,
+            "TabOrder": 2,
+            "OnChange": "Edit101Change",
+            "OnKeyDown": "Edit111KeyDown",
+            "OnKeyPress": "Edit114KeyPress"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit102",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 336,
+            "Top": 12,
+            "Width": 57,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 1,
+            "Visible": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit105",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 568,
+            "Top": 12,
+            "Width": 201,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 50,
+            "ParentFont": false,
+            "TabOrder": 4,
+            "OnChange": "Edit101Change",
+            "OnKeyDown": "Edit111KeyDown",
+            "OnKeyPress": "Edit114KeyPress"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit104",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 568,
+            "Top": 12,
+            "Width": 57,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 3,
+            "Visible": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Button101",
+          "class_name": "TFlatButton",
+          "props": {
+            "Left": 904,
+            "Top": 8,
+            "Width": 25,
+            "Height": 25,
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333FF33333333333330003FF3FFFFF3333777003000003333300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000339977FF777777773377000BFB03333333337773FF733333333F3330003333333300333777333333337733333333333333003333333333333377333333333333333333333333333333FF333333333333300033333333333337773333333333333000333333333333377733333333333333333333333333333333",
+            "NumGlyphs": 2,
+            "TabOrder": 7,
+            "Visible": false,
+            "OnClick": "Button101Click",
+            "BiDiMode": "bdLeftToRight",
+            "ParentBiDiMode": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Button201",
+          "class_name": "TFlatButton",
+          "props": {
+            "Left": 928,
+            "Top": 8,
+            "Width": 25,
+            "Height": 25,
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333FF33333333333330003FF3FFFFF3333777003000003333300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000339977FF777777773377000BFB03333333337773FF733333333F3330003333333300333777333333337733333333333333003333333333333377333333333333333333333333333333FF333333333333300033333333333337773333333333333000333333333333377733333333333333333333333333333333",
+            "NumGlyphs": 2,
+            "TabOrder": 8,
+            "Visible": false,
+            "OnClick": "Button201Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "DateEdit1",
+          "class_name": "TDateEdit",
+          "props": {
+            "Left": 209,
+            "Top": 12,
+            "Width": 19,
+            "Height": 22,
+            "BorderStyle": "bsNone",
+            "ImeName": "Microsoft IME 2003",
+            "NumGlyphs": 2,
+            "StartOfWeek": "Sun",
+            "TabOrder": 9,
+            "OnAcceptDate": "DateEdit1AcceptDate",
+            "OnButtonClick": "DateEdit1ButtonClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Button701",
+          "class_name": "TFlatButton",
+          "props": {
+            "Left": 536,
+            "Top": 12,
+            "Width": 20,
+            "Height": 22,
+            "Color": "clBtnFace",
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000120B0000120B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0055577577777757705557757777775FF7555555555555000755555555555F777F55555555555087075555555555F7577F5555555555088805555555555F755F75555555555033805555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F75FF75555555555030B05555555555F7F7F75555555555000B05555555555F777F75555555555019005555555555577777555555555550990555555555555777755555555555550055555555555555775555555555555",
+            "Layout": "blGlyphLeft",
+            "NumGlyphs": 2,
+            "ParentColor": false,
+            "TabOrder": 10,
+            "OnClick": "Button701Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Button702",
+          "class_name": "TFlatButton",
+          "props": {
+            "Left": 768,
+            "Top": 12,
+            "Width": 20,
+            "Height": 22,
+            "Color": "clBtnFace",
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000120B0000120B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0055577577777757705557757777775FF7555555555555000755555555555F777F55555555555087075555555555F7577F5555555555088805555555555F755F75555555555033805555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F75FF75555555555030B05555555555F7F7F75555555555000B05555555555F777F75555555555019005555555555577777555555555550990555555555555777755555555555550055555555555555775555555555555",
+            "Layout": "blGlyphLeft",
+            "NumGlyphs": 2,
+            "ParentColor": false,
+            "TabOrder": 11,
+            "OnClick": "Button702Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "dxButton1",
+          "class_name": "TdxButton",
+          "props": {
+            "Left": 888,
+            "Top": 8,
+            "Width": 63,
+            "Height": 30,
+            "OnClick": "Button101Click",
+            "Caption": "검색",
+            "TabOrder": 12,
+            "Glyph.Data": "36030000424D360300000000000036000000280000001000000010000000010018000000000000030000610B0000610B0000000000000000000099FF99686568666666666666666666666666666666666666666666666666666666666666666666183D6064687366666699FF99686568EAEAEA686568666666EAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEA183D604D5A9151719864687399FF99686568666666666666666666666666666666666666666666666666666666183D604D5A914995E198D8F83C98E499FF99686568C8B3A4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF183D604D5A91468EDD98D8F83C98E466666699FF99686568C8B3A4F6F2F0F4EEEBF1EAE6AA8882AA8882AA8882AA88829B949A6394CA98D8F83C98E4EAEAEA66666699FF99686568C8B3A4F9F6F5E6D9D3AA8882F6E9C4FFEABDFFF2D5FCF5DEAA8882AFB0B63C98E4666666EAEAEA66666699FF99686568C8B3A4FCFBFAAA8882EFE0C0FFE1AFFFECCCFFF2DDFFFBF5FDFBF3AA8882FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFAA8882FBECC3FFDBA6FFE9C7FFEFD8FFF4E2FFF1D7AA8882FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFAA8882F9EEC9FFE6C2FFDFB3FFE8C6FFEAC9FFE4B2AA8882FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFAA8882E9DCCBFEFEFBFFE8C6FFDAA3FFDFA9F9EBC2AA8882FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFF6F2F0AA8882EBE0CEFAEFCAFCEDC3EFE0BFAA8882E6D9D3FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFFFFFFFF6F2F0AA8882AA8882AA8882AA8882A16398B17CB1B17CB1663B66E8E7E8663A6699FF99686568C8B3A4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDFDFDB686B5FFFFFFFFFFFF663C66666366663A6699FF99686568C8B3A4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFAB74ABB17CB1C096C0663C66663E6666396699FF99686568C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4995D86BFA29EC0A49F663C66D3C0D366616699FF99666666676767676767676767676767676767676767676767676767674C67663B66673E67665466666566666666"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel002",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 2,
+        "Top": 53,
+        "Width": 871,
+        "Height": 516,
+        "ParentColor": true,
+        "TabOrder": 1,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "DBGrid101",
+          "class_name": "TDBGridEh",
+          "props": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 869,
+            "Height": 496,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "DataSource": "DataSource2",
+            "FooterColor": 16311512,
+            "FooterFont.Charset": "HANGEUL_CHARSET",
+            "FooterFont.Color": "clWindowText",
+            "FooterFont.Height": -12,
+            "FooterFont.Name": "굴림",
+            "FooterFont.Style": [
+              "fsBold"
+            ],
+            "ImeName": "한국어 입력 시스템 (IME 2000)",
+            "Options": [
+              "dgTitles",
+              "dgIndicator",
+              "dgColLines",
+              "dgRowLines",
+              "dgTabs",
+              "dgAlwaysShowSelection",
+              "dgCancelOnExit",
+              "dgMultiSelect"
+            ],
+            "TabOrder": 1,
+            "TitleFont.Charset": "HANGEUL_CHARSET",
+            "TitleFont.Color": "clWindowText",
+            "TitleFont.Height": -12,
+            "TitleFont.Name": "굴림",
+            "TitleFont.Style": [
+              "fsBold"
+            ],
+            "OnDrawColumnCell": "DBGrid101DrawColumnCell",
+            "OnKeyDown": "DBGrid101KeyDown",
+            "OnKeyPress": "DBGrid101KeyPress",
+            "OnTitleClick": "DBGrid101TitleClick",
+            "Columns": [
+              {
+                "EditButtons": "<>",
+                "FieldName": "GCODE",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "출판사코드",
+                "Width": 70
+              },
+              {
+                "EditButtons": "<>",
+                "FieldName": "GNAME",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "출판사명",
+                "Width": 230
+              },
+              {
+                "EditButtons": "<>",
+                "FieldName": "GTELS",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "전화번호",
+                "Width": 150
+              },
+              {
+                "Checkboxes": true,
+                "EditButtons": "<>",
+                "FieldName": "CODE5",
+                "Footers": "<>",
+                "KeyList.Strings": "(",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "선택",
+                "Width": 54
+              },
+              {
+                "Alignment": "taCenter",
+                "Color": 11861755,
+                "EditButtons": "<>",
+                "FieldName": "GOQUT",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "접수건",
+                "Width": 54
+              },
+              {
+                "Color": 12056530,
+                "EditButtons": "<>",
+                "FieldName": "GSQUT",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "완료건",
+                "Width": 54
+              },
+              {
+                "ButtonStyle": "cbsNone",
+                "DisplayFormat": "~",
+                "EditButtons": "<>",
+                "FieldName": "CODE1",
+                "Footers": "<>",
+                "ImageList": "ImageList1",
+                "Layout": "tlCenter",
+                "PickList.Strings": "(",
+                "ShowImageAndText": true,
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "미사용",
+                "Width": 54
+              },
+              {
+                "ButtonStyle": "cbsNone",
+                "Checkboxes": false,
+                "DisplayFormat": "~",
+                "EditButtons": "<>",
+                "FieldName": "CODE2",
+                "Footers": "<>",
+                "ImageList": "ImageList2",
+                "PickList.Strings": "(",
+                "ShowImageAndText": true,
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "사용중",
+                "Width": 54
+              },
+              {
+                "ButtonStyle": "cbsNone",
+                "DisplayFormat": "~",
+                "EditButtons": "<>",
+                "FieldName": "CODE3",
+                "Footers": "<>",
+                "ImageList": "ImageList3",
+                "PickList.Strings": "(",
+                "ShowImageAndText": true,
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "접수",
+                "Width": 54
+              },
+              {
+                "ButtonStyle": "cbsNone",
+                "DisplayFormat": "~",
+                "EditButtons": "<>",
+                "FieldName": "CODE4",
+                "Footers": "<>",
+                "ImageList": "ImageList4",
+                "PickList.Strings": "(",
+                "ShowImageAndText": true,
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "완료",
+                "Width": 54
+              }
+            ]
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "StBar101",
+          "class_name": "TStatusBar",
+          "props": {
+            "Left": 1,
+            "Top": 497,
+            "Width": 869,
+            "Height": 18,
+            "Panels": [
+              {
+                "Alignment": "taRightJustify",
+                "Bevel": "pbRaised",
+                "Width": 850
+              },
+              {
+                "Width": 50
+              }
+            ],
+            "ParentFont": true,
+            "SimplePanel": false,
+            "UseSystemFont": false
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel007",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 2,
+        "Top": 574,
+        "Width": 959,
+        "Height": 29,
+        "Color": "clInfoBk",
+        "TabOrder": 2,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "ProgressBar0",
+          "class_name": "TFlatProgressBar",
+          "props": {
+            "Left": 536,
+            "Top": 5,
+            "Width": 336,
+            "Height": 19,
+            "Min": 0,
+            "Max": 100
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel008",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 8,
+            "Top": 5,
+            "Width": 97,
+            "Height": 19,
+            "Caption": "레코드",
+            "ParentColor": true,
+            "TabOrder": 0,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel009",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 112,
+            "Top": 5,
+            "Width": 97,
+            "Height": 19,
+            "ParentColor": true,
+            "TabOrder": 1,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel010",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 432,
+            "Top": 5,
+            "Width": 97,
+            "Height": 19,
+            "Caption": "검색진행",
+            "ParentColor": true,
+            "TabOrder": 2,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "ProgressBar1",
+          "class_name": "TProgressBar",
+          "props": {
+            "Left": 536,
+            "Top": 5,
+            "Width": 335,
+            "Height": 18,
+            "Min": 0,
+            "Max": 100,
+            "TabOrder": 3
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel003",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 877,
+        "Top": 53,
+        "Width": 84,
+        "Height": 116,
+        "Color": "clInfoBk",
+        "TabOrder": 3,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "RadioButton1",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 80,
+            "Width": 49,
+            "Height": 17,
+            "Caption": "접수",
+            "TabOrder": 0,
+            "OnClick": "Button101Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton2",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 48,
+            "Width": 49,
+            "Height": 17,
+            "Caption": "완료",
+            "TabOrder": 1,
+            "OnClick": "Button101Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton3",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 16,
+            "Width": 49,
+            "Height": 17,
+            "Caption": "전체",
+            "TabOrder": 2,
+            "OnClick": "Button101Click"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel004",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 877,
+        "Top": 293,
+        "Width": 84,
+        "Height": 148,
+        "Color": "clInfoBk",
+        "TabOrder": 4,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "RadioButton4",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 16,
+            "Width": 49,
+            "Height": 25,
+            "Caption": "전체선택",
+            "TabOrder": 0,
+            "OnClick": "Button401Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton5",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 48,
+            "Width": 49,
+            "Height": 25,
+            "Caption": "전체해제",
+            "TabOrder": 1,
+            "OnClick": "Button401Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton6",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 80,
+            "Width": 49,
+            "Height": 25,
+            "Caption": "자동알람",
+            "TabOrder": 2,
+            "OnClick": "Button401Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton7",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 112,
+            "Width": 49,
+            "Height": 25,
+            "Caption": "자동해체",
+            "TabOrder": 3,
+            "OnClick": "Button401Click"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel005",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 877,
+        "Top": 173,
+        "Width": 84,
+        "Height": 116,
+        "Color": "clInfoBk",
+        "TabOrder": 5,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "RadioButton8",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 48,
+            "Width": 49,
+            "Height": 25,
+            "Caption": "구간",
+            "TabOrder": 0
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton9",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 80,
+            "Width": 49,
+            "Height": 25,
+            "Caption": "신간",
+            "TabOrder": 1
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton0",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 16,
+            "Width": 49,
+            "Height": 25,
+            "Caption": "전체",
+            "TabOrder": 2
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel011",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 877,
+        "Top": 445,
+        "Width": 84,
+        "Height": 124,
+        "Color": "clInfoBk",
+        "TabOrder": 6,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "RadioButton12",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 48,
+            "Width": 57,
+            "Height": 25,
+            "Caption": "출고증시내",
+            "TabOrder": 0
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton11",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 16,
+            "Width": 57,
+            "Height": 25,
+            "Caption": "출고증전체",
+            "Checked": true,
+            "TabOrder": 1,
+            "TabStop": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton13",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 16,
+            "Top": 80,
+            "Width": 57,
+            "Height": 25,
+            "Caption": "출고증지방",
+            "TabOrder": 2
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "DataSource1",
+      "class_name": "TDataSource",
+      "props": {
+        "DataSet": "Base10.T2_Sub71",
+        "OnDataChange": "DataSource1DataChange",
+        "Left": 10,
+        "Top": 126
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "DataSource2",
+      "class_name": "TDataSource",
+      "props": {
+        "DataSet": "Base10.T2_Sub72",
+        "OnDataChange": "DataSource2DataChange",
+        "Left": 42,
+        "Top": 126
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "ImageList1",
+      "class_name": "TImageList",
+      "props": {
+        "Left": 10,
+        "Top": 157,
+        "Bitmap": "494C010101000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600000000000000360000002800000040000000100000000100200000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00BFBFBF007F7F7F007F7F7F007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00BFBFBF007F7F7F000000000000000000000000007F7F7F007F7F7F007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00BFBFBF0000000000FFFFFF000000FF00FFFFFF000000FF00FFFFFF00000000007F7F7F007F7F7F000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF0000000000FFFFFF000000000000000000000000000000000000000000FFFFFF00000000007F7F7F0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF007F7F7F00FFFFFF0000000000000000000000FF0000008000000080000000000000000000FFFFFF007F7F7F007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00000000000000FF00000000000000FF00000080000000FF000000800000008000000000000000FF00000000007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF0000000000FFFFFF00000000000000FF000000FF000000FF000000FF000000800000000000FFFFFF00000000007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00000000000000FF0000000000FFFFFF000000FF000000FF00000080000000FF00000000000000FF0000000000BFBFBF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF007F7F7F00FFFFFF000000000000000000FFFFFF00FFFFFF000000FF000000000000000000FFFFFF007F7F7F00BFBFBF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF0000000000FFFFFF000000000000000000000000000000000000000000FFFFFF0000000000BFBFBF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00BFBFBF0000000000FFFFFF000000FF00FFFFFF000000FF00FFFFFF0000000000BFBFBF00BFBFBF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00BFBFBF007F7F7F000000000000000000000000007F7F7F00BFBFBF00BFBFBF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00BFBFBF00BFBFBF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424D3E000000000000003E0000002800000040000000100000000100010000000000800000000000000000000000000000000000000000000000FFFFFF00FFFF000000000000F83F000000000000E00F000000000000C007000000000000800300000000000080030000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000080030000000000008003000000000000C007000000000000E00F000000000000F83F00000000000000000000000000000000000000000000000000000000"
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "ImageList2",
+      "class_name": "TImageList",
+      "props": {
+        "Left": 42,
+        "Top": 157,
+        "Bitmap": "494C010101000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600000000000000360000002800000040000000100000000100200000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00BFBFBF007F7F7F007F7F7F007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00BFBFBF007F7F7F000000000000000000000000007F7F7F007F7F7F007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00BFBFBF0000000000FFFFFF0000FFFF00FFFFFF0000FFFF00FFFFFF00000000007F7F7F007F7F7F000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF0000000000FFFFFF000000000000000000000000000000000000000000FFFFFF00000000007F7F7F0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF007F7F7F00FFFFFF00000000000000000000FFFF0000808000008080000000000000000000FFFFFF007F7F7F007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF000000000000FFFF000000000000FFFF000080800000FFFF0000808000008080000000000000FFFF00000000007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF0000000000FFFFFF000000000000FFFF0000FFFF0000FFFF0000FFFF000080800000000000FFFFFF00000000007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF000000000000FFFF0000000000FFFFFF0000FFFF0000FFFF000080800000FFFF000000000000FFFF0000000000BFBFBF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF007F7F7F00FFFFFF000000000000000000FFFFFF00FFFFFF0000FFFF000000000000000000FFFFFF007F7F7F00BFBFBF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF0000000000FFFFFF000000000000000000000000000000000000000000FFFFFF0000000000BFBFBF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00BFBFBF0000000000FFFFFF0000FFFF00FFFFFF0000FFFF00FFFFFF0000000000BFBFBF00BFBFBF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00BFBFBF007F7F7F000000000000000000000000007F7F7F00BFBFBF00BFBFBF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00BFBFBF00BFBFBF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424D3E000000000000003E0000002800000040000000100000000100010000000000800000000000000000000000000000000000000000000000FFFFFF00FFFF000000000000F83F000000000000E00F000000000000C007000000000000800300000000000080030000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000080030000000000008003000000000000C007000000000000E00F000000000000F83F00000000000000000000000000000000000000000000000000000000"
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "ImageList3",
+      "class_name": "TImageList",
+      "props": {
+        "Left": 74,
+        "Top": 157,
+        "Bitmap": "494C010101000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600000000000000360000002800000040000000100000000100200000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00BFBFBF007F7F7F007F7F7F007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00BFBFBF007F7F7F000000000000000000000000007F7F7F007F7F7F007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF00BFBFBF0000000000FFFFFF0000FF0000FFFFFF0000FF0000FFFFFF00000000007F7F7F007F7F7F000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF0000000000FFFFFF000000000000000000000000000000000000000000FFFFFF00000000007F7F7F0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF007F7F7F00FFFFFF00000000000000000000FF000000800000008000000000000000000000FFFFFF007F7F7F007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF000000000000FF00000000000000FF00000080000000FF000000800000008000000000000000FF0000000000007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF0000000000FFFFFF000000000000FF000000FF000000FF000000FF00000080000000000000FFFFFF00000000007F7F7F00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF000000000000FF000000000000FFFFFF0000FF000000FF00000080000000FF00000000000000FF000000000000BFBFBF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF007F7F7F00FFFFFF000000000000000000FFFFFF00FFFFFF0000FF00000000000000000000FFFFFF007F7F7F00BFBFBF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000BFBFBF0000000000FFFFFF000000000000000000000000000000000000000000FFFFFF0000000000BFBFBF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00BFBFBF0000000000FFFFFF0000FF0000FFFFFF0000FF0000FFFFFF0000000000BFBFBF00BFBFBF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00BFBFBF007F7F7F000000000000000000000000007F7F7F00BFBFBF00BFBFBF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00BFBFBF00BFBFBF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424D3E000000000000003E0000002800000040000000100000000100010000000000800000000000000000000000000000000000000000000000FFFFFF00FFFF000000000000F83F000000000000E00F000000000000C007000000000000800300000000000080030000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000080030000000000008003000000000000C007000000000000E00F000000000000F83F00000000000000000000000000000000000000000000000000000000"
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "ImageList4",
+      "class_name": "TImageList",
+      "props": {
+        "Left": 106,
+        "Top": 157,
+        "Bitmap": "494C010101000400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D36000000000000003600000028000000400000001000000001002000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FF000000FF000000FF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FF000000FF000000FF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FF000000FF000000FF000000FF000000FF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FF000000FF000000FF000000FF000000FF000000FF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007F7F7F000000FF000000FF0000000000000000000000FF000000FF000000FF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007F7F7F000000FF0000000000000000000000000000000000000000000000FF000000FF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FF000000FF000000FF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FF000000FF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FF000000FF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007F7F7F000000FF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007F7F7F000000FF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FF000000FF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424D3E000000000000003E0000002800000040000000100000000100010000000000800000000000000000000000000000000000000000000000FFFFFF00FFFF000000000000FFFF000000000000F9FF000000000000F0FF000000000000F0FF000000000000E07F000000000000C07F000000000000843F0000000000001E3F000000000000FE1F000000000000FF1F000000000000FF8F000000000000FFC7000000000000FFE3000000000000FFF8000000000000FFFF00000000000000000000000000000000000000000000000000000000"
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "Timer1",
+      "class_name": "TTimer",
+      "props": {
+        "Enabled": false,
+        "Interval": 10000,
+        "OnTimer": "Timer1Timer",
+        "Left": 74,
+        "Top": 126
+      },
+      "children": []
+    }
+  ]
+}

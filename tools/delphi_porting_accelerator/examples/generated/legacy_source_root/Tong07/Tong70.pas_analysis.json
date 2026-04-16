@@ -1,0 +1,83 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Button100Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button103Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button104Click",
+      "signature": "nBarcode: String"
+    },
+    {
+      "name": "Button105Click",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Copy(nBarcode,nLen1,nLen1)"
+    },
+    {
+      "component": "Panel401",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Panel401",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Panel401",
+      "property": "Visible",
+      "expression": "False"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": []
+}

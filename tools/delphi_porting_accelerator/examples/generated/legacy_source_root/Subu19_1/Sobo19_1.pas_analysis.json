@@ -1,0 +1,137 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button001Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button002Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button003Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button004Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button005Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button006Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button007Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button008Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button009Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button010Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button011Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button012Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button013Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button014Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button015Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button016Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button017Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button018Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button019Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button020Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button021Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button022Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button023Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button024Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button201Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ED_Gubun_NameKeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "ED_ContentKeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "ED_ContentKeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Set_Option",
+      "signature": "fForm: string"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [],
+  "resourcestrings": {},
+  "sql_calls": [],
+  "messages": []
+}

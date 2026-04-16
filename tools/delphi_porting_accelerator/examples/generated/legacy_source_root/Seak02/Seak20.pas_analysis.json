@@ -1,0 +1,629 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "SetSeek01",
+      "signature": "Str1,Str2:String"
+    },
+    {
+      "name": "SetSeek02",
+      "signature": "Str1,Str2:String"
+    },
+    {
+      "name": "SetSeek03",
+      "signature": "Str1,Str2:String"
+    },
+    {
+      "name": "SetSeek04",
+      "signature": "Str1,Str2:String"
+    },
+    {
+      "name": "Edit21Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit22Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit23Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit24Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ComboBox11Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ComboBox12Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ComboBox13Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ComboBox14Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ComboBox21Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ComboBox22Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ComboBox23Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ComboBox24Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "SpeedButton21Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "SpeedButton22Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "SpeedButton23Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "SpeedButton24Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit21KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit22KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit23KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit24KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "BitBtn101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid1DblClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid1Exit",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit21",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit22",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit23",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit24",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "DBGrid1",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "DBGrid1",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "DBGrid1",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "DBGrid1",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "DBGrid1",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "DBGrid1",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox31",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "ComboBox32",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "ComboBox33",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "ComboBox34",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "ComboBox31",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox32",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox33",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox34",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit21",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox21",
+      "property": "VisiBle",
+      "expression": "False"
+    },
+    {
+      "component": "SpeedButton21",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit21",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox21",
+      "property": "VisiBle",
+      "expression": "False"
+    },
+    {
+      "component": "SpeedButton21",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit21",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "ComboBox21",
+      "property": "VisiBle",
+      "expression": "True"
+    },
+    {
+      "component": "SpeedButton21",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit22",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox22",
+      "property": "VisiBle",
+      "expression": "False"
+    },
+    {
+      "component": "SpeedButton22",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit22",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox22",
+      "property": "VisiBle",
+      "expression": "False"
+    },
+    {
+      "component": "SpeedButton22",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit22",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "ComboBox22",
+      "property": "VisiBle",
+      "expression": "True"
+    },
+    {
+      "component": "SpeedButton22",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit23",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox23",
+      "property": "VisiBle",
+      "expression": "False"
+    },
+    {
+      "component": "SpeedButton23",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit23",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox23",
+      "property": "VisiBle",
+      "expression": "False"
+    },
+    {
+      "component": "SpeedButton23",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit23",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "ComboBox23",
+      "property": "VisiBle",
+      "expression": "True"
+    },
+    {
+      "component": "SpeedButton23",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit24",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox24",
+      "property": "VisiBle",
+      "expression": "False"
+    },
+    {
+      "component": "SpeedButton24",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit24",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ComboBox24",
+      "property": "VisiBle",
+      "expression": "False"
+    },
+    {
+      "component": "SpeedButton24",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit24",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "ComboBox24",
+      "property": "VisiBle",
+      "expression": "True"
+    },
+    {
+      "component": "SpeedButton24",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit21",
+      "property": "Text",
+      "expression": "Sos02"
+    },
+    {
+      "component": "ComboBox21",
+      "property": "Text",
+      "expression": "Sos01"
+    },
+    {
+      "component": "Edit22",
+      "property": "Text",
+      "expression": "Sos02"
+    },
+    {
+      "component": "ComboBox22",
+      "property": "Text",
+      "expression": "Sos01"
+    },
+    {
+      "component": "Edit23",
+      "property": "Text",
+      "expression": "Sos02"
+    },
+    {
+      "component": "ComboBox23",
+      "property": "Text",
+      "expression": "Sos01"
+    },
+    {
+      "component": "Edit24",
+      "property": "Text",
+      "expression": "Sos02"
+    },
+    {
+      "component": "ComboBox24",
+      "property": "Text",
+      "expression": "Sos01"
+    },
+    {
+      "component": "ComboBox21",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit21",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "ComboBox21",
+      "property": "Text",
+      "expression": "Edit21.Text"
+    },
+    {
+      "component": "ComboBox21",
+      "property": "Text",
+      "expression": "IntToStr(Numb)"
+    },
+    {
+      "component": "ComboBox21",
+      "property": "Text",
+      "expression": "Edit21.Text"
+    },
+    {
+      "component": "ComboBox22",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit22",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "ComboBox22",
+      "property": "Text",
+      "expression": "Edit22.Text"
+    },
+    {
+      "component": "ComboBox22",
+      "property": "Text",
+      "expression": "IntToStr(Numb)"
+    },
+    {
+      "component": "ComboBox23",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit23",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "ComboBox23",
+      "property": "Text",
+      "expression": "Edit23.Text"
+    },
+    {
+      "component": "ComboBox23",
+      "property": "Text",
+      "expression": "IntToStr(Numb)"
+    },
+    {
+      "component": "ComboBox24",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit24",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "ComboBox24",
+      "property": "Text",
+      "expression": "Edit24.Text"
+    },
+    {
+      "component": "ComboBox24",
+      "property": "Text",
+      "expression": "IntToStr(Numb)"
+    },
+    {
+      "component": "Edit21",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "ComboBox21",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit22",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "ComboBox22",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit23",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "ComboBox23",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit24",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "ComboBox24",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit21",
+      "property": "Text",
+      "expression": "ComboBox21.Text"
+    },
+    {
+      "component": "Edit22",
+      "property": "Text",
+      "expression": "ComboBox22.Text"
+    },
+    {
+      "component": "Edit23",
+      "property": "Text",
+      "expression": "ComboBox23.Text"
+    },
+    {
+      "component": "Edit24",
+      "property": "Text",
+      "expression": "ComboBox24.Text"
+    },
+    {
+      "component": "Edit21",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit22",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit23",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit24",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "DBGrid1",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "DBGrid1",
+      "property": "Visible",
+      "expression": "False"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open"
+  ]
+}

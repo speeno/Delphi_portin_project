@@ -35,6 +35,38 @@
 
 실행 전 해당 폴더가 없으면 `run_analysis.py`가 `inventory`·`analysis`를 생성합니다.
 
+### 1.5 소스 UTF-8 정규화 스캔(포팅 준비, 선택)
+
+CP949·EUC-KR 등으로만 저장된 유닛을 UTF-8로 통일하면 IDE·diff·웹 도구와의 궁합이 좋아진다. 원본을 **맹목적으로 덮어쓰지 않고**, 실제로 UTF-8 본문 바이트가 달라지는 파일만 골라낸다.
+
+- **도구**: [`tools/legacy_source_utf8_scan.py`](../tools/legacy_source_utf8_scan.py) — [`delphi_source_encoding.py`](../tools/parsers/delphi_source_encoding.py) 와 동일한 디코드 순서로 읽은 뒤 `skip` / `convert` 를 판정한다.
+- **매니페스트**: `tier`(1=`Data/` 이하, 2=기타, 3=`.dpr`), `inferred_encoding`, `has_bom`, `size_bytes` 등이 JSON에 기록된다.
+- **기본(안전)**: 매니페스트만 생성한다.
+
+```bash
+python3 tools/legacy_source_utf8_scan.py \
+  --root legacy_delphi_source/legacy_source \
+  --out analysis/legacy_utf8_manifest.json
+```
+
+- **미러 적용(권장)**: `convert`/`skip` 모두 대상 트리에 반영한다(`skip` 은 원본 복사).
+
+```bash
+python3 tools/legacy_source_utf8_scan.py \
+  --root legacy_delphi_source/legacy_source \
+  --out analysis/legacy_utf8_manifest.json \
+  --apply --dest-root /절대/경로/legacy_source_utf8_mirror
+```
+
+- **원본 덮어쓰기(위험)**: `convert` 만 UTF-8(무BOM)으로 덮어쓴다. 되돌리기 어려우므로 Git 백업·브랜치 후에만 사용한다.
+
+```bash
+python3 tools/legacy_source_utf8_scan.py \
+  --root legacy_delphi_source/legacy_source \
+  --out analysis/legacy_utf8_manifest.json \
+  --apply --in-place
+```
+
 ## 2. 통합 파이프라인 (1회 실행)
 
 프로젝트 루트에서:
@@ -94,6 +126,14 @@ python3 tools/parsers/pas_parser.py <delphi_source_dir> analysis/
 ```bash
 python3 tools/catalog_builder.py analysis/ analysis/legacy_object_catalog.json
 ```
+
+### 3.1 폼 레이아웃 JSON·HTML (선택, L2 보강)
+
+- [`tools/dfm_layout_export.py`](../tools/dfm_layout_export.py): 단일 `.dfm` → 레이아웃 JSON(`Left`/`Top`/`ClientWidth` 등), 또는 `--all <source_dir> <out_dir>` 로 폼별 파일. 선택 `--engine dfm2html` 로 [`dfm2html_project`](../tools/dfm2html_project) 파서를 쓰고, `--pas` 또는 동일 stem 의 `.pas` 가 있으면 `pas_resourcestrings` 가 JSON에 포함된다.
+- [`tools/dfm_layout_to_html.py`](../tools/dfm_layout_to_html.py): 위 JSON → 단순 절대 배치 HTML(서드파티는 placeholder).
+- PNG: [`debug/dfm_layout_html_to_png.py`](../debug/dfm_layout_html_to_png.py) — `pip install playwright` 및 `playwright install chromium` 후 HTML 경로를 인자로 실행.
+
+**품질 로드맵·한계**: 텍스트 DFM은 토큰/블록 병합으로 `Items.Strings`·`Glyph.Data` 등 다중 줄 속성을 더 잘 수집하고, 레이아웃 JSON에는 `layout_ir`(Anchors·Align·TabOrder·z-index)가 보강된다. HTML은 [`tools/dfm_component_registry.json`](../tools/dfm_component_registry.json) 매핑·`TPageControl` 탭 근사·그리드 플레이스홀더를 사용한다. **델파이와 1:1 불가 영역·시각 회귀 운영**은 [`docs/dfm-html-layout-limitations.md`](dfm-html-layout-limitations.md)를 참고한다. 선택 CI: [`.github/workflows/dfm-layout-regression.yml`](../.github/workflows/dfm-layout-regression.yml). 알려진 위험 요약: [`legacy-analysis/known-risks.md`](../legacy-analysis/known-risks.md) RISK-008.
 
 ## 4. DB 연계 분석 (선행: 스키마·SQL)
 

@@ -69,5 +69,13 @@
 - **담당**: M + S-Mid
 - **상태**: 감시중
 
+### RISK-008: DFM→HTML 미리보기와 실제 UI 괴리
+- **위험**: `.dfm`에서 생성한 HTML 미리보기를 최종 웹 UI로 오인하면 기대와 다른 배치·폰트·그리드 동작으로 이해관계자 혼선이 생길 수 있음
+- **확률**: 중간
+- **영향**: 중간
+- **대응 전략**: 레이아웃 JSON·`layout_ir`를 기준으로 삼고, 한계·비범위는 [`docs/dfm-html-layout-limitations.md`](../docs/dfm-html-layout-limitations.md)에 명시; 시각 회귀는 선택·`workflow_dispatch`로 flaky 리스크를 통제
+- **담당**: 포팅/분석 담당
+- **상태**: 감시중
+
 ---
 *최종 업데이트: Sprint 0 시작*

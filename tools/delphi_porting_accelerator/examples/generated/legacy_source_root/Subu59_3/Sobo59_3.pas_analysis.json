@@ -1,0 +1,929 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "Button001Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button002Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button003Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button004Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button005Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button006Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button007Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button008Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button009Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button010Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button011Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button012Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button013Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button014Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button015Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button016Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button017Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button018Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button019Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button020Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button021Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button022Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button023Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button024Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button103Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button104Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button201Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button202Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit102KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit111KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit111KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit112KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit112KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit113KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit113KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit115KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit115KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit114KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit114KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit201KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit201KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit301KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit301KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid101KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid201KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid201KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid301KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid301KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid101TitleClick",
+      "signature": "Column: TColumnEh"
+    },
+    {
+      "name": "DBGrid201TitleClick",
+      "signature": "Column: TColumnEh"
+    },
+    {
+      "name": "DBGrid301TitleClick",
+      "signature": "Column: TColumnEh"
+    },
+    {
+      "name": "DataSource1DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "DataSource2DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "DataSource3DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "DBGrid201DblClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid301DblClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu011Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormCreate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "btnPrint_labelClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormKeyDown",
+      "signature": "Sender: TObject; var Key: Word;\r\n  Shift: TShiftState"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit501",
+      "property": "Text",
+      "expression": "ReadString('Print', 'Gnumb', '')"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'No'"
+    },
+    {
+      "component": "Label201",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label202",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label203",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "DataSource3",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource2",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit122",
+      "property": "Value",
+      "expression": "1"
+    },
+    {
+      "component": "Edit123",
+      "property": "Value",
+      "expression": "1"
+    },
+    {
+      "component": "Edit124",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Label400",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label401",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label402",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label403",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label404",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label405",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label406",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label201",
+      "property": "Caption",
+      "expression": "SGrid.Cells[ 2,List1]"
+    },
+    {
+      "component": "Label202",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label203",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label202",
+      "property": "Caption",
+      "expression": "Base10.G7_Ggeo.FieldByName('Gname').AsString"
+    },
+    {
+      "component": "Label202",
+      "property": "Caption",
+      "expression": "Base10.Seek_Name(Sqlen)"
+    },
+    {
+      "component": "Label203",
+      "property": "Caption",
+      "expression": "Base10.G1_Ggeo.FieldByName('Gname').AsString"
+    },
+    {
+      "component": "Label203",
+      "property": "Caption",
+      "expression": "Base10.G1_Ggeo.FieldByName('Gname').AsString"
+    },
+    {
+      "component": "Label405",
+      "property": "Caption",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Label405",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label406",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "labTotal",
+      "property": "Caption",
+      "expression": "IntToStr(pCount)"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'검증작업이 완료된 거래처입니다.'"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'Ok'"
+    },
+    {
+      "component": "Label401",
+      "property": "Caption",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Label402",
+      "property": "Caption",
+      "expression": "Base10.Socket.GetData(1, 3)"
+    },
+    {
+      "component": "Label400",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label401",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label402",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label403",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label404",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "DataSource3",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "DataSource2",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Label405",
+      "property": "Caption",
+      "expression": "Edit501.Text"
+    },
+    {
+      "component": "Label405",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label406",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label401",
+      "property": "Caption",
+      "expression": "Sp1"
+    },
+    {
+      "component": "Label402",
+      "property": "Caption",
+      "expression": "Sp3"
+    },
+    {
+      "component": "Label400",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label401",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label402",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label403",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label404",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'검증작업이 완료되었습니다.'"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'Ok'"
+    },
+    {
+      "component": "Edit122",
+      "property": "Value",
+      "expression": "1"
+    },
+    {
+      "component": "Edit123",
+      "property": "Value",
+      "expression": "1"
+    },
+    {
+      "component": "Edit124",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Button102",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Label401",
+      "property": "Caption",
+      "expression": "Sp1"
+    },
+    {
+      "component": "Label402",
+      "property": "Caption",
+      "expression": "Sp3"
+    },
+    {
+      "component": "Label400",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label401",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label402",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label403",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label404",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label400",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label401",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label402",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label403",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label404",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label405",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label406",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'검증작업을 할 수 없는 명세서입니다.'"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'No'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'No'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'No'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'No'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'No'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'과출고입니다. 확인해주세요.'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'체크한 도서는 없습니다. 확인해주세요.'"
+    },
+    {
+      "component": "Edit122",
+      "property": "Value",
+      "expression": "1"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'No'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'검증작업을 할 수 없는 명세서입니다.'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label302",
+      "property": "Caption",
+      "expression": "'No'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'과출고입니다. 확인해주세요.'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'체크한 도서는 없습니다. 확인해주세요.'"
+    },
+    {
+      "component": "Edit122",
+      "property": "Value",
+      "expression": "1"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'과출고입니다. 확인해주세요.'"
+    },
+    {
+      "component": "Label102",
+      "property": "Caption",
+      "expression": "'체크한 도서는 없습니다. 확인해주세요.'"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit301",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit301",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Panel009",
+      "property": "Caption",
+      "expression": "IntToStr(nSqry.RecNo)+'/'+IntToStr(nSqry.RecordCount)"
+    },
+    {
+      "component": "Panel009",
+      "property": "Caption",
+      "expression": "IntToStr(mSqry.RecNo)+'/'+IntToStr(mSqry.RecordCount)"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Base10.T5_Sub31.FieldByName('Jubun').AsString"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Base10.T5_Sub31.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Base10.T5_Sub31.FieldByName('Gcode').AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Base10.T5_Sub31.FieldByName('Gname').AsString"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Base10.T5_Sub32.FieldByName('Hcode').AsString"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Base10.T5_Sub32.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Button103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Button102",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "btnPrint_label",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "btnPrint_label",
+      "property": "Visible",
+      "expression": "True"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Open",
+    "E_Insert",
+    "E_Update",
+    "E_Insert",
+    "E_Update",
+    "E_Update",
+    "E_Insert",
+    "E_Open",
+    "E_Update",
+    "'검색한 자료가 없습니다. 확인해주세요.'",
+    "'검색한 출판사가 없습니다. 확인해주세요.'",
+    "'검증작업이 완료된 거래처는 다시 검증할 수 없습니다.'",
+    "'검증된 자료는 다시 검증할 수 없습니다.'"
+  ]
+}

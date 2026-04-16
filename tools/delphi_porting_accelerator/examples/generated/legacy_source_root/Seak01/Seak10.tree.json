@@ -1,0 +1,218 @@
+{
+  "kind": "object",
+  "name": "Seak10",
+  "class_name": "TSeak10",
+  "props": {
+    "Left": 200,
+    "Top": 200,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "BorderStyle": "bsSingle",
+    "Caption": "자료찾기",
+    "ClientHeight": 153,
+    "ClientWidth": 298,
+    "Color": "clBtnFace",
+    "Font.Charset": "HANGEUL_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "OldCreateOrder": false,
+    "Position": "poScreenCenter",
+    "OnClose": "FormClose",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": [
+    {
+      "kind": "object",
+      "name": "Panel100",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 8,
+        "Top": 8,
+        "Width": 281,
+        "Height": 105,
+        "ParentColor": true,
+        "ColorHighLight": "clGray",
+        "ColorShadow": "clGray",
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Panel101",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 24,
+            "Top": 20,
+            "Width": 90,
+            "Height": 22,
+            "Caption": "찾을 필드명",
+            "ParentColor": true,
+            "TabOrder": 0,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel102",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 24,
+            "Top": 60,
+            "Width": 90,
+            "Height": 22,
+            "Caption": "찾을 이름명",
+            "ParentColor": true,
+            "TabOrder": 1,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "ComboBox1",
+          "class_name": "TFlatComboBox",
+          "props": {
+            "Left": 120,
+            "Top": 20,
+            "Width": 137,
+            "Height": 21,
+            "Style": "csDropDownList",
+            "Color": "clWindow",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -13,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ItemHeight": 13,
+            "ParentFont": false,
+            "TabOrder": 2,
+            "ItemIndex": -1
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit1",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 120,
+            "Top": 60,
+            "Width": 137,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 3
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Button101",
+      "class_name": "TFlatButton",
+      "props": {
+        "Left": 24,
+        "Top": 120,
+        "Width": 105,
+        "Height": 25,
+        "Caption": "선택",
+        "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000120B0000120B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555555555555555555555555555555555555555555555FF5555555555555905555555555555577FF5555555555599905555555555557777F5555555555599905555555555557777FF5555555559999905555555555777777F5555555599999905555555557777777FF5555557990599905555555777757777F5555579055559905555557775555777FF5555555555599905555555555557777F5555555555559905555555555555777FF5555555555559905555555555555777FF5555555555557905555555555555777FF5555555555557905555555555555777FF5555555555555990555555555555577755555555555555555555555555555555",
+        "Layout": "blGlyphLeft",
+        "NumGlyphs": 2,
+        "TabOrder": 1,
+        "ModalResult": 1,
+        "Visible": false
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "Button102",
+      "class_name": "TFlatButton",
+      "props": {
+        "Left": 168,
+        "Top": 120,
+        "Width": 105,
+        "Height": 25,
+        "Caption": "취소",
+        "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333333333333333333333333FFF33FF333FFF339993370733999333777FF37FF377733339993000399933333777F777F7773333339997079993333333777F73777333333339993999333333333777377733333333339909933333333333737F73333333333331013333333333333777FF3333333333910193333333333337773FF3333333399000993333333337377737FF3333339990009993333333773777377FF333399930003999333337773777F777FF33999337073399933377733373337773333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333",
+        "Layout": "blGlyphLeft",
+        "NumGlyphs": 2,
+        "TabOrder": 2,
+        "ModalResult": 2,
+        "Visible": false
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "BitBtn101",
+      "class_name": "TBitBtn",
+      "props": {
+        "Left": 40,
+        "Top": 120,
+        "Width": 75,
+        "Height": 25,
+        "Caption": "찾기",
+        "Default": true,
+        "Font.Charset": "HANGEUL_CHARSET",
+        "Font.Color": "clWindowText",
+        "Font.Height": -12,
+        "Font.Name": "굴림체",
+        "Font.Style": [
+          "fsBold"
+        ],
+        "ModalResult": 1,
+        "ParentFont": false,
+        "TabOrder": 3,
+        "OnClick": "BitBtn101Click",
+        "Glyph.Data": "DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000001000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003333333333333333333333333333333333330000333333333333333333333333F3333333333300003333344333333333333333388F3333333333000033334224333333333333338338F3333333330000333422224333333333333833338F3333333300003342222224333333333383333338F3333333000034222A22224333333338F338F3338F33333300003222A3A2224333333338F3838F338F33333300003A2A333A222433333338F83338F338F33333000033A33333A222433333338333338F338F33330000333333333A222433333333333338F338F33300003333333333A222433333333333338F338F33000033333333333A222433333333333338F338F30000333333333333A222433333333333338F338F00003333333333333A224333333333333338F38F000033333333333333A223333333333333338F830000333333333333333A3333333333333333383300003333333333333333333333333333333333330000",
+        "NumGlyphs": 2
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "BitBtn102",
+      "class_name": "TBitBtn",
+      "props": {
+        "Left": 184,
+        "Top": 120,
+        "Width": 75,
+        "Height": 25,
+        "Caption": "취소",
+        "Font.Charset": "HANGEUL_CHARSET",
+        "Font.Color": "clWindowText",
+        "Font.Height": -12,
+        "Font.Name": "굴림체",
+        "Font.Style": [
+          "fsBold"
+        ],
+        "ParentFont": false,
+        "TabOrder": 4,
+        "Kind": "bkCancel"
+      },
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "encoding": "utf-8-sig",
+  "event_handlers": [
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn103Click",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [],
+  "resourcestrings": {},
+  "sql_calls": [],
+  "messages": []
+}

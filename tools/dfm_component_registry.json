@@ -1,0 +1,31 @@
+{
+  "kinds": {
+    "button": [
+      "TButton",
+      "TBitBtn",
+      "TSpeedButton",
+      "TFlatButton",
+      "TdxButton",
+      "TCornerButton"
+    ],
+    "edit": [
+      "TEdit",
+      "TMaskEdit",
+      "TFlatEdit",
+      "TFlatMaskEdit",
+      "TDateEdit"
+    ],
+    "label": ["TLabel", "TStaticText", "TmyLabel3d"],
+    "checkbox": ["TCheckBox", "TFlatCheckBox"],
+    "memo": ["TMemo", "TRichEdit"],
+    "panel": [
+      "TPanel",
+      "TGroupBox",
+      "TFlatPanel",
+      "TTabSheet",
+      "TScrollBox"
+    ],
+    "pagecontrol": ["TPageControl"],
+    "grid": ["TDBGridEh", "TStringGrid", "TDBGrid"]
+  }
+}

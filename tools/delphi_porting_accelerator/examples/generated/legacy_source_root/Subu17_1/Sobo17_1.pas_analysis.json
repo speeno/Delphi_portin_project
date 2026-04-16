@@ -1,0 +1,1253 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FontNameChange",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FontSizeChange",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BoldButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ItalicButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "UnderlineButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "LeftAlignClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "CenterAlignClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "RightAlignClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BulletsButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "UndoButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormPaint",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "Button001Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button002Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button003Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button004Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button005Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button006Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button007Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button008Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button009Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button010Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button011Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button012Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button013Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button014Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button015Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button016Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button017Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button018Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button019Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button020Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button021Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button022Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button023Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button024Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button103Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button104Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button201Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button202Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button203Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101Exit",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit102KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit102KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit111KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit111KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit112KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit112KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit113KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit113KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit114KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit114KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit115KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit115KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid101DblClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid101Enter",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid101KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid201KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid201KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid101Exit",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid201Exit",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid101TitleClick",
+      "signature": "Column: TColumn"
+    },
+    {
+      "name": "DataSource1DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "DataSource2DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "SeachClick",
+      "signature": "Str1,Str2: String"
+    },
+    {
+      "name": "FormCreate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "AnyMessage",
+      "signature": "var Msg: TMsg; var Handled: Boolean"
+    },
+    {
+      "name": "RadioButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button300Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button301Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button302Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button700Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button701Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button702Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "T1_Sub71AfterScroll",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T1_Sub72AfterScroll",
+      "signature": "DataSet: TDataSet"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "FontSize",
+      "property": "Text",
+      "expression": "'10'"
+    },
+    {
+      "component": "FontSize",
+      "property": "Text",
+      "expression": "IntToStr(Editor.SelAttributes.Size)"
+    },
+    {
+      "component": "FontName",
+      "property": "Text",
+      "expression": "Editor.SelAttributes.Name"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Ocode').AsString"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Sname').AsString"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Jubun').AsString"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gcode').AsString"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Ocode').AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gname').AsString"
+    },
+    {
+      "component": "Edit106",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gposa').AsString"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gnumb').AsString"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Guper').AsString"
+    },
+    {
+      "component": "Edit109",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gjomo').AsString"
+    },
+    {
+      "component": "Edit110",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gpper').AsString"
+    },
+    {
+      "component": "Edit111",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gpost').AsString"
+    },
+    {
+      "component": "Edit112",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gtel1').AsString"
+    },
+    {
+      "component": "Edit113",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gtel2').AsString"
+    },
+    {
+      "component": "Edit114",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gfax1').AsString"
+    },
+    {
+      "component": "Edit115",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gfax2').AsString"
+    },
+    {
+      "component": "Edit116",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gadd1').AsString"
+    },
+    {
+      "component": "Edit117",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gadd2').AsString"
+    },
+    {
+      "component": "Edit127",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Bigo2').AsString"
+    },
+    {
+      "component": "Edit128",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gnum1').AsString"
+    },
+    {
+      "component": "Edit118",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gbigo').AsString"
+    },
+    {
+      "component": "Edit119",
+      "property": "Value",
+      "expression": "nSqry.FieldByName('Giqut').AsFloat"
+    },
+    {
+      "component": "Edit120",
+      "property": "Value",
+      "expression": "nSqry.FieldByName('Gisum').AsFloat"
+    },
+    {
+      "component": "Edit122",
+      "property": "Value",
+      "expression": "nSqry.FieldByName('Gssum').AsFloat"
+    },
+    {
+      "component": "Edit123",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Edit125",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Name1').AsString"
+    },
+    {
+      "component": "Edit126",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Name2').AsString"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Gcode').AsString"
+    },
+    {
+      "component": "Edit202",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Gname').AsString"
+    },
+    {
+      "component": "Edit103",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit111.Text"
+    },
+    {
+      "component": "Edit112",
+      "property": "Text",
+      "expression": "Seak40.Query1Dddd.Value"
+    },
+    {
+      "component": "Edit114",
+      "property": "Text",
+      "expression": "Seak40.Query1Dddd.Value"
+    },
+    {
+      "component": "Edit111",
+      "property": "Text",
+      "expression": "Seak40.Query1Post.Value"
+    },
+    {
+      "component": "Edit116",
+      "property": "Text",
+      "expression": "Seak40.Query1Addr.Value"
+    },
+    {
+      "component": "Edit112",
+      "property": "Text",
+      "expression": "Seak40.Query1Dddd.Value"
+    },
+    {
+      "component": "Edit114",
+      "property": "Text",
+      "expression": "Seak40.Query1Dddd.Value"
+    },
+    {
+      "component": "Edit111",
+      "property": "Text",
+      "expression": "Seak40.Query1Post.Value"
+    },
+    {
+      "component": "Edit116",
+      "property": "Text",
+      "expression": "Seak40.Query1Addr.Value"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Ocode').AsString"
+    },
+    {
+      "component": "Panel009",
+      "property": "Caption",
+      "expression": "IntToStr(nSqry.RecNo)+'/'+IntToStr(nSqry.RecordCount)"
+    },
+    {
+      "component": "Panel009",
+      "property": "Caption",
+      "expression": "IntToStr(mSqry.RecNo)+'/'+IntToStr(mSqry.RecordCount)"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit331",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit331",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit331",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit341",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit341",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit341",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit411",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit412",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit411",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit411",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit412",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit412",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit421",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit422",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit421",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit421",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit422",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit422",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit431",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit432",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit431",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit431",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit432",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit432",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit441",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit442",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit441",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit441",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit442",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit442",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit451",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit452",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit451",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit451",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit452",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit452",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit511",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit511",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit511",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit521",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit521",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit521",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit531",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit531",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit531",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit541",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit541",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit541",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit551",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit551",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit551",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit561",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit561",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit561",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit571",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit571",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit571",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit581",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit581",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit581",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit591",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit592",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit591",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit591",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit592",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit592",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit481",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit481",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit481",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit491",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit491",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit491",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit611",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit612",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit611",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit611",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit612",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit612",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit621",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit622",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit621",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit621",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit622",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit622",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit311",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 0,1],0)"
+    },
+    {
+      "component": "Edit321",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "Edit331",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "Edit341",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "Edit411",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "Edit412",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "Edit421",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "Edit422",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "Edit431",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[15,1],0)"
+    },
+    {
+      "component": "Edit432",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[16,1],0)"
+    },
+    {
+      "component": "Edit441",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[17,1],0)"
+    },
+    {
+      "component": "Edit442",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[18,1],0)"
+    },
+    {
+      "component": "Edit451",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[12,1],0)"
+    },
+    {
+      "component": "Edit452",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[13,1],0)"
+    },
+    {
+      "component": "Edit511",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[10,1],0)"
+    },
+    {
+      "component": "Edit521",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "Edit531",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "Edit541",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[11,1],0)"
+    },
+    {
+      "component": "Edit551",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[19,1],0)"
+    },
+    {
+      "component": "Edit561",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[20,1],0)"
+    },
+    {
+      "component": "Edit571",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[21,1],0)"
+    },
+    {
+      "component": "Edit581",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[22,1],0)"
+    },
+    {
+      "component": "Edit591",
+      "property": "Text",
+      "expression": "SGrid.Cells[24,1]"
+    },
+    {
+      "component": "Edit592",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[23,1],0)"
+    },
+    {
+      "component": "Edit611",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[25,1],0)"
+    },
+    {
+      "component": "Edit612",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[26,1],0)"
+    },
+    {
+      "component": "Edit621",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[27,1],0)"
+    },
+    {
+      "component": "Edit622",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[28,1],0)"
+    },
+    {
+      "component": "Edit481",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[29,1],0)"
+    },
+    {
+      "component": "Edit491",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[30,1],0)"
+    },
+    {
+      "component": "Edit236",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[14,1],0)"
+    },
+    {
+      "component": "Edit238",
+      "property": "Text",
+      "expression": "SGrid.Cells[31,1]"
+    },
+    {
+      "component": "Panel300",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Panel701",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Panel702",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Panel701",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Panel702",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Panel300",
+      "property": "Visible",
+      "expression": "True"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlon+Sqlen+Sq1+Sq2"
+  ],
+  "messages": [
+    "E_Open",
+    "E_Update",
+    "E_Insert",
+    "E_Update",
+    "E_Delete",
+    "E_Insert",
+    "E_Update",
+    "E_Delete",
+    "'코드를 입력하세요.'",
+    "'코드가 이미 등록되어있습니다. 다시 입력하세요.'",
+    "E_Update",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Update",
+    "'저장완료'",
+    "'패스워드 확인요망'",
+    "'저장 완료.'"
+  ]
+}

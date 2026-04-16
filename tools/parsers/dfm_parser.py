@@ -20,6 +20,19 @@ from typing import Any
 
 from delphi_source_encoding import read_delphi_source
 
+from delphi_string_normalize import normalize_delphi_display_string
+from dfm_grid_columns import extract_grid_columns
+from dfm_layout_ir import enrich_layout_document
+from dfm_merge_blocks import merge_property_blocks
+
+# 레이아웃 JSON/HTML용으로보낼 속성(좌표·표시·폰트 관련 위주)
+LAYOUT_EXPORT_KEYS = frozenset({
+    "Left", "Top", "Width", "Height", "Caption", "Text", "Hint", "TabOrder",
+    "Visible", "Enabled", "Align", "Anchors", "BorderStyle", "ClientWidth", "ClientHeight",
+    "Color", "Constraints", "Margins", "AlignWithMargins", "WordWrap", "ReadOnly",
+    "PixelsPerInch", "NumGlyphs",
+})
+
 
 def find_dfm_files(source_dir: str) -> list[str]:
     """소문자·대문자 확장자 모두 수집(중복 경로 제거)."""
@@ -28,6 +41,12 @@ def find_dfm_files(source_dir: str) -> list[str]:
     for pat in ("*.dfm", "*.DFM"):
         paths.update(root.rglob(pat))
     return sorted(str(p) for p in paths)
+
+
+def is_binary_dfm_text(content: str) -> bool:
+    """텍스트 스트림 기준 이진 DFM(TPF0 헤더) 여부."""
+    head = content[:64].lstrip("\ufeff\r\n \t")
+    return head.startswith("TPF0")
 
 
 def parse_component(lines: list[str], index: int, depth: int = 0) -> tuple[dict, int]:
@@ -61,7 +80,7 @@ def parse_component(lines: list[str], index: int, depth: int = 0) -> tuple[dict,
                 comp["children"].append(child)
             continue
 
-        prop_match = re.match(r'(\w+)\s*=\s*(.*)', line)
+        prop_match = re.match(r"([\w.]+)\s*=\s*(.*)", line, re.DOTALL)
         if prop_match:
             prop_name = prop_match.group(1)
             prop_value = prop_match.group(2).strip()
@@ -79,16 +98,21 @@ def parse_component(lines: list[str], index: int, depth: int = 0) -> tuple[dict,
 def parse_dfm_file(filepath: str) -> dict:
     content = read_delphi_source(filepath)
 
-    lines = content.split("\n")
+    if is_binary_dfm_text(content):
+        return {
+            "file": filepath,
+            "form_name": Path(filepath).stem,
+            "form_class": "binary_dfm_unsupported",
+            "component_count": 0,
+            "event_count": 0,
+            "components": [],
+            "events": [],
+            "component_summary": {},
+            "parse_error": "binary TPF0 DFM — 텍스트 변환 후 파싱하세요",
+        }
 
-    root = None
-    i = 0
-    while i < len(lines):
-        line = lines[i].strip()
-        if re.match(r'(?:object|inherited)\s+\w+\s*:\s*\w+', line):
-            root, i = parse_component(lines, i)
-            break
-        i += 1
+    lines = merge_property_blocks(content.splitlines())
+    root = _parse_first_root(lines)
 
     if not root:
         return {
@@ -157,6 +181,104 @@ def build_event_flow(dfm_results: list[dict]) -> list[dict]:
                 "file": dfm["file"],
             })
     return flows
+
+
+def filter_layout_properties(properties: dict) -> dict:
+    """레이아웃·표시에 쓰이는 속성만 남긴다(Font.* / Items.* 는 줄·블록 단위로 수집)."""
+    out: dict[str, Any] = {}
+    for k, v in properties.items():
+        if k in LAYOUT_EXPORT_KEYS:
+            if k in ("Caption", "Text", "Hint") and isinstance(v, str):
+                out[k] = normalize_delphi_display_string(v)
+            else:
+                out[k] = v
+        elif k.startswith("Font."):
+            out[k] = v
+        elif k.startswith("Items"):
+            out[k] = v
+        elif k.endswith(".Data"):
+            out[k] = v
+    return out
+
+
+def layout_tree(comp: dict) -> dict:
+    """파싱된 컴포넌트 트리를 레이아웃 JSON용 노드로 변환한다."""
+    props = comp.get("properties", {})
+    lay = filter_layout_properties(props)
+    cols_blob = props.get("Columns")
+    if isinstance(cols_blob, str) and re.search(r"(?i)\bitem\b", cols_blob):
+        gc = extract_grid_columns(cols_blob)
+        if gc:
+            lay["grid_columns"] = gc
+    return {
+        "name": comp["name"],
+        "type": comp["type"],
+        "depth": comp["depth"],
+        "layout": lay,
+        "events": dict(comp.get("events", {})),
+        "children": [layout_tree(c) for c in comp.get("children", [])],
+    }
+
+
+def _parse_first_root(lines: list[str]) -> dict | None:
+    i = 0
+    n = len(lines)
+    while i < n:
+        line = lines[i].strip()
+        if re.match(r"(?:object|inherited)\s+\w+\s*:\s*\w+", line):
+            root, _ = parse_component(lines, i)
+            return root
+        i += 1
+    return None
+
+
+def parse_dfm_component_tree(filepath: str) -> dict | None:
+    """
+    레이아웃 필터 없이 폼 루트 컴포넌트 dict 전체를 반환한다(감사·도구용).
+    이진 DFM이거나 루트가 없으면 None.
+    """
+    content = read_delphi_source(filepath)
+    if is_binary_dfm_text(content):
+        return None
+    lines = merge_property_blocks(content.splitlines())
+    return _parse_first_root(lines)
+
+
+def parse_dfm_layout(filepath: str) -> dict:
+    """
+    단일 .dfm에서 좌표·캡션 등 레이아웃용 트리를 만든다.
+    (form_inventory에는 포함되지 않음 — dfm_layout_export 등에서 사용)
+    """
+    content = read_delphi_source(filepath)
+
+    if is_binary_dfm_text(content):
+        return {
+            "file": filepath,
+            "form_name": Path(filepath).stem,
+            "form_class": "binary_dfm_unsupported",
+            "root": None,
+            "parse_error": "binary TPF0 DFM — 텍스트 변환 후 파싱하세요",
+        }
+
+    lines = merge_property_blocks(content.splitlines())
+    root = _parse_first_root(lines)
+
+    if not root:
+        return {
+            "file": filepath,
+            "form_name": Path(filepath).stem,
+            "form_class": "unknown",
+            "root": None,
+        }
+
+    doc = {
+        "file": filepath,
+        "form_name": root["name"],
+        "form_class": root["type"],
+        "root": layout_tree(root),
+    }
+    enrich_layout_document(doc)
+    return doc
 
 
 def main():

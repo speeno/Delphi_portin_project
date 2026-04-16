@@ -1,0 +1,69 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button301Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button302Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button303Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DateEdit1ButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DateEdit1AcceptDate",
+      "signature": "Sender: TObject; var ADate: TDateTime; var Action: Boolean"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit300",
+      "property": "Text",
+      "expression": "FormatDateTime('yyyy\".\"mm\".\"dd',Date)"
+    },
+    {
+      "component": "XL",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit300",
+      "property": "Text",
+      "expression": "DateToStr(ADate)"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen"
+  ],
+  "messages": [
+    "'저장되었습니다.'"
+  ]
+}

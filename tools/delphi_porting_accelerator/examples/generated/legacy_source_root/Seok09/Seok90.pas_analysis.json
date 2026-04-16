@@ -1,0 +1,182 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "btnConnectClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "NMFTP1ListItem",
+      "signature": "Listing: String"
+    },
+    {
+      "name": "btnCloseClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "btnDisConnectClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DeleteSpace",
+      "signature": "var str: string"
+    },
+    {
+      "name": "ParseFtpDirList",
+      "signature": "dirList: string"
+    },
+    {
+      "name": "btndownClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Timer1Timer",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormCreate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "IdFTP1Work",
+      "signature": "Sender: TObject; AWorkMode: TWorkMode;\r\n  const AWorkCount: Integer"
+    },
+    {
+      "name": "IdFTP1WorkBegin",
+      "signature": "Sender: TObject;\r\n  AWorkMode: TWorkMode; const AWorkCountMax: Integer"
+    },
+    {
+      "name": "IdFTP1WorkEnd",
+      "signature": "Sender: TObject; AWorkMode: TWorkMode"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "'호스트에 접속되었습니다!.'"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "gHost + ' 연결실패!!! 관리자에게 문의하세요...'"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "'호스트와의 연결이 끊어졌습니다!.'"
+    },
+    {
+      "component": "Label3",
+      "property": "Caption",
+      "expression": "'파일명 : ' + FileName"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "'파일을 받고 있습니다!.'"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "'파일받기를 실행할수 없습니다!.'"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "'파일받기를 완료하였습니다!.'"
+    },
+    {
+      "component": "Label3",
+      "property": "Caption",
+      "expression": "'파일명 : '"
+    },
+    {
+      "component": "Label3",
+      "property": "Caption",
+      "expression": "'파일명 : ' + FileName"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "'파일을 받고 있습니다!.'"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "''"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "'파일받기를 실행할수 없습니다!.'"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "'파일받기를 완료하였습니다!.'"
+    },
+    {
+      "component": "Label3",
+      "property": "Caption",
+      "expression": "'파일명 : '"
+    },
+    {
+      "component": "Label1",
+      "property": "Caption",
+      "expression": "IntToStr(FCount1)"
+    },
+    {
+      "component": "Label2",
+      "property": "Caption",
+      "expression": "IntToStr(FCount2)"
+    },
+    {
+      "component": "Panel3",
+      "property": "Caption",
+      "expression": "'FTP 서버 접속 중......'"
+    },
+    {
+      "component": "Timer1",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Timer1",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Label1",
+      "property": "Caption",
+      "expression": "IntToStr(FCount1)"
+    },
+    {
+      "component": "Label2",
+      "property": "Caption",
+      "expression": "IntToStr(FCount2)"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [],
+  "messages": [
+    "'FTP 서버 ' + gHost + ' 에 연결할 수 없습니다...' + #13#10 + E.Message",
+    "'INI파일에 서버IP를 등록하세요...'",
+    "FTPList.FileSize+' '+FileSize+' '+FTPList.FileDate+' '+FileDate",
+    "tMsg+' 파일받기를 완료하지 못했습니다!.'",
+    "tMsg+' 파일받기를 완료하지 못했습니다!.'+ #13+ '구입처에 문의 하세요!. '+ #13 +E.Message",
+    "tMsg+' 파일받기를 완료하지 못했습니다!.'",
+    "tMsg+' 파일받기를 완료하지 못했습니다!.'+ #13+ '구입처에 문의 하세요!. '+ #13 +E.Message",
+    "'호스트에 접속되어 있지 않습니다!.'",
+    "'파일받기를 완료하였습니다!.'"
+  ]
+}

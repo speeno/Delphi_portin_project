@@ -1,0 +1,47 @@
+{
+  "encoding": "utf-8-sig",
+  "event_handlers": [
+    {
+      "name": "FilterSing",
+      "signature": "Str,Sth:String"
+    },
+    {
+      "name": "FilterTing",
+      "signature": "Str,Sth:String"
+    },
+    {
+      "name": "FilterSeek",
+      "signature": "Str,Sth:String"
+    },
+    {
+      "name": "Edit1KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Button001Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid101DblClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit1Enter",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Open",
+    "E_Open"
+  ]
+}

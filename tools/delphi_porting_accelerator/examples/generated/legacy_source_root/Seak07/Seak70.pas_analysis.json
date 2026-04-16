@@ -1,0 +1,90 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "DBGrid2KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid2KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "BitBtn1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn2Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn3Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn4Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn5Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn6Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DataSource1DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "DataSource2DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource2",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "DataSource2",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Label4",
+      "property": "Caption",
+      "expression": "aSqry.FieldByName('Gdate').AsString"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [],
+  "messages": [
+    "'저장 완료.'",
+    "'전송파일 완료.'"
+  ]
+}

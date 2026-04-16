@@ -1,0 +1,362 @@
+{
+  "source": "legacy_delphi_source/legacy_source/Data/Subu36.dfm",
+  "captionless": [
+    {
+      "path": "Sobo36/CornerButton1",
+      "type": "TCornerButton",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/CornerButton2",
+      "type": "TCornerButton",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/CornerButton9",
+      "type": "TCornerButton",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel001/Edit101",
+      "type": "TFlatMaskEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel001/Edit103",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel001/Edit108",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel001/Edit107",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel001/Edit102",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel001/Button101",
+      "type": "TFlatButton",
+      "has_glyph": true,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel001/Button201",
+      "type": "TFlatButton",
+      "has_glyph": true,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel001/DateEdit1",
+      "type": "TDateEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel001/Button700",
+      "type": "TFlatButton",
+      "has_glyph": true,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel002/DBGrid101",
+      "type": "TDBGridEh",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel007/ProgressBar0",
+      "type": "TFlatProgressBar",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel007/ProgressBar1",
+      "type": "TProgressBar",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit305",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit302",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit301",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit304",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Button701",
+      "type": "TFlatButton",
+      "has_glyph": true,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit303",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit306",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit307",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit308",
+      "type": "TFlatNumber",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit300",
+      "type": "TFlatEdit",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/Panel003/Edit309",
+      "type": "TFlatNumber",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/DataSource1",
+      "type": "TDataSource",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/DataSource2",
+      "type": "TDataSource",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61",
+      "type": "TClientDataSet",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61ID",
+      "type": "TFloatField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61GDATE",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61SCODE",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61GCODE",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61GNAME",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61HCODE",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61HNAME",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61NAME1",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61NAME2",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61GNUMB",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61GBIGO",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61GQUT1",
+      "type": "TFloatField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub61/T3_Sub61GQUT2",
+      "type": "TFloatField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62",
+      "type": "TClientDataSet",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62ID",
+      "type": "TFloatField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62GDATE",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62SCODE",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62GCODE",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62GNAME",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62HCODE",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62HNAME",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62NAME1",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62NAME2",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62GNUMB",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62GBIGO",
+      "type": "TStringField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62GQUT1",
+      "type": "TFloatField",
+      "has_glyph": false,
+      "has_hint": false
+    },
+    {
+      "path": "Sobo36/T3_Sub62/T3_Sub62GQUT2",
+      "type": "TFloatField",
+      "has_glyph": false,
+      "has_hint": false
+    }
+  ],
+  "grids_with_columns_blob": [
+    {
+      "path": "Sobo36/Panel002/DBGrid101",
+      "type": "TDBGridEh",
+      "blob_chars": 1802
+    }
+  ],
+  "layout_grid_columns_preview": [
+    {
+      "name": "DBGrid101",
+      "type": "TDBGridEh",
+      "column_count": 8,
+      "titles": [
+        "출판사코드",
+        "출판사명",
+        "지역명",
+        "거래처명",
+        "화물명"
+      ]
+    }
+  ]
+}

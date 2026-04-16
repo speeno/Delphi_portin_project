@@ -1,0 +1,563 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "Button001Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button002Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button003Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button004Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button005Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button006Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button007Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button008Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button009Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button010Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button011Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button012Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button013Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button014Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button015Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button016Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button017Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button018Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button019Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button020Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button021Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button022Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button023Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button024Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button201Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button301Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button401Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button501Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button601Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button602Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button901Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit102KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit111KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit111KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit112KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit112KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit113KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit113KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit114KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit114KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid101Exit",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid101Enter",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid101KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid201KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid201KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid101TitleClick",
+      "signature": "Column: TColumn"
+    },
+    {
+      "name": "DBGrid201TitleClick",
+      "signature": "Column: TColumn"
+    },
+    {
+      "name": "DataSource1DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "DataSource2DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "MultiSelect",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit301KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Button701Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Jubun",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "T2_Sub21AfterCancel",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub21AfterScroll",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub21AfterPost",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub21AfterDelete",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub21BeforePost",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub21BeforeClose",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub21NewRecord",
+      "signature": "DataSet: TDataSet"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "FormatDateTime('yyyy\".\"mm\".\"dd',Date)"
+    },
+    {
+      "component": "Sobo22_1",
+      "property": "Caption",
+      "expression": "'입고명세서-(온라인)'"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel401",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek20.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek20.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "Seek20.Query1Gtel1.AsString+'-'+Seek20.Query1Gtel2.AsString"
+    },
+    {
+      "component": "Edit202",
+      "property": "Text",
+      "expression": "Seek20.Query1Gadd1.AsString+' '+Seek20.Query1Gadd2.AsString"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Goqut').AsFloat )])"
+    },
+    {
+      "component": "Edit204",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Gosum').AsFloat )])"
+    },
+    {
+      "component": "Edit205",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Gbqut').AsFloat )])"
+    },
+    {
+      "component": "Edit206",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Gbsum').AsFloat )])"
+    },
+    {
+      "component": "Edit207",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Gsusu').AsFloat )])"
+    },
+    {
+      "component": "Edit208",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('GsumX').AsFloat )])"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek20.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek20.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "Seek20.Query1Gtel1.AsString+'-'+Seek20.Query1Gtel2.AsString"
+    },
+    {
+      "component": "Edit202",
+      "property": "Text",
+      "expression": "Seek20.Query1Gadd1.AsString+' '+Seek20.Query1Gadd2.AsString"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Goqut').AsFloat )])"
+    },
+    {
+      "component": "Edit204",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Gosum').AsFloat )])"
+    },
+    {
+      "component": "Edit205",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Gbqut').AsFloat )])"
+    },
+    {
+      "component": "Edit206",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Gbsum').AsFloat )])"
+    },
+    {
+      "component": "Edit207",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('Gsusu').AsFloat )])"
+    },
+    {
+      "component": "Edit208",
+      "property": "Text",
+      "expression": "Format('%13s',[FormatFloat('#,###,###,##0',sSqry.FieldByName('GsumX').AsFloat )])"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Panel009",
+      "property": "Caption",
+      "expression": "IntToStr(nSqry.RecNo)+'/'+IntToStr(nSqry.RecordCount)"
+    },
+    {
+      "component": "Panel009",
+      "property": "Caption",
+      "expression": "IntToStr(mSqry.RecNo)+'/'+IntToStr(mSqry.RecordCount)"
+    },
+    {
+      "component": "Edit109",
+      "property": "Text",
+      "expression": "Format('%05s',[FormatFloat('00000',p_Idnum)] )"
+    },
+    {
+      "component": "Edit109",
+      "property": "Text",
+      "expression": "Format('%05s',[FormatFloat('00000',p_Idnum)] )"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Format('%02s',[FormatFloat('00',p_Jubun)] )"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Format('%02s',[FormatFloat('00',p_Jubun)] )"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Format('%02s',[FormatFloat('00',p_Jubun)] )"
+    },
+    {
+      "component": "T2_Sub21Hcode",
+      "property": "Value",
+      "expression": "Hnnnn"
+    },
+    {
+      "component": "T2_Sub21Gdate",
+      "property": "Value",
+      "expression": "Sobo22_1.Edit101.Text"
+    },
+    {
+      "component": "T2_Sub21Sdate",
+      "property": "Value",
+      "expression": "Sobo22_1.Edit101.Text"
+    },
+    {
+      "component": "T2_Sub21Memo1",
+      "property": "Value",
+      "expression": "'도서명:'+#13+'메모1):'+#13+'메모2):'"
+    },
+    {
+      "component": "T2_Sub21Gsqut",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "T2_Sub21Gdang",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "T2_Sub21Code1",
+      "property": "Value",
+      "expression": "'N'"
+    },
+    {
+      "component": "T2_Sub21Code2",
+      "property": "Value",
+      "expression": "'N'"
+    },
+    {
+      "component": "T2_Sub21Code3",
+      "property": "Value",
+      "expression": "'N'"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlon+Sqlen",
+    "Sqlon+Sqlen"
+  ],
+  "messages": [
+    "E_Yesno",
+    "E_Update",
+    "'체크완료'",
+    "'거래일자를 다시 선택해 주십시오.'",
+    "E_Open",
+    "E_Delete",
+    "E_Delete",
+    "E_Insert",
+    "E_Update"
+  ]
+}

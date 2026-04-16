@@ -1,0 +1,27 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "dxButton1Click",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit_lines",
+      "property": "Value",
+      "expression": "pIniFile.ReadInteger('Print', 'List1', 12)"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [],
+  "messages": []
+}

@@ -27,3 +27,7 @@ jobs:
           for d in tools/parsers tools/db tools/contracts tools/harness; do
             if [ -d "$d" ]; then python -m compileall -q "$d"; fi
           done
+          python -m compileall -q tools/dfm_layout_export.py tools/dfm_layout_to_html.py \
+            tools/dfm_layout_visual_regression.py tools/res_string_bridge.py \
+            tools/dfm2html_layout_adapter.py tools/legacy_source_utf8_scan.py \
+            tools/parsers/delphi_scalar.py

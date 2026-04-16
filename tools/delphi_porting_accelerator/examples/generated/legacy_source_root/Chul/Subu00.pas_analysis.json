@@ -1,0 +1,991 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "ToolButton01Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton02Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton03Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton04Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton05Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton06Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton07Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton08Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton09Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton10Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton11Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton12Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton13Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton14Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton15Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton16Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton17Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton18Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton19Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton20Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton21Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton22Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton23Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton24Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton25Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton26Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "ToolButton27Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu103Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu103_1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu104Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu105Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu106Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu107Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu107_1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu108Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu109Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu110Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu201Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu202Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu203Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu204Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu204_9Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu205Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu206Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu207Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu208Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu209Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu210Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu301Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu302Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu302_1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu303Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu304Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu305Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu306Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu307Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu308Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu308_1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu309Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu319Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu329Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu339Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu349Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu359Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu310Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu304_1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu304_2Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu304_3Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu304_4Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu401Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu402Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu402_1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu403Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu404Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu405Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu405_1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu406Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu407Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu408Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu409Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu410Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu501Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu502Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu503Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu504Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu505Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu506Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu507Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu508Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu509Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu509_1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu509_2Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu509_3Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu510Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu601Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu602Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu603Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu604Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu605Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu606Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu607Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu608Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu609Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu610Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu801Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu802Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu803Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu804Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu805Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu901Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu903Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu906Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu907Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu908Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu909Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu202_1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu202_2Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu011Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu012Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu013Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu021Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu022Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Menu023Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Message_Show",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Post_Show",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Post_Html",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Timer2Timer",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "WebBrowser1NewWindow2",
+      "signature": "Sender: TObject; var ppDisp: IDispatch; var Cancel: WordBool"
+    },
+    {
+      "name": "AutoUpdateX",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Ping1DnsLookupDone",
+      "signature": "Sender: TObject; Error: Word"
+    },
+    {
+      "name": "Ping1EchoReply",
+      "signature": "Sender, Icmp: TObject; Error: Integer"
+    },
+    {
+      "name": "Ping1EchoRequest",
+      "signature": "Sender, Icmp: TObject"
+    },
+    {
+      "name": "ApplicationEvents1Message",
+      "signature": "var Msg: tagMSG; var Handled: Boolean"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Subu00",
+      "property": "Caption",
+      "expression": "Subu00.Caption+'-'+Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "ToolBar",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Panel002",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Panel004",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "ToolBar",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "ToolBar",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Label3",
+      "property": "Caption",
+      "expression": "Logn3"
+    },
+    {
+      "component": "Label3",
+      "property": "Caption",
+      "expression": "Logn3"
+    },
+    {
+      "component": "Label3",
+      "property": "Caption",
+      "expression": "Logn3"
+    },
+    {
+      "component": "Label3",
+      "property": "Caption",
+      "expression": "Logn3"
+    },
+    {
+      "component": "Edit111",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit116",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit111",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit116",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit111",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit116",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit111",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit116",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit111",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit116",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit208",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit208",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit208",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit208",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit212",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit207",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit208",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Edit212",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_postcode1').value"
+    },
+    {
+      "component": "Edit207",
+      "property": "Text",
+      "expression": "WebBrowser1.OleObject.Document.all.item('sample4_roadAddress').value"
+    },
+    {
+      "component": "Timer2",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Timer2",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Timer2",
+      "property": "Enabled",
+      "expression": "True"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "'00'",
+    "'01'",
+    "'02'",
+    "'비밀번호가 틀립니다.'",
+    "'사용자 또는 아이디가 틀립니다.'",
+    "'Program Key를 등록해 주세요.'",
+    "'다시 시도해 주십시오.'",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "'03'",
+    "'04'",
+    "'05'",
+    "'06'",
+    "'07'",
+    "E_Update",
+    "'등록되었습니다.'",
+    "'IP:'+StrList.Strings[0]",
+    "'IP:'+StrList.Strings[1]",
+    "'서버와 연결실패... '+#13+'프로그램을 종료합니다.'",
+    "'환경설정 실패... '+#13+'프로그램을 종료합니다.'",
+    "E_Open",
+    "E_Open",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "'사용중인 ID,Password입니다. 다시 등록해주십시오'",
+    "E_Update",
+    "'수정되었습니다.'",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Update",
+    "E_Connect",
+    "E_Update",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "E_Connect",
+    "'다시 시도해 주십시오.'",
+    "'연결 중시! 확인해 주십시오.')\r\n  else\r\n  ShowMessage(Ping1.HostIP"
+  ]
+}

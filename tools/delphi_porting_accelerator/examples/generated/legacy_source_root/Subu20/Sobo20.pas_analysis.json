@@ -1,0 +1,669 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "Button001Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button002Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button003Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button004Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button005Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button006Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button007Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button008Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button009Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button010Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button011Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button012Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button013Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button014Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button015Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button016Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button017Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button018Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button019Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button020Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button021Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button022Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button023Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button024Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button201Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit102KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit111KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit111KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit112KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit112KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit113KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit113KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit114KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit114KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Sobo21.Edit101.Text"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Sobo21.Edit102.Text"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Sobo21.Edit103.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Sobo21.Edit104.Text"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Sobo21.Edit105.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Sobo21.Edit107.Text"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Sobo21.Edit108.Text"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Sobo22.Edit101.Text"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Sobo22.Edit102.Text"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Sobo22.Edit103.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Sobo22.Edit104.Text"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Sobo22.Edit105.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Sobo22.Edit107.Text"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Sobo22.Edit108.Text"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Sobo23.Edit101.Text"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Sobo23.Edit102.Text"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Sobo23.Edit103.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Sobo23.Edit104.Text"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Sobo23.Edit105.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Sobo23.Edit107.Text"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Sobo23.Edit108.Text"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Sobo29.Edit101.Text"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Sobo29.Edit102.Text"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Sobo29.Edit103.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Sobo29.Edit104.Text"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Sobo29.Edit105.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Sobo29.Edit107.Text"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Sobo29.Edit108.Text"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Edit101.Text"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Edit102.Text"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Edit103.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Edit107.Text"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Edit108.Text"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Edit101.Text"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Edit102.Text"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Edit103.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Edit107.Text"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Edit108.Text"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Edit101.Text"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Edit102.Text"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Edit103.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Edit107.Text"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Edit108.Text"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "Edit101.Text"
+    },
+    {
+      "component": "Edit102",
+      "property": "Text",
+      "expression": "Edit102.Text"
+    },
+    {
+      "component": "Edit103",
+      "property": "Text",
+      "expression": "Edit103.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Edit107.Text"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Edit108.Text"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit107.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Seak80.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Seak80.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Seak80.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Seak80.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek10.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek10.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek10.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek10.Query1Gname.AsString"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek20.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek20.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek20.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek20.Query1Gname.AsString"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek10.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek10.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek10.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek10.Query1Gname.AsString"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek10.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek10.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek10.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek10.Query1Gname.AsString"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlon+Sqlen",
+    "Sqlon+Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Update",
+    "E_Update"
+  ]
+}

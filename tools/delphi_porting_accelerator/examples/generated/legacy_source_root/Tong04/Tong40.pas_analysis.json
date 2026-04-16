@@ -1,0 +1,5285 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "PrinTing00",
+      "signature": "St0,St1,St2,St3,St4,St5,St6,St7,St8,St9: String"
+    },
+    {
+      "name": "PrinTing01",
+      "signature": "Str: String"
+    },
+    {
+      "name": "PrinTing02",
+      "signature": "Str: String"
+    },
+    {
+      "name": "PrinTing03",
+      "signature": "Str: String"
+    },
+    {
+      "name": "PrinTing04",
+      "signature": "Str: String"
+    },
+    {
+      "name": "PrinTing08",
+      "signature": "_Scode,_Gcode,_Gdate,_Gubun,_Jubun,_Hcode: String"
+    },
+    {
+      "name": "PrinTing09",
+      "signature": "Str: String"
+    },
+    {
+      "name": "Print_11_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_11_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_12_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_12_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_13_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_13_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_14_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_14_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_14_11",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_15_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_15_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_16_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_16_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_17_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_17_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_17_03",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_18_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_18_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_19_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_19_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_10_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_10_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_21_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_21_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_22_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_22_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_23_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_23_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_24_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_24_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_25_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_25_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_26_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_26_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_27_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_27_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_28_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_28_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_29_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_29_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_20_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_20_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_31_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_31_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_32_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_32_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_33_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_33_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_33_03",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_33_04",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_34_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_34_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_34_05",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_34_06",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_35_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_35_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_36_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_36_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_37_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_37_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_38_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_38_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_03",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_04",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_05",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_06",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_07",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_08",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_09",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_11",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_39_21",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_30_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_30_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_41_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_41_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_42_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_42_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_43_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_43_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_44_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_44_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_45_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_45_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_46_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_46_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_47_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_47_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_48_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_48_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_49_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_49_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_40_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_40_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_51_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_51_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_52_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_52_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_53_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_53_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_54_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_54_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_55_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_55_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_55_03",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_55_04",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_56_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_56_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_57_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_57_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_58_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_58_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_59_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_59_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_59_11",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_59_12",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_50_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_50_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_61_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_61_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_62_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_62_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_63_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_63_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_64_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_64_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_65_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_65_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_66_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_66_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_67_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_67_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_68_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_68_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_69_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_69_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_60_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_60_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_99_01",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Print_99_02",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "_Gg_Magn_",
+      "signature": "Str:String"
+    },
+    {
+      "name": "_Sv_Gsum_",
+      "signature": "_S1_Ssub,_H1_Ssub,_Sv_Gsum: String"
+    },
+    {
+      "name": "_Sv_Chng_",
+      "signature": "_S1_Ssub,_H1_Ssub,_Sg_Gsum,_Sv_Chng: String"
+    },
+    {
+      "name": "_Sv_Ghng_",
+      "signature": "_S1_Ssub,_Sg_Csum,_Sv_Ghng: String"
+    },
+    {
+      "name": "_Sb_Ghng_",
+      "signature": "_Sb_Csum,_Sv_Ghng: String"
+    },
+    {
+      "name": "SetTring01",
+      "signature": "Str1,Str2,Str3,Str4,Str5,Str6: String"
+    },
+    {
+      "name": "SetTring02",
+      "signature": "Str1,Str2,Str3,Str4,Str5,Str6: String"
+    },
+    {
+      "name": "SetTring11",
+      "signature": "Str1,Str2,Str3,Str4,Str5,Str6: String"
+    },
+    {
+      "name": "SetTring12",
+      "signature": "Str1,Str2,Str3,Str4,Str5,Str6: String"
+    },
+    {
+      "name": "SetTring13",
+      "signature": "Str1,Str2,Str3,Str4,Str5,Str6: String"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormHide",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Timer1Timer",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo14_1.Edit103.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo14_1.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo16.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo16.Edit101.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo16.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo16.Edit208.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo16.Edit201.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo16.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 0,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 1,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 2,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 3,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 4,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 5,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 6,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 7,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 8,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[ 9,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[10,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[11,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[12,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[13,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[14,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[15,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[16,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[17,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[18,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[32,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "SGrid.Cells[33,1]"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'V'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'V'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'미청구'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Name1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Name2').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Scode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo24.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo24.Edit101.Text+' - '+Sobo24.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo24.Edit109.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo24.Edit101.Text+' - '+Sobo24.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo24.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo24.DBGrid201.Columns.Items[0].Title.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처 집계 현황'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo25.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo25.Edit101.Text+' - '+Sobo25.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo25.Edit109.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo25.Edit101.Text+' - '+Sobo25.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo25.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo25.DBGrid201.Columns.Items[0].Title.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'입고처 집계 현황'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo26.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo26.Edit101.Text+' - '+Sobo26.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo26.Edit103.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo26.Edit105.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo26.Edit208.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo26.Edit201.Text+' - '+Sobo26.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo26.Edit203.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo26.Edit205.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo27.Edit109.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo27.Edit101.Text+' - '+Sobo27.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo27.Edit109.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo27.Edit101.Text+' - '+Sobo27.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo28.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo28.Edit101.Text+' - '+Sobo28.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo28.Edit104.Text+' - '+Sobo28.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo28.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo28.Edit101.Text+' - '+Sobo28.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo28.Edit104.Text+' - '+Sobo28.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo31.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo31.Edit101.Text+' - '+Sobo31.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo31.Edit104.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo31.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo31.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo31.Edit101.Text+' - '+Sobo31.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo31.Edit104.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo31.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo32.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo32.Edit101.Text+' - '+Sobo32.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo32.Edit103.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo32.Edit104.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo32.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo32.Edit101.Text+' - '+Sobo32.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo32.Edit103.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo32.Edit104.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit101.Text+' - '+Sobo33.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit104.Text+' - '+Sobo33.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit101.Text+' - '+Sobo33.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'분  류  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도  서  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit104.Text+' - '+Sobo33.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit101.Text+' - '+Sobo33.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit104.Text+' - '+Sobo33.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo14_1.Edit103.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo14_1.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo34.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'정품(폐기)현황'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo34.Edit101.Text+' - '+Sobo34.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo34.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo34.Edit101.Text+' - '+Sobo34.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'분  류  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo34.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도  서  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo34.Edit104.Text+' - '+Sobo34.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'폐기수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpqut]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'변경수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpsum]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo34_1.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo34_1.Edit101.Text+' - '+Sobo34_1.Edit102.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo34_1.Edit104.Text+' - '+Sobo34_1.Edit106.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'분류코드'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'분류명'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo34_1.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo34_1.Edit101.Text+' - '+Sobo34_1.Edit102.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo34_1.Edit104.Text+' - '+Sobo34_1.Edit106.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도서코드'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도서명'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo35.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'반품(폐기)현황'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo35.Edit101.Text+' - '+Sobo35.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo35.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo35.Edit101.Text+' - '+Sobo35.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo35.Edit104.Text+' - '+Sobo35.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo35.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo36.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo36.Edit101.Text+' - '+Sobo36.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo36.Edit104.Text+' - '+Sobo36.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'폐기수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpqut]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'변경수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpsum]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo36.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo36.Edit101.Text+' - '+Sobo36.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo36.Edit104.Text+' - '+Sobo36.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo36.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo37.Edit101.Text+' - '+Sobo37.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo37.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo37.Edit101.Text+' - '+Sobo37.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'담  당  자'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo37.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo37.Edit104.Text+' - '+Sobo37.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'증정수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gjqut]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'장부차액'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gjsum]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo38_2.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'운 송 비'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo38_2.Edit101.Text+' - '+Sobo38_2.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo38_2.Edit108.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'택배'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'화물'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'박스'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'직배'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Button101.Caption)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo39_1.Edit101.Text+' - '+Sobo39_1.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo39_2.Edit101.Text+' - '+Sobo39_2.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo41.Edit101.Text+' - '+Sobo41.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo41.Edit208.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo41.Edit201.Text+' - '+Sobo41.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo41.Edit203.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo42.Edit101.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo42_1.Edit101.Text+' - '+Sobo42_1.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo42_1.Edit108.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo43.Edit101.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo43.Edit208.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo43.Edit201.Text+' - '+Sobo43.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo43.Edit203.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo43.Edit204.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo44.Edit101.Text+' - '+Sobo44.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo44_1.Edit101.Text+' - '+Sobo44_1.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'청구서'+'('+Copy(mSqry.FieldByName('Gdate').AsString,6,2)+'월)'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'No:'+mSqry.FieldByName('Hcode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "St2"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit201.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit204.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit205.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit206.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit207.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit208.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit209.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit210.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit211.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit212.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit213.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit214.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit215.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit216.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit217.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit218.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit229.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit219.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit220.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit221.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit222.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit223.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit224.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit225.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit226.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit227.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit228.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit229.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'￦'+Sobo45.Edit230.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit231.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit232.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit233.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit234.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit235.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit236.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit237.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit238.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit239.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit240.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit242.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit243.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit244.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit245.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit246.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit247.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit248.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit261.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit262.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit263.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit301.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit302.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit303.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit315.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit264.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit265.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래명세표 발행 및 작업비:'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit264.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit265.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit304.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit305.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit306.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit307.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit308.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit309.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit310.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit312.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit266.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit902.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Format('%12s',[FormatFloat('###,###,##0',St1)])"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit313.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit314.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit315.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit219.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit301.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit302.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit303.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit247.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit248.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit246.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit264.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit307.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit308.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit309.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit310.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit311.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit312.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit313.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit314.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit315.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'청구서'+'('+Copy(mSqry.FieldByName('Gdate').AsString,6,2)+'월)'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'No:'+mSqry.FieldByName('Hcode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "St2"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit201.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit204.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit205.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit206.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit207.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit208.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit209.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit210.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit211.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit212.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit213.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit214.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit215.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit216.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit217.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit218.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit219.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit220.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit221.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit222.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit223.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit224.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit225.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit226.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit227.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit228.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit229.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'￦'+Sobo45_1.Edit230.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit231.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit232.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit233.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit234.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit235.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit236.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit237.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit238.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit239.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit240.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit242.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit243.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit244.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit245.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit246.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit247.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit248.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit261.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit262.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit263.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit301.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit302.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit303.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit315.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit264.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit265.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래명세표 발행 및 작업비:'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit264.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit265.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit304.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit305.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit306.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit307.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit308.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit309.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit310.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit312.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit266.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit902.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Format('%12s',[FormatFloat('###,###,##0',St1)])"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit313.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit314.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit315.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit219.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit301.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit302.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit303.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit247.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit248.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit246.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit264.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit307.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit308.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit309.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit310.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit311.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45_1.Edit312.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit313.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit314.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo45.Edit315.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'청구서'+'('+Copy(mSqry.FieldByName('Gdate').AsString,6,2)+'월)'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'No:'+mSqry.FieldByName('Hcode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "St2"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit201.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit204.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit205.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit206.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit207.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit208.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit209.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit210.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit211.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit212.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit213.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit214.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit215.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit216.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit217.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit218.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit220.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit221.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit222.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit223.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit224.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit225.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit226.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit227.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit228.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit229.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'￦'+Sobo46.Edit230.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit231.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit232.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit233.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit234.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit235.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit236.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit237.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit238.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit239.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit240.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit242.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit243.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit244.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit245.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit246.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit247.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit248.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit261.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit262.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit263.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit301.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit302.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit303.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit304.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit305.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit306.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit307.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit308.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit309.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit315.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit264.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit265.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래명세표 발행 및 작업비:'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit264.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit265.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit304.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit305.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit306.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit307.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit308.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit309.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit310.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit312.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit266.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit902.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Format('%12s',[FormatFloat('###,###,##0',St1)])"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit313.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit314.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit315.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit219.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit301.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit302.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit303.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit247.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit248.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit246.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit264.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit307.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit308.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit309.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit310.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit311.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit312.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit313.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit314.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit315.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'청구서'+'('+Copy(mSqry.FieldByName('Gdate').AsString,6,2)+'월)'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'No:'+mSqry.FieldByName('Hcode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "St2"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit201.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit204.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit205.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit206.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit207.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit208.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit209.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit210.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit211.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit212.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit213.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit214.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit215.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit216.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit217.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit218.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit220.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit221.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit222.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit223.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit224.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit225.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit226.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit227.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit228.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit229.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'￦'+Sobo46.Edit230.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit231.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit232.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit233.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit234.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit235.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit236.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit237.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit238.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit239.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit240.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit242.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit243.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit244.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit245.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit246.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit247.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit248.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit261.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit262.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit263.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo46.Edit266.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Format('%12s',[FormatFloat('###,###,##0',St1)])"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo47.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo47.Edit101.Text+' - '+Sobo47.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo47.Edit208.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo47.Edit201.Text+' - '+Sobo47.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo48.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo48.Edit101.Text+' - '+Sobo48.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo49.Edit101.Text+' - '+Sobo49.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo49.Edit104.Text+' - '+Sobo49.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo49.Edit101.Text+' - '+Sobo49.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'구  분  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo49.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo49.Edit104.Text+' - '+Sobo49.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo51.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo51.Edit101.Text+' - '+Sobo51.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도  서  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo51.Edit104.Text+' - '+Sobo51.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo51.Edit208.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo51.Edit201.Text+' - '+Sobo51.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'입고처명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo51.Edit204.Text+' - '+Sobo51.Edit206.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo52.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo52.Edit101.Text+' - '+Sobo52.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도  서  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo52.Edit104.Text+' - '+Sobo52.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo52.Edit208.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo52.Edit201.Text+' - '+Sobo52.Edit202.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도  서  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo52.Edit204.Text+' - '+Sobo52.Edit206.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo55_1.Edit101.Text+' - '+Sobo55_1.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo55_1.Edit101.Text+' - '+Sobo55_1.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo56.Edit101.Text+' - '+Sobo56.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo56.Edit101.Text+' - '+Sobo56.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo56.Edit101.Text+' - '+Sobo56.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo57.Edit101.Text+' - '+Sobo57.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo57.Edit101.Text+' - '+Sobo57.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo58.Edit101.Text+' - '+Sobo58.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo58.Edit101.Text+' - '+Sobo58.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo56.Edit101.Text+' - '+Sobo56.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo56.Edit101.Text+' - '+Sobo56.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo61.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo61.Edit101.Text+' - '+Sobo61.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도  서  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo61.Edit104.Text+' - '+Sobo61.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'폐기수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpqut]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'변경수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpsum]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo61.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo61.Edit101.Text+' - '+Sobo61.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도  서  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo61.Edit104.Text+' - '+Sobo61.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo61.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo62.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo62.Edit101.Text+' - '+Sobo62.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo62.Edit104.Text+' - '+Sobo62.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'증정수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gjqut]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'장부차액'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gjsum]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo62.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo62.Edit101.Text+' - '+Sobo62.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo62.Edit104.Text+' - '+Sobo62.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo62.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo63.Edit106.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo63.Edit101.Text+' - '+Sobo63.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'출판사명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo63.Edit104.Text+' - '+Sobo63.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo63.Edit106.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo63.Edit101.Text+' - '+Sobo63.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'출판사명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo63.Edit104.Text+' - '+Sobo63.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo64.Edit106.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo64.Edit101.Text+' - '+Sobo64.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'출판사명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo64.Edit104.Text+' - '+Sobo64.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo64.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo64.Edit101.Text+' - '+Sobo64.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo64.Edit104.Text+' - '+Sobo64.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo64.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo65.Edit101.Text+' - '+Sobo65.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'출판사명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo65.Edit104.Text+' - '+Sobo65.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo65.Edit101.Text+' - '+Sobo65.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo65.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo66.Edit101.Text+' - '+Sobo66.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'출판사명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo66.Edit104.Text+' - '+Sobo66.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo66.Edit101.Text+' - '+Sobo66.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo66.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo67.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo67.Edit101.Text+' - '+Sobo67.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도  서  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo67.Edit104.Text+' - '+Sobo67.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'폐기수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpqut]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'변경수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpsum]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo67.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo67.Edit101.Text+' - '+Sobo67.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'도  서  명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo67.Edit104.Text+' - '+Sobo67.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo67.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'폐기수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpqut]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'변경수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gpsum]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gpsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo68.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo68.Edit101.Text+' - '+Sobo68.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo68.Edit104.Text+' - '+Sobo68.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'증정수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gjqut]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'장부차액'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gjsum]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo68.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo68.Edit101.Text+' - '+Sobo68.Edit102.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처명 :'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo68.Edit104.Text+' - '+Sobo68.Edit106.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo68.Button101.Caption"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'증정수량'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gjqut]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjqut)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'장부차액'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Gjsum]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'[Sum(Gjsum)]'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo99.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo99.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'시내'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'지방'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Sobo39.Edit101.Text)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Seak80.Query1Gname.AsString+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Str2+' - '+Str3"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Str4"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Str5"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'거래처 거래 원장'"
+    },
+    {
+      "component": "QRLabel01",
+      "property": "Caption",
+      "expression": "Str2+' - '+Str3"
+    },
+    {
+      "component": "QRLabel02",
+      "property": "Caption",
+      "expression": "Seek10.Query1Gname.AsString"
+    },
+    {
+      "component": "QRLabel03",
+      "property": "Caption",
+      "expression": "Seek10.Query1Gtel1.AsString+')'+Seek10.Query1Gtel2.AsString"
+    },
+    {
+      "component": "QRLabel91",
+      "property": "Caption",
+      "expression": "'출력일자.'+FormatDateTime('yyyy\".\"mm\".\"dd',Date)"
+    },
+    {
+      "component": "QRLabel99",
+      "property": "Caption",
+      "expression": "mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Sobo33.Edit108.Text+mPrnt"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Str2+' - '+Str3"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'영 업 일 보'"
+    },
+    {
+      "component": "QRLabel91",
+      "property": "Caption",
+      "expression": "'출력일자.'+FormatDateTime('yyyy\".\"mm\".\"dd',Date)"
+    },
+    {
+      "component": "QRLabel99",
+      "property": "Caption",
+      "expression": "Mprnt"
+    },
+    {
+      "component": "QRLabel00",
+      "property": "Caption",
+      "expression": "'영 업 일 보'"
+    },
+    {
+      "component": "QRLabel72",
+      "property": "Caption",
+      "expression": "'구 분 명:'"
+    },
+    {
+      "component": "QRLabel01",
+      "property": "Caption",
+      "expression": "Str2+' - '+Str3"
+    },
+    {
+      "component": "QRLabel72",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "QRLabel02",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "QRLabel91",
+      "property": "Caption",
+      "expression": "'출력일자.'+FormatDateTime('yyyy\".\"mm\".\"dd',Date)"
+    },
+    {
+      "component": "QRLabel99",
+      "property": "Caption",
+      "expression": "Mprnt"
+    },
+    {
+      "component": "QRLabel00",
+      "property": "Caption",
+      "expression": "'영 업 일 보'"
+    },
+    {
+      "component": "QRLabel72",
+      "property": "Caption",
+      "expression": "'구 분 명:'"
+    },
+    {
+      "component": "QRLabel01",
+      "property": "Caption",
+      "expression": "Str2+' - '+Str3"
+    },
+    {
+      "component": "QRLabel72",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "QRLabel02",
+      "property": "Enabled",
+      "expression": "False"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open"
+  ]
+}

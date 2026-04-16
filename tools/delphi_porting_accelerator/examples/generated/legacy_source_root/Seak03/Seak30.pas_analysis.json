@@ -1,0 +1,21 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "BitBtn101Click",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [],
+  "resourcestrings": {},
+  "sql_calls": [],
+  "messages": []
+}

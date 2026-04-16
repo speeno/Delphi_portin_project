@@ -1,0 +1,88 @@
+{
+  "encoding": "utf-8-sig",
+  "event_handlers": [
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "GroupBox1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn100Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn103Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "PrinTing",
+      "signature": "QPrint: TQuickRep"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "SpinEdit3",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 0,1],0)"
+    },
+    {
+      "component": "SpinEdit4",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit1",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit2",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit1",
+      "property": "Value",
+      "expression": "2100"
+    },
+    {
+      "component": "SpinEdit2",
+      "property": "Value",
+      "expression": "2970"
+    },
+    {
+      "component": "SpinEdit1",
+      "property": "Value",
+      "expression": "2100"
+    },
+    {
+      "component": "SpinEdit2",
+      "property": "Value",
+      "expression": "2794"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Open",
+    "E_Update"
+  ]
+}

@@ -1,0 +1,1031 @@
+{
+  "kind": "object",
+  "name": "Sobo53",
+  "class_name": "TSobo53",
+  "props": {
+    "Left": 22,
+    "Top": 90,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "BorderStyle": "bsSingle",
+    "Caption": "일별 출고내역서",
+    "ClientHeight": 606,
+    "ClientWidth": 964,
+    "Color": "clBtnFace",
+    "Font.Charset": "HANGEUL_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "FormStyle": "fsMDIChild",
+    "OldCreateOrder": false,
+    "Position": "poMainFormCenter",
+    "Visible": true,
+    "OnActivate": "FormActivate",
+    "OnClose": "FormClose",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": [
+    {
+      "kind": "object",
+      "name": "Panel001",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 2,
+        "Top": 4,
+        "Width": 959,
+        "Height": 45,
+        "Color": 14416873,
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Label101",
+          "class_name": "TmyLabel3d",
+          "props": {
+            "Left": 220,
+            "Top": 15,
+            "Width": 12,
+            "Height": 15,
+            "Caption": "~",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -15,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentColor": false,
+            "ParentFont": false,
+            "Transparent": true,
+            "AShadeLTSet": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Label102",
+          "class_name": "TmyLabel3d",
+          "props": {
+            "Left": 644,
+            "Top": 15,
+            "Width": 12,
+            "Height": 15,
+            "Caption": "~",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -15,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentColor": false,
+            "ParentFont": false,
+            "Transparent": true,
+            "AShadeLTSet": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel101",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 16,
+            "Top": 12,
+            "Width": 87,
+            "Height": 22,
+            "Caption": "거래일자",
+            "ParentColor": true,
+            "TabOrder": 6,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit101",
+          "class_name": "TFlatMaskEdit",
+          "props": {
+            "Left": 104,
+            "Top": 12,
+            "Width": 97,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "AutoSize": false,
+            "BorderStyle": "bsNone",
+            "Color": "clWhite",
+            "EditMask": "!9999.!99.99;1; ",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 10,
+            "ParentFont": false,
+            "TabOrder": 0,
+            "Text": "1999.01.01",
+            "OnChange": "Edit101Change",
+            "OnKeyDown": "Edit101KeyDown",
+            "OnKeyPress": "Edit111KeyPress",
+            "ImeName": "한국어(한글) (MS-IME98)"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel105",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 368,
+            "Top": 12,
+            "Width": 87,
+            "Height": 22,
+            "Caption": "출판사명",
+            "ParentColor": true,
+            "TabOrder": 7,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit104",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 456,
+            "Top": 12,
+            "Width": 169,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 50,
+            "ParentFont": false,
+            "TabOrder": 3,
+            "OnChange": "Edit101Change",
+            "OnKeyDown": "Edit111KeyDown",
+            "OnKeyPress": "Edit114KeyPress"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit103",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 456,
+            "Top": 12,
+            "Width": 57,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 2,
+            "Visible": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit106",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 656,
+            "Top": 12,
+            "Width": 169,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 50,
+            "ParentFont": false,
+            "TabOrder": 5,
+            "OnChange": "Edit101Change",
+            "OnKeyDown": "Edit102KeyDown",
+            "OnKeyPress": "Edit114KeyPress"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit105",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 656,
+            "Top": 12,
+            "Width": 57,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 4,
+            "Visible": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit102",
+          "class_name": "TFlatMaskEdit",
+          "props": {
+            "Left": 232,
+            "Top": 12,
+            "Width": 97,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "AutoSize": false,
+            "BorderStyle": "bsNone",
+            "Color": "clWhite",
+            "EditMask": "!9999.!99.99;1; ",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 10,
+            "ParentFont": false,
+            "TabOrder": 1,
+            "Text": "1999.01.01",
+            "OnChange": "Edit101Change",
+            "OnKeyDown": "Edit111KeyDown",
+            "OnKeyPress": "Edit111KeyPress",
+            "ImeName": "한국어(한글) (MS-IME98)"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Button101",
+          "class_name": "TFlatButton",
+          "props": {
+            "Left": 904,
+            "Top": 8,
+            "Width": 25,
+            "Height": 25,
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333FF33333333333330003FF3FFFFF3333777003000003333300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000339977FF777777773377000BFB03333333337773FF733333333F3330003333333300333777333333337733333333333333003333333333333377333333333333333333333333333333FF333333333333300033333333333337773333333333333000333333333333377733333333333333333333333333333333",
+            "NumGlyphs": 2,
+            "TabOrder": 8,
+            "Visible": false,
+            "OnClick": "Button101Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Button201",
+          "class_name": "TFlatButton",
+          "props": {
+            "Left": 928,
+            "Top": 8,
+            "Width": 25,
+            "Height": 25,
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333FF33333333333330003FF3FFFFF3333777003000003333300077F777773F333777E00BFBFB033333337773333F7F33333FE0BFBF000333330077F3337773F33377E0FBFBFBF033330077F3333FF7FFF377E0BFBF000000333377F3337777773F3FE0FBFBFBFBFB039977F33FFFFFFF7377E0BF00000000339977FF777777773377000BFB03333333337773FF733333333F3330003333333300333777333333337733333333333333003333333333333377333333333333333333333333333333FF333333333333300033333333333337773333333333333000333333333333377733333333333333333333333333333333",
+            "NumGlyphs": 2,
+            "TabOrder": 9,
+            "Visible": false,
+            "OnClick": "Button201Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "DateEdit1",
+          "class_name": "TDateEdit",
+          "props": {
+            "Left": 201,
+            "Top": 12,
+            "Width": 19,
+            "Height": 22,
+            "BorderStyle": "bsNone",
+            "ImeName": "Microsoft IME 2003",
+            "NumGlyphs": 2,
+            "StartOfWeek": "Sun",
+            "TabOrder": 10,
+            "OnAcceptDate": "DateEdit1AcceptDate",
+            "OnButtonClick": "DateEdit1ButtonClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "DateEdit2",
+          "class_name": "TDateEdit",
+          "props": {
+            "Left": 329,
+            "Top": 12,
+            "Width": 19,
+            "Height": 22,
+            "BorderStyle": "bsNone",
+            "ImeName": "Microsoft IME 2003",
+            "NumGlyphs": 2,
+            "StartOfWeek": "Sun",
+            "TabOrder": 11,
+            "OnAcceptDate": "DateEdit2AcceptDate",
+            "OnButtonClick": "DateEdit2ButtonClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Button701",
+          "class_name": "TFlatButton",
+          "props": {
+            "Left": 624,
+            "Top": 12,
+            "Width": 20,
+            "Height": 22,
+            "Color": "clBtnFace",
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000120B0000120B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0055577577777757705557757777775FF7555555555555000755555555555F777F55555555555087075555555555F7577F5555555555088805555555555F755F75555555555033805555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F75FF75555555555030B05555555555F7F7F75555555555000B05555555555F777F75555555555019005555555555577777555555555550990555555555555777755555555555550055555555555555775555555555555",
+            "Layout": "blGlyphLeft",
+            "NumGlyphs": 2,
+            "ParentColor": false,
+            "TabOrder": 12,
+            "OnClick": "Button701Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Button702",
+          "class_name": "TFlatButton",
+          "props": {
+            "Left": 824,
+            "Top": 12,
+            "Width": 20,
+            "Height": 22,
+            "Color": "clBtnFace",
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000120B0000120B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0055577577777757705557757777775FF7555555555555000755555555555F777F55555555555087075555555555F7577F5555555555088805555555555F755F75555555555033805555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F755F75555555555033B05555555555F75FF75555555555030B05555555555F7F7F75555555555000B05555555555F777F75555555555019005555555555577777555555555550990555555555555777755555555555550055555555555555775555555555555",
+            "Layout": "blGlyphLeft",
+            "NumGlyphs": 2,
+            "ParentColor": false,
+            "TabOrder": 13,
+            "OnClick": "Button702Click"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "dxButton1",
+          "class_name": "TdxButton",
+          "props": {
+            "Left": 888,
+            "Top": 8,
+            "Width": 63,
+            "Height": 30,
+            "OnClick": "Button101Click",
+            "Caption": "검색",
+            "TabOrder": 14,
+            "Glyph.Data": "36030000424D360300000000000036000000280000001000000010000000010018000000000000030000610B0000610B0000000000000000000099FF99686568666666666666666666666666666666666666666666666666666666666666666666183D6064687366666699FF99686568EAEAEA686568666666EAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEAEA183D604D5A9151719864687399FF99686568666666666666666666666666666666666666666666666666666666183D604D5A914995E198D8F83C98E499FF99686568C8B3A4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF183D604D5A91468EDD98D8F83C98E466666699FF99686568C8B3A4F6F2F0F4EEEBF1EAE6AA8882AA8882AA8882AA88829B949A6394CA98D8F83C98E4EAEAEA66666699FF99686568C8B3A4F9F6F5E6D9D3AA8882F6E9C4FFEABDFFF2D5FCF5DEAA8882AFB0B63C98E4666666EAEAEA66666699FF99686568C8B3A4FCFBFAAA8882EFE0C0FFE1AFFFECCCFFF2DDFFFBF5FDFBF3AA8882FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFAA8882FBECC3FFDBA6FFE9C7FFEFD8FFF4E2FFF1D7AA8882FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFAA8882F9EEC9FFE6C2FFDFB3FFE8C6FFEAC9FFE4B2AA8882FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFAA8882E9DCCBFEFEFBFFE8C6FFDAA3FFDFA9F9EBC2AA8882FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFF6F2F0AA8882EBE0CEFAEFCAFCEDC3EFE0BFAA8882E6D9D3FFFFFF666666EAEAEA66666699FF99686568C8B3A4FFFFFFFFFFFFF6F2F0AA8882AA8882AA8882AA8882A16398B17CB1B17CB1663B66E8E7E8663A6699FF99686568C8B3A4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDFDFDB686B5FFFFFFFFFFFF663C66666366663A6699FF99686568C8B3A4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFAB74ABB17CB1C096C0663C66663E6666396699FF99686568C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4C8B3A4995D86BFA29EC0A49F663C66D3C0D366616699FF99666666676767676767676767676767676767676767676767676767674C67663B66673E67665466666566666666"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel002",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 2,
+        "Top": 56,
+        "Width": 567,
+        "Height": 185,
+        "ParentColor": true,
+        "TabOrder": 1,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "DBGrid101",
+          "class_name": "TDBGridEh",
+          "props": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 565,
+            "Height": 183,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "DataSource": "DataSource2",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "FooterColor": 16311512,
+            "FooterFont.Charset": "HANGEUL_CHARSET",
+            "FooterFont.Color": "clRed",
+            "FooterFont.Height": -12,
+            "FooterFont.Name": "굴림",
+            "FooterFont.Style": [
+              "fsBold"
+            ],
+            "ImeName": "한국어 입력 시스템 (IME 2000)",
+            "Options": [
+              "dgTitles",
+              "dgIndicator",
+              "dgColumnResize",
+              "dgColLines",
+              "dgRowLines",
+              "dgTabs",
+              "dgRowSelect",
+              "dgAlwaysShowSelection",
+              "dgConfirmDelete",
+              "dgCancelOnExit"
+            ],
+            "ParentFont": false,
+            "SumList.Active": true,
+            "TabOrder": 0,
+            "TitleFont.Charset": "HANGEUL_CHARSET",
+            "TitleFont.Color": "clWindowText",
+            "TitleFont.Height": -12,
+            "TitleFont.Name": "굴림",
+            "TitleFont.Style": [
+              "fsBold"
+            ],
+            "OnKeyDown": "DBGrid101KeyDown",
+            "OnKeyPress": "DBGrid101KeyPress",
+            "OnTitleClick": "DBGrid101TitleClick",
+            "Columns": [
+              {
+                "EditButtons": "<>",
+                "FieldName": "GDATE",
+                "Footer.Value": "합계",
+                "Footer.ValueType": "fvtStaticText",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "거래일자",
+                "Width": 78
+              },
+              {
+                "EditButtons": "<>",
+                "FieldName": "HCODE",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "출판사코드",
+                "Width": 80
+              },
+              {
+                "ButtonStyle": "cbsEllipsis",
+                "EditButtons": "<>",
+                "FieldName": "HNAME",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "출판사명",
+                "Width": 374
+              }
+            ]
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel003",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 2,
+        "Top": 248,
+        "Width": 959,
+        "Height": 321,
+        "ParentColor": true,
+        "TabOrder": 2,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "DBGrid201",
+          "class_name": "TDBGridEh",
+          "props": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 957,
+            "Height": 319,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "DataSource": "DataSource1",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "FooterColor": 16311512,
+            "FooterFont.Charset": "HANGEUL_CHARSET",
+            "FooterFont.Color": "clRed",
+            "FooterFont.Height": -12,
+            "FooterFont.Name": "굴림",
+            "FooterFont.Style": [
+              "fsBold"
+            ],
+            "FooterRowCount": 1,
+            "ImeName": "한국어 입력 시스템 (IME 2000)",
+            "Options": [
+              "dgTitles",
+              "dgIndicator",
+              "dgColumnResize",
+              "dgColLines",
+              "dgRowLines",
+              "dgTabs",
+              "dgRowSelect",
+              "dgAlwaysShowSelection",
+              "dgConfirmDelete",
+              "dgCancelOnExit"
+            ],
+            "ParentFont": false,
+            "SumList.Active": true,
+            "TabOrder": 0,
+            "TitleFont.Charset": "HANGEUL_CHARSET",
+            "TitleFont.Color": "clWindowText",
+            "TitleFont.Height": -12,
+            "TitleFont.Name": "굴림",
+            "TitleFont.Style": [
+              "fsBold"
+            ],
+            "OnDblClick": "DBGrid201DblClick",
+            "OnKeyDown": "DBGrid201KeyDown",
+            "OnKeyPress": "DBGrid201KeyPress",
+            "OnTitleClick": "DBGrid201TitleClick",
+            "Columns": [
+              {
+                "EditButtons": "<>",
+                "FieldName": "GCODE",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "코드",
+                "Width": 50
+              },
+              {
+                "EditButtons": "<>",
+                "FieldName": "GNAME",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "거래처명",
+                "Width": 200
+              },
+              {
+                "EditButtons": "<>",
+                "FieldName": "IDNUM",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "No",
+                "Width": 45
+              },
+              {
+                "EditButtons": "<>",
+                "FieldName": "PUBUN",
+                "Footer.Value": "합계",
+                "Footer.ValueType": "fvtStaticText",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "구분",
+                "Width": 50
+              },
+              {
+                "EditButtons": "<>",
+                "FieldName": "BCODE",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "도서코드",
+                "Width": 70
+              },
+              {
+                "ButtonStyle": "cbsEllipsis",
+                "EditButtons": "<>",
+                "FieldName": "BNAME",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "도서명",
+                "Width": 266
+              },
+              {
+                "Color": 12056530,
+                "EditButtons": "<>",
+                "FieldName": "GSQUT",
+                "Footer.ValueType": "fvtSum",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "수량",
+                "Width": 60
+              },
+              {
+                "EditButtons": "<>",
+                "FieldName": "GDANG",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "단가",
+                "Width": 60
+              },
+              {
+                "Alignment": "taCenter",
+                "EditButtons": "<>",
+                "FieldName": "GRAT1",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "비율",
+                "Width": 30
+              },
+              {
+                "Color": 11861755,
+                "EditButtons": "<>",
+                "FieldName": "GSSUM",
+                "Footer.ValueType": "fvtSum",
+                "Footers": "<>",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "금액",
+                "Width": 85
+              }
+            ]
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel007",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 2,
+        "Top": 574,
+        "Width": 959,
+        "Height": 29,
+        "Color": "clInfoBk",
+        "TabOrder": 3,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "ProgressBar0",
+          "class_name": "TFlatProgressBar",
+          "props": {
+            "Left": 424,
+            "Top": 5,
+            "Width": 525,
+            "Height": 19,
+            "Min": 0,
+            "Max": 100
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel008",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 8,
+            "Top": 5,
+            "Width": 97,
+            "Height": 19,
+            "Caption": "레코드",
+            "ParentColor": true,
+            "TabOrder": 0,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel009",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 112,
+            "Top": 5,
+            "Width": 97,
+            "Height": 19,
+            "ParentColor": true,
+            "TabOrder": 1,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel010",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 320,
+            "Top": 5,
+            "Width": 97,
+            "Height": 19,
+            "Caption": "검색진행",
+            "ParentColor": true,
+            "TabOrder": 2,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "ProgressBar1",
+          "class_name": "TProgressBar",
+          "props": {
+            "Left": 424,
+            "Top": 5,
+            "Width": 521,
+            "Height": 18,
+            "Min": 0,
+            "Max": 100,
+            "TabOrder": 3
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel200",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 576,
+        "Top": 56,
+        "Width": 385,
+        "Height": 185,
+        "Color": "clInfoBk",
+        "TabOrder": 4,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Panel201",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 32,
+            "Top": 28,
+            "Width": 90,
+            "Height": 22,
+            "Caption": "총 출판사수",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림",
+            "Font.Style": [],
+            "ParentColor": true,
+            "ColorHighLight": "clInfoBk",
+            "TabOrder": 2,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel202",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 32,
+            "Top": 68,
+            "Width": 90,
+            "Height": 22,
+            "Caption": "총 건수",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림",
+            "Font.Style": [],
+            "ParentColor": true,
+            "ColorHighLight": "clInfoBk",
+            "TabOrder": 3,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit202",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 128,
+            "Top": 68,
+            "Width": 225,
+            "Height": 21,
+            "ColorFlat": 15724527,
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -15,
+            "Font.Name": "굴림",
+            "Font.Style": [],
+            "MaxLength": 24,
+            "ParentFont": false,
+            "ReadOnly": true,
+            "TabOrder": 1,
+            "OnChange": "Edit101Change",
+            "OnKeyDown": "Edit111KeyDown",
+            "OnKeyPress": "Edit114KeyPress"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit201",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 128,
+            "Top": 28,
+            "Width": 225,
+            "Height": 21,
+            "ColorFlat": 15724527,
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -15,
+            "Font.Name": "굴림",
+            "Font.Style": [],
+            "MaxLength": 5,
+            "ParentFont": false,
+            "ReadOnly": true,
+            "TabOrder": 0
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel203",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 32,
+            "Top": 108,
+            "Width": 90,
+            "Height": 22,
+            "Caption": "총 권수",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림",
+            "Font.Style": [],
+            "ParentColor": true,
+            "ColorHighLight": "clInfoBk",
+            "TabOrder": 4,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit203",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 128,
+            "Top": 108,
+            "Width": 225,
+            "Height": 21,
+            "ColorFlat": 15724527,
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -15,
+            "Font.Name": "굴림",
+            "Font.Style": [],
+            "MaxLength": 5,
+            "ParentFont": false,
+            "ReadOnly": true,
+            "TabOrder": 5
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel204",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 32,
+            "Top": 148,
+            "Width": 90,
+            "Height": 22,
+            "Caption": "총 금액",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림",
+            "Font.Style": [],
+            "ParentColor": true,
+            "ColorHighLight": "clInfoBk",
+            "TabOrder": 6,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit204",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 128,
+            "Top": 148,
+            "Width": 225,
+            "Height": 21,
+            "ColorFlat": 15724527,
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -15,
+            "Font.Name": "굴림",
+            "Font.Style": [],
+            "MaxLength": 5,
+            "ParentFont": false,
+            "ReadOnly": true,
+            "TabOrder": 7
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton1",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 232,
+            "Top": 8,
+            "Width": 57,
+            "Height": 17,
+            "Caption": "접수중",
+            "TabOrder": 8
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RadioButton2",
+          "class_name": "TFlatRadioButton",
+          "props": {
+            "Left": 296,
+            "Top": 8,
+            "Width": 57,
+            "Height": 17,
+            "Caption": "사용중",
+            "TabOrder": 9
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "DataSource1",
+      "class_name": "TDataSource",
+      "props": {
+        "DataSet": "Base10.T5_Sub31",
+        "OnDataChange": "DataSource1DataChange",
+        "Left": 18,
+        "Top": 94
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "DataSource2",
+      "class_name": "TDataSource",
+      "props": {
+        "DataSet": "Base10.T5_Sub32",
+        "OnDataChange": "DataSource2DataChange",
+        "Left": 50,
+        "Top": 94
+      },
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,817 @@
+{
+  "encoding": "utf-8-sig",
+  "event_handlers": [
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "PageControl1Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button201Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button301Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button100Click",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "SpinEdit190",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 0,1],0)"
+    },
+    {
+      "component": "SpinEdit191",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit192",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit193",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit194",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit195",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit196",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit197",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit198",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit199",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit111",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit112",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit113",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit121",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit122",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit123",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit124",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit131",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit132",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit133",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit141",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit142",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit143",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit151",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit152",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit153",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit154",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit155",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit156",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit157",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit158",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit159",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit101",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit102",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit103",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit104",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit290",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 0,1],0)"
+    },
+    {
+      "component": "SpinEdit291",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit292",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit293",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit294",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit295",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit296",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit297",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit298",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit299",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit211",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit212",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit213",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit214",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit215",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit216",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit217",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit218",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit219",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit221",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit222",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit223",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit226",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit227",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit228",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit229",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit231",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit232",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit241",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit242",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit243",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit244",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit245",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit246",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit251",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit252",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit253",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit254",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit255",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit256",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit257",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit258",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit259",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit201",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit202",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit203",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit204",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit271",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit272",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit273",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit274",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit275",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit276",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit277",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit278",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit279",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit390",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 0,1],0)"
+    },
+    {
+      "component": "SpinEdit391",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit392",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit393",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit394",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit395",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit396",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit397",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit398",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit399",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit311",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit312",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit313",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit314",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit315",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit316",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit317",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit318",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit319",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit321",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit322",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit323",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit331",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit332",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit333",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit334",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit335",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit336",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit337",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit338",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit339",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit341",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit342",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit343",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit344",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit345",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit346",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit347",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit348",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit349",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit351",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit352",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit353",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit354",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    },
+    {
+      "component": "SpinEdit355",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,1],0)"
+    },
+    {
+      "component": "SpinEdit356",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,1],0)"
+    },
+    {
+      "component": "SpinEdit357",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,1],0)"
+    },
+    {
+      "component": "SpinEdit358",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,1],0)"
+    },
+    {
+      "component": "SpinEdit359",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,1],0)"
+    },
+    {
+      "component": "SpinEdit301",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,1],0)"
+    },
+    {
+      "component": "SpinEdit302",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,1],0)"
+    },
+    {
+      "component": "SpinEdit303",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,1],0)"
+    },
+    {
+      "component": "SpinEdit304",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,1],0)"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Update",
+    "E_Update",
+    "E_Update",
+    "E_Open"
+  ]
+}

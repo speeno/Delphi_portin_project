@@ -1,0 +1,194 @@
+{
+  "kind": "object",
+  "name": "Seok40",
+  "class_name": "TSeok40",
+  "props": {
+    "Left": 200,
+    "Top": 116,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "BorderStyle": "bsSingle",
+    "Caption": "메세지",
+    "ClientHeight": 499,
+    "ClientWidth": 427,
+    "Color": "clBtnFace",
+    "Font.Charset": "HANGEUL_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "FormStyle": "fsStayOnTop",
+    "OldCreateOrder": false,
+    "Position": "poScreenCenter",
+    "OnClose": "FormClose",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": [
+    {
+      "kind": "object",
+      "name": "Panel401",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 0,
+        "Top": 0,
+        "Width": 427,
+        "Height": 499,
+        "ParentColor": true,
+        "Align": "alClient",
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Panel1",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 1,
+            "Top": 473,
+            "Width": 425,
+            "Height": 25,
+            "Color": "clWindow",
+            "ColorHighLight": "clBtnFace",
+            "ColorShadow": "clBtnFace",
+            "Align": "alBottom",
+            "TabOrder": 0,
+            "UseDockManager": true
+          },
+          "children": [
+            {
+              "kind": "object",
+              "name": "CheckBox1",
+              "class_name": "TFlatCheckBox",
+              "props": {
+                "Left": 176,
+                "Top": 5,
+                "Width": 193,
+                "Height": 17,
+                "Caption": "오늘 하루 이창을 열지 않음",
+                "Color": "clWindow",
+                "Font.Charset": "HANGEUL_CHARSET",
+                "Font.Color": "clBlack",
+                "Font.Height": -12,
+                "Font.Name": "굴림",
+                "Font.Style": [
+                  "fsBold"
+                ],
+                "ParentColor": false,
+                "ParentFont": false,
+                "TabOrder": 0,
+                "TabStop": true,
+                "OnClick": "CheckBox1Click"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "Button101",
+              "class_name": "TFlatButton",
+              "props": {
+                "Left": 384,
+                "Top": 2,
+                "Width": 25,
+                "Height": 22,
+                "Color": "clBtnFace",
+                "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0030000000000000033FFFFFFFFFFFFFFF0888888888888880777777777777777F0888888888888880777777777777777F0000000000000000FFFFFFFFFFFFFFFF0F8F8F8F8F8F8F80777777777777777F08F8F8F8F8F8F9F0777777777777777F0F8F8F8F8F8F8F807777777777777F7F0000000000000000777777777777777F3330FFFFFFFF03333337F3FFFF3F7F333330F0000F0F03333337F77773737F333330FFFFFFFF03333337F3FF3FFF7F333330F00F000003333337F773777773333330FFFF0FF033333337F3FF7F3733333330F08F0F0333333337F7737F7333333330FFFF003333333337FFFF7733333333300000033333333337777773333333",
+                "Layout": "blGlyphLeft",
+                "NumGlyphs": 2,
+                "ParentColor": false,
+                "TabOrder": 1,
+                "OnClick": "Button101Click"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "kind": "object",
+          "name": "Editor",
+          "class_name": "TRxRichEdit",
+          "props": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 425,
+            "Height": 472,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "ImeName": "Microsoft IME 2003",
+            "TabOrder": 1,
+            "Visible": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RichEdit1",
+          "class_name": "TRxRichEdit",
+          "props": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 425,
+            "Height": 24,
+            "ImeName": "Microsoft IME 2003",
+            "TabOrder": 2,
+            "Visible": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "RichEdit2",
+          "class_name": "TRxRichEdit",
+          "props": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 425,
+            "Height": 472,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "ImeName": "Microsoft IME 2003",
+            "TabOrder": 3
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Query0",
+      "class_name": "TZMySqlQuery",
+      "props": {
+        "Database": "Base10.Database",
+        "Transaction": "Base10.Transact",
+        "CachedUpdates": false,
+        "ShowRecordTypes": [
+          "ztModified",
+          "ztInserted",
+          "ztUnmodified"
+        ],
+        "Options": [
+          "doHourGlass",
+          "doAutoFillDefs",
+          "doUseRowId"
+        ],
+        "LinkOptions": [
+          "loAlwaysResync"
+        ],
+        "Constraints": "<>",
+        "ExtraOptions": [
+          "moStoreResult"
+        ],
+        "Macros": "<>",
+        "RequestLive": false,
+        "Left": 56,
+        "Top": 104
+      },
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "MemoPrint",
+      "signature": "aCaption: String"
+    },
+    {
+      "name": "mPrintClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "CheckBox1Click",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Lines",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": []
+}

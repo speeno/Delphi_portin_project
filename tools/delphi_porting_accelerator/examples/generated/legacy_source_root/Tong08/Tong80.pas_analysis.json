@@ -1,0 +1,23 @@
+{
+  "encoding": "utf-8-sig",
+  "event_handlers": [
+    {
+      "name": "ComTerminalStrRecieved",
+      "signature": "Sender: TObject; var Str: String"
+    },
+    {
+      "name": "ComPortRxChar",
+      "signature": "Sender: TObject; Count: Integer"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "p_Code"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [],
+  "messages": []
+}

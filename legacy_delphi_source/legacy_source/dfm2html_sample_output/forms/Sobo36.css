@@ -1,0 +1,14 @@
+body { margin: 0; font-family: Tahoma, Arial, sans-serif; }
+.vcl-form { border: 1px solid #bbb; overflow: hidden; background: #f0f0f0; }
+.vcl-control { box-sizing: border-box; }
+.TLabel { display: inline-flex; align-items: center; }
+.TButton { cursor: pointer; }
+textarea.vcl-control, input.vcl-control { padding: 2px 4px; }
+fieldset.vcl-control { padding: 18px 8px 8px 8px; }
+.vcl-tabs { display: flex; gap: 4px; margin-bottom: 4px; }
+.vcl-tab { padding: 4px 8px; border: 1px solid #999; background: #e9e9e9; }
+.vcl-tab.active { background: #fff; }
+.vcl-tabsheet { border: 1px solid #aaa; position: relative; }
+.unsupported-control { border: 1px dashed #c00; color: #900; background: #fff3f3; padding: 4px; }
+table.vcl-control { border-collapse: collapse; }
+table.vcl-control th, table.vcl-control td { border: 1px solid #aaa; padding: 2px 4px; }

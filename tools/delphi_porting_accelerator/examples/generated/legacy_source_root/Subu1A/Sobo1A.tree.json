@@ -1,0 +1,138 @@
+{
+  "kind": "object",
+  "name": "Sobo1A",
+  "class_name": "TSobo1A",
+  "props": {
+    "Left": 471,
+    "Top": 350,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "BorderStyle": "bsSingle",
+    "Caption": "환경설정",
+    "ClientHeight": 119,
+    "ClientWidth": 358,
+    "Color": "clBtnFace",
+    "Font.Charset": "ANSI_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "OldCreateOrder": false,
+    "Position": "poMainFormCenter",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": [
+    {
+      "kind": "object",
+      "name": "FlatGroupBox1",
+      "class_name": "TFlatGroupBox",
+      "props": {
+        "Left": 4,
+        "Top": 4,
+        "Width": 205,
+        "Height": 69,
+        "Caption": "거래명세서",
+        "Color": 14416873,
+        "ParentColor": false,
+        "TabOrder": 0
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Label1",
+          "class_name": "TLabel",
+          "props": {
+            "Left": 9,
+            "Top": 44,
+            "Width": 101,
+            "Height": 12,
+            "Caption": "세부내용 라인 수",
+            "Transparent": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "FlatCheckBox1",
+          "class_name": "TFlatCheckBox",
+          "props": {
+            "Left": 9,
+            "Top": 20,
+            "Width": 164,
+            "Height": 17,
+            "Caption": "합계금액 앞에 \" \\\"표시",
+            "TabOrder": 0,
+            "TabStop": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit_lines",
+          "class_name": "TFlatNumber",
+          "props": {
+            "Left": 121,
+            "Top": 40,
+            "Width": 43,
+            "Height": 21,
+            "Digits": 0,
+            "Value": 5,
+            "Max": 20,
+            "FormatStr": "%8.0n",
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -15,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 8,
+            "ParentFont": false,
+            "TabOrder": 1,
+            "Text": "5"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Button102",
+      "class_name": "TdxButton",
+      "props": {
+        "Left": 5,
+        "Top": 86,
+        "Width": 128,
+        "Height": 26,
+        "OnClick": "Button102Click",
+        "Caption": "저장 후 닫기",
+        "TabOrder": 1,
+        "Glyph.Data": "36030000424D360300000000000036000000280000001000000010000000010018000000000000030000120B0000120B00000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC6C6C61A1A1A1A1A1A1B1B1B1A1A1A1B1B1B1B1B1B1C1C1C858585FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF6D6D6DFFFFFF909090D9D9D9D9D9D9DADADAE1E0E0E6E2E2DEDEDEDCDCDC565656FFFFFFFFFFFFFFFFFF6D6D6D6D6D6D6D6D6D6D6D6D989898FAFAFAFAFAFAFBFBFB8C9292588484C3BCBCFAFAFA545454FFFFFFFFFFFF6D6D6DFFFFFFFFFFFF6D6D6DFFFFFF979797FAFAFA7474746E75752C9F9F02A6A60D5757E5E3E3585757FFFFFFFFFFFF6D6D6DFFFFFFFFFFFFFFFFFFFFFFFF989898FAFAFA9D9D9D7288881AB5B5019B9B017878E2E3E3595858FFFFFFFFFFFF6D6D6DFFFFFFFFFFFFFFFFFFFFFFFF979797FAFAFAB0B0B0BAB6B696B2B2239C9CAEAEAEFAFAFA555555FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF989898FAFAFA878787606161535050555353CAC8C8FAFAFA555555FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF989898FAFAFA979797797979D8D8D87E7E7ECDCDCDFAFAFA555555FFFFFFE8E8F0575758FCFCFCFFFFFFFFFFFFFFFFFF979797FAFAFAD4D4D4C7C7C7F1F1F1C8C8C8EDEDEDFAFAFA535353F5F5FDB7B786282819848485FFFFFFFFFFFFFFFFFF9E9E9ED8D8D8DFDFDFD5D5D5CDCDCDE1E1E1DADADAC8C8C8646464B2B28AE5E5104747295C5C629F9F9FFFFFFFFFFFFFC2C2C2767676A7A7A7A0A0A09E9E9EA4A4A4A6A6A68B8B8B888888999967C9C93E9C9C0B58585249494CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFAC75AC693569B17CB1BF94BFFDFBFDBD91BD8F8F76BFBF1AC7C7019191071E1E21FFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB889B86D6D6DFFFFFFC096C0FCF9FCBD91BDD4D4CBBDBD2FBFBF00C6C6006A6A06FFFFFF6D6D6D6D6D6D6D6D6D6D6D6D693269B17CB1C096C0C096C0C49CC4BB8EBBFFFFFFD3D3CEBFBF22BFBF22D6D6CCFFFFFFFFFFFF6D6D6DFFFFFFFFFFFFB685B6F1E7F1F2E9F2C096C0E4D1E4F9F4F9FFFFFFFFFFFFC8C8A8C8C8A8FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD8BDD8BE93BEC39BC3E5D3E5FEFDFEFFFFFF"
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "dxButton1",
+      "class_name": "TdxButton",
+      "props": {
+        "Left": 136,
+        "Top": 86,
+        "Width": 74,
+        "Height": 26,
+        "OnClick": "dxButton1Click",
+        "Caption": "닫기",
+        "TabOrder": 2,
+        "Glyph.Data": "66010000424D6601000000000000760000002800000014000000140000000100040000000000F00000000000000000000000100000000000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00777777777777777777770000770000000000000000770000770ECECECC00CCCCC0770000770CECECEC0E0CCCC0770000770CCECECE0E60CCC0770000770CCCECEC0E660CC07700007700000EEE0E66600077000077777700000E6660777700007777070FFF0E6060777700007777000FFF0E0760777700007000060FFF0E0F607777000070EEFE60FF0E60607777000070EFFFE60F0E66607777000070EEFE60FF0FE660777700007000060FFFF0FE60777700007777000FFFFF0FE0777700007777070FFFFFF0F0777700007777770FFFFFFF0077770000777777000000000077770000777777777777777777770000"
+      },
+      "children": []
+    }
+  ]
+}

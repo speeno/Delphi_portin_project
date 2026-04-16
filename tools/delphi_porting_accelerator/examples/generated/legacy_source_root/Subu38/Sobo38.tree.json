@@ -1,0 +1,28 @@
+{
+  "kind": "object",
+  "name": "Sobo38",
+  "class_name": "TSobo38",
+  "props": {
+    "Left": 200,
+    "Top": 120,
+    "BorderStyle": "bsSingle",
+    "Caption": "Sobo38",
+    "ClientHeight": 533,
+    "ClientWidth": 772,
+    "Color": "clBtnFace",
+    "Font.Charset": "ANSI_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "OldCreateOrder": false,
+    "OnActivate": "FormActivate",
+    "OnClose": "FormClose",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": []
+}

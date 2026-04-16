@@ -1,0 +1,372 @@
+{
+  "name": "Seak40",
+  "kind": "object",
+  "className": "TSeak40",
+  "visualType": "form",
+  "supported": true,
+  "caption": "우편번호검색현황",
+  "text": "",
+  "hint": "",
+  "left": 200,
+  "top": 330,
+  "width": 492,
+  "height": 303,
+  "align": null,
+  "visible": true,
+  "enabled": true,
+  "tabOrder": null,
+  "color": "#ececec",
+  "fontName": "굴림",
+  "fontHeight": -12,
+  "fontColor": "#111111",
+  "rawProps": {
+    "Left": 200,
+    "Top": 330,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "BorderStyle": "bsSingle",
+    "Caption": "우편번호검색현황",
+    "ClientHeight": 303,
+    "ClientWidth": 492,
+    "Color": "clBtnFace",
+    "Font.Charset": "HANGEUL_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "OldCreateOrder": false,
+    "Position": "poScreenCenter",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "events": {
+    "OnShow": "FormShow"
+  },
+  "gridColumns": [],
+  "children": [
+    {
+      "name": "Panel100",
+      "kind": "object",
+      "className": "TFlatPanel",
+      "visualType": "panel",
+      "supported": true,
+      "caption": "",
+      "text": "",
+      "hint": "",
+      "left": 8,
+      "top": 8,
+      "width": 477,
+      "height": 49,
+      "align": null,
+      "visible": true,
+      "enabled": true,
+      "tabOrder": 0,
+      "color": "#fdf8d7",
+      "fontName": null,
+      "fontHeight": null,
+      "fontColor": null,
+      "rawProps": {
+        "Left": 8,
+        "Top": 8,
+        "Width": 477,
+        "Height": 49,
+        "Color": "clInfoBk",
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "events": {},
+      "gridColumns": [],
+      "children": [
+        {
+          "name": "Button001",
+          "kind": "object",
+          "className": "TFlatSpeedButton",
+          "visualType": "button",
+          "supported": true,
+          "caption": "",
+          "text": "",
+          "hint": "",
+          "left": 328,
+          "top": 12,
+          "width": 25,
+          "height": 22,
+          "align": null,
+          "visible": true,
+          "enabled": true,
+          "tabOrder": null,
+          "color": null,
+          "fontName": null,
+          "fontHeight": null,
+          "fontColor": null,
+          "rawProps": {
+            "Left": 328,
+            "Top": 12,
+            "Width": 25,
+            "Height": 22,
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF...<trimmed>",
+            "NumGlyphs": 2,
+            "OnClick": "Button001Click"
+          },
+          "events": {
+            "OnClick": "Button001Click"
+          },
+          "gridColumns": [],
+          "children": [],
+          "nonVisualChildren": []
+        },
+        {
+          "name": "Panel101",
+          "kind": "object",
+          "className": "TFlatPanel",
+          "visualType": "panel",
+          "supported": true,
+          "caption": "우편번호",
+          "text": "",
+          "hint": "",
+          "left": 24,
+          "top": 12,
+          "width": 90,
+          "height": 22,
+          "align": null,
+          "visible": true,
+          "enabled": true,
+          "tabOrder": 0,
+          "color": null,
+          "fontName": null,
+          "fontHeight": null,
+          "fontColor": null,
+          "rawProps": {
+            "Left": 24,
+            "Top": 12,
+            "Width": 90,
+            "Height": 22,
+            "Caption": "우편번호",
+            "ParentColor": true,
+            "TabOrder": 0,
+            "UseDockManager": true
+          },
+          "events": {},
+          "gridColumns": [],
+          "children": [],
+          "nonVisualChildren": []
+        },
+        {
+          "name": "Edit1",
+          "kind": "object",
+          "className": "TFlatEdit",
+          "visualType": "input",
+          "supported": true,
+          "caption": "",
+          "text": "",
+          "hint": "",
+          "left": 120,
+          "top": 12,
+          "width": 209,
+          "height": 22,
+          "align": null,
+          "visible": true,
+          "enabled": true,
+          "tabOrder": 1,
+          "color": null,
+          "fontName": "굴림",
+          "fontHeight": -16,
+          "fontColor": "#000000",
+          "rawProps": {
+            "Left": 120,
+            "Top": 12,
+            "Width": 209,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 1,
+            "OnEnter": "Edit1Enter",
+            "OnKeyPress": "Edit1KeyPress"
+          },
+          "events": {
+            "OnEnter": "Edit1Enter",
+            "OnKeyPress": "Edit1KeyPress"
+          },
+          "gridColumns": [],
+          "children": [],
+          "nonVisualChildren": []
+        }
+      ],
+      "nonVisualChildren": []
+    },
+    {
+      "name": "Panel201",
+      "kind": "object",
+      "className": "TFlatPanel",
+      "visualType": "panel",
+      "supported": true,
+      "caption": "",
+      "text": "",
+      "hint": "",
+      "left": 8,
+      "top": 60,
+      "width": 477,
+      "height": 205,
+      "align": null,
+      "visible": true,
+      "enabled": true,
+      "tabOrder": 1,
+      "color": null,
+      "fontName": null,
+      "fontHeight": null,
+      "fontColor": null,
+      "rawProps": {
+        "Left": 8,
+        "Top": 60,
+        "Width": 477,
+        "Height": 205,
+        "ParentColor": true,
+        "TabOrder": 1,
+        "UseDockManager": true
+      },
+      "events": {},
+      "gridColumns": [],
+      "children": [
+        {
+          "name": "DBGrid101",
+          "kind": "object",
+          "className": "TDBGrid",
+          "visualType": "grid",
+          "supported": true,
+          "caption": "",
+          "text": "",
+          "hint": "",
+          "left": 1,
+          "top": 1,
+          "width": 475,
+          "height": 203,
+          "align": "alClient",
+          "visible": true,
+          "enabled": true,
+          "tabOrder": 0,
+          "color": null,
+          "fontName": null,
+          "fontHeight": null,
+          "fontColor": null,
+          "rawProps": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 475,
+            "Height": 203,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "DataSource": "DataSource1",
+            "ImeName": "한국어(한글)",
+            "Options": [
+              "dgTitles",
+              "dgIndicator",
+              "dgColLines",
+              "dgRowLines",
+              "dgTabs",
+              "dgRowSelect",
+              "dgAlwaysShowSelection",
+              "dgConfirmDelete",
+              "dgCancelOnExit"
+            ],
+            "TabOrder": 0,
+            "TitleFont.Charset": "HANGEUL_CHARSET",
+            "TitleFont.Color": "clWindowText",
+            "TitleFont.Height": -12,
+            "TitleFont.Name": "굴림",
+            "TitleFont.Style": [
+              "fsBold"
+            ],
+            "OnDblClick": "DBGrid101DblClick",
+            "Columns": [
+              {
+                "Expanded": false,
+                "FieldName": "POST",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "우편번호",
+                "Visible": true
+              },
+              {
+                "Color": 11861755,
+                "Expanded": false,
+                "FieldName": "ADDR",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "주소",
+                "Width": 240,
+                "Visible": true
+              },
+              {
+                "Color": 12056530,
+                "Expanded": false,
+                "FieldName": "DDDD",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "^",
+                "Width": 34,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "DONG",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "지역",
+                "Width": 112,
+                "Visible": true
+              }
+            ]
+          },
+          "events": {
+            "OnDblClick": "DBGrid101DblClick"
+          },
+          "gridColumns": [
+            {
+              "field": "POST",
+              "caption": "우편번호",
+              "width": 120,
+              "footer": null,
+              "footer_type": null,
+              "color": null
+            },
+            {
+              "field": "ADDR",
+              "caption": "주소",
+              "width": 240,
+              "footer": null,
+              "footer_type": null,
+              "color": 11861755
+            },
+            {
+              "field": "DDDD",
+              "caption": "^",
+              "width": 34,
+              "footer": null,
+              "footer_type": null,
+              "color": 12056530
+            },
+            {
+              "field": "DONG",
+              "caption": "지역",
+              "width": 112,
+              "footer": null,
+              "footer_type": null,
+              "color": null
+            }
+          ],
+          "children": [],
+          "nonVisualChildren": []
+        }
+      ],
+      "nonVisualChildren": []
+    }
+  ],
+  "nonVisualChildren": []
+}

@@ -1,0 +1,332 @@
+{
+  "kind": "object",
+  "name": "Tong30",
+  "class_name": "TTong30",
+  "props": {
+    "Left": 200,
+    "Top": 120,
+    "Width": 433,
+    "Height": 357,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "Caption": "특수문자",
+    "Color": "clBtnFace",
+    "Font.Charset": "HANGEUL_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "OldCreateOrder": false,
+    "Position": "poScreenCenter",
+    "OnCreate": "FormCreate",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": [
+    {
+      "kind": "object",
+      "name": "Panel1",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 8,
+        "Top": 8,
+        "Width": 321,
+        "Height": 265,
+        "ParentColor": true,
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "StringGrid1",
+          "class_name": "TStringGrid",
+          "props": {
+            "Left": 11,
+            "Top": 14,
+            "Width": 300,
+            "Height": 237,
+            "BorderStyle": "bsNone",
+            "Color": "clBtnFace",
+            "ColCount": 14,
+            "Ctl3D": false,
+            "DefaultColWidth": 20,
+            "DefaultRowHeight": 20,
+            "FixedCols": 0,
+            "RowCount": 1,
+            "FixedRows": 0,
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [],
+            "GridLineWidth": 0,
+            "ParentCtl3D": false,
+            "ParentFont": false,
+            "TabOrder": 0,
+            "OnDblClick": "StringGrid1DblClick",
+            "OnSelectCell": "StringGrid1SelectCell"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel2",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 336,
+        "Top": 8,
+        "Width": 81,
+        "Height": 265,
+        "ParentColor": true,
+        "TabOrder": 1,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "btnJG",
+          "class_name": "TSpeedButton",
+          "props": {
+            "Left": 9,
+            "Top": 7,
+            "Width": 62,
+            "Height": 26,
+            "GroupIndex": 777,
+            "Down": true,
+            "Caption": "전각문자",
+            "Flat": true,
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -13,
+            "Font.Name": "굴림체",
+            "Font.Style": [],
+            "ParentFont": false,
+            "OnClick": "btnJGClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "btnDH",
+          "class_name": "TSpeedButton",
+          "props": {
+            "Left": 9,
+            "Top": 36,
+            "Width": 62,
+            "Height": 26,
+            "GroupIndex": 777,
+            "Caption": "도형문자",
+            "Flat": true,
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -13,
+            "Font.Name": "굴림체",
+            "Font.Style": [],
+            "ParentFont": false,
+            "OnClick": "btnDHClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "btnLC",
+          "class_name": "TSpeedButton",
+          "props": {
+            "Left": 9,
+            "Top": 65,
+            "Width": 62,
+            "Height": 26,
+            "GroupIndex": 777,
+            "Caption": "선/원문자",
+            "Flat": true,
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -13,
+            "Font.Name": "굴림체",
+            "Font.Style": [],
+            "ParentFont": false,
+            "OnClick": "btnLCClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "btnJP",
+          "class_name": "TSpeedButton",
+          "props": {
+            "Left": 9,
+            "Top": 94,
+            "Width": 62,
+            "Height": 26,
+            "GroupIndex": 777,
+            "Caption": "일본어",
+            "Flat": true,
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -13,
+            "Font.Name": "굴림체",
+            "Font.Style": [],
+            "ParentFont": false,
+            "OnClick": "btnJPClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "btnDW",
+          "class_name": "TSpeedButton",
+          "props": {
+            "Left": 9,
+            "Top": 123,
+            "Width": 62,
+            "Height": 26,
+            "GroupIndex": 777,
+            "Caption": "단위문자",
+            "Flat": true,
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -13,
+            "Font.Name": "굴림체",
+            "Font.Style": [],
+            "ParentFont": false,
+            "OnClick": "btnDWClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "btnGT",
+          "class_name": "TSpeedButton",
+          "props": {
+            "Left": 9,
+            "Top": 152,
+            "Width": 62,
+            "Height": 25,
+            "GroupIndex": 777,
+            "Caption": "기타문자",
+            "Flat": true,
+            "Font.Charset": "DEFAULT_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -13,
+            "Font.Name": "굴림체",
+            "Font.Style": [],
+            "ParentFont": false,
+            "OnClick": "btnGTClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "btnHJ",
+          "class_name": "TSpeedButton",
+          "props": {
+            "Left": 9,
+            "Top": 181,
+            "Width": 62,
+            "Height": 26,
+            "GroupIndex": 777,
+            "Caption": "한자",
+            "Flat": true,
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -13,
+            "Font.Name": "굴림체",
+            "Font.Style": [],
+            "ParentFont": false,
+            "OnClick": "btnHJClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "StaticText1",
+          "class_name": "TStaticText",
+          "props": {
+            "Left": 13,
+            "Top": 210,
+            "Width": 53,
+            "Height": 47,
+            "Alignment": "taCenter",
+            "AutoSize": false,
+            "BorderStyle": "sbsSunken",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -37,
+            "Font.Name": "돋움",
+            "Font.Style": [],
+            "ParentFont": false,
+            "TabOrder": 0,
+            "OnDblClick": "StaticText1DblClick"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel3",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 8,
+        "Top": 280,
+        "Width": 409,
+        "Height": 41,
+        "ParentColor": true,
+        "TabOrder": 2,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Label1",
+          "class_name": "TLabel",
+          "props": {
+            "Left": 16,
+            "Top": 11,
+            "Width": 81,
+            "Height": 16,
+            "Caption": "선택/복사:",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit1",
+          "class_name": "TFlatEdit",
+          "props": {
+            "Left": 104,
+            "Top": 8,
+            "Width": 289,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "ImeName": "한국어(한글) (MS-IME98)",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 0
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}

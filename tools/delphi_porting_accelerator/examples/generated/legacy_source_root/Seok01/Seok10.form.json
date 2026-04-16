@@ -1,0 +1,920 @@
+{
+  "name": "Seok10",
+  "kind": "object",
+  "className": "TSeok10",
+  "visualType": "form",
+  "renderType": "form",
+  "approximated": false,
+  "supported": true,
+  "caption": "지점관리",
+  "text": "",
+  "hint": "",
+  "left": 192,
+  "top": 107,
+  "width": 756,
+  "height": 243,
+  "align": null,
+  "visible": true,
+  "enabled": true,
+  "tabStop": true,
+  "tabOrder": null,
+  "checked": null,
+  "readOnly": null,
+  "radioItems": [],
+  "radioColumns": null,
+  "statusPanels": [],
+  "comboboxItems": [],
+  "spinMin": null,
+  "spinMax": null,
+  "spinIncrement": null,
+  "activePage": null,
+  "varGridRowCount": null,
+  "varGridColCount": null,
+  "color": "#ececec",
+  "fontName": "굴림",
+  "fontHeight": -12,
+  "fontColor": "#111111",
+  "bindings": {},
+  "rawProps": {
+    "Left": 192,
+    "Top": 107,
+    "AutoScroll": false,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "Caption": "지점관리",
+    "ClientHeight": 243,
+    "ClientWidth": 756,
+    "Color": "clBtnFace",
+    "Font.Charset": "HANGEUL_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "OldCreateOrder": false,
+    "Position": "poScreenCenter",
+    "OnClose": "FormClose",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "rawPropsPreview": {
+    "Left": 192,
+    "Top": 107,
+    "AutoScroll": false,
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "Caption": "지점관리",
+    "ClientHeight": 243,
+    "ClientWidth": 756,
+    "Color": "clBtnFace",
+    "Font.Charset": "HANGEUL_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "OldCreateOrder": false,
+    "Position": "poScreenCenter",
+    "OnClose": "FormClose",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "events": {
+    "OnClose": "FormClose",
+    "OnShow": "FormShow"
+  },
+  "gridColumns": [],
+  "children": [
+    {
+      "name": "Panel001",
+      "kind": "object",
+      "className": "TFlatPanel",
+      "visualType": "panel",
+      "renderType": "panel",
+      "approximated": false,
+      "supported": true,
+      "caption": "",
+      "text": "",
+      "hint": "",
+      "left": 0,
+      "top": 0,
+      "width": 121,
+      "height": 243,
+      "align": "alLeft",
+      "visible": true,
+      "enabled": true,
+      "tabStop": true,
+      "tabOrder": 0,
+      "checked": null,
+      "readOnly": null,
+      "radioItems": [],
+      "radioColumns": null,
+      "statusPanels": [],
+      "comboboxItems": [],
+      "spinMin": null,
+      "spinMax": null,
+      "spinIncrement": null,
+      "activePage": null,
+      "varGridRowCount": null,
+      "varGridColCount": null,
+      "color": null,
+      "fontName": null,
+      "fontHeight": null,
+      "fontColor": null,
+      "bindings": {},
+      "rawProps": {
+        "Left": 0,
+        "Top": 0,
+        "Width": 121,
+        "Height": 243,
+        "ParentColor": true,
+        "Align": "alLeft",
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "rawPropsPreview": {
+        "Left": 0,
+        "Top": 0,
+        "Width": 121,
+        "Height": 243,
+        "ParentColor": true,
+        "Align": "alLeft",
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "events": {},
+      "gridColumns": [],
+      "children": [
+        {
+          "name": "Button101",
+          "kind": "object",
+          "className": "TFlatButton",
+          "visualType": "button",
+          "renderType": "button",
+          "approximated": false,
+          "supported": true,
+          "caption": "선택",
+          "text": "",
+          "hint": "",
+          "left": 8,
+          "top": 72,
+          "width": 105,
+          "height": 25,
+          "align": null,
+          "visible": false,
+          "enabled": true,
+          "tabStop": true,
+          "tabOrder": 0,
+          "checked": null,
+          "readOnly": null,
+          "radioItems": [],
+          "radioColumns": null,
+          "statusPanels": [],
+          "comboboxItems": [],
+          "spinMin": null,
+          "spinMax": null,
+          "spinIncrement": null,
+          "activePage": null,
+          "varGridRowCount": null,
+          "varGridColCount": null,
+          "color": null,
+          "fontName": null,
+          "fontHeight": null,
+          "fontColor": null,
+          "bindings": {},
+          "rawProps": {
+            "Left": 8,
+            "Top": 72,
+            "Width": 105,
+            "Height": 25,
+            "Caption": "선택",
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000120B0000120B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555555555555555555555555555555555555555555555FF5555555555555905555555555555577FF5555555555599905555555555557777F5555555555599905555555555557777FF5555555559999905555555555777777F5555555599999905555555557777777FF5555557990599905555555777757777F5555579055559905555557775555777FF5555555555599905555555555557777F5555555555559905555555555555777FF5555555555559905555555555555777FF5555555555557905555555555555777FF5555555555557905555555555555777FF5555555555555990555555555555577755555555555555555555555555555555",
+            "Layout": "blGlyphLeft",
+            "NumGlyphs": 2,
+            "TabOrder": 0,
+            "ModalResult": 1,
+            "Visible": false
+          },
+          "rawPropsPreview": {
+            "Left": 8,
+            "Top": 72,
+            "Width": 105,
+            "Height": 25,
+            "Caption": "선택",
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000120B0000120B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF...<trimmed>",
+            "Layout": "blGlyphLeft",
+            "NumGlyphs": 2,
+            "TabOrder": 0,
+            "ModalResult": 1,
+            "Visible": false
+          },
+          "events": {},
+          "gridColumns": [],
+          "children": [],
+          "nonVisualChildren": []
+        },
+        {
+          "name": "Button102",
+          "kind": "object",
+          "className": "TFlatButton",
+          "visualType": "button",
+          "renderType": "button",
+          "approximated": false,
+          "supported": true,
+          "caption": "취소",
+          "text": "",
+          "hint": "",
+          "left": 8,
+          "top": 144,
+          "width": 105,
+          "height": 25,
+          "align": null,
+          "visible": false,
+          "enabled": true,
+          "tabStop": true,
+          "tabOrder": 1,
+          "checked": null,
+          "readOnly": null,
+          "radioItems": [],
+          "radioColumns": null,
+          "statusPanels": [],
+          "comboboxItems": [],
+          "spinMin": null,
+          "spinMax": null,
+          "spinIncrement": null,
+          "activePage": null,
+          "varGridRowCount": null,
+          "varGridColCount": null,
+          "color": null,
+          "fontName": null,
+          "fontHeight": null,
+          "fontColor": null,
+          "bindings": {},
+          "rawProps": {
+            "Left": 8,
+            "Top": 144,
+            "Width": 105,
+            "Height": 25,
+            "Caption": "취소",
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333333333333333333333333FFF33FF333FFF339993370733999333777FF37FF377733339993000399933333777F777F7773333339997079993333333777F73777333333339993999333333333777377733333333339909933333333333737F73333333333331013333333333333777FF3333333333910193333333333337773FF3333333399000993333333337377737FF3333339990009993333333773777377FF333399930003999333337773777F777FF33999337073399933377733373337773333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333",
+            "Layout": "blGlyphLeft",
+            "NumGlyphs": 2,
+            "TabOrder": 1,
+            "ModalResult": 2,
+            "Visible": false
+          },
+          "rawPropsPreview": {
+            "Left": 8,
+            "Top": 144,
+            "Width": 105,
+            "Height": 25,
+            "Caption": "취소",
+            "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF...<trimmed>",
+            "Layout": "blGlyphLeft",
+            "NumGlyphs": 2,
+            "TabOrder": 1,
+            "ModalResult": 2,
+            "Visible": false
+          },
+          "events": {},
+          "gridColumns": [],
+          "children": [],
+          "nonVisualChildren": []
+        },
+        {
+          "name": "BitBtn101",
+          "kind": "object",
+          "className": "TBitBtn",
+          "visualType": "button",
+          "renderType": "button",
+          "approximated": false,
+          "supported": true,
+          "caption": "추가",
+          "text": "",
+          "hint": "",
+          "left": 22,
+          "top": 68,
+          "width": 75,
+          "height": 25,
+          "align": null,
+          "visible": true,
+          "enabled": true,
+          "tabStop": true,
+          "tabOrder": 2,
+          "checked": null,
+          "readOnly": null,
+          "radioItems": [],
+          "radioColumns": null,
+          "statusPanels": [],
+          "comboboxItems": [],
+          "spinMin": null,
+          "spinMax": null,
+          "spinIncrement": null,
+          "activePage": null,
+          "varGridRowCount": null,
+          "varGridColCount": null,
+          "color": null,
+          "fontName": "굴림체",
+          "fontHeight": -12,
+          "fontColor": "#111111",
+          "bindings": {},
+          "rawProps": {
+            "Left": 22,
+            "Top": 68,
+            "Width": 75,
+            "Height": 25,
+            "Caption": "추가",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림체",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 2,
+            "OnClick": "BitBtn101Click",
+            "Glyph.Data": "DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000001000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003333333333333333333333333333333333330000333333333333333333333333F3333333333300003333344333333333333333388F3333333333000033334224333333333333338338F3333333330000333422224333333333333833338F3333333300003342222224333333333383333338F3333333000034222A22224333333338F338F3338F33333300003222A3A2224333333338F3838F338F33333300003A2A333A222433333338F83338F338F33333000033A33333A222433333338333338F338F33330000333333333A222433333333333338F338F33300003333333333A222433333333333338F338F33000033333333333A222433333333333338F338F30000333333333333A222433333333333338F338F00003333333333333A224333333333333338F38F000033333333333333A223333333333333338F830000333333333333333A3333333333333333383300003333333333333333333333333333333333330000",
+            "NumGlyphs": 2
+          },
+          "rawPropsPreview": {
+            "Left": 22,
+            "Top": 68,
+            "Width": 75,
+            "Height": 25,
+            "Caption": "추가",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림체",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 2,
+            "OnClick": "BitBtn101Click",
+            "Glyph.Data": "DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000001000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF...<trimmed>",
+            "NumGlyphs": 2
+          },
+          "events": {
+            "OnClick": "BitBtn101Click"
+          },
+          "gridColumns": [],
+          "children": [],
+          "nonVisualChildren": []
+        },
+        {
+          "name": "BitBtn102",
+          "kind": "object",
+          "className": "TBitBtn",
+          "visualType": "button",
+          "renderType": "button",
+          "approximated": false,
+          "supported": true,
+          "caption": "삭제",
+          "text": "",
+          "hint": "",
+          "left": 22,
+          "top": 140,
+          "width": 75,
+          "height": 25,
+          "align": null,
+          "visible": true,
+          "enabled": true,
+          "tabStop": true,
+          "tabOrder": 3,
+          "checked": null,
+          "readOnly": null,
+          "radioItems": [],
+          "radioColumns": null,
+          "statusPanels": [],
+          "comboboxItems": [],
+          "spinMin": null,
+          "spinMax": null,
+          "spinIncrement": null,
+          "activePage": null,
+          "varGridRowCount": null,
+          "varGridColCount": null,
+          "color": null,
+          "fontName": "굴림체",
+          "fontHeight": -12,
+          "fontColor": "#111111",
+          "bindings": {},
+          "rawProps": {
+            "Left": 22,
+            "Top": 140,
+            "Width": 75,
+            "Height": 25,
+            "Cancel": true,
+            "Caption": "삭제",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림체",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 3,
+            "OnClick": "BitBtn102Click",
+            "Glyph.Data": "DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000000000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333333333000033338833333333333333333F3333333333330000333911833333983333333388F333333F333300003339111833391183333338F38F333F88F33300003339111183911118333338F338F3F8338F3300003333911118111118333338F3338F833338F3000033333911111111833333338F33383333F8330000333333911111183333333338F333333F833300003333333111118333333333338F3333383333000033333339111183333333333338F33383333300003333339111118333333333333833338F333300003333391118111833333333338333338F333300003333911183911183333333383338F338F333000033339118333911183333338F33838F338F33000033333913333391113333338FF83338F338F300003333333333333919333333388333338FFF83000033333333333333333333333333333338883300003333333333333333333333333333333333330000",
+            "NumGlyphs": 2
+          },
+          "rawPropsPreview": {
+            "Left": 22,
+            "Top": 140,
+            "Width": 75,
+            "Height": 25,
+            "Cancel": true,
+            "Caption": "삭제",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림체",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentFont": false,
+            "TabOrder": 3,
+            "OnClick": "BitBtn102Click",
+            "Glyph.Data": "DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000000000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFF...<trimmed>",
+            "NumGlyphs": 2
+          },
+          "events": {
+            "OnClick": "BitBtn102Click"
+          },
+          "gridColumns": [],
+          "children": [],
+          "nonVisualChildren": []
+        }
+      ],
+      "nonVisualChildren": []
+    },
+    {
+      "name": "Panel002",
+      "kind": "object",
+      "className": "TFlatPanel",
+      "visualType": "panel",
+      "renderType": "panel",
+      "approximated": false,
+      "supported": true,
+      "caption": "",
+      "text": "",
+      "hint": "",
+      "left": 120,
+      "top": 0,
+      "width": 636,
+      "height": 243,
+      "align": "alRight",
+      "visible": true,
+      "enabled": true,
+      "tabStop": true,
+      "tabOrder": 1,
+      "checked": null,
+      "readOnly": null,
+      "radioItems": [],
+      "radioColumns": null,
+      "statusPanels": [],
+      "comboboxItems": [],
+      "spinMin": null,
+      "spinMax": null,
+      "spinIncrement": null,
+      "activePage": null,
+      "varGridRowCount": null,
+      "varGridColCount": null,
+      "color": null,
+      "fontName": null,
+      "fontHeight": null,
+      "fontColor": null,
+      "bindings": {},
+      "rawProps": {
+        "Left": 120,
+        "Top": 0,
+        "Width": 636,
+        "Height": 243,
+        "ParentColor": true,
+        "Align": "alRight",
+        "TabOrder": 1,
+        "UseDockManager": true
+      },
+      "rawPropsPreview": {
+        "Left": 120,
+        "Top": 0,
+        "Width": 636,
+        "Height": 243,
+        "ParentColor": true,
+        "Align": "alRight",
+        "TabOrder": 1,
+        "UseDockManager": true
+      },
+      "events": {},
+      "gridColumns": [],
+      "children": [
+        {
+          "name": "DBGrid101",
+          "kind": "object",
+          "className": "TDBGrid",
+          "visualType": "grid",
+          "renderType": "grid",
+          "approximated": false,
+          "supported": true,
+          "caption": "",
+          "text": "",
+          "hint": "",
+          "left": 1,
+          "top": 1,
+          "width": 634,
+          "height": 241,
+          "align": "alClient",
+          "visible": true,
+          "enabled": true,
+          "tabStop": true,
+          "tabOrder": 0,
+          "checked": null,
+          "readOnly": null,
+          "radioItems": [],
+          "radioColumns": null,
+          "statusPanels": [],
+          "comboboxItems": [],
+          "spinMin": null,
+          "spinMax": null,
+          "spinIncrement": null,
+          "activePage": null,
+          "varGridRowCount": null,
+          "varGridColCount": null,
+          "color": null,
+          "fontName": null,
+          "fontHeight": null,
+          "fontColor": null,
+          "bindings": {
+            "DataSource": "DataSource1"
+          },
+          "rawProps": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 634,
+            "Height": 241,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "DataSource": "DataSource1",
+            "ImeName": "한국어(한글)",
+            "Options": [
+              "dgEditing",
+              "dgTitles",
+              "dgIndicator",
+              "dgColLines",
+              "dgRowLines",
+              "dgTabs",
+              "dgAlwaysShowSelection",
+              "dgCancelOnExit"
+            ],
+            "TabOrder": 0,
+            "TitleFont.Charset": "HANGEUL_CHARSET",
+            "TitleFont.Color": "clWindowText",
+            "TitleFont.Height": -12,
+            "TitleFont.Name": "굴림",
+            "TitleFont.Style": [
+              "fsBold"
+            ],
+            "Columns": [
+              {
+                "Expanded": false,
+                "FieldName": "JUBUN",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "지역",
+                "Width": 80,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "GNAME",
+                "Font.Charset": "HANGEUL_CHARSET",
+                "Font.Color": "clBlack",
+                "Font.Height": -12,
+                "Font.Name": "굴림",
+                "Font.Style": [
+                  "fsBold"
+                ],
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "지점명",
+                "Title.Font.Charset": "HANGEUL_CHARSET",
+                "Title.Font.Color": "clBlack",
+                "Title.Font.Height": -12,
+                "Title.Font.Name": "굴림체",
+                "Title.Font.Style": [
+                  "fsBold"
+                ],
+                "Width": 150,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "ONAME",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "코드",
+                "Width": 60,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "GDATE",
+                "PickList.Strings": "(",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "구분",
+                "Width": 60,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "GNUM1",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "번호",
+                "Width": 60,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "GBIGO",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "출고정지",
+                "Width": 185,
+                "Visible": true
+              }
+            ]
+          },
+          "rawPropsPreview": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 634,
+            "Height": 241,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "DataSource": "DataSource1",
+            "ImeName": "한국어(한글)",
+            "Options": [
+              "dgEditing",
+              "dgTitles",
+              "dgIndicator",
+              "dgColLines",
+              "dgRowLines",
+              "dgTabs",
+              "dgAlwaysShowSelection",
+              "dgCancelOnExit"
+            ],
+            "TabOrder": 0,
+            "TitleFont.Charset": "HANGEUL_CHARSET",
+            "TitleFont.Color": "clWindowText",
+            "TitleFont.Height": -12,
+            "TitleFont.Name": "굴림",
+            "TitleFont.Style": [
+              "fsBold"
+            ],
+            "Columns": [
+              {
+                "Expanded": false,
+                "FieldName": "JUBUN",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "지역",
+                "Width": 80,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "GNAME",
+                "Font.Charset": "HANGEUL_CHARSET",
+                "Font.Color": "clBlack",
+                "Font.Height": -12,
+                "Font.Name": "굴림",
+                "Font.Style": [
+                  "fsBold"
+                ],
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "지점명",
+                "Title.Font.Charset": "HANGEUL_CHARSET",
+                "Title.Font.Color": "clBlack",
+                "Title.Font.Height": -12,
+                "Title.Font.Name": "굴림체",
+                "Title.Font.Style": [
+                  "fsBold"
+                ],
+                "Width": 150,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "ONAME",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "코드",
+                "Width": 60,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "GDATE",
+                "PickList.Strings": "(",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "구분",
+                "Width": 60,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "GNUM1",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "번호",
+                "Width": 60,
+                "Visible": true
+              },
+              {
+                "Expanded": false,
+                "FieldName": "GBIGO",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "출고정지",
+                "Width": 185,
+                "Visible": true
+              }
+            ]
+          },
+          "events": {},
+          "gridColumns": [
+            {
+              "field": "JUBUN",
+              "caption": "지역",
+              "width": 80,
+              "footer": null,
+              "footer_type": null,
+              "color": null
+            },
+            {
+              "field": "GNAME",
+              "caption": "지점명",
+              "width": 150,
+              "footer": null,
+              "footer_type": null,
+              "color": null
+            },
+            {
+              "field": "ONAME",
+              "caption": "코드",
+              "width": 60,
+              "footer": null,
+              "footer_type": null,
+              "color": null
+            },
+            {
+              "field": "GDATE",
+              "caption": "구분",
+              "width": 60,
+              "footer": null,
+              "footer_type": null,
+              "color": null
+            },
+            {
+              "field": "GNUM1",
+              "caption": "번호",
+              "width": 60,
+              "footer": null,
+              "footer_type": null,
+              "color": null
+            },
+            {
+              "field": "GBIGO",
+              "caption": "출고정지",
+              "width": 185,
+              "footer": null,
+              "footer_type": null,
+              "color": null
+            }
+          ],
+          "children": [],
+          "nonVisualChildren": []
+        }
+      ],
+      "nonVisualChildren": []
+    }
+  ],
+  "nonVisualChildren": [
+    {
+      "kind": "object",
+      "name": "DataSource1",
+      "class_name": "TDataSource",
+      "props": {
+        "DataSet": "Query1",
+        "Left": 48,
+        "Top": 176
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "Query1",
+      "class_name": "TClientDataSet",
+      "props": {
+        "Aggregates": "<>",
+        "Params": "<>",
+        "BeforeClose": "Query1BeforeClose",
+        "BeforePost": "Query1BeforePost",
+        "OnNewRecord": "Query1NewRecord",
+        "Left": 80,
+        "Top": 176
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Query1ID",
+          "class_name": "TFloatField",
+          "props": {
+            "FieldName": "ID"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1SCODE",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "SCODE",
+            "Size": 1
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1GCODE",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GCODE",
+            "Size": 5
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1GNAME",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GNAME",
+            "Size": 15
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1ONAME",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "ONAME",
+            "Size": 40
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1GDATE",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GDATE",
+            "Size": 10
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1GNUM1",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GNUM1",
+            "Size": 10
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1JUBUN",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "JUBUN",
+            "Size": 15
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1GBIGO",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GBIGO",
+            "Size": 40
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}

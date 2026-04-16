@@ -1,0 +1,2663 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "frReport20_10",
+      "signature": "Str: String"
+    },
+    {
+      "name": "frReport21_10",
+      "signature": "Str: String"
+    },
+    {
+      "name": "frReport21_20",
+      "signature": "Str: String"
+    },
+    {
+      "name": "frReport20_01BeginPage",
+      "signature": "pgNo: Integer"
+    },
+    {
+      "name": "frReport20_01GetValue",
+      "signature": "const ParName: String;\r\n  var ParValue: Variant"
+    },
+    {
+      "name": "frReport21_01BeginPage",
+      "signature": "pgNo: Integer"
+    },
+    {
+      "name": "frReport21_01GetValue",
+      "signature": "const ParName: String;\r\n  var ParValue: Variant"
+    },
+    {
+      "name": "frReport23_01BeginPage",
+      "signature": "pgNo: Integer"
+    },
+    {
+      "name": "frReport23_01GetValue",
+      "signature": "const ParName: String;\r\n  var ParValue: Variant"
+    },
+    {
+      "name": "frReport28_01BeginPage",
+      "signature": "pgNo: Integer"
+    },
+    {
+      "name": "frReport28_01GetValue",
+      "signature": "const ParName: String;\r\n  var ParValue: Variant"
+    },
+    {
+      "name": "frReport28_02BeginPage",
+      "signature": "pgNo: Integer"
+    },
+    {
+      "name": "frReport28_02GetValue",
+      "signature": "const ParName: String;\r\n  var ParValue: Variant"
+    },
+    {
+      "name": "frReport40_01BeginPage",
+      "signature": "pgNo: Integer"
+    },
+    {
+      "name": "frReport40_01GetValue",
+      "signature": "const ParName: String;\r\n  var ParValue: Variant"
+    },
+    {
+      "name": "frReport40_02BeginPage",
+      "signature": "pgNo: Integer"
+    },
+    {
+      "name": "frReport40_02GetValue",
+      "signature": "const ParName: String;\r\n  var ParValue: Variant"
+    },
+    {
+      "name": "frReport99_00GetValue",
+      "signature": "const ParName: String;\r\n  var ParValue: Variant"
+    },
+    {
+      "name": "frDBDataSet00_01Next",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "frDBDataSet00_02Next",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "frDBDataSet00_03Next",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "frReport24_01GetValue",
+      "signature": "const ParName: String;\r\n  var ParValue: Variant"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 8))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Seek_Jisa( AutoFrx(Base10.Socket.GetData(1, 8)) ,'4')"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Seek_Jisa( AutoFrx(Base10.Socket.GetData(1, 8)) ,'3')"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Seek_Jisa( p_Gmemo ,'4')"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Seek_Jisa( p_Gmemo ,'3')"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Cours"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 8))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 8))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 8))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 8))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'( '+p_Cours+' - '+p_Gmemo+' )'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'( '+p_Cours+' - '+p_Gmemo+' )'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 3))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 3))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 3))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 3))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'('+p_Gbigo+')'+AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gbigo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumC)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumD)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumC)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumD)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Pubun').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gdate').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gubun').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumX)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumX+p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Pubun').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gdate').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gubun').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumX)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumX+p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Hcode)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Hcode)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_Idnum)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_Idnum)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Barc2"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Barc2"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Icode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Icode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('ID').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('ID').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Icode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Icode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('ID').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('ID').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Pubun').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gdate').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FindObject('Memo68_1').Memo.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FindObject('Memo82_2').Memo.Text"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(AutoFrx(p_Gname),1,p_CCCCC-1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(AutoFrx(p_Gname),p_CCCCC+1,50)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',StrToInt(AutoFrx(Base10.Socket.GetData(1, 1))))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumC)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumD)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumC)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumD)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gdate').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gubun').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gdate').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gubun').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 3))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 3))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'('+p_Gbigo+')'+AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 6))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 6))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "t_Gadd1"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'('+p_Gbigo+')'+t_Gadd2"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "t_Gadd2"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gmemo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "p_Gbigo"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_Idnum)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_Idnum)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gdate').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gubun').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(p_Gname)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 3))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 2))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 3))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr(v_Page1)+'/'+IntToStr(v_Page2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr(v_Page1)+'/'+IntToStr(v_Page2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr((v_Page1*RBand)-RBand+v_Sline)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bname').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Ocode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gsqut').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gbigo').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr(p_Gqut3)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',(oSqry.FieldByName('Gdang').AsFloat*oSqry.FieldByName('Grat1').AsFloat)/100)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gpost').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_Gqut1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_Gqut1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_Gqut2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_Gqut2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumC)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumC)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr((v_Page1*RBand)-RBand+v_Sline)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bname').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Ocode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gsqut').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Grat1').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Grat1').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gbigo').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr(p_Gqut3)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',(oSqry.FieldByName('Gdang').AsFloat*oSqry.FieldByName('Grat1').AsFloat)/100)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gpost').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr((v_Page1*RBand)-RBand+v_Sline)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bname').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Ocode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gsqut').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gbigo').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr(p_Gqut3)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',(oSqry.FieldByName('Gdang').AsFloat*oSqry.FieldByName('Grat1').AsFloat)/100)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gpost').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr(v_Page1)+'/'+IntToStr(v_Page2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "IntToStr(v_Page1)+'/'+IntToStr(v_Page2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bname').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Ocode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gsqut').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gbigo').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',(oSqry.FieldByName('Gdang').AsFloat*oSqry.FieldByName('Grat1').AsFloat)/100)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gpost').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumC)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumC)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bname').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Ocode').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gsqut').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gbigo').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',(oSqry.FieldByName('Gdang').AsFloat*oSqry.FieldByName('Grat1').AsFloat)/100)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gpost').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumA)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',v_GsumB)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bcode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Bname').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Ocode').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gsqut').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gdang').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gbigo').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',(oSqry.FieldByName('Gdang').AsFloat*oSqry.FieldByName('Grat1').AsFloat)/100)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(oSqry.FieldByName('Gpost').AsString)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "AutoFrx(Base10.Socket.GetData(1, 1))"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 3)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 5)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 3)+'-'+Base10.Socket.GetData(1, 4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 6)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 5)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 3)+'-'+Base10.Socket.GetData(1, 4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 6)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 5)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 3)+'-'+Base10.Socket.GetData(1, 4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 6)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 5)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F11').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F12').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F21').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F41').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 7)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 8)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(Sobo28.Edit102.Text,1,4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(Sobo28.Edit102.Text,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(Sobo28.Edit102.Text,9,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F42').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F21').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,1,4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,9,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,1,4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gisum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gosum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gbsum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F11').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F12').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F21').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F41').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 7)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 8)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(Sobo28.Edit102.Text,1,4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(Sobo28.Edit102.Text,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(Sobo28.Edit102.Text,9,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F42').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F21').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,1,4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,9,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,1,4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(oSqry.FieldByName('Gdate').AsString,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gssum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "oSqry.FieldByName('Grat1').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gisum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gosum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',oSqry.FieldByName('Gbsum').Value)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F11').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F12').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F21').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F41').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F42').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 8)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 3)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 6)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 7)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,1,4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,9,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Space)]),10,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),10,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),09,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),08,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),07,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),06,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),05,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),04,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),03,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),02,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gssum)]),01,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,9,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F51').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Format('%10s',[FormatFloat('###,###,##0',p_Gssum)])"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Format('%10s',[FormatFloat('###,###,##0',p_Gssum)])"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F11').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F12').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F21').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F41').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F42').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 8)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 3)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 6)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 7)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,1,4)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,9,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Space)]),10,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),10,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),09,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),08,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),07,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),06,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),05,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),04,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),03,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),02,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gosum)]),01,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gbsum)]),10,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gbsum)]),09,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gbsum)]),08,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gbsum)]),07,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gbsum)]),06,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gbsum)]),05,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gbsum)]),04,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gbsum)]),03,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy( Format('%10s',[FormatFloat('########0',p_Gbsum)]),02,1)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,6,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Copy(p_Gdate,9,2)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "lSqry.FieldByName('F51').AsString"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Format('%10s',[FormatFloat('###,###,##0',p_Gosum)])"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Format('%10s',[FormatFloat('###,###,##0',p_Gbsum)])"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "Format('%10s',[FormatFloat('###,###,##0',p_Gssum)])"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "'Test'"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',p_GsumX)"
+    },
+    {
+      "component": "Memo",
+      "property": "Text",
+      "expression": "FormatFloat('###,###,##0',T01-T02)"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Open"
+  ]
+}

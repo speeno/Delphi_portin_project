@@ -1,0 +1,1035 @@
+{
+  "kind": "object",
+  "name": "Seok30",
+  "class_name": "TSeok30",
+  "props": {
+    "Left": 588,
+    "Top": 201,
+    "ActiveControl": "CheckBox1",
+    "BorderIcons": [
+      "biSystemMenu"
+    ],
+    "BorderStyle": "bsSingle",
+    "Caption": "메세지(팝업창)",
+    "ClientHeight": 597,
+    "ClientWidth": 823,
+    "Color": "clBtnFace",
+    "Font.Charset": "HANGEUL_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "FormStyle": "fsMDIChild",
+    "OldCreateOrder": false,
+    "Position": "poMainFormCenter",
+    "Visible": true,
+    "OnActivate": "FormActivate",
+    "OnClose": "FormClose",
+    "OnPaint": "FormPaint",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": [
+    {
+      "kind": "object",
+      "name": "Panel100",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 264,
+        "Top": 8,
+        "Width": 555,
+        "Height": 585,
+        "ParentColor": true,
+        "TabOrder": 0,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Label101",
+          "class_name": "TmyLabel3d",
+          "props": {
+            "Left": 220,
+            "Top": 551,
+            "Width": 13,
+            "Height": 16,
+            "Caption": "~",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ParentColor": false,
+            "ParentFont": false,
+            "Transparent": true,
+            "AShadeLTSet": false
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel301",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 0,
+            "Top": 0,
+            "Width": 129,
+            "Height": 505,
+            "ParentColor": true,
+            "TabOrder": 0,
+            "UseDockManager": true
+          },
+          "children": [
+            {
+              "kind": "object",
+              "name": "DBGrid201",
+              "class_name": "TDBGrid",
+              "props": {
+                "Left": 1,
+                "Top": 1,
+                "Width": 127,
+                "Height": 503,
+                "Align": "alClient",
+                "BorderStyle": "bsNone",
+                "DataSource": "DataSource2",
+                "ImeName": "한국어(한글)",
+                "Options": [
+                  "dgTitles",
+                  "dgIndicator",
+                  "dgColLines",
+                  "dgRowLines",
+                  "dgTabs",
+                  "dgRowSelect",
+                  "dgAlwaysShowSelection",
+                  "dgConfirmDelete",
+                  "dgCancelOnExit"
+                ],
+                "TabOrder": 0,
+                "TitleFont.Charset": "HANGEUL_CHARSET",
+                "TitleFont.Color": "clWindowText",
+                "TitleFont.Height": -12,
+                "TitleFont.Name": "굴림",
+                "TitleFont.Style": [
+                  "fsBold"
+                ],
+                "Columns": [
+                  {
+                    "Alignment": "taCenter",
+                    "Color": 12056530,
+                    "Expanded": false,
+                    "FieldName": "GDATE",
+                    "Title.Alignment": "taCenter",
+                    "Title.Caption": "등록일자",
+                    "Width": 96,
+                    "Visible": true
+                  }
+                ]
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "kind": "object",
+          "name": "Panel401",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 128,
+            "Top": 32,
+            "Width": 427,
+            "Height": 473,
+            "ParentColor": true,
+            "TabOrder": 1,
+            "UseDockManager": true
+          },
+          "children": [
+            {
+              "kind": "object",
+              "name": "Editor_1",
+              "class_name": "TRichEdit",
+              "props": {
+                "Left": 1,
+                "Top": 192,
+                "Width": 423,
+                "Height": 168,
+                "BorderStyle": "bsNone",
+                "Font.Charset": "HANGEUL_CHARSET",
+                "Font.Color": "clWindowText",
+                "Font.Height": -13,
+                "Font.Name": "굴림",
+                "Font.Style": [],
+                "ImeName": "Microsoft IME 2003",
+                "ParentFont": false,
+                "TabOrder": 0,
+                "Visible": false
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "Editor",
+              "class_name": "TRxRichEdit",
+              "props": {
+                "Left": 1,
+                "Top": 1,
+                "Width": 425,
+                "Height": 471,
+                "Align": "alClient",
+                "BorderStyle": "bsNone",
+                "ImeName": "Microsoft IME 2003",
+                "TabOrder": 1
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "kind": "object",
+          "name": "Panel501",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 8,
+            "Top": 516,
+            "Width": 90,
+            "Height": 22,
+            "Caption": "등록일자",
+            "ParentColor": true,
+            "TabOrder": 2,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit103",
+          "class_name": "TFlatMaskEdit",
+          "props": {
+            "Left": 104,
+            "Top": 516,
+            "Width": 97,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "AutoSize": false,
+            "BorderStyle": "bsNone",
+            "Color": "clWhite",
+            "EditMask": "!9999.!99.99;1; ",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 10,
+            "ParentFont": false,
+            "TabOrder": 3,
+            "Text": "1999.01.01",
+            "ImeName": "한국어(한글) (MS-IME98)"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Panel502",
+          "class_name": "TFlatPanel",
+          "props": {
+            "Left": 8,
+            "Top": 548,
+            "Width": 90,
+            "Height": 22,
+            "Caption": "조회일자",
+            "ParentColor": true,
+            "TabOrder": 4,
+            "UseDockManager": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit101",
+          "class_name": "TFlatMaskEdit",
+          "props": {
+            "Left": 104,
+            "Top": 548,
+            "Width": 97,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "AutoSize": false,
+            "BorderStyle": "bsNone",
+            "Color": "clWhite",
+            "EditMask": "!9999.!99.99;1; ",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 10,
+            "ParentFont": false,
+            "TabOrder": 5,
+            "Text": "1999.01.01",
+            "ImeName": "한국어(한글) (MS-IME98)"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Edit102",
+          "class_name": "TFlatMaskEdit",
+          "props": {
+            "Left": 232,
+            "Top": 548,
+            "Width": 97,
+            "Height": 22,
+            "ColorFlat": "clWhite",
+            "AutoSize": false,
+            "BorderStyle": "bsNone",
+            "Color": "clWhite",
+            "EditMask": "!9999.!99.99;1; ",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clBlack",
+            "Font.Height": -16,
+            "Font.Name": "굴림",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "MaxLength": 10,
+            "ParentFont": false,
+            "TabOrder": 6,
+            "Text": "1999.01.01",
+            "ImeName": "한국어(한글) (MS-IME98)"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "StandardToolBar",
+          "class_name": "TToolBar",
+          "props": {
+            "Left": 129,
+            "Top": 0,
+            "Width": 420,
+            "Align": "alNone",
+            "AutoSize": true,
+            "BorderWidth": 2,
+            "Color": "clBtnFace",
+            "Flat": true,
+            "Images": "ToolbarImages",
+            "Indent": 4,
+            "ParentColor": false,
+            "ParentShowHint": false,
+            "ShowHint": true,
+            "TabOrder": 7,
+            "Wrapable": false
+          },
+          "children": [
+            {
+              "kind": "object",
+              "name": "UndoButton",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 4,
+                "Top": 0,
+                "OnClick": "UndoButtonClick"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "ToolButton10",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 27,
+                "Top": 0,
+                "Width": 8,
+                "ImageIndex": 7,
+                "Style": "tbsSeparator"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "FontName",
+              "class_name": "TComboBox",
+              "props": {
+                "Left": 35,
+                "Top": 1,
+                "Width": 142,
+                "Height": 20,
+                "Hint": "Font Name|Select font name",
+                "Ctl3D": false,
+                "DropDownCount": 10,
+                "ImeName": "Microsoft IME 2003",
+                "ItemHeight": 12,
+                "ParentCtl3D": false,
+                "TabOrder": 0,
+                "OnChange": "FontNameChange"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "ToolButton11",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 177,
+                "Top": 0,
+                "Width": 8,
+                "ImageIndex": 8,
+                "Style": "tbsSeparator"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "FontSize",
+              "class_name": "TEdit",
+              "props": {
+                "Left": 185,
+                "Top": 0,
+                "Width": 26,
+                "Height": 22,
+                "Hint": "Font Size|Select font size",
+                "ImeName": "Microsoft IME 2003",
+                "TabOrder": 1,
+                "Text": "0",
+                "OnChange": "FontSizeChange"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "UpDown1",
+              "class_name": "TUpDown",
+              "props": {
+                "Left": 211,
+                "Top": 0,
+                "Width": 16,
+                "Height": 22,
+                "Associate": "FontSize",
+                "Min": 0,
+                "Position": 0,
+                "TabOrder": 2,
+                "Wrap": false
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "ToolButton2",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 227,
+                "Top": 0,
+                "Width": 8,
+                "Caption": "ToolButton2",
+                "ImageIndex": 15,
+                "Style": "tbsSeparator"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "BoldButton",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 235,
+                "Top": 0,
+                "Hint": "Bold",
+                "ImageIndex": 8,
+                "Style": "tbsCheck",
+                "OnClick": "BoldButtonClick"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "ItalicButton",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 258,
+                "Top": 0,
+                "Hint": "Italic",
+                "ImageIndex": 9,
+                "Style": "tbsCheck",
+                "OnClick": "ItalicButtonClick"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "UnderlineButton",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 281,
+                "Top": 0,
+                "Hint": "Underline",
+                "ImageIndex": 10,
+                "Style": "tbsCheck",
+                "OnClick": "UnderlineButtonClick"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "ToolButton16",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 304,
+                "Top": 0,
+                "Width": 8,
+                "ImageIndex": 12,
+                "Style": "tbsDivider"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "LeftAlign",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 312,
+                "Top": 0,
+                "Hint": "Align Left",
+                "Grouped": true,
+                "ImageIndex": 11,
+                "Style": "tbsCheck",
+                "OnClick": "LeftAlignClick"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "CenterAlign",
+              "class_name": "TToolButton",
+              "props": {
+                "Tag": 2,
+                "Left": 335,
+                "Top": 0,
+                "Hint": "Center",
+                "Grouped": true,
+                "ImageIndex": 12,
+                "Style": "tbsCheck",
+                "OnClick": "CenterAlignClick"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "RightAlign",
+              "class_name": "TToolButton",
+              "props": {
+                "Tag": 1,
+                "Left": 358,
+                "Top": 0,
+                "Hint": "Align Right",
+                "Grouped": true,
+                "ImageIndex": 13,
+                "Style": "tbsCheck",
+                "OnClick": "RightAlignClick"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "ToolButton20",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 381,
+                "Top": 0,
+                "Width": 8,
+                "ImageIndex": 15,
+                "Style": "tbsDivider"
+              },
+              "children": []
+            },
+            {
+              "kind": "object",
+              "name": "BulletsButton",
+              "class_name": "TToolButton",
+              "props": {
+                "Left": 389,
+                "Top": 0,
+                "Hint": "Bullets|Enter bullet mode",
+                "ImageIndex": 14,
+                "Style": "tbsCheck",
+                "OnClick": "BulletsButtonClick"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "kind": "object",
+          "name": "BitBtn103",
+          "class_name": "TBitBtn",
+          "props": {
+            "Left": 412,
+            "Top": 548,
+            "Width": 75,
+            "Height": 25,
+            "Caption": "초기화",
+            "Font.Charset": "HANGEUL_CHARSET",
+            "Font.Color": "clWindowText",
+            "Font.Height": -12,
+            "Font.Name": "굴림체",
+            "Font.Style": [
+              "fsBold"
+            ],
+            "ModalResult": 4,
+            "ParentFont": false,
+            "TabOrder": 8,
+            "OnClick": "BitBtn103Click",
+            "Glyph.Data": "DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000000000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF0033333344444433333333333F8888883F33330000324334222222443333388F3833333388F333000032244222222222433338F8833FFFFF338F3300003222222AAAAA22243338F333F88888F338F30000322222A33333A2224338F33F8333338F338F00003222223333333A224338F33833333338F38F00003222222333333A444338FFFF8F333338888300003AAAAAAA33333333333888888833333333330000333333333333333333333333333333FFFFFF000033333333333344444433FFFF33333388888800003A444333333A22222438888F333338F3333800003A2243333333A2222438F38F333333833338000033A224333334422224338338FFFFF8833338000033A222444442222224338F3388888333FF380000333A2222222222AA243338FF333333FF88F800003333AA222222AA33A3333388FFFFFF8833830000333333AAAAAA33333333333388888833333300003333333333333333333333333333333333330000",
+            "NumGlyphs": 2
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "DateEdit1",
+          "class_name": "TDateEdit",
+          "props": {
+            "Left": 201,
+            "Top": 548,
+            "Width": 19,
+            "Height": 22,
+            "BorderStyle": "bsNone",
+            "ImeName": "Microsoft IME 2003",
+            "NumGlyphs": 2,
+            "StartOfWeek": "Sun",
+            "TabOrder": 9,
+            "OnAcceptDate": "DateEdit1AcceptDate",
+            "OnButtonClick": "DateEdit1ButtonClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "DateEdit2",
+          "class_name": "TDateEdit",
+          "props": {
+            "Left": 329,
+            "Top": 548,
+            "Width": 19,
+            "Height": 22,
+            "BorderStyle": "bsNone",
+            "ImeName": "Microsoft IME 2003",
+            "NumGlyphs": 2,
+            "StartOfWeek": "Sun",
+            "TabOrder": 10,
+            "OnAcceptDate": "DateEdit2AcceptDate",
+            "OnButtonClick": "DateEdit2ButtonClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "DateEdit3",
+          "class_name": "TDateEdit",
+          "props": {
+            "Left": 201,
+            "Top": 516,
+            "Width": 19,
+            "Height": 22,
+            "BorderStyle": "bsNone",
+            "ImeName": "Microsoft IME 2003",
+            "NumGlyphs": 2,
+            "StartOfWeek": "Sun",
+            "TabOrder": 11,
+            "OnAcceptDate": "DateEdit3AcceptDate",
+            "OnButtonClick": "DateEdit3ButtonClick"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "CheckBox1",
+          "class_name": "TFlatCheckBox",
+          "props": {
+            "Left": 8,
+            "Top": 570,
+            "Width": 15,
+            "Height": 14,
+            "ColorDown": "clBtnFace",
+            "ColorBorder": "clBtnFace",
+            "TabOrder": 12,
+            "TabStop": true
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Button3",
+          "class_name": "TFlatButton",
+          "props": {
+            "Left": 26,
+            "Top": 573,
+            "Width": 13,
+            "Height": 11,
+            "ColorBorder": "clBtnFace",
+            "Layout": "blGlyphLeft",
+            "NumGlyphs": 2,
+            "TabOrder": 13,
+            "ModalResult": 1,
+            "OnClick": "Button3Click"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Panel201",
+      "class_name": "TFlatPanel",
+      "props": {
+        "Left": 3,
+        "Top": 8,
+        "Width": 257,
+        "Height": 585,
+        "ParentColor": true,
+        "TabOrder": 1,
+        "UseDockManager": true
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "DBGrid101",
+          "class_name": "TDBGrid",
+          "props": {
+            "Left": 1,
+            "Top": 1,
+            "Width": 255,
+            "Height": 583,
+            "Align": "alClient",
+            "BorderStyle": "bsNone",
+            "DataSource": "DataSource1",
+            "ImeName": "한국어(한글)",
+            "Options": [
+              "dgTitles",
+              "dgIndicator",
+              "dgColLines",
+              "dgRowLines",
+              "dgTabs",
+              "dgRowSelect",
+              "dgAlwaysShowSelection",
+              "dgConfirmDelete",
+              "dgCancelOnExit"
+            ],
+            "TabOrder": 0,
+            "TitleFont.Charset": "HANGEUL_CHARSET",
+            "TitleFont.Color": "clWindowText",
+            "TitleFont.Height": -12,
+            "TitleFont.Name": "굴림",
+            "TitleFont.Style": [
+              "fsBold"
+            ],
+            "Columns": [
+              {
+                "Color": 11861755,
+                "Expanded": false,
+                "FieldName": "GCODE",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "코드",
+                "Width": 45,
+                "Visible": true
+              },
+              {
+                "Color": 12056530,
+                "Expanded": false,
+                "FieldName": "GNAME",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "출판사명",
+                "Width": 150,
+                "Visible": true
+              },
+              {
+                "Alignment": "taCenter",
+                "Expanded": false,
+                "FieldName": "GBIGO",
+                "Title.Alignment": "taCenter",
+                "Title.Caption": "^",
+                "Width": 27,
+                "Visible": true
+              }
+            ]
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Button101",
+      "class_name": "TFlatButton",
+      "props": {
+        "Left": 608,
+        "Top": 523,
+        "Width": 105,
+        "Height": 25,
+        "Caption": "선택",
+        "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000120B0000120B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555555555555555555555555555555555555555555555FF5555555555555905555555555555577FF5555555555599905555555555557777F5555555555599905555555555557777FF5555555559999905555555555777777F5555555599999905555555557777777FF5555557990599905555555777757777F5555579055559905555557775555777FF5555555555599905555555555557777F5555555555559905555555555555777FF5555555555559905555555555555777FF5555555555557905555555555555777FF5555555555557905555555555555777FF5555555555555990555555555555577755555555555555555555555555555555",
+        "Layout": "blGlyphLeft",
+        "NumGlyphs": 2,
+        "TabOrder": 2,
+        "ModalResult": 1,
+        "Visible": false
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "Button102",
+      "class_name": "TFlatButton",
+      "props": {
+        "Left": 712,
+        "Top": 523,
+        "Width": 105,
+        "Height": 25,
+        "Caption": "취소",
+        "Glyph.Data": "76010000424D760100000000000076000000280000002000000010000000010004000000000000010000130B0000130B00001000000000000000000000000000800000800000008080008000000080008000808000007F7F7F00BFBFBF000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333333333333333333333333FFF33FF333FFF339993370733999333777FF37FF377733339993000399933333777F777F7773333339997079993333333777F73777333333339993999333333333777377733333333339909933333333333737F73333333333331013333333333333777FF3333333333910193333333333337773FF3333333399000993333333337377737FF3333339990009993333333773777377FF333399930003999333337773777F777FF33999337073399933377733373337773333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333",
+        "Layout": "blGlyphLeft",
+        "NumGlyphs": 2,
+        "TabOrder": 3,
+        "ModalResult": 2,
+        "Visible": false
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "BitBtn101",
+      "class_name": "TBitBtn",
+      "props": {
+        "Left": 624,
+        "Top": 523,
+        "Width": 75,
+        "Height": 25,
+        "Caption": "등록",
+        "Font.Charset": "HANGEUL_CHARSET",
+        "Font.Color": "clWindowText",
+        "Font.Height": -12,
+        "Font.Name": "굴림체",
+        "Font.Style": [
+          "fsBold"
+        ],
+        "ParentFont": false,
+        "TabOrder": 4,
+        "OnClick": "BitBtn101Click",
+        "Glyph.Data": "DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000001000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF003333333333333333333333333333333333330000333333333333333333333333F3333333333300003333344333333333333333388F3333333333000033334224333333333333338338F3333333330000333422224333333333333833338F3333333300003342222224333333333383333338F3333333000034222A22224333333338F338F3338F33333300003222A3A2224333333338F3838F338F33333300003A2A333A222433333338F83338F338F33333000033A33333A222433333338333338F338F33330000333333333A222433333333333338F338F33300003333333333A222433333333333338F338F33000033333333333A222433333333333338F338F30000333333333333A222433333333333338F338F00003333333333333A224333333333333338F38F000033333333333333A223333333333333338F830000333333333333333A3333333333333333383300003333333333333333333333333333333333330000",
+        "NumGlyphs": 2
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "BitBtn102",
+      "class_name": "TBitBtn",
+      "props": {
+        "Left": 728,
+        "Top": 523,
+        "Width": 75,
+        "Height": 25,
+        "Caption": "삭제",
+        "Font.Charset": "HANGEUL_CHARSET",
+        "Font.Color": "clWindowText",
+        "Font.Height": -12,
+        "Font.Name": "굴림체",
+        "Font.Style": [
+          "fsBold"
+        ],
+        "ParentFont": false,
+        "TabOrder": 5,
+        "OnClick": "BitBtn102Click",
+        "Glyph.Data": "DE010000424DDE01000000000000760000002800000024000000120000000100040000000000680100000000000000000000100000000000000000000000000080000080000000808000800000008000800080800000C0C0C000808080000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333333333333333333333333333000033338833333333333333333F3333333333330000333911833333983333333388F333333F333300003339111833391183333338F38F333F88F33300003339111183911118333338F338F3F8338F3300003333911118111118333338F3338F833338F3000033333911111111833333338F33383333F8330000333333911111183333333338F333333F833300003333333111118333333333338F3333383333000033333339111183333333333338F33383333300003333339111118333333333333833338F333300003333391118111833333333338333338F333300003333911183911183333333383338F338F333000033339118333911183333338F33838F338F33000033333913333391113333338FF83338F338F300003333333333333919333333388333338FFF83000033333333333333333333333333333338883300003333333333333333333333333333333333330000",
+        "NumGlyphs": 2
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "DataSource1",
+      "class_name": "TDataSource",
+      "props": {
+        "DataSet": "Query1",
+        "OnDataChange": "DataSource1DataChange",
+        "Left": 24,
+        "Top": 136
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "Query1",
+      "class_name": "TClientDataSet",
+      "props": {
+        "Aggregates": "<>",
+        "Params": "<>",
+        "Left": 56,
+        "Top": 136
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Query1ID",
+          "class_name": "TFloatField",
+          "props": {
+            "FieldName": "ID"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1GCODE",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GCODE",
+            "Size": 5
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1GNAME",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GNAME",
+            "Size": 50
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1GTELS",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GTELS"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1HTELS",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "HTELS"
+          },
+          "children": []
+        },
+        {
+          "kind": "object",
+          "name": "Query1GBIGO",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GBIGO",
+            "Size": 50
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "ToolbarImages",
+      "class_name": "TImageList",
+      "props": {
+        "Left": 24,
+        "Top": 76,
+        "Bitmap": "494C01010F001400040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D36000000000000003600000028000000400000005000000001002000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000840000008400000084000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000084000000840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084000000840000008400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084000000840000008400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000840000008400000084000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000084000000840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000084000000840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084000000840000008400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000840000008400000084000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000084000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000084000000840000008400000084000000840000008400000084000000840000008400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000000000000000000008400000000000000000000008400000084000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084000000840000008400000084000000840000008400000084000000840000008400000000000000000000000000000000000000000000000000000084000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000000000000000000008400000000000000840000000000000000000000840000000000000000000000000000000000000000000000000000000000000000000000000000000000000084000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008400000000000000848484000084840084848400008484008484840084000000FFFFFF00000000000000000000000000000000000000000000000000FFFFFF008400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000000000000000000008400000000000000840000000000000000000000840000000000000000000000000000000000000000000000000000000000000000000000000000000000000084000000FFFFFF000000000000000000000000000000000000000000FFFFFF008400000000000000008484008484840000848400848484000084840084000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084000000000000000000000000000000000000000000000000000000000000000000000084000000840000008400000000000000840000000000000000000000840000000000000000000000000000000000000000000000000000000000000000000000000000000000000084000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008400000000000000848484000084840084848400008484008484840084000000FFFFFF00000000000000000000000000FFFFFF008400000084000000840000008400000000000000000000008400000084000000840000008400000084000000000000000000000000000000000000000000000084000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000000000000840000008400000084000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0084000000FFFFFF000000000000000000000000000000000000000000FFFFFF008400000000000000008484008484840000848400848484000084840084000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0084000000FFFFFF00840000000000000000000000000000008400000084000000840000008400000000000000000000000000000000000000000000000000000000000000840000000000000000000000000000000000000000000000000000000000000000000000000000008400000000000000840000000000000000000000000000000000000000000000000000000000000000000000FFFFFF000000000000000000000000000000000084000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008400000000000000848484000084840084848400008484008484840084000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008400000084000000000000000000000000000000000000008400000084000000840000000000000000000000000000000000000000000000000000000000000000000000840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0084000000FFFFFF000000000000000000FFFFFF00840000008400000084000000840000000000000000848400848484000084840084848400008484008400000084000000840000008400000084000000840000008400000000000000000000000000000000000000000000008400000084000000000000008400000000000000000000000000000000000000000000000000000000000000840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF000000000000000000000000000000000084000000FFFFFF00FFFFFF00FFFFFF00FFFFFF0084000000FFFFFF0084000000000000000000000084848400008484008484840000848400848484000084840084848400008484008484840000848400848484000084840000000000000000000000000000000000000000008400000000000000000000000000000084000000840000000000000000000000000000000000000084000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0084000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00840000008400000000000000000000000000000000848400848484000000000000000000000000000000000000000000000000000000000000000000848484008484840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008400000084000000840000008400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF000000000000000000FFFFFF00000000008400000084000000840000008400000084000000840000000000000000000000000000000000000084848400848484000000000000000000000000000000000000000000000000000000000000000000848484000084840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000FFFFFF000000000000000000000000000000000000000000000000000000000000000000000000000084840084848400008484000000000000FFFF00000000000000000000FFFF000000000084848400008484008484840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFF0000FFFF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008484000084840000000000000000000000000000000000000000000000000000000000000000000000000000848400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000000000000000000000000000000000000000000000848400008484000084840000848400008484000084840000848400008484000084840000000000000000000000000000000000000000000000000000000000008484000084840000000000000000000000000000000000000000000000000000000000000000000000000000848400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000000000000000000000FFFF000000000000848400008484000084840000848400008484000084840000848400008484000084840000000000000000000000000000000000000000000000000000848400008484000000000000000000000000000000000000000000000000000000000000000000000000000084840000000000000000000000000000000000000000000000000000000000000000000000000000FFFF0000FFFF0000FFFF00000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000000000000000000000000000000000000000FFFFFF0000FFFF00000000000084840000848400008484000084840000848400008484000084840000848400008484000000000000000000000000000000000000000000008484000084840000000000000000000000000000000000000000000000000000000000000000000000000000848400000000000000000000000000000000000000000000000000000000000000000000000000848484008484840084848400000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000000000000000000000FFFF00FFFFFF0000FFFF000000000000848400008484000084840000848400008484000084840000848400008484000084840000000000000000000000000000000000008484000084840000848400008484000084840000848400008484000084840000848400008484000084840000848400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000000000000000000000000000000000000000FFFFFF0000FFFF00FFFFFF0000FFFF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008484000084840000000000000000000000000000000000000000000000000000000000000000000084840000848400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000000000000000000000FFFF00FFFFFF0000FFFF00FFFFFF0000FFFF00FFFFFF0000FFFF00FFFFFF0000FFFF000000000000000000000000000000000000000000000000000000000000000000008484000000000000000000000000000000000000000000000000000000000000000000000000000000000000848400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000000000000000000000000000000000000000FFFFFF0000FFFF00FFFFFF0000FFFF00FFFFFF0000FFFF00FFFFFF0000FFFF00FFFFFF0000000000000000000000000000000000000000000000000000000000000000000084840000000000000000000000000000000000000000000000000000000000000000000000000000000000008484000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00000000000000000000000000000000000000000000FFFF00FFFFFF0000FFFF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008484000000000000000000000000000000000000000000000000000000000000000000000000000000000000848400000000000000000000000000000000000000000000000000FFFFFF000000000000000000000000000000000000000000FFFFFF000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008484000000000000000000000000000000000000000000000000000000000000000000000000000000000000848400000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000000000FFFFFF00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000848400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF000000000000000000000000000000000000000000FFFFFF0000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000848400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000424D3E000000000000003E0000002800000040000000500000000100010000000000800200000000000000000000000000000000000000000000FFFFFF000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000FFFFFFFFFFFF0000FFFFFFFFFFFF0000FFFFFFFF8FFF0000C007C0078C030000FFFFFFFF8FFF0000F83FF807FFFF0000FFFFFFFFFFFF0000C007C0078FFF0000FFFFFFFF8C030000F01FF8078FFF0000FFFFFFFFFFFF0000C007C007FFFF0000FFFFFFFF8FFF0000F83FF8078C030000FFFFFFFF8FFF0000FFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE00FFFFFFFFFFFFFFFFFC007F00F81FFF83FFFFFF8C7E3FFF39FC03FF8C7F1FFF39FFFFFF8C7F8FFF39FC007F80FFC7FF39FFFFFF8C7FE3FF39FC03FF8C7FF1FF39FFFFFF8C7FF8FF39FC007F00FFF03E10FFFFFFFFFFFFFFFFFC03FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9FFFFFFFC00FFFFF6CFFE008000FFFFF6B7FE000000FFFFF6B7FE000000FFF7F8B780000000C1F7FE8F80000001C3FBFE3F80000003C7FBFF7F80000003CBFBFE3F80010003DCF7FEBF80030003FF0FFC9F80070FC3FFFFFDDF807F0003FFFFFDDF80FF8007FFFFFDDF81FFF87FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC001C007C007001F8031BFEBC007000F80310005C007000780317E31C007000380017E35C007000180010006C007000080017FEAC007001F8FF18014C007001F8FF1C00AC007001F8FF1E001C0078FF18FF1E007C00FFFF98FF1F007C01FFF758FF5F003C03FFF8F8001F803FFFFFFFFFFFFFFFF00000000000000000000000000000000000000000000"
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "FontDialog1",
+      "class_name": "TFontDialog",
+      "props": {
+        "Font.Charset": "ANSI_CHARSET",
+        "Font.Color": "clWindowText",
+        "Font.Height": -12,
+        "Font.Name": "굴림",
+        "Font.Style": [
+          "fsBold"
+        ],
+        "MinFontSize": 0,
+        "MaxFontSize": 0,
+        "Left": 24,
+        "Top": 104
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "DataSource2",
+      "class_name": "TDataSource",
+      "props": {
+        "DataSet": "Query2",
+        "OnDataChange": "DataSource2DataChange",
+        "Left": 24,
+        "Top": 168
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "Query2",
+      "class_name": "TClientDataSet",
+      "props": {
+        "Aggregates": "<>",
+        "Params": "<>",
+        "Left": 56,
+        "Top": 168
+      },
+      "children": [
+        {
+          "kind": "object",
+          "name": "Query2GDATE",
+          "class_name": "TStringField",
+          "props": {
+            "FieldName": "GDATE",
+            "Size": 10
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "kind": "object",
+      "name": "Query0",
+      "class_name": "TZMySqlQuery",
+      "props": {
+        "Database": "Base10.Database",
+        "Transaction": "Base10.Transact",
+        "CachedUpdates": false,
+        "ShowRecordTypes": [
+          "ztModified",
+          "ztInserted",
+          "ztUnmodified"
+        ],
+        "Options": [
+          "doHourGlass",
+          "doAutoFillDefs",
+          "doUseRowId"
+        ],
+        "LinkOptions": [
+          "loAlwaysResync"
+        ],
+        "Constraints": "<>",
+        "ExtraOptions": [
+          "moStoreResult"
+        ],
+        "Macros": "<>",
+        "RequestLive": false,
+        "Left": 56,
+        "Top": 104
+      },
+      "children": []
+    }
+  ]
+}

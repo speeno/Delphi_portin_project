@@ -1,0 +1,11 @@
+{
+  "form": "Sobo36",
+  "title": "��ǰ���ų���",
+  "unsupported_controls": [
+    {
+      "name": "Sobo36",
+      "class_name": "TSobo36",
+      "reason": "unsupported_component"
+    }
+  ]
+}

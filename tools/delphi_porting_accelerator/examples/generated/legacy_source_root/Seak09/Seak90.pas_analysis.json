@@ -1,0 +1,1288 @@
+{
+  "encoding": "utf-8-sig",
+  "event_handlers": [
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "Edit101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit102KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit111KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit111KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit112KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit112KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "BitBtn101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "BitBtn102Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button300Click",
+      "signature": "St0,St1: String"
+    },
+    {
+      "name": "Button301Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button302Click",
+      "signature": "St1: String"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit201",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 1,List1],0)"
+    },
+    {
+      "component": "Edit202",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 2,List1],0)"
+    },
+    {
+      "component": "Edit203",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 3,List1],0)"
+    },
+    {
+      "component": "Edit204",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 4,List1],0)"
+    },
+    {
+      "component": "Edit205",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 5,List1],0)"
+    },
+    {
+      "component": "Edit206",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 6,List1],0)"
+    },
+    {
+      "component": "Edit207",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 7,List1],0)"
+    },
+    {
+      "component": "Edit208",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 8,List1],0)"
+    },
+    {
+      "component": "Edit209",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[ 9,List1],0)"
+    },
+    {
+      "component": "Edit210",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[10,List1],0)"
+    },
+    {
+      "component": "Edit211",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[11,List1],0)"
+    },
+    {
+      "component": "Edit212",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[12,List1],0)"
+    },
+    {
+      "component": "Edit213",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[13,List1],0)"
+    },
+    {
+      "component": "Edit214",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[14,List1],0)"
+    },
+    {
+      "component": "Edit215",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[15,List1],0)"
+    },
+    {
+      "component": "Edit216",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[16,List1],0)"
+    },
+    {
+      "component": "Edit217",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[17,List1],0)"
+    },
+    {
+      "component": "Edit218",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[18,List1],0)"
+    },
+    {
+      "component": "Edit219",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[19,List1],0)"
+    },
+    {
+      "component": "Edit220",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[20,List1],0)"
+    },
+    {
+      "component": "Edit221",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[21,List1],0)"
+    },
+    {
+      "component": "Edit222",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[22,List1],0)"
+    },
+    {
+      "component": "Edit223",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[23,List1],0)"
+    },
+    {
+      "component": "Edit224",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[24,List1],0)"
+    },
+    {
+      "component": "Edit225",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[25,List1],0)"
+    },
+    {
+      "component": "Edit226",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[26,List1],0)"
+    },
+    {
+      "component": "Edit227",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[27,List1],0)"
+    },
+    {
+      "component": "Edit228",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[28,List1],0)"
+    },
+    {
+      "component": "Edit229",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[29,List1],0)"
+    },
+    {
+      "component": "Edit230",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[30,List1],0)"
+    },
+    {
+      "component": "Edit231",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[31,List1],0)"
+    },
+    {
+      "component": "Edit232",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[32,List1],0)"
+    },
+    {
+      "component": "Edit233",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[33,List1],0)"
+    },
+    {
+      "component": "Edit234",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[34,List1],0)"
+    },
+    {
+      "component": "Edit235",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[35,List1],0)"
+    },
+    {
+      "component": "Edit236",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[36,List1],0)"
+    },
+    {
+      "component": "Edit237",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[37,List1],0)"
+    },
+    {
+      "component": "Edit240",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[38,List1],0)"
+    },
+    {
+      "component": "Edit241",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[39,List1],0)"
+    },
+    {
+      "component": "Edit242",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[40,List1],0)"
+    },
+    {
+      "component": "Edit243",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[41,List1],0)"
+    },
+    {
+      "component": "Edit244",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[42,List1],0)"
+    },
+    {
+      "component": "Edit245",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[43,List1],0)"
+    },
+    {
+      "component": "Edit246",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[44,List1],0)"
+    },
+    {
+      "component": "Edit247",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[45,List1],0)"
+    },
+    {
+      "component": "Edit248",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[46,List1],0)"
+    },
+    {
+      "component": "Edit261",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[47,List1],0)"
+    },
+    {
+      "component": "Edit262",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[48,List1],0)"
+    },
+    {
+      "component": "Edit263",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[49,List1],0)"
+    },
+    {
+      "component": "Edit264",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[50,List1],0)"
+    },
+    {
+      "component": "Edit265",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[51,List1],0)"
+    },
+    {
+      "component": "Edit266",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[52,List1],0)"
+    },
+    {
+      "component": "Edit301",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[53,List1],0)"
+    },
+    {
+      "component": "Edit302",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[54,List1],0)"
+    },
+    {
+      "component": "Edit303",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[55,List1],0)"
+    },
+    {
+      "component": "Edit304",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[56,List1],0)"
+    },
+    {
+      "component": "Edit305",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[57,List1],0)"
+    },
+    {
+      "component": "Edit306",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[58,List1],0)"
+    },
+    {
+      "component": "Edit307",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[59,List1],0)"
+    },
+    {
+      "component": "Edit308",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[60,List1],0)"
+    },
+    {
+      "component": "Edit309",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[61,List1],0)"
+    },
+    {
+      "component": "Edit310",
+      "property": "Text",
+      "expression": "SGrid.Cells[62,List1]"
+    },
+    {
+      "component": "Edit312",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[63,List1],0)"
+    },
+    {
+      "component": "Edit902",
+      "property": "Value",
+      "expression": "StrToIntDef(SGrid.Cells[64,List1],0)"
+    },
+    {
+      "component": "Edit901",
+      "property": "Text",
+      "expression": "SGrid.Cells[65,List1]"
+    },
+    {
+      "component": "Edit238",
+      "property": "Text",
+      "expression": "SGrid.Cells[66,List1]"
+    },
+    {
+      "component": "Edit239",
+      "property": "Text",
+      "expression": "SGrid.Cells[67,List1]"
+    },
+    {
+      "component": "Edit201",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit202",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit203",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit204",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit205",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit206",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit207",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit208",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit209",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit210",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit211",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit212",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit213",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit214",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit215",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit216",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit217",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit218",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit219",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit220",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit221",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit222",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit223",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit224",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit225",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit226",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit227",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit228",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit229",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit230",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit231",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit232",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit233",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit234",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit235",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit236",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit237",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit238",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit239",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit240",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit241",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit242",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit243",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit244",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit245",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit246",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit247",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit248",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit261",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit262",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit263",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit264",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit265",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit266",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit301",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit302",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit303",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit304",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit305",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit306",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit307",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit308",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit309",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit310",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit311",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit312",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit313",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit314",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit315",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit901",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit902",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit205",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit206",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit207",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit205",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit206",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit207",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit208",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit209",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit210",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit208",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit209",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit210",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit218",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit220",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit218",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit220",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit221",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit222",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit223",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit221",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit222",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit223",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit240",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit242",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit240",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit242",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit243",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit244",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit245",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit243",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit244",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit245",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit233",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit234",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit235",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit233",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit234",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit235",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit313",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit314",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit315",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit313",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit314",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit315",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit225",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit225",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit211",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit212",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit213",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit211",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit212",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit213",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit214",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit215",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit216",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit214",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit215",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit216",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit231",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit232",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit224",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit231",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit232",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit224",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit247",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit248",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit246",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit247",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit248",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit246",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit301",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit302",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit303",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit301",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit302",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit303",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit304",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit305",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit306",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit304",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit305",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit306",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit307",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit308",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit309",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit307",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit308",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit309",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit310",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit311",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit312",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit310",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit311",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit312",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit261",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit262",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit263",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit261",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit262",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit263",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit265",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit266",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit264",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit265",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit266",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit264",
+      "property": "Enabled",
+      "expression": "False"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen"
+  ],
+  "messages": [
+    "E_Open",
+    "E_Open"
+  ]
+}

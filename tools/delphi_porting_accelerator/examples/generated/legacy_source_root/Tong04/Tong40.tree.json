@@ -1,0 +1,73 @@
+{
+  "kind": "object",
+  "name": "Tong40",
+  "class_name": "TTong40",
+  "props": {
+    "Left": 2356,
+    "Top": 375,
+    "BorderStyle": "bsSingle",
+    "Caption": "Tong40",
+    "ClientHeight": 36,
+    "ClientWidth": 292,
+    "Color": "clLime",
+    "Font.Charset": "ANSI_CHARSET",
+    "Font.Color": "clWindowText",
+    "Font.Height": -12,
+    "Font.Name": "굴림",
+    "Font.Style": [
+      "fsBold"
+    ],
+    "OldCreateOrder": false,
+    "Position": "poScreenCenter",
+    "OnHide": "FormHide",
+    "OnShow": "FormShow",
+    "PixelsPerInch": 96,
+    "TextHeight": 12
+  },
+  "children": [
+    {
+      "kind": "object",
+      "name": "myLabel3d1",
+      "class_name": "TmyLabel3d",
+      "props": {
+        "Left": 48,
+        "Top": 8,
+        "Width": 200,
+        "Height": 21,
+        "Caption": "자료 검색중 입니다.",
+        "Font.Charset": "ANSI_CHARSET",
+        "Font.Color": "clWindowText",
+        "Font.Height": -21,
+        "Font.Name": "굴림",
+        "Font.Style": [
+          "fsBold"
+        ],
+        "ParentColor": false,
+        "ParentFont": false,
+        "Transparent": true,
+        "AStyle3D": "Resit3d",
+        "AShadeLTSet": false
+      },
+      "children": []
+    },
+    {
+      "kind": "object",
+      "name": "FontDialog",
+      "class_name": "TFontDialog",
+      "props": {
+        "Font.Charset": "HANGEUL_CHARSET",
+        "Font.Color": "clWindowText",
+        "Font.Height": -13,
+        "Font.Name": "굴림체",
+        "Font.Style": [
+          "fsBold"
+        ],
+        "MinFontSize": 0,
+        "MaxFontSize": 0,
+        "Left": 8,
+        "Top": 3
+      },
+      "children": []
+    }
+  ]
+}
