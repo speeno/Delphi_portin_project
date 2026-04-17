@@ -13,6 +13,15 @@
 - MySQL 3.23 연동 메모: [`docs/mysql-3.23-legacy-connection-notes.md`](mysql-3.23-legacy-connection-notes.md)
 - 하네스·포팅 순서: [`harness-architecture.md`](../harness-architecture.md)
 - 프린트·바코드(스캐너) 연동 코드 조사: [`docs/legacy-print-scanner-integration-survey.md`](legacy-print-scanner-integration-survey.md)
+- 현장 인터뷰 진행·기록 템플릿: [`docs/field-interview-meeting-template.md`](field-interview-meeting-template.md)
+- 핵심 시나리오 후보(5~10개 합의용): [`docs/core-scenarios-candidates.md`](core-scenarios-candidates.md)
+- 쿼리 캡처 리허설 트래커: [`docs/query-capture-rehearsal-tracker.md`](query-capture-rehearsal-tracker.md)
+- 5축 평가·DoD/UAT 초안: [`docs/eval-axes-and-dod-draft.md`](eval-axes-and-dod-draft.md)
+- 승인 게이트 정합성 점검: [`docs/approval-gate-alignment-review.md`](approval-gate-alignment-review.md)
+- 인쇄·바코드 웹 대체 결정 메모(DEC-004): [`docs/decision-print-scanner-web.md`](decision-print-scanner-web.md)
+- 화면 카드 자동 생성 계획: [`docs/screen-cards-generation-plan.md`](screen-cards-generation-plan.md)
+- Migration Contract 1건(샘플, login): [`migration/contracts/login.yaml`](../migration/contracts/login.yaml)
+- Regression Test Pack 1건(샘플, login): [`migration/test-cases/login.json`](../migration/test-cases/login.json)
 
 ---
 

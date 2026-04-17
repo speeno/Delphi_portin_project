@@ -38,5 +38,14 @@
 - **영향**: Sprint 4 구현 순서에 직접 반영됨
 - **결정자**: 메인개발자 + 기획자
 
+### DEC-004: 인쇄·바코드 웹 대체 1차 방향
+- **일자**: 2026-04-21
+- **결정 사항**: 인쇄는 **브라우저 인쇄(HTML/CSS) + 라벨 서버 PDF** 하이브리드, 바코드 입력은 **키보드 웨지(USB-HID)**를 1차 채택. 라벨 직결·Web Serial/로컬 브리지는 베타 후 OQ-002 결과로 재검토.
+- **배경/근거**: 레거시는 `Printers`/`QuickRpt`/`Printer.Canvas`(OS 스풀 의존), `Tong08.pas`에서 `CPort` 시리얼 바코드 단일 진입점 사용. 베타 합격선("종이로 출력된다 + 바코드가 입력된다")을 가장 적은 리스크로 충족하기 위함.
+- **대안**: (1) 라벨 프린터 직결(드라이버·OS 종속 위험) (2) Web Serial 우선(브라우저 호환성 위험) (3) 클라이언트 네이티브 헬퍼(설치·운영 비용)
+- **영향**: 핵심 시나리오 C7·C8 계약 형태, 베타·인쇄 결과 게이트(#5) 입력물 형식
+- **결정자**: 메인개발자 (현업 OQ-002 클로저로 보강 예정)
+- **참조**: [`docs/decision-print-scanner-web.md`](../docs/decision-print-scanner-web.md), [`docs/legacy-print-scanner-integration-survey.md`](../docs/legacy-print-scanner-integration-survey.md)
+
 ---
-*최종 업데이트: Sprint 0 시작*
+*최종 업데이트: 2026-04-21 — DEC-004 추가 (이전: Sprint 0 시작)*

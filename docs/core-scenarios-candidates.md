@@ -1,0 +1,62 @@
+# 핵심 시나리오 후보 (5~10개 합의용)
+
+웹 베타 오픈 시 **반드시 돌아가야 하는 흐름**을 5~10개로 압축하기 위한 **후보 목록**입니다.
+[`docs/delphi-developer-confirmation-checklist.md`](delphi-developer-confirmation-checklist.md) §6.1 합의에 사용하며, 합의 후 `migration/contracts/`·`migration/test-cases/`의 입력으로 직접 연결됩니다.
+
+> 후보는 **레거시 정적 분석(L1·L2)** 결과를 근거로 추출했습니다. 회의에서 확정된 항목에 ✅ 표시 후, 미선택은 백로그로 보냅니다.
+
+## 1. 후보(요약)
+
+| # | 흐름 | 주요 폼/유닛 | 주요 테이블 | DB 영향 | 결정 |
+|---|------|---------------|--------------|---------|------|
+| C1 | **로그인·세션 시작** | `Chul`(`Subu00` 메인), 권한 조회 | `Id_Logn`, `Me_Sage` | SELECT 위주, `Id_Logn.Gcode` UPDATE | ☐ |
+| C2 | **출고 접수(주문 입력)** | `Subu`/`Sobo` 계열(출고 폼) | `S1_Ssub`, `Sg_Csum` | INSERT/UPDATE/DELETE | ☐ |
+| C3 | **입고 접수** | 입고 계열 폼(체크리스트 §1.4 확인) | 입고 본 테이블 + 마감 | INSERT/UPDATE | ☐ |
+| C4 | **반품 처리** | 반품 폼 + 정산 영향 | 반품·정산 테이블 | UPDATE/DELETE 동반 | ☐ |
+| C5 | **정산(일·월 마감)** | 마감/집계 폼 | 집계 테이블 | UPDATE 위주 | ☐ |
+| C6 | **거래/잔액 조회** | 조회 그리드(`TStringGrid`) | 거래·잔액 뷰/테이블 | SELECT only | ☐ |
+| C7 | **라벨/송장 인쇄** | `Tong04.Print_*`, `Seep13` 캔버스 | 인쇄 후 SELECT/마킹 | SELECT 위주 | ☐ |
+| C8 | **바코드 스캔 → 출고 매칭** | `Tong08`(COM 바코드) → `FTong07.Button104Click` | 바코드 매칭 SELECT/UPDATE | SELECT/UPDATE | ☐ |
+| C9 | **상품·고객 마스터 등록** | 마스터 폼 | `G6_Ggeo` 등 | INSERT/UPDATE/DELETE | ☐ |
+| C10 | **권한 관리(f11~f89)** | 사용자/권한 폼 | `Id_Logn` 권한 컬럼 | UPDATE | ☐ |
+
+(상세 시나리오는 회의 후 §3에 채워 넣음)
+
+## 2. 우선순위 가이드
+
+[`legacy-analysis/decisions.md`](../legacy-analysis/decisions.md) **DEC-003 권장 포팅 순서**(읽기전용 → 신규등록 → 수정/취소 → 배치/인쇄/장비 → 고객사 커스터마이징)에 맞춰 다음 묶음을 권장합니다.
+
+- **베타 필수**(가장 적은 수): C1 + C2 + C7 (로그인·출고·인쇄)
+- **베타 권장**(5개): + C6 + C8 (조회·바코드)
+- **내부오픈 확장**(10개): + C3, C4, C5, C9, C10
+
+## 3. 회의 확정 결과(채움란)
+
+회의 후 위 표의 **결정** 칸에 ✅/☐ 표시 후 아래 표를 채웁니다.
+
+| 채택 # | 흐름 | 베타·내부오픈 구분 | Migration Contract 파일명 | Test Pack 파일명 |
+|--------|------|-------------------|--------------------------|------------------|
+|  |  |  |  |  |
+|  |  |  |  |  |
+|  |  |  |  |  |
+
+## 4. 산출물 연결
+
+| 후보 → | 다음 산출물 |
+|--------|--------------|
+| 합의된 시나리오 | [`migration/contracts/<flow>.yaml`](../migration/contracts/) |
+| 합의된 시나리오 | [`migration/test-cases/<flow>.json`](../migration/test-cases/) |
+| 베타 라인 | `dashboard/data/release-milestones.json` `beta.exitCriteria` |
+| 분기/암묵 규칙 | `legacy-analysis/decisions.md` (DEC) / `open-questions.md` (OQ) |
+
+## 5. 출처(참조 데이터)
+
+- 폼 인벤토리: [`analysis/form_inventory.json`](../analysis/form_inventory.json)
+- 이벤트 흐름: [`analysis/event_flow.json`](../analysis/event_flow.json)
+- SQL 카탈로그: [`analysis/query_catalog.json`](../analysis/query_catalog.json)
+- DB 영향도: [`analysis/db_impact_matrix.json`](../analysis/db_impact_matrix.json)
+- 인쇄·바코드 코드 조사: [`docs/legacy-print-scanner-integration-survey.md`](legacy-print-scanner-integration-survey.md)
+
+---
+
+*최초 작성: 2026-04-21 — 포팅 직전 분석 작업 로드맵 1순위 산출물*

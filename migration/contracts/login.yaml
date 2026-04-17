@@ -1,0 +1,204 @@
+# Migration Contract: 로그인·세션 시작 (C1)
+# 본 계약은 레거시 델파이 동작을 웹(API+UI)에서 동등하게 재현하기 위한 1차 계약입니다.
+# 출처(레거시): legacy_delphi_source/legacy_source/Chul.pas FormCreate (line 441~) + ToolButton18Click (line 1956~)
+# 사용 폼: Subu00 (TSubu00, Chul.dfm)
+# 핵심 테이블: Id_Logn (analysis/db_impact_matrix.json: SELECT 9 / UPDATE 4)
+# 관련 OQ: OQ-001, OQ-DBL-002, OQ-DBL-003 (런타임 SQL 캡처로 보강)
+
+id: C1-login
+name: 로그인·세션 시작
+version: 0.1.0-draft
+status: draft           # draft → review → approved
+owners:
+  business: 메인개발자
+  legacy: 델파이 담당자
+  web: 웹 포팅 팀
+links:
+  candidate: docs/core-scenarios-candidates.md#1-후보요약
+  test_pack: migration/test-cases/login.json
+  source_legacy:
+    - legacy_delphi_source/legacy_source/Chul.pas
+    - legacy_delphi_source/legacy_source/Chul.dfm
+  related_open_questions:
+    - OQ-001  # 고객사 분기 — Hcode='0000' 슈퍼유저 판정이 모든 고객사 동일한지
+    - OQ-DBL-002  # 평문 비밀번호(Id_Logn.Gpass) 정책의 정합성
+    - OQ-DBL-003  # 런타임 SQL 캡처로 추가 SELECT 발견 시 본 계약 보강
+
+# ---------------------------------------------------------------
+# 1. 비즈니스 의도 (한 줄)
+# ---------------------------------------------------------------
+intent: |
+  사용자(작업자명/아이디/비밀번호)를 검증해 세션을 시작하고, 권한 코드(Hnnnn)와 표시명을
+  애플리케이션 헤더에 노출한다. 권한 코드 0000은 슈퍼유저 분기에 사용된다.
+
+# ---------------------------------------------------------------
+# 2. 입력 (UI/API 공용)
+# ---------------------------------------------------------------
+inputs:
+  - name: gname           # 레거시 Logn1 (작업자 이름)
+    type: string
+    required: true
+    legacy_field: Id_Logn.Gname
+    note: "한글 가능, 사용자가 수기 입력"
+  - name: gcode           # 레거시 Logn2 (로그인 코드/사번)
+    type: string
+    required: true
+    legacy_field: Id_Logn.Gcode
+    note: "코드 체계는 OQ-001 확인 필요"
+  - name: gpass           # 레거시 Logn3 (비밀번호)
+    type: string
+    required: true
+    legacy_field: Id_Logn.Gpass
+    sensitivity: secret
+    note: "레거시는 평문 비교(Gpass=Logn3). 웹 측은 §6 보안결정 참조"
+
+# ---------------------------------------------------------------
+# 3. 출력
+# ---------------------------------------------------------------
+outputs:
+  success:
+    - name: hcode         # 레거시 Hnnnn
+      type: string
+      legacy_field: Id_Logn.Hcode
+      use: "권한·고객사 분기 키. '0000'은 슈퍼유저"
+    - name: hname         # 레거시 Subu00.Caption 추가 표시
+      type: string
+      legacy_field: Id_Logn.Hname
+      use: "헤더에 표시"
+    - name: session_token # 신규(웹 전용)
+      type: string
+      use: "이후 모든 API 호출의 인증 토큰"
+  failure_codes:
+    - code: AUTH_NO_USER
+      legacy_message: "사용자 또는 아이디가 틀립니다."
+      condition: "SELECT 결과가 NODATA"
+    - code: AUTH_BAD_PASSWORD
+      legacy_message: "비밀번호가 틀립니다."
+      condition: "row.Gpass != input.gpass"
+    - code: AUTH_KEY_REGISTER_REQUIRED
+      legacy_message: "Program Key를 등록해 주세요."
+      condition: "Hnnnn이 ChulpanKey/Chul001~003Key 어느 것과도 매치되지 않음"
+      web_handling: "웹은 라이선스/키 검증을 서버 측 정책으로 이관 — §6 결정 필요"
+
+# ---------------------------------------------------------------
+# 4. 데이터 액세스 (레거시 SQL ↔ 웹 SQL)
+# ---------------------------------------------------------------
+data_access:
+  - id: SQL-LOGIN-1
+    legacy:
+      file: legacy_delphi_source/legacy_source/Chul.pas
+      line: 441
+      sql: |
+        Select Hcode, Hname, Gpass From Id_Logn
+         Where Gcode = '<Logn2>'
+           and Gname = '<Logn1>'
+    notes:
+      - "문자열 연결 SQL (#39 단일따옴표). 웹은 파라미터 바인딩 필수."
+      - "런타임 캡처(query_capture)로 동일 SELECT 1건 재확인 권장."
+    web:
+      method: SELECT
+      table: Id_Logn
+      columns: [Hcode, Hname, Gpass]
+      where:
+        - "Gcode = :gcode"
+        - "Gname = :gname"
+      bind: parameterized
+  - id: SQL-PWCHANGE-1   # 비밀번호 변경(ToolButton18Click) — 본 계약 베타 범위 외, 참고만
+    legacy:
+      file: legacy_delphi_source/legacy_source/Chul.pas
+      line: 1967
+      sql: |
+        UPDATE Id_Logn SET Gcode = '<St1>' WHERE Hcode = '0001'
+    notes:
+      - "주의: 컬럼명이 Gcode이지만 비밀번호 변경 처리에 쓰이는 인용 사례. OQ-DBL-002 검토 항목."
+    in_scope_for_beta: false
+
+# ---------------------------------------------------------------
+# 5. 엔드포인트 (웹)
+# ---------------------------------------------------------------
+endpoints:
+  - method: POST
+    path: /api/auth/login
+    request:
+      content_type: application/json
+      schema:
+        gcode: string
+        gname: string
+        gpass: string
+    responses:
+      "200":
+        body:
+          hcode: string
+          hname: string
+          session_token: string
+          is_super: boolean   # hcode == '0000'
+      "401":
+        body:
+          code: enum [AUTH_NO_USER, AUTH_BAD_PASSWORD]
+          message: string
+      "403":
+        body:
+          code: AUTH_KEY_REGISTER_REQUIRED
+          message: string
+
+# ---------------------------------------------------------------
+# 6. 차이점·결정 사항 (Decision Log 후보)
+# ---------------------------------------------------------------
+deltas:
+  - id: D-LOGIN-1
+    title: 비밀번호 평문 저장 → 단방향 해시
+    legacy_behavior: "Id_Logn.Gpass에 평문 보관, 동등 비교"
+    proposed_web_behavior: "별도 컬럼·테이블에 bcrypt/argon2 해시 저장. 마이그레이션은 첫 로그인 시 자동 해시 변환."
+    risk: "기존 평문이 살아있는 동안 병행 운영 필요"
+    decision_required_by: "API 계약 승인(approvals.json id 3)"
+    open_question: OQ-DBL-002
+
+  - id: D-LOGIN-2
+    title: 라이선스 키 체크(레지스트리) → 서버 측 정책
+    legacy_behavior: "클라이언트 레지스트리의 ChulpanKey/Chul001~003Key 와 Hnnnn 매치"
+    proposed_web_behavior: "웹은 클라이언트 키 비활성. 서버에서 인스턴스/계정 라이선스를 관리하거나 베타에서는 비활성."
+    risk: "고객사 라이선스 운영 정책 영향"
+    decision_required_by: "베타 게이트(approvals.json id 1)"
+    open_question: OQ-001
+
+  - id: D-LOGIN-3
+    title: "'0000' 슈퍼유저 분기의 일반화"
+    legacy_behavior: "Hnnnn='0000' 으로 슈퍼유저 분기"
+    proposed_web_behavior: "역할(role) 컬럼 또는 별도 권한 매트릭스로 일반화하되, 1차 베타는 '0000=super'를 동일 유지."
+    risk: "권한 매트릭스 미합의 시 베타 단계에서 차이 발생"
+    decision_required_by: "고객사별 차이 승인(approvals.json id 4)"
+    open_question: OQ-001
+
+# ---------------------------------------------------------------
+# 7. 동등성 기준 (5축 — eval-axes-and-dod-draft.md)
+# ---------------------------------------------------------------
+equivalence:
+  functional:
+    - "동일 (gcode, gname, gpass) 입력에 대한 성공/실패 분기가 레거시와 동일"
+    - "AUTH_NO_USER, AUTH_BAD_PASSWORD 메시지 분기 보존"
+  data:
+    - "Id_Logn 데이터에 대해 본 흐름은 SELECT only (변경 없음)"
+    - "비밀번호 변경 흐름은 본 계약 범위 밖(별도 계약)"
+  ux:
+    - "헤더에 hname 표시 동일성"
+    - "에러 메시지 한글 문구 의미 보존(문장은 다소 다듬을 수 있음)"
+  performance:
+    - "p95 < 500 ms (네트워크 포함)"
+  audit:
+    - "로그인 성공·실패 모두 감사 로그 기록(레거시는 미흡 → 신규 요구)"
+
+# ---------------------------------------------------------------
+# 8. 비범위 (out of scope for this contract)
+# ---------------------------------------------------------------
+out_of_scope:
+  - "비밀번호 변경 / 초기 비밀번호 발급 — 별도 계약"
+  - "고객사 자체 SSO·도메인 인증 — OQ-001 결과에 따라 별도 계약"
+  - "레지스트리 키 체크 — 웹에서는 §6 D-LOGIN-2로 대체"
+
+# ---------------------------------------------------------------
+# 9. 변경 이력
+# ---------------------------------------------------------------
+changelog:
+  - date: 2026-04-21
+    by: porting-team
+    note: "초안 작성. 정적 분석 + Chul.pas L441/L1959/L1967 인용으로 1차 계약 도출."

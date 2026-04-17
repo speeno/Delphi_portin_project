@@ -1,0 +1,171 @@
+{
+  "$schema_note": "본 파일은 회귀 테스트 팩(Regression Test Pack) 1차 초안입니다. migration/contracts/login.yaml 과 1:1 대응합니다.",
+  "id": "C1-login",
+  "contract": "migration/contracts/login.yaml",
+  "version": "0.1.0-draft",
+  "status": "draft",
+  "owners": {
+    "business": "메인개발자",
+    "legacy": "델파이 담당자",
+    "web": "웹 포팅 팀"
+  },
+  "fixtures": {
+    "table": "Id_Logn",
+    "rows": [
+      { "Hcode": "0000", "Hname": "관리자",  "Gcode": "admin",  "Gname": "관리자", "Gpass": "test1234" },
+      { "Hcode": "0123", "Hname": "홍길동",  "Gcode": "hong01", "Gname": "홍길동", "Gpass": "qwer5678" },
+      { "Hcode": "0456", "Hname": "김영희",  "Gcode": "kim02",  "Gname": "김영희", "Gpass": "p@ssword!" }
+    ],
+    "notes": [
+      "테스트 픽스처는 PII가 아닌 더미 값입니다.",
+      "운영 데이터로의 매핑은 query_capture 리허설 후 보강합니다."
+    ]
+  },
+  "axes": ["functional", "data", "ux", "performance", "audit"],
+  "cases": [
+    {
+      "id": "TC-LOGIN-001",
+      "title": "정상 로그인 (일반 사용자)",
+      "axes": ["functional", "ux"],
+      "given": { "Id_Logn_seeded": true },
+      "request": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "body": { "gcode": "hong01", "gname": "홍길동", "gpass": "qwer5678" }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": {
+          "hcode": "0123",
+          "hname": "홍길동",
+          "is_super": false
+        },
+        "body_has_keys": ["session_token"]
+      },
+      "legacy_equivalent": "Chul.pas FormCreate 라인 441~459: SELECT 성공 + Gpass==Logn3"
+    },
+    {
+      "id": "TC-LOGIN-002",
+      "title": "정상 로그인 (슈퍼유저 0000)",
+      "axes": ["functional"],
+      "request": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "body": { "gcode": "admin", "gname": "관리자", "gpass": "test1234" }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": { "hcode": "0000", "is_super": true }
+      },
+      "legacy_equivalent": "Chul.pas L486 if Hnnnn='0000' then ..."
+    },
+    {
+      "id": "TC-LOGIN-003",
+      "title": "비밀번호 불일치",
+      "axes": ["functional", "ux"],
+      "request": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "body": { "gcode": "hong01", "gname": "홍길동", "gpass": "WRONG" }
+      },
+      "expect": {
+        "status": 401,
+        "body_contains": { "code": "AUTH_BAD_PASSWORD" }
+      },
+      "legacy_equivalent": "Chul.pas L453 ShowMessage('비밀번호가 틀립니다.')"
+    },
+    {
+      "id": "TC-LOGIN-004",
+      "title": "사용자/아이디 불일치 (NODATA)",
+      "axes": ["functional", "ux"],
+      "request": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "body": { "gcode": "ghost", "gname": "유령", "gpass": "any" }
+      },
+      "expect": {
+        "status": 401,
+        "body_contains": { "code": "AUTH_NO_USER" }
+      },
+      "legacy_equivalent": "Chul.pas L457 ShowMessage('사용자 또는 아이디가 틀립니다.')"
+    },
+    {
+      "id": "TC-LOGIN-005",
+      "title": "Gname 케이스 차이 (대소문자/공백) — 합의 필요",
+      "axes": ["functional"],
+      "request": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "body": { "gcode": "hong01", "gname": " 홍길동 ", "gpass": "qwer5678" }
+      },
+      "expect_one_of": [
+        { "status": 200, "rationale": "양 끝 공백/케이스 정규화 후 일치" },
+        { "status": 401, "rationale": "레거시는 단순 = 비교, 정규화 미수행" }
+      ],
+      "open_question": "OQ-001",
+      "note": "현장 인터뷰에서 '공백 무시' 관행 여부 확인 후 명세 확정."
+    },
+    {
+      "id": "TC-LOGIN-006",
+      "title": "SQL 인젝션 방어 (입력 검증)",
+      "axes": ["audit", "functional"],
+      "request": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "body": { "gcode": "hong01' OR '1'='1", "gname": "x", "gpass": "x" }
+      },
+      "expect": {
+        "status": 401,
+        "body_contains": { "code": "AUTH_NO_USER" }
+      },
+      "rationale": "레거시는 #39 문자열 결합으로 취약. 웹은 파라미터 바인딩으로 항상 NODATA 분기."
+    },
+    {
+      "id": "TC-LOGIN-007",
+      "title": "데이터 변경 없음 — Id_Logn read-only",
+      "axes": ["data"],
+      "given": { "snapshot": "Id_Logn_before" },
+      "do": [
+        "TC-LOGIN-001 시나리오 실행"
+      ],
+      "expect": {
+        "snapshot_equal": ["Id_Logn_before", "Id_Logn_after"]
+      },
+      "rationale": "본 흐름은 SELECT only. UPDATE는 별도 비밀번호 변경 흐름."
+    },
+    {
+      "id": "TC-LOGIN-008",
+      "title": "성능 — p95 < 500ms (warm)",
+      "axes": ["performance"],
+      "load": { "rps": 5, "duration_s": 60, "warmup_s": 10 },
+      "expect": {
+        "p95_ms_lt": 500,
+        "error_rate_lt": 0.005
+      }
+    },
+    {
+      "id": "TC-LOGIN-009",
+      "title": "감사 로그 — 성공/실패 모두 기록",
+      "axes": ["audit"],
+      "do": [
+        "TC-LOGIN-001 (성공)",
+        "TC-LOGIN-003 (비밀번호 불일치)"
+      ],
+      "expect": {
+        "audit_log_entries_min": 2,
+        "fields_required": ["timestamp", "gcode", "result", "client_ip"]
+      },
+      "rationale": "레거시는 명시 감사 로그 미흡. 웹 신규 요구."
+    }
+  ],
+  "outstanding": {
+    "blocked_by_open_questions": ["OQ-001", "OQ-DBL-002", "OQ-DBL-003"],
+    "post_query_capture_actions": [
+      "TC-LOGIN-001 SQL 결과 컬럼 순서/추가 SELECT(권한 캐시 등) 발견 시 케이스 추가",
+      "비밀번호 정책 결정(평문 → 해시) 후 fixtures 갱신"
+    ]
+  },
+  "changelog": [
+    { "date": "2026-04-21", "by": "porting-team", "note": "초안 작성. login.yaml 과 1:1 매핑된 9개 케이스." }
+  ]
+}
