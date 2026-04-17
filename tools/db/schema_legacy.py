@@ -21,6 +21,91 @@ def _esc_ident(name: str) -> str:
     return "`" + name.replace("`", "``") + "`"
 
 
+def _probe_mysql3_routines(query_fn: Any, database: str) -> tuple[list[dict], str]:
+    """MySQL 3.23에서 저장 루틴 수집을 시도한다. 실패하면 사유를 기록."""
+    probes = [
+        ("mysql.proc", f"SELECT name, type, body FROM mysql.proc WHERE db = '{database}'"),
+        ("SHOW PROCEDURE STATUS", f"SHOW PROCEDURE STATUS WHERE Db = '{database}'"),
+        ("SHOW FUNCTION STATUS", f"SHOW FUNCTION STATUS WHERE Db = '{database}'"),
+    ]
+    routines: list[dict] = []
+    errors: list[str] = []
+    for label, sql in probes:
+        try:
+            rows = query_fn(sql)
+            for r in rows:
+                name = r.get("name") or r.get("Name") or r.get("NAME") or ""
+                rtype = r.get("type") or r.get("Type") or r.get("TYPE") or "PROCEDURE"
+                body = r.get("body") or r.get("Body") or ""
+                if name:
+                    routines.append({
+                        "name": str(name),
+                        "type": str(rtype),
+                        "definition": str(body)[:2000],
+                        "comment": f"[mysql3 probe: {label}]",
+                    })
+        except Exception as exc:
+            errors.append(f"{label}: {type(exc).__name__}: {str(exc)[:200]}")
+
+    if routines:
+        return routines, "collected"
+    if errors:
+        return [], f"uncollectable — {'; '.join(errors)}"
+    return [], "uncollectable — no probe returned data"
+
+
+def _probe_mysql3_triggers(query_fn: Any, database: str) -> tuple[list[dict], str]:
+    """MySQL 3.23에서 트리거 수집을 시도한다 (3.23에는 트리거 없을 가능성 높음)."""
+    probes = [
+        ("SHOW TRIGGERS", "SHOW TRIGGERS"),
+        ("INFORMATION_SCHEMA.TRIGGERS", f"SELECT TRIGGER_NAME, EVENT_MANIPULATION, EVENT_OBJECT_TABLE, ACTION_TIMING, ACTION_STATEMENT FROM INFORMATION_SCHEMA.TRIGGERS WHERE TRIGGER_SCHEMA = '{database}'"),
+    ]
+    triggers: list[dict] = []
+    errors: list[str] = []
+    for label, sql in probes:
+        try:
+            rows = query_fn(sql)
+            for r in rows:
+                name = r.get("Trigger") or r.get("TRIGGER_NAME") or r.get("trigger") or ""
+                tbl = r.get("Table") or r.get("EVENT_OBJECT_TABLE") or r.get("table") or ""
+                event = r.get("Event") or r.get("EVENT_MANIPULATION") or ""
+                timing = r.get("Timing") or r.get("ACTION_TIMING") or ""
+                stmt = r.get("Statement") or r.get("ACTION_STATEMENT") or ""
+                if name:
+                    triggers.append({
+                        "name": str(name),
+                        "table_name": str(tbl),
+                        "event": str(event),
+                        "timing": str(timing),
+                        "statement": str(stmt)[:2000],
+                    })
+        except Exception as exc:
+            errors.append(f"{label}: {type(exc).__name__}: {str(exc)[:200]}")
+
+    if triggers:
+        return triggers, "collected"
+    if errors:
+        return [], f"uncollectable — {'; '.join(errors)}"
+    return [], "uncollectable — MySQL 3.23 does not support triggers"
+
+
+def _probe_mysql3_views(query_fn: Any, database: str) -> tuple[list[dict], str]:
+    """MySQL 3.23에서 뷰 수집을 시도한다 (3.23에는 뷰가 없으므로 빈 결과 예상)."""
+    try:
+        rows = query_fn(f"SELECT TABLE_NAME, VIEW_DEFINITION FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_SCHEMA = '{database}'")
+        views = []
+        for r in rows:
+            name = r.get("TABLE_NAME") or ""
+            defn = r.get("VIEW_DEFINITION") or ""
+            if name:
+                views.append({"name": str(name), "definition": str(defn)[:2000]})
+        if views:
+            return views, "collected"
+        return [], "uncollectable — no views found (MySQL 3.23 does not support views)"
+    except Exception as exc:
+        return [], f"uncollectable — {type(exc).__name__}: {str(exc)[:200]}"
+
+
 def extract_mysql3_meta(
     query_fn: Any, database: str, *, create_sql_max: int = 12000
 ) -> dict[str, Any]:
@@ -141,6 +226,10 @@ def extract_mysql3_meta(
         except Exception:
             table_create.append({"table_name": tname, "create_sql": ""})
 
+    routines, routines_probe = _probe_mysql3_routines(query_fn, database)
+    triggers, triggers_probe = _probe_mysql3_triggers(query_fn, database)
+    views, views_probe = _probe_mysql3_views(query_fn, database)
+
     import sys
     from pathlib import Path
 
@@ -157,18 +246,21 @@ def extract_mysql3_meta(
         "columns": len(columns),
         "keys": len(keys),
         "indexes": len(indexes),
-        "routines": 0,
-        "triggers": 0,
-        "views": 0,
+        "routines": len(routines),
+        "triggers": len(triggers),
+        "views": len(views),
+        "routines_probe": routines_probe,
+        "triggers_probe": triggers_probe,
+        "views_probe": views_probe,
     }
     return {
         "tables": tables,
         "columns": columns,
         "keys": keys,
         "indexes": indexes,
-        "routines": [],
-        "triggers": [],
-        "views": [],
+        "routines": routines,
+        "triggers": triggers,
+        "views": views,
         "table_ddl": table_create,
         "db_impact_matrix": impact,
         "schema_summary": summary,

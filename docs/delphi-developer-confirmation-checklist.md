@@ -5,8 +5,11 @@
 
 **관련 레포 산출물**
 
-- 미해결 질문: [`legacy-analysis/open-questions.md`](../legacy-analysis/open-questions.md) (OQ-001 ~ OQ-003)
+- 미해결 질문: [`legacy-analysis/open-questions.md`](../legacy-analysis/open-questions.md) (OQ-001 ~ OQ-003, OQ-DBL-001 ~ OQ-DBL-003)
 - DB 스키마 메타·서버 간 diff 요약: [`docs/db-schema-porting-readiness.md`](db-schema-porting-readiness.md)
+- DB 비즈니스 로직 인벤토리: [`docs/db-business-logic-inventory.md`](db-business-logic-inventory.md)
+- DB 로직 갭 리포트: [`docs/db-logic-porting-gap-report.md`](db-logic-porting-gap-report.md)
+- 쿼리 캡처 런북: [`docs/query-capture-runbook.md`](query-capture-runbook.md)
 - MySQL 3.23 연동 메모: [`docs/mysql-3.23-legacy-connection-notes.md`](mysql-3.23-legacy-connection-notes.md)
 - 하네스·포팅 순서: [`harness-architecture.md`](../harness-architecture.md)
 
@@ -44,7 +47,7 @@
 | 2.2 | 서버 간 **테이블 유무·컬럼 차이**가 업무적으로 허용되는가? (예: 153에만 있는 테이블의 용도) | | 스키마 diff 참고 |
 | 2.3 | **MySQL 3.23** 인스턴스(예: 154/155)를 **앞으로 몇 년** 유지할 계획인가? 웹은 읽기 전용만 할지 | | `mysql-3.23-legacy-connection-notes.md` |
 | 2.4 | 한글·메모 필드의 **문자셋·콜레이션**에 대한 현장 합의(깨짐 없이 가야 하는 범위) | | |
-| 2.5 | 델파이가 아닌 **DB 측 규칙**(트리거, 저장 루틴, 뷰)이 업무에 중요한가? 목록이나 문서가 있는가? | | |
+| 2.5 | 델파이가 아닌 **DB 측 규칙**(트리거, 저장 루틴, 뷰)이 업무에 중요한가? 목록이나 문서가 있는가? | 1차 자동 조사: 4대 서버 루틴/트리거/뷰 **0건** | → [인벤토리](db-business-logic-inventory.md) · [갭 리포트](db-logic-porting-gap-report.md) · OQ-DBL-001~003 |
 | 2.6 | 동일 레코드를 **여러 화면에서 동시에** 수정할 때 실제 관행은 무엇인가? (마지막 저장 우선, 경고만 등) | | |
 
 ---
@@ -92,8 +95,10 @@
 
 ## 7. 회의 후 조치 (담당)
 
-- [ ] `legacy-analysis/open-questions.md` OQ 상태·해결 방법 반영  
+- [ ] `legacy-analysis/open-questions.md` OQ + OQ-DBL 상태·해결 방법 반영  
 - [ ] `docs/db-schema-porting-readiness.md` 또는 별도 메모에 **DB 정본·스키마 정책** 기록  
+- [ ] `docs/db-business-logic-inventory.md` — §2.5 확인 결과 반영, 포팅 상태 갱신  
+- [ ] `docs/db-logic-porting-gap-report.md` — 새 GAP 항목 추가 또는 기존 항목 클로저  
 - [ ] `migration/contracts`, `migration/test-cases` 후보 시나리오 문서화 (해당 디렉터리가 비어 있으면 우선 1건 생성)
 
 ---

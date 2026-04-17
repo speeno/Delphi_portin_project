@@ -27,10 +27,30 @@
 **138 vs 153:** 153에만 있는 테이블 28개 · 공통 51 · 컬럼 정의 차이 576건(표현 차 포함 가능).  
 **154 vs 155:** 155에만 14테이블 · 154에만 `S1_Logn` · 공통 64 · 컬럼 이슈 160 · DDL 길이 불일치 8.
 
-## 3. 권장 다음 액션
+## 3. DB 내 비즈니스 로직 검토
+
+| 객체 유형 | 138 | 153 | 154 (3.23) | 155 (3.23) | 비고 |
+|-----------|-----|-----|-----------|-----------|------|
+| 저장 루틴 (PROCEDURE/FUNCTION) | 0 | 0 | 미지원 | 미지원 | INFORMATION_SCHEMA + mysql3 probe |
+| 트리거 (TRIGGER) | 0 | 0 | 미지원 | 미지원 | 3.23은 트리거 기능 없음 |
+| 뷰 (VIEW) | 0 | 0 | 미지원 | 미지원 | 3.23은 뷰 기능 없음 |
+| 외래키 (FK) | 0 | 0 | — | — | 코드 측 참조 무결성 의존 |
+| UNIQUE 제약 | 0 | 0 | — | — | 코드 측 중복 체크 의존 |
+
+**1차 판단:** DB 측 비즈니스 로직 객체는 전 서버에서 **0건**. 비즈니스 로직은 델파이 클라이언트 코드에 집중.
+
+**확정을 위한 조건:**
+- [ ] 체크리스트 §2.5 현장 확인 완료
+- [ ] query_capture 운영 리허설 1회 이상 실시
+- [ ] OQ-DBL-001~003 클로저
+
+**상세:** [`docs/db-business-logic-inventory.md`](db-business-logic-inventory.md), [`docs/db-logic-porting-gap-report.md`](db-logic-porting-gap-report.md)
+
+## 4. 권장 다음 액션
 
 1. 업무 우선순위가 높은 테이블(로그인·출고·재고) 위주로 `column_issues` 필터링.  
 2. `migration/contracts/*.yaml` + `migration/test-cases/*.json` 최소 1흐름.  
 3. OQ-003(운영 DB 대수·스키마 정책)와 diff 결과 정렬.
+4. **DB 로직 인벤토리·갭 리포트** 갱신 후 OQ-DBL 시리즈 클로저.
 
 상세 JSON은 로컬 `debug/output/schema/` 에서 재생성하세요.
