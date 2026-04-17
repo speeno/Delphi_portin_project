@@ -12,6 +12,7 @@
 - 쿼리 캡처 런북: [`docs/query-capture-runbook.md`](query-capture-runbook.md)
 - MySQL 3.23 연동 메모: [`docs/mysql-3.23-legacy-connection-notes.md`](mysql-3.23-legacy-connection-notes.md)
 - 하네스·포팅 순서: [`harness-architecture.md`](../harness-architecture.md)
+- 프린트·바코드(스캐너) 연동 코드 조사: [`docs/legacy-print-scanner-integration-survey.md`](legacy-print-scanner-integration-survey.md)
 
 ---
 
@@ -67,7 +68,7 @@
 
 | # | 확인 사항 | 답변 요약 | 비고 |
 |---|-----------|-----------|------|
-| 4.1 | 스캐너·라벨 프린터·저울 등 **장비 모델**과 **연결 방식**(USB HID, COM, 네트워크, 전용 드라이버) | | → OQ-002 |
+| 4.1 | 스캐너·라벨 프린터·저울 등 **장비 모델**과 **연결 방식**(USB HID, COM, 네트워크, 전용 드라이버) | | → OQ-002 · [코드 1차 조사](legacy-print-scanner-integration-survey.md) |
 | 4.2 | **FTP·공유폴더·파일 경로**를 쓰는 기능(예: 전송자료 수신)의 실제 경로·계정·방화벽 규칙 | | |
 | 4.3 | 이메일·SMS·외부 HTTP 등 **코드에만 있는 연동** 중 **현재도 사용 중**인 것은 무엇인가? | | |
 

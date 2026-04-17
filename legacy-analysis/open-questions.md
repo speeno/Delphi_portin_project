@@ -24,6 +24,7 @@
 - **발생 시점**: Sprint 0 계획 수립
 - **영향 범위**: 장비 브리지 설계, Capture Harness 캡처 범위
 - **상태**: 미해결
+- **코드베이스 1차 조사 (레거시 소스)**: [`docs/legacy-print-scanner-integration-survey.md`](../docs/legacy-print-scanner-integration-survey.md) — 프린터(VCL/QuickReport/캔버스), COM 바코드(`Tong08`), 리포트 바코드 객체(`Tong06.dfm`) 확인. TWAIN/WIA 스캐너 API는 미발견.
 
 ### OQ-003: DB 서버 구성
 - **질문**: 운영 DB 서버가 몇 대이며, 서버 간 스키마 차이가 있는가?
@@ -51,4 +52,4 @@
 - **상태**: 미해결
 
 ---
-*최종 업데이트: 2026-04-21 — OQ-DBL 시리즈 추가 (DB 비즈니스 로직 포팅 누락 방지)*
+*최종 업데이트: 2026-04-21 — OQ-002에 [`docs/legacy-print-scanner-integration-survey.md`](../docs/legacy-print-scanner-integration-survey.md) 링크 추가. (이전: OQ-DBL 시리즈 2026-04-21)*
