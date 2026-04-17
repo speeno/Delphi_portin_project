@@ -31,6 +31,8 @@ async function loadAll() {
     evalSummary,
     releaseMilestones,
     dbStatus,
+    dbSchemaAnalysis,
+    webPortingProgress,
   ] = await Promise.all([
     loadJSON('project.json'),
     loadJSON('sprints.json'),
@@ -44,8 +46,34 @@ async function loadAll() {
     loadJSON('eval-summary.json'),
     loadJSON('release-milestones.json'),
     loadJSON('db-status.json'),
+    loadJSON('db-schema-analysis.json'),
+    loadJSON('web-porting-progress.json'),
   ]);
-  return { project, sprints, todos, todoFlow, harness, deliverables, approvals, risks, timeline, evalSummary, releaseMilestones, dbStatus };
+  return {
+    project,
+    sprints,
+    todos,
+    todoFlow,
+    harness,
+    deliverables,
+    approvals,
+    risks,
+    timeline,
+    evalSummary,
+    releaseMilestones,
+    dbStatus,
+    dbSchemaAnalysis,
+    webPortingProgress,
+  };
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 function buildTaskMap(todos) {
@@ -374,6 +402,101 @@ function renderDbStatusCard(dbStatus) {
     <div class="db-status-meta">${meta}</div>
     <div class="db-status-host-list">${rows}</div>
   </div>`;
+}
+
+function renderDbSchemaAnalysisCard(schema) {
+  if (!schema || !Array.isArray(schema.servers) || !schema.servers.length) return '';
+  const meta = [
+    schema.updatedAt ? `갱신: ${schema.updatedAt}` : '',
+    schema.tooling && schema.tooling.extractScript
+      ? `추출: <code style="font-size:11px">${schema.tooling.extractScript}</code>`
+      : '',
+    schema.tooling && schema.tooling.localOutput
+      ? `로컬 산출: <code style="font-size:11px">${schema.tooling.localOutput}</code>`
+      : '',
+  ]
+    .filter(Boolean)
+    .map((line) => `<div class="db-status-meta-line">${line}</div>`)
+    .join('');
+  const rows = schema.servers
+    .map(
+      (s) =>
+        `<div class="overview-asset-row db-status-host-row">
+        <span class="overview-asset-desc"><code class="db-status-ip">${s.id}</code> · ${s.label || ''}<br/><span style="font-size:11px;color:var(--text-muted)">${s.extractionMode} · 테이블 ${s.tableCount}</span></span>
+        <span class="overview-asset-badge">${statusBadge('연결됨')}</span>
+      </div>`
+    )
+    .join('');
+  const diffLines = (schema.diffPairs || [])
+    .map(
+      (d) =>
+        `<li style="margin:4px 0;font-size:12px"><strong>${d.label || d.left + ' vs ' + d.right}</strong>: 공통 ${d.commonTables}, 우측만 +${d.onlyInRight || 0}, 좌측만 ${d.onlyInLeft || 0}, 컬럼 이슈 ${d.columnIssues}${d.ddlDiffs != null ? `, DDL차 ${d.ddlDiffs}` : ''}</li>`
+    )
+    .join('');
+  const bullets = (schema.executiveSummary || [])
+    .map((t) => `<li style="margin:4px 0;font-size:12px;line-height:1.45">${t}</li>`)
+    .join('');
+  return `<div class="card db-status-card" style="grid-column:1/-1;margin-top:0">
+    <div class="card-label">DB 스키마 메타 분석 (포팅 대비)</div>
+    <div class="db-status-meta">${meta}</div>
+    <div class="db-status-host-list">${rows}</div>
+    <div style="margin-top:10px;font-size:12px;color:var(--text-muted)"><strong>주요 diff</strong><ul style="margin:6px 0;padding-left:18px">${diffLines || '<li>—</li>'}</ul></div>
+    <div style="margin-top:8px;font-size:12px;color:var(--text-muted)"><strong>요약</strong><ul style="margin:6px 0;padding-left:18px">${bullets || '<li>—</li>'}</ul></div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text-muted)">전체 리포트: 저장소 docs/db-schema-porting-readiness.md</div>
+  </div>`;
+}
+
+function renderWebPortingProgressSection(data) {
+  const p = data.webPortingProgress;
+  const dbHtml = renderDbSchemaAnalysisCard(data.dbSchemaAnalysis);
+  const blocks = p && Array.isArray(p.blocks) ? p.blocks : [];
+  const hasPorting = blocks.length > 0;
+  if (!hasPorting && !dbHtml) return '';
+
+  let portingBody = '';
+  if (hasPorting) {
+    const meta = [p.updatedAt ? `갱신: ${escapeHtml(p.updatedAt)}` : '', p.phase ? escapeHtml(p.phase) : '']
+      .filter(Boolean)
+      .join(' · ');
+    const metaLine = meta ? `<p style="font-size:12px;color:var(--text-muted);margin:0 0 8px">${meta}</p>` : '';
+    const note = p.productNote
+      ? `<p style="font-size:12px;color:var(--text-muted);margin:0 0 12px;line-height:1.5">${escapeHtml(p.productNote)}</p>`
+      : '';
+    const docLinks = (p.docLinks || [])
+      .map((l) => `<li style="margin:4px 0;font-size:12px"><code style="font-size:11px">${escapeHtml(l.path)}</code> — ${escapeHtml(l.label)}</li>`)
+      .join('');
+    const docBlock = docLinks
+      ? `<div style="margin-top:12px;font-size:12px;color:var(--text-muted)"><strong>참고 문서</strong><ul style="margin:6px 0;padding-left:18px">${docLinks}</ul></div>`
+      : '';
+    const cards = blocks
+      .map((block) => {
+        const items = (block.items || [])
+          .map((item) => `<li style="margin:6px 0">${escapeHtml(item)}</li>`)
+          .join('');
+        return `<div class="card">
+          <div class="card-label">${escapeHtml(block.title)}</div>
+          <ul style="margin:0;padding-left:18px;font-size:12px;color:var(--text-muted)">${items}</ul>
+        </div>`;
+      })
+      .join('');
+    portingBody = `
+      <div class="section-title">웹 제품(도서물류) 포팅 진행 현황</div>
+      ${metaLine}
+      ${note}
+      <div class="grid grid-4">${cards}</div>
+      ${docBlock}`;
+  }
+
+  const dbTitle = dbHtml
+    ? `<div class="section-title" style="margin-top:${hasPorting ? '24px' : '0'}">DB 스키마 메타 분석 (포팅 대비)</div>`
+    : '';
+
+  return `
+    <div class="section" id="web-porting-progress-section">
+      ${portingBody}
+      ${dbTitle}
+      ${dbHtml || ''}
+    </div>`;
 }
 
 function renderOverview(data) {
@@ -845,6 +968,7 @@ async function init() {
     const data = await loadAll();
     app.innerHTML = [
       renderOverview(data),
+      renderWebPortingProgressSection(data),
       renderCalendarSection(data),
       renderReleaseMilestones(data),
       renderTimeline(data),
