@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>도서별년말집계 — Sobo67 sample</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page page--sobo67" data-wireframe="Sobo67.svg 921x585">
+    <header class="page-head no-print">
+      <h1 class="title">도서별년말집계</h1>
+      <p class="subtitle">Subu67 | Sobo67 | TSobo67</p>
+      <p class="sample-nav">
+        <a href="masters-hub.html" title="2단계 기초관리 (조회 POC)">2단계 기초관리 (조회 POC)</a> ·
+        <a href="index.html">Seak80</a> ·
+        <a href="seek20.html">Seek20</a> ·
+        <a href="seek30.html">Seek30</a> ·
+        <a href="seak04.html" title="Seak04.pas · TSeak40">Seak04</a> ·
+        <a href="sobo12.html" title="Subu12.pas · TSobo12 · Seek_Uses F12">Sobo12 (입고처관리)</a> ·
+        <a href="sobo13.html" title="Subu13.pas · TSobo13 · Seek_Uses F17">Sobo13 (지역분류(시내+지방))</a>
+      </p>
+    </header>
+
+    <section class="card card--sobo67" aria-label="Sobo67">
+      <div class="toolbar toolbar--sobo67 no-print">
+        <label class="server-label">
+          <span class="server-label-text">DB 서버</span>
+          <select id="serverSelect" class="server-select" title="DB 서버 선택">
+            <option value="">불러오는 중</option>
+          </select>
+        </label>
+        <label class="server-label"><span class="server-label-text">기간 시작 (yyyy.mm)</span>
+          <input type="text" id="dateFrom" class="search-input sobo67-date" maxlength="7" autocomplete="off" />
+        </label>
+        <label class="server-label"><span class="server-label-text">기간 끝 (yyyy.mm)</span>
+          <input type="text" id="dateTo" class="search-input sobo67-date" maxlength="7" autocomplete="off" />
+        </label>
+        <label class="server-label hcode-label"><span class="server-label-text">Hcode</span>
+          <input type="text" id="hcodeInput" class="search-input hcode-input" placeholder="도서명 조인 시 권장" autocomplete="off" />
+        </label>
+        <button type="button" id="btnHcodeCheck" class="btn-search btn-stub">검증</button>
+        <label class="server-label"><span class="server-label-text">Bcode 시작</span>
+          <input type="text" id="bcodeFrom" class="search-input hcode-input" maxlength="40" autocomplete="off" />
+        </label>
+        <label class="server-label"><span class="server-label-text">Bcode 끝</span>
+          <input type="text" id="bcodeTo" class="search-input hcode-input" maxlength="40" autocomplete="off" />
+        </label>
+        <button type="button" id="btnSeekBcodeFrom" class="btn-search btn-stub" title="Seek20">Seek → 시작</button>
+        <button type="button" id="btnSeekBcodeTo" class="btn-search btn-stub" title="Seek20">Seek → 끝</button>
+        <label class="server-label"><span class="server-label-text">T00</span>
+          <select id="t00Select" class="server-select" title="Subu67 T00: 1=월별 전체, 0=선택 행 Bcode">
+            <option value="0">0 (선택 행 Bcode)</option>
+            <option value="1">1 (월별 전체)</option>
+          </select>
+        </label>
+        <label class="server-label"><span class="server-label-text">도서구분</span>
+          <select id="bookMode" class="server-select" title="도서구분">
+            <option value="book">도서명/창고</option>
+            <option value="hq">본사</option>
+            <option value="warehouse">창고</option>
+          </select>
+        </label>
+        <label class="chk-label"><input type="checkbox" id="chkScode" /> CheckBox2 Scode 필터</label>
+        <button type="button" id="searchBtn" class="btn-search">검색</button>
+        <button type="button" id="btnPrint" class="btn-search">인쇄</button>
+      </div>
+
+      <div id="sobo67PrintRoot" class="sobo67-dual-grids">
+        <div class="sobo67-grid-block" role="region" aria-label="년도 그리드 (DBGrid101)">
+          <p class="sobo67-grid-label">년도 그리드 (DBGrid101)</p>
+          <div class="grid-wrap grid-wrap--sobo67">
+            <table class="data-grid">
+              <thead><tr id="grid1HeadRow"></tr></thead>
+              <tbody id="grid1Body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="sobo67-grid-block" role="region" aria-label="년월 그리드 (DBGrid201)">
+          <p class="sobo67-grid-label">년월 그리드 (DBGrid201)</p>
+          <div class="grid-wrap grid-wrap--sobo67">
+            <table class="data-grid">
+              <thead><tr id="grid2HeadRow"></tr></thead>
+              <tbody id="grid2Body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="sobo67-progress-row no-print">
+        <span class="sobo67-progress-label">검색 진행</span>
+        <progress id="searchProgress" max="100" value="0"></progress>
+      </div>
+      <p id="footerTotalsLine" class="status-line sobo67-footer-totals" role="status"></p>
+      <p id="statusLine" class="status-line" role="status">상태</p>
+    </section>
+  </div>
+  <script>
+    (function () {
+      if (window.SEAK80_API_BASE !== undefined && window.SEAK80_API_BASE !== null) return;
+      if (location.protocol === "file:")
+        window.SEAK80_API_BASE = "http://127.0.0.1:8000";
+      else if (location.port === "5500")
+        window.SEAK80_API_BASE = "http://" + location.hostname + ":8000";
+      else
+        window.SEAK80_API_BASE = "";
+    })();
+  </script>
+  <script src="seak80-common.js"></script>
+  <script src="sobo67.js"></script>
+</body>
+</html>

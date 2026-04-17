@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>기초관리 조회 — phase2</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page" data-wireframe="phase2-masters-read">
+    <header class="page-head">
+      <h1 class="title" id="pageTitle">기초관리 조회</h1>
+      <p class="subtitle" id="pageSubtitle"></p>
+      <p class="sample-nav">
+        <a href="masters-hub.html">2단계 기초관리 허브</a> ·
+        <a href="index.html">Seak80</a> ·
+        <a href="sobo12.html" title="Subu12.pas · TSobo12 · Seek_Uses F12">Sobo12 (입고처관리)</a> ·
+        <a href="sobo13.html" title="Subu13.pas · TSobo13 · Seek_Uses F17">Sobo13 (지역분류(시내+지방))</a>
+      </p>
+    </header>
+    <section class="card" aria-label="조회">
+      <div class="toolbar">
+        <label class="server-label">
+          <span class="server-label-text">DB 서버</span>
+          <select id="serverSelect" class="server-select" title="DB 서버 선택">
+            <option value="">불러오는 중</option>
+          </select>
+        </label>
+        <label class="server-label hcode-label">
+          <span class="server-label-text">Hcode</span>
+          <input type="text" id="hcodeInput" class="search-input hcode-input"
+            placeholder="비우면 전체 Hcode" autocomplete="off" aria-label="Hcode" />
+        </label>
+        <label class="server-label">
+          <span class="server-label-text">limit</span>
+          <input type="number" id="limitInput" class="search-input hcode-input" min="1" max="2000" value="500" aria-label="limit" />
+        </label>
+        <button type="button" id="searchBtn" class="btn-search">조회</button>
+      </div>
+      <div class="grid-wrap" role="region" aria-label="결과 그리드">
+        <table class="data-grid"><thead><tr id="gridHeadRow"></tr></thead><tbody id="gridBody"></tbody></table>
+      </div>
+      <p id="statusLine" class="status-line" role="status"></p>
+    </section>
+  </div>
+  <script>
+    (function () {
+      if (window.SEAK80_API_BASE !== undefined && window.SEAK80_API_BASE !== null) return;
+      if (location.protocol === "file:")
+        window.SEAK80_API_BASE = "http://127.0.0.1:8000";
+      else if (location.port === "5500")
+        window.SEAK80_API_BASE = "http://" + location.hostname + ":8000";
+      else
+        window.SEAK80_API_BASE = "";
+    })();
+  </script>
+  <script src="seak80-common.js"></script>
+  <script src="seak80-column-labels.js"></script>
+  <script src="masters-read.js"></script>
+</body>
+</html>

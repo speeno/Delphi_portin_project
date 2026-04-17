@@ -1,0 +1,520 @@
+/* Layout derived from docs/phase1-structure/wireframes/Seak80.svg (512??355, card 492??303) */
+
+:root {
+  --bg-page: #f4f4f4;
+  --card-border: #333;
+  --card-bg: #fff;
+  --toolbar-bg: #cfe8fc;
+  --input-bg: #e8f5e9;
+  --btn-select-bg: #eceff1;
+  --btn-cancel-bg: #d7ccc8;
+  --stroke-soft: #666;
+  --text-muted: #444;
+  --card-max-w: 512px;
+  --card-inner-h: 303px;
+  --toolbar-h: 49px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    "Apple SD Gothic Neo",
+    "Malgun Gothic",
+    "Noto Sans KR",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  background: var(--bg-page);
+  color: #222;
+  min-height: 100vh;
+}
+
+.page {
+  max-width: var(--card-max-w);
+  margin: 0 auto;
+  padding: 8px 10px 24px;
+}
+
+.page-head {
+  margin-bottom: 6px;
+}
+
+.title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 2px 0 0;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.sample-nav {
+  margin: 4px 0 0;
+  font-size: 10px;
+}
+
+.sample-nav a {
+  color: #1565c0;
+}
+
+.masters-hub-list {
+  margin: 8px 0 0;
+  padding-left: 1.2rem;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.masters-hub-list code {
+  font-size: 10px;
+}
+
+.options-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 2px 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.chk-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.hcode-label .hcode-input {
+  max-width: 7rem;
+}
+
+/* Outer margin in SVG: translate(10,36); card 492??303 */
+.card {
+  width: 100%;
+  max-width: 492px;
+  min-height: var(--card-inner-h);
+  margin: 0 auto;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--toolbar-h);
+  padding: 8px 10px;
+  background: var(--toolbar-bg);
+  border: 0.6px solid var(--stroke-soft);
+  border-radius: 2px;
+  opacity: 0.98;
+}
+
+.server-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 9px;
+  color: #222;
+  flex: 0 0 auto;
+}
+
+.server-label-text {
+  white-space: nowrap;
+}
+
+.server-select {
+  min-width: 8rem;
+  max-width: 11rem;
+  font-size: 11px;
+  padding: 2px 4px;
+}
+
+.search-wrap {
+  flex: 1 1 160px;
+  max-width: 209px;
+}
+
+.search-input {
+  width: 100%;
+  height: 22px;
+  padding: 2px 8px;
+  font-size: 12px;
+  border: 0.6px solid var(--stroke-soft);
+  background: var(--input-bg);
+  border-radius: 2px;
+}
+
+.btn-search {
+  font-size: 11px;
+  padding: 4px 10px;
+  cursor: pointer;
+  border: 0.6px solid var(--stroke-soft);
+  background: #fff;
+  border-radius: 2px;
+}
+
+.grid-wrap {
+  flex: 1;
+  margin-top: 8px;
+  min-height: 160px;
+  max-height: min(205px, 40vh);
+  overflow: auto;
+  border: 0.6px solid var(--stroke-soft);
+  background: #fff;
+}
+
+.data-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.data-grid th,
+.data-grid td {
+  border: 1px solid #ddd;
+  padding: 4px 6px;
+  white-space: nowrap;
+}
+
+.data-grid th {
+  background: #fff3e0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.data-grid tbody tr {
+  cursor: pointer;
+}
+
+.data-grid tbody tr:hover {
+  background: #f5f5f5;
+}
+
+.data-grid tbody tr.selected {
+  background: #e3f2fd;
+}
+
+.status-line {
+  margin: 6px 0 0;
+  font-size: 10px;
+  color: var(--text-muted);
+  min-height: 1.2em;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 8px;
+  padding-top: 4px;
+}
+
+.btn-foot {
+  width: 105px;
+  height: 25px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 0.6px solid var(--stroke-soft);
+  border-radius: 2px;
+}
+
+.btn-select {
+  background: var(--btn-select-bg);
+}
+
+.btn-cancel {
+  background: var(--btn-cancel-bg);
+}
+
+/* Sobo67.svg (921x585) ? wide stats page */
+.page--sobo67 {
+  max-width: 960px;
+}
+
+.card--sobo67 {
+  max-width: 920px;
+  min-height: 520px;
+}
+
+.toolbar--sobo67 {
+  max-width: none;
+}
+
+.sobo67-date {
+  max-width: 6.5rem;
+}
+
+.btn-stub {
+  opacity: 0.92;
+}
+
+.sobo67-dual-grids {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.sobo67-grid-label {
+  margin: 0 0 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.grid-wrap--sobo67 {
+  max-height: min(220px, 38vh);
+}
+
+.sobo67-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 6px 4px;
+  background: #eceff1;
+  border: 0.6px solid var(--stroke-soft);
+  border-radius: 2px;
+}
+
+.sobo67-progress-label {
+  font-size: 10px;
+  color: #222;
+  white-space: nowrap;
+}
+
+.sobo67-progress-row progress {
+  flex: 1;
+  height: 18px;
+}
+
+.sobo67-footer-totals {
+  font-size: 11px;
+  color: #333;
+  margin-top: 4px;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .page--sobo67 {
+    max-width: none;
+  }
+
+  .grid-wrap--sobo67 {
+    max-height: none;
+  }
+}
+
+/* Seak04.dfm TSeak40 ClientWidth 492 ClientHeight 303 */
+.seak40-server-line {
+  margin: 4px 0 0;
+  font-size: 10px;
+}
+
+.seak40-server-label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.seak40-server-label-text {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.seak40-server-select {
+  min-width: 10rem;
+}
+
+.seak40-card {
+  max-width: 492px;
+  min-height: 303px;
+  padding: 8px;
+}
+
+.seak40-panel100 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+  max-width: 477px;
+  height: 49px;
+  margin: 0 auto;
+  padding: 0 8px 0 16px;
+  box-sizing: border-box;
+  background: #d9ecf9;
+  border: 0.6px solid #7eb8d9;
+  border-radius: 2px;
+}
+
+.seak40-panel101 {
+  flex: 0 0 90px;
+  width: 90px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  border: 0.6px solid var(--stroke-soft);
+  background: #d9ecf9;
+  color: #111;
+}
+
+.seak40-edit1 {
+  flex: 0 0 209px;
+  width: 209px;
+  height: 22px;
+  margin-left: 6px;
+  padding: 2px 6px;
+  font-size: 16px;
+  font-weight: 700;
+  border: 0.6px solid var(--stroke-soft);
+  background: #fff;
+  border-radius: 2px;
+}
+
+.seak40-btn001 {
+  flex: 0 0 25px;
+  width: 25px;
+  height: 22px;
+  margin-left: auto;
+  padding: 0;
+  font-size: 9px;
+  line-height: 20px;
+  cursor: pointer;
+  border: 0.6px solid var(--stroke-soft);
+  background: #f0f0f0;
+  border-radius: 2px;
+}
+
+.seak40-panel201 {
+  width: 100%;
+  max-width: 477px;
+  height: 205px;
+  margin: 3px auto 0;
+  box-sizing: border-box;
+  border: 0.6px solid var(--stroke-soft);
+  background: #f0f0f0;
+  border-radius: 2px;
+  padding: 1px;
+}
+
+.seak40-grid-wrap {
+  margin-top: 0;
+  max-height: 203px;
+  min-height: 120px;
+  border: none;
+}
+
+.seak40-grid {
+  table-layout: fixed;
+}
+
+.seak40-grid th:nth-child(1),
+.seak40-grid td:nth-child(1) {
+  width: 72px;
+}
+
+.seak40-grid th:nth-child(2),
+.seak40-grid td:nth-child(2) {
+  width: 240px;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: #fbe9b4;
+}
+
+.seak40-grid th:nth-child(3),
+.seak40-grid td:nth-child(3) {
+  width: 34px;
+  text-align: center;
+  background: #e8dcc8;
+}
+
+.seak40-grid th:nth-child(4),
+.seak40-grid td:nth-child(4) {
+  width: 112px;
+  background: #f5e6d8;
+}
+
+.seak40-status {
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+.seak40-footer {
+  position: relative;
+  height: 31px;
+  margin-top: 4px;
+  max-width: 492px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.seak40-bitbtn {
+  position: absolute;
+  top: 0;
+  width: 75px;
+  height: 25px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Gulim", sans-serif;
+  cursor: pointer;
+  border: 0.6px solid var(--stroke-soft);
+  border-radius: 2px;
+}
+
+.seak40-bitbtn101 {
+  left: 128px;
+  background: var(--btn-select-bg);
+}
+
+.seak40-bitbtn102 {
+  left: 272px;
+  background: var(--btn-cancel-bg);
+}
+
+@media (max-width: 520px) {
+  .seak40-bitbtn101 {
+    left: 8px;
+  }
+
+  .seak40-bitbtn102 {
+    left: auto;
+    right: 8px;
+  }
+
+  .seak40-panel100 {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 49px;
+    padding-bottom: 6px;
+  }
+
+  .seak40-btn001 {
+    margin-left: 8px;
+  }
+}

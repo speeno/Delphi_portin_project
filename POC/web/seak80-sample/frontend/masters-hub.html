@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2단계 기초관리 (조회 POC) — masters hub</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page" data-wireframe="phase2-masters-hub">
+    <header class="page-head">
+      <h1 class="title">2단계 기초관리 (조회 POC)</h1>
+      <p class="subtitle">기초관리 MDI 마스터 · 읽기 전용 목록 · <code>GET /api/phase2/{form_id}/list</code></p>
+      <p class="sample-nav">
+        <a href="index.html">Seak80</a> ·
+        <a href="seek20.html">Seek20</a> ·
+        <a href="seek30.html">Seek30</a> ·
+        <a href="seak04.html" title="Seak04.pas · TSeak40">Seak04 (우편번호)</a> ·
+        <a href="sobo12.html" title="Subu12.pas · TSobo12 · Seek_Uses F12">Sobo12 (입고처관리)</a> ·
+        <a href="sobo13.html" title="Subu13.pas · TSobo13 · Seek_Uses F17">Sobo13 (지역분류(시내+지방))</a> ·
+        <a href="sobo67.html">Sobo67</a>
+      </p>
+    </header>
+    <section class="card" aria-label="기초관리 화면 목록">
+      <p class="status-line">
+        일부 화면은 Delphi에서 다중 그리드·조인을 쓰므로, 1차 POC는 주 테이블 한 장만 조회합니다.
+        상세 매핑은 <code>docs/phase1-structure/phase2-masters-read-mapping.md</code>를 참고하세요.
+      </p>
+      <ul class="masters-hub-list">
+        <li><a href="stub-sobo10.html" title="Subu10.pas · TSobo10 · Seek_Uses F18">Sobo10 (로그인)</a> — Delphi 로그인 / 웹 인증은 별도(스텝)</li>
+        <li><a href="masters-read.html?id=sobo11" title="Subu11.pas · TSobo11 · Seek_Uses F13">Sobo11 (거래처관리-통합)</a></li>
+        <li><a href="sobo12.html" title="Subu12.pas · TSobo12 · Seek_Uses F12">Sobo12 (입고처관리)</a> — API <code>/api/sobo12/g2-gbun</code></li>
+        <li><a href="sobo13.html" title="Subu13.pas · TSobo13 · Seek_Uses F17">Sobo13 (지역분류(시내+지방))</a> — API <code>/api/sobo13/t1-gbun</code></li>
+        <li><a href="masters-read.html?id=sobo13_1" title="Subu13_1.pas · TSobo13_1 · Seek_Uses F17">Sobo13_1 (출고증정렬)</a></li>
+        <li><a href="masters-read.html?id=sobo14" title="Subu14.pas · TSobo14 · Seek_Uses F14">Sobo14 (도서관리)</a></li>
+        <li><a href="masters-read.html?id=sobo15" title="Subu15.pas · TSobo15 · Seek_Uses F13">Sobo15 (거래처관리-개별)</a></li>
+        <li><a href="masters-read.html?id=sobo16" title="Subu16.pas · TSobo16 · Seek_Uses F16">Sobo16 (특별관리)</a></li>
+        <li><a href="masters-read.html?id=sobo17" title="Subu17.pas · TSobo17 · Seek_Uses F11">Sobo17 (출판사관리)</a></li>
+        <li><a href="masters-read.html?id=sobo17_1" title="Subu17_1.pas · TSobo17_1 · Seek_Uses F11">Sobo17_1 (출판사관리-택배)</a></li>
+        <li><a href="masters-read.html?id=sobo18" title="Subu18.pas · TSobo18 · Seek_Uses F15">Sobo18 (종당관리(도서))</a></li>
+        <li><a href="stub-sobo19.html" title="Subu19.pas · TSobo19 · Seek_Uses F19">Sobo19 (Sobo19)</a> — 종료 모달 / 웹은 별도(스텝)</li>
+        <li><a href="masters-read.html?id=sobo48" title="Subu48.pas · TSobo48 · Seek_Uses F11">Sobo48 (출판사관리(설정))</a></li>
+        <li><a href="seak04.html" title="Seak04.pas · TSeak40">Seak04 (우편번호검색현황)</a> — API <code>/api/seak04/search</code></li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>

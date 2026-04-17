@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>우편번호검색현황 — Seak04 sample</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page" data-wireframe="Seak04.dfm TSeak40 492x303">
+    <header class="page-head">
+      <h1 class="title">우편번호검색현황</h1>
+      <p class="subtitle">Seak04 | TSeak40 | Gg_Post</p>
+      <p class="sample-nav">
+        <a href="masters-hub.html" title="2단계 기초관리 (조회 POC)">2단계 기초관리 (조회 POC)</a> ·
+        <a href="index.html">Seak80</a> ·
+        <a href="seek20.html">Seek20 입고처</a> ·
+        <a href="seek30.html">Seek30 저자</a> ·
+        <a href="sobo12.html" title="Subu12.pas · TSobo12">Sobo12</a> ·
+        <a href="sobo13.html" title="Subu13.pas · TSobo13">Sobo13</a> ·
+        <a href="sobo67.html">Sobo67</a>
+      </p>
+      <p class="seak40-server-line">
+        <label class="seak40-server-label">
+          <span class="seak40-server-label-text">DB 서버</span>
+          <select id="serverSelect" class="server-select seak40-server-select" title="DB 서버 선택">
+            <option value="">불러오는 중</option>
+          </select>
+        </label>
+      </p>
+    </header>
+    <section class="card seak40-card" aria-label="우편번호 검색">
+      <div class="seak40-panel100" role="search" aria-label="검색 조건">
+        <div class="seak40-panel101" aria-hidden="true">우편번호</div>
+        <input type="search" id="searchInput" class="seak40-edit1" maxlength="55"
+          placeholder="우편번호·주소 (4자 이상)" autocomplete="off" aria-label="검색어" />
+        <button type="button" id="searchBtn" class="seak40-btn001" title="조회" aria-label="조회">▼</button>
+      </div>
+      <div class="seak40-panel201" role="region" aria-label="결과 그리드">
+        <div class="grid-wrap seak40-grid-wrap">
+          <table class="data-grid seak40-grid"><thead><tr id="gridHeadRow"></tr></thead><tbody id="gridBody"></tbody></table>
+        </div>
+      </div>
+      <p id="statusLine" class="status-line seak40-status" role="status"></p>
+      <footer class="seak40-footer" aria-label="선택·취소">
+        <button type="button" id="btnSelect" class="seak40-bitbtn seak40-bitbtn101">선택</button>
+        <button type="button" id="btnCancel" class="seak40-bitbtn seak40-bitbtn102">취소</button>
+      </footer>
+    </section>
+  </div>
+  <script>
+    (function () {
+      if (window.SEAK80_API_BASE !== undefined && window.SEAK80_API_BASE !== null) return;
+      if (location.protocol === "file:")
+        window.SEAK80_API_BASE = "http://127.0.0.1:8000";
+      else if (location.port === "5500")
+        window.SEAK80_API_BASE = "http://" + location.hostname + ":8000";
+      else
+        window.SEAK80_API_BASE = "";
+    })();
+  </script>
+  <script src="seak80-common.js"></script>
+  <script src="seak04.js"></script>
+</body>
+</html>

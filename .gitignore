@@ -46,3 +46,4 @@ WeLove_FTP/
 
 # 제품 웹앱 전용 저장소 (이 폴더 안에 별도 .git — 상위 레포에서 중복 추적 방지)
 도서물류관리프로그램/
+tools/delphi_porting_accelerator/examples/generated/도서물류관리프로그램 화면 및 구조 분석.zip

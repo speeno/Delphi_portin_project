@@ -1,0 +1,4 @@
+servers.yaml
+__pycache__/
+.venv/
+*.pyc

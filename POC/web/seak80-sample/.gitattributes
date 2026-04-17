@@ -1,0 +1,5 @@
+# Normalize line endings; treat sample frontend as text (UTF-8 in editor).
+* text=auto eol=lf
+frontend/*.html text eol=lf
+frontend/*.js text eol=lf
+frontend/*.css text eol=lf

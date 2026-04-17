@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>출판사검색현황 — Seak80 sample</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page" data-wireframe="Seak80.svg 512x355">
+    <header class="page-head">
+      <h1 class="title">출판사검색현황</h1>
+      <p class="subtitle">Seak08 | Seak80 | TSeak80</p>
+      <p class="sample-nav">
+        <a href="masters-hub.html" title="2단계 기초관리 (조회 POC)">2단계 기초관리 (조회 POC)</a> ·
+        <a href="seek20.html">Seek20 입고처</a> ·
+        <a href="seek30.html">Seek30 저자</a> ·
+        <a href="seak04.html" title="Seak04.pas · TSeak40 · Gg_Post">Seak04 우편번호</a> ·
+        <a href="sobo12.html" title="Subu12.pas · TSobo12 · Seek_Uses F12">Sobo12 (입고처관리)</a> ·
+        <a href="sobo13.html" title="Subu13.pas · TSobo13 · Seek_Uses F17">Sobo13 (지역분류(시내+지방))</a> ·
+        <a href="sobo67.html">Sobo67 도서별년말</a>
+      </p>
+    </header>
+    <section class="card" aria-label="검색 카드">
+      <div class="toolbar">
+        <label class="server-label">
+          <span class="server-label-text">DB 서버</span>
+          <select id="serverSelect" class="server-select" title="DB 서버 선택">
+            <option value="">DB 서버 목록 불러오는 중</option>
+          </select>
+        </label>
+        <div class="search-wrap">
+          <input type="search" id="searchInput" class="search-input"
+            placeholder="검색 (코드·출판사명·대표자 등"
+            autocomplete="off" aria-label="검색어" />
+        </div>
+        <button type="button" id="searchBtn" class="btn-search">조회</button>
+      </div>
+      <div class="grid-wrap" role="region" aria-label="결과 그리드">
+        <table class="data-grid"><thead><tr id="gridHeadRow"></tr></thead><tbody id="gridBody"></tbody></table>
+      </div>
+      <p id="statusLine" class="status-line" role="status"></p>
+      <footer class="card-footer">
+        <button type="button" id="btnSelect" class="btn-foot btn-select">선택</button>
+        <button type="button" id="btnCancel" class="btn-foot btn-cancel">취소</button>
+      </footer>
+    </section>
+  </div>
+  <script>
+    (function () {
+      if (window.SEAK80_API_BASE !== undefined && window.SEAK80_API_BASE !== null) return;
+      if (location.protocol === "file:")
+        window.SEAK80_API_BASE = "http://127.0.0.1:8000";
+      else if (location.port === "5500")
+        window.SEAK80_API_BASE = "http://" + location.hostname + ":8000";
+      else
+        window.SEAK80_API_BASE = "";
+    })();
+  </script>
+  <script src="seak80-common.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

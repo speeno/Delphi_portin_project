@@ -1,0 +1,50 @@
+# Copy to servers.yaml in this folder and set real credentials.
+# servers.yaml is gitignored. Save as UTF-8.
+#
+# Optional per-server (Seek20 / Seek30):
+#   d_select_sql: legacy D_Select fragment placed right after WHERE (often ends with "and ").
+#     Example: "`Check`=0 and "
+#   mysql3_protocol: true   # MySQL 3.23 raw client (see main README)
+#   mysql3_charset: euc-kr   # string encoding for mysql3 queries
+
+servers:
+  - id: remote_1
+    label: "Sample DB 1"
+    host: "10.0.0.11"
+    port: 3306
+    user: "readonly_user"
+    password: "change-me"
+    database: "chul_09_db"
+    connect_timeout: 20
+    read_timeout: 120
+    # d_select_sql: "`Check`=0 and "
+
+  - id: remote_2
+    label: "Sample DB 2"
+    host: "10.0.0.12"
+    port: 3306
+    user: "readonly_user"
+    password: "change-me"
+    database: "chul_09_db"
+    connect_timeout: 20
+    read_timeout: 120
+
+  - id: remote_3
+    label: "Sample DB 3"
+    host: "10.0.0.13"
+    port: 3306
+    user: "readonly_user"
+    password: "change-me"
+    database: "chul_09_db"
+    connect_timeout: 20
+    read_timeout: 120
+
+  - id: remote_4
+    label: "Sample DB 4"
+    host: "10.0.0.14"
+    port: 3306
+    user: "readonly_user"
+    password: "change-me"
+    database: "chul_09_db"
+    connect_timeout: 20
+    read_timeout: 120
