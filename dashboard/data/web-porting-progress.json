@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19 — 트래커 task 상태 어휘 정정(completed→done) · C9 카드 0/8→8/8 정상 표시 · 그 외 C2/C6 동시 회복 · 실DB HOT-MAS-3 유지",
+  "updatedAt": "2026-04-19 — C3 입고 접수 1차 포팅 done(8/8) · `/inbound/{receipts,import}` 가동 · DEC-027 동결(INSERT/UPDATE ON + 소프트 취소 + FTP 우회 → 사용자 업로드) · DEC-028(dfm→html 산출물 의무 입력) 첫 적용 사례 · pytest 15 신규 + tsc/eslint clean · 기존 C9 카드 8/8 유지",
   "phase": "Phase 1",
   "productNote": "실행 UI는 저장소 `도서물류관리프로그램/` (제품 웹). 본 섹션은 개발 진행용 허브 대시보드 전용.",
   "docLinks": [
@@ -46,7 +46,10 @@
         "Wave D 웹 관리 플레인 — `/api/v1/admin/{users,user-servers,roles,user-roles,legacy-permission-map,settings,settings/history,settings/rollback}` 11 엔드포인트. JSON 파일 영속 (`backend/data/web_admin.json`, `BLS_WEB_ADMIN_PATH` 오버라이드 가능, `threading.Lock` 동시성). `audit.admin` 로거 1줄 JSON. DEC-022 — 모든 setting 변경은 history 강제 적재, 물리 삭제 금지 (롤백=신 revision 추가)",
         "DEC-019~023 동결 — `legacy-analysis/decisions.md` 기록, `migration/contracts/{master_data,admin_web_platform}.yaml` 신규 작성 (yaml 무결성 OK)",
         "C9 운영 DB 핫픽스 (2026-04-18) — `G1_Ggeo` 는 스키마상 `Gadd1`/`Gadd2` (주소), `Gjuso` 컬럼 없음. `masters_service` list/get 은 `CONCAT_WS`로 API 필드 `gjuso` 생성, PATCH 는 90+90자로 `Gadd1`·`Gadd2` 갱신. `/master/customer` 500(1054) 해소",
-        "C9 aiomysql 문자셋 — 일부 `G4_Book` 행이 EUC-KR 비정규 바이트 → PyMySQL wire 디코드에서 `UnicodeDecodeError`·연결 손상. `app/core/db.py` 풀 `use_unicode=False` + `execute_query`에서 바이트→`euc-kr` `errors=replace` 정규화. `/master/book` 대량 페이징(600건 이후) 500 해소, COUNT/SELECT 모두 안전"
+        "C9 aiomysql 문자셋 — 일부 `G4_Book` 행이 EUC-KR 비정규 바이트 → PyMySQL wire 디코드에서 `UnicodeDecodeError`·연결 손상. `app/core/db.py` 풀 `use_unicode=False` + `execute_query`에서 바이트→`euc-kr` `errors=replace` 정규화. `/master/book` 대량 페이징(600건 이후) 500 해소, COUNT/SELECT 모두 안전",
+        "C3 입고 접수 — `/api/v1/inbound/*` 8 라우트 (목록/상세/신규/수정/취소/업로드/일별·기간 리포트). `inbound_service.py` 신설 — outbound 헬퍼(`_normalize_gdate`/`_generate_jubun`/`_safe_int|str`/`_line_status_from_yesno_max`) 100% 재사용 (사용자 룰 — 신규 헬퍼 금지). `S1_Memo` UPSERT 는 `INSERT … ON DUPLICATE KEY UPDATE` 단일 SQL. `S1_Ssub` 라인 합성키는 4-part `(Gdate,Hcode,Gcode,Jubun)` (출고와 다르게 입고처 Gcode 포함)",
+        "C3 EUC-KR 업로드(DEC-027) — DEC-024 와 동일 정책으로 UTF-8 시도 후 `errors='replace'` 폴백. `csv.DictReader` + 헤더별 트랜잭션. 마감(`application_settings.inbound.close_until`) 행이 있으면 423 IN_PERIOD_LOCKED. audit.inbound 4 액션(created/updated/cancelled/imported) 1줄 JSON 표준화 — outbound 와 동일 스키마(receipt_key 만 4-part)",
+        "DEC-028 dfm→html 입력 의무화 첫 적용 사례 — Subu22/_1/_2 + Subu54 + Subu57 5개 산출물 인벤토리, `analysis/layout_mappings/{Sobo22,38,54,57}.md` 4 매핑 노트 작성. 변형 폴더 차이는 `inbound_receipt.yaml.customer_variants` 만 적재(코드 분기 금지). 모던 페이지의 모든 입력/버튼/그리드 헤더에 `data-legacy-id` 부착"
       ]
     },
     {
@@ -71,7 +74,8 @@
         "buk.io 톤앤매너 1단계 — `globals.css` 토큰만 변경(컴포넌트 구조 무변경): Pretendard Variable CDN 로딩, 잉크 네이비(`oklch(0.38 0.10 258)`) primary + 따뜻한 코랄 액센트, radius 0.625rem. layout.tsx 사이트명 「도서물류 · buk.io」 동기. 후속 사이클: 컴포넌트(버튼/인풋/카드) 단위 리브랜딩",
         "Wave D 관리 페이지 — `/admin` 인덱스 + `user-servers` (사용자·서버 화이트리스트 토글) + `rbac` (역할·권한 + 레거시 매핑표) + `settings` (개정별 환경설정 + history/롤백). `lib/admin-api.ts` 신설",
         "사이드바 메뉴 그룹 추가 — `master`(기초관리) + `admin`(웹관리) 2개 그룹 신규. Sobo36/37/43 라벨에 '(통계)' 표기 (DEC-023 — 통계 분리). Sobo14 misleading '재고조회' 매핑 정정. form-registry 35폼 / 15라우트 중복 0",
-        "회귀 가드 — pytest 69 PASS (기존 34 + DEC-024 페이징 28 + c1 7) · tsc 0 error · yaml/json 무결성 OK · eslint: 기존 2건(레거시 폼/인증 컨텍스트) 외 번들 클린"
+        "회귀 가드 — pytest 129 PASS (기존 114 + C3 신규 15) · tsc 0 error · yaml/json 무결성 OK · eslint: 기존 2건(레거시 폼/인증 컨텍스트) 외 번들 클린",
+        "C3 입고 접수 화면 — `/inbound/receipts` (목록·상세·신규·소프트취소) + `/inbound/import` (EUC-KR/UTF-8 CSV/TSV 업로드, dry-run 토글). `lib/inbound-api.ts` 신설, `api-client.ts` 에 `postForm`+FormData 분기 일반화 (향후 모든 업로드 흐름 재사용 — SOLID OCP). 사이드바 등록은 `form-registry.ts` 에 Sobo22 / Sobo22_import 2 줄만 추가 (델파이 Menu208 정합)"
       ]
     },
     {

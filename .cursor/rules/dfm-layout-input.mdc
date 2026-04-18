@@ -1,0 +1,56 @@
+---
+description: 신규 모던 페이지 작성 시 dfm→html 산출물을 공식 입력으로 사용 (DEC-028)
+alwaysApply: true
+---
+
+# dfm→html 산출물을 모던 화면 포팅의 공식 입력으로 사용
+
+레거시 델파이 폼(dfm) 은 `tools/delphi_porting_accelerator` 도구로 이미 HTML/JSON 산출물로 변환돼 있다. 신규 모던 화면(Next.js 등) 을 만들 때는 사람의 재설계만으로 짓지 말고, 이 산출물을 **공식 입력**으로 사용해 회귀를 결정적으로 막는다.
+
+## 산출물 위치
+
+```text
+tools/delphi_porting_accelerator/examples/generated/legacy_source_root/<Subu*>/
+  ├─ <Sobo*>.html         # 픽셀 좌표·탭순서·DBGrid 컬럼·이벤트 매핑 포함
+  ├─ <Sobo*>.form.json    # 컴포넌트 트리 (구조화)
+  ├─ <Sobo*>.tree.json    # 폼 계층 구조
+  ├─ <Sobo*>.meta.json    # 메타데이터
+  └─ <Sobo*>.pas_analysis.json  # 이벤트 핸들러·SQL 분석
+```
+
+변형 폴더(`Subu22`, `Subu22_1`, `Subu22_2` 등) 가 있으면 모두 인벤토리한다.
+
+## 작업 순서
+
+1. 시나리오 시작 전 위 폴더의 변형 포함 모든 세트를 인벤토리한다.
+2. 화면별 매핑 노트 `analysis/layout_mappings/<Sobo*>.md` 를 선행 작성한다 — (영역 분할, 위젯 ID, **TabOrder**, DBGrid 컬럼명·정렬·합계, 이벤트 매핑) 1:1 표.
+3. 모던 페이지 코드를 작성한다 — 모든 위젯에 `data-legacy-id="<원본 ID>"` 부착.
+4. 테스트로 "dfm 위젯 ID 누락 0건" 을 자동 검사한다 (playwright 스냅샷 또는 단위 검사).
+
+## 가져올 정보 vs 버릴 정보
+
+- **가져온다**: 영역 분할(상단 검색 패널·중단 DBGrid·하단 입력 패널·상태바), 필드/위젯 ID, **TabOrder**, DBGrid 컬럼명·필드명·정렬·합계 행, OnChange/OnKeyDown 등 이벤트 매핑.
+- **버린다**: 절대 픽셀 좌표(`Left/Top/Width/Height`), 굴림 폰트, 16비트 색상값, Glyph 비트맵.
+
+## 변형 차이 처리
+
+- 변형 폴더(`Sobo22` 본/`Sobo22_1`/`Sobo22_2` 등) 의 필드 차이는 **코드 분기 금지**.
+- 차이는 `migration/contracts/<flow>.yaml` 의 `customer_variants` 섹션에만 항목별 diff 로 기록.
+- 단일 모던 컴포넌트 + 데이터 주도 분기 (C9 Sobo39 4 변종 통합 패턴 재사용).
+
+## 회귀 가드
+
+- 모던 페이지의 모든 입력/버튼/그리드 헤더에 `data-legacy-id` 부착.
+- T7 단계에서 매핑 노트의 `legacy_id` 목록과 페이지 DOM 의 `data-legacy-id` 집합이 일치하는지 자동 검사.
+- 일치하지 않으면 즉시 차단 (5축 평가의 `axis_data` 와 동일한 즉시 차단 정책).
+
+## 적용 대상
+
+- C3 이후 모든 신규 시나리오 — **의무**.
+- 기존 done 시나리오(C1·C2·C6·C9 phase1) — 회귀 발견 시 동일 룰로 retrofit.
+
+## 참조
+
+- DEC-028: `legacy-analysis/decisions.md`
+- 운영 룰: `docs/core-scenarios-porting-plan.md` §5 룰 7
+- 산출물 도구: `tools/delphi_porting_accelerator/`

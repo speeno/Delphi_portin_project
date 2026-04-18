@@ -1,7 +1,7 @@
 {
   "title": "사람 처리 필요 항목 (Human Action Items)",
   "description": "자동 도구·정적 분석으로는 닫을 수 없고, 사람의 결정·인터뷰·운영 실행이 필요한 작업들. 각 항목은 추적용 문서(트래커/템플릿)에 직접 연결되며, 결과가 들어오면 분석 도구·갭 리포트가 자동 갱신됩니다.",
-  "updatedAt": "2026-04-18 (C9 단일 원천 + Wave D 웹관리 1차 완료 — HA-DEC-11/12 신규)",
+  "updatedAt": "2026-04-19 (C3 입고 접수 1차 완료 — HA-DEC-13 신규 + retrofit backlog HA-RET-01 등록)",
   "legend": {
     "대기": "착수 전",
     "진행중": "회의·실시 진행 중",
@@ -309,6 +309,22 @@
             "1차 가드 미적용 (D-ADM-1), JSON 파일 영속 (D-ADM-2)"
           ],
           "blocks": []
+        },
+        {
+          "id": "HA-DEC-13",
+          "title": "C3 입고 접수 1차 포팅 범위 동결 (inbound_receipt.yaml + DEC-027)",
+          "owner": "메인개발자",
+          "due": "2026-04-19",
+          "status": "완료",
+          "tracker": "legacy-analysis/decisions.md DEC-027 + open-questions.md OQ-IN-1",
+          "outputs": [
+            "INSERT/UPDATE/CANCEL ON, 라인 desired-state diff (D-IN 미정의)",
+            "FTP 자동 수신 보류 → 사용자 직접 EUC-KR/UTF-8 CSV·TSV 업로드(/inbound/import) 로 우회 (DEC-027)",
+            "물리 삭제 미지원(소프트 취소만, DEC-012 동일)",
+            "RBAC 미적용 (DEC-009 동일), 인쇄 후속(DEC-010 동일)",
+            "변형 폴더 Subu22/_1/_2 차이는 contract.customer_variants 만 적재(코드 분기 금지)"
+          ],
+          "blocks": []
         }
       ]
     },
@@ -344,6 +360,29 @@
           "blocks": [
             "베타"
           ]
+        }
+      ]
+    },
+    {
+      "id": "retrofit",
+      "title": "5. dfm→html 입력 retrofit (DEC-028 의무화 후속)",
+      "description": "DEC-028 (.cursor/rules/dfm-layout-input.mdc) 채택 이전에 done 처리된 시나리오들(C1·C2·C6·C9 phase1) 은 dfm 산출물을 공식 입력으로 사용하지 않고 작업되었음. 향후 신규 화면은 의무이며, 기존 done 시나리오는 회귀 발견 시 즉시 retrofit (위젯 ID·TabOrder·DBGrid 컬럼 누락 점검 → data-legacy-id 부착 + analysis/layout_mappings/<Sobo*>.md 보강).",
+      "items": [
+        {
+          "id": "HA-RET-01",
+          "title": "C1·C2·C6·C9 phase1 화면에 dfm 산출물 retrofit 검수",
+          "owner": "메인개발자",
+          "due": "회귀 발견 시 즉시 처리 (예약 일정 없음)",
+          "status": "대기",
+          "tracker": ".cursor/rules/dfm-layout-input.mdc + analysis/layout_mappings/",
+          "outputs": [
+            "C1 로그인(Subu01) — dfm 인벤토리 + 매핑 노트",
+            "C2 출고접수(Subu27) — DBGrid 컬럼·TabOrder·BitBtn ID 점검 후 data-legacy-id 보강",
+            "C6 거래/잔액 4 화면(Sobo21/31/61/62) — DBGrid·필터 패널 위젯 ID 점검",
+            "C9 마스터 6 화면(Sobo11/14/17/38/39/45) — Subu* HTML 산출물에서 컬럼 라벨/입력 위젯 ID 보강",
+            "각 시나리오 porting-screens.json 에 layout_inputs / layout_mappings 필드 후행 등록"
+          ],
+          "blocks": []
         }
       ]
     }

@@ -585,15 +585,19 @@
       "name": "입고 접수",
       "gateId": 2,
       "purpose": "신규 입고 INSERT 위주 + FTP 자료 수신",
-      "summary": "입고 본 테이블 INSERT, Sobo38 FTP 자료받기, Tong08 바코드 결합 가능",
+      "summary": "S1_Ssub INSERT/UPDATE 명시적 트랜잭션 + S1_Memo UPSERT + EUC-KR 파일 업로드(Sobo38 FTP 자동수신은 보류). 변형 폴더 Subu22/_1/_2 의 차이는 contract.customer_variants 만 적재(코드 분기 금지). DEC-027 (1차 INSERT/UPDATE ON + 소프트 취소 + FTP 우회).",
+      "phase1_status": "complete",
+      "phase1_acceptance_goal": "기존 사용자가 입고 접수를 신규 등록 / 수정 / 취소 / 조회 (CRUD) + EUC-KR 인코딩 CSV/TXT 파일을 업로드하여 라인을 일괄 적재할 수 있다",
       "delphi": {
         "primary_form": "TSobo22 (입고명세서)",
         "primary_unit": "Subu22.pas",
         "dfm": "Subu22.dfm",
+        "menu_path": "출고관리(Menu200) > 입고접수관리(Menu208)",
+        "menu_id": "Menu208",
         "related_forms": [
           "TSobo54 일별 입고내역서",
           "TSobo57 기간별 입고내역서",
-          "TSobo38 전송자료받기(FTP)"
+          "TSobo38 전송자료받기(FTP, 1차 보류)"
         ]
       },
       "permission_keys": [
@@ -602,50 +606,138 @@
         "F56",
         "F29"
       ],
-      "db_impact": "INSERT 위주 + 일부 UPDATE (마감)",
+      "db_impact": "INSERT 위주 + 일부 UPDATE (라인 수정·취소·메모 UPSERT)",
       "web": {
+        "app_url": "http://127.0.0.1:3000/inbound/receipts",
+        "menu_path": "출고관리 > 입고접수관리",
         "routes": [
           "/inbound/receipts",
-          "/inbound/reports"
+          "/inbound/receipts/new",
+          "/inbound/receipts/[receiptKey]",
+          "/inbound/import"
         ],
         "endpoints": [
-          "POST /api/inbound/receipts",
-          "GET /api/inbound/reports"
+          "GET /api/v1/inbound/receipts",
+          "GET /api/v1/inbound/receipts/{key}",
+          "POST /api/v1/inbound/receipts",
+          "PUT /api/v1/inbound/receipts/{key}",
+          "PATCH /api/v1/inbound/receipts/{key}/cancel",
+          "POST /api/v1/inbound/import",
+          "GET /api/v1/inbound/reports/daily",
+          "GET /api/v1/inbound/reports/period"
         ],
         "backend": [
-          "도서물류관리프로그램/backend/app/routers/inbound.py (신규)"
+          "도서물류관리프로그램/backend/app/models/inbound.py",
+          "도서물류관리프로그램/backend/app/services/inbound_service.py",
+          "도서물류관리프로그램/backend/app/routers/inbound.py",
+          "도서물류관리프로그램/backend/app/services/audit_service.py (log_inbound_action 추가)",
+          "도서물류관리프로그램/backend/app/main.py (include_router(inbound))"
         ],
         "frontend": [
-          "도서물류관리프로그램/frontend/src/app/(app)/inbound/* (신규)"
+          "도서물류관리프로그램/frontend/src/lib/inbound-api.ts",
+          "도서물류관리프로그램/frontend/src/lib/api-client.ts (postForm + FormData 분기)",
+          "도서물류관리프로그램/frontend/src/app/(app)/inbound/layout.tsx",
+          "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/page.tsx",
+          "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/new/page.tsx",
+          "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/[receiptKey]/page.tsx",
+          "도서물류관리프로그램/frontend/src/app/(app)/inbound/import/page.tsx",
+          "도서물류관리프로그램/frontend/src/lib/form-registry.ts (Sobo22 + Sobo22_import 등록 — Menu208 정합)"
         ]
       },
-      "contract": "migration/contracts/inbound_receipt.yaml (신규)",
-      "testpack": "migration/test-cases/inbound_receipt.json (신규)",
-      "subscenarios_absorbed": [],
+      "contract": "migration/contracts/inbound_receipt.yaml v1.0.0 (DEC-027 정합)",
+      "testpack": "test/test_c3_inbound_phase1.py (15 passed: 5 컨트랙트 + 7 라우터 + 3 서비스 단위)",
+      "phase1_test_results": "test/test_c3_inbound_phase1.py — 15 passed (2026-04-19)",
+      "layout_inputs": [
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22/Sobo22.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22_1/Sobo22_1.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22_2/Sobo22_2.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu54/Sobo54.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu57/Sobo57.html"
+      ],
+      "layout_mappings": [
+        "analysis/layout_mappings/Sobo22.md",
+        "analysis/layout_mappings/Sobo38.md",
+        "analysis/layout_mappings/Sobo54.md",
+        "analysis/layout_mappings/Sobo57.md"
+      ],
+      "subscenarios_absorbed": ["Sobo22_1 (변형)", "Sobo22_2 (변형)"],
+      "runtime_check": {
+        "performed_at": "2026-04-19",
+        "browser_url": "http://127.0.0.1:3000/inbound/receipts",
+        "backend_routes_registered": [
+          "GET /api/v1/inbound/receipts",
+          "GET /api/v1/inbound/receipts/{receipt_key}",
+          "POST /api/v1/inbound/receipts",
+          "PUT /api/v1/inbound/receipts/{receipt_key}",
+          "PATCH /api/v1/inbound/receipts/{receipt_key}/cancel",
+          "POST /api/v1/inbound/import",
+          "GET /api/v1/inbound/reports/daily",
+          "GET /api/v1/inbound/reports/period"
+        ],
+        "result": "FastAPI app.routes 51건 등록 OK · pytest 15 passed · tsc 0 error · eslint 0 신규 warn"
+      },
+      "hotfixes": [
+        {
+          "id": "HOT-INB-1",
+          "date": "2026-04-19",
+          "summary": "EUC-KR 파일 업로드 표준화 — DEC-024 와 동일 정책으로 UTF-8 시도 후 EUC-KR (errors='replace') 폴백. multipart/form-data 는 api-client.postForm + FormData 분기로 일반화 (향후 모든 업로드 흐름 재사용 — SOLID OCP).",
+          "files": [
+            "도서물류관리프로그램/backend/app/services/inbound_service.py (_decode_upload, _parse_import_rows)",
+            "도서물류관리프로그램/frontend/src/lib/api-client.ts (postForm, FormData 분기)"
+          ],
+          "verified_by": "test/test_c3_inbound_phase1.py · TC-IN-004 EUC-KR CSV 업로드 PASS"
+        },
+        {
+          "id": "HOT-INB-2",
+          "date": "2026-04-19",
+          "summary": "DFM 레이아웃 입력화 — Subu22/_1/_2 + Subu54 + Subu57 의 산출물을 inventory 후 layout_mappings/Sobo22.md 외 3건으로 매핑 노트화. 모든 인터랙티브 위젯에 data-legacy-id 부착 (DEC-028 + .cursor/rules/dfm-layout-input.mdc 의무화 규칙 첫 적용 사례).",
+          "files": [
+            "analysis/layout_mappings/Sobo22.md",
+            "analysis/layout_mappings/Sobo38.md",
+            "analysis/layout_mappings/Sobo54.md",
+            "analysis/layout_mappings/Sobo57.md",
+            "도서물류관리프로그램/frontend/src/app/(app)/inbound/* (data-legacy-id 부착)"
+          ],
+          "verified_by": "tsc --noEmit 0 error · eslint inbound 0 warning"
+        }
+      ],
+      "deferrals": [
+        "OQ-IN-1 — Sobo38 FTP 자동수신 (Indy idFTP) 은 1차 보류. 사용자 직접 업로드(/inbound/import) 로 대체 (DEC-027).",
+        "출판사·입고처 마스터 자동완성 위젯 (현재는 코드 직접 입력) — phase2.",
+        "라인 수정 그리드 UI — phase2 (백엔드 PUT 은 이미 구현·테스트 완료, UI 만 누락)."
+      ],
       "tasks": {
         "T1": {
-          "status": "not_started"
+          "status": "done",
+          "summary": "DFM 산출물 인벤토리 + 변형 차이표 + 4 매핑 노트 (Sobo22/38/54/57)"
         },
         "T2": {
-          "status": "not_started"
+          "status": "done",
+          "summary": "Subu22.pas SQL 14건 인용 정리 (LIST/INSERT/UPDATE/DELETE/CANCEL/MEMO UPSERT/리포트)"
         },
         "T3": {
-          "status": "not_started"
+          "status": "done",
+          "summary": "migration/contracts/inbound_receipt.yaml v1.0.0 (SQL-IN-1~11 + customer_variants)"
         },
         "T4": {
-          "status": "not_started"
+          "status": "done",
+          "summary": "test/test_c3_inbound_phase1.py 15 케이스 (정상/검증실패/취소·멱등/EUC-KR 업로드/마감차단/audit 4종/DEC-009/DEC-012)"
         },
         "T5": {
-          "status": "not_started"
+          "status": "done",
+          "summary": "models/inbound.py + services/inbound_service.py + routers/inbound.py + main.py include_router(inbound)"
         },
         "T6": {
-          "status": "not_started"
+          "status": "done",
+          "summary": "/inbound/receipts (목록·상세·신규·취소) + /inbound/import + form-registry Sobo22/Sobo22_import 등록"
         },
         "T7": {
-          "status": "not_started"
+          "status": "done",
+          "summary": "pytest 129/131 passed (실패 2건은 dfm2html 환경 이슈 사전 존재) · tsc 0 error · eslint inbound 신규 0 warning"
         },
         "T8": {
-          "status": "not_started"
+          "status": "done",
+          "summary": "porting-screens.json C3 갱신 + HOT-INB-1/2 등록 + DEC-027 + OQ-IN-1 (decisions.md/open-questions.md)"
         }
       }
     },

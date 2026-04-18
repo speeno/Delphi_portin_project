@@ -34,6 +34,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 ANALYSIS_DIR = REPO_ROOT / "analysis"
 DEFAULT_OUT_DIR = ANALYSIS_DIR / "screen_cards"
 LAYOUTS_DIR = ANALYSIS_DIR / "form_layouts"
+LAYOUT_MAPPINGS_DIR = ANALYSIS_DIR / "layout_mappings"
+DFM_HTML_ROOT = REPO_ROOT / "tools" / "delphi_porting_accelerator" / "examples" / "generated" / "legacy_source_root"
 
 # -------------------------------------------------------------
 # 0. JSON 로딩 (가벼운 캐시)
@@ -79,6 +81,28 @@ def _form_entries_by_name(form_name: str) -> list[dict]:
     return [e for e in _all_form_entries() if e["form_name"] == form_name]
 
 
+def _dfm_html_artifacts(form_name: str) -> list[dict]:
+    """DEC-028 — `tools/delphi_porting_accelerator` 가 생성한 dfm→html 산출물(변형 포함) 인덱싱.
+
+    반환: [{"unit_dir": "Subu22", "html": "...", "form_json": "...", "tree_json": "..."}, ...]
+    """
+    if not DFM_HTML_ROOT.exists():
+        return []
+    out: list[dict] = []
+    for html in sorted(DFM_HTML_ROOT.glob(f"*/{form_name}*.html")):
+        unit_dir = html.parent.name
+        rel = html.relative_to(REPO_ROOT)
+        form_json = html.with_suffix(".form.json")
+        tree_json = html.with_suffix(".tree.json")
+        out.append({
+            "unit_dir": unit_dir,
+            "html": str(rel),
+            "form_json": str(form_json.relative_to(REPO_ROOT)) if form_json.exists() else None,
+            "tree_json": str(tree_json.relative_to(REPO_ROOT)) if tree_json.exists() else None,
+        })
+    return out
+
+
 # -------------------------------------------------------------
 # 2. 섹션 빌더 — 표준 구성 §0~§9
 # -------------------------------------------------------------
@@ -122,8 +146,24 @@ def _section_summary(form_name: str, entries: list[dict],
         f"- 주요 컴포넌트: {top_components or '-'}",
         f"- 핵심 SQL 수: **{len(queries)}** / 영향 테이블 수: **{len(impact_tables)}** / 검증 규칙 수: **{len(validations)}**",
         f"- 매핑 시나리오: **{scenario_match or '-'}**",
-        "",
     ]
+
+    # DEC-028 — dfm→html 산출물 안내(변형 포함)
+    artifacts = _dfm_html_artifacts(form_name)
+    if artifacts:
+        lines.append(f"- dfm→html 산출물 (DEC-028): **{len(artifacts)}세트** — 신규 화면 포팅 시 공식 입력")
+        for a in artifacts:
+            extras = []
+            if a["form_json"]:
+                extras.append("form.json")
+            if a["tree_json"]:
+                extras.append("tree.json")
+            extra_str = (" + " + " + ".join(extras)) if extras else ""
+            lines.append(f"  - `{a['unit_dir']}` → [`{a['html']}`]({Path('..').joinpath('..', a['html'])}){extra_str}")
+    else:
+        lines.append("- dfm→html 산출물: (없음 — `tools/delphi_porting_accelerator` 미생성)")
+
+    lines.extend(["", ""])
     return "\n".join(lines)
 
 
@@ -276,11 +316,23 @@ def _section_checklist(form_name: str, scenario_match: str | None,
                                      for p in contract_glob) else "[ ]"
     threshold_present = "[x]" if (REPO_ROOT / "docs" / "eval-axes-and-dod-draft.md").exists() else "[ ]"
     capture_present = "[x]" if capture_count > 0 else "[ ]"
+
+    # DEC-028 — dfm→html 산출물 + layout_mappings 의무
+    artifacts = _dfm_html_artifacts(form_name)
+    layout_mapping_path = LAYOUT_MAPPINGS_DIR / f"{form_name}.md"
+    has_artifacts = bool(artifacts)
+    has_mapping = layout_mapping_path.exists()
+    artifacts_present = "[x]" if has_artifacts else "[ ]"
+    mapping_present = "[x]" if has_mapping else ("[ ]" if has_artifacts else "[-]")
+
     return "\n".join([
         "## 9. 포팅 체크리스트(자동 생성)",
         f"- {contract_present} 본 화면을 다루는 Migration Contract 존재 (시나리오 매칭: {scenario_match or '-'})",
         f"- {threshold_present} 5축 임계값(eval-axes-and-dod-draft.md) 정의됨",
         f"- {capture_present} 본 화면 SQL 이 query_capture 로 보강됨 ({capture_count}건 매칭)",
+        f"- {artifacts_present} dfm→html 산출물 인벤토리됨 (DEC-028, {len(artifacts)}세트)",
+        f"- {mapping_present} layout_mappings 노트 작성됨 — `analysis/layout_mappings/{form_name}.md` "
+        + ("(존재)" if has_mapping else "(미작성 — 신규 화면 포팅 시 의무)"),
         "",
     ])
 

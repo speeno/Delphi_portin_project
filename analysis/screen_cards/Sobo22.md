@@ -1,6 +1,6 @@
 # 화면 카드: Sobo22 (TSobo22)
 
-_생성: 2026-04-18 04:10 UTC — `tools/analysis/screen_card_builder.py`_
+_생성: 2026-04-18 21:56 UTC — `tools/analysis/screen_card_builder.py`_
 
 ## 0. 한눈 요약
 - 파일(DFM): /Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22.dfm
@@ -9,6 +9,11 @@ _생성: 2026-04-18 04:10 UTC — `tools/analysis/screen_card_builder.py`_
 - 주요 컴포넌트: TFlatPanel×8, TFlatEdit×6, TmyLabel3d×5, TFlatButton×5, TCornerButton×4, TFlatComboBox×2
 - 핵심 SQL 수: **14** / 영향 테이블 수: **6** / 검증 규칙 수: **3**
 - 매핑 시나리오: **C3 입고 접수**
+- dfm→html 산출물 (DEC-028): **3세트** — 신규 화면 포팅 시 공식 입력
+  - `Subu22` → [`tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22/Sobo22.html`](../../tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22/Sobo22.html) + form.json + tree.json
+  - `Subu22_1` → [`tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22_1/Sobo22_1.html`](../../tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22_1/Sobo22_1.html) + form.json + tree.json
+  - `Subu22_2` → [`tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22_2/Sobo22_2.html`](../../tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22_2/Sobo22_2.html) + form.json + tree.json
+
 
 ## 1. UI 구성
 ### TSobo22 — /Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22.dfm
@@ -114,3 +119,5 @@ _생성: 2026-04-18 04:10 UTC — `tools/analysis/screen_card_builder.py`_
 - [ ] 본 화면을 다루는 Migration Contract 존재 (시나리오 매칭: C3 입고 접수)
 - [x] 5축 임계값(eval-axes-and-dod-draft.md) 정의됨
 - [ ] 본 화면 SQL 이 query_capture 로 보강됨 (0건 매칭)
+- [x] dfm→html 산출물 인벤토리됨 (DEC-028, 3세트)
+- [ ] layout_mappings 노트 작성됨 — `analysis/layout_mappings/Sobo22.md` (미작성 — 신규 화면 포팅 시 의무)
