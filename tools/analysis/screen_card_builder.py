@@ -291,6 +291,22 @@ def _section_checklist(form_name: str, scenario_match: str | None,
 
 
 def _scenario_for(form_name: str) -> str | None:
+    """porting-screens.json 의 시나리오와 form_name 매칭.
+
+    매칭 규칙(SRP — '폼 이름 정규화' 한 단계만):
+      - primary_form / related_forms 값에서 **첫 단어**(공백 split[0])만 추출
+        → "TSobo27 (출고접수관리)", "TSobo26 출고접수현황" 모두 첫 단어로 정규화
+      - 첫 단어의 선두 'T' 1자 제거(클래스 접두사 관행)
+      - 결과가 form_name 과 일치하면 매칭
+      - primary_unit (예: "Subu27.pas") 에 form_name 이 포함돼도 보조 매칭
+    """
+
+    def _norm(name: str) -> str:
+        if not name:
+            return ""
+        head = name.split()[0]
+        return head[1:] if head.startswith("T") else head
+
     path = REPO_ROOT / "dashboard" / "data" / "porting-screens.json"
     if not path.exists():
         return None
@@ -303,7 +319,7 @@ def _scenario_for(form_name: str) -> str | None:
         primary_form = delphi.get("primary_form") or delphi.get("form") or ""
         related = delphi.get("related_forms") or delphi.get("forms") or []
         candidates = [primary_form, *related]
-        candidates_norm = {c.lstrip("T") for c in candidates if c}
+        candidates_norm = {_norm(c) for c in candidates if c}
         if form_name in candidates or form_name in candidates_norm:
             return f"{sc.get('id')} {sc.get('name')}"
         primary_unit = (delphi.get("primary_unit") or "").lower()
@@ -373,6 +389,29 @@ def _variants_for_form(form_name: str) -> list[dict]:
 # -------------------------------------------------------------
 # 6. 카드 1장 빌드
 # -------------------------------------------------------------
+
+
+# 수동 보강 영역 시작 마커 — 자동 재생성 시 이 마커 이후를 보존한다.
+# 시나리오별 1차 포팅 범위·관련 폼·서비스 매핑 등 사람 손으로 적은 절을
+# 카드 자동 갱신 시 잃어버리지 않도록 OCP 원칙으로 분리.
+_MANUAL_SECTION_MARKER = "\n## 10."
+
+
+def _preserve_manual_sections(out_path: Path) -> str:
+    """기존 카드 파일의 `## 10.` 이후(수동 보강 영역) 를 그대로 반환.
+
+    파일이 없거나 마커가 없으면 빈 문자열. 카드 빌드 시 자동 영역 뒤에 결합한다.
+    """
+    if not out_path.exists():
+        return ""
+    try:
+        text = out_path.read_text(encoding="utf-8")
+    except Exception:
+        return ""
+    idx = text.find(_MANUAL_SECTION_MARKER)
+    if idx < 0:
+        return ""
+    return text[idx:].rstrip() + "\n"
 
 
 def build_card(form_name: str, capture_files: list[str] | None = None) -> tuple[str, dict]:
@@ -487,6 +526,9 @@ def main(argv: list[str] | None = None) -> int:
             continue
         md, stats = build_card(fname, capture_files)
         out = out_dir / f"{fname}.md"
+        manual_tail = _preserve_manual_sections(out)
+        if manual_tail:
+            md = md.rstrip() + "\n\n" + manual_tail
         out.write_text(md, encoding="utf-8")
         stats_list.append(stats)
         print(f"[ok] {out.relative_to(REPO_ROOT)}")

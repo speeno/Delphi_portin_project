@@ -1,6 +1,6 @@
 # 화면 카드: Subu00 (TSubu00)
 
-_생성: 2026-04-18 03:07 UTC — `tools/analysis/screen_card_builder.py`_
+_생성: 2026-04-18 04:10 UTC — `tools/analysis/screen_card_builder.py`_
 
 ## 0. 한눈 요약
 - 파일(DFM): /Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Chul.dfm, /Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Interbase/Chul.dfm

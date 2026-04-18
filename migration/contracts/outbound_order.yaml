@@ -1,0 +1,623 @@
+# Migration Contract: 출고 접수(주문 입력) (C2)
+# 본 계약은 레거시 델파이 동작을 웹(API+UI)에서 동등하게 재현하기 위한 1차 계약입니다.
+# 출처(레거시): legacy_delphi_source/legacy_source/Subu27.pas (TSobo27)
+#   - FormShow L147~ / Button101Click(조회) L327~ / Button201Click(저장) L553~ / Button301Click(취소) L640~ / Button501Click(합계) L690~
+# 사용 폼: Sobo27 (TSobo27, Subu27.dfm) — 변형판 Subu27_1 은 1차 미포함 (customer_variants 후속)
+# 핵심 테이블: S1_Ssub (analysis/db_impact_matrix.json: SELECT 12 / UPDATE 2 직접; INSERT/DELETE 는 ADO DataSet 자동 생성)
+# 보조 테이블 (LOOKUP only): G7_Ggeo (거래처), G1_Ggeo (지사), G4_Book (제품), T1_Gbun, H2_Gbun
+# 1차 미접근: Sg_Csum (analysis/c2_outbound_flow.md §0 — Sobo67 집계 화면에서만 사용 확인. OQ-OUT-2 트리거 검증 후속)
+# 관련 OQ: OQ-OUT-1 ~ OQ-OUT-4 (analysis/c2_outbound_flow.md §6)
+# POC 참조: POC/web/seak80-sample/backend/sobo67_sql.py (S1_Ssub SELECT 패턴 + G4_Book LEFT JOIN), seak80-column-labels.js (컬럼 라벨)
+
+id: C2-outbound-order
+name: 출고 접수(주문 입력)
+version: 1.0.0
+status: approved        # draft → review → approved (1차 동결)
+scope_phase: phase1     # phase1 = 1차 포팅 범위 동결 (DEC-009~012 deferred 반영)
+acceptance_goal: |
+  1차 포팅 합격선: "기존 사용자가 출고 주문을 신규 등록 / 수정 / 취소 / 조회 (CRUD) 할 수 있다."
+  권한키 분기(D-OUT-1) / 바코드 결합(D-OUT-2) / 인쇄 트리거(D-OUT-3) / 물리 삭제(D-OUT-4) 는 모두 후속 작업으로 이관.
+  흡수 시나리오 C11 (출고 수정/취소) 는 1차 contract 의 PUT/PATCH 엔드포인트로 포함.
+owners:
+  business: 메인개발자
+  legacy: 델파이 담당자
+  web: 웹 포팅 팀
+links:
+  candidate: docs/core-scenarios-candidates.md#1-후보요약
+  test_pack: migration/test-cases/outbound_order.json
+  source_legacy:
+    - legacy_delphi_source/legacy_source/Subu27.pas
+    - legacy_delphi_source/legacy_source/Subu27.dfm
+  source_analysis:
+    - analysis/screen_cards/Sobo27.md
+    - analysis/c2_outbound_flow.md
+  poc_reference:
+    - POC/web/seak80-sample/backend/sobo67_sql.py
+    - POC/web/seak80-sample/backend/sobo_phase1_sql.py
+    - POC/web/seak80-sample/frontend/seak80-column-labels.js
+  related_open_questions:
+    - OQ-OUT-1   # Yesno enum 운영 검증
+    - OQ-OUT-2   # Sg_Csum 트리거 존재 여부
+    - OQ-OUT-3   # 합성키 동시성
+    - OQ-OUT-4   # Gjisa 합성키 승격 여부
+
+# ---------------------------------------------------------------
+# 1. 비즈니스 의도 (한 줄)
+# ---------------------------------------------------------------
+intent: |
+  출고 주문 1건(거래처·일자·전표 단위로 라인 N개) 을 등록·수정·취소·조회한다.
+  레거시 TSobo27 의 그리드 (mSqry) + 데이터셋 자동 INSERT/UPDATE 패턴을, 웹에서는 명시적 트랜잭션
+  (BEGIN→N×INSERT→COMMIT) 으로 재현하여 라인 일부 실패 시 전체 롤백을 보장한다.
+
+# ---------------------------------------------------------------
+# 2. 입력 (UI/API 공용)
+# ---------------------------------------------------------------
+inputs:
+  order_header:
+    - name: gdate
+      type: string         # 'YYYY-MM-DD' (저장 시 'YYYY.MM.DD' 변환)
+      required: true
+      legacy_field: S1_Ssub.Gdate
+      note: "Subu27 Edit101 (FormShow L150). 기본값 = 오늘."
+    - name: hcode
+      type: string
+      required: true
+      legacy_field: S1_Ssub.Hcode
+      note: "거래처 코드. mSqry.FieldByName('Gcode') 가 실제로 Hcode 매핑 (L654)."
+    - name: jubun
+      type: string
+      required: false      # 신규 시 서버 자동 채번(현재 시각 기반 전표). 클라이언트 제공 시 검증.
+      legacy_field: S1_Ssub.Jubun
+      note: "주문 단위 코드(전표). 1차는 (Gdate,Hcode) 당 1 jubun 가정 — OQ-OUT-3."
+    - name: gjisa
+      type: string
+      required: false
+      legacy_field: S1_Ssub.Gjisa
+      note: "지사 코드. 1차에서는 메타로만 (URL key 미포함) — OQ-OUT-4."
+    - name: gubun
+      type: string
+      required: false
+      default: '출고'      # 1차 고정 (Subu27 L378/L413/L448/L490 모두 '출고')
+      legacy_field: S1_Ssub.Gubun
+    - name: ocode
+      type: string
+      required: false
+      default: 'B'         # 1차 고정 (Subu27 L379/L414/L451/L491 모두 'B')
+      legacy_field: S1_Ssub.Ocode
+      note: "본사='A'/지사='B' (POC sobo67 ocode_like_for_mode 와 정합). 1차는 'B' (지사 출고) 만."
+    - name: scode
+      type: string
+      required: false
+      default: 'X'         # 1차 고정 (Subu27 L380 등 'X')
+      legacy_field: S1_Ssub.Scode
+  order_lines:
+    - name: lines[]
+      required: true
+      min_items: 1
+      schema:
+        - name: gcode
+          type: string
+          required: true
+          legacy_field: S1_Ssub.Gcode
+          note: "제품 코드 (Subu27 L583, L607). 마스터 G4_Book 와 매칭."
+        - name: bcode
+          type: string
+          required: true
+          legacy_field: S1_Ssub.Bcode
+          note: "책/품목 코드 (Subu27 L624)."
+        - name: pubun
+          type: string
+          required: false
+          legacy_field: S1_Ssub.Pubun
+          note: "구분 (신간/구간/...). Subu27 L705/L708 RadioButton8/9 분기."
+        - name: gsqut
+          type: integer
+          required: true
+          legacy_field: S1_Ssub.Gsqut
+          note: "수량 (Subu27 L713 Sum 대상)."
+        - name: gssum
+          type: integer
+          required: false
+          default: 0
+          legacy_field: S1_Ssub.Gssum
+          note: "금액 (Subu27 sobo67 second pass 에서 Sum 대상)."
+
+# ---------------------------------------------------------------
+# 3. 출력
+# ---------------------------------------------------------------
+outputs:
+  success:
+    - name: order_key
+      type: object
+      schema:
+        gdate: string
+        hcode: string
+        jubun: string
+      use: "조회/수정/취소 시 식별자. URL path 에서 '{gdate}|{hcode}|{jubun}' 직렬화."
+    - name: lines
+      type: integer
+      use: "본 주문의 라인 row 수 (S1_Ssub COUNT(*))."
+    - name: qty
+      type: integer
+      use: "SUM(Gsqut)."
+    - name: amount
+      type: integer
+      use: "SUM(Gssum)."
+    - name: status
+      type: string
+      enum: [active, cancelled]
+      use: "Yesno 기반 — '2' 가 모든 라인이면 cancelled, 아니면 active. 1차 단순 매핑 (OQ-OUT-1)."
+  failure_codes:
+    - code: OUT_VALIDATION
+      condition: "필수 필드 누락 / 타입 불일치"
+      http_status: 422
+    - code: OUT_NOT_FOUND
+      condition: "지정한 (gdate,hcode,jubun) 조합의 row 가 없음"
+      http_status: 404
+    - code: OUT_DUPLICATE
+      condition: "신규 등록 시 이미 같은 합성키 존재 (UNIQUE 충돌)"
+      http_status: 409
+      phase1_policy: "1차는 jubun 자동 채번 시 충돌 가능성 거의 없음. 클라이언트 제공 jubun 만 발생."
+    - code: OUT_TX_FAILED
+      condition: "라인 INSERT/UPDATE/DELETE 트랜잭션 도중 SQL 오류 → 전체 롤백"
+      http_status: 500
+
+# ---------------------------------------------------------------
+# 4. 데이터 액세스 (레거시 SQL ↔ 웹 SQL)
+# ---------------------------------------------------------------
+data_access:
+  - id: SQL-OUT-1-INSERT-LINE
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu27.pas
+      line: 365      # L365~L373 mSqry.Append + Post — ADO DataSet 자동 INSERT (정적 SQL 미캡처)
+      sql: |
+        # 데이터셋 자동 생성 SQL (정적 분석 미캡처). 웹에서 명시적 SQL 로 재작성:
+        # INSERT INTO S1_Ssub (Gdate, Hcode, Jubun, Gjisa, Gcode, Bcode, Gubun, Ocode, Scode,
+        #                       Yesno, Pubun, Gsqut, Gssum, Time3)
+        # VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, '0', %s, %s, %s, NOW())
+    notes:
+      - "Yesno 초기값 = '0' (미처리). DEC-012 1차는 cancel flag 만 사용, 물리 삭제 미사용."
+      - "Time3 = NOW() (Subu27 L643 UPDATE 의 Time3=now() 와 동일 패턴)."
+      - "라인 N개를 단일 트랜잭션으로 (BEGIN→INSERT×N→COMMIT)."
+    web:
+      method: INSERT
+      table: S1_Ssub
+      bind: parameterized   # 모든 파라미터 %s 바인딩 (POC D_Select 자유 SQL 패턴 미채택)
+      transaction: required
+    in_scope_phase1: true
+
+  - id: SQL-OUT-2-UPDATE-LINE
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu27.pas
+      line: 681      # L676~L684 mSqry.Edit + Post (Code5 = 'O'/'N')
+      sql: |
+        # 데이터셋 자동 생성 UPDATE — 본 1차에서는 라인 메타(Pubun/Gsqut/Gssum) 변경에 대응.
+        # UPDATE S1_Ssub SET Pubun=%s, Gsqut=%s, Gssum=%s, Time3=NOW()
+        # WHERE Gdate=%s AND Hcode=%s AND Jubun=%s AND Gcode=%s AND Bcode=%s
+    notes:
+      - "수정 시 (Gdate,Hcode,Jubun,Gcode,Bcode) 합성키로 라인 식별."
+      - "수량/금액/구분만 1차 변경 가능. Yesno (cancel) 는 SQL-OUT-5 로 분리."
+    web:
+      method: UPDATE
+      table: S1_Ssub
+      bind: parameterized
+      transaction: required
+    in_scope_phase1: true
+
+  - id: SQL-OUT-3-DELETE-LINE
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu27.pas
+      line: 1431     # DBGrid101 KeyDown — Delete 키로 mSqry.Delete (ADO 자동)
+      sql: |
+        # DELETE FROM S1_Ssub
+        # WHERE Gdate=%s AND Hcode=%s AND Jubun=%s AND Gcode=%s AND Bcode=%s
+    notes:
+      - "1차 in_scope: **수정 흐름 안에서의 라인 삭제** (PUT diff 처리). 주문 전체 물리 삭제는 D-OUT-4 (DEC-012) 로 deferred."
+      - "주문 전체 취소는 SQL-OUT-5-CANCEL (소프트) 로 분리."
+    web:
+      method: DELETE
+      table: S1_Ssub
+      bind: parameterized
+      transaction: required
+    in_scope_phase1: true   # 라인 단위 삭제만 (수정 diff)
+
+  - id: SQL-OUT-4-LIST
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu27.pas
+      line: 464      # L464 — Group By Hcode,Gcode,Jubun,Gjisa Count(*)
+      sql: |
+        Select Hcode, Gcode, Jubun, Gjisa, Count(*) From S1_Ssub
+        Where Gdate >= '<from>' and Gdate <= '<to>' and Gubun='출고'
+              and Ocode='B' and Scode='X' [and Hcode = '<hc>']
+        Group By Hcode, Gcode, Jubun, Gjisa
+    notes:
+      - "본 SELECT 의 GROUP BY 가 한 주문의 합성키 식별 근거 (analysis/c2_outbound_flow.md §4.1)."
+      - "1차 web 변환: GROUP BY (Gdate,Hcode,Jubun) 으로 단순화 (Gjisa 메타 처리 — OQ-OUT-4)."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      columns: [Gdate, Hcode, Jubun, "COUNT(*) AS lines", "SUM(Gsqut) AS qty", "SUM(Gssum) AS amount", "MAX(Yesno) AS yesno"]
+      where:
+        - "Gdate >= :date_from"
+        - "Gdate <= :date_to"
+        - "Gubun = '출고'"
+        - "Ocode = 'B'"
+        - "Scode = 'X'"
+        - "[Hcode = :hcode]"   # optional
+      group_by: ["Gdate", "Hcode", "Jubun"]
+      order_by: ["Gdate DESC", "Hcode"]
+      limit: parameterized
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-OUT-5-CANCEL
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu27.pas
+      line: 643      # L640~L661 Button301Click
+      sql: |
+        UPDATE S1_Ssub SET Yesno='@Yesno', Time3=now()
+         WHERE <D_Select> Gdate='@Gdate' and Gubun='@Gubun'
+               and Scode='@Scode' and Yesno='@Yesoo'
+               and Ocode='@Ocode' and Hcode='@Hcode'
+        # @Yesno=2 (취소) / @Yesoo=1 (처리완료) 제한 — Subu27 L652/L655.
+    notes:
+      - "1차 web 변환: 처리상태 제한(@Yesoo='1') 은 제거 — 어떤 상태든 cancel 가능 (1차 단순화)."
+      - "WHERE 키 (Gdate, Hcode, Jubun) 합성키 사용 — 한 주문의 모든 라인 일괄 취소."
+      - "Time3 = NOW() (Subu27 동일 패턴)."
+    web:
+      method: UPDATE
+      table: S1_Ssub
+      set:
+        - "Yesno = '2'"
+        - "Time3 = NOW()"
+      where:
+        - "Gdate = :gdate"
+        - "Hcode = :hcode"
+        - "Jubun = :jubun"
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-OUT-6-DETAIL
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu27.pas
+      line: 562      # L562 / L577 Select * From S1_Ssub Where ...
+      sql: |
+        Select * From S1_Ssub Where <D_Select> Gdate='<gdate>' and Hcode='<hc>' and Jubun='<jubun>' Order By Gcode
+    notes:
+      - "라인 묶음 상세 조회. ORDER BY Gcode (Subu27 자동 정렬)."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      columns: ["*"]
+      where:
+        - "Gdate = :gdate"
+        - "Hcode = :hcode"
+        - "Jubun = :jubun"
+      order_by: ["Gcode"]
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-OUT-7-MASTER-CUSTOMER
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu27.pas
+      line: 354
+      sql: |
+        Select Gcode, Gname, Gtel1, Gtel2 From G7_Ggeo Where <D_Select> ...
+    notes:
+      - "거래처 마스터 자동완성. POC phase2_masters_sql.py 와 패턴 정합."
+      - "1차 web 엔드포인트: GET /api/v1/masters/customers?q=&server_id="
+    web:
+      method: SELECT
+      table: G7_Ggeo
+      columns: [Gcode, Gname, Gtel1, Gtel2]
+      where:
+        - "[Gcode LIKE :q OR Gname LIKE :q]"
+      limit: parameterized
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-OUT-8-MASTER-PRODUCT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu27.pas
+      line: 624
+      sql: |
+        Select Gname, Gjeja From G4_Book Where <D_Select> Gcode='<bcode>' and Hcode='<hc>'
+    notes:
+      - "제품/책 마스터 자동완성 (Bcode → Gname/Gjeja 저자)."
+      - "1차 web 엔드포인트: GET /api/v1/masters/products?q=&server_id="
+    web:
+      method: SELECT
+      table: G4_Book
+      columns: [Gcode, Gname, Gjeja]
+      where:
+        - "[Gcode LIKE :q OR Gname LIKE :q]"
+      limit: parameterized
+      bind: parameterized
+    in_scope_phase1: true
+
+# ---------------------------------------------------------------
+# 5. 엔드포인트 (웹)
+# ---------------------------------------------------------------
+endpoints:
+  - method: GET
+    path: /api/v1/outbound/orders
+    description: "출고 주문 목록 조회 (날짜 범위 + 거래처 필터)."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string   # 'YYYY-MM-DD'
+        date_to: string
+        hcode?: string
+        include_cancelled?: boolean    # 기본 false (Yesno='2' 제외)
+        limit?: integer    # 기본 50, 최대 500
+        offset?: integer
+    responses:
+      "200":
+        body:
+          items:
+            - order_key: { gdate: string, hcode: string, jubun: string }
+              customer_name: string
+              lines: integer
+              qty: integer
+              amount: integer
+              status: "active|cancelled"
+          total: integer
+          limit: integer
+          offset: integer
+      "401":
+        body: { detail: "Invalid or expired token" }
+
+  - method: GET
+    path: /api/v1/outbound/orders/{order_key}
+    description: "주문 상세 (한 합성키의 라인 N개 + 거래처/제품 마스터 채움)."
+    auth: bearer
+    request:
+      path:
+        order_key: string   # '{gdate}|{hcode}|{jubun}'
+    responses:
+      "200":
+        body:
+          order_key: { gdate: string, hcode: string, jubun: string }
+          customer:
+            hcode: string
+            gname: string
+          status: "active|cancelled"
+          lines:
+            - gcode: string
+              bcode: string
+              product_name: string
+              pubun: string
+              gsqut: integer
+              gssum: integer
+              yesno: string
+      "404":
+        body: { detail: "Order not found", code: "OUT_NOT_FOUND" }
+
+  - method: POST
+    path: /api/v1/outbound/orders
+    description: "주문 신규 등록 (헤더 + 라인 N개 단일 트랜잭션)."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        server_id: string
+        order_header:
+          gdate: "string (required)"
+          hcode: "string (required)"
+          jubun: "string (optional, server-generated if omitted)"
+          gjisa: "string (optional)"
+          gubun: "string (optional, default '출고')"
+          ocode: "string (optional, default 'B')"
+          scode: "string (optional, default 'X')"
+        order_lines:
+          - gcode: "string (required)"
+            bcode: "string (required)"
+            pubun: "string (optional)"
+            gsqut: "integer (required)"
+            gssum: "integer (optional, default 0)"
+    responses:
+      "201":
+        body:
+          order_key: { gdate: string, hcode: string, jubun: string }
+          lines: integer
+          qty: integer
+          amount: integer
+          created_at: string  # ISO-8601
+      "409":
+        body: { detail: "Duplicate order key", code: "OUT_DUPLICATE" }
+      "422":
+        body: { detail: "Validation failed", code: "OUT_VALIDATION", errors: object }
+      "500":
+        body: { detail: "Transaction failed (rolled back)", code: "OUT_TX_FAILED" }
+
+  - method: PUT
+    path: /api/v1/outbound/orders/{order_key}
+    description: "주문 수정 (라인 diff: 추가/수정/삭제). 흡수 시나리오 C11."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        order_lines:
+          - gcode: "string (required)"
+            bcode: "string (required)"
+            pubun: "string (optional)"
+            gsqut: "integer (required)"
+            gssum: "integer (optional, default 0)"
+          # 전체 라인 desired state — 서버에서 diff 계산
+    responses:
+      "200":
+        body:
+          order_key: { gdate: string, hcode: string, jubun: string }
+          lines: integer
+          qty: integer
+          amount: integer
+          updated_at: string
+          diff: { inserted: integer, updated: integer, deleted: integer }
+      "404": { body: { detail: "Order not found", code: "OUT_NOT_FOUND" } }
+      "422": { body: { detail: "Validation failed", code: "OUT_VALIDATION" } }
+
+  - method: PATCH
+    path: /api/v1/outbound/orders/{order_key}/cancel
+    description: "주문 취소 (모든 라인 Yesno='2' UPDATE — 소프트 삭제). 흡수 시나리오 C11."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        reason: "string (optional, audit-only)"
+    responses:
+      "200":
+        body:
+          order_key: { gdate, hcode, jubun }
+          status: "cancelled"
+          cancelled_at: string
+      "404": { body: { detail: "Order not found", code: "OUT_NOT_FOUND" } }
+      "409":
+        body: { detail: "Already cancelled", code: "OUT_DUPLICATE" }
+        note: "이미 cancelled 인 주문은 409 (idempotency 경고)."
+
+  - method: GET
+    path: /api/v1/masters/customers
+    description: "거래처 자동완성 (POC phase2_masters_sql 패턴)."
+    auth: bearer
+    request:
+      query:
+        server_id: "string (required)"
+        q: "string (required)"
+        limit: "integer (optional, default 20)"
+    responses:
+      "200":
+        body:
+          items:
+            - hcode: string
+              gname: string
+              gtel1: "string (optional)"
+              gtel2: "string (optional)"
+
+  - method: GET
+    path: /api/v1/masters/products
+    description: "제품 자동완성."
+    auth: bearer
+    request:
+      query:
+        server_id: "string (required)"
+        q: "string (required)"
+        limit: "integer (optional, default 20)"
+    responses:
+      "200":
+        body:
+          items:
+            - bcode: string
+              gname: string
+              gjeja: "string (optional)"
+
+# ---------------------------------------------------------------
+# 6. 차이점·결정 사항 (Decision Log 후보)
+# ---------------------------------------------------------------
+deltas:
+  - id: D-OUT-1
+    title: 권한키 분기 (F21/F22/F26) — 일반 권한 관리에 통합
+    in_scope_phase1: false
+    decision_ref: DEC-009
+    phase1_behavior: "1차 포팅은 모든 인증 사용자(JWT 보유)에게 신규/수정/취소/조회 권한 동등 부여. F21/F22/F26 분기 미적용."
+    legacy_behavior: "TSobo27 의 등록·수정·삭제 권한이 F21/F22/F26 키로 분기 (Subu27.pas 정적 분석에는 명시적 분기 코드 없음, 메뉴 레벨에서 잠금)."
+    proposed_web_behavior: "(후속) C10 권한 관리 화면에서 RBAC 도입. F21/F22/F26 → outbound:create/update/delete 권한으로 매핑."
+    risk: "1차 — 모든 사용자가 모든 출고 동작 가능. 베타 사용 범위가 내부 한정이므로 수용 가능."
+    decision_required_by: "후속 사이클 (C10 권한 관리 통합)"
+    deferred_to: "후속 작업 (C10 권한 관리)"
+
+  - id: D-OUT-2
+    title: 바코드 결합 (Tong08) — 별도 디바이스 시나리오
+    in_scope_phase1: false
+    decision_ref: DEC-010
+    phase1_behavior: "1차는 바코드 입력 UI 미노출. 모든 라인 입력은 수기/자동완성."
+    legacy_behavior: "TSobo27 에서 바코드 스캐너 (Tong08.pas, CPort 시리얼) 로 Bcode 자동 입력."
+    proposed_web_behavior: "(후속) DEC-004 키보드 웨지(USB-HID) 기반 — Bcode input 이 keypress 이벤트로 자동 채움. 별도 사이클 (가칭 C8)."
+    risk: "1차 — 입력 효율 저하 (수기 입력). 베타에서 운영자 피드백 수집 후 우선순위 재평가."
+    decision_required_by: "후속 사이클 (바코드 시나리오)"
+    deferred_to: "후속 작업 (C8 바코드)"
+
+  - id: D-OUT-3
+    title: 인쇄 트리거 (거래명세서/라벨) — C7 인쇄 시나리오로 이관
+    in_scope_phase1: false
+    decision_ref: DEC-011
+    phase1_behavior: "1차는 인쇄 버튼 미노출 (또는 disabled+tooltip). 등록은 DB commit 까지만."
+    legacy_behavior: "TSobo27 Button701/702Click (L1580~L1607) 에서 Printers/QuickRpt 호출."
+    proposed_web_behavior: "(후속) C7 인쇄 사이클에서 DEC-004 방향성(브라우저 인쇄 + 라벨 PDF 하이브리드) 으로 도입. 출고 양식 정의 별도."
+    risk: "1차 — 종이 거래명세서 출력 불가. 베타 운영자에게 사전 안내 필요 (HA-OUT-PRINT)."
+    decision_required_by: "후속 사이클 (C7 인쇄)"
+    deferred_to: "후속 작업 (C7 인쇄)"
+
+  - id: D-OUT-4
+    title: 주문 전체 물리 삭제 (DELETE) — 참조 무결성 검토 후 후속
+    in_scope_phase1: false
+    decision_ref: DEC-012
+    phase1_behavior: "1차는 cancel flag (Yesno='2') 소프트 삭제만 지원. DELETE HTTP 메서드 미제공."
+    legacy_behavior: "관리자 권한 사용자만 mSqry.Delete (ADO 자동 DELETE) 가능 — 권한 분기 (D-OUT-1) 와 정합."
+    proposed_web_behavior: "(후속) 다른 시나리오 (반품 C4, 정산 등) 의 참조 무결성 매트릭스 작성 후 별도 결정으로 도입."
+    risk: "1차 — 잘못된 주문이 영구 보관 (cancelled 상태). 감사 관점에서는 안전판."
+    decision_required_by: "후속 사이클 (참조 무결성 검토)"
+    deferred_to: "후속 작업 (별도 결정)"
+
+# ---------------------------------------------------------------
+# 7. 동등성 기준 (5축 — eval-axes-and-dod-draft.md)
+# ---------------------------------------------------------------
+equivalence:
+  functional:
+    - "동일 (gdate, hcode, lines[]) 입력에 대해 신규 등록 → 합성키(jubun) 발급 → 조회 가능."
+    - "수정 시 라인 diff (추가/수정/삭제) 가 단일 트랜잭션으로 적용."
+    - "취소 후 GET 상세에서 status='cancelled' 로 표시."
+    - "1차: 권한키 분기 미수행 (DEC-009). 인증 사용자 모두 동등."
+    - "1차: 바코드/인쇄 트리거 미발생 (DEC-010/011)."
+    - "1차: DELETE HTTP 미제공 (DEC-012)."
+  data:
+    - "S1_Ssub INSERT/UPDATE/DELETE 모두 명시적 SQL + 파라미터 바인딩 (ADO DataSet 자동 생성 의존 제거)."
+    - "신규 등록의 라인 N개 = 단일 트랜잭션 (BEGIN→N×INSERT→COMMIT). 1건 실패 시 전체 롤백."
+    - "Yesno enum: '0'(미처리)/'1'(처리완료)/'2'(취소). 1차는 신규='0', 취소→'2'. '1' 흐름은 베타 후 검토 (OQ-OUT-1)."
+    - "Sg_Csum 미접근 (1차). 운영 검증 후 트리거 또는 배치 동기화 결정 (OQ-OUT-2)."
+    - "boolean 필드/NULL 처리: legacy 와 동일하게 빈 문자열 또는 0 default."
+  ux:
+    - "Subu27 의 그리드 레이아웃을 shadcn/ui Table + 라인 편집 컴포넌트로 등가."
+    - "거래처/제품 자동완성 (POC seak80-common.js 패턴 → React Combobox)."
+    - "에러 메시지 한글 문구 의미 보존 (Subu27 L532/L547 '가입고된 자료가 있습니다' 등은 1차 미적용 — 가입고 흐름 후속)."
+    - "헤더에 거래처명 표시 (G7_Ggeo lookup)."
+  performance:
+    - "라인 100건 신규 등록 < 1s (로컬 MySQL, 단일 트랜잭션)."
+    - "목록 조회 p95 < 500 ms (limit=50)."
+  audit:
+    - "주문 신규/수정/취소 모두 audit.outbound 로거에 구조화 JSON 1줄 기록."
+    - "필수 필드: timestamp / gcode (작업자) / order_key / action (created/updated/cancelled) / result / client_ip."
+    - "client_ip 추출은 C1 의 audit_service.extract_client_ip 재사용."
+
+# ---------------------------------------------------------------
+# 8. 비범위 (out of scope for this contract)
+# ---------------------------------------------------------------
+out_of_scope:
+  # 1차 포팅 비범위 (DEC-009~012)
+  - "권한키 F21/F22/F26 분기 (D-OUT-1 / DEC-009) — 후속 C10 권한 관리"
+  - "바코드 입력 (D-OUT-2 / DEC-010) — 후속 C8 바코드"
+  - "인쇄 트리거 (D-OUT-3 / DEC-011) — 후속 C7 인쇄"
+  - "주문 전체 물리 삭제 (D-OUT-4 / DEC-012) — 참조 무결성 검토 후"
+  # 본 계약 자체의 비범위
+  - "Sg_Csum 집계 갱신 (OQ-OUT-2) — Sobo67 분석 사이클"
+  - "변형 폼 Subu27_1 의 customer_variants — 1차 본판만"
+  - "가입고 흐름 (S4_Ssub COUNT 검증, Subu27 L523/L538) — 입고 시나리오"
+  - "본사 Ocode='A' 모드 — 1차는 지사 Ocode='B' 만"
+  - "Yesno='1' (처리완료) 흐름 — 1차는 '0' 미처리 → '2' 취소만"
+
+# ---------------------------------------------------------------
+# 9. 변경 이력
+# ---------------------------------------------------------------
+changelog:
+  - date: 2026-04-25
+    by: porting-team
+    note: |
+      1.0.0 — C2 출고 접수 1차 contract 신규 작성 (1차 포팅 동결).
+      - scope_phase: phase1 / acceptance_goal: "신규+수정+취소+조회 CRUD"
+      - 분석 출처: analysis/c2_outbound_flow.md (Subu27.pas 인용 + POC sobo67_sql.py diff)
+      - data_access SQL-OUT-1~8 (INSERT/UPDATE/DELETE/LIST/CANCEL/DETAIL/MASTER×2)
+      - INSERT/UPDATE/DELETE 는 ADO DataSet 자동 생성을 명시적 SQL + 파라미터 바인딩으로 재작성
+      - SQL-OUT-5-CANCEL 은 Subu27 L643 Button301Click UPDATE 직접 인용
+      - deltas D-OUT-1~4 모두 in_scope_phase1=false + decision_ref=DEC-009~012 + phase1_behavior + deferred_to
+      - endpoints: GET 목록/상세 + POST/PUT/PATCH-cancel + GET masters/{customers,products}
+      - 1차 합격선: "주문 신규+수정+취소+조회 CRUD"

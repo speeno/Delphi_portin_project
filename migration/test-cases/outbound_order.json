@@ -1,0 +1,399 @@
+{
+  "$schema_note": "본 파일은 회귀 테스트 팩(Regression Test Pack) 1차 초안입니다. migration/contracts/outbound_order.yaml 과 1:1 대응합니다.",
+  "id": "C2-outbound-order",
+  "contract": "migration/contracts/outbound_order.yaml",
+  "version": "1.0.0-phase1",
+  "status": "approved",
+  "scope_phase": "phase1",
+  "acceptance_goal": "1차 포팅 합격선: '기존 사용자가 출고 주문을 신규+수정+취소+조회 (CRUD) 할 수 있다'. DEC-009~012 1차 제외 항목은 phase1_in_scope=false 케이스로 표기.",
+  "owners": {
+    "business": "메인개발자",
+    "legacy": "델파이 담당자",
+    "web": "웹 포팅 팀"
+  },
+  "fixtures": {
+    "tables": {
+      "Id_Logn": [
+        { "Hcode": "0123", "Hname": "홍길동", "Gcode": "hong01", "Gname": "홍길동", "Gpass": "qwer5678" },
+        { "Hcode": "0456", "Hname": "김영희", "Gcode": "kim02",  "Gname": "김영희", "Gpass": "p@ssword!" }
+      ],
+      "G7_Ggeo": [
+        { "Gcode": "C001", "Gname": "신화서점",   "Gtel1": "02-1234", "Gtel2": "5678" },
+        { "Gcode": "C002", "Gname": "한길북스",   "Gtel1": "031-987", "Gtel2": "6543" }
+      ],
+      "G4_Book": [
+        { "Hcode": "C001", "Gcode": "B001", "Gname": "FastAPI 실전",   "Gjeja": "홍길동" },
+        { "Hcode": "C001", "Gcode": "B002", "Gname": "리팩터링 2판",  "Gjeja": "Martin Fowler" },
+        { "Hcode": "C002", "Gcode": "B003", "Gname": "Delphi 마이그레이션", "Gjeja": "김영희" }
+      ],
+      "S1_Ssub_seed": [
+        {
+          "Gdate": "2026.04.20", "Hcode": "C001", "Jubun": "J001", "Gjisa": "",
+          "Gcode": "B001", "Bcode": "B001", "Gubun": "출고", "Ocode": "B", "Scode": "X",
+          "Yesno": "0", "Pubun": "신간", "Gsqut": 5, "Gssum": 75000
+        },
+        {
+          "Gdate": "2026.04.20", "Hcode": "C001", "Jubun": "J001", "Gjisa": "",
+          "Gcode": "B002", "Bcode": "B002", "Gubun": "출고", "Ocode": "B", "Scode": "X",
+          "Yesno": "0", "Pubun": "신간", "Gsqut": 3, "Gssum": 60000
+        }
+      ]
+    },
+    "notes": [
+      "테스트 픽스처는 PII 가 아닌 더미 값입니다.",
+      "S1_Ssub_seed 는 한 주문(C001/J001/2026.04.20) 의 라인 2 row 시드.",
+      "1차 포팅: 권한키 분기 미사용(DEC-009) — Id_Logn 의 모든 사용자가 동등 권한.",
+      "1차 포팅: 바코드/인쇄/물리삭제 미접근(DEC-010~012) — TC-OUT-010~012 는 phase1_in_scope=false 보존."
+    ]
+  },
+  "axes": ["functional", "data", "ux", "performance", "audit"],
+  "cases": [
+    {
+      "id": "TC-OUT-001",
+      "title": "신규 등록 — 헤더 + 라인 3건 단일 트랜잭션 commit",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "given": { "Id_Logn_seeded": true, "G7_Ggeo_seeded": true, "G4_Book_seeded": true, "auth_token": "hong01" },
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/outbound/orders",
+        "headers": { "Authorization": "Bearer <hong01>" },
+        "body": {
+          "server_id": "main",
+          "order_header": { "gdate": "2026-04-25", "hcode": "C001" },
+          "order_lines": [
+            { "gcode": "B001", "bcode": "B001", "pubun": "신간", "gsqut": 10, "gssum": 150000 },
+            { "gcode": "B002", "bcode": "B002", "pubun": "신간", "gsqut": 5,  "gssum": 100000 },
+            { "gcode": "B003", "bcode": "B003", "pubun": "구간", "gsqut": 2,  "gssum": 40000  }
+          ]
+        }
+      },
+      "expect": {
+        "status": 201,
+        "body_contains": {
+          "order_key": { "gdate": "2026.04.25", "hcode": "C001" },
+          "lines": 3,
+          "qty": 17,
+          "amount": 290000
+        },
+        "body_has_keys": ["order_key.jubun", "created_at"]
+      },
+      "post_check": {
+        "db_query": "SELECT COUNT(*) FROM S1_Ssub WHERE Gdate='2026.04.25' AND Hcode='C001'",
+        "expect_value": 3
+      },
+      "legacy_equivalent": "Subu27.pas Button201Click L553~ (mSqry.Append/Post × N — ADO 자동 INSERT)",
+      "contract_ref": "SQL-OUT-1-INSERT-LINE"
+    },
+    {
+      "id": "TC-OUT-002",
+      "title": "수정 — 라인 추가·수정·삭제 diff 단일 트랜잭션",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "given": { "S1_Ssub_seeded": true, "auth_token": "hong01" },
+      "request": {
+        "method": "PUT",
+        "path": "/api/v1/outbound/orders/2026.04.20|C001|J001",
+        "headers": { "Authorization": "Bearer <hong01>" },
+        "body": {
+          "order_lines": [
+            { "gcode": "B001", "bcode": "B001", "pubun": "신간", "gsqut": 7,  "gssum": 105000 },
+            { "gcode": "B003", "bcode": "B003", "pubun": "구간", "gsqut": 1,  "gssum": 20000  }
+          ]
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": {
+          "order_key": { "gdate": "2026.04.20", "hcode": "C001", "jubun": "J001" },
+          "lines": 2,
+          "diff": { "inserted": 1, "updated": 1, "deleted": 1 }
+        }
+      },
+      "post_check": {
+        "db_query": "SELECT Gcode, Gsqut FROM S1_Ssub WHERE Gdate='2026.04.20' AND Hcode='C001' AND Jubun='J001' ORDER BY Gcode",
+        "expect_rows": [
+          { "Gcode": "B001", "Gsqut": 7 },
+          { "Gcode": "B003", "Gsqut": 1 }
+        ],
+        "explanation": "B002 라인 삭제 / B001 수량 변경 / B003 신규 추가."
+      },
+      "contract_ref": "SQL-OUT-2-UPDATE-LINE + SQL-OUT-3-DELETE-LINE + SQL-OUT-1-INSERT-LINE"
+    },
+    {
+      "id": "TC-OUT-003",
+      "title": "취소 — cancel flag UPDATE (소프트 삭제, 흡수 시나리오 C11)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data", "audit"],
+      "given": { "S1_Ssub_seeded": true, "auth_token": "hong01" },
+      "request": {
+        "method": "PATCH",
+        "path": "/api/v1/outbound/orders/2026.04.20|C001|J001/cancel",
+        "headers": { "Authorization": "Bearer <hong01>" },
+        "body": { "reason": "고객 요청" }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": {
+          "order_key": { "gdate": "2026.04.20", "hcode": "C001", "jubun": "J001" },
+          "status": "cancelled"
+        }
+      },
+      "post_check": {
+        "db_query": "SELECT DISTINCT Yesno FROM S1_Ssub WHERE Gdate='2026.04.20' AND Hcode='C001' AND Jubun='J001'",
+        "expect_value": ["2"],
+        "explanation": "모든 라인의 Yesno 가 '2' (취소) 로 일괄 UPDATE."
+      },
+      "audit_log_check": {
+        "logger": "audit.outbound",
+        "fields_required": ["timestamp", "gcode", "order_key", "action", "result", "client_ip"],
+        "field_value_set_eq": { "action": "cancelled", "result": "success" }
+      },
+      "legacy_equivalent": "Subu27.pas Button301Click L640~L661 — UPDATE S1_Ssub SET Yesno='2', Time3=now()",
+      "contract_ref": "SQL-OUT-5-CANCEL"
+    },
+    {
+      "id": "TC-OUT-004",
+      "title": "조회 — 목록 페이징 + 상세",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "given": { "S1_Ssub_seeded": true, "auth_token": "hong01" },
+      "steps": [
+        {
+          "step": "list",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/outbound/orders?server_id=main&date_from=2026-04-19&date_to=2026-04-21&limit=10",
+            "headers": { "Authorization": "Bearer <hong01>" }
+          },
+          "expect": {
+            "status": 200,
+            "body_contains": {
+              "items": [
+                { "order_key": { "gdate": "2026.04.20", "hcode": "C001", "jubun": "J001" }, "lines": 2, "qty": 8, "amount": 135000, "status": "active" }
+              ]
+            },
+            "body_has_keys": ["total", "limit", "offset"]
+          }
+        },
+        {
+          "step": "detail",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/outbound/orders/2026.04.20|C001|J001",
+            "headers": { "Authorization": "Bearer <hong01>" }
+          },
+          "expect": {
+            "status": 200,
+            "body_contains": {
+              "order_key": { "gdate": "2026.04.20", "hcode": "C001", "jubun": "J001" },
+              "customer": { "hcode": "C001", "gname": "신화서점" },
+              "status": "active"
+            },
+            "body_array_length": { "lines": 2 }
+          }
+        }
+      ],
+      "contract_ref": "SQL-OUT-4-LIST + SQL-OUT-6-DETAIL + SQL-OUT-7-MASTER-CUSTOMER"
+    },
+    {
+      "id": "TC-OUT-005",
+      "title": "트랜잭션 롤백 — 라인 N+1 INSERT 실패 시 헤더·이전 라인 모두 롤백",
+      "phase1_in_scope": true,
+      "axes": ["data"],
+      "given": { "auth_token": "hong01", "fault_injection": "3번째 INSERT 에서 의도적 SQL 오류 (예: Gsqut=NULL 강제)" },
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/outbound/orders",
+        "headers": { "Authorization": "Bearer <hong01>" },
+        "body": {
+          "server_id": "main",
+          "order_header": { "gdate": "2026-04-26", "hcode": "C002" },
+          "order_lines": [
+            { "gcode": "B003", "bcode": "B003", "pubun": "신간", "gsqut": 1, "gssum": 20000 },
+            { "gcode": "B003", "bcode": "B003", "pubun": "신간", "gsqut": 2, "gssum": 40000 },
+            { "gcode": "BAD",  "bcode": "BAD",  "pubun": "신간", "gsqut": null, "gssum": 0 }
+          ]
+        }
+      },
+      "expect": {
+        "status": 500,
+        "body_contains": { "code": "OUT_TX_FAILED" }
+      },
+      "post_check": {
+        "db_query": "SELECT COUNT(*) FROM S1_Ssub WHERE Gdate='2026.04.26' AND Hcode='C002'",
+        "expect_value": 0,
+        "explanation": "트랜잭션 ROLLBACK 후 헤더/라인 모두 미커밋."
+      },
+      "contract_ref": "SQL-OUT-1-INSERT-LINE (transaction: required)"
+    },
+    {
+      "id": "TC-OUT-006",
+      "title": "동시성 (단순화) — 같은 합성키 동시 등록 시 1건은 OUT_DUPLICATE",
+      "phase1_in_scope": true,
+      "axes": ["data"],
+      "given": { "auth_token": "hong01", "concurrent_requests": 2 },
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/outbound/orders",
+        "headers": { "Authorization": "Bearer <hong01>" },
+        "body": {
+          "server_id": "main",
+          "order_header": { "gdate": "2026-04-27", "hcode": "C001", "jubun": "FIXED-JUBUN-001" },
+          "order_lines": [{ "gcode": "B001", "bcode": "B001", "gsqut": 1 }]
+        }
+      },
+      "expect_one_of": [
+        { "status": 201, "rationale": "선착 1건 success" },
+        { "status": 409, "body_contains": { "code": "OUT_DUPLICATE" }, "rationale": "후착 1건 UNIQUE 충돌" }
+      ],
+      "rationale": "1차는 RDB UNIQUE 제약 + 트랜잭션 격리만 보장. 분산 락 미도입 (OQ-OUT-3).",
+      "contract_ref": "SQL-OUT-1-INSERT-LINE"
+    },
+    {
+      "id": "TC-OUT-007",
+      "title": "마스터 자동완성 — 거래처/제품 검색",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "given": { "G7_Ggeo_seeded": true, "G4_Book_seeded": true, "auth_token": "hong01" },
+      "steps": [
+        {
+          "step": "customer",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/masters/customers?server_id=main&q=신화&limit=5",
+            "headers": { "Authorization": "Bearer <hong01>" }
+          },
+          "expect": {
+            "status": 200,
+            "body_contains": { "items": [ { "hcode": "C001", "gname": "신화서점" } ] }
+          }
+        },
+        {
+          "step": "product",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/masters/products?server_id=main&q=리팩터링&limit=5",
+            "headers": { "Authorization": "Bearer <hong01>" }
+          },
+          "expect": {
+            "status": 200,
+            "body_contains": { "items": [ { "bcode": "B002", "gname": "리팩터링 2판" } ] }
+          }
+        }
+      ],
+      "contract_ref": "SQL-OUT-7-MASTER-CUSTOMER + SQL-OUT-8-MASTER-PRODUCT"
+    },
+    {
+      "id": "TC-OUT-008",
+      "title": "성능 — 라인 100건 신규 등록 < 1s (로컬 MySQL)",
+      "phase1_in_scope": true,
+      "axes": ["performance"],
+      "given": { "auth_token": "hong01", "lines_count": 100 },
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/outbound/orders",
+        "headers": { "Authorization": "Bearer <hong01>" },
+        "body_summary": "order_header + order_lines × 100"
+      },
+      "expect": {
+        "status": 201,
+        "duration_ms_lt": 1000
+      },
+      "rationale": "단일 트랜잭션 batch INSERT. POC sobo67 가 50,000 LIMIT 까지 단일 SELECT 처리하는 정도의 부하 감내."
+    },
+    {
+      "id": "TC-OUT-009",
+      "title": "감사 로그 — created/updated/cancelled 액션별 1줄",
+      "phase1_in_scope": true,
+      "axes": ["audit"],
+      "given": { "auth_token": "hong01" },
+      "steps": [
+        { "step": "create",  "expect_audit": { "logger": "audit.outbound", "action": "created",   "result": "success", "fields_required": ["timestamp","gcode","order_key","action","result","client_ip"] } },
+        { "step": "update",  "expect_audit": { "logger": "audit.outbound", "action": "updated",   "result": "success", "fields_required": ["timestamp","gcode","order_key","action","result","client_ip"] } },
+        { "step": "cancel",  "expect_audit": { "logger": "audit.outbound", "action": "cancelled", "result": "success", "fields_required": ["timestamp","gcode","order_key","action","result","client_ip","reason"] } }
+      ],
+      "rationale": "C1 audit_service 의 log_login_attempt 와 동일한 구조화 JSON 패턴. log_outbound_action(action, order_key, gcode, client_ip, result, reason=None) 으로 확장."
+    },
+    {
+      "id": "TC-OUT-010",
+      "title": "권한키 차단 (F21/F22/F26) — 1차 포팅 제외",
+      "phase1_in_scope": false,
+      "deferred_to": "후속 작업 (C10 권한 관리 — DEC-009)",
+      "axes": ["functional"],
+      "given": { "auth_token": "hong01", "user_lacks_permission": "outbound:create" },
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/outbound/orders",
+        "headers": { "Authorization": "Bearer <hong01-no-perm>" },
+        "body": { "order_header": { "gdate": "2026-04-25", "hcode": "C001" }, "order_lines": [{}] }
+      },
+      "expect": {
+        "status": 403,
+        "body_contains": { "code": "OUT_PERMISSION_DENIED", "required_permission": "outbound:create" }
+      },
+      "rationale": "TSobo27 의 F21/F22/F26 권한 분기는 1차 미적용. 후속 C10 권한 관리에서 RBAC 도입.",
+      "delta": "D-OUT-1"
+    },
+    {
+      "id": "TC-OUT-011",
+      "title": "바코드 결합 — 1차 포팅 제외",
+      "phase1_in_scope": false,
+      "deferred_to": "후속 작업 (C8 바코드 — DEC-010)",
+      "axes": ["functional", "ux"],
+      "given": { "barcode_input_event": "1234567890123 (KeyboardWedge)" },
+      "expect": {
+        "ui_field": "lines[].bcode",
+        "value": "1234567890123",
+        "auto_complete": { "table": "G4_Book", "looked_up": ["gname", "gjeja"] }
+      },
+      "rationale": "1차 UI 에 바코드 입력 필드 미노출. 후속 C8 사이클에서 키보드 웨지 입력 흡수.",
+      "delta": "D-OUT-2"
+    },
+    {
+      "id": "TC-OUT-012",
+      "title": "인쇄 트리거 (거래명세서/라벨) — 1차 포팅 제외",
+      "phase1_in_scope": false,
+      "deferred_to": "후속 작업 (C7 인쇄 — DEC-011)",
+      "axes": ["functional", "ux"],
+      "given": { "order_created": true },
+      "request": { "method": "POST", "path": "/api/v1/outbound/orders/{key}/print" },
+      "expect": {
+        "status": 200,
+        "body_contains": { "render_mode": "browser_html", "label_pdf_url": "string" }
+      },
+      "rationale": "1차 UI/엔드포인트 미제공. 후속 C7 인쇄 사이클에서 출고 양식 정의 + 트리거 도입.",
+      "delta": "D-OUT-3"
+    }
+  ],
+  "phase1_in_scope_summary": {
+    "in_scope": ["TC-OUT-001", "TC-OUT-002", "TC-OUT-003", "TC-OUT-004", "TC-OUT-005", "TC-OUT-006", "TC-OUT-007", "TC-OUT-008", "TC-OUT-009"],
+    "out_of_scope": ["TC-OUT-010", "TC-OUT-011", "TC-OUT-012"],
+    "out_of_scope_reasons": {
+      "TC-OUT-010": "DEC-009 — 권한키 분기 1차 제외 (모든 인증 사용자 동등)",
+      "TC-OUT-011": "DEC-010 — 바코드 1차 제외 (별도 디바이스 사이클 C8)",
+      "TC-OUT-012": "DEC-011 — 인쇄 1차 제외 (C7 인쇄 사이클)"
+    },
+    "in_scope_axes_coverage": {
+      "functional": ["TC-OUT-001", "TC-OUT-002", "TC-OUT-003", "TC-OUT-004", "TC-OUT-007"],
+      "data": ["TC-OUT-001", "TC-OUT-002", "TC-OUT-003", "TC-OUT-005", "TC-OUT-006"],
+      "ux": [],
+      "performance": ["TC-OUT-008"],
+      "audit": ["TC-OUT-003", "TC-OUT-009"]
+    },
+    "ux_coverage_note": "1차 UX 검증은 화면 캡처 비교(T7) 로 별도 처리 — 자동화 테스트 케이스로 비포함."
+  },
+  "outstanding": {
+    "blocked_by_open_questions": ["OQ-OUT-1", "OQ-OUT-2", "OQ-OUT-3", "OQ-OUT-4"],
+    "post_query_capture_actions": [
+      "query_capture 운영 후 ADO 자동 생성 INSERT/DELETE 본문(컬럼 순서·NULL 처리) 캡처 → SQL-OUT-1/3 보강",
+      "Sg_Csum 트리거 존재 여부 검증 (DBA 협조) — OQ-OUT-2 closure",
+      "후속 사이클: C10 권한 관리 도입 후 TC-OUT-010 phase1_in_scope=true (DEC-009 후속)",
+      "후속 사이클: C8 바코드 도입 후 TC-OUT-011 phase1_in_scope=true (DEC-010 후속)",
+      "후속 사이클: C7 인쇄 도입 후 TC-OUT-012 phase1_in_scope=true (DEC-011 후속)"
+    ]
+  },
+  "changelog": [
+    { "date": "2026-04-25", "by": "porting-team", "note": "1.0.0-phase1 — C2 출고 접수 1차 회귀 테스트 팩 신규 작성. outbound_order.yaml v1.0.0 과 1:1 매핑된 12개 케이스 (in_scope 9 / out_of_scope 3). status: draft → approved." }
+  ]
+}
