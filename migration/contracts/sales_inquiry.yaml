@@ -32,7 +32,7 @@
 
 id: C6-sales-inquiry
 name: 거래/잔액 조회 (4폼 묶음 — 거래명세서/수불원장/도서별판매/거래처판매)
-version: 1.0.0
+version: 1.1.0
 status: draft           # draft → review → approved (1차 동결)
 scope_phase: phase1     # phase1 = C6 1차 포팅 범위 동결 (DEC-016/017/018 deferred 반영)
 acceptance_goal: |
@@ -655,8 +655,79 @@ equivalence:
     threshold: "1만 행 응답 P95 < 800ms (페이지네이션 limit 100 기본)."
 
 # ---------------------------------------------------------------
-# 8. 변경 이력
+# 8. 고객사 변형 (DEC-019/028 정책 — variant 부재 단언)
+# ---------------------------------------------------------------
+customer_variants:
+  policy: |
+    DEC-019 (variant 통합 정책) + DEC-028 (dfm 산출물 의무 입력) 그대로 재사용.
+    본 contract 의 4폼은 dfm/pas 변형(고객사별 분기)이 발견되면 본 섹션에 추가하고,
+    UI/SQL 분기를 코드에 두지 않으며 데이터/feature flag 로 흡수한다.
+  variants: []         # 0건 — 아래 verification 결과
+  verification:
+    - form: Subu21
+      legacy_inventory: legacy_delphi_source/legacy_source/Subu21.{pas,dfm}
+      generated_inventory: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu21/
+      result: "variant 폴더 0건 (Subu21_*, Subu21_1 등 부재) — UI/로직 variant 0건 확인됨."
+    - form: Subu31
+      legacy_inventory: legacy_delphi_source/legacy_source/Subu31.{pas,dfm}
+      generated_inventory: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu31/
+      result: "variant 폴더 0건 — UI/로직 variant 0건 확인됨."
+    - form: Subu61
+      legacy_inventory: legacy_delphi_source/legacy_source/Subu61.{pas,dfm}
+      generated_inventory: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu61/
+      result: "variant 폴더 0건 — UI/로직 variant 0건 확인됨."
+    - form: Subu62
+      legacy_inventory: legacy_delphi_source/legacy_source/Subu62.{pas,dfm}
+      generated_inventory: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu62/
+      result: "variant 폴더 0건 — UI/로직 variant 0건 확인됨."
+  future_policy: |
+    향후 variant 가 발견되면:
+      1) 본 variants 배열에 form/diff/diff_lines 항목 추가.
+      2) dfm 차이가 0행이면 UI 분기 0, pas 차이만 데이터/설정으로 흡수.
+      3) dfm 차이가 있으면 layout_mappings 노트 §9 에 차이 표 추가, contract 에는 분기 옵션만.
+    어떤 경우에도 컴포넌트 코드에 if (customer === 'X') 류 분기 0건 유지 (DEC-019).
+
+# ---------------------------------------------------------------
+# 9. 비범위 (계약 차원 — deltas 의 deferred_to 와 별도)
+# ---------------------------------------------------------------
+out_of_scope:
+  - id: OOS-INQ-1
+    item: "Sobo21 Panel003 메모 패널의 보조 입력 (Edit204/208, Button802/803)"
+    rationale: "1차는 메모 핵심 6필드 (gname/gtel1/gtel2/gpost/gbigo/sbigo) 만 노출."
+    layout_mappings: analysis/layout_mappings/Sobo21.md "§6"
+  - id: OOS-INQ-2
+    item: "Sobo31 Panel003 거래처별 분배 그리드 (DBGrid201, 9 컬럼)"
+    rationale: "거래처별 분배는 C5 정산 후속 — 1차 단일 시계열 그리드로 단순화."
+    layout_mappings: analysis/layout_mappings/Sobo31.md "§6"
+  - id: OOS-INQ-3
+    item: "Sobo61 Panel003 거래처별 분배 그리드 (DBGrid201, 8 컬럼)"
+    rationale: "거래처별은 Sobo62 (customer-sales) 라우트로 분리."
+    layout_mappings: analysis/layout_mappings/Sobo61.md "§6"
+  - id: OOS-INQ-4
+    item: "Sobo62 Panel003 도서 토글 그리드 (DBGrid201, 8 컬럼)"
+    rationale: "도서별은 Sobo61 (book-sales) 라우트로 분리."
+    layout_mappings: analysis/layout_mappings/Sobo62.md "§6"
+  - id: OOS-INQ-5
+    item: "4폼 공통 진행 표시 영역 (Panel007 / ProgressBar0/1 / Panel008/009/010)"
+    rationale: "React 의 loading boolean 으로 일괄 흡수 — 별도 컴포넌트 신설 안 함."
+  - id: OOS-INQ-6
+    item: "4폼 공통 검색 패널의 출판사 검색 4종 (Edit107/108, Panel102/103/105 출판사 라벨)"
+    rationale: "C6 1차는 거래처 hcode 단일. 출판사 검색은 후속."
+  - id: OOS-INQ-7
+    item: "Sobo61/62 의 지점별검색/본사출고제외 체크박스 (CheckBox1/2)"
+    rationale: "scope 파라미터로 흡수 — UI 토글은 후속."
+
+# ---------------------------------------------------------------
+# 10. 변경 이력
 # ---------------------------------------------------------------
 changelog:
   - date: 2026-04-18
     note: "최초 draft. 4폼 묶음 + S1_Memo UPSERT 1차 포함, DEC-016/017/018 신설 예약."
+  - date: 2026-04-19
+    version: 1.1.0
+    note: |
+      DEC-028 retrofit (HA-RET-01 두 번째 묶음). 백엔드/SQL/엔드포인트 변경 0.
+      추가: §8 customer_variants (4폼 모두 variant 0건 단언, DEC-019/028 정책 명시),
+            §9 out_of_scope (OOS-INQ-1~7, layout_mappings §6 와 동기),
+            layout_mappings 4건 신규 (analysis/layout_mappings/Sobo{21,31,61,62}.md).
+      모던 페이지 5종에 data-legacy-id 부착 (속성 추가만, 동작·스타일 변경 0)."

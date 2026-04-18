@@ -1,7 +1,7 @@
 {
   "$comment": "핵심 10 시나리오의 화면 단위 포팅 진행 트래커. docs/core-scenarios-porting-plan.md 와 1:1 동기화. 상태 값: not_started | in_progress | review | done | blocked",
   "title": "핵심 10 시나리오 — 화면 단위 포팅 진행",
-  "updatedAt": "2026-04-19 — 트래커 task 어휘 정정(완료 카운트 회복: completed→done, 80건) · C9/C2/C6 진행률 100% 정상 표시 · API `/api/v1/masters/*` · 실DB HOT-MAS-3",
+  "updatedAt": "2026-04-19 — C6 DEC-028 retrofit 묶음 완료 (HOT-INQ-2): layout_mappings Sobo21/31/61/62.md 4건 신규, sales_inquiry.yaml v1.1.0(customer_variants/out_of_scope), DataGrid 공통 컴포넌트 OCP 확장, 5 페이지에 data-legacy-id 60건 부착, 회귀 가드 pytest 20/20·tsc 0·eslint clean. HA-RET-01 잔여 = C1·C9.",
   "planDoc": "docs/core-scenarios-porting-plan.md",
   "stages": [
     {
@@ -241,12 +241,32 @@
           "도서물류관리프로그램/frontend/src/app/(app)/reports/customer-sales/page.tsx"
         ]
       },
-      "contract": "migration/contracts/sales_inquiry.yaml (v1.0.0 approved)",
+      "contract": "migration/contracts/sales_inquiry.yaml (v1.1.0 — DEC-028 retrofit, customer_variants/out_of_scope 추가)",
       "testpack": "migration/test-cases/sales_inquiry.json (v1.0.0-phase1 approved)",
       "evaluation_report": "analysis/c6_c14_equivalence_capture.md (보고서 동등성 1차 캡처 2건)",
-      "phase1_test_results": "test/test_c6_inquiry_phase1.py — 20 passed (2026-04-18)",
+      "phase1_test_results": "test/test_c6_inquiry_phase1.py — 20 passed (2026-04-19, HOT-INQ-2 retrofit 후 재실행)",
+      "layout_inputs": [
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu21/Sobo21.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu21/Sobo21.form.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu21/Sobo21.tree.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu31/Sobo31.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu31/Sobo31.form.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu31/Sobo31.tree.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu61/Sobo61.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu61/Sobo61.form.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu61/Sobo61.tree.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu62/Sobo62.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu62/Sobo62.form.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu62/Sobo62.tree.json"
+      ],
+      "layout_mappings": [
+        "analysis/layout_mappings/Sobo21.md",
+        "analysis/layout_mappings/Sobo31.md",
+        "analysis/layout_mappings/Sobo61.md",
+        "analysis/layout_mappings/Sobo62.md"
+      ],
       "runtime_check": {
-        "performed_at": "2026-04-18",
+        "performed_at": "2026-04-19",
         "browser_urls": [
           "http://127.0.0.1:3000/transactions/sales-statement",
           "http://127.0.0.1:3000/dashboard"
@@ -259,9 +279,29 @@
           "GET /api/v1/reports/book-sales",
           "GET /api/v1/reports/customer-sales"
         ],
-        "result": "OpenAPI 6건 등록 확인 가능 · 단위 20건 회귀 PASS · 제품 UI HOT-APP-1/2/HOT-INQ-1 반영"
+        "dfm_widget_id_coverage": "60/약90 부착 (4폼 합계 — Sobo21 22, Sobo31 12, Sobo61 13, Sobo62 13). out-of-scope/deltas 항목은 layout_mappings §6/§7 명시. DataGrid 공통 컴포넌트에 optional legacyId/column.legacyId 확장(SOLID OCP, 동작·스타일 변경 0)",
+        "result": "OpenAPI 6건 등록 확인 가능 · 단위 20건 회귀 PASS · 제품 UI HOT-APP-1/2/HOT-INQ-1/2 반영"
       },
       "hotfixes": [
+        {
+          "id": "HOT-INQ-2",
+          "date": "2026-04-19",
+          "summary": "DEC-028 retrofit (HA-RET-01 두 번째 묶음) — Sobo21/31/61/62 4폼에 dfm 산출물(html/form.json/tree.json) 입력 의무 소급 적용. layout_mappings 4건 신규 (Sobo27.md 11 섹션 풀 깊이), sales_inquiry.yaml v1.1.0 (customer_variants 4폼 variant 0건 단언, out_of_scope OOS-INQ-1~7 추가), DataGrid 공통 컴포넌트에 optional `legacyId`/column.legacyId 확장(SOLID OCP), 5 페이지에 data-legacy-id 부착 (검색·그리드 헤더·입력·버튼·메모 — 60건). 백엔드/SQL/UX 동작 변경 0.",
+          "files": [
+            "analysis/layout_mappings/Sobo21.md",
+            "analysis/layout_mappings/Sobo31.md",
+            "analysis/layout_mappings/Sobo61.md",
+            "analysis/layout_mappings/Sobo62.md",
+            "migration/contracts/sales_inquiry.yaml",
+            "도서물류관리프로그램/frontend/src/components/data-grid/data-grid.tsx",
+            "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/page.tsx",
+            "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/[orderKey]/page.tsx",
+            "도서물류관리프로그램/frontend/src/app/(app)/inventory/ledger/page.tsx",
+            "도서물류관리프로그램/frontend/src/app/(app)/reports/book-sales/page.tsx",
+            "도서물류관리프로그램/frontend/src/app/(app)/reports/customer-sales/page.tsx"
+          ],
+          "verified_by": "pytest test_c6_inquiry_phase1.py 20/20 PASS · tsc 0 error · eslint (transactions/inventory/reports/data-grid) clean"
+        },
         {
           "id": "HOT-INQ-1",
           "date": "2026-04-18",
@@ -809,12 +849,23 @@
           "도서물류관리프로그램/frontend/src/components/app-shell/sidebar.tsx (route 일반화 — 1차 포팅 화면을 동일 메뉴 트리에 흡수)"
         ]
       },
-      "contract": "migration/contracts/outbound_order.yaml (v1.0.0 approved)",
+      "contract": "migration/contracts/outbound_order.yaml (v1.1.0 — DEC-028 retrofit, customer_variants 추가)",
       "testpack": "migration/test-cases/outbound_order.json (v1.0.0-phase1 approved)",
       "evaluation_report": "docs/c2-outbound-evaluation-report.md (v0.1, 단위 14건 PASS)",
-      "phase1_test_results": "test/test_c2_outbound_phase1.py — 14 passed (2026-04-18 재실행)",
+      "phase1_test_results": "test/test_c2_outbound_phase1.py — 14 passed (2026-04-19 재실행, retrofit 후)",
+      "layout_inputs": [
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu27/Sobo27.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu27/Sobo27.form.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu27/Sobo27.tree.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu27_1/Sobo27.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu27_1/Sobo27.form.json",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu27_1/Sobo27.tree.json"
+      ],
+      "layout_mappings": [
+        "analysis/layout_mappings/Sobo27.md"
+      ],
       "runtime_check": {
-        "performed_at": "2026-04-18",
+        "performed_at": "2026-04-19",
         "browser_url": "http://127.0.0.1:3000/outbound/orders",
         "backend_routes_registered": [
           "GET /api/v1/outbound/orders",
@@ -825,7 +876,8 @@
           "GET /api/v1/masters/customers",
           "GET /api/v1/masters/products"
         ],
-        "result": "백엔드 OpenAPI 등록 OK · uvicorn --reload 모드 운영 · 단위 14건 회귀 PASS"
+        "dfm_widget_id_coverage": "10/10 부착 (Edit101·Panel101·Button201×2·dxButton1·DBGrid101·DBGrid101.GCODE/GOQUT/GSQUT/CODE3·StBar101·FormClose×2). out-of-scope 12 항목은 layout_mappings/Sobo27.md §6/§7 deltas 에 명시(부착 안 함). 페이지별 부착 14건(orders=10, new=4, [orderKey]=2).",
+        "result": "백엔드 OpenAPI 등록 OK · 단위 14건 회귀 PASS · tsc 0 / eslint 0 · DEC-028 retrofit 첫 사례 (HA-RET-01)"
       },
       "hotfixes": [
         {
@@ -856,6 +908,19 @@
             "dashboard/js/app.js (renderPortingScreens 일반화)",
             "dashboard/css/style.css (.porting-app-link)"
           ]
+        },
+        {
+          "id": "HOT-OUT-4",
+          "date": "2026-04-19",
+          "summary": "DEC-028 retrofit (HA-RET-01 첫 사례) — Subu27 + Subu27_1 dfm→html 산출물을 인벤토리 후 layout_mappings/Sobo27.md 신규(11 섹션, 의미적 분기·TabOrder·DBGrid 컬럼 매핑·deltas 정리). outbound/orders/* 3 페이지 인터랙티브 위젯에 data-legacy-id 부착 14건. outbound_order.yaml v1.1.0: customer_variants 섹션 신규 — Subu27 vs Subu27_1 (DFM 동일·PAS 22행 차이) 차이를 코드 분기 없이 흡수(DEC-019 정책 그대로). 회귀 0 — pytest 14 PASS · tsc 0 · eslint 0. (부수 정리: 미사용 useRouter import 제거)",
+          "files": [
+            "analysis/layout_mappings/Sobo27.md",
+            "migration/contracts/outbound_order.yaml",
+            "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/page.tsx",
+            "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/new/page.tsx",
+            "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/[orderKey]/page.tsx"
+          ],
+          "verified_by": "test/test_c2_outbound_phase1.py 14 passed + tsc --noEmit clean + eslint outbound 0 warning"
         }
       ],
       "deferrals": [
