@@ -1,0 +1,325 @@
+{
+  "$schema_note": "본 파일은 회귀 테스트 팩(Regression Test Pack) 1차 초안입니다. migration/contracts/sales_inquiry.yaml 과 1:1 대응합니다.",
+  "id": "C6-sales-inquiry",
+  "contract": "migration/contracts/sales_inquiry.yaml",
+  "version": "1.0.0-phase1",
+  "status": "draft",
+  "scope_phase": "phase1",
+  "acceptance_goal": "1차 포팅 합격선: '기존 사용자가 4개 화면(거래명세서·도서별수불원장·도서별판매·거래처판매)을 조회하고, 거래명세서 메모(S1_Memo) 를 저장할 수 있다.' DEC-016~018 1차 제외 항목은 phase1_in_scope=false 케이스로 표기.",
+  "owners": {
+    "business": "메인개발자",
+    "legacy": "델파이 담당자",
+    "web": "웹 포팅 팀"
+  },
+  "fixtures": {
+    "tables": {
+      "Id_Logn": [
+        { "Hcode": "0123", "Hname": "홍길동", "Gcode": "hong01", "Gname": "홍길동", "Gpass": "qwer5678" }
+      ],
+      "G1_Ggeo": [
+        { "Hcode": "C001", "Gcode": "C001", "Gname": "신화서점", "Grat9": "" },
+        { "Hcode": "C001", "Gcode": "C002", "Gname": "한길북스", "Grat9": "" }
+      ],
+      "G4_Book": [
+        { "Hcode": "C001", "Gcode": "B001", "Gname": "FastAPI 실전",   "Gjeja": "홍길동" },
+        { "Hcode": "C001", "Gcode": "B002", "Gname": "리팩터링 2판",   "Gjeja": "Martin Fowler" },
+        { "Hcode": "C001", "Gcode": "B003", "Gname": "Delphi 마이그레이션", "Gjeja": "김영희" }
+      ],
+      "S1_Ssub_seed": [
+        { "Gdate": "2026.04.10", "Hcode": "C001", "Jubun": "J001", "Gjisa": "", "Gcode": "C001", "Bcode": "B001", "Gubun": "출고", "Pubun": "신간", "Ocode": "B", "Scode": "X", "Yesno": "0", "Gsqut": 10, "Gssum": 150000, "Bdate": null },
+        { "Gdate": "2026.04.10", "Hcode": "C001", "Jubun": "J001", "Gjisa": "", "Gcode": "C001", "Bcode": "B002", "Gubun": "출고", "Pubun": "신간", "Ocode": "B", "Scode": "X", "Yesno": "0", "Gsqut":  5, "Gssum": 100000, "Bdate": null },
+        { "Gdate": "2026.04.12", "Hcode": "C001", "Jubun": "J002", "Gjisa": "", "Gcode": "C002", "Bcode": "B003", "Gubun": "출고", "Pubun": "구간", "Ocode": "B", "Scode": "X", "Yesno": "0", "Gsqut":  3, "Gssum":  60000, "Bdate": null },
+        { "Gdate": "2026.04.13", "Hcode": "C001", "Jubun": "J003", "Gjisa": "", "Gcode": "C001", "Bcode": "B001", "Gubun": "반품", "Pubun": "신간", "Ocode": "B", "Scode": "Y", "Yesno": "0", "Gsqut":  2, "Gssum":  30000, "Bdate": null }
+      ],
+      "Sv_Ghng_seed": [
+        { "Gdate": "2026.03.31", "Hcode": "C001", "Bcode": "B001", "Scode": "B", "Gsqut": 100, "Gssum": 1500000 }
+      ],
+      "S1_Memo_seed": []
+    },
+    "notes": [
+      "테스트 픽스처는 PII 가 아닌 더미 값입니다.",
+      "S1_Ssub_seed 는 거래명세서/수불원장/판매통계 4 케이스를 모두 커버하는 4 row.",
+      "1차 포팅: 권한키 분기 미사용(DEC-016) — 모든 인증 사용자가 동등 권한.",
+      "1차 포팅: 인쇄/바코드 미접근(DEC-017/018) — TC-INQ-090/091 은 phase1_in_scope=false 보존."
+    ]
+  },
+  "axes": ["functional", "data", "ui", "audit", "performance"],
+  "cases": [
+    {
+      "id": "TC-INQ-001",
+      "title": "거래명세서 — 기간 정상 조회 (Sobo21 Button101 동등)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "given": { "S1_Ssub_seeded": true, "auth_token": "hong01" },
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/transactions/sales-statement",
+        "headers": { "Authorization": "Bearer <hong01>" },
+        "query": {
+          "server_id": "main",
+          "hcode": "C001",
+          "date_from": "2026-04-10",
+          "date_to":   "2026-04-12"
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": {
+          "items": [
+            { "order_key": { "gdate": "2026.04.10", "hcode": "C001", "jubun": "J001" }, "row_count": 2, "qty": 15, "amount": 250000, "status": "active" },
+            { "order_key": { "gdate": "2026.04.12", "hcode": "C001", "jubun": "J002" }, "row_count": 1, "qty":  3, "amount":  60000, "status": "active" }
+          ],
+          "total": 2
+        }
+      },
+      "legacy_equivalent": "Subu21.pas Button101Click L460~ — Select * From S1_Ssub Where Gdate=? and Hcode=? ...",
+      "contract_ref": "SQL-INQ-1-LIST-STATEMENT"
+    },
+    {
+      "id": "TC-INQ-002",
+      "title": "거래명세서 상세 — 라인 + 메모 (메모 없음 → 빈 객체)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "given": { "S1_Ssub_seeded": true, "S1_Memo_empty": true },
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/transactions/sales-statement/2026.04.10|C001|J001",
+        "headers": { "Authorization": "Bearer <hong01>" },
+        "query": { "server_id": "main", "gjisa": "" }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": {
+          "order_key": { "gdate": "2026.04.10", "hcode": "C001", "jubun": "J001" },
+          "lines": [
+            { "bcode": "B001", "gsqut": 10, "gssum": 150000 },
+            { "bcode": "B002", "gsqut":  5, "gssum": 100000 }
+          ],
+          "memo": {}
+        }
+      },
+      "legacy_equivalent": "Subu21.pas L669 Select Gbigo,Sbigo,... From S1_Memo",
+      "contract_ref": "SQL-INQ-2-DETAIL-STATEMENT + SQL-INQ-3-MEMO-LOAD"
+    },
+    {
+      "id": "TC-INQ-003",
+      "title": "거래명세서 메모 PATCH — INSERT (메모 없을 때)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data", "audit"],
+      "given": { "S1_Memo_empty": true, "auth_token": "hong01" },
+      "request": {
+        "method": "PATCH",
+        "path": "/api/v1/transactions/sales-statement/2026.04.10|C001|J001/memo",
+        "headers": { "Authorization": "Bearer <hong01>" },
+        "body": {
+          "server_id": "main",
+          "gjisa": "",
+          "gbigo": "긴급 출고",
+          "gtel1": "010-1111-2222",
+          "gname": "수령인 김"
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": { "action": "inserted" },
+        "body_has_keys": ["updated_at"]
+      },
+      "post_check": {
+        "db_query": "SELECT Gbigo, Gtel1, Gname FROM S1_Memo WHERE Gdate='2026.04.10' AND Hcode='C001' AND Jubun='J001' AND Gjisa=''",
+        "expect_value": { "Gbigo": "긴급 출고", "Gtel1": "010-1111-2222", "Gname": "수령인 김" }
+      },
+      "audit_check": { "audit_log_count_delta": 1, "action": "inquiry.memo_upsert" },
+      "contract_ref": "SQL-INQ-4-MEMO-UPSERT (INSERT branch — Subu21 L1517)"
+    },
+    {
+      "id": "TC-INQ-004",
+      "title": "거래명세서 메모 PATCH — UPDATE (이미 메모 존재)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "depends_on": "TC-INQ-003",
+      "request": {
+        "method": "PATCH",
+        "path": "/api/v1/transactions/sales-statement/2026.04.10|C001|J001/memo",
+        "body": { "server_id": "main", "gjisa": "", "gbigo": "수정된 비고" }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": { "action": "updated" }
+      },
+      "post_check": {
+        "db_query": "SELECT Gbigo FROM S1_Memo WHERE Gdate='2026.04.10' AND Hcode='C001' AND Jubun='J001' AND Gjisa=''",
+        "expect_value": { "Gbigo": "수정된 비고" }
+      },
+      "contract_ref": "SQL-INQ-4-MEMO-UPSERT (UPDATE branch — Subu21 L1474)"
+    },
+    {
+      "id": "TC-INQ-005",
+      "title": "도서별 수불원장 — Sv_Ghng 이월 + S1_Ssub 누적",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "given": { "Sv_Ghng_seeded": true, "S1_Ssub_seeded": true },
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/inventory/ledger",
+        "query": {
+          "server_id": "main",
+          "hcode": "C001",
+          "bcode": "B001",
+          "date_from": "2026-04-01",
+          "date_to":   "2026-04-30",
+          "scope": "B"
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": {
+          "opening_date": "2026.03.31",
+          "rows": [
+            { "gdate": "2026.04.10", "goqut": 10, "gosum": 150000 },
+            { "gdate": "2026.04.13", "gbqut":  2, "gbsum":  30000 }
+          ]
+        }
+      },
+      "legacy_equivalent": "Subu31.pas L336 Sv_Ghng Max(Gdate) + L366 S1_Ssub Order By Gdate,Jubun,Id",
+      "contract_ref": "SQL-INQ-5-LEDGER-OPENING + SQL-INQ-6-LEDGER-MAIN"
+    },
+    {
+      "id": "TC-INQ-006",
+      "title": "수불원장 — 빈 결과 경계 (Sv_Ghng 없음 + S1_Ssub 0 row)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/inventory/ledger",
+        "query": {
+          "server_id": "main",
+          "hcode": "C001",
+          "bcode": "B999",
+          "date_from": "2026-01-01",
+          "date_to":   "2026-01-31"
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": { "opening_date": null, "rows": [] }
+      },
+      "contract_ref": "SQL-INQ-5/6 (boundary)"
+    },
+    {
+      "id": "TC-INQ-007",
+      "title": "도서별 판매 — C14 동등성 (Sum(Gsqut)/Sum(Gssum) 일치)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "given": { "S1_Ssub_seeded": true },
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/reports/book-sales",
+        "query": {
+          "server_id": "main",
+          "hcode": "C001",
+          "date_from": "2026-04-10",
+          "date_to":   "2026-04-12"
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": {
+          "rows": [
+            { "gcode": "B001", "goqut": 10, "gosum": 150000 },
+            { "gcode": "B002", "goqut":  5, "gosum": 100000 },
+            { "gcode": "B003", "goqut":  3, "gosum":  60000 }
+          ],
+          "total": 3
+        }
+      },
+      "legacy_equivalent": "Subu61.pas L323 Group By Bcode,Scode,Gubun,Pubun",
+      "contract_ref": "SQL-INQ-7-BOOK-SALES-MAIN",
+      "c14_equivalence": true
+    },
+    {
+      "id": "TC-INQ-008",
+      "title": "거래처 판매 — C14 동등성 (Sum(Gsqut)/Sum(Gssum) 거래처별)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/reports/customer-sales",
+        "query": {
+          "server_id": "main",
+          "hcode": "C001",
+          "date_from": "2026-04-10",
+          "date_to":   "2026-04-12",
+          "scope": "X"
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": {
+          "rows": [
+            { "hcode": "C001", "gcode": "C001", "goqut": 15, "gosum": 250000 },
+            { "hcode": "C001", "gcode": "C002", "goqut":  3, "gosum":  60000 }
+          ],
+          "total": 2
+        }
+      },
+      "legacy_equivalent": "Subu62.pas L329 Group By Hcode,Gcode,Scode,Gubun,Pubun,Gjisa",
+      "contract_ref": "SQL-INQ-9-CUSTOMER-SALES-MAIN",
+      "c14_equivalence": true
+    },
+    {
+      "id": "TC-INQ-009",
+      "title": "인증 실패 — 401 (모든 엔드포인트 공통)",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/transactions/sales-statement",
+        "headers": {},
+        "query": { "server_id": "main", "hcode": "C001", "date_from": "2026-04-10", "date_to": "2026-04-12" }
+      },
+      "expect": { "status": 401 }
+    },
+    {
+      "id": "TC-INQ-010",
+      "title": "거래명세서 — include_cancelled=false (Yesno='2' 제외)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "given": {
+        "S1_Ssub_extra": [
+          { "Gdate": "2026.04.10", "Hcode": "C001", "Jubun": "J099", "Gcode": "C001", "Bcode": "B001", "Gubun": "출고", "Ocode": "B", "Scode": "X", "Yesno": "2", "Gsqut": 99, "Gssum": 999 }
+        ]
+      },
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/transactions/sales-statement",
+        "query": { "server_id": "main", "hcode": "C001", "date_from": "2026-04-10", "date_to": "2026-04-10", "include_cancelled": false }
+      },
+      "expect": {
+        "status": 200,
+        "body_jsonpath": {
+          "$.items[?(@.order_key.jubun=='J099')]": []
+        }
+      }
+    },
+    {
+      "id": "TC-INQ-090",
+      "title": "(deferred) 권한키 F24/F31/F61/F62 차단 — DEC-016 / C10",
+      "phase1_in_scope": false,
+      "axes": ["functional"],
+      "deferred_reason": "DEC-016 — RBAC 는 C10 권한 관리에 통합."
+    },
+    {
+      "id": "TC-INQ-091",
+      "title": "(deferred) 거래명세서 인쇄 트리거 — DEC-017 / C7",
+      "phase1_in_scope": false,
+      "axes": ["functional", "ui"],
+      "deferred_reason": "DEC-017 — 인쇄는 C7 (HTML+PDF 하이브리드) 후속."
+    }
+  ],
+  "outstanding": [
+    "C14 동등성 캡처 — TC-INQ-007/008 의 expect.body_contains.rows 는 실제 운영 DB 캡처 데이터로 갱신 필요 (1차 운영 검증 단계)."
+  ],
+  "changelog": [
+    { "date": "2026-04-18", "note": "최초 draft. 4 화면 + 메모 UPSERT 1차 동결, C14 동등성 2건(TC-INQ-007/008) 표식 포함." }
+  ]
+}

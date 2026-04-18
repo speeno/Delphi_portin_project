@@ -1,0 +1,640 @@
+# Migration Contract: 거래/잔액 조회 (C6) — 4폼 묶음
+# 본 계약은 레거시 델파이 4개 화면(TSobo21/31/61/62) 의 조회 동작과
+# Sobo21 의 메모(S1_Memo) UPSERT 동작을 웹(API+UI)에서 동등하게 재현하기 위한 1차 계약입니다.
+#
+# 출처(레거시):
+#   - legacy_delphi_source/legacy_source/Subu21.pas (TSobo21 거래명세서)
+#       FormShow L177 / Button101Click(조회) L460~ / S1_Memo UPSERT L1452~
+#   - legacy_delphi_source/legacy_source/Subu31.pas (TSobo31 도서별수불원장)
+#       Button101Click(분기) L280 → Button102Click(일반) L290 / Button103Click(고객사 변형)
+#   - legacy_delphi_source/legacy_source/Subu61.pas (TSobo61 도서별판매)
+#       Button101Click L288 (S1_Ssub GROUP BY + Sg_Csum 합계)
+#   - legacy_delphi_source/legacy_source/Subu62.pas (TSobo62 거래처판매)
+#       Button101Click L288 (S1_Ssub GROUP BY 거래처+지사)
+#
+# 핵심 테이블:
+#   - S1_Ssub          (4폼 공통 메인 — SELECT only)
+#   - S1_Memo          (Sobo21 — SELECT + UPDATE + INSERT 1차 포함, 사용자 결정 (C))
+#   - Sv_Ghng / Sb_Csum (Sobo31 이월·누적 — SELECT only)
+#   - Sg_Csum          (Sobo31/61 사전 집계 — SELECT only, OQ-OUT-2 기존 트리거 데이터 그대로 사용)
+#   - G1_Ggeo / G7_Ggeo / G4_Book / H2_Gbun  (LOOKUP only)
+#
+# 1차 미접근 (DEC-016/017/018 신설 후속):
+#   - 권한키 (F24/F31/F61/F62) → C10
+#   - 인쇄 트리거 (Tong20.Srart_*_*) → C7
+#   - 바코드 진입점 (Tong08) → C8
+#   - Sobo62 의 H1_Ssub 입출금 sub-query (정산 결합) → C5
+#
+# POC 참조:
+#   - POC/web/seak80-sample/backend/sobo67_sql.py (S1_Ssub GROUP BY + Sg_Csum 2패스 패턴)
+#   - POC/web/seak80-sample/backend/sobo_phase1_sql.py (D_Select·EUC-KR 처리)
+#   - POC/web/seak80-sample/frontend/seak80-column-labels.js (컬럼 라벨)
+
+id: C6-sales-inquiry
+name: 거래/잔액 조회 (4폼 묶음 — 거래명세서/수불원장/도서별판매/거래처판매)
+version: 1.0.0
+status: draft           # draft → review → approved (1차 동결)
+scope_phase: phase1     # phase1 = C6 1차 포팅 범위 동결 (DEC-016/017/018 deferred 반영)
+acceptance_goal: |
+  1차 포팅 합격선: "기존 사용자가 4개 화면(거래명세서·도서별수불원장·도서별판매·거래처판매)을 웹에서 조회하고,
+  거래명세서의 비고/연락처(S1_Memo)를 저장할 수 있다."
+  권한키 분기(D-INQ-1) / 인쇄 트리거(D-INQ-2) / 바코드 결합(D-INQ-3) / Sobo62 H1_Ssub 정산 결합(D-INQ-4)
+  은 모두 후속 시나리오로 이관.
+  흡수 시나리오 C14 (핵심 보고서 동등성) 는 본 contract 의 GET /reports/* 엔드포인트로 포함.
+owners:
+  business: 메인개발자
+  legacy: 델파이 담당자
+  web: 웹 포팅 팀
+links:
+  candidate: docs/core-scenarios-candidates.md#1-후보요약
+  plan: docs/core-scenarios-porting-plan.md#42-단계-1--c6-거래잔액-조회-읽기-전용
+  test_pack: migration/test-cases/sales_inquiry.json
+  source_legacy:
+    - legacy_delphi_source/legacy_source/Subu21.pas
+    - legacy_delphi_source/legacy_source/Subu21.dfm
+    - legacy_delphi_source/legacy_source/Subu31.pas
+    - legacy_delphi_source/legacy_source/Subu31.dfm
+    - legacy_delphi_source/legacy_source/Subu61.pas
+    - legacy_delphi_source/legacy_source/Subu61.dfm
+    - legacy_delphi_source/legacy_source/Subu62.pas
+    - legacy_delphi_source/legacy_source/Subu62.dfm
+    - legacy_delphi_source/legacy_source/Chul.dfm   # MainMenu1.Menu201/301/601/602
+  source_analysis:
+    - analysis/screen_cards/Sobo21.md
+    - analysis/screen_cards/Sobo31.md
+    - analysis/screen_cards/Sobo61.md
+    - analysis/screen_cards/Sobo62.md
+    - analysis/c6_inquiry_flow.md
+  poc_reference:
+    - POC/web/seak80-sample/backend/sobo67_sql.py
+    - POC/web/seak80-sample/backend/sobo_phase1_sql.py
+    - POC/web/seak80-sample/frontend/seak80-column-labels.js
+  related_open_questions:
+    - OQ-OUT-2          # Sg_Csum 트리거 갱신 여부 — Sobo61 가 Sg_Csum 을 SELECT 만 하므로 본 contract 는 영향 없음 (검증만 보고)
+
+# ---------------------------------------------------------------
+# 1. 비즈니스 의도 (한 줄)
+# ---------------------------------------------------------------
+intent: |
+  운영자가 기간·거래처·도서 조건으로 4가지 조회 화면을 보고, 필요 시 거래명세서의 비고/연락처를 갱신한다.
+  레거시 ADO Query 의 단일 거대 SQL 동적 조립 + 클라이언트 후처리 누적 로직을, 웹에서는
+  ① 서버 측 매개변수 바인딩 SELECT (목록·상세 분리), ② Python 집계 (n+1 호출 제거), ③ 메모 UPSERT 단일 트랜잭션
+  으로 재현해 모든 조회 결과의 raw row 가 레거시 캡처와 100% 일치하도록 보장한다.
+
+# ---------------------------------------------------------------
+# 2. 입력 (UI/API 공용)
+# ---------------------------------------------------------------
+inputs:
+  common_filter:
+    - name: server_id
+      type: string
+      required: true
+      note: "servers.yaml 의 servers[].id (mysql3 / aiomysql 양쪽 지원)."
+    - name: hcode
+      type: string
+      required: true
+      legacy_field: "S1_Ssub.Hcode (= 본사/회사 코드)"
+      note: "Subu21 Edit107 / Subu61 Edit107 / Subu62 Edit107 / Subu31 Edit107 — 모든 화면 공통 필수."
+    - name: date_from
+      type: string
+      required: true
+      legacy_field: "S1_Ssub.Gdate >="
+      note: "'YYYY-MM-DD' (서버에서 'YYYY.MM.DD' 변환 후 바인딩)."
+    - name: date_to
+      type: string
+      required: true
+      legacy_field: "S1_Ssub.Gdate <="
+
+  sales_statement_filter:        # /transactions/sales-statement
+    - name: gcode
+      type: string
+      required: false
+      legacy_field: "S1_Ssub.Gcode"
+      note: "Subu21 Edit104 — 거래처 코드. 없으면 본사 전체."
+    - name: gjisa
+      type: string
+      required: false
+      legacy_field: "S1_Ssub.Gjisa"
+    - name: jubun
+      type: string
+      required: false
+      legacy_field: "S1_Ssub.Jubun"
+    - name: include_cancelled
+      type: boolean
+      required: false
+      default: false
+      note: "Yesno='2' (취소) 포함 여부. C2 outbound 와 동일 패턴."
+
+  ledger_filter:                 # /inventory/ledger
+    - name: bcode
+      type: string
+      required: true
+      legacy_field: "S1_Ssub.Bcode"
+      note: "Subu31 Edit103 — 도서 코드 단건 또는 시리즈 묶음."
+    - name: bcode_to
+      type: string
+      required: false
+      legacy_field: "S1_Ssub.Bcode (구간)"
+      note: "Subu31 Edit105 — 비어 있으면 단건."
+    - name: scope
+      type: string
+      enum: ["A", "B"]
+      required: false
+      default: "B"
+      note: "Subu31 Panel103 캡션 — '본사도서'='A', '도 서 명'/'창고도서'='B'."
+
+  reports_filter:                # /reports/book-sales 와 /reports/customer-sales 공통
+    - name: bcode_from
+      type: string
+      required: false
+      legacy_field: "S1_Ssub.Bcode >="
+    - name: bcode_to
+      type: string
+      required: false
+      legacy_field: "S1_Ssub.Bcode <="
+    - name: scope
+      type: string
+      enum: ["X", "Y", "Z", "B", "A"]
+      required: false
+      note: "Subu61 Panel102 / Subu62 Panel102 캡션 분기 — Sobo61: A/B, Sobo62: X(거래처)/Y(입고처)/Z(거래처)."
+
+  memo_upsert_input:             # PATCH /transactions/sales-statement/{key}/memo
+    - name: gbigo
+      type: string
+      required: false
+      legacy_field: "S1_Memo.Gbigo (비고)"
+    - name: sbigo
+      type: string
+      required: false
+      legacy_field: "S1_Memo.Sbigo (소비고)"
+    - name: gtel1
+      type: string
+      required: false
+      legacy_field: "S1_Memo.Gtel1"
+    - name: gtel2
+      type: string
+      required: false
+      legacy_field: "S1_Memo.Gtel2"
+    - name: gname
+      type: string
+      required: false
+      legacy_field: "S1_Memo.Gname (수령인명)"
+    - name: gpost
+      type: string
+      required: false
+      legacy_field: "S1_Memo.Gpost (우편번호/주소)"
+
+# ---------------------------------------------------------------
+# 3. 출력 (응답 스키마)
+# ---------------------------------------------------------------
+outputs:
+  sales_statement_list:
+    fields:
+      - { name: order_key, type: object, schema: { gdate: string, hcode: string, jubun: string, gjisa: string } }
+      - { name: customer_name, type: string, source: "G1_Ggeo.Gname / H2_Gbun" }
+      - { name: row_count,   type: integer, source: "COUNT(*) — 별칭 'lines' 금지 (HOT-OUT-1 회피)" }
+      - { name: qty,         type: integer, source: "SUM(Gsqut)" }
+      - { name: amount,      type: integer, source: "SUM(Gssum)" }
+      - { name: status,      type: string,  enum: ["active", "cancelled"] }
+
+  sales_statement_detail:
+    fields:
+      - { name: order_key,  type: object }
+      - { name: customer,   type: object, schema: { hcode: string, gname: string } }
+      - lines:
+          - { name: gcode,         type: string,  legacy: "S1_Ssub.Gcode" }
+          - { name: bcode,         type: string,  legacy: "S1_Ssub.Bcode" }
+          - { name: product_name,  type: string,  legacy: "G4_Book.Gname (LEFT JOIN 또는 LOOKUP)" }
+          - { name: pubun,         type: string }
+          - { name: gsqut,         type: integer }
+          - { name: gssum,         type: integer }
+          - { name: gbigo,         type: string,  legacy: "S1_Ssub.Gbigo (라인 비고)" }
+      - memo:
+          - { name: gbigo, type: string }
+          - { name: sbigo, type: string }
+          - { name: gtel1, type: string }
+          - { name: gtel2, type: string }
+          - { name: gname, type: string }
+          - { name: gpost, type: string }
+
+  ledger_rows:                   # /inventory/ledger
+    fields:
+      - { name: gdate,  type: string,  legacy: "S1_Ssub.Gdate" }
+      - { name: gcode,  type: string }
+      - { name: gname,  type: string }
+      - { name: giqut,  type: integer, note: "입고 수량 (St3='입고')" }
+      - { name: gbqut,  type: integer, note: "비품 수량" }
+      - { name: gpqut,  type: integer, note: "폐기 수량" }
+      - { name: gjqut,  type: integer, note: "증정 수량" }
+      - { name: goqut,  type: integer, note: "출고 수량 (St3='출고')" }
+      - { name: gisum,  type: integer }
+      - { name: gosum,  type: integer }
+      - { name: gbsum,  type: integer }
+      - { name: gjsum,  type: integer }
+      - { name: gpsum,  type: integer, note: "Sg_Csum 폐기 합계 (Subu61 L404 패턴 재사용)" }
+    summary:
+      - { name: opening_balance, type: integer, source: "Sv_Ghng Max(Gdate) (Subu31 L336)" }
+
+  book_sales_rows:               # /reports/book-sales
+    fields:
+      - { name: gcode, type: string,  legacy: "S1_Ssub.Bcode → 응답에서는 도서코드를 gcode 로 통일" }
+      - { name: gname, type: string,  legacy: "G4_Book.Gname" }
+      - { name: giqut, type: integer }
+      - { name: gbqut, type: integer }
+      - { name: gpqut, type: integer }
+      - { name: gjqut, type: integer }
+      - { name: goqut, type: integer, source: "SUM(Gsqut) where 출고" }
+      - { name: gosum, type: integer, source: "SUM(Gssum)" }
+      - { name: gpsum, type: integer, source: "Sg_Csum SUM(Gbsum)" }
+
+  customer_sales_rows:           # /reports/customer-sales
+    fields:
+      - { name: hcode, type: string }
+      - { name: gcode, type: string,  legacy: "거래처/입고처 코드" }
+      - { name: gname, type: string,  legacy: "G1_Ggeo.Gname / G2_Ggwo.Gname (scope 별)" }
+      - { name: gjisa, type: string }
+      - { name: goqut, type: integer }
+      - { name: gosum, type: integer }
+      - { name: gbqut, type: integer }
+      - { name: gbsum, type: integer }
+      - { name: gjqut, type: integer }
+      - { name: gjsum, type: integer }
+      - { name: gsusu, type: integer, note: "수수 (반품/출고 합) — 1차에서는 0 으로 채워도 무방 (D-INQ-4)" }
+      - { name: gssum, type: integer }
+
+  memo_upsert_response:
+    fields:
+      - { name: order_key, type: object }
+      - { name: action,    type: string, enum: ["inserted", "updated"] }
+      - { name: updated_at, type: string, format: "ISO-8601" }
+
+# ---------------------------------------------------------------
+# 4. 데이터 접근 (정적 분석 대조)
+# ---------------------------------------------------------------
+data_access:
+  - id: SQL-INQ-1-LIST-STATEMENT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu21.pas
+      line: 503
+      sql: |
+        Select * From S1_Ssub
+         Where <D_Select> Gdate=? and Gubun=? and Jubun=? and Gcode=?
+               and Scode='X' and Gjisa=? and Ocode='B' and Hcode=?
+    notes:
+      - "1차 web 변환: GROUP BY (Gdate, Hcode, Jubun, Gjisa) 으로 목록 카드 N개. COUNT/SUM 컬럼은 별칭 `row_count`/`qty`/`amount` (HOT-OUT-1 회피 — `lines` 금지)."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      columns: [Gdate, Hcode, Jubun, Gjisa, "COUNT(*) AS row_count", "SUM(Gsqut) AS qty", "SUM(Gssum) AS amount", "MAX(Yesno) AS yesno_max"]
+      where:
+        - "Gdate >= :date_from"
+        - "Gdate <= :date_to"
+        - "Hcode = :hcode"
+        - "Ocode = 'B'"
+        - "[Gcode = :gcode]"
+        - "[Gjisa = :gjisa]"
+        - "[Jubun = :jubun]"
+      group_by: ["Gdate", "Hcode", "Jubun", "Gjisa"]
+      order_by: ["Gdate DESC", "Hcode"]
+      limit: parameterized
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-INQ-2-DETAIL-STATEMENT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu21.pas
+      line: 503
+    web:
+      method: SELECT
+      table: S1_Ssub
+      columns: ["*"]
+      where:
+        - "Gdate = :gdate"
+        - "Hcode = :hcode"
+        - "Jubun = :jubun"
+        - "Gjisa = :gjisa"
+      order_by: ["Gcode", "Bcode"]
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-INQ-3-MEMO-LOAD
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu21.pas
+      line: 669
+      sql: |
+        Select Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost From S1_Memo
+         Where <D_Select> Gdate=? and Gubun=? and Jubun=? and Gcode=? and Scode=? and Gjisa=? ...
+    web:
+      method: SELECT
+      table: S1_Memo
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-INQ-4-MEMO-UPSERT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu21.pas
+      line: 1474     # UPDATE / 1517 INSERT
+      sql: |
+        # UPDATE S1_Memo SET Gbigo=?, Sbigo=?, Gtel1=?, Gtel2=?, Gname=?, Gpost=?, Time3=now()
+        #  WHERE Gdate=? and Gubun=? and Jubun=? and Gcode=? and Scode=? and Gjisa=? ...
+        # INSERT INTO S1_Memo (Gdate, Gubun, Jubun, Gcode, Scode, Gjisa, Hcode, Ocode,
+        #                      Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost, Time1) VALUES (...)
+    notes:
+      - "단일 트랜잭션 UPSERT: BEGIN → SELECT 존재 검사 → UPDATE 또는 INSERT → COMMIT."
+      - "`app/core/db.py::execute_in_transaction` 재사용 (C2 와 동일)."
+    web:
+      method: UPSERT
+      table: S1_Memo
+      transaction: required
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-INQ-5-LEDGER-OPENING
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu31.pas
+      line: 336
+      sql: |
+        Select Max(Gdate) as Gdate From Sv_Ghng
+         Where <D_Select> Gdate < ? and Hcode = ?
+    web:
+      method: SELECT
+      table: Sv_Ghng
+      columns: ["MAX(Gdate) AS opening_date"]
+      where: ["Gdate < :date_from", "Hcode = :hcode"]
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-INQ-6-LEDGER-MAIN
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu31.pas
+      line: 366
+      sql: |
+        Select Gdate, Scode, Gubun, Pubun, Bcode, Gbigo, Gsqut, Gssum
+          From S1_Ssub
+         Where <D_Select> Gdate>=? and Gdate<=? and (Bdate is null) and (Bcode=? [or 묶음])
+               and Ocode Like '%B%'
+         Order By Gdate, Jubun, Id
+    notes:
+      - "원본은 Order By Gdate, Jubun, Id — 1차도 동일."
+      - "Bdate is null = 마감 전 라인. 마감 후 차단(C12) 은 후속."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-INQ-7-BOOK-SALES-MAIN
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu61.pas
+      line: 323
+      sql: |
+        Select Bcode, Scode, Gubun, Pubun, Sum(Gsqut) as Gsqut, Sum(Gssum) as Gssum
+          From S1_Ssub
+         Where <D_Select> Gdate>=? and Gdate<=? and Hcode=? and Ocode Like '%B%'
+               [and Bcode>=? and Bcode<=?]
+         Group By Bcode, Scode, Gubun, Pubun
+    notes:
+      - "C14 동등성 캡처 대상 #1 — 합계 (Gsqut/Gssum) 가 레거시 캡처와 일치해야 함."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      group_by: ["Bcode", "Scode", "Gubun", "Pubun"]
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-INQ-8-BOOK-SALES-WASTE
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu61.pas
+      line: 404
+      sql: |
+        Select Gcode, Sum(Gbsum) as Gbsum
+          From Sg_Csum
+         Where <D_Select> Gdate>=? and Gdate<=? and Hcode=? and Scode Like '%B%'
+               [and Gcode>=? and Gcode<=?]
+         Group By Gcode
+    notes:
+      - "Sg_Csum 은 SELECT only — OQ-OUT-2 영향 없음 (트리거가 갱신해 둔 데이터를 단순 읽음)."
+    web:
+      method: SELECT
+      table: Sg_Csum
+      group_by: ["Gcode"]
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-INQ-9-CUSTOMER-SALES-MAIN
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu62.pas
+      line: 329
+      sql: |
+        Select Hcode, Gcode, Scode, Gubun, Pubun, Gjisa, Sum(Gsqut) as Gsqut, Sum(Gssum) as Gssum
+          From S1_Ssub
+         Where <D_Select> Gdate>=? and Gdate<=? and Ocode='B' and Scode=?
+               [and Hcode=?] [and Gcode>=? and Gcode<=?]
+         Group By Hcode, Gcode, Scode, Gubun, Pubun, Gjisa
+    notes:
+      - "C14 동등성 캡처 대상 #2 — 거래처별 합계 일치."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      group_by: ["Hcode", "Gcode", "Scode", "Gubun", "Pubun", "Gjisa"]
+      bind: parameterized
+    in_scope_phase1: true
+
+# ---------------------------------------------------------------
+# 5. 엔드포인트 (웹)
+# ---------------------------------------------------------------
+endpoints:
+  - method: GET
+    path: /api/v1/transactions/sales-statement
+    description: "거래명세서 목록 (TSobo21 Button101Click 동등)."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        hcode: string
+        date_from: string
+        date_to: string
+        gcode?: string
+        gjisa?: string
+        jubun?: string
+        include_cancelled?: boolean
+        limit?: integer
+        offset?: integer
+    responses:
+      "200":
+        body:
+          items:
+            - order_key: { gdate: string, hcode: string, jubun: string, gjisa: string }
+              customer_name: string
+              row_count: integer
+              qty: integer
+              amount: integer
+              status: "active|cancelled"
+          total: integer
+          limit: integer
+          offset: integer
+      "401": { body: { detail: "Invalid or expired token" } }
+
+  - method: GET
+    path: /api/v1/transactions/sales-statement/{order_key}
+    description: "거래명세서 상세 (라인 + 메모)."
+    auth: bearer
+    request:
+      path:
+        order_key: "string ('{gdate}|{hcode}|{jubun}|{gjisa}')"
+    responses:
+      "200":
+        body:
+          order_key: { gdate: string, hcode: string, jubun: string, gjisa: string }
+          customer: { hcode: string, gname: string }
+          status: "active|cancelled"
+          lines: [...]
+          memo: { gbigo, sbigo, gtel1, gtel2, gname, gpost }
+      "404": { body: { detail: "Order not found", code: "INQ_NOT_FOUND" } }
+
+  - method: PATCH
+    path: /api/v1/transactions/sales-statement/{order_key}/memo
+    description: "거래명세서 비고/연락처 갱신 (S1_Memo UPSERT, 단일 트랜잭션)."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        gbigo?: string
+        sbigo?: string
+        gtel1?: string
+        gtel2?: string
+        gname?: string
+        gpost?: string
+    responses:
+      "200":
+        body:
+          order_key: { gdate, hcode, jubun, gjisa }
+          action: "inserted|updated"
+          updated_at: string
+      "404": { body: { detail: "Order not found", code: "INQ_NOT_FOUND" } }
+      "422": { body: { detail: "Validation failed", code: "INQ_VALIDATION" } }
+      "500": { body: { detail: "Transaction failed (rolled back)", code: "INQ_TX_FAILED" } }
+
+  - method: GET
+    path: /api/v1/inventory/ledger
+    description: "도서별 수불원장 (TSobo31 Button101→102/103 동등)."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        hcode: string
+        date_from: string
+        date_to: string
+        bcode: string
+        bcode_to?: string
+        scope?: "string ('A'|'B', default 'B')"
+    responses:
+      "200":
+        body:
+          opening_date: string
+          rows: [...]              # ledger_rows 스키마
+
+  - method: GET
+    path: /api/v1/reports/book-sales
+    description: "도서별 판매 (TSobo61 Button101Click 동등) — C14 동등성 캡처 대상."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        hcode: string
+        date_from: string
+        date_to: string
+        bcode_from?: string
+        bcode_to?: string
+        scope?: "string"
+    responses:
+      "200":
+        body:
+          rows: [...]              # book_sales_rows 스키마
+          total: integer
+
+  - method: GET
+    path: /api/v1/reports/customer-sales
+    description: "거래처 판매 (TSobo62 Button101Click 동등) — C14 동등성 캡처 대상."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        hcode?: string
+        date_from: string
+        date_to: string
+        scope?: "string ('X'|'Y'|'Z')"
+        gcode_from?: string
+        gcode_to?: string
+    responses:
+      "200":
+        body:
+          rows: [...]              # customer_sales_rows 스키마
+          total: integer
+
+# ---------------------------------------------------------------
+# 6. 차이점·결정 사항 (Decision Log 후보)
+# ---------------------------------------------------------------
+deltas:
+  - id: D-INQ-1
+    title: 권한키 분기 (F24/F31/F61/F62) — 일반 권한 관리 (C10) 에 통합
+    legacy_behavior: "Subu21/31/61/62 진입 시 Base10.Seek_Uses 로 화면 권한 검사."
+    web_behavior_phase1: "JWT bearer 유효성만 검증. f-key 분기는 미적용."
+    rationale: "C10 에서 통합 RBAC 구현. C2 D-OUT-1 패턴 그대로."
+    decision_log: DEC-016         # 본 contract 가 신설 등록
+    deferred_to: "C10"
+
+  - id: D-INQ-2
+    title: 인쇄 트리거 (Tong20.Srart_21_01 / Srart_31_01 / Srart_61_01) — 후속 C7
+    legacy_behavior: "조회 후 자동/수동으로 인쇄 양식 호출."
+    web_behavior_phase1: "응답에 print_url 미포함. 프론트는 인쇄 버튼 미노출."
+    rationale: "DEC-004 — 인쇄는 C7 에서 HTML+PDF 하이브리드로 일괄 처리."
+    decision_log: DEC-017
+    deferred_to: "C7"
+
+  - id: D-INQ-3
+    title: 바코드 진입 (Tong08) — 후속 C8
+    legacy_behavior: "Sobo21/31 에서 바코드 입력으로 매칭 SELECT."
+    web_behavior_phase1: "바코드 keydown 핸들러 미적용."
+    decision_log: DEC-018
+    deferred_to: "C8"
+
+  - id: D-INQ-4
+    title: Sobo62 H1_Ssub 입출금 sub-query — 후속 C5 정산
+    legacy_behavior: "Subu62.pas L421~ — Sub-query 로 입금/출금 합산."
+    web_behavior_phase1: "응답 스키마는 유지하되 gosum/gbsum 0 으로 채움 (UI 컬럼은 표시)."
+    rationale: "정산 흐름은 C5 에서 일괄 — 본 화면은 매출 합계만."
+    deferred_to: "C5"
+
+  - id: D-INQ-5
+    title: SQL 별칭 컨벤션 — `lines` / `LINES` 금지
+    legacy_behavior: "(없음 — 레거시는 alias 사용 안 함)"
+    web_behavior_phase1: "COUNT(*) 별칭은 `row_count` 사용. 일부 MySQL 의 LOAD DATA `LINES` 예약어와 충돌하는 별칭 일체 금지."
+    rationale: "C2 핫픽스 HOT-OUT-1 일반화 — 모든 시나리오 컨벤션."
+    decision_log: "(C2 HOT-OUT-1 참고 — 본 contract 는 신규 DEC 불요)"
+
+# ---------------------------------------------------------------
+# 7. 동등성 (5축) — 베타 임계값
+# ---------------------------------------------------------------
+equivalence:
+  functional:
+    threshold: "정상·경계·실패 7건 모두 PASS (test/test_c6_inquiry_phase1.py)."
+  data:
+    threshold: "5건 캡처 raw row 100% 일치 (4 화면 × 평균 1.25건)."
+    method: "동일 server_id 에서 레거시 SELECT 캡처(JSON) ↔ 웹 응답 row 정렬 후 deep-equal."
+    notes:
+      - "Sobo61/62 의 Sum(Gsqut)/Sum(Gssum) 가 핵심 (C14 동등성)."
+      - "Sobo21 메모 UPSERT 후 SELECT 결과가 PATCH 입력과 일치."
+  ui:
+    threshold: "4 화면 모두 ① 기본 기간(오늘) 자동 채움 ② 그리드 컬럼 한글 라벨 100% 매핑 ③ 페이지네이션 next/prev 동작."
+  audit:
+    threshold: "메모 PATCH 1건마다 audit_log 1건 (C2 audit_service 재사용)."
+  performance:
+    threshold: "1만 행 응답 P95 < 800ms (페이지네이션 limit 100 기본)."
+
+# ---------------------------------------------------------------
+# 8. 변경 이력
+# ---------------------------------------------------------------
+changelog:
+  - date: 2026-04-18
+    note: "최초 draft. 4폼 묶음 + S1_Memo UPSERT 1차 포함, DEC-016/017/018 신설 예약."
