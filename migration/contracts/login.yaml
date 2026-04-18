@@ -7,7 +7,7 @@
 
 id: C1-login
 name: 로그인·세션 시작
-version: 1.1.0
+version: 1.1.1
 status: approved        # draft → review → approved
 scope_phase: phase1     # phase1 = 1차 포팅 범위 동결 (DEC-005~008 1차 제외 반영)
 acceptance_goal: |
@@ -138,29 +138,63 @@ data_access:
 # ---------------------------------------------------------------
 endpoints:
   - method: POST
-    path: /api/auth/login
+    path: /api/v1/auth/login   # 도서물류관리프로그램/backend/app/routers/auth.py 와 정렬 (실 구현 v1 prefix)
     request:
       content_type: application/json
       schema:
-        gcode: string
-        gname: string
-        gpass: string
+        # 실 구현은 camelCase alias (serverId/userId/password) 도 허용 (Pydantic alias).
+        serverId: string         # 1차 단일 테넌트 분리 키 (servers.yaml 의 servers[].id)
+        userId: string           # 레거시 Logn2 → Id_Logn.Gcode
+        password: string         # 레거시 Logn3 → Id_Logn.Gpass (1차 평문 비교 — DEC-005)
+        # gname (레거시 Logn1) 입력은 1차 합격선("기존 ID/PW") 단순화로 미수신.
+        # 후속 사이클에서 SELECT 절에 Gname 조건 도입 시 재검토.
     responses:
       "200":
         body:
-          hcode: string
-          hname: string
-          session_token: string
-          is_super: boolean   # hcode == '0000'
+          access_token: string         # JWT access (15분 기본)
+          refresh_token: string        # JWT refresh (7일 기본)
+          token_type: "bearer"
+          user:
+            user_id: string            # = Id_Logn.Gcode
+            user_name: string          # = Id_Logn.Hname (헤더 표시 hname 동등)
+            server_id: string
+            server_label: string
+            hcode: string              # = Id_Logn.Hcode (1차 슈퍼유저 분기 미수행 — DEC-007. 정보 노출만)
+            auth_flags: string         # 하위 호환 "<hcode>:<gname>"
       "401":
         body:
-          code: enum [AUTH_NO_USER, AUTH_BAD_PASSWORD]
-          message: string
+          detail: string               # 1차 통합 메시지: "아이디 또는 비밀번호가 올바르지 않습니다."
+        phase1_policy: |
+          Contract failure_codes 는 AUTH_NO_USER / AUTH_BAD_PASSWORD 분리 정의이지만
+          1차 포팅에서는 사용자 열거(user enumeration) 공격 방어를 위해 단일 401 응답으로 통합.
+          분리 응답 도입 여부는 후속 사이클에서 재검토.
+          감사 로그(audit.auth)에는 reason='invalid_credentials' 로 동일하게 기록 → 운영 분석 가능.
       "403":
         body:
           code: AUTH_KEY_REGISTER_REQUIRED
           message: string
         note: "1차 포팅에서 본 응답은 발생하지 않음(DEC-006 — 라이선스 검증 비활성). 응답 스키마는 후속 호환을 위해 보존."
+  - method: POST
+    path: /api/v1/auth/refresh
+    request:
+      content_type: application/json
+      schema:
+        refresh_token: string
+    responses:
+      "200":
+        body: { same_as: "POST /api/v1/auth/login 200" }
+      "401":
+        body: { detail: "Refresh token expired or invalid" }
+  - method: GET
+    path: /api/v1/auth/me
+    request:
+      headers: { Authorization: "Bearer <access_token>" }
+    responses:
+      "200":
+        body: { user_id: string, server_id: string, user_name: "", server_label: "", hcode: "", auth_flags: "" }
+        note: "현재 구현은 JWT 클레임만 신뢰(DB 재조회 없음). user_name/hcode 는 빈 문자열 — refresh/me 동작 일관."
+      "401":
+        body: { detail: "Invalid or expired token" }
 
 # ---------------------------------------------------------------
 # 6. 차이점·결정 사항 (Decision Log 후보)
@@ -283,6 +317,17 @@ changelog:
       - DB 영향 → docs/db-business-logic-inventory.md Id_Logn 표 1줄 갱신
       - 캡처 결과 → 갭 리포트 (GAP-001 부분 완화, OQ-DBL-003 부분 완화)
       잔존: query_capture 운영 1회 후 v1.0.1 로 §7 슬롯 채우기.
+  - date: 2026-04-22
+    by: porting-team
+    note: |
+      1.1.1 — 도서물류관리프로그램 1차 구현 정렬:
+      - endpoints.path /api/auth/login → /api/v1/auth/login (실 구현 v1 prefix 정렬)
+      - request schema serverId/userId/password (실 구현 alias 와 일치)
+      - 응답 200 body 를 실 TokenResponse(access/refresh/user) 구조로 정밀화
+      - 401 phase1_policy: AUTH_NO_USER/BAD_PASSWORD 단일 401 통합 (사용자 열거 방어). 감사 로그에는 reason 분리 기록.
+      - /api/v1/auth/refresh, /api/v1/auth/me 엔드포인트 명세 추가
+      - Audit (TC-LOGIN-009): app/services/audit_service.py 신규 — audit.auth 로거 구조화 JSON (timestamp/gcode/result/client_ip/server_id/+reason|user_name)
+      - 헤더 hcode 표시: frontend header.tsx 에 hcode 뱃지 추가 (UX 동등성)
   - date: 2026-04-22
     by: porting-team
     note: |
