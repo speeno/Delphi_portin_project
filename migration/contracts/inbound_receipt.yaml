@@ -15,7 +15,7 @@
 # 관련 OQ: OQ-IN-1 (FTP 자동수신 후속 인프라 합의)
 # 관련 DEC: DEC-027 (1차 INSERT/UPDATE ON + 소프트 취소 + FTP 우회), DEC-028 (dfm 레이아웃 영구 입력),
 #           DEC-024 (aiomysql EUC-KR 디코딩), DEC-012 (소프트 취소 패턴 — C2 재사용)
-# 참조 산출물: analysis/layout_mappings/Sobo22.md / Sobo38.md / Sobo54.md / Sobo57.md (DEC-028 1:1 매핑표)
+# 참조 산출물: analysis/layout_mappings/Sobo22.md / Sobo38_inbound.md / Sobo54.md / Sobo57.md (DEC-028 1:1 매핑표)
 
 id: C3-inbound-receipt
 name: 입고 접수(입고명세서 입력)
@@ -46,7 +46,7 @@ links:
     - analysis/screen_cards/Sobo57.md
   layout_mappings:        # DEC-028 — 신규 화면 작성의 공식 입력
     - analysis/layout_mappings/Sobo22.md
-    - analysis/layout_mappings/Sobo38.md
+    - analysis/layout_mappings/Sobo38_inbound.md
     - analysis/layout_mappings/Sobo54.md
     - analysis/layout_mappings/Sobo57.md
   dfm_html_artifacts:

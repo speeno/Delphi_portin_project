@@ -19,9 +19,15 @@
 
 id: C9-master-data
 name: 기초 마스터 단일 원천 (Sobo11/14/17/38/39/45)
-version: 1.0.0
+version: 1.1.0
 status: draft
 scope_phase: phase1
+# Changelog
+#   v1.1.0 (2026-04-19) — DEC-028 retrofit. customer_variants(Subu14_1/Subu17_1/Subu38_1/Subu38_2/Subu45_1
+#                        4폼 변형 폴더 사실 + Subu11/Subu39 변형 0건 단언) + out_of_scope(OOS-MAS-1~5:
+#                        admin Wave D DFM 부재 / Sobo36/37/43 통계 분리 / 마스터 CREATE·DELETE /
+#                        자동완성 별 트랙 / Subu39_* accelerator 미생성). endpoints/schemas/data_access 변경 0.
+#   v1.0.0 (2026-04-18) — Wave A/B/C 초기 contract.
 acceptance_goal: |
   웹 사용자가 기초관리 메뉴에서 거래처/도서/출판사/도서코드/할인율/물류비를 조회 가능하고,
   거래처·도서는 부분 수정(PATCH)이 가능해야 한다. 모든 PATCH 는 audit.master 로거에
@@ -213,6 +219,73 @@ equivalence:
   audit:
     storage: stdout (audit.master logger)
     fields_required: [timestamp, gcode, entity, target, action, result, client_ip, server_id]
+
+# DEC-019/028 — 레거시 화면 변형 폴더 사실 명시 (UI/로직 1:1 차이는 layout_mappings/Sobo*.md §9 참조).
+# 본 섹션은 "1차 모던 화면이 어느 변형까지 흡수했는가" 의 단일 원천. variant 가 발견되면 추가만.
+customer_variants:
+  - form: Sobo11
+    variant_folders: []
+    note: "Subu11_* 변형 폴더 0건 — 거래처 마스터는 단일 폼 운영. layout_mappings/Sobo11.md §9."
+  - form: Sobo14
+    variant_folders: [Subu14_1]
+    note: |
+      Subu14_1/Sobo14_1 — Edit201 1개의 도서코드 lookup picker 미니 폼.
+      모던 /master/book 의 검색 박스(<Input id="q">)에 흡수.
+      layout_mappings/Sobo14.md §9.
+  - form: Sobo17
+    variant_folders: [Subu17_1]
+    note: |
+      Subu17_1/Sobo17_1 — 위젯 트리 1:1 동일 (form.json SQL/DataSource 미세 차이만).
+      모던 /master/publisher 단일 라우트 흡수. layout_mappings/Sobo17.md §9.
+  - form: Sobo38
+    variant_folders: [Subu38_1, Subu38_2]
+    note: |
+      본 폼 Subu38 은 위젯 0개 빈 셸(C3 inbound 우회 — Sobo38_inbound.md 참조).
+      도서코드 마스터의 실제 위젯은 변형에 위치 — Subu38_1(T3_Sub82 14컬럼 등록형) /
+      Subu38_2(T3_Sub81 10컬럼 + T3_Sub82 3컬럼 검색·등록 통합형). 모던 /master/book-code
+      는 Subu38_2.T3_Sub82 의 3컬럼만 1차 노출. layout_mappings/Sobo38.md §9.
+  - form: Sobo39
+    variant_folders: []
+    note: |
+      Subu39_* 변형 폴더가 accelerator 산출물에 미생성 (OOS-MAS-5).
+      form-registry.ts 메타에는 Subu39_1/_2/_5 가 존재. DEC-023 단일 원천 정책에 따라 phase1
+      은 본 폼 4컬럼만 노출. layout_mappings/Sobo39.md §9.
+  - form: Sobo45
+    variant_folders: [Subu45_1]
+    note: |
+      Subu45_1/Sobo45_1 — 위젯 트리 1:1 동일 (form.json SQL 차이만 추정).
+      모던 /master/logistics-cost 단일 라우트 흡수. layout_mappings/Sobo45.md §9.
+
+# DEC-028 — phase1 contract 차원에서 명시적 비범위(deferred 와 분리: deferred 는 후속 사이클 약속,
+# out_of_scope 는 본 contract 가 다루지 않는 영역의 사유 기록).
+out_of_scope:
+  - id: OOS-MAS-1
+    title: Wave D /admin 4 페이지 retrofit
+    routes: [/admin, /admin/user-servers, /admin/rbac, /admin/settings]
+    reason: |
+      어드민(`/admin/*`)은 델파이 신규 어드민 화면(레거시 대응 폼·DFM 산출물 부재).
+      DEC-028 retrofit 의 dfm 위젯 ID 매핑 대상이 아님 — admin_web_platform.yaml 별도 contract.
+  - id: OOS-MAS-2
+    title: Sobo36/37/43 통계 폼
+    reason: |
+      DEC-023 단일 원천 정책상 통계 화면으로 분리 — Sobo11/14/17/38/39/45 가 phase1 단일 원천.
+      통계는 후속 사이클에서 별도 시나리오로 진입.
+  - id: OOS-MAS-3
+    title: 마스터 INSERT / DELETE
+    reason: |
+      DEC-019 — 1차 PATCH only · 삭제 OFF. INSERT/DELETE 는 deferred D-MAS-1 후속.
+  - id: OOS-MAS-4
+    title: 자동완성 엔드포인트 (/api/v1/masters/customers, /products)
+    reason: |
+      C2(거래·출고) contract 의 자동완성 트랙. 본 contract 에서는 영향 0 — 별도 ceil=200
+      페이징 정책 유지 (DEC-024 단서). retrofit 스코프 외.
+  - id: OOS-MAS-5
+    title: Subu39 변형 산출물 (Subu39_1/_2/_5) accelerator 생성
+    reason: |
+      delphi_porting_accelerator 가 Sobo39 변종 dfm 을 아직 생성하지 못함.
+      form-registry.ts 메타와 화면 카드 분석에서 4 변종이 식별되었으나 phase1 retrofit
+      은 본 폼 4컬럼만 노출. 변형 산출물 backlog — accelerator 보강 후 layout_mappings/Sobo39.md
+      §9 와 본 customer_variants 갱신.
 
 deferred:
   - id: D-MAS-1
