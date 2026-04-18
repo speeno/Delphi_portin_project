@@ -47,44 +47,77 @@
 - **결정자**: 메인개발자 (현업 OQ-002 클로저로 보강 예정)
 - **참조**: [`docs/decision-print-scanner-web.md`](../docs/decision-print-scanner-web.md), [`docs/legacy-print-scanner-integration-survey.md`](../docs/legacy-print-scanner-integration-survey.md)
 
-### DEC-005: 로그인 비밀번호 평문 → 단방향 해시 마이그레이션 (D-LOGIN-1)
-- **일자**: 2026-04-22
-- **결정 사항**: `Id_Logn.Gpass` 평문 컬럼을 **bcrypt(work factor 12) 또는 argon2id** 단방향 해시로 전환. 기존 평문은 별도 컬럼에 1회 한정 보관(`Gpass_legacy`)하고 첫 로그인 성공 시 해시로 변환 후 평문 삭제(lazy migration).
-- **배경/근거**: 레거시 `Chul.pas` L451 평문 비교는 GDPR/개인정보보호법 위반 + 내부자 위협 노출. 일괄 마이그레이션은 사용자 동시 로그아웃 필요 → lazy migration 으로 베타 무중단 가능. OQ-DBL-002 매칭.
-- **대안**: (A) 일괄 변환 후 강제 비밀번호 재설정 (운영 부담) (B) HMAC-SHA256 + salt (해시 함수 강도 부족 우려) (C) 현행 평문 유지 (탈락)
-- **영향**: contract `migration/contracts/login.yaml` D-LOGIN-1, test pack `TC-LOGIN-001/003` 픽스처 마이그레이션, performance(bcrypt ~80~120ms 추가 — TC-LOGIN-008 p95<500ms 내 수용 가능)
-- **결정자**: 메인개발자 + 보안 검토자 (approvals.json id 3)
+### DEC-005: 1차 포팅 비밀번호 평문 보존, 해시 마이그레이션은 후속 이관 (D-LOGIN-1)
+- **일자**: 2026-04-22 (2026-04-22 1차 동결)
+- **결정 사항**: **1차 포팅에서는 `Id_Logn.Gpass` 평문 그대로 사용**. 레거시와 동일한 평문 동등 비교(`Gpass = :gpass`) 유지. bcrypt/argon2id 해시 마이그레이션 및 lazy migration 정책은 **후속 작업으로 분리(post-1차)**.
+- **배경/근거**: 1차 포팅의 합격선은 **"기존 사용자가 기존 ID/PW 그대로 로그인"** 이며, 사용자 비밀번호 강제 변경·이관 절차 없이 무중단 전환이 최우선. 해시 도입은 데이터 마이그레이션 + 운영 절차(첫 로그인 시 변환) + 보안 검토 일정이 별도 필요하므로 1차 범위에서 분리.
+- **대안**:
+  - (A) 1차부터 lazy migration 도입 (이전 검토안) — 운영 절차·보안 검토 비용으로 1차 일정 부담
+  - (B) 1차부터 일괄 해시 변환 + 강제 비밀번호 재설정 — 사용자 영향 큼
+  - (C) 평문 영구 유지 — 보안 위험 누적 (탈락)
+- **영향**:
+  - contract `migration/contracts/login.yaml` D-LOGIN-1: **1차 in_scope=false**, `equivalence.data` 에서 Gpass 평문 비교 명시
+  - test pack `TC-LOGIN-001/003` 픽스처 평문 그대로 (변경 없음)
+  - performance: bcrypt 비용 0 (TC-LOGIN-008 p95 여유)
+  - OQ-DBL-002 (평문 비밀번호) **부분 보류** (1차 범위에서 의도적 보존, 후속에서 재개)
+- **후속 작업 (post-1차)**: 별도 결정 DEC-XXX 로 해시 정책·마이그레이션 일정 동결. 본 DEC-005 의 (A) 안이 1순위 후보.
+- **결정자**: 메인개발자
 - **참조**: `migration/contracts/login.yaml` deltas D-LOGIN-1, OQ-DBL-002
 
-### DEC-006: 라이선스 키 검증 클라이언트 레지스트리 → 서버 측 정책 (D-LOGIN-2)
+### DEC-006: 라이선스 키 검증 서버 측 제어 (설치형 아님) (D-LOGIN-2)
 - **일자**: 2026-04-22
-- **결정 사항**: 레거시의 클라이언트 레지스트리 `ChulpanKey/Chul001~003Key` 매칭을 **서버 측 라이선스 테이블(`License_Tenant`) + JWT claim 발급**으로 대체. 베타 단계는 라이선스 검증을 비활성(전 사용자 PASS) 하고 내부오픈 게이트 #3 입력 시점에 활성.
-- **배경/근거**: 웹은 클라이언트 레지스트리 접근 불가 + 베타 합격선("로그인이 된다")을 단순화. 라이선스 운영 정책은 D-LOGIN-4(테넌트) 와 묶어 서버 단일 출처로 통합.
-- **대안**: (A) 웹에서 키를 사용자 입력 (UX 후퇴) (B) 클라이언트 헬퍼 설치 (DEC-002 정적 사이트 원칙 위배) (C) 키 검증 영구 폐지 (라이선스 통제 상실)
-- **영향**: contract D-LOGIN-2, failure_codes `AUTH_KEY_REGISTER_REQUIRED` 베타 비활성, approvals #1 입력 충족
+- **결정 사항**: 웹은 **설치형 프로그램이 아니므로** 클라이언트 레지스트리 기반 라이선스 키 검증(`ChulpanKey/Chul001~003Key`)을 **완전히 폐지**하고 **서버 측 단일 통제**로 전환. 1차 포팅에서는 라이선스 검증 자체를 비활성(전 사용자 PASS)하여 동작에 영향 없음. 라이선스 운영이 필요해지는 시점에 서버측 정책(요금제·만료·인스턴스 한도 등)을 별도 결정으로 도입.
+- **배경/근거**:
+  - 레지스트리는 클라이언트 OS 의존 — 웹(SaaS) 모델에서 무의미
+  - 사용자가 키를 입력하는 UX 후퇴 회피
+  - 단일 출처 원칙(서버 = 라이선스 통제 단일 지점)
+- **대안**: (A) 웹에서 키를 사용자 입력 (UX 후퇴) (B) 클라이언트 헬퍼 설치 (DEC-002 정적 사이트 원칙 위배) (C) 영구 폐지 (탈락 — 비즈니스 통제 상실)
+- **영향**:
+  - contract D-LOGIN-2: **1차 in_scope=false** (서버측 정책은 후속)
+  - failure_codes `AUTH_KEY_REGISTER_REQUIRED` **1차 발생 없음** (응답 스키마는 향후 호환을 위해 보존)
+  - approvals #1 입력 충족 (라이선스 의존 0)
 - **결정자**: 메인개발자 (approvals.json id 1)
 - **참조**: `migration/contracts/login.yaml` deltas D-LOGIN-2, OQ-001
 
-### DEC-007: '0000' 슈퍼유저 분기 베타 보존, 내부오픈에서 role 일반화 (D-LOGIN-3)
+### DEC-007: '0000' 슈퍼유저 분기 1차 포팅 제외, 권한 관리 기능에 통합 (D-LOGIN-3)
 - **일자**: 2026-04-22
-- **결정 사항**: 베타 단계는 **`Hcode='0000' = is_super=true`** 동등 동작 보존(가시성 필터 SQL-LOGIN-2-VISIBILITY 포함). 내부오픈 게이트 #4 입력 시점에 `Id_Logn.role` 컬럼 신설로 일반화하고 `'0000' → role='admin'` 마이그레이션.
-- **배경/근거**: `Chul.pas` L486~L515 의 슈퍼유저 분기는 가시성 필터 + 메뉴 잠금 등 다수 화면에 영향. 베타에서 즉시 일반화하면 회귀 위험 큼. 단계적 일반화로 위험 분산.
-- **대안**: (A) 베타부터 즉시 role 일반화 (회귀 위험) (B) 영구 보존 (확장성 상실)
-- **영향**: TC-LOGIN-002/011 베타 통과, 내부오픈 진입 시 추가 마이그레이션 작업, approvals #4 입력
+- **결정 사항**: 레거시 `Hnnnn='0000'` 슈퍼유저 특수 분기(가시성 필터 SQL `G7_Ggeo Where Chek5='show1'` 포함)를 **1차 포팅에서 완전 제외**. 슈퍼유저/관리자 권한은 **추후 별도 권한 관리 기능**(역할·권한 매트릭스 화면)이 추가될 때 통합 설계로 도입.
+- **배경/근거**:
+  - 1차 포팅 합격선은 "기존 사용자 로그인 + 기본 업무 화면 동작" — 슈퍼유저 가시성 필터는 비합격선
+  - `Chul.pas` L486~L515 의 슈퍼유저 분기는 메뉴 잠금·가시성 필터 등 다수 화면에 영향 → 부분 도입 시 일관성 위험
+  - 권한 모델은 별도 화면(C10 권한 관리)에서 통합 설계가 더 타당
+- **대안**: (A) 베타부터 보존 후 단계적 일반화 (이전 검토안) — 1차 일정 부담 (B) 영구 보존 (확장성 상실)
+- **영향**:
+  - contract D-LOGIN-3: **1차 in_scope=false** (모든 사용자 동등 권한으로 1차 동작)
+  - data_access **SQL-LOGIN-2-VISIBILITY 1차 in_scope=false** (G7_Ggeo SELECT 호출 없음)
+  - test pack TC-LOGIN-002, TC-LOGIN-011: **1차 out_of_scope** (관리자/0000 동등 분기 검증 미수행)
+  - 후속 화면 C10 권한 관리 와 통합 (`M-S1-PORT-C10` 의존 추가)
+  - approvals #4 입력 (1차 폐지 합의)
 - **결정자**: 메인개발자 (approvals.json id 4)
-- **참조**: `migration/contracts/login.yaml` deltas D-LOGIN-3, OQ-001
+- **참조**: `migration/contracts/login.yaml` deltas D-LOGIN-3, OQ-001, `dashboard/data/porting-screens.json` C10
 
-### DEC-008: 사용자→테넌트 자동 매핑 옵션 A 채택 — `Id_Logn.tenant_id` (D-LOGIN-4)
+### DEC-008: 사용자→테넌트 자동 매핑 1차 포팅 제외, 단일 테넌트 운영 (D-LOGIN-4)
 - **일자**: 2026-04-22
-- **결정 사항**: 웹 멀티테넌시 매핑은 **옵션 A** (`Id_Logn` 에 `tenant_id` 컬럼 추가, 로그인 SELECT 결과로 컨텍스트 결정, JWT claim `tenant_id` 동봉, 모든 후속 API 에서 RLS-style 필터) 채택.
-- **배경/근거**: 레거시 정적 분석 결과 (`Chul.pas` L376~L427) 사용자→테넌트 매핑 코드 부재(고객사별 EXE/Config.Ini 단일테넌트 모델). 옵션 A 가 (1) 사용자 입력 0 (2) 단일 식별자 (3) 코드 변경 최소 (4) 서브도메인 의존 0 — 4개 기준 모두 만족.
+- **결정 사항**: **1차 포팅은 단일 테넌트 운영**(레거시와 동일한 "고객사별 별도 인스턴스" 모델 유지)으로 진행. 사용자→테넌트 자동 매핑(`Id_Logn.tenant_id` 컬럼 신설, JWT claim 동봉, RLS-style 필터)은 **후속 작업으로 이관**. 1차 합격선은 **"기존 사용자가 기존 아이디/패스워드로 로그인 가능"** 이며 멀티테넌시는 비합격선.
+- **배경/근거**:
+  - 1차 합격선("기존 ID/PW 그대로 로그인")은 단일 테넌트 모델로 충분
+  - 멀티테넌시 도입 시 (1) `Id_Logn` 스키마 변경 (2) 모든 후속 API의 RLS 필터 (3) 잘못된 매핑 시 데이터 노출 위험 — 모두 1차 일정에 부담
+  - 운영 모델 자체가 미합의(OQ-LOGIN-1 미해결) — 별도 합의 사이클 필요
 - **대안**:
-  - 옵션 B (별도 user_tenant 매핑 테이블 + 선택 UI): 이중 소속 사용자 지원에 유리하나 UI 추가·DB 조인 +1
-  - 옵션 C (서브도메인 cust1.app/...): 운영 단순화 강점, 그러나 도메인·SSL·DNS 운영 비용 + 단일 사용자 다중 테넌트 불가
-- **영향**: contract D-LOGIN-4, test pack TC-LOGIN-010/012, **모든 후속 시나리오의 RLS 필터 의무**, OQ-LOGIN-1 closure, DB 마이그레이션 1회 (`ALTER TABLE Id_Logn ADD tenant_id`)
-- **잔존 위험**: 잘못된 매핑 시 다른 고객사 데이터 노출(data 축 즉시 차단) — TC-LOGIN-012 `must_not` 로 회귀 차단.
+  - (A) 옵션 A 1차 채택 (이전 검토안 — `Id_Logn.tenant_id`) — 일정·리스크 부담
+  - (B) 옵션 B 사용자 선택 UI — UX 후퇴
+  - (C) 옵션 C 서브도메인 — 인프라 비용
+- **영향**:
+  - contract D-LOGIN-4: **1차 in_scope=false** (단일 테넌트 명시)
+  - inputs.tenant_hint **삭제** (1차 미사용)
+  - test pack TC-LOGIN-010/012: **1차 out_of_scope**
+  - fixtures `tenant_id` 컬럼 **삭제** (단일 테넌트 가정)
+  - 후속 화면 시나리오 RLS 필터 의무 **해제**(1차)
+  - DB 마이그레이션 0건 (1차)
+  - OQ-LOGIN-1 **후속 이관** (closure 아님, 1차 범위 외로 보류)
+- **후속 작업 (post-1차)**: 멀티테넌시 합의 사이클 → 별도 결정 DEC-XXX 로 옵션 A/B/C 확정 → DB 마이그레이션 + 모든 시나리오 RLS 패치.
 - **결정자**: 메인개발자 + 기획자 (approvals.json id 4)
 - **참조**: `migration/contracts/login.yaml` deltas D-LOGIN-4, OQ-LOGIN-1, `docs/c1-login-evaluation-report.md` §6
 
 ---
-*최종 업데이트: 2026-04-22 — DEC-005~008 추가 (C1 로그인 closure). (이전: 2026-04-21 DEC-004)*
+*최종 업데이트: 2026-04-22 (revised) — DEC-005~008 모두 "1차 포팅 범위 외" 로 동결. 1차 합격선은 "기존 사용자가 기존 ID/PW 그대로 로그인". 멀티테넌시·해시·라이선스·슈퍼유저 분기는 후속 작업으로 이관. (이전: 2026-04-22 DEC-005~008 정식 채택안 → 1차 범위 축소로 갱신)*

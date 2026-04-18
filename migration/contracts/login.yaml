@@ -7,8 +7,12 @@
 
 id: C1-login
 name: 로그인·세션 시작
-version: 1.0.0
+version: 1.1.0
 status: approved        # draft → review → approved
+scope_phase: phase1     # phase1 = 1차 포팅 범위 동결 (DEC-005~008 1차 제외 반영)
+acceptance_goal: |
+  1차 포팅 합격선: "기존 사용자가 기존 아이디/비밀번호로 그대로 로그인 가능".
+  멀티테넌시(D-LOGIN-4) / 비밀번호 해시(D-LOGIN-1) / 라이선스 키(D-LOGIN-2) / 슈퍼유저 분기(D-LOGIN-3) 는 모두 후속 작업으로 이관.
 owners:
   business: 메인개발자
   legacy: 델파이 담당자
@@ -51,15 +55,8 @@ inputs:
     required: true
     legacy_field: Id_Logn.Gpass
     sensitivity: secret
-    note: "레거시는 평문 비교(Gpass=Logn3). 웹 측은 §6 보안결정 참조"
-  - name: tenant_hint     # 신규 — D-LOGIN-4 옵션 B/C 지원용
-    type: string
-    required: false
-    legacy_field: null
-    note: |
-      웹 전용. 옵션 A 채택 시 사용 안 함(서버가 Id_Logn.tenant_id 로 자동 결정).
-      옵션 B: 사용자 이중소속 시 UI 선택값. 옵션 C: 서브도메인에서 추출되어 자동 주입.
-      매핑 참고(레거시): legacy_delphi_source/legacy_source/Chul.pas L376~L393 Config.Ini[Client].nBase
+    note: "레거시는 평문 비교(Gpass=Logn3). 1차 포팅도 평문 동등 비교 보존(DEC-005). 해시 도입은 후속 작업."
+  # tenant_hint: 1차 포팅에서 삭제 (DEC-008 — 단일 테넌트 운영). 후속 작업에서 D-LOGIN-4 옵션 B/C 채택 시 재도입.
 
 # ---------------------------------------------------------------
 # 3. 출력
@@ -112,7 +109,7 @@ data_access:
         - "Gcode = :gcode"
         - "Gname = :gname"
       bind: parameterized
-  - id: SQL-LOGIN-2-VISIBILITY   # 슈퍼유저(Hnnnn='0000')일 때만 가시성 필터 구성용 SELECT
+  - id: SQL-LOGIN-2-VISIBILITY   # 슈퍼유저(Hnnnn='0000') 가시성 필터 — 1차 포팅 제외 (DEC-007)
     legacy:
       file: legacy_delphi_source/legacy_source/Chul.pas
       line: 490
@@ -121,18 +118,11 @@ data_access:
          Where Chek5 = 'show1' Order By Gcode
     notes:
       - "Hnnnn='0000'(슈퍼유저)일 때만 실행. 결과로 S_Where0/1/2 가시성 필터(Hcode/Gcode 제외 목록) 구성."
-      - "Chul.pas L486~L515 If Hnnnn='0000' Then ... 블록. While 루프에서 SGrid 행을 모두 읽어 NOT IN 형태 WHERE 절 생성."
-      - "베타에서 동일 동작 보존(D-LOGIN-3 §6 참조). 내부오픈에서 role 일반화."
-    web:
-      method: SELECT
-      table: G7_Ggeo
-      columns: [Gcode]
-      where:
-        - "Chek5 = 'show1'"
-      order_by: [Gcode]
-      bind: parameterized
-      response_field: visibility_filter   # 응답에 가시성 필터 결과를 직렬화하여 후속 호출의 컨텍스트로 활용
-    in_scope_for_beta: true
+      - "Chul.pas L486~L515 If Hnnnn='0000' Then ... 블록."
+      - "**DEC-007**: 1차 포팅에서 슈퍼유저 분기 자체를 제외하므로 본 SELECT 호출 없음. 후속 권한 관리 기능(C10) 통합 시 재도입."
+    in_scope_for_beta: false
+    in_scope_phase1: false
+    deferred_to: "후속 작업 (C10 권한 관리 통합 설계 시)"
   - id: SQL-PWCHANGE-1   # 비밀번호 변경(ToolButton18Click) — 본 계약 베타 범위 외, 참고만
     legacy:
       file: legacy_delphi_source/legacy_source/Chul.pas
@@ -170,6 +160,7 @@ endpoints:
         body:
           code: AUTH_KEY_REGISTER_REQUIRED
           message: string
+        note: "1차 포팅에서 본 응답은 발생하지 않음(DEC-006 — 라이선스 검증 비활성). 응답 스키마는 후속 호환을 위해 보존."
 
 # ---------------------------------------------------------------
 # 6. 차이점·결정 사항 (Decision Log 후보)
@@ -177,44 +168,58 @@ endpoints:
 deltas:
   - id: D-LOGIN-1
     title: 비밀번호 평문 저장 → 단방향 해시
+    in_scope_phase1: false
+    decision_ref: DEC-005
+    phase1_behavior: "1차 포팅은 Id_Logn.Gpass 평문 그대로 사용. 레거시와 동일한 평문 동등 비교(Gpass = :gpass) 유지."
     legacy_behavior: "Id_Logn.Gpass에 평문 보관, 동등 비교"
-    proposed_web_behavior: "별도 컬럼·테이블에 bcrypt/argon2 해시 저장. 마이그레이션은 첫 로그인 시 자동 해시 변환."
-    risk: "기존 평문이 살아있는 동안 병행 운영 필요"
-    decision_required_by: "API 계약 승인(approvals.json id 3)"
+    proposed_web_behavior: "(후속) 별도 컬럼·테이블에 bcrypt/argon2id 해시 저장. lazy migration: 첫 로그인 성공 시 자동 변환."
+    risk: "1차 — 평문 비밀번호 노출 위험 누적. 후속 도입까지 한시적 보안 요구사항(전송 TLS, DB 접근 통제) 강화로 보완."
+    decision_required_by: "후속 사이클 (별도 DEC-XXX)"
     open_question: OQ-DBL-002
+    deferred_to: "후속 작업 (해시 정책·마이그레이션 일정 별도 동결)"
 
   - id: D-LOGIN-2
     title: 라이선스 키 체크(레지스트리) → 서버 측 정책
+    in_scope_phase1: false
+    decision_ref: DEC-006
+    phase1_behavior: "1차 포팅은 라이선스 검증 비활성(전 사용자 PASS). 클라이언트 레지스트리 의존 코드는 웹에서 폐지(설치형 아님)."
     legacy_behavior: "클라이언트 레지스트리의 ChulpanKey/Chul001~003Key 와 Hnnnn 매치"
-    proposed_web_behavior: "웹은 클라이언트 키 비활성. 서버에서 인스턴스/계정 라이선스를 관리하거나 베타에서는 비활성."
-    risk: "고객사 라이선스 운영 정책 영향"
-    decision_required_by: "베타 게이트(approvals.json id 1)"
+    proposed_web_behavior: "(후속) 서버측 License_Tenant 테이블 + JWT claim 으로 서버 단일 통제. 요금제·만료·인스턴스 한도 등 서버 정책으로 운영."
+    risk: "1차 — 라이선스 통제 부재. 베타 사용 범위가 내부 한정이므로 수용 가능."
+    decision_required_by: "후속 사이클 (별도 DEC-XXX)"
     open_question: OQ-001
+    deferred_to: "후속 작업 (서버측 라이선스 정책 정의 시)"
 
   - id: D-LOGIN-3
-    title: "'0000' 슈퍼유저 분기의 일반화"
-    legacy_behavior: "Hnnnn='0000' 으로 슈퍼유저 분기"
-    proposed_web_behavior: "역할(role) 컬럼 또는 별도 권한 매트릭스로 일반화하되, 1차 베타는 '0000=super'를 동일 유지."
-    risk: "권한 매트릭스 미합의 시 베타 단계에서 차이 발생"
-    decision_required_by: "고객사별 차이 승인(approvals.json id 4)"
+    title: "'0000' 슈퍼유저 분기 — 권한 관리 기능에 통합"
+    in_scope_phase1: false
+    decision_ref: DEC-007
+    phase1_behavior: "1차 포팅은 슈퍼유저 분기 자체 제외. 모든 사용자 동등 권한으로 동작. SQL-LOGIN-2-VISIBILITY 미호출."
+    legacy_behavior: "Hnnnn='0000' 으로 슈퍼유저 분기 + G7_Ggeo 가시성 필터 SELECT"
+    proposed_web_behavior: "(후속) C10 권한 관리 화면에서 역할(role)·권한 매트릭스 통합 설계로 도입. '0000' → role='admin' 마이그레이션."
+    risk: "1차 — 관리자 전용 기능 부재. 1차 합격선(기본 업무 화면 동작)에 비치명적."
+    decision_required_by: "후속 사이클 (C10 권한 관리 통합 설계)"
     open_question: OQ-001
+    deferred_to: "후속 작업 (C10 권한 관리)"
 
   - id: D-LOGIN-4
-    title: "사용자→테넌트(서버) 자동 매핑 (웹 멀티테넌시 신규)"
+    title: "사용자→테넌트(서버) 자동 매핑 (웹 멀티테넌시)"
+    in_scope_phase1: false
+    decision_ref: DEC-008
+    phase1_behavior: "1차 포팅은 단일 테넌트 운영(레거시와 동일한 고객사별 별도 인스턴스 모델 유지). 기존 사용자가 기존 ID/PW 로 그대로 로그인."
     legacy_behavior: |
       고객사별 별도 EXE 배포 + Config.Ini[Client] 로컬 설정으로 사실상 단일 테넌트.
       Chul.pas L376~L427: nBase/nUses/nPcip/nPort 로딩, MimeDecode 된 base64 DB 접속 정보 하드코딩.
       사용자→테넌트 매핑 코드는 정적 분석 결과 어디에도 없음.
     proposed_web_behavior: |
-      한 웹 인스턴스에 다수 고객사 수용. 사용자 식별 시 자동으로 테넌트 컨텍스트 결정.
-      옵션 A) (1순위) Id_Logn에 tenant_id 컬럼 추가. 로그인 SELECT 결과로 컨텍스트 주입,
-              JWT claim 에 tenant_id 동봉, 모든 후속 API에서 RLS-style 필터.
-      옵션 B) 별도 user_tenant 매핑 테이블(Many-to-Many 가능) + 첫 로그인 후 선택 UI(서버 선택 화면).
-      옵션 C) 서브도메인/경로 기반 (cust1.app/...) — 운영 단순화, 사용자 입력 0.
-      평가: 옵션 A 가 사용자 입력 0 + 단일 식별자 + 코드 변경 최소.
-    risk: "잘못된 테넌트로 자동 매핑 시 다른 고객사 데이터 노출 (data 축 즉시 차단). 옵션 A 채택 시 기존 Id_Logn 데이터 마이그레이션 필요."
-    decision_required_by: "고객사별 차이 승인(approvals.json id 4)"
+      (후속) 한 웹 인스턴스에 다수 고객사 수용. 옵션 A/B/C 중 별도 합의 사이클로 확정 후 도입.
+      옵션 A) Id_Logn 에 tenant_id 컬럼 추가 + JWT claim + RLS-style 필터.
+      옵션 B) user_tenant 매핑 테이블 + 사용자 선택 UI.
+      옵션 C) 서브도메인/경로 기반.
+    risk: "1차 — 단일 테넌트 운영이므로 인스턴스 분리 운영 비용 그대로. 후속 멀티테넌시 도입 시 회귀 리스크는 별도 사이클에서 관리."
+    decision_required_by: "후속 사이클 (멀티테넌시 합의 — 별도 DEC-XXX)"
     open_question: OQ-LOGIN-1
+    deferred_to: "후속 작업 (멀티테넌시 도입 시)"
     related: ["D-LOGIN-3"]
 
 # ---------------------------------------------------------------
@@ -224,14 +229,17 @@ equivalence:
   functional:
     - "동일 (gcode, gname, gpass) 입력에 대한 성공/실패 분기가 레거시와 동일"
     - "AUTH_NO_USER, AUTH_BAD_PASSWORD 메시지 분기 보존"
+    - "1차: 슈퍼유저 분기 미수행(DEC-007). 모든 사용자 동등 권한."
+    - "1차: 라이선스 키 검증 미수행(DEC-006). AUTH_KEY_REGISTER_REQUIRED 미발생."
   data:
-    - "Id_Logn 데이터에 대해 본 흐름은 SELECT only (변경 없음)"
+    - "Id_Logn SELECT only (변경 없음). Gpass 평문 동등 비교 (DEC-005)."
+    - "1차: 단일 테넌트 운영 (DEC-008). tenant_id 컬럼·JWT claim·RLS 필터 미사용."
     - "비밀번호 변경 흐름은 본 계약 범위 밖(별도 계약)"
   ux:
     - "헤더에 hname 표시 동일성"
     - "에러 메시지 한글 문구 의미 보존(문장은 다소 다듬을 수 있음)"
   performance:
-    - "p95 < 500 ms (네트워크 포함)"
+    - "p95 < 500 ms (네트워크 포함). 평문 비교이므로 bcrypt 비용 0."
   audit:
     - "로그인 성공·실패 모두 감사 로그 기록(레거시는 미흡 → 신규 요구)"
 
@@ -241,7 +249,12 @@ equivalence:
 out_of_scope:
   - "비밀번호 변경 / 초기 비밀번호 발급 — 별도 계약"
   - "고객사 자체 SSO·도메인 인증 — OQ-001 결과에 따라 별도 계약"
-  - "레지스트리 키 체크 — 웹에서는 §6 D-LOGIN-2로 대체"
+  - "레지스트리 키 체크 — 웹에서는 §6 D-LOGIN-2로 대체 (1차 비활성)"
+  # 1차 포팅 추가 비범위 (DEC-005~008 기준)
+  - "비밀번호 해시 마이그레이션 (D-LOGIN-1 / DEC-005) — 후속 작업"
+  - "라이선스 키 서버측 정책 (D-LOGIN-2 / DEC-006) — 후속 작업"
+  - "슈퍼유저 분기 + G7_Ggeo 가시성 필터 (D-LOGIN-3 / DEC-007) — 후속 C10 권한 관리 통합"
+  - "사용자→테넌트 자동 매핑 / 멀티테넌시 (D-LOGIN-4 / DEC-008) — 후속 작업"
 
 # ---------------------------------------------------------------
 # 9. 변경 이력
@@ -270,3 +283,15 @@ changelog:
       - DB 영향 → docs/db-business-logic-inventory.md Id_Logn 표 1줄 갱신
       - 캡처 결과 → 갭 리포트 (GAP-001 부분 완화, OQ-DBL-003 부분 완화)
       잔존: query_capture 운영 1회 후 v1.0.1 로 §7 슬롯 채우기.
+  - date: 2026-04-22
+    by: porting-team
+    note: |
+      1.1.0 — 1차 포팅 범위 동결. DEC-005~008 모두 1차 포팅 범위 외로 갱신 (사용자 결정).
+      - scope_phase: phase1 / acceptance_goal 추가
+      - inputs.tenant_hint 삭제 (DEC-008)
+      - data_access SQL-LOGIN-2-VISIBILITY in_scope_phase1=false (DEC-007)
+      - deltas D-LOGIN-1~4 모두 in_scope_phase1=false + decision_ref + phase1_behavior + deferred_to 부여
+      - endpoints AUTH_KEY_REGISTER_REQUIRED 1차 미발생 주석
+      - equivalence (functional/data/performance) 1차 동작 명시
+      - out_of_scope 에 D-LOGIN-1~4 후속 이관 4건 추가
+      1차 합격선: "기존 사용자가 기존 ID/PW 로 그대로 로그인" 단일 항목으로 단순화.

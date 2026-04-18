@@ -73,7 +73,7 @@ python3 tools/db/db_logic_cross_reference.py
 
 본 섹션은 contract approved 시점에 시나리오 별 DB 영향을 수기 1줄로 기록합니다 (T8 DoD §5 동기화).
 
-| 시나리오 | 테이블 | 영향(베타) | 변경 형태 | 결정 | 출처 |
-|---------|--------|-----------|----------|------|------|
-| C1 로그인·세션 시작 | `Id_Logn` | **R only** (SELECT × 1) — 베타는 DB 변경 0건 | `tenant_id` 컬럼 신규 추가 (DEC-008, ALTER 1회) | DEC-005 (Gpass 해시 별도 컬럼), DEC-008 (tenant_id) | `migration/contracts/login.yaml` v1.0.0, `docs/c1-login-evaluation-report.md` |
-| C1 로그인·세션 시작 | `G7_Ggeo` | **R only** (SELECT × 1, 슈퍼유저 분기) | 변경 없음 | DEC-007 (베타 보존) | `migration/contracts/login.yaml` SQL-LOGIN-2-VISIBILITY |
+| 시나리오 | 테이블 | 영향(1차 포팅) | 변경 형태 | 결정 | 출처 |
+|---------|--------|----------------|----------|------|------|
+| C1 로그인·세션 시작 | `Id_Logn` | **R only** (SELECT × 1, Gpass 평문 비교) — 1차 DB 마이그레이션 0건 | 변경 없음 (DEC-005 평문 보존, DEC-008 단일 테넌트) | DEC-005 (Gpass 평문 1차 보존, 해시 후속 이관), DEC-008 (`tenant_id` 컬럼 추가 후속 이관) | `migration/contracts/login.yaml` v1.1.0, `docs/c1-login-evaluation-report.md` |
+| C1 로그인·세션 시작 | `G7_Ggeo` | **호출 없음 (1차 제외)** — SQL-LOGIN-2-VISIBILITY 미실행 | 변경 없음 | DEC-007 (슈퍼유저 분기 자체 1차 폐지, C10 권한 관리 통합 시 재도입) | `migration/contracts/login.yaml` SQL-LOGIN-2-VISIBILITY (in_scope_phase1=false) |

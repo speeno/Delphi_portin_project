@@ -64,7 +64,9 @@
   - `legacy_delphi_source/legacy_source/Chul.pas` L420~L427 — `Base10.Database.Host/Login/Password/Database` EXE 내 base64 하드코딩(`MimeDecodeString`), 주석에 `한국도서유통` 등 다른 고객사 흔적
   - `Subu32_1.pas` 등 다른 폼은 `nBase` 전역만 참조 (사용자→테넌트 매핑 코드 없음)
 - **결정 게이트**: approvals.json id 4 (고객사별 차이 승인)
-- **상태**: 미해결
+- **상태**: **후속 이관 (1차 포팅 범위 외)**
+- **결정(2026-04-22)**: **DEC-008** — 1차 포팅은 단일 테넌트 운영(레거시와 동일한 고객사별 별도 인스턴스 모델 유지). 1차 합격선 "기존 사용자가 기존 ID/PW 로 그대로 로그인" 단순화 우선. 멀티테넌시(옵션 A/B/C 합의) 는 후속 사이클에서 별도 결정 DEC-XXX 로 동결 후 도입.
+- **후속 작업**: 멀티테넌시 합의 사이클이 시작될 때 (1) 옵션 A/B/C 비교 (2) Id_Logn 스키마 변경 또는 user_tenant 매핑 테이블 (3) 모든 후속 API 의 RLS 필터 패치 (4) TC-LOGIN-010/012 phase1_in_scope=true 로 전환.
 
 ---
-*최종 업데이트: 2026-04-22 — OQ-LOGIN-1 추가 (C1 T3 보강). (이전: OQ-002에 인쇄·바코드 조사 링크 추가 2026-04-21)*
+*최종 업데이트: 2026-04-22 (revised) — OQ-LOGIN-1 "후속 이관" 표기 (DEC-008 1차 포팅 제외 결정 반영). (이전: 2026-04-22 OQ-LOGIN-1 신규)*
