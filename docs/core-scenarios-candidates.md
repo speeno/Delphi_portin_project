@@ -8,6 +8,8 @@
 
 [`docs/delphi-developer-confirmation-checklist.md`](delphi-developer-confirmation-checklist.md) §6.1·§6.2와 함께 쓰며, 합의 후 `migration/contracts/`·`migration/test-cases/`의 입력으로 직접 연결됩니다.
 
+> **회의 합의 전이라도 진행 가능한 화면 단위 실행 계획**: [`docs/core-scenarios-porting-plan.md`](core-scenarios-porting-plan.md) — C1~C10 ↔ 델파이 폼 매핑표, DEC-003 기반 단계 0~5, T1~T8 공통 절차. 진행 트래커는 [`dashboard/data/porting-screens.json`](../dashboard/data/porting-screens.json).
+
 > 1차 후보(C1~C10)는 **레거시 정적 분석(L1·L2)** 근거입니다. **확장 후보(C11~)**는 역할·예외·동등성·운영(병행) 축을 넣어 **같은 업무를 “다양한 각도”로 검증**하기 위한 추가 안입니다. 회의에서 확정된 항목에 ✅ 표시 후, 미선택은 백로그로 보냅니다.
 
 ## 0. 다양성 축 (후보를 고를 때 체크)

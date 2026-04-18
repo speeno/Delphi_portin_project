@@ -15,6 +15,7 @@
 - 프린트·바코드(스캐너) 연동 코드 조사: [`docs/legacy-print-scanner-integration-survey.md`](legacy-print-scanner-integration-survey.md)
 - 현장 인터뷰 진행·기록 템플릿: [`docs/field-interview-meeting-template.md`](field-interview-meeting-template.md)
 - 핵심 시나리오 후보(5~10개 합의용): [`docs/core-scenarios-candidates.md`](core-scenarios-candidates.md)
+- 핵심 10 시나리오 화면 단위 포팅 계획·진행표: [`docs/core-scenarios-porting-plan.md`](core-scenarios-porting-plan.md)
 - 쿼리 캡처 리허설 트래커: [`docs/query-capture-rehearsal-tracker.md`](query-capture-rehearsal-tracker.md)
 - 5축 평가·DoD/UAT 초안: [`docs/eval-axes-and-dod-draft.md`](eval-axes-and-dod-draft.md)
 - 승인 게이트 정합성 점검: [`docs/approval-gate-alignment-review.md`](approval-gate-alignment-review.md)
