@@ -61,10 +61,10 @@ DEC-028 의무 — DBGrid 컬럼·정렬·합계와 위젯 ID·TabOrder 를 1:1 
 
 ## 5. 회귀 가드 체크리스트
 
-- [ ] DBGrid101 11 컬럼 + DBGrid201 10 컬럼 모두 모던 grid 정의에 존재.
-- [ ] 합계 행: `gsqut`/`gssum` footer 합계 표시.
-- [ ] `data-legacy-id="DBGrid101"`, `data-legacy-id="DBGrid201"` 부착.
-- [ ] 검색 일자 변경 시 두 그리드 동시 새로고침.
+- [x] DBGrid101 11 컬럼 + DBGrid201 10 컬럼 모두 모던 grid 정의에 존재 — `app/(app)/inbound/reports/daily/page.tsx` (C3 phase2).
+- [x] 합계 행: `gsqut`/`gssum` footer 합계 표시 (그리드 직하 totals 영역).
+- [x] `data-legacy-id="Sobo54.DBGrid101"`, `data-legacy-id="Sobo54.DBGrid201"` + 컬럼별 `Sobo54.DBGrid***.${FIELD}` 부착.
+- [x] 검색 일자 변경 후 「조회」 클릭 시 두 그리드 동시 새로고침.
 
 ## 6. 참조
 

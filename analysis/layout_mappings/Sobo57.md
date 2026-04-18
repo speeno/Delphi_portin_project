@@ -61,10 +61,10 @@ DEC-028 의무 — DBGrid 컬럼·정렬·합계와 위젯 ID 를 1:1 보존.
 
 ## 5. 회귀 가드 체크리스트
 
-- [ ] DBGrid101 11 컬럼 + DBGrid201 11 컬럼(합계 포함) 모두 모던 grid 정의.
-- [ ] 합계 행: `gsqut`/`gssum`.
-- [ ] `data-legacy-id` 부착.
-- [ ] 시작/종료 일자 양방향 검증 (시작 ≤ 종료).
+- [x] DBGrid101 11 컬럼 + DBGrid201 11 컬럼(합계 포함) 모두 모던 grid 정의 — `app/(app)/inbound/reports/period/page.tsx` (C3 phase2).
+- [x] 합계 행: `gsqut`/`gssum` 두 그리드 모두 표시.
+- [x] `data-legacy-id="Sobo57.DBGrid101"`, `data-legacy-id="Sobo57.DBGrid201"` + 컬럼별 `Sobo57.DBGrid***.${FIELD}` 부착.
+- [x] 시작/종료 일자 양방향 검증 (시작 ≤ 종료) — 클라이언트 가드.
 
 ## 6. 참조
 
