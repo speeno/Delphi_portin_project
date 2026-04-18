@@ -1,0 +1,14 @@
+[
+  {
+    "form_name": "Subu00",
+    "form_class": "TSubu00",
+    "scenario": "C1 로그인·세션 시작",
+    "components": 298,
+    "events": 197,
+    "sql": 11,
+    "tables": 4,
+    "validations": 32,
+    "variants": 0,
+    "capture_matched": 0
+  }
+]

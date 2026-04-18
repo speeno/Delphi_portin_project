@@ -2,8 +2,8 @@
   "$schema_note": "본 파일은 회귀 테스트 팩(Regression Test Pack) 1차 초안입니다. migration/contracts/login.yaml 과 1:1 대응합니다.",
   "id": "C1-login",
   "contract": "migration/contracts/login.yaml",
-  "version": "0.1.0-draft",
-  "status": "draft",
+  "version": "0.2.0-review",
+  "status": "review",
   "owners": {
     "business": "메인개발자",
     "legacy": "델파이 담당자",
@@ -12,13 +12,27 @@
   "fixtures": {
     "table": "Id_Logn",
     "rows": [
-      { "Hcode": "0000", "Hname": "관리자",  "Gcode": "admin",  "Gname": "관리자", "Gpass": "test1234" },
-      { "Hcode": "0123", "Hname": "홍길동",  "Gcode": "hong01", "Gname": "홍길동", "Gpass": "qwer5678" },
-      { "Hcode": "0456", "Hname": "김영희",  "Gcode": "kim02",  "Gname": "김영희", "Gpass": "p@ssword!" }
+      { "Hcode": "0000", "Hname": "관리자",   "Gcode": "admin",   "Gname": "관리자", "Gpass": "test1234",  "tenant_id": "T1" },
+      { "Hcode": "0123", "Hname": "홍길동",   "Gcode": "hong01",  "Gname": "홍길동", "Gpass": "qwer5678",  "tenant_id": "T1" },
+      { "Hcode": "0456", "Hname": "김영희",   "Gcode": "kim02",   "Gname": "김영희", "Gpass": "p@ssword!", "tenant_id": "T1" },
+      { "Hcode": "0789", "Hname": "이몽룡",   "Gcode": "lee03",   "Gname": "이몽룡", "Gpass": "alpha2026", "tenant_id": "T2" },
+      { "Hcode": "0124", "Hname": "홍길동T2", "Gcode": "hong01",  "Gname": "홍길동", "Gpass": "delta!2026", "tenant_id": "T2" }
     ],
+    "extra_tables": {
+      "G7_Ggeo": {
+        "rows": [
+          { "Gcode": "GA", "Chek5": "show1" },
+          { "Gcode": "GB", "Chek5": "show1" },
+          { "Gcode": "GZ", "Chek5": "" }
+        ],
+        "note": "Chul.pas L490 SELECT Gcode FROM G7_Ggeo WHERE Chek5='show1' 픽스처 — 슈퍼유저(Hcode='0000') 가시성 필터용."
+      }
+    },
     "notes": [
       "테스트 픽스처는 PII가 아닌 더미 값입니다.",
-      "운영 데이터로의 매핑은 query_capture 리허설 후 보강합니다."
+      "운영 데이터로의 매핑은 query_capture 리허설 후 보강합니다.",
+      "tenant_id 컬럼은 D-LOGIN-4 옵션 A 가정. 실제 DB 마이그레이션 전 임시 픽스처임.",
+      "Gcode 'hong01'이 T1·T2 두 테넌트에 동일 코드로 존재 — TC-LOGIN-010(테넌트 자동 매핑) 검증용."
     ]
   },
   "axes": ["functional", "data", "ux", "performance", "audit"],
@@ -156,16 +170,107 @@
         "fields_required": ["timestamp", "gcode", "result", "client_ip"]
       },
       "rationale": "레거시는 명시 감사 로그 미흡. 웹 신규 요구."
+    },
+    {
+      "id": "TC-LOGIN-010",
+      "title": "테넌트 자동 매핑 (D-LOGIN-4 옵션 A) — 동일 gcode·다른 tenant 분리",
+      "axes": ["functional", "audit"],
+      "given": { "Id_Logn_seeded": true },
+      "do": [
+        "테넌트 T1 사용자 (hong01/홍길동/qwer5678) 로그인",
+        "테넌트 T2 사용자 (hong01/홍길동/delta!2026) 로그인"
+      ],
+      "expect_sequence": [
+        {
+          "request": {
+            "method": "POST", "path": "/api/auth/login",
+            "body": { "gcode": "hong01", "gname": "홍길동", "gpass": "qwer5678" }
+          },
+          "expect": {
+            "status": 200,
+            "body_contains": { "hcode": "0123", "tenant_id": "T1", "is_super": false },
+            "jwt_claims_contain": { "tenant_id": "T1" }
+          }
+        },
+        {
+          "request": {
+            "method": "POST", "path": "/api/auth/login",
+            "body": { "gcode": "hong01", "gname": "홍길동", "gpass": "delta!2026" }
+          },
+          "expect": {
+            "status": 200,
+            "body_contains": { "hcode": "0124", "tenant_id": "T2", "is_super": false },
+            "jwt_claims_contain": { "tenant_id": "T2" }
+          }
+        }
+      ],
+      "rationale": "Id_Logn.tenant_id + (gcode, gname, gpass) 조합으로 사용자→테넌트 자동 결정. 동일 gcode 라도 비밀번호 + tenant_id 가 분기 키.",
+      "open_question": "OQ-LOGIN-1",
+      "delta": "D-LOGIN-4"
+    },
+    {
+      "id": "TC-LOGIN-011",
+      "title": "슈퍼유저 가시성 필터 — G7_Ggeo Chek5='show1' 적용",
+      "axes": ["functional", "data"],
+      "given": { "Id_Logn_seeded": true, "G7_Ggeo_seeded": true },
+      "request": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "body": { "gcode": "admin", "gname": "관리자", "gpass": "test1234" }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": { "hcode": "0000", "is_super": true },
+        "body_has_keys": ["session_token", "visibility_filter"],
+        "field_value_set_eq": {
+          "visibility_filter.gcodes": ["GA", "GB"]
+        }
+      },
+      "rationale": "Chul.pas L486~L515: Hnnnn='0000' 일 때만 G7_Ggeo SELECT 실행 후 가시성 필터 구성 (D-LOGIN-3 + SQL-LOGIN-2-VISIBILITY).",
+      "delta": "D-LOGIN-3"
+    },
+    {
+      "id": "TC-LOGIN-012",
+      "title": "테넌트 격리 — 잘못된 tenant_hint 로 다른 테넌트 데이터 노출 차단",
+      "axes": ["audit", "data", "functional"],
+      "given": { "Id_Logn_seeded": true },
+      "request": {
+        "method": "POST",
+        "path": "/api/auth/login",
+        "body": { "gcode": "lee03", "gname": "이몽룡", "gpass": "alpha2026", "tenant_hint": "T1" }
+      },
+      "expect_one_of": [
+        {
+          "status": 200,
+          "body_contains": { "hcode": "0789", "tenant_id": "T2" },
+          "jwt_claims_contain": { "tenant_id": "T2" },
+          "rationale": "옵션 A 채택 시 서버는 tenant_hint 를 무시하고 Id_Logn.tenant_id 로 자동 결정 → T2 정상 발급"
+        },
+        {
+          "status": 401,
+          "body_contains": { "code": "AUTH_NO_USER" },
+          "rationale": "옵션 B/C 채택 시 tenant_hint 와 사용자 소속 테넌트 불일치로 NODATA 분기"
+        }
+      ],
+      "must_not": {
+        "jwt_claims_contain": { "tenant_id": "T1" },
+        "body_contains": { "tenant_id": "T1" }
+      },
+      "rationale": "어떤 옵션을 채택하더라도 절대로 사용자 실제 소속이 아닌 테넌트(T1) 컨텍스트가 발급되어선 안 됨. 잘못된 매핑 발생 시 data 축 즉시 차단.",
+      "open_question": "OQ-LOGIN-1",
+      "delta": "D-LOGIN-4"
     }
   ],
   "outstanding": {
-    "blocked_by_open_questions": ["OQ-001", "OQ-DBL-002", "OQ-DBL-003"],
+    "blocked_by_open_questions": ["OQ-001", "OQ-DBL-002", "OQ-DBL-003", "OQ-LOGIN-1"],
     "post_query_capture_actions": [
       "TC-LOGIN-001 SQL 결과 컬럼 순서/추가 SELECT(권한 캐시 등) 발견 시 케이스 추가",
-      "비밀번호 정책 결정(평문 → 해시) 후 fixtures 갱신"
+      "비밀번호 정책 결정(평문 → 해시) 후 fixtures 갱신",
+      "D-LOGIN-4 옵션 확정(A/B/C) 후 TC-LOGIN-010/012 expect_one_of 정리"
     ]
   },
   "changelog": [
-    { "date": "2026-04-21", "by": "porting-team", "note": "초안 작성. login.yaml 과 1:1 매핑된 9개 케이스." }
+    { "date": "2026-04-21", "by": "porting-team", "note": "초안 작성. login.yaml 과 1:1 매핑된 9개 케이스." },
+    { "date": "2026-04-22", "by": "porting-team", "note": "0.2.0-review. fixtures 에 tenant_id·G7_Ggeo 추가. TC-LOGIN-010(테넌트 자동 매핑) / TC-LOGIN-011(가시성 필터) / TC-LOGIN-012(테넌트 격리) 3건 신규. outstanding 에 OQ-LOGIN-1 추가. status: draft → review." }
   ]
 }

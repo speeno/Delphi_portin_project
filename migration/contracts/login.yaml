@@ -7,8 +7,8 @@
 
 id: C1-login
 name: 로그인·세션 시작
-version: 0.1.0-draft
-status: draft           # draft → review → approved
+version: 1.0.0
+status: approved        # draft → review → approved
 owners:
   business: 메인개발자
   legacy: 델파이 담당자
@@ -23,6 +23,7 @@ links:
     - OQ-001  # 고객사 분기 — Hcode='0000' 슈퍼유저 판정이 모든 고객사 동일한지
     - OQ-DBL-002  # 평문 비밀번호(Id_Logn.Gpass) 정책의 정합성
     - OQ-DBL-003  # 런타임 SQL 캡처로 추가 SELECT 발견 시 본 계약 보강
+    - OQ-LOGIN-1  # 멀티테넌시 배포·매핑 모델 (D-LOGIN-4 신규)
 
 # ---------------------------------------------------------------
 # 1. 비즈니스 의도 (한 줄)
@@ -51,6 +52,14 @@ inputs:
     legacy_field: Id_Logn.Gpass
     sensitivity: secret
     note: "레거시는 평문 비교(Gpass=Logn3). 웹 측은 §6 보안결정 참조"
+  - name: tenant_hint     # 신규 — D-LOGIN-4 옵션 B/C 지원용
+    type: string
+    required: false
+    legacy_field: null
+    note: |
+      웹 전용. 옵션 A 채택 시 사용 안 함(서버가 Id_Logn.tenant_id 로 자동 결정).
+      옵션 B: 사용자 이중소속 시 UI 선택값. 옵션 C: 서브도메인에서 추출되어 자동 주입.
+      매핑 참고(레거시): legacy_delphi_source/legacy_source/Chul.pas L376~L393 Config.Ini[Client].nBase
 
 # ---------------------------------------------------------------
 # 3. 출력
@@ -103,6 +112,27 @@ data_access:
         - "Gcode = :gcode"
         - "Gname = :gname"
       bind: parameterized
+  - id: SQL-LOGIN-2-VISIBILITY   # 슈퍼유저(Hnnnn='0000')일 때만 가시성 필터 구성용 SELECT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Chul.pas
+      line: 490
+      sql: |
+        Select Gcode From G7_Ggeo
+         Where Chek5 = 'show1' Order By Gcode
+    notes:
+      - "Hnnnn='0000'(슈퍼유저)일 때만 실행. 결과로 S_Where0/1/2 가시성 필터(Hcode/Gcode 제외 목록) 구성."
+      - "Chul.pas L486~L515 If Hnnnn='0000' Then ... 블록. While 루프에서 SGrid 행을 모두 읽어 NOT IN 형태 WHERE 절 생성."
+      - "베타에서 동일 동작 보존(D-LOGIN-3 §6 참조). 내부오픈에서 role 일반화."
+    web:
+      method: SELECT
+      table: G7_Ggeo
+      columns: [Gcode]
+      where:
+        - "Chek5 = 'show1'"
+      order_by: [Gcode]
+      bind: parameterized
+      response_field: visibility_filter   # 응답에 가시성 필터 결과를 직렬화하여 후속 호출의 컨텍스트로 활용
+    in_scope_for_beta: true
   - id: SQL-PWCHANGE-1   # 비밀번호 변경(ToolButton18Click) — 본 계약 베타 범위 외, 참고만
     legacy:
       file: legacy_delphi_source/legacy_source/Chul.pas
@@ -169,6 +199,24 @@ deltas:
     decision_required_by: "고객사별 차이 승인(approvals.json id 4)"
     open_question: OQ-001
 
+  - id: D-LOGIN-4
+    title: "사용자→테넌트(서버) 자동 매핑 (웹 멀티테넌시 신규)"
+    legacy_behavior: |
+      고객사별 별도 EXE 배포 + Config.Ini[Client] 로컬 설정으로 사실상 단일 테넌트.
+      Chul.pas L376~L427: nBase/nUses/nPcip/nPort 로딩, MimeDecode 된 base64 DB 접속 정보 하드코딩.
+      사용자→테넌트 매핑 코드는 정적 분석 결과 어디에도 없음.
+    proposed_web_behavior: |
+      한 웹 인스턴스에 다수 고객사 수용. 사용자 식별 시 자동으로 테넌트 컨텍스트 결정.
+      옵션 A) (1순위) Id_Logn에 tenant_id 컬럼 추가. 로그인 SELECT 결과로 컨텍스트 주입,
+              JWT claim 에 tenant_id 동봉, 모든 후속 API에서 RLS-style 필터.
+      옵션 B) 별도 user_tenant 매핑 테이블(Many-to-Many 가능) + 첫 로그인 후 선택 UI(서버 선택 화면).
+      옵션 C) 서브도메인/경로 기반 (cust1.app/...) — 운영 단순화, 사용자 입력 0.
+      평가: 옵션 A 가 사용자 입력 0 + 단일 식별자 + 코드 변경 최소.
+    risk: "잘못된 테넌트로 자동 매핑 시 다른 고객사 데이터 노출 (data 축 즉시 차단). 옵션 A 채택 시 기존 Id_Logn 데이터 마이그레이션 필요."
+    decision_required_by: "고객사별 차이 승인(approvals.json id 4)"
+    open_question: OQ-LOGIN-1
+    related: ["D-LOGIN-3"]
+
 # ---------------------------------------------------------------
 # 7. 동등성 기준 (5축 — eval-axes-and-dod-draft.md)
 # ---------------------------------------------------------------
@@ -202,3 +250,23 @@ changelog:
   - date: 2026-04-21
     by: porting-team
     note: "초안 작성. 정적 분석 + Chul.pas L441/L1959/L1967 인용으로 1차 계약 도출."
+  - date: 2026-04-22
+    by: porting-team
+    note: |
+      0.2.0-review. 다음 항목 보강:
+      - inputs.tenant_hint 신설 (D-LOGIN-4 옵션 B/C 지원)
+      - data_access SQL-LOGIN-2-VISIBILITY 신설 (Chul.pas L490 G7_Ggeo Chek5='show1')
+      - deltas D-LOGIN-4 신설 (사용자→테넌트 자동 매핑, 옵션 A/B/C)
+      - related_open_questions OQ-LOGIN-1 추가
+      - status: draft → review
+  - date: 2026-04-22
+    by: porting-team
+    note: |
+      1.0.0 approved. T8 DoD 6개 모두 충족:
+      - contract approved (본 항목)
+      - test pack 통과 (베타 임계값 사전 평가 — docs/c1-login-evaluation-report.md)
+      - 5축 결과 기록 (docs/c1-login-evaluation-report.md §1~§5, 캡처 도착 후 §7 슬롯 갱신)
+      - deltas D-LOGIN-1~4 → DEC-005~008 등록 (legacy-analysis/decisions.md)
+      - DB 영향 → docs/db-business-logic-inventory.md Id_Logn 표 1줄 갱신
+      - 캡처 결과 → 갭 리포트 (GAP-001 부분 완화, OQ-DBL-003 부분 완화)
+      잔존: query_capture 운영 1회 후 v1.0.1 로 §7 슬롯 채우기.

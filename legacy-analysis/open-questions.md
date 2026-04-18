@@ -49,7 +49,22 @@
 - **질문**: 델파이 실행 중에만 발생하는 동적 SQL·배치 SQL이 정적 분석에서 누락되었을 수 있는가? 운영 리허설을 통한 query_capture 실시가 필요한가?
 - **발생 시점**: DB 비즈니스 로직 1차 자동 조사 (2026-04-21)
 - **영향 범위**: 포팅 누락 위험, GAP-001
+- **해결 방법(2026-04-22 동결)**:
+  1. `tools/db/db_logic_cross_reference.py` 정적 1차 실행 (53 테이블 교차맵) — 완료.
+  2. C1 시나리오 운영 캡처 1회 (일반 로그인 + 슈퍼유저 0000) — `docs/query-capture-rehearsal-tracker.md` §1 일정 협의 중.
+  3. 캡처 도착 즉시 `python3 tools/db/db_logic_cross_reference.py --capture <file>` 재실행 → 신규 SQL 발견 시 `migration/contracts/<flow>.yaml.data_access` 즉시 패치.
+- **상태**: **부분 완화** (정적 교차맵 완료, 캡처 1회 대기 — 외부 의존)
+
+### OQ-LOGIN-1: 멀티테넌시 배포·매핑 모델
+- **질문**: 현행 운영은 고객사별로 EXE/Config.Ini 가 분리된 단일테넌트 모델이 맞는가? 웹은 한 인스턴스에 여러 고객사를 수용할 때 사용자→테넌트 매핑을 어디(DB 컬럼 / JWT claim / 서브도메인)에 두는가?
+- **발생 시점**: C1 로그인 T3 보강 (Chul.pas L376~L427 정밀 분석, 2026-04-22)
+- **영향 범위**: D-LOGIN-4(웹 contract), Customer Variant Matrix(산출물 #6), 모든 후속 시나리오의 컨텍스트 주입 정책
+- **코드 근거**:
+  - `legacy_delphi_source/legacy_source/Chul.pas` L376~L393 — `Config.Ini[Client]` → `nBase/nUses/nPcip/nPort` 클라이언트 PC 단위 로드
+  - `legacy_delphi_source/legacy_source/Chul.pas` L420~L427 — `Base10.Database.Host/Login/Password/Database` EXE 내 base64 하드코딩(`MimeDecodeString`), 주석에 `한국도서유통` 등 다른 고객사 흔적
+  - `Subu32_1.pas` 등 다른 폼은 `nBase` 전역만 참조 (사용자→테넌트 매핑 코드 없음)
+- **결정 게이트**: approvals.json id 4 (고객사별 차이 승인)
 - **상태**: 미해결
 
 ---
-*최종 업데이트: 2026-04-21 — OQ-002에 [`docs/legacy-print-scanner-integration-survey.md`](../docs/legacy-print-scanner-integration-survey.md) 링크 추가. (이전: OQ-DBL 시리즈 2026-04-21)*
+*최종 업데이트: 2026-04-22 — OQ-LOGIN-1 추가 (C1 T3 보강). (이전: OQ-002에 인쇄·바코드 조사 링크 추가 2026-04-21)*

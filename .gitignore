@@ -22,6 +22,9 @@ credentials.json
 test/output/
 debug/output/
 
+# Auto-generated eval cases (regenerate via tools/contracts/eval_case_generator.py)
+migration/eval-cases/
+
 # Build
 dist/
 build/

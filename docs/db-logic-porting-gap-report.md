@@ -30,7 +30,7 @@
 
 | ID | 항목 | 위험도 | 현재 상태 | 조치 계획 | OQ 연결 |
 |----|------|--------|-----------|-----------|---------|
-| GAP-001 | 운영 시 실행되지만 정적 분석에 잡히지 않는 SQL | 높음 | 미조사 | query_capture 리허설 실시 (런북 참고) | OQ-DBL-003 |
+| GAP-001 | 운영 시 실행되지만 정적 분석에 잡히지 않는 SQL | 높음 | **부분 완화 (2026-04-22)** — `tools/db/db_logic_cross_reference.py` 정적 1차 실행 완료(53 테이블 교차맵). C1 SQL 11건 식별. **잔존**: 캡처 실시 0회 → 동적 SQL 가능성. | C1 캡처 1회는 [`docs/query-capture-rehearsal-tracker.md`](query-capture-rehearsal-tracker.md) §1 (DBA 일정 차단). 도착 즉시 `--capture` 재실행으로 클로저. | OQ-DBL-003 |
 | GAP-002 | 3.23 인스턴스 DB 내 로직 존재 여부 확정 | 중간 | probe 완료(0건) | 현장 DBA 확인 후 클로저 | OQ-DBL-001 |
 | GAP-003 | FK·CHECK·DEFAULT 등 선언적 규칙의 코드 측 재현 여부 | 중간 | 자동 수집(0건) | 포팅 화면별 테이블 제약 검증 추가 | OQ-DBL-002 |
 | GAP-004 | 배치·야간·외부 EXE에서만 실행되는 DB 작업 | 중간 | 미조사 | 체크리스트 §1.4 현장 확인 | — |
