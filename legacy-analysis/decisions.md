@@ -184,6 +184,74 @@
 - **결정자**: 메인개발자
 - **참조**: `migration/contracts/outbound_order.yaml` deltas D-OUT-4, DEC-009
 
+### DEC-019: 환경설정 경계 — Sobo19(레거시) vs Wave D(웹 플랫폼) 분리, 마스터 PATCH 는 «수정 ON · 삭제 OFF»
+- **일자**: 2026-04-18
+- **결정 사항**: 레거시 Sobo19 의 비즈니스 옵션은 그대로 둔다(별도 화면). 웹 전용 운영/환경설정은 Wave D 의 `application_settings` 로 분리한다. C9 마스터(거래처 Sobo11 / 도서 Sobo14) 의 1차 PATCH 는 **수정 가능 / 삭제는 금지**. 신규 INSERT 와 DELETE 는 후속 사이클에서 결정.
+- **배경/근거**:
+  - Sobo19 는 인쇄·바코드·기본값 등 화면 전용 옵션 — 사용자 혼동 방지 위해 web 플랫폼 설정과 경계.
+  - 마스터 삭제는 다른 시나리오(C2 출고/C6 조회) 와 참조 무결성을 함께 봐야 함 — DEC-012 와 같은 정책으로 1차 보류.
+- **영향**:
+  - contract `master_data.yaml`: SQL-MAS-3/6 (PATCH) 만 활성, DELETE 미제공.
+  - 사이드바 라벨 정정: "환경설정" → "환경설정(레거시)".
+  - Wave D `/admin/settings` 페이지에서 application_settings 만 다룸.
+- **결정자**: 메인개발자
+- **참조**: `migration/contracts/master_data.yaml`, `migration/contracts/admin_web_platform.yaml`
+
+### DEC-020: 웹 RBAC 별도 — 레거시 Id_Logn.Fxx 와 매핑 테이블 1단으로 연결
+- **일자**: 2026-04-18
+- **결정 사항**: 웹 권한 모델은 `web_roles` / `web_role_permissions` / `web_user_roles` 로 신규 운용한다. 레거시 `Id_Logn.Fxx` 와는 1:1 `legacy_permission_map` 1단으로만 연결한다. 1차 MVP 는 가드 미적용(인증된 사용자 = 모두 가능, DEC-009 패턴) — Phase 2 에서 미들웨어로 강제.
+- **배경/근거**:
+  - 레거시 권한 키는 화면 단위(`F21/F22/F26` 등) 로 의미가 닫혀있어 웹의 동작 단위 (master.read/write 등) 와 직접 1:1 매칭 불가.
+  - 매핑 테이블 1단으로 두면 Phase 2 가드 활성 시점에 양 모델을 동시에 충족 가능.
+- **영향**:
+  - admin contract `ADMIN-4~7` endpoints, `legacy_permission_map` 시드 3건.
+  - `WebAdmRBAC` 페이지에서 시드 역할 + 매핑표 표시.
+- **결정자**: 메인개발자
+- **참조**: `migration/contracts/admin_web_platform.yaml`, `backend/app/services/admin_service.py`
+
+### DEC-021: 서버 프로필 화이트리스트 — 사용자별 server_id 매핑
+- **일자**: 2026-04-18
+- **결정 사항**: `web_user_servers` 테이블로 사용자별 허용 `server_id` 화이트리스트를 운용한다. 비어있으면 1차는 "모두 허용" 으로 폴백 (안전 마진). JWT 발급/요청 가드에서 활용.
+- **배경/근거**:
+  - 운영 환경 분리(테스트/운영) 시 특정 계정만 운영 서버 접근하는 케이스가 발생.
+  - 1차에서 강제하면 기존 사용자 모두 차단되므로, 화이트리스트 비어있을 때 폴백 정책 유지.
+- **영향**:
+  - admin contract `ADMIN-1~3` + `is_server_allowed` helper.
+  - 향후 `auth/login` 에서 server_id 가 화이트리스트에 있는지 검증 가능.
+- **결정자**: 메인개발자
+- **참조**: `backend/app/services/admin_service.py:is_server_allowed`
+
+### DEC-022: 개정별 환경설정 — 모든 변경은 history 강제 적재, 물리 삭제 금지
+- **일자**: 2026-04-18
+- **결정 사항**: `application_settings` 1행 = (scope, key) 의 현재 revision/value 로 둔다. 모든 변경은 `application_settings_history` 에 새 revision 으로 자동 추가된다. **DELETE 는 금지**, 롤백 = 이전 revision 의 value 를 새 revision 으로 다시 기록. 모든 변경은 audit.admin 로거에 기록되며 `actor` (current user.gcode) 가 비어있으면 400.
+- **배경/근거**:
+  - 운영 설정은 잘못 변경 시 빠른 롤백이 필요 — history 가 1급 시민이어야 함.
+  - 물리 삭제 허용 시 audit 무결성 깨짐 — DEC-022 fail-safe 로 봉쇄.
+- **영향**:
+  - admin contract `ADMIN-8~11` endpoints, history 강제 적재 invariant.
+  - `WebAdmEnv` 페이지에서 history/롤백 UI.
+- **결정자**: 메인개발자
+- **참조**: `backend/app/services/admin_service.py:upsert_setting,rollback_setting`
+
+### DEC-023: C9 마스터 단일 원천 확정 — Sobo11/14/17/38/39/45 채택, 통계 분리
+- **일자**: 2026-04-18
+- **결정 사항**: 화면 카드 분석 결과 다음 폼을 「단일 원천」으로 확정한다. Sobo36/37/43 은 통계/조회 화면이므로 마스터에서 분리하고 사이드바 라벨에 "(통계)" 를 표기한다.
+  - 거래처 마스터 = **Sobo11** (G1_Ggeo + G1_Gbun, CRUD 11건)
+  - 도서 마스터 = **Sobo14** (G4_Book + G4_Gbun, CRUD 13건)
+  - 출판사·G7거래처 마스터 = **Sobo17** (G7_Ggeo + G7_Gbun, CRUD 26건, 자동완성과 동일 테이블)
+  - 도서코드 = **Sobo38** (G4_Book READ only, SELECT 2건)
+  - 할인율 대표 = **Sobo39** (G7_Ggeo.Gpper, 4 변종 중 대표 1폼만 1차)
+  - 물류비 = **Sobo45** (G5_Ggeo.Gposa READ)
+- **배경/근거**:
+  - Sobo36/37 는 T6_Ssub/Sv_Ghng 등 통계 테이블에 접근 — 마스터 CRUD 폼이 아님.
+  - 자동완성용 G7_Ggeo (Sobo17) 와 마스터 G1_Ggeo (Sobo11) 는 다른 거래처 종류 — 라벨로 구분.
+- **영향**:
+  - frontend `form-registry.ts`: Sobo11/14/17/38/39/45 에 `route`/`phase: phase1` 부여, Sobo36/37/43 라벨 정정.
+  - backend `masters_service.py`: 자동완성 함수는 보존, 신규 list/get/update 함수 추가.
+- **결정자**: 메인개발자
+- **참조**: `analysis/screen_cards/Sobo{11,14,17,38,39,45}*.md`, `migration/contracts/master_data.yaml`
+
 ---
-*최종 업데이트: 2026-04-25 — DEC-009~012 신규 추가 (C2 출고 접수 1차 포팅 범위 동결: 권한키·바코드·인쇄·물리삭제 모두 후속 이관). 1차 합격선은 "출고 주문 신규+수정+취소+조회 CRUD".*
+*최종 업데이트: 2026-04-18 — DEC-019~023 신규 추가 (C9 단일 원천 + Wave D 웹 관리 플레인 동결).*
+*이전: 2026-04-25 — DEC-009~012 신규 추가 (C2 출고 접수 1차 포팅 범위 동결: 권한키·바코드·인쇄·물리삭제 모두 후속 이관). 1차 합격선은 "출고 주문 신규+수정+취소+조회 CRUD".*
 *이전: 2026-04-22 (revised) — DEC-005~008 모두 "1차 포팅 범위 외" 로 동결. 1차 합격선은 "기존 사용자가 기존 ID/PW 그대로 로그인". 멀티테넌시·해시·라이선스·슈퍼유저 분기는 후속 작업으로 이관.*

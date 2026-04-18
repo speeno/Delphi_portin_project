@@ -1,0 +1,155 @@
+# Migration Contract: 웹 관리 플레인 (Wave D MVP)
+#
+# 본 계약은 레거시 델파이에 없던 **웹 전용 관리 기능**의 1차 인터페이스를 정의합니다.
+# 사용자–서버 화이트리스트 (DEC-021), 웹 RBAC 별도 (DEC-020), 개정별 환경설정 (DEC-022).
+#
+# 1차 MVP 정책:
+#   - 권한 가드: DEC-009 패턴 (인증된 사용자 = 모두 가능). RBAC 미들웨어는 Phase 2.
+#   - 저장소: backend/data/web_admin.json (BLS_WEB_ADMIN_PATH 로 오버라이드 가능).
+#   - 모든 변경은 audit.admin 로거 1줄 JSON + DEC-022 history 강제 적재.
+
+id: WD-admin-web-platform
+name: 웹 관리 플레인 (사용자·서버·역할/권한·환경설정 개정)
+version: 1.0.0
+status: draft
+scope_phase: phase1
+acceptance_goal: |
+  관리자가 웹관리 메뉴에서:
+    1) 사용자별 허용 서버 화이트리스트를 토글 가능
+    2) 시드 역할(admin/ops/viewer) + 신규 역할 추가 가능
+    3) 환경설정 키를 추가/수정 가능 (revision 자동 +1, history 자동 적재)
+    4) history 패널에서 이전 revision 으로 롤백 가능 (물리 삭제 금지)
+  모든 동작은 audit.admin 로거에 기록된다.
+
+owners:
+  business: 메인개발자
+  web: 웹 포팅 팀
+
+decisions:
+  - id: DEC-020
+    title: 웹 RBAC 별도
+    summary: |
+      레거시 Id_Logn.Fxx 권한 키와 웹 권한 코드는 1:1 매핑 테이블 (legacy_permission_map)
+      로만 연결. 웹 RBAC 는 별도 web_roles/web_role_permissions/web_user_roles 로 운용.
+  - id: DEC-021
+    title: 서버 프로필 화이트리스트
+    summary: |
+      web_user_servers 테이블로 사용자별 허용 server_id 화이트리스트.
+      비어있으면 1차는 "모두 허용" 폴백. JWT 발급/요청 가드에서 활용.
+  - id: DEC-022
+    title: 개정별 환경설정 (history 강제)
+    summary: |
+      application_settings 1행 = (scope, key) 의 현재 revision/value.
+      모든 변경은 application_settings_history 에 새 revision 으로 추가됨.
+      DELETE 는 금지, 롤백 = 이전 revision 의 value 를 새 revision 으로 다시 기록.
+
+data_model:
+  web_users:
+    primary_key: id
+    fields: [id, login_id, status, created_at]
+  web_user_servers:
+    primary_key: [user_id, server_id]
+  web_roles:
+    primary_key: id
+    fields: [id, code, name, permissions]
+    seed:
+      - { code: admin, name: 관리자, permissions: ["*"] }
+      - { code: ops, name: 운영자, permissions: [master.read, master.write] }
+      - { code: viewer, name: 조회자, permissions: [master.read] }
+  web_user_roles:
+    primary_key: [user_id, role_id]
+  legacy_permission_map:
+    fields: [permission_code, fkey]
+    seed:
+      - { permission_code: outbound.cancel, fkey: F22 }
+      - { permission_code: master.write, fkey: F26 }
+      - { permission_code: outbound.write, fkey: F21 }
+  application_settings:
+    primary_key: id
+    fields: [id, scope, key, revision, value, updated_by, updated_at]
+    unique: [scope, key]
+  application_settings_history:
+    fields: [id, scope, key, revision, value, updated_by, updated_at, reason]
+
+endpoints:
+  - id: ADMIN-1
+    method: GET
+    path: /api/v1/admin/users
+  - id: ADMIN-2
+    method: POST
+    path: /api/v1/admin/users
+    body: { loginId: string, status: string }
+    audit: { logger: audit.admin, action: user.insert | user.update }
+  - id: ADMIN-3
+    method: POST
+    path: /api/v1/admin/user-servers
+    body: { userId, serverId, allow }
+    audit: { logger: audit.admin, action: user.server.upsert }
+
+  - id: ADMIN-4
+    method: GET
+    path: /api/v1/admin/roles
+  - id: ADMIN-5
+    method: POST
+    path: /api/v1/admin/roles
+    body: { code, name, permissions }
+    audit: { logger: audit.admin, action: role.insert | role.update }
+  - id: ADMIN-6
+    method: POST
+    path: /api/v1/admin/user-roles
+    body: { userId, roleId, allow }
+    audit: { logger: audit.admin, action: user.role.upsert }
+  - id: ADMIN-7
+    method: GET
+    path: /api/v1/admin/legacy-permission-map
+
+  - id: ADMIN-8
+    method: GET
+    path: /api/v1/admin/settings
+    query: [{ name: scope, type: string, required: false }]
+  - id: ADMIN-9
+    method: POST
+    path: /api/v1/admin/settings
+    body: { scope: string, key: string, value: any, reason: "string|optional" }
+    response_keys: [id, scope, key, revision, value, updated_by, updated_at]
+    invariants:
+      - "actor (current user.gcode) 가 비어있으면 400 ADMIN_ACTOR_REQUIRED"
+      - "revision 은 (scope,key) 단위 단조 증가"
+      - "application_settings_history 에 동일 row 1건 자동 추가"
+    audit: { logger: audit.admin, action: setting.upsert }
+  - id: ADMIN-10
+    method: GET
+    path: /api/v1/admin/settings/history
+    query:
+      - { name: scope, type: string, required: false }
+      - { name: key, type: string, required: false }
+  - id: ADMIN-11
+    method: POST
+    path: /api/v1/admin/settings/rollback
+    body: { scope, key, targetRevision }
+    invariants:
+      - "물리 삭제 금지 — 롤백 = upsert(value=history[targetRevision].value, reason='rollback to rN')"
+
+equivalence:
+  audit:
+    storage: stdout (audit.admin logger)
+    fields_required: [timestamp, actor, action, entity, target, payload]
+
+deferred:
+  - id: D-ADM-1
+    description: RBAC 미들웨어 강제 (require_role("admin"))
+    target_phase: phase2
+  - id: D-ADM-2
+    description: web_admin.json → RDB 마이그레이션
+    target_phase: phase2
+  - id: D-ADM-3
+    description: 사용자 비밀번호/인증 통합 (현재 레거시 Id_Logn 그대로)
+    target_phase: phase2
+
+risks:
+  - id: R-ADM-1
+    description: JSON 파일 동시성 — threading.Lock 사용 중이나 멀티 워커 시 경쟁 가능
+    mitigation: Phase 2 RDB 이전. 1차 MVP 는 단일 워커 권장.
+  - id: R-ADM-2
+    description: 환경설정 value 가 임의 JSON — 스키마 검증 부재
+    mitigation: scope 별 키 카탈로그 추가 (post-MVP)

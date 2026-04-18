@@ -462,6 +462,7 @@ endpoints:
         offset?: integer
     responses:
       "200":
+        # DEC-024 (paging 표준): 신규 ``page`` 객체 + BC 평면 (deprecated, Phase 2 제거).
         body:
           items:
             - order_key: { gdate: string, hcode: string, jubun: string, gjisa: string }
@@ -470,9 +471,14 @@ endpoints:
               qty: integer
               amount: integer
               status: "active|cancelled"
-          total: integer
-          limit: integer
-          offset: integer
+          page:
+            limit: integer
+            offset: integer
+            total: integer
+            has_more: boolean
+          total: integer        # = page.total (BC, deprecated)
+          limit: integer        # = page.limit
+          offset: integer       # = page.offset
       "401": { body: { detail: "Invalid or expired token" } }
 
   - method: GET
@@ -547,11 +553,20 @@ endpoints:
         bcode_from?: string
         bcode_to?: string
         scope?: "string"
+        # DEC-024 가상 페이징 — full aggregation 후 in-memory slicing.
+        limit?: integer            # 기본 100, 최대 2000
+        offset?: integer
     responses:
       "200":
+        # DEC-024: ``page`` + BC ``total``. rows 는 limit 만큼만 반환.
         body:
-          rows: [...]              # book_sales_rows 스키마
-          total: integer
+          rows: [...]              # book_sales_rows 스키마 (slice 결과)
+          page:
+            limit: integer
+            offset: integer
+            total: integer         # 전체 집계 행 수
+            has_more: boolean
+          total: integer            # = page.total (BC)
 
   - method: GET
     path: /api/v1/reports/customer-sales
@@ -566,11 +581,18 @@ endpoints:
         scope?: "string ('X'|'Y'|'Z')"
         gcode_from?: string
         gcode_to?: string
+        limit?: integer            # DEC-024 — 기본 100, 최대 2000
+        offset?: integer
     responses:
       "200":
         body:
-          rows: [...]              # customer_sales_rows 스키마
-          total: integer
+          rows: [...]              # customer_sales_rows 스키마 (slice 결과)
+          page:
+            limit: integer
+            offset: integer
+            total: integer
+            has_more: boolean
+          total: integer            # = page.total (BC)
 
 # ---------------------------------------------------------------
 # 6. 차이점·결정 사항 (Decision Log 후보)

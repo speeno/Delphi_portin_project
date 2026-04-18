@@ -1,0 +1,231 @@
+# Migration Contract: 기초 마스터 단일 원천 (C9) — Wave A/B/C
+#
+# 본 계약은 레거시 Sobo11/14/17/38/39/45 의 단일 원천 매핑(DEC-023)을 웹 API+UI
+# 에서 동등하게 노출하기 위한 1차 계약입니다. Sobo36/37/43 은 통계 화면으로 분리됨.
+#
+# 단일 원천 (DEC-023):
+#   - Sobo11 → 거래처(G1_Ggeo + G1_Gbun)            ✅ Wave A 풀 (READ + PATCH)
+#   - Sobo14 → 도서  (G4_Book + G4_Gbun)             ✅ Wave A 풀 (READ + PATCH)
+#   - Sobo17 → 출판사·G7거래처(G7_Ggeo + G7_Gbun)    ✅ Wave B (READ only)
+#   - Sobo38 → 도서코드 (G4_Book READ)              ✅ Wave B (READ only)
+#   - Sobo39 → 할인율 (G7_Ggeo.Gpper, 대표 1폼)     ✅ Wave C (READ only)
+#   - Sobo45 → 물류비 (G5_Ggeo.Gposa)               ✅ Wave C (READ only)
+#
+# 1차 미접근 (후속):
+#   - 마스터 INSERT/DELETE  (DEC-019: 수정 ON · 삭제 OFF)
+#   - Sobo15(입고처) — Sobo11 과 동일 G1_Ggeo 분기, Phase 2 통합 후보
+#   - Sobo39 변종(_1/_2/_5) — 대표 1폼 결정 후 통합 검토
+#   - 자동완성(GET /masters/customers, /products) 은 C2 contract 에서 보존, 본 계약은 영향 0
+
+id: C9-master-data
+name: 기초 마스터 단일 원천 (Sobo11/14/17/38/39/45)
+version: 1.0.0
+status: draft
+scope_phase: phase1
+acceptance_goal: |
+  웹 사용자가 기초관리 메뉴에서 거래처/도서/출판사/도서코드/할인율/물류비를 조회 가능하고,
+  거래처·도서는 부분 수정(PATCH)이 가능해야 한다. 모든 PATCH 는 audit.master 로거에
+  actor/entity/target/updated_fields 1줄 JSON 으로 기록된다.
+  삭제(DELETE)·신규(INSERT) 는 DEC-019 로 후속 사이클로 이관.
+
+owners:
+  business: 메인개발자
+  legacy: 델파이 담당자
+  web: 웹 포팅 팀
+
+decisions:
+  - id: DEC-023
+    title: C9 마스터 단일 원천 확정
+    summary: |
+      Sobo11/36, 14/37, 17/43 중복 후보 중 화면카드 분석에 따라 CRUD 풀세트 폼만 1차 채택.
+      통계 화면(Sobo36/37/43) 은 사이드바 라벨에 "(통계)" 표기로 구분.
+  - id: DEC-019
+    title: 환경설정 경계 (Sobo19 vs Wave D)
+    summary: |
+      Sobo19 = 레거시 비즈니스 옵션. Wave D 의 application_settings 와 분리.
+      마스터 PATCH 는 «수정 ON, 삭제 OFF» — DELETE 는 후속 사이클.
+  - id: DEC-024
+    title: list 응답 paging 표준 (C2/C6/C9 + 후속 공통)
+    summary: |
+      모든 list 응답은 ``{items, page:{limit, offset, total, has_more}}`` 컨벤션을 따른다.
+      C9 마스터 6개는 신규 표준이므로 BC 평면 필드를 노출하지 않는다 (page 단독).
+      C2/C6 list/report 는 1차 BC 로 ``total/limit/offset`` 평면도 함께 보존 (Phase 2 deprecation).
+      기본 limit=100, ceil=500 (마스터/리스트), ceil=2000 (집계 리포트), 자동완성은 별도 ceil=200 유지.
+      구현 헬퍼: ``app/core/pagination.py`` (clamp_limit / clamp_offset / build_page / with_page).
+  - id: DEC-026
+    title: 마스터 list PK NULL/빈 row 가드 + DataGrid rowKey 안전 폴백
+    summary: |
+      6 종 마스터 list (customer/book/publisher/book-code/discount/logistics-cost)
+      에서 PK 컬럼(``Gcode``) 이 NULL 또는 빈 문자열인 row 가 ORDER BY Gcode
+      정렬 상단에 몰려 화면이 "빈 행" 으로 보이고 React rowKey 중복 경고를
+      유발하는 사용자 보고에 대응.
+      1) backend ``masters_service._build_master_where`` 헬퍼 신설 — 모든
+         마스터 list 가 ``Gcode IS NOT NULL AND Gcode <> ''`` PK 가드를
+         자동 통과 (DRY/OCP — 6 곳 단일 호출). 검색 컬럼만 호출자에서 명시.
+      2) frontend ``DataGrid`` 의 row 렌더러를 ``renderBodyRows`` 로 추출,
+         호출자 ``rowKey`` 가 빈 문자열/NULL/중복을 반환해도 index 합성으로
+         React duplicate key warning 을 차단 (LSP — 컴포넌트는 호출자
+         입력이 깨져도 안전 동작해야 함). 6 마스터 + outbound + sales-statement
+         + reports 2 등 DataGrid 사용 모든 화면 자동 보호.
+      3) 회귀 가드 — ``test/test_masters_q_search.py`` MasterPkGuard 12 subtest
+         (6 마스터 × 빈/non-empty q 매트릭스 + 헬퍼 단위).
+  - id: DEC-025
+    title: 마스터 q 검색 회귀 가드 + 동적 페이저
+    summary: |
+      DEC-024 직후 6 종 마스터 list 의 q 검색 회귀 핫픽스.
+      1) ``app/core/db._escape_mysql3_value`` — int/float/bool 은 quote 없이 인라인.
+         (MySQL 3.x ``LIMIT 'N' OFFSET 'M'`` 거부 → root cause #1 해결).
+      2) ``masters_service._likify`` 헬퍼로 6 개 list 의 LIKE 패턴 생성을 단일화.
+         와일드카드(% _ \\) literal escape, 후속 charset 가드(BINARY/COLLATE) 도입 시
+         이 한 곳만 보강 (SOLID OCP).
+      3) ``BLS_DEBUG_MASTER_SEARCH=1`` 게이트로 q raw bytes / pattern / SQL / params 캡처.
+         진단 보조 스크립트: ``debug/diagnose_master_search.py``.
+      4) 회귀 가드: ``test/test_masters_q_search.py`` — 빈/ASCII/한글 q × 6 마스터 = 18 케이스
+         + db escape 단위.
+      5) 프론트 ``DataGridPager`` 에 「자동(N)」옵션 + ``useDynamicPageSize`` 훅 (ResizeObserver +
+         localStorage 수동 우선) 으로 viewport 기반 page size 추천 — 8 개 list 화면 적용.
+
+endpoints:
+  # 거래처 (Sobo11)
+  - id: SQL-MAS-1
+    method: GET
+    path: /api/v1/masters/customer
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: q, type: string, required: false, note: "Gcode/Gname LIKE %q%" }
+      - { name: limit, type: int, default: 100, max: 500, note: "DEC-024 표준" }
+      - { name: offset, type: int, default: 0 }
+    response:
+      content_type: application/json
+      schema_ref: backend/app/models/master.py#CustomerListResponse
+      shape: "{ items: [...], page: { limit, offset, total, has_more } }  # DEC-024"
+    legacy_sql: "SELECT Gcode,Gname,Hcode,Gtel1,Gtel2,Gpost,Gjuso FROM G1_Ggeo WHERE ... ORDER BY Gcode LIMIT %s OFFSET %s"
+  - id: SQL-MAS-2
+    method: GET
+    path: /api/v1/masters/customer/{gcode}
+    response:
+      schema_ref: backend/app/models/master.py#CustomerDetailResponse
+  - id: SQL-MAS-3
+    method: PATCH
+    path: /api/v1/masters/customer/{gcode}
+    request:
+      body_ref: backend/app/models/master.py#CustomerUpdateRequest
+    response:
+      schema_ref: backend/app/models/master.py#CustomerUpdateResponse
+    audit:
+      logger: audit.master
+      record_keys: [timestamp, gcode (actor), entity, target, action, result, client_ip, server_id, extra]
+
+  # 도서 (Sobo14)
+  - id: SQL-MAS-4
+    method: GET
+    path: /api/v1/masters/book
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: q, type: string, required: false, note: "Gcode/Gname/Gisbn LIKE" }
+      - { name: limit, type: int, default: 100, max: 500, note: "DEC-024 표준" }
+      - { name: offset, type: int, default: 0 }
+    response:
+      schema_ref: backend/app/models/master.py#BookListResponse
+      shape: "{ items: [...], page: { limit, offset, total, has_more } }  # DEC-024"
+  - id: SQL-MAS-5
+    method: GET
+    path: /api/v1/masters/book/{gcode}
+    response:
+      schema_ref: backend/app/models/master.py#BookDetailResponse
+  - id: SQL-MAS-6
+    method: PATCH
+    path: /api/v1/masters/book/{gcode}
+    request:
+      body_ref: backend/app/models/master.py#BookUpdateRequest
+    response:
+      schema_ref: backend/app/models/master.py#BookUpdateResponse
+    audit:
+      logger: audit.master
+
+  # 출판사·G7거래처 (Sobo17) — READ only 1차
+  - id: SQL-MAS-7
+    method: GET
+    path: /api/v1/masters/publisher
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: q, type: string, required: false }
+      - { name: limit, type: int, default: 100, max: 500, note: "DEC-024" }
+      - { name: offset, type: int, default: 0 }
+    response:
+      schema_ref: backend/app/models/master.py#PublisherListResponse
+      shape: "{ items: [...], page: { limit, offset, total, has_more } }"
+
+  # 도서코드 (Sobo38) — READ only
+  - id: SQL-MAS-8
+    method: GET
+    path: /api/v1/masters/book-code
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: q, type: string, required: false }
+      - { name: limit, type: int, default: 100, max: 500, note: "DEC-024" }
+      - { name: offset, type: int, default: 0 }
+    response:
+      schema_ref: backend/app/models/master.py#BookCodeListResponse
+      shape: "{ items: [...], page: { limit, offset, total, has_more } }"
+
+  # 할인율 대표 (Sobo39) — READ only 1차
+  - id: SQL-MAS-9
+    method: GET
+    path: /api/v1/masters/discount
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: q, type: string, required: false }
+      - { name: limit, type: int, default: 100, max: 500, note: "DEC-024" }
+      - { name: offset, type: int, default: 0 }
+    response:
+      schema_ref: backend/app/models/master.py#DiscountListResponse
+      shape: "{ items: [...], page: { limit, offset, total, has_more } }"
+
+  # 물류비 (Sobo45) — READ only 1차
+  - id: SQL-MAS-10
+    method: GET
+    path: /api/v1/masters/logistics-cost
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: q, type: string, required: false }
+      - { name: limit, type: int, default: 100, max: 500, note: "DEC-024" }
+      - { name: offset, type: int, default: 0 }
+    response:
+      schema_ref: backend/app/models/master.py#LogisticsCostListResponse
+      shape: "{ items: [...], page: { limit, offset, total, has_more } }"
+
+equivalence:
+  read:
+    - target: customer.list
+      legacy_form: TSobo11
+      criteria: "Gcode 정렬, q LIKE, limit/offset 페이지네이션"
+    - target: book.list
+      legacy_form: TSobo14
+      criteria: "Gcode/Gname/Gisbn LIKE 매칭, snake_case 응답"
+  write:
+    - target: customer.update
+      legacy_form: TSobo11.UPDATE G1_Ggeo SET Gname/Gtel1/Gtel2/Gpost/Gjuso/Gbigo
+      criteria: "변경된 필드만 SET, audit 1줄 JSON 적재"
+    - target: book.update
+      legacy_form: TSobo14.UPDATE G4_Book SET Gname/Gjeja/Gisbn/Gdang/Gpost
+      criteria: "변경된 필드만 SET, audit 1줄 JSON 적재"
+  audit:
+    storage: stdout (audit.master logger)
+    fields_required: [timestamp, gcode, entity, target, action, result, client_ip, server_id]
+
+deferred:
+  - id: D-MAS-1
+    description: 마스터 INSERT/DELETE
+    target_scenario: post-C9 (DEC-019 후속)
+  - id: D-MAS-2
+    description: Sobo39 4 변종 (Sobo39_1/_2/_5) 통합
+    target_scenario: post-C9
+  - id: D-MAS-3
+    description: Sobo15(입고처) 와 Sobo11 통합
+    target_scenario: post-C9
+
+risks:
+  - id: R-MAS-1
+    description: G1_Ggeo 와 G7_Ggeo 가 다른 거래처 종류 — 사용자 혼동 가능
+    mitigation: 사이드바 라벨 명시, 페이지 헤더에 테이블/시나리오 표기

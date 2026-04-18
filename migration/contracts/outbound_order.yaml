@@ -350,10 +350,11 @@ endpoints:
         date_to: string
         hcode?: string
         include_cancelled?: boolean    # 기본 false (Yesno='2' 제외)
-        limit?: integer    # 기본 50, 최대 500
+        limit?: integer    # 기본 100, 최대 500 (DEC-024 표준)
         offset?: integer
     responses:
       "200":
+        # DEC-024 (paging 표준): 신규 ``page`` 객체 + BC 평면 (deprecated, Phase 2 제거).
         body:
           items:
             - order_key: { gdate: string, hcode: string, jubun: string }
@@ -362,9 +363,15 @@ endpoints:
               qty: integer
               amount: integer
               status: "active|cancelled"
-          total: integer
-          limit: integer
-          offset: integer
+          page:
+            limit: integer
+            offset: integer
+            total: integer
+            has_more: boolean
+          # ↓ 1차 BC. Phase 2 deprecation 대상.
+          total: integer        # = page.total
+          limit: integer        # = page.limit
+          offset: integer       # = page.offset
       "401":
         body: { detail: "Invalid or expired token" }
 
