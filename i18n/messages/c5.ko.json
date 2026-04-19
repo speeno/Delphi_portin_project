@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "$comment": "C5 정산(일·월 마감) 한국어 메시지 카탈로그 — 레거시 Subu45.pas / Subu41.pas / Base01.pas 의 ShowMessage·E_* 상수를 단일 출처로 이관 (T2 산출물). 신설 키는 분기 표기 (DEC-031/032).",
+  "$comment": "C5 정산(일·월 마감) 한국어 메시지 카탈로그 — 레거시 Subu45.pas / Subu41.pas / Subu46.pas / Subu49.pas / Base01.pas 의 ShowMessage·E_* 상수를 단일 출처로 이관 (T2 산출물). 신설 키는 분기 표기 (DEC-031/032/033/034/035).",
   "scenario": "C5",
-  "phase": 1,
+  "phase": 2,
   "locale": "ko-KR",
   "messages": {
     "c5.success.saved": {
@@ -115,8 +115,80 @@
       "source": "T8 신설 — DEC-031 가시화",
       "kind": "warning",
       "new": true
+    },
+    "c5.print.no_data": {
+      "text": "해당 거래처의 청구 자료가 없습니다.",
+      "source": "Phase 2 T2 신설 — Sobo46 print-data 빈 응답",
+      "kind": "warning",
+      "phase": 2,
+      "new": true
+    },
+    "c5.print.preview_only": {
+      "text": "본 화면은 미리보기입니다. PDF/실인쇄는 후속 모듈에서 제공됩니다.",
+      "source": "Phase 2 T2 신설 — DEC-034 가시화",
+      "kind": "info",
+      "phase": 2,
+      "new": true
+    },
+    "c5.tax.external_not_integrated": {
+      "text": "세금계산서 외부 발행 채널이 연결되지 않았습니다. 발행 기록만 저장됩니다.",
+      "source": "Phase 2 T2 신설 — DEC-035 (OQ-ST-1 종결) — `/issue` stub 응답에 첨부",
+      "kind": "warning",
+      "code": "ST_TAX_NOT_INTEGRATED",
+      "phase": 2,
+      "new": true
+    },
+    "c5.tax.chek3_toggled_single": {
+      "text": "발행 상태를 변경했습니다.",
+      "source": "Phase 2 T2 신설 — Sobo49.DBGrid101Columns7UpdateData (L695) 결과 메시지",
+      "kind": "info",
+      "phase": 2,
+      "new": true
+    },
+    "c5.tax.chek3_toggled_bulk": {
+      "text": "{count}건의 발행 상태를 변경했습니다.",
+      "source": "Phase 2 T2 신설 — Sobo49.RadioButton4/5Click (L717/746) 결과 메시지",
+      "kind": "info",
+      "phase": 2,
+      "new": true
+    },
+    "c5.tax.sdate_updated": {
+      "text": "발행일자를 수정했습니다.",
+      "source": "Phase 2 T2 신설 — Sobo49.T4_Sub91BeforePost (L657) 결과 메시지",
+      "kind": "info",
+      "phase": 2,
+      "new": true
+    },
+    "c5.recalc.started": {
+      "text": "재집계를 시작합니다.",
+      "source": "Phase 2 T2 신설 — settlement_service.recalc_billing 진입 안내",
+      "kind": "info",
+      "phase": 2,
+      "new": true
+    },
+    "c5.recalc.completed": {
+      "text": "재집계가 완료되었습니다 ({count}건 갱신).",
+      "source": "Phase 2 T2 신설 — recalc_billing 완료 알림",
+      "kind": "info",
+      "phase": 2,
+      "new": true
+    },
+    "c5.audit_rotate.gpass_done": {
+      "text": "G-Pass 비밀번호를 변경했습니다.",
+      "source": "Phase 2 T2 신설 — DEC-032 audit 회전 UI",
+      "kind": "info",
+      "phase": 2,
+      "new": true
+    },
+    "c5.audit_rotate.audit_done": {
+      "text": "감사 비밀번호를 변경했습니다.",
+      "source": "Phase 2 T2 신설 — DEC-029 audit 회전 UI",
+      "kind": "info",
+      "phase": 2,
+      "new": true
     }
   },
-  "decisions": ["DEC-009", "DEC-012", "DEC-019", "DEC-024", "DEC-028", "DEC-029", "DEC-031", "DEC-032"],
-  "open_questions": ["OQ-ST-1", "OQ-ST-2", "OQ-ST-3", "OQ-ST-4", "OQ-ST-5"]
+  "decisions": ["DEC-009", "DEC-012", "DEC-019", "DEC-024", "DEC-028", "DEC-029", "DEC-031", "DEC-032", "DEC-034", "DEC-035", "DEC-036"],
+  "open_questions": ["OQ-ST-3", "OQ-ST-4", "OQ-ST-5"],
+  "resolved_open_questions": ["OQ-ST-1", "OQ-ST-2"]
 }

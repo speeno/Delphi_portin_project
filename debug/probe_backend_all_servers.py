@@ -189,6 +189,23 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # ─── C5 Phase 2 (settlement_billing.yaml v1.1.0) ─────────────
+        # 빈 결과(200)·서버측 잠재적 권한 거부(401·403) 모두 허용 — 본 매트릭스는 라우팅
+        # 등록 여부와 SQL 호환성만 검증. 마감(423) 도 정책 통과로 분류한다.
+        {
+            "group": "settlement.tax_invoice",
+            "path": (
+                f"/api/v1/settlement/tax-invoice?serverId={sid}&gdate={month}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "settlement.audit_settlement",
+            "path": (
+                f"/api/v1/audit/settlement?serverId={sid}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
         {
             "group": "transactions.statement",
             "path": (
