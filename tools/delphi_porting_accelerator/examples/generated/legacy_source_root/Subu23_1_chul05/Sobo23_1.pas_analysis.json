@@ -1,0 +1,897 @@
+{
+  "encoding": "cp949",
+  "event_handlers": [
+    {
+      "name": "FormActivate",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormShow",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "FormClose",
+      "signature": "Sender: TObject; var Action: TCloseAction"
+    },
+    {
+      "name": "Button001Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button002Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button003Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button004Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button005Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button006Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button007Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button008Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button009Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button010Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button011Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button012Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button013Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button014Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button015Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button016Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button017Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button018Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button019Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button020Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button021Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button022Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button023Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button024Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button100Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button101Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button201Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button301Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button401Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button501Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101Change",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit102KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit111KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit111KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit112KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit112KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit113KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit113KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "Edit114KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Edit114KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid101Exit",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid101Enter",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DBGrid101KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid101KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid201KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "DBGrid201KeyDown",
+      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
+    },
+    {
+      "name": "DBGrid101TitleClick",
+      "signature": "Column: TColumn"
+    },
+    {
+      "name": "DBGrid201TitleClick",
+      "signature": "Column: TColumn"
+    },
+    {
+      "name": "DataSource1DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "DataSource2DataChange",
+      "signature": "Sender: TObject; Field: TField"
+    },
+    {
+      "name": "Edit301KeyPress",
+      "signature": "Sender: TObject; var Key: Char"
+    },
+    {
+      "name": "Button701Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button702Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Button703Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit205Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "Edit205Exit",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "StaticText1Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "StaticText2Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "StaticText3Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "StaticText4Click",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "T2_Sub31AfterCancel",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub31AfterScroll",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub31AfterPost",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub31AfterDelete",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub31BeforePost",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub31BeforeClose",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "T2_Sub31NewRecord",
+      "signature": "DataSet: TDataSet"
+    },
+    {
+      "name": "DBGrid301DblClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DateEdit1AcceptDate",
+      "signature": "Sender: TObject; var ADate: TDateTime; var Action: Boolean"
+    },
+    {
+      "name": "DateEdit1ButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "DateEdit2AcceptDate",
+      "signature": "Sender: TObject; var ADate: TDateTime; var Action: Boolean"
+    },
+    {
+      "name": "DateEdit2ButtonClick",
+      "signature": "Sender: TObject"
+    },
+    {
+      "name": "T2_Sub31TCODEGetText",
+      "signature": "Sender: TField; var Text: String; DisplayText: Boolean"
+    },
+    {
+      "name": "T2_Sub31TCODESetText",
+      "signature": "Sender: TField; const Text: String"
+    },
+    {
+      "name": "Button700Click",
+      "signature": "Sender: TObject"
+    }
+  ],
+  "runtime_assignments": [
+    {
+      "component": "Edit100",
+      "property": "Text",
+      "expression": "FormatDateTime('yyyy\".\"mm\".\"dd',Date)"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "FormatDateTime('yyyy\".\"mm\".\"dd',Date)"
+    },
+    {
+      "component": "DataSource2",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource3",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource2",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "DataSource3",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "DataSource1",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
+      "component": "Edit2",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit204",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit205",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit206",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit207",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit208",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 1)"
+    },
+    {
+      "component": "Edit204",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Edit205",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 3)"
+    },
+    {
+      "component": "Edit206",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 4)"
+    },
+    {
+      "component": "Edit207",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 5)"
+    },
+    {
+      "component": "Edit208",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 6)"
+    },
+    {
+      "component": "Panel401",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit107.Text"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Seak80.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Seak80.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "Seak80.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "Seak80.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit202",
+      "property": "Text",
+      "expression": "''"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit104.Text"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Edit105.Text"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek10.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek10.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit202",
+      "property": "Text",
+      "expression": "Seek10.Query1Gtel1.AsString+'-'+Seek10.Query1Gtel2.AsString"
+    },
+    {
+      "component": "Edit204",
+      "property": "Text",
+      "expression": "Seek10.Query1Gadd1.AsString+' '+Seek10.Query1Gadd2.AsString"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "Edit104.Text+'-'+Copy(Edit101.Text,6,2)+Copy(Edit101.Text,9,2)+'-'+IntToStr(StrToIntDef(Str,0))"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "Edit104.Text+'-'+Copy(Edit101.Text,6,2)+Copy(Edit101.Text,9,2)+'-'+IntToStr(StrToIntDef(Str,0)+1)"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit104",
+      "property": "Text",
+      "expression": "Seek10.Query1Gcode.AsString"
+    },
+    {
+      "component": "Edit105",
+      "property": "Text",
+      "expression": "Seek10.Query1Gname.AsString"
+    },
+    {
+      "component": "Edit202",
+      "property": "Text",
+      "expression": "Seek10.Query1Gtel1.AsString+'-'+Seek10.Query1Gtel2.AsString"
+    },
+    {
+      "component": "Edit204",
+      "property": "Text",
+      "expression": "Seek10.Query1Gadd1.AsString+' '+Seek10.Query1Gadd2.AsString"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "Edit104.Text+'-'+Copy(Edit101.Text,6,2)+Copy(Edit101.Text,9,2)+'-'+IntToStr(StrToIntDef(Str,0))"
+    },
+    {
+      "component": "Edit201",
+      "property": "Text",
+      "expression": "Edit104.Text+'-'+Copy(Edit101.Text,6,2)+Copy(Edit101.Text,9,2)+'-'+IntToStr(StrToIntDef(Str,0)+1)"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "Label100",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit106",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Bcode').AsString"
+    },
+    {
+      "component": "Edit1",
+      "property": "Text",
+      "expression": "Code1"
+    },
+    {
+      "component": "Edit2",
+      "property": "Value",
+      "expression": "nSqry.FieldByName('Gsqut').Value"
+    },
+    {
+      "component": "Panel009",
+      "property": "Caption",
+      "expression": "IntToStr(nSqry.RecNo)+'/'+IntToStr(nSqry.RecordCount)"
+    },
+    {
+      "component": "Panel009",
+      "property": "Caption",
+      "expression": "IntToStr(mSqry.RecNo)+'/'+IntToStr(mSqry.RecordCount)"
+    },
+    {
+      "component": "Edit107",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hcode').AsString"
+    },
+    {
+      "component": "Edit108",
+      "property": "Text",
+      "expression": "mSqry.FieldByName('Hname').AsString"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Edit204",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 3)"
+    },
+    {
+      "component": "Edit206",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 4)+'-'+Base10.Socket.GetData(1, 5)"
+    },
+    {
+      "component": "Edit207",
+      "property": "Text",
+      "expression": "St1"
+    },
+    {
+      "component": "Edit203",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 2)"
+    },
+    {
+      "component": "Edit204",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 3)"
+    },
+    {
+      "component": "Edit206",
+      "property": "Text",
+      "expression": "Base10.Socket.GetData(1, 4)+'-'+Base10.Socket.GetData(1, 5)"
+    },
+    {
+      "component": "Edit207",
+      "property": "Text",
+      "expression": "St1"
+    },
+    {
+      "component": "StaticText1",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText2",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText3",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText4",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText1",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText2",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText3",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText4",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText1",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "StaticText2",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "StaticText3",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "StaticText4",
+      "property": "Visible",
+      "expression": "True"
+    },
+    {
+      "component": "StaticText1",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText2",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText3",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "StaticText4",
+      "property": "Visible",
+      "expression": "False"
+    },
+    {
+      "component": "T2_Sub31Scode",
+      "property": "Value",
+      "expression": "'X'"
+    },
+    {
+      "component": "T2_Sub31Gdate",
+      "property": "Value",
+      "expression": "tSqry.FieldByName('Gdate').AsString"
+    },
+    {
+      "component": "T2_Sub31Bdate",
+      "property": "Value",
+      "expression": "Sobo23_1.Edit100.Text"
+    },
+    {
+      "component": "T2_Sub31Gubun",
+      "property": "Value",
+      "expression": "Sobo23_1.Edit102.Text"
+    },
+    {
+      "component": "T2_Sub31Jubun",
+      "property": "Value",
+      "expression": "tSqry.FieldByName('Jubun').AsString"
+    },
+    {
+      "component": "T2_Sub31Gcode",
+      "property": "Value",
+      "expression": "tSqry.FieldByName('Gcode').AsString"
+    },
+    {
+      "component": "T2_Sub31Gjisa",
+      "property": "Value",
+      "expression": "tSqry.FieldByName('Gjisa').AsString"
+    },
+    {
+      "component": "T2_Sub31Hcode",
+      "property": "Value",
+      "expression": "tSqry.FieldByName('Hcode').AsString"
+    },
+    {
+      "component": "T2_Sub31Ocode",
+      "property": "Value",
+      "expression": "'B'"
+    },
+    {
+      "component": "T2_Sub31Yesno",
+      "property": "Value",
+      "expression": "'1'"
+    },
+    {
+      "component": "T2_Sub31Pubun",
+      "property": "Value",
+      "expression": "Pubun"
+    },
+    {
+      "component": "T2_Sub31Pubun",
+      "property": "Value",
+      "expression": "'위탁'"
+    },
+    {
+      "component": "T2_Sub31Pubun",
+      "property": "Value",
+      "expression": "'비품'"
+    },
+    {
+      "component": "T2_Sub31Gsqut",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "T2_Sub31Gdang",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "T2_Sub31Grat1",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "T2_Sub31Gssum",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "T2_Sub31Jeago",
+      "property": "Value",
+      "expression": "0"
+    },
+    {
+      "component": "Edit101",
+      "property": "Text",
+      "expression": "DateToStr(ADate)"
+    },
+    {
+      "component": "Edit100",
+      "property": "Text",
+      "expression": "DateToStr(ADate)"
+    }
+  ],
+  "resourcestrings": {},
+  "sql_calls": [
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen+Sp2+Sqlon",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlon+Sqlen",
+    "Sqlon+Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlen",
+    "Sqlon+Sqlen",
+    "Sqlon+Sqlen"
+  ],
+  "messages": [
+    "E_Update",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Open",
+    "E_Update",
+    "E_Insert",
+    "E_Delete",
+    "E_Delete",
+    "E_Insert",
+    "E_Update"
+  ]
+}

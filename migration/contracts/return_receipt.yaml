@@ -1,0 +1,1404 @@
+# Migration Contract: 반품 처리 (C4)
+# 본 계약은 레거시 델파이 동작을 웹(API+UI)에서 동등하게 재현하기 위한 1차 계약입니다.
+# 출처(레거시):
+#   - legacy_delphi_source/legacy_source/Subu23.pas (TSobo23 반품 메인 — CRUD 진입점)
+#       FormShow / Button101Click(조회) / Button501Click(메모 로드) /
+#       L372/388 SELECT / L1213 UPDATE S1_Memo / L1257 INSERT INTO S1_Memo (UPSERT)
+#       L758/776/826/844 Max(Idnum) 채번
+#   - legacy_delphi_source/legacy_source/Subu23_1.dfm (라인 다이얼로그 본/chul_05) + Subu23_1_chul08 자료불러오기 (변형)
+#   - legacy_delphi_source/legacy_source/Subu24.pas (TSobo24 반품재고 정품입고-재생) → Base10.T2_Sub41AfterDelete/BeforePost
+#   - legacy_delphi_source/legacy_source/Subu25.pas (TSobo25 반품재고 반품입고-해체) → Base10.T2_Sub51AfterDelete/BeforePost (Bdate 키)
+#   - legacy_delphi_source/legacy_source/Subu51.pas (TSobo51 반품재고 변경) → Base10.T5_Sub11 + _Sv_Ghng_ (Sv_Ghng + Sg_Csum 동기)
+#   - legacy_delphi_source/legacy_source/Subu55.pas (TSobo55 일별 반품내역서)
+#   - legacy_delphi_source/legacy_source/Subu40.pas (TSobo40 패스워드 다이얼로그 — 단순 UI 모달)
+#   - legacy_delphi_source/legacy_source/Base01.pas L4839/4897 (T2_Sub31 = 반품 라인 INSERT/UPDATE),
+#                                                  L5251/5295 (T2_Sub41 = 재생),
+#                                                  L5398/5424 (T2_Sub51 = 해체, Bdate 키),
+#                                                  L6805+L8731 (T5_Sub11 + _Sv_Ghng_ = 변경)
+# 사용 폼: Sobo23 (메인) + Sobo23_1 (라인 본/chul_05/chul_08 변형) + Sobo24 (재생) + Sobo25 (해체) + Sobo51 (변경) + Sobo55 (일별 보고서) + Sobo40 (패스워드)
+# 핵심 테이블: S1_Ssub (출고/입고/반품/재생/해체 통합 — Gubun 컬럼으로 식별, Bdate/Gdate 키 분기)
+# 보조 테이블: S1_Memo (헤더 메모 UPSERT — Subu23.pas L1213/1257), Sg_Csum (집계 재고 — Subu51 동기 갱신),
+#             Sv_Ghng (변경 이력 — Subu51 핵심), G1_Ggeo/G4_Book/G5_Ggeo/G7_Ggeo (자동완성 LOOKUP)
+# 1차 미접근: Sobo24 의 부분 재생, Sobo34_4 (폐기 원장), Sobo58 (기간별 보고서) — Phase 2
+# 관련 OQ: OQ-RT-1~6 (analysis/c4_returns_flow.md §7)
+# 관련 DEC: DEC-029 (재고 변경 작업 패스워드 게이트 — 본 contract 와 함께 신설),
+#           DEC-027 (소프트 취소 패턴 — C3 재사용), DEC-024 (페이지네이션), DEC-019 (customer_variants),
+#           DEC-012 (소프트 취소 — Yesno='2'), DEC-028 (dfm 레이아웃 영구 입력)
+# 참조 산출물: analysis/layout_mappings/Sobo23.md / Sobo23_1.md / Sobo24.md / Sobo25.md / Sobo51.md / Sobo55.md / Sobo40.md
+#             analysis/c4_returns_flow.md (SQL-RT-1~27 카탈로그)
+
+id: C4-return-receipt
+name: 반품 처리 (CRUD + 3분기 처리 + 일일 보고 + 패스워드 + 임포트)
+version: 1.0.0
+status: approved        # draft → review → approved (1차 동결, DEC-029 신설과 함께)
+scope_phase: phase1
+acceptance_goal: |
+  1차 포팅 합격선: "기존 사용자가 반품 명세서를 신규 등록 / 수정 / 취소 / 조회 (CRUD) 할 수 있고,
+  반품된 책의 운명을 3분기 (재생 / 해체 / 변경) 로 결정할 수 있으며,
+  일별 반품 보고서를 조회하고, 임프린트 지점에서는 외부 자료(자료불러오기) 임포트가 가능하다.
+  재고 변경 작업 (재생/해체/변경) 은 패스워드 다이얼로그 (Sobo40) 통과 필수."
+  Sobo34_4 (폐기 원장) / Sobo58 (기간 보고서) / 인쇄·바코드 / 권한키 분기 / 진짜 부분 재생 정밀 제어 는 모두 후속.
+
+owners:
+  business: 메인개발자
+  legacy: 델파이 담당자
+  web: 웹 포팅 팀
+
+links:
+  candidate: docs/core-scenarios-candidates.md#c4-반품
+  test_pack: test/test_c4_returns_phase1.py
+  source_legacy:
+    - legacy_delphi_source/legacy_source/Subu23.pas
+    - legacy_delphi_source/legacy_source/Subu23.dfm
+    - legacy_delphi_source/legacy_source/Subu24.pas
+    - legacy_delphi_source/legacy_source/Subu25.pas
+    - legacy_delphi_source/legacy_source/Subu51.pas
+    - legacy_delphi_source/legacy_source/Subu55.pas
+    - legacy_delphi_source/legacy_source/Subu40.pas
+    - legacy_delphi_source/legacy_source/Base01.pas
+  source_analysis:
+    - analysis/c4_returns_flow.md           # SQL-RT-1~27 카탈로그
+    - analysis/screen_cards/Sobo23.md
+    - analysis/screen_cards/Sobo24.md
+    - analysis/screen_cards/Sobo25.md
+    - analysis/screen_cards/Sobo51.md
+    - analysis/screen_cards/Sobo55.md
+  layout_mappings:        # DEC-028 — 신규 화면 작성의 공식 입력
+    - analysis/layout_mappings/Sobo23.md
+    - analysis/layout_mappings/Sobo23_1.md  # 본/chul_05/chul_08 3변형 모두 반영
+    - analysis/layout_mappings/Sobo24.md
+    - analysis/layout_mappings/Sobo25.md
+    - analysis/layout_mappings/Sobo51.md
+    - analysis/layout_mappings/Sobo55.md
+    - analysis/layout_mappings/Sobo40.md
+  dfm_html_artifacts:
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23/Sobo23.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1/Sobo23_1.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1_chul05/Sobo23_1.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1_chul08/Sobo23_1.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu24/Sobo24.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu25/Sobo25.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu51/Sobo51.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu55/Sobo55.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu40/Sobo40.html
+  related_open_questions:
+    - OQ-RT-1   # chul_08 자료불러오기 외부 데이터 형식 (운영팀 확인)
+    - OQ-RT-2   # Bdate vs Gdate 의미 검증
+    - OQ-RT-3   # Sv_Ghng Field1/2/3 동적 컬럼명 9종 카탈로그
+    - OQ-RT-4   # Sobo40 패스워드 검증 알고리즘 (Phase 2 bcrypt 마이그레이션)
+    - OQ-RT-5   # Sv_Ghng 동시 변경 충돌 처리
+    - OQ-RT-6   # Subu25 INSERT 의 Time1=Time1 자기 참조 버그 검증
+
+# ---------------------------------------------------------------
+# 1. 비즈니스 의도
+# ---------------------------------------------------------------
+intent: |
+  반품 명세서 1건 (거래처·일자·전표 단위로 라인 N개) 을 등록·수정·취소·조회한다.
+  반품된 책의 운명을 3분기로 결정:
+    1) 재생 (Sobo24): 정품 상태 양호 → 정품 재고 환원 (S1_Ssub Gubun='재생' INSERT, Sg_Csum 갱신)
+    2) 해체 (Sobo25): 손상/판매불가 → 폐기 분류 (S1_Ssub Gubun='해체', Bdate 키)
+    3) 변경 (Sobo51): 분류 재조정 → 비품재고 등 (Sv_Ghng 변경 이력 + Sg_Csum 동기 갱신)
+  레거시 Base10.T2_Sub31/41/51, T5_Sub11 의 데이터셋 자동 SQL 을 명시적 트랜잭션 (BEGIN→N×INSERT→COMMIT) 으로 재현.
+  메모(S1_Memo) 는 헤더 단위로 UPSERT (C6/C3 재사용 패턴).
+  재고 변경 작업 (재생/해체/변경) 은 사전 패스워드 검증 (Sobo40 → /api/v1/audit/password-verify → token) 통과 필수 (DEC-029).
+  임프린트 지점은 chul_08 변형의 "자료불러오기" 다이얼로그로 외부 데이터 임포트.
+
+# ---------------------------------------------------------------
+# 2. 입력 (UI/API 공용)
+# ---------------------------------------------------------------
+inputs:
+  return_header:
+    - name: gdate
+      type: string         # 'YYYY-MM-DD' (저장 시 'YYYY.MM.DD' 변환 — outbound 와 동일)
+      required: false      # 일반 반품/재생 시 필수, 해체 시 bdate 사용
+      legacy_field: S1_Ssub.Gdate
+      note: "Subu23 Edit101/DateEdit1. 기본값 = 오늘. _normalize_gdate 재사용 (C2/C3)."
+    - name: bdate
+      type: string         # 해체(Sobo25) 전용 — 반품 입고일
+      required: false
+      legacy_field: S1_Ssub.Bdate
+      note: "Subu25 의 Bdate 키. 일반 반품/재생/변경 에서는 미사용. OQ-RT-2 검증 대상."
+    - name: hcode
+      type: string         # 거래처 코드
+      required: true
+      legacy_field: S1_Ssub.Hcode
+      note: "거래처 코드. Subu23 Edit104 (TabOrder 13). G1_Ggeo lookup."
+    - name: jubun
+      type: string
+      required: false      # 신규 시 서버 자동 채번 (Subu23.pas L758 Max(Idnum)+1 패턴 → 마이크로초 채번 — C2/C3 재사용)
+      legacy_field: S1_Ssub.Jubun
+      note: "전표 단위 코드. 1차 (Gdate/Bdate, Hcode) 당 1 jubun 가정."
+    - name: gjisa
+      type: string
+      required: false
+      legacy_field: S1_Ssub.Gjisa
+      note: "지사 코드. 1차에서는 메타로만."
+    - name: gubun
+      type: string
+      required: false
+      default: '반품'      # 1차 반품 메인 — 재생/해체/변경 endpoint 는 자체 default
+      enum: ['반품', '재생', '해체']     # 변경(Sobo51) 은 별도 endpoint
+      legacy_field: S1_Ssub.Gubun
+    - name: ocode
+      type: string
+      required: false
+      default: 'B'         # 지사 1차 고정
+      legacy_field: S1_Ssub.Ocode
+    - name: scode
+      type: string
+      required: false
+      default: 'X'         # 정상 (재생 후 '2', 해체 후 '3' 으로 분기 — Base01.pas L5267/L5410)
+      legacy_field: S1_Ssub.Scode
+  return_memo:
+    - name: gbigo
+      type: string
+      required: false
+      legacy_field: S1_Memo.Gbigo
+      note: "헤더 메모 (Subu23.pas L1213 UPDATE / L1257 INSERT 의 UPSERT 대상)."
+    - name: sbigo
+      type: string
+      required: false
+      legacy_field: S1_Memo.Sbigo
+    - name: gtel1
+      type: string
+      required: false
+      legacy_field: S1_Memo.Gtel1
+    - name: gtel2
+      type: string
+      required: false
+      legacy_field: S1_Memo.Gtel2
+    - name: gname
+      type: string
+      required: false
+      legacy_field: S1_Memo.Gname
+    - name: gpost
+      type: string
+      required: false
+      legacy_field: S1_Memo.Gpost
+  return_lines:
+    - name: lines[]
+      required: true
+      min_items: 1
+      schema:
+        - name: pubun
+          type: string
+          required: false
+          legacy_field: S1_Ssub.Pubun
+          note: "구분 (Sobo23.DBGrid101 컬럼 1). G1_Gbun lookup."
+        - name: bcode
+          type: string
+          required: true
+          legacy_field: S1_Ssub.Bcode
+          note: "도서 코드 (Sobo23.DBGrid101 컬럼 2). G4_Book lookup."
+        - name: gsqut
+          type: integer
+          required: true
+          legacy_field: S1_Ssub.Gsqut
+          note: "수량 (Sobo23.DBGrid101 컬럼 4, 합계 대상)."
+        - name: gdang
+          type: integer
+          required: false
+          legacy_field: S1_Ssub.Gdang
+          note: "단가 (Sobo23.DBGrid101 컬럼 5). 미제공 시 G4_Book.Gdang 사용."
+        - name: grat1
+          type: number
+          required: false
+          legacy_field: S1_Ssub.Grat1
+          note: "할인율 (Sobo23.DBGrid101 컬럼 6). G1_Ggeo/G4_Book Grat1~6 lookup."
+        - name: gssum
+          type: integer
+          required: false
+          default: 0
+          legacy_field: S1_Ssub.Gssum
+          note: "금액 (Sobo23.DBGrid101 컬럼 7, 합계 대상). 미제공 시 gsqut*gdang*(1-grat1) 자동 계산."
+        - name: gbigo
+          type: string
+          required: false
+          legacy_field: S1_Ssub.Gbigo
+          note: "라인 비고 (Sobo23.DBGrid101 컬럼 8). 해체(Sobo25) 시 사유 필수 (감사 로그)."
+        - name: yesno
+          type: string
+          required: false
+          default: '0'
+          legacy_field: S1_Ssub.Yesno
+          note: "상태 (Sobo23.DBGrid101 컬럼 9). '0'=미처리, '2'=취소 (DEC-012 소프트)."
+  audit_password:
+    - name: token
+      type: string
+      required: false      # 재생/해체/변경 endpoint 에서만 필수 (Authorization 헤더 또는 body)
+      note: "Sobo40 검증 통과 시 발급된 5분 수명 HMAC-SHA256 토큰. /api/v1/audit/password-verify 응답."
+  import_payload:
+    - name: customer_kind
+      type: string
+      required: true
+      enum: ['직거래', '서점', '온라인', '기타']
+      note: "chul_08 자료불러오기 — 거래처 구분 (Subu23_1_chul08.Edit101 콤보)."
+    - name: file
+      type: binary
+      required: true
+      note: "외부 자료 파일 (CSV/엑셀 — OQ-RT-1 형식 확정 후 multipart). 1차 CSV EUC-KR 가정."
+
+# ---------------------------------------------------------------
+# 3. 출력
+# ---------------------------------------------------------------
+outputs:
+  success:
+    - name: return_key
+      type: object
+      schema:
+        gdate: "string?"     # 일반 반품/재생/변경 시
+        bdate: "string?"     # 해체 시
+        hcode: string
+        jubun: string
+      use: "조회/수정/취소 시 식별자. URL path 에서 'G|{gdate}|{hcode}|{jubun}' (일반) 또는 'B|{bdate}|{hcode}|{jubun}' (해체) 직렬화."
+    - name: lines
+      type: integer
+      use: "본 반품의 라인 row 수."
+    - name: qty
+      type: integer
+      use: "SUM(Gsqut)."
+    - name: amount
+      type: integer
+      use: "SUM(Gssum)."
+    - name: status
+      type: string
+      enum: [active, cancelled, regenerated, disassembled, changed]
+      use: "Yesno + Scode + Gubun 기반 — 'active'=정상, 'cancelled'=Yesno='2', 'regenerated'=재생 처리 완료, 'disassembled'=해체 처리 완료, 'changed'=변경 처리 완료."
+  audit_token:
+    - name: token
+      type: string
+      use: "패스워드 검증 통과 시 발급. Authorization: Bearer-Audit {token} 헤더로 다음 호출에 사용. 5분 수명."
+    - name: expires_at
+      type: string
+      use: "ISO 8601 timestamp."
+  failure_codes:
+    - code: RT_VALIDATION
+      condition: "필수 필드 누락 / 타입 불일치"
+      http_status: 422
+    - code: RT_NOT_FOUND
+      condition: "지정한 합성키의 row 가 없음"
+      http_status: 404
+    - code: RT_DUPLICATE
+      condition: "신규 등록 시 이미 같은 합성키 존재"
+      http_status: 409
+      phase1_policy: "1차는 jubun 자동 채번 (마이크로초) 으로 충돌 거의 없음."
+    - code: RT_TX_FAILED
+      condition: "라인 INSERT/UPDATE/DELETE 트랜잭션 도중 SQL 오류 → 전체 롤백"
+      http_status: 500
+    - code: RT_AUDIT_REQUIRED
+      condition: "재생/해체/변경 endpoint 호출 시 audit token 누락 또는 만료"
+      http_status: 401
+    - code: RT_AUDIT_INVALID
+      condition: "패스워드 검증 실패 (비밀번호 불일치)"
+      http_status: 401
+    - code: RT_AUDIT_LOCKED
+      condition: "패스워드 검증 3회 실패 → 30초 잠금"
+      http_status: 429
+    - code: RT_REASON_REQUIRED
+      condition: "해체 처리 (Sobo25) 시 GBIGO (사유) 누락"
+      http_status: 422
+      phase1_policy: "감사 로그용 — 모던 강화 (DEC-029)."
+    - code: RT_CONCURRENT_CHANGE
+      condition: "변경 처리 (Sobo51) 시 동시 변경 충돌 (Sv_Ghng Max(Gdate) 기반)"
+      http_status: 409
+    - code: RT_IMPORT_DECODE
+      condition: "임포트 파일 디코딩 실패 (DEC-024 _normalize_aiomysql_row 정책)"
+      http_status: 400
+
+# ---------------------------------------------------------------
+# 4. 데이터 액세스 (레거시 SQL ↔ 웹 SQL)
+# ---------------------------------------------------------------
+data_access:
+  - id: SQL-RT-1-LIST
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu23.pas
+      line: 372
+      sql: |
+        Select * From S1_Ssub Where <D_Select>
+              Gdate >= '<from>' and Gdate <= '<to>' and Gubun='반품'
+              and Ocode='B' and Scode='X' [and Hcode='<hc>']
+        Order By Gdate, Hcode, Jubun
+    notes:
+      - "조회 화면(Button101 / dxButton1). 1차 web 변환은 GROUP BY 합성키로 단순화 (C2/C3 패턴)."
+      - "C2/C3 의 SQL-OUT-4 / SQL-IN-1 패턴과 정합 — 동일 테이블, Gubun 만 '반품'."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      columns: [Gdate, Hcode, Jubun, "COUNT(*) AS lines", "SUM(Gsqut) AS qty", "SUM(Gssum) AS amount", "MAX(Yesno) AS yesno"]
+      where:
+        - "Gdate >= :date_from"
+        - "Gdate <= :date_to"
+        - "Gubun = '반품'"
+        - "Ocode = 'B'"
+        - "Scode = 'X'"
+        - "[Hcode = :hcode]"
+        - "[Yesno != '2' OR :include_cancelled]"
+      group_by: ["Gdate", "Hcode", "Jubun"]
+      order_by: ["Gdate DESC", "Hcode"]
+      limit: parameterized
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-2-DETAIL
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu23.pas
+      line: 388
+      sql: |
+        Select * From S1_Ssub Where <D_Select>
+              Gdate=:gdate AND Hcode=:hcode AND Jubun=:jubun AND Gubun='반품'
+        Order By Idnum
+    notes:
+      - "라인 묶음 상세 조회. ORDER BY Idnum (라인 번호 자동 정렬)."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      columns: ["*"]
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-3-INSERT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Base01.pas
+      line: 4839
+      sql: |
+        # T2_Sub31BeforePost — 데이터셋 자동 INSERT (정적 분석 캡처). 웹에서 명시적 SQL 로 재작성:
+        # INSERT INTO S1_Ssub
+        #   (Gdate, Scode, Gcode, Hcode, Ocode, Bcode, Gubun, Jubun, Pubun, Gbigo,
+        #    Gsqut, Gdang, Grat1, Gssum, Qsqut, Jeago, Yesno, Gjisa, Idnum, Time1)
+        # VALUES (%s, %s, %s, %s, %s, %s, '반품', %s, %s, %s,
+        #         %s, %s, %s, %s, %s, %s, '0', %s, %s, NOW())
+    notes:
+      - "Yesno 초기값 = '0' (미처리). DEC-027 1차 cancel flag 만 사용."
+      - "Time1 = NOW() (Subu23 INSERT 의 Time1=now() 패턴)."
+      - "Idnum = Max(Idnum)+1 합성키 (Subu23.pas L758 패턴). 동시성은 마이크로초 jubun 채번으로 1차 회피."
+      - "라인 N개를 단일 트랜잭션으로 (BEGIN→INSERT×N→COMMIT). C2/C3 의 execute_in_transaction 재사용."
+    web:
+      method: INSERT
+      table: S1_Ssub
+      bind: parameterized
+      transaction: required
+    in_scope_phase1: true
+
+  - id: SQL-RT-4-UPDATE
+    legacy:
+      file: legacy_delphi_source/legacy_source/Base01.pas
+      line: 4897
+      sql: |
+        UPDATE S1_Ssub SET
+          Pubun=%s, Gbigo=%s, Gsqut=%s, Gdang=%s, Grat1=%s, Gssum=%s,
+          Qsqut=%s, Jeago=%s, Yesno=%s, Time2=NOW()
+        WHERE ID=%s AND Gdate=%s
+    notes:
+      - "T2_Sub31BeforePost UPDATE 분기. ID + Gdate 키 (Bcode 가 아닌 ID — Base10.Update_ID(nSqry,'S1_SSUB_ID_GEN'))."
+      - "수량/단가/비율/금액/구분/비고 모두 1차 변경 가능. Yesno (cancel) 는 SQL-RT-5 로 분리."
+    web:
+      method: UPDATE
+      table: S1_Ssub
+      bind: parameterized
+      transaction: required
+    in_scope_phase1: true
+
+  - id: SQL-RT-5-CANCEL
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu27.pas
+      line: 643      # C2 패턴 차용 — 반품 .pas 에는 Yesno 직접 UPDATE 없음
+      sql: |
+        UPDATE S1_Ssub SET Yesno='2', Time3=NOW()
+         WHERE Gdate=:gdate AND Hcode=:hcode AND Jubun=:jubun AND Gubun='반품'
+    notes:
+      - "C2 outbound SQL-OUT-5 / C3 inbound SQL-IN-5 와 동일 패턴 (DEC-012 재사용)."
+      - "1차 단순화: 처리상태 제한(@Yesoo='1') 제거 — 어떤 상태든 cancel 가능."
+      - "WHERE 키 (Gdate, Hcode, Jubun) — 한 반품 헤더의 모든 라인 일괄 취소."
+    web:
+      method: UPDATE
+      table: S1_Ssub
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-6-MEMO-EXIST
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu23.pas
+      line: 1195
+      sql: |
+        Select Gbigo From S1_Memo Where <D_Select>
+              Gdate=:gdate AND Hcode=:hcode AND Jubun=:jubun
+    notes:
+      - "UPSERT 의 첫 단계 (존재 검사). 결과 없으면 INSERT, 있으면 UPDATE 분기."
+    web:
+      method: SELECT
+      table: S1_Memo
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-7-MEMO-UPDATE
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu23.pas
+      line: 1213
+      sql: |
+        UPDATE S1_Memo SET Gbigo=%s, Sbigo=%s, Gtel1=%s, Gtel2=%s, Gname=%s, Gpost=%s, Time2=NOW()
+         WHERE Gdate=%s AND Hcode=%s AND Jubun=%s
+    notes:
+      - "C6 transactions_service.upsert_memo / C3 inboundService.upsert_memo 와 동일 — 재사용."
+    web:
+      method: UPDATE
+      table: S1_Memo
+      bind: parameterized
+      transaction: required
+    in_scope_phase1: true
+
+  - id: SQL-RT-8-MEMO-INSERT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu23.pas
+      line: 1257
+      sql: |
+        INSERT INTO S1_Memo (Gdate, Hcode, Jubun, Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost, Time1)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
+    notes:
+      - "UPSERT 의 두 번째 분기 (없으면 INSERT). C6/C3 패턴 재사용."
+    web:
+      method: INSERT
+      table: S1_Memo
+      bind: parameterized
+      transaction: required
+    in_scope_phase1: true
+
+  - id: SQL-RT-9-REGEN-LIST
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu24.pas
+      line: 298
+      sql: |
+        Select * From S1_Ssub Where <D_Select>
+              Gdate >= :from AND Gdate <= :to AND Gubun='재생'
+              [AND Hcode=:hcode]
+    notes:
+      - "재생 가능 후보 라인. 모던 UI 에서 행 선택 → SQL-RT-10 트랜잭션."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-10-REGEN-INSERT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Base01.pas
+      line: 5295    # T2_Sub41BeforePost
+      sql: |
+        INSERT INTO S1_Ssub (Gdate, Scode, Gcode, Hcode, Ocode, Bcode,
+          Gubun='재생', Jubun, Pubun, Gbigo, Gsqut, Gdang,
+          Grat1, Gssum, Qsqut, Jeago, Yesno, Gjisa, Time1)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                %s, %s, %s, %s, %s, %s, %s, %s, NOW())
+        # ⚠️ Gsqut/Gssum 부호 반전 (정품 재고 +N, 반품 재고 -N) — Base01.pas L5240 (T2_Sub41AfterScroll)
+    notes:
+      - "재생 처리 = 정품 재고 환원. 라인별 INSERT (Gsqut 부호 반전) + Sg_Csum 동기 갱신 (출고 패턴 재사용)."
+      - "🔒 audit_token 검증 필수 (DEC-029)."
+    web:
+      method: INSERT
+      table: S1_Ssub
+      bind: parameterized
+      transaction: required
+      precondition: audit_token_valid
+    in_scope_phase1: true
+
+  - id: SQL-RT-11-REGEN-DELETE
+    legacy:
+      file: legacy_delphi_source/legacy_source/Base01.pas
+      line: 5267
+      sql: |
+        UPDATE S1_Ssub SET Scode='2' WHERE ID=%s AND Gdate=%s
+        # D_Select=='' 일 때 DELETE FROM S1_Ssub WHERE ID=%s AND Gdate=%s
+    notes:
+      - "재생 처리의 롤백/삭제 — Scode='2' soft delete. D_Select 빈 경우 (전사 사용자) 만 물리 DELETE 허용 — 모던은 항상 soft."
+    web:
+      method: UPDATE
+      table: S1_Ssub
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-12-DISASS-LIST
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu25.pas
+      line: 299
+      sql: |
+        Select ID, Bdate as Gdate, Hcode, Gcode, Bcode, Gsqut, Gdang, Gssum, Gbigo
+          From S1_Ssub Where <D_Select>
+                Bdate >= :from AND Bdate <= :to AND Gubun='해체'
+                [AND Hcode=:hcode]
+    notes:
+      - "⭐ Bdate (반품 입고일) 키 — 일반 반품의 Gdate 와 다름. Subu25 만의 패턴."
+      - "OQ-RT-2: Bdate vs Gdate 의미 운영 데이터 검증 필요."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-13-DISASS-INSERT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Base01.pas
+      line: 5424    # T2_Sub51BeforePost
+      sql: |
+        INSERT INTO S1_Ssub (Bdate, Scode, Gcode, Hcode, Ocode, Bcode,
+          Gubun='해체', Jubun, Pubun, Gbigo, Gsqut, Gdang,
+          Grat1, Gssum, Qsqut, Jeago, Yesno, Gjisa, Time1)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                %s, %s, %s, %s, %s, %s, %s, %s, NOW())
+        # ⚠️ 레거시 버그 추정: VALUES (..., Time1=Time1) 자기 참조 — 모던에서는 NOW() 명시 (OQ-RT-6).
+    notes:
+      - "해체 처리 = 폐기 분류. Bdate 키, Gbigo (사유) 필수 (감사 로그)."
+      - "🔒 audit_token 검증 + ConfirmDialog 추가 게이트."
+    web:
+      method: INSERT
+      table: S1_Ssub
+      bind: parameterized
+      transaction: required
+      precondition: audit_token_valid
+    in_scope_phase1: true
+
+  - id: SQL-RT-14-DISASS-DELETE
+    legacy:
+      file: legacy_delphi_source/legacy_source/Base01.pas
+      line: 5410
+      sql: |
+        UPDATE S1_Ssub SET Scode='3' WHERE ID=%s AND Bdate=%s
+        # D_Select=='' 일 때 DELETE FROM S1_Ssub WHERE ID=%s AND Bdate=%s
+    notes:
+      - "해체 처리의 롤백/삭제 — Scode='3' soft delete (재생의 '2' 와 다름)."
+    web:
+      method: UPDATE
+      table: S1_Ssub
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-15-CHANGE-LIST
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu51.pas
+      line: 299
+      sql: |
+        Select * From Sg_Csum Where <D_Select>
+              Gdate >= :from AND Gdate <= :to [AND Hcode=:hcode]
+    notes:
+      - "⭐ Sg_Csum 직접 조회 (S1_Ssub 가 아님!) — 변경 대상은 집계 재고."
+      - "GSSUM (대조재고) vs GOSUM (원장재고) 차이가 있는 행을 강조 (모던 UI)."
+    web:
+      method: SELECT
+      table: Sg_Csum
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-16-CHANGE-HIST-MAX
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu51.pas
+      line: 482     # 동일 SELECT 가 L648, L718 에 반복
+      sql: |
+        Select Max(Gdate) as Gdate From Sv_Ghng Where <D_Select>
+              Hcode=:hcode AND Bcode=:bcode
+    notes:
+      - "변경 이력 최신 일자 검사. 동시 변경 충돌 방지 — 신규 변경의 Gdate < Max(Gdate) 면 RT_CONCURRENT_CHANGE."
+      - "OQ-RT-5: 동시 변경 강화 정책."
+    web:
+      method: SELECT
+      table: Sv_Ghng
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-17-CHANGE-SVGHNG-UPSERT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Base01.pas
+      line: 8784    # _Sv_Ghng_ INSERT (L8731~), L8760 UPDATE
+      sql: |
+        # 존재 검사 후 분기:
+        UPDATE Sv_Ghng SET <Field1>=%s, <Field2>=%s, <Field3>=%s, Time2=NOW()
+         WHERE Gdate=%s AND Hcode=%s AND Gcode=%s AND Bcode=%s;
+        # rows=0 이면:
+        INSERT INTO Sv_Ghng (Gdate, Hcode, Gcode, Bcode, <Field1>, <Field2>, <Field3>, Time1)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, NOW());
+    notes:
+      - "_Sv_Ghng_(St0,St1,St2,St3,Field1,Field2,Field3,Sq1,Sq2) 헬퍼 — Field1/2/3 동적 컬럼명."
+      - "OQ-RT-3: Field1/2/3 동적 컬럼명 9종 (Giqut/Gsusu/Gosum/Gjqut/Gsqut/Goqut/Gbqut/Gbsum) 의미 카탈로그 후속."
+      - "Phase 1 은 변경(Sobo51) 핵심 5종 (Gjqut/Gsqut/Gosum/Gbqut/Gbsum) 만 사용."
+    web:
+      method: UPSERT
+      table: Sv_Ghng
+      bind: parameterized
+      transaction: required
+      precondition: audit_token_valid
+    in_scope_phase1: true
+
+  - id: SQL-RT-18-CHANGE-SGCSUM-SYNC
+    legacy:
+      file: legacy_delphi_source/legacy_source/Base01.pas
+      line: 4932    # T2_Sub21 패턴 (입고 시 Sg_Csum 동기 — 변경에서도 동일)
+      sql: |
+        UPDATE Sg_Csum SET Gosum=%s, Gbsum=%s, Time2=NOW()
+         WHERE Hcode=%s AND Bcode=%s
+    notes:
+      - "변경 트랜잭션 안에서 Sv_Ghng 와 동시 갱신. 라인별 BEGIN→Sv_Ghng UPSERT→Sg_Csum UPDATE→COMMIT."
+    web:
+      method: UPDATE
+      table: Sg_Csum
+      bind: parameterized
+      transaction: required
+    in_scope_phase1: true
+
+  - id: SQL-RT-19-DAILY-MASTER
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu55.pas
+      line: 326
+      sql: |
+        Select Hcode, Hname, Count(Hcode) as line_count, Sum(Gsqut) as total_qty, Sum(Gssum) as total_amount
+          From S1_Ssub LEFT JOIN G7_Ggeo ON S1_Ssub.Hcode = G7_Ggeo.Gcode
+         Where Gdate >= :from AND Gdate <= :to AND Gubun='반품' AND Yesno IN ('0','1')
+        Group By Hcode, Hname
+        Order By Hcode
+        LIMIT 0,10000
+    notes:
+      - "일별 보고서 마스터 그리드 (Sobo55.DBGrid101 — 출판사 단위)."
+      - "Yesno IN ('0','1') 로 active 만 — cancelled('2') 제외."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-20-DAILY-DETAIL
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu55.pas
+      line: 353
+      sql: |
+        Select Gcode, Gname, Idnum, Pubun, Bcode, Bname,
+               Gsqut, Gdang, Grat1, Gssum
+          From S1_Ssub LEFT JOIN G1_Ggeo ON ... LEFT JOIN G4_Book ON ...
+         Where Gdate=:gdate AND Hcode=:hcode AND Gubun='반품' AND Yesno IN ('0','1')
+        Order By Idnum
+        LIMIT 0,10000
+    notes:
+      - "일별 보고서 디테일 그리드 (Sobo55.DBGrid201 — 라인 상세)."
+      - "마스터 행 선택 시 endpoint 의 ?detail_for_hcode= 옵션 또는 별도 endpoint /detail."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-21-IMPORT-PREVIEW
+    legacy:
+      file: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1_chul08/Sobo23_1.html
+      line: 1
+      sql: |
+        # 외부 데이터 → 메모리 가공 (SQL 없음)
+        # 모던: POST /api/v1/returns/import/preview multipart 업로드
+        #       서버 EUC-KR 디코딩 → 라인 파싱 → preview_id 반환 + 미리보기 행 (CODE1/CODE2 표시)
+    notes:
+      - "OQ-RT-1: 외부 데이터 형식 (CSV/엑셀) 운영팀 확인."
+      - "1차는 CSV EUC-KR 가정. 추후 엑셀/타 시스템 API 형식 추가."
+    web:
+      method: POST
+      table: (none)
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-22-IMPORT-EXEC
+    legacy:
+      file: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1_chul08/Sobo23_1.html
+      line: 1
+      sql: |
+        # SQL-RT-3 INSERT 를 라인 N개 반복 + CODE2='완료' 표시
+        # 트랜잭션: BEGIN → N×INSERT → COMMIT
+    notes:
+      - "preview_id 로 임포트 실행. 부분 성공 허용 — 라인별 에러 응답 (CODE1='불능' 사유)."
+    web:
+      method: INSERT
+      table: S1_Ssub
+      bind: parameterized
+      transaction: required
+    in_scope_phase1: true
+
+  - id: SQL-RT-23-AUDIT-VERIFY
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu40.pas
+      line: 1       # SQL 호출 0건 — 보안 모듈 위임
+      sql: |
+        # SQL 없음 — 별도 보안 모듈 (Base10.VerifyPassword 추정)
+        # 모던: POST /api/v1/audit/password-verify
+        #       1차: 환경변수 AUDIT_PASSWORD 평문 비교 (DEC-029 임시)
+        #       Phase 2: bcrypt(cost=12) + audit_log INSERT (OQ-RT-4)
+    notes:
+      - "OQ-RT-4: 1차는 환경변수 평문 (운영 보안 임시), Phase 2 에 bcrypt 마이그레이션."
+      - "검증 실패 3회 → 30초 잠금. 모든 시도 audit_log INSERT."
+    web:
+      method: POST
+      table: audit_log
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-24-LOOKUP-CUSTOMER
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu23.pas
+      line: 1305
+      sql: |
+        Select Gname,Gadd1,Gadd2,Gtel1,Gtel2,Gposa From G1_Ggeo
+         Where <D_Select> Gcode=:gcode
+    notes:
+      - "거래처 자동완성 + 메모 기본값 채움. C2 masters_service.search_customers 재사용."
+    web:
+      method: SELECT
+      table: G1_Ggeo
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-25-LOOKUP-BOOK
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu23.pas
+      line: 421
+      sql: |
+        Select Gname,Gjeja,Gdang,Grat1,Grat2,Grat3,Grat4,Grat5,Grat6
+          From G4_Book
+         Where <D_Select> Gcode=:gcode AND Hcode=:hcode
+    notes:
+      - "도서 자동완성 + 단가/할인율 자동 채움. C9 masters_service.search_products 재사용."
+    web:
+      method: SELECT
+      table: G4_Book
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-26-LOOKUP-DISCOUNT
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu23.pas
+      line: 471
+      sql: |
+        Select Grat1,Grat2,Grat3,Grat4,Grat5,Grat6 From G1_Ggeo / G4_Book
+         Where <D_Select> Gcode=:gcode AND Hcode=:hcode
+    notes:
+      - "라인 입력 시 inline 할인율 채움 (Subu23.pas L471/483/497)."
+      - "G1_Ggeo (거래처별) → G4_Book (도서별) fallback 순서."
+    web:
+      method: SELECT
+      table: G1_Ggeo, G4_Book
+      bind: parameterized
+    in_scope_phase1: true
+
+  - id: SQL-RT-27-IDNUM-MAX
+    legacy:
+      file: legacy_delphi_source/legacy_source/Subu23.pas
+      line: 758     # L776/826/844 동일 패턴
+      sql: |
+        Select Max(Idnum) From S1_Ssub Where <D_Select>
+              Gdate=:gdate AND Hcode=:hcode AND Jubun=:jubun
+    notes:
+      - "라인 채번 — 백엔드 returns_service._next_idnum (마이크로초 jubun 채번과 짝)."
+    web:
+      method: SELECT
+      table: S1_Ssub
+      bind: parameterized
+    in_scope_phase1: true
+
+# ---------------------------------------------------------------
+# 5. 엔드포인트 (웹)
+# ---------------------------------------------------------------
+endpoints:
+  - method: GET
+    path: /api/v1/returns
+    description: "반품 명세서 목록 조회 (날짜 범위 + 거래처 필터)."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string   # 'YYYY-MM-DD'
+        date_to: string
+        hcode?: string
+        include_cancelled?: boolean    # 기본 false
+        limit?: integer
+        offset?: integer
+    responses:
+      "200":
+        body:
+          items:
+            - return_key: { gdate: string, hcode: string, jubun: string }
+              customer_name: string
+              lines: integer
+              qty: integer
+              amount: integer
+              status: "active|cancelled"
+          page:
+            limit: integer
+            offset: integer
+            total: integer
+            has_more: boolean
+      "401": { body: { detail: "Invalid or expired token" } }
+
+  - method: GET
+    path: /api/v1/returns/{return_key}
+    description: "반품 명세서 상세 (한 합성키의 라인 N개 + 메모 + 마스터 채움)."
+    auth: bearer
+    request:
+      path:
+        return_key: string   # 'G|{gdate}|{hcode}|{jubun}' 또는 'B|{bdate}|{hcode}|{jubun}'
+    responses:
+      "200":
+        body:
+          return_key: { gdate?: string, bdate?: string, hcode: string, jubun: string }
+          customer: { hcode: string, hname: string }
+          memo:
+            gbigo?: string
+            sbigo?: string
+            gtel1?: string
+            gtel2?: string
+            gname?: string
+            gpost?: string
+          status: "active|cancelled"
+          lines:
+            - bcode: string
+              bname: string
+              pubun: string
+              gsqut: integer
+              gdang: integer
+              grat1: number
+              gssum: integer
+              gbigo: string
+              yesno: string
+      "404": { body: { detail: "Return not found", code: "RT_NOT_FOUND" } }
+
+  - method: POST
+    path: /api/v1/returns
+    description: "반품 명세서 신규 등록 (헤더 + 메모 + 라인 N개 단일 트랜잭션)."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        server_id: string
+        return_header:
+          gdate: "string (required)"
+          hcode: "string (required)"
+          jubun: "string (optional, server-generated)"
+          gjisa: "string (optional)"
+          gubun: "string (optional, default '반품')"
+          ocode: "string (optional, default 'B')"
+          scode: "string (optional, default 'X')"
+        return_memo: "object (optional) — { gbigo, sbigo, gtel1, gtel2, gname, gpost }"
+        return_lines:
+          - bcode: "string (required)"
+            pubun: "string (optional)"
+            gsqut: "integer (required)"
+            gdang: "integer (optional)"
+            grat1: "number (optional)"
+            gssum: "integer (optional, default 0)"
+            gbigo: "string (optional)"
+    responses:
+      "201":
+        body:
+          return_key: { gdate, hcode, jubun }
+          lines: integer
+          qty: integer
+          amount: integer
+          created_at: string
+      "409": { body: { detail: "Duplicate return key", code: "RT_DUPLICATE" } }
+      "422": { body: { detail: "Validation failed", code: "RT_VALIDATION", errors: object } }
+      "500": { body: { detail: "Transaction failed (rolled back)", code: "RT_TX_FAILED" } }
+
+  - method: PUT
+    path: /api/v1/returns/{return_key}
+    description: "반품 수정 (라인 diff: 추가/수정/삭제 + 메모 UPSERT)."
+    auth: bearer
+    responses:
+      "200":
+        body:
+          return_key: { gdate?, bdate?, hcode, jubun }
+          lines: integer
+          qty: integer
+          amount: integer
+          updated_at: string
+          diff: { inserted: integer, updated: integer, deleted: integer }
+      "404": { body: { detail: "Return not found", code: "RT_NOT_FOUND" } }
+
+  - method: PATCH
+    path: /api/v1/returns/{return_key}/cancel
+    description: "반품 취소 (모든 라인 Yesno='2' UPDATE — 소프트 삭제). DEC-012."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        reason: "string (optional, audit-only)"
+    responses:
+      "200":
+        body:
+          return_key: { gdate, hcode, jubun }
+          status: "cancelled"
+          cancelled_at: string
+      "404": { body: { detail: "Return not found", code: "RT_NOT_FOUND" } }
+
+  - method: PATCH
+    path: /api/v1/returns/{return_key}/memo
+    description: "헤더 메모 UPSERT (S1_Memo)."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        gbigo?: string
+        sbigo?: string
+        gtel1?: string
+        gtel2?: string
+        gname?: string
+        gpost?: string
+    responses:
+      "200":
+        body:
+          return_key: { gdate, hcode, jubun }
+          action: "inserted|updated"
+          updated_at: string
+
+  # ---------- 재생 (Sobo24) ----------
+  - method: GET
+    path: /api/v1/returns/dispose/regenerable
+    description: "재생 가능 후보 라인 조회 (Sobo24)."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        hcode?: string
+        limit?: integer
+        offset?: integer
+    responses:
+      "200":
+        body:
+          items:
+            - id: integer
+              gdate: string
+              bcode: string
+              bname: string
+              gsqut: integer
+              gdang: integer
+              gssum: integer
+              gbigo: string
+
+  - method: POST
+    path: /api/v1/returns/dispose/regen
+    description: "재생 처리 — 정품 재고 환원 + Sg_Csum 갱신. 🔒 audit_token 필수 (DEC-029)."
+    auth: bearer
+    request:
+      headers:
+        Authorization-Audit: "Bearer-Audit {token} — POST /audit/password-verify 응답"
+      content_type: application/json
+      schema:
+        server_id: string
+        rows:
+          - id: integer
+            gsqut?: integer  # 부분 재생 시 — 미제공 시 전체
+            gbigo?: string
+    responses:
+      "200":
+        body:
+          processed: integer
+          regenerated_qty: integer
+      "401": { body: { detail: "Audit token required or expired", code: "RT_AUDIT_REQUIRED" } }
+      "500": { body: { detail: "Transaction failed (rolled back)", code: "RT_TX_FAILED" } }
+
+  # ---------- 해체 (Sobo25) ----------
+  - method: GET
+    path: /api/v1/returns/dispose/disassemblable
+    description: "해체 가능 후보 라인 조회 (Sobo25). ⭐ Bdate 키."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        hcode?: string
+    responses:
+      "200":
+        body:
+          items:
+            - id: integer
+              bdate: string  # ⭐ Bdate (반품 입고일)
+              bcode: string
+              bname: string
+              gsqut: integer
+              gdang: integer
+              gssum: integer
+              gbigo: string
+
+  - method: POST
+    path: /api/v1/returns/dispose/disassemble
+    description: "해체 처리 — 폐기 분류. 🔒 audit_token + ConfirmDialog + GBIGO(사유) 필수 (DEC-029)."
+    auth: bearer
+    request:
+      headers:
+        Authorization-Audit: "Bearer-Audit {token}"
+      content_type: application/json
+      schema:
+        server_id: string
+        rows:
+          - id: integer
+            gsqut?: integer
+            gbigo: "string (required)"   # 해체 사유 — 감사 로그
+    responses:
+      "200":
+        body:
+          processed: integer
+          disassembled_qty: integer
+      "401": { body: { detail: "Audit token required", code: "RT_AUDIT_REQUIRED" } }
+      "422": { body: { detail: "Reason required for disassemble", code: "RT_REASON_REQUIRED" } }
+
+  # ---------- 변경 (Sobo51) ----------
+  - method: GET
+    path: /api/v1/returns/change/changeable
+    description: "변경 가능 후보 조회 (Sobo51). ⭐ Sg_Csum 직접 조회."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        hcode?: string
+    responses:
+      "200":
+        body:
+          items:
+            - gdate: string
+              hcode: string
+              bcode: string
+              gssum: integer   # 대조재고 (READ-ONLY)
+              gosum: integer   # 원장재고 (READ-ONLY)
+              gbsum: integer   # 변경수량 (입력 대상)
+              gbigo: string
+
+  - method: POST
+    path: /api/v1/returns/change
+    description: "변경 처리 — Sv_Ghng UPSERT + Sg_Csum 동기. 🔒 audit_token + GBIGO 필수."
+    auth: bearer
+    request:
+      headers:
+        Authorization-Audit: "Bearer-Audit {token}"
+      content_type: application/json
+      schema:
+        server_id: string
+        rows:
+          - gdate: string
+            hcode: string
+            bcode: string
+            gbsum: "integer (required)"
+            gbigo: "string (required)"   # 변경 사유 — 감사 로그
+    responses:
+      "200":
+        body:
+          processed: integer
+          inserted: integer
+          updated: integer
+      "401": { body: { detail: "Audit token required", code: "RT_AUDIT_REQUIRED" } }
+      "409": { body: { detail: "Concurrent change detected", code: "RT_CONCURRENT_CHANGE" } }
+      "422": { body: { detail: "Reason required for change", code: "RT_REASON_REQUIRED" } }
+
+  # ---------- 일별 보고서 (Sobo55) ----------
+  - method: GET
+    path: /api/v1/returns/reports/daily
+    description: "일별 반품내역서 (Sobo55). DBGrid101 (출판사 단위) + DBGrid201 (라인 상세)."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: "string (required)"
+        date_to: "string (required)"
+        hcode?: string
+        gcode?: string
+        detail_for_hcode?: string  # 마스터 행 선택 시 디테일 응답에 포함
+    responses:
+      "200":
+        body:
+          master:
+            - gdate: string
+              hcode: string
+              hname: string
+              line_count: integer
+              total_qty: integer
+              total_amount: integer
+          detail:
+            - gcode: string
+              gname: string
+              idnum: integer
+              pubun: string
+              bcode: string
+              bname: string
+              gsqut: integer
+              gdang: integer
+              grat1: number
+              gssum: integer
+          kpi:
+            total_publishers: integer
+            total_count: integer
+            total_qty: integer
+            total_amount: integer
+
+  # ---------- 패스워드 검증 (Sobo40) ----------
+  - method: POST
+    path: /api/v1/audit/password-verify
+    description: "패스워드 검증 (Sobo40 다이얼로그). 통과 시 5분 수명 토큰 발급."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        password: "string (required)"
+        scope: "string (default 'inventory_change')"  # 토큰 스코프
+    responses:
+      "200":
+        body:
+          token: string         # HMAC-SHA256 (Phase 1 임시)
+          expires_at: string    # ISO 8601 — 5분 후
+          scope: string
+      "401": { body: { detail: "Invalid password", code: "RT_AUDIT_INVALID" } }
+      "429": { body: { detail: "Too many failed attempts (3 in 30s)", code: "RT_AUDIT_LOCKED" } }
+
+  # ---------- 임포트 (Sobo23_1 chul_08 자료불러오기) ----------
+  - method: POST
+    path: /api/v1/returns/import/preview
+    description: "외부 자료 임포트 미리보기 (chul_08 자료불러오기). multipart 업로드 → 미리보기 + preview_id."
+    auth: bearer
+    request:
+      content_type: multipart/form-data
+      schema:
+        server_id: "string (required)"
+        customer_kind: "string (required) — '직거래'/'서점'/'온라인'/'기타'"
+        file: "binary (required) — CSV EUC-KR (1차)"
+    responses:
+      "200":
+        body:
+          preview_id: string         # 후속 execute 호출에 사용 (5분 수명)
+          rows:
+            - jubun: string
+              gcode: string
+              gname: string
+              bcode: string
+              bname: string
+              gsqut: integer
+              gdang: integer
+              gssum: integer
+              code1: "string|null"   # 불능 사유 (있으면 임포트 불가)
+              code2: "boolean"       # 임포트 가능 여부
+          summary:
+            importable: integer
+            unimportable: integer
+      "400": { body: { detail: "Decode failed", code: "RT_IMPORT_DECODE" } }
+
+  - method: POST
+    path: /api/v1/returns/import/execute
+    description: "임포트 실행 — 미리보기에서 importable 행만 INSERT 트랜잭션."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        server_id: string
+        preview_id: "string (required)"
+    responses:
+      "200":
+        body:
+          imported: integer
+          skipped: integer
+          returns:
+            - return_key: { gdate, hcode, jubun }
+              lines: integer
+
+# ---------------------------------------------------------------
+# 6. 차이점·결정 사항
+# ---------------------------------------------------------------
+deltas:
+  - id: D-RT-1
+    title: 패스워드 게이트 모달 (Sobo40) 의 토큰 기반 강화
+    in_scope_phase1: true
+    decision_ref: DEC-029
+    phase1_behavior: "환경변수 AUDIT_PASSWORD 평문 비교 + 5분 HMAC-SHA256 토큰 + audit_log INSERT."
+    legacy_behavior: "TSobo40 단순 모달 — 결과 boolean 반환."
+    proposed_web_behavior: "(Phase 2) bcrypt(cost=12) + 운영 비밀 관리자 통합."
+    risk: "1차 — 환경변수 평문 보관 (운영 보안 임시). 운영 매뉴얼에 명시."
+
+  - id: D-RT-2
+    title: 3분기 처리 (재생/해체/변경) 의 명시적 트랜잭션 강화
+    in_scope_phase1: true
+    decision_ref: DEC-029
+    phase1_behavior: "각 endpoint 가 BEGIN→처리→COMMIT 명시. 라인 1개 실패 시 전체 롤백."
+    legacy_behavior: "Base10.Socket.RunSQL 직접 실행 (autocommit, BEGIN/COMMIT 없음)."
+    proposed_web_behavior: "DIP 강화 — 모든 변경 트랜잭션이 returns_service.execute_in_transaction 으로 통일."
+
+  - id: D-RT-3
+    title: 임프린트 chul_08 변형 — 별도 컴포넌트 (DataImportModal) 분리
+    in_scope_phase1: true
+    decision_ref: DEC-029
+    phase1_behavior: "ReturnLineGrid 와 별도 컴포넌트 — data-legacy-id 네임스페이스 분리 (Sobo23_1.* vs Sobo23_1_import.*)."
+    legacy_behavior: "TSobo23_1 (book_kb) 와 TSobo23_1 (chul_08) 이 같은 파일명이지만 폼 캡션이 다름 (반품명세서 vs 자료불러오기)."
+    proposed_web_behavior: "동일 파일명, 의미 다른 폼의 네임스페이스 분리 정책 — DEC-029 §2 참조."
+
+  - id: D-RT-4
+    title: Sobo34_4 폐기 원장 + Sobo58 기간별 보고서 — Phase 2 후속
+    in_scope_phase1: false
+    decision_ref: DEC-027
+    phase1_behavior: "Phase 1 미제공. Phase 2 에 reports/period + reports/disposal 추가 예정."
+    legacy_behavior: "별도 화면."
+    proposed_web_behavior: "C7 사이클 또는 C4 Phase 2 에서 추가."
+
+  - id: D-RT-5
+    title: 인쇄 (Sobo55 출력 버튼) — C7 인쇄 시나리오로 이관
+    in_scope_phase1: false
+    decision_ref: DEC-017
+    phase1_behavior: "Phase 1 화면 표시만. 인쇄 버튼 disabled."
+
+  - id: D-RT-6
+    title: 헤더 전체 물리 삭제 — 미제공 (소프트 취소만)
+    in_scope_phase1: false
+    decision_ref: DEC-012
+    phase1_behavior: "PATCH /cancel 만. DELETE 메서드 미제공."
+
+  - id: D-RT-7
+    title: 권한키 분기 (D_Select) — 일반 권한 관리에 통합
+    in_scope_phase1: false
+    decision_ref: DEC-009
+    phase1_behavior: "1차 모든 인증 사용자에게 권한 동등 (D_Select 빈 값 가정)."
+    proposed_web_behavior: "(후속) C10 권한 관리 RBAC 도입 시 매핑."
+
+  - id: D-RT-8
+    title: 임포트 외부 데이터 형식 — CSV EUC-KR 만 (1차)
+    in_scope_phase1: true
+    decision_ref: OQ-RT-1
+    phase1_behavior: "CSV EUC-KR 가정. 헤더 행 + 라인 N 행."
+    proposed_web_behavior: "(후속) 엑셀/타 시스템 API/JSON 등 형식 추가 — 운영팀 합의 후."
+
+# ---------------------------------------------------------------
+# 7. 동등성 기준 (5축)
+# ---------------------------------------------------------------
+equivalence:
+  functional:
+    - "동일 (gdate, hcode, lines[]) 입력에 대해 신규 등록 → 합성키(jubun) 발급 → 조회 가능."
+    - "수정 시 라인 diff (추가/수정/삭제) + 메모 UPSERT 가 단일 트랜잭션."
+    - "취소 후 GET 상세에서 status='cancelled'."
+    - "재생 처리: token 검증 → 정품 재고 +N + Sg_Csum 갱신 (단일 트랜잭션)."
+    - "해체 처리: token + ConfirmDialog + GBIGO 필수 → Bdate 키로 INSERT (단일 트랜잭션)."
+    - "변경 처리: token + GBIGO 필수 → Sv_Ghng UPSERT + Sg_Csum 동기 (단일 트랜잭션)."
+    - "일별 보고서: master + detail 2단 그리드 + KPI 4종."
+    - "임포트 (chul_08): 미리보기 → 실행 (CODE2=완료 표시)."
+    - "1차: 권한키/바코드/인쇄/물리삭제/Sobo34_4/Sobo58 모두 미수행."
+  data:
+    - "S1_Ssub INSERT/UPDATE/DELETE 모두 명시적 SQL + 파라미터 바인딩."
+    - "라인 N개 = 단일 트랜잭션. 1건 실패 시 전체 롤백."
+    - "S1_Memo UPSERT (Subu23.pas L1213/1257 패턴 — C6/C3 재사용)."
+    - "Yesno enum: '0'/'1'/'2'. 1차 신규='0', 취소→'2'. (C2/C3 와 동일)."
+    - "Scode enum: 'X' 정상, '2' 재생 후 삭제, '3' 해체 후 삭제. (Base01.pas L5267/L5410)."
+    - "Bdate (해체 키) vs Gdate (일반 반품 키) 분리 — return_key 직렬화 'B|...' / 'G|...' prefix."
+    - "Sv_Ghng UPSERT + Sg_Csum 동기 — 단일 트랜잭션."
+    - "audit_log INSERT — 모든 패스워드 검증 시도 (성공/실패) + 모든 재생/해체/변경 처리."
+    - "DEC-028: 모던 페이지의 모든 위젯에 data-legacy-id 부착 — layout_mappings 의 위젯 ID 와 1:1."
+  ux:
+    - "Subu23 의 4분할 레이아웃 (상단 검색 / 중단 그리드 / 하단 입력 / 우측 액션 코너) 을 layout_mappings/Sobo23.md §2 그대로 모던 그리드로 재구성."
+    - "DBGrid101 9 컬럼 (PUBUN/BCODE/BNAME/GSQUT/GDANG/GRAT1/GSSUM/GBIGO/YESNO) 컬럼명·정렬·합계 보존."
+    - "Sobo24/25 7 컬럼 (GDATE/BCODE/BNAME/GSQUT/GDANG/GSSUM/GBIGO) 동일 구조 — 공통 DisposeGrid 컴포넌트 추출."
+    - "Sobo51 7 컬럼 (GDATE/GCODE/GNAME/GSSUM=대조/GOSUM=원장/GBSUM=변경/GBIGO) — 회계 검증 패턴 (GSSUM≠GOSUM 행 강조)."
+    - "Sobo55 master/detail 2단 + KPI 4종 (총 출판사수/총 건수/총 권수/총 금액)."
+    - "AuditPasswordModal: autoFocus + Enter 단축키 + inline 에러 + 5분 토큰."
+    - "DataImportModal (chul_08): 미리보기 그리드 + CODE1/CODE2 상태 컬럼 + 일괄 등록 토글."
+    - "도서/거래처 자동완성 (C2/C9 masters_service 재사용)."
+  performance:
+    - "라인 100건 신규 등록 < 1s (로컬 MySQL, 단일 트랜잭션)."
+    - "재생/해체 100건 처리 < 1.5s (audit token 검증 포함)."
+    - "변경 50건 처리 < 2s (Sv_Ghng + Sg_Csum 동기)."
+    - "목록 조회 p95 < 500 ms (limit=50)."
+    - "일별 보고서 < 1s (master + detail)."
+    - "임포트 1000행 미리보기 < 3s, 실행 < 5s."
+  audit:
+    - "신규/수정/취소/재생/해체/변경/임포트 모두 audit.returns 로거에 구조화 JSON 1줄 기록."
+    - "필수 필드: timestamp / gcode (작업자) / return_key / action (created/updated/cancelled/regenerated/disassembled/changed/imported) / result / client_ip / audit_token_hash."
+    - "재생/해체/변경 시: audit_token_id (검증 통과한 토큰 ID) 추가 기록."
+    - "패스워드 검증: audit.audit 로거에 success/fail/locked 모두 기록."
+
+# ---------------------------------------------------------------
+# 8. 비범위
+# ---------------------------------------------------------------
+out_of_scope:
+  - "Sobo34_4 폐기 원장 (D-RT-4 / DEC-027) — Phase 2"
+  - "Sobo58 기간별 반품내역서 (D-RT-4 / DEC-027) — Phase 2"
+  - "인쇄 트리거 (D-RT-5 / DEC-017) — 후속 C7 인쇄"
+  - "헤더 전체 물리 삭제 (D-RT-6 / DEC-012)"
+  - "권한키 분기 D_Select (D-RT-7 / DEC-009) — 후속 C10"
+  - "본사 Ocode='A' 반품 — 1차는 지사 Ocode='B' 만"
+  - "Sobo24 부분 재생 정밀 제어 — 1차는 전체 또는 일괄 처리, 라인별 수량 분할은 Phase 2"
+  - "Sg_Csum 의 다른 화면 (Sobo67 집계) 동기 — 출고와 동일 후속 정책"
+  - "임포트 엑셀/타 시스템 API/JSON — 1차 CSV EUC-KR 만 (D-RT-8 / OQ-RT-1)"
+  - "Sv_Ghng Field1/2/3 9종 동적 컬럼명 전체 — 1차 핵심 5종만 (OQ-RT-3)"
+
+# ---------------------------------------------------------------
+# 9. 변형 차이 (코드 분기 금지 — 데이터로만 표현)
+# ---------------------------------------------------------------
+customer_variants:
+  Sobo23:                     # 본판 (메인)
+    layout_ref: analysis/layout_mappings/Sobo23.md
+    enabled_widgets: ["all"]
+    notes: "기준 폼. 변형 0건 확인 (legacy_source_root/Subu23 단일)."
+
+  Sobo23_1:                   # 라인 다이얼로그 (본 — book_kb)
+    layout_ref: analysis/layout_mappings/Sobo23_1.md
+    layout_html: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1/Sobo23_1.html
+    enabled_widgets: ["all"]
+    notes: "본 변형 (book_kb 반품과). 38,674 bytes."
+
+  Sobo23_1_chul05:            # 라인 다이얼로그 (chul_05 변형)
+    layout_ref: analysis/layout_mappings/Sobo23_1.md  # §2.3 변형 차이
+    layout_html: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1_chul05/Sobo23_1.html
+    diff_from_base:
+      - "위젯 트리 1:1 동일."
+      - "차이: form.json 의 픽셀 좌표 + DataSource 바인딩 SQL 의 chul_05 지점 코드 (DEC-028 §3 '버리는 정보')."
+    notes: "1차 본판 기반, 차이는 데이터 prop 으로만 표현. 코드 분기 0."
+
+  Sobo23_1_chul08:            # ⚠️ 같은 파일명, 의미 다른 폼 — 자료불러오기 다이얼로그
+    layout_ref: analysis/layout_mappings/Sobo23_1.md  # §3
+    layout_html: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1_chul08/Sobo23_1.html
+    diff_from_base:
+      - "⚠️ 같은 파일명 Subu23_1.dfm 이지만 폼 캡션이 다름: '자료불러오기' (vs 본판 '반품명세서')."
+      - "별도 모던 컴포넌트 분리: DataImportModal (vs ReturnLineGrid)."
+      - "data-legacy-id 네임스페이스 분리: Sobo23_1_import.* (vs Sobo23_1.*)."
+      - "DBGrid101 10 컬럼 (JUBUN/GCODE/GNAME/BCODE/BNAME/GSQUT/GDANG/GSSUM/CODE1=불능/CODE2=완료)."
+      - "용도: 임프린트 지점 전용 외부 데이터 임포트 다이얼로그."
+    notes: "DEC-029 §2 동일 파일명 의미 분기 정책의 첫 선례."
+
+  Sobo24:                     # 재생
+    layout_ref: analysis/layout_mappings/Sobo24.md
+    enabled_widgets: ["all"]
+    notes: "변형 0건. legacy_source_root/Subu24 단일."
+
+  Sobo25:                     # 해체
+    layout_ref: analysis/layout_mappings/Sobo25.md
+    enabled_widgets: ["all"]
+    notes: "변형 0건. Bdate 키 사용 (OQ-RT-2 검증 대상)."
+
+  Sobo51:                     # 변경
+    layout_ref: analysis/layout_mappings/Sobo51.md
+    enabled_widgets: ["all"]
+    notes: "변형 0건. Sg_Csum/Sv_Ghng 동기 갱신 (OQ-RT-3 Field 카탈로그 후속)."
+
+  Sobo55:                     # 일별 보고서
+    layout_ref: analysis/layout_mappings/Sobo55.md
+    enabled_widgets: ["all"]
+    notes: "변형 0건. master+detail 2단 그리드 + KPI 4종."
+
+  Sobo40:                     # 패스워드 다이얼로그
+    layout_ref: analysis/layout_mappings/Sobo40.md
+    enabled_widgets: ["all"]
+    notes: "변형 0건. 단순 4-위젯 다이얼로그. DEC-029 §10 보안 정책 적용."
+
+# ---------------------------------------------------------------
+# 10. 변경 이력
+# ---------------------------------------------------------------
+changelog:
+  - date: 2026-04-19
+    by: porting-team
+    note: |
+      1.0.0 — C4 반품 처리 1차 contract 신규 작성 (DEC-029 신설과 함께 동결).
+      - scope_phase: phase1 / acceptance_goal: "CRUD + 3분기 처리 + 일일 보고 + 패스워드 + 임포트"
+      - 분석 출처: analysis/c4_returns_flow.md (SQL-RT-1~27 카탈로그) + Subu23/24/25/51/55/40.pas + Base01.pas L4839~5520
+      - layout_mappings: Sobo23/23_1(3변형)/24/25/51/55/40 모두 1:1 매핑표 (DEC-028)
+      - data_access SQL-RT-1~27 (LIST/DETAIL/CRUD/CANCEL/MEMO/REGEN/DISASS/CHANGE/DAILY/IMPORT/AUDIT/LOOKUP/IDNUM)
+      - INSERT/UPDATE/DELETE 는 Base10 데이터셋 자동 SQL 을 명시적 SQL + 파라미터 바인딩으로 재작성
+      - 3분기 처리: 재생(Sobo24, Gdate 키, Scode='2' soft) / 해체(Sobo25, Bdate 키 ⭐, Scode='3' soft) / 변경(Sobo51, Sv_Ghng+Sg_Csum 동기)
+      - 패스워드 게이트 (Sobo40 → /audit/password-verify) — 5분 HMAC 토큰, 1차 환경변수 평문, Phase 2 bcrypt
+      - 임포트 (chul_08 자료불러오기) — multipart 업로드 → preview → execute, 1차 CSV EUC-KR
+      - deltas D-RT-1~8 (1차 in_scope: D-RT-1/2/3/8, 후속: D-RT-4/5/6/7)
+      - endpoints: GET 목록/상세 + POST(신규) + PUT/PATCH-cancel/PATCH-memo + 재생/해체/변경 + 일별 보고서 + 패스워드 + 임포트(preview/execute)
+      - customer_variants: Sobo23 본 + Sobo23_1 본/chul_05/chul_08 — 코드 분기 금지, chul_08 은 별도 컴포넌트 (DEC-029 §2)
+      - 1차 합격선: "반품 CRUD + 3분기 처리 + 일일 보고 + 패스워드 + chul_08 임포트"
