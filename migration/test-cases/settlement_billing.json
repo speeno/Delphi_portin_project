@@ -1,0 +1,438 @@
+{
+  "$schema_note": "C5 Phase 1 회귀 테스트 팩 1차 초안. migration/contracts/settlement_billing.yaml 와 1:1 대응.",
+  "id": "C5-settlement-billing",
+  "contract": "migration/contracts/settlement_billing.yaml",
+  "version": "1.0.0-phase1",
+  "status": "approved",
+  "scope_phase": "phase1",
+  "acceptance_goal": "C5 Phase 1 합격선: 청구 집계·확정·취소(소프트) + 청구금액 월합계 + 입금 신규/수정 + 입금현황 5단 집계 + 마감 가드(423) + audit_token 게이팅 + Gpass rotate.",
+  "owners": {
+    "business": "메인개발자",
+    "legacy": "델파이 담당자",
+    "web": "웹 포팅 팀"
+  },
+  "fixtures": {
+    "tables": {
+      "Id_Logn": [
+        { "Hcode": "0001", "Hname": "관리자", "Gcode": "admin", "Gname": "관리자" }
+      ],
+      "G7_Ggeo": [
+        { "Gcode": "C001", "Gname": "신화서점", "Gtel1": "02-1234" },
+        { "Gcode": "C002", "Gname": "한길북스", "Gtel1": "031-987" }
+      ],
+      "T2_Ssub_seed": [
+        { "Gdate": "202603", "Hcode": "C001", "Sum26": 1000000, "Sum27": 100000, "Sum28": 1100000, "Yesno": "0" },
+        { "Gdate": "202602", "Hcode": "C001", "Sum26":  500000, "Sum27":  50000, "Sum28":  550000, "Yesno": "1" },
+        { "Gdate": "202603", "Hcode": "C002", "Sum26":  800000, "Sum27":  80000, "Sum28":  880000, "Yesno": "0" }
+      ],
+      "T3_Ssub_seed": [
+        {
+          "Gdate": "2026.03.15", "Hcode": "C001", "Idx": 1,
+          "Gqut1": 100, "Gqut2": 50, "Gqut3": 0, "Gqut4": 0, "Gqut5": 0, "Gqut6": 0, "Gqut7": 0,
+          "Name1": "서울", "Name2": "한진", "Gname": "신화서점", "Gsqut": 1, "Gssum": 50000, "Yesno": "0"
+        }
+      ],
+      "T5_Ssub_seed": [
+        {
+          "Gdate": "2026.03.20", "Hcode": "C001", "Sdate": "202603", "Jubun": "001",
+          "Gssum": 600000, "Pubun": "이체", "Gbigo": "3월 분 일부", "Yesno": "0"
+        }
+      ],
+      "application_settings_seed": [
+        { "scope": "audit", "key": "password_hash", "value": "$2b$12$EXAMPLE_BCRYPT_HASH_FOR_PASSWORD_1234" }
+      ]
+    },
+    "notes": [
+      "T2_Ssub.Yesno = '0' 미확정 / '1' 마감(DEC-031) / '2' 취소(DEC-012).",
+      "C001(202602) 는 마감 상태 — 본 row 에 쓰기 시도하면 423.",
+      "audit password 평문 = '1234' (bcrypt cost=12, 마이그레이션 검증용).",
+      "1차 권한키 미사용 (DEC-009) — 모든 인증 사용자 동등."
+    ]
+  },
+  "axes": ["functional", "data", "ux", "performance", "audit"],
+  "cases": [
+    {
+      "id": "TC-ST-001",
+      "title": "청구 집계 신규 — T2_Ssub UPSERT + T3_Ssub 라인 재구성",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/billing/aggregate",
+        "body": {
+          "server_id": "main",
+          "gdate": "202604",
+          "hcode": "C001",
+          "lines": [
+            { "gdate": "2026-04-15", "gqut1": 200, "gqut2": 100, "gssum": 80000, "name1": "서울", "name2": "한진", "gname": "신화서점", "gsqut": 1 }
+          ]
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": {
+          "billing_key": { "gdate": "202604", "hcode": "C001" },
+          "rebuilt_lines": 1
+        }
+      },
+      "data_assert": [
+        "T2_Ssub WHERE Gdate='202604' AND Hcode='C001' EXISTS",
+        "T3_Ssub WHERE Gdate LIKE '202604%' AND Hcode='C001' COUNT = 1"
+      ]
+    },
+    {
+      "id": "TC-ST-002",
+      "title": "청구 집계 수정 — 동일 (gdate,hcode) 재호출 시 라인 DELETE/INSERT 재구성",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/billing/aggregate",
+        "body": { "server_id": "main", "gdate": "202604", "hcode": "C001", "lines": [{ "gdate": "2026-04-15", "gssum": 80000 }, { "gdate": "2026-04-20", "gssum": 50000 }] }
+      },
+      "expect": { "status": 200, "body_contains": { "rebuilt_lines": 2 } }
+    },
+    {
+      "id": "TC-ST-003",
+      "title": "마감 후 집계 — 423 ST_PERIOD_CLOSED + 한글 메시지 (DEC-031)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "ux"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/billing/aggregate",
+        "body": { "server_id": "main", "gdate": "202602", "hcode": "C001", "lines": [] }
+      },
+      "expect": {
+        "status": 423,
+        "body_contains": { "code": "ST_PERIOD_CLOSED", "detail": "마감된 자료입니다." }
+      }
+    },
+    {
+      "id": "TC-ST-004",
+      "title": "확정 — audit_token(scope='settlement_confirm') 통과 시 Yesno='1'",
+      "phase1_in_scope": true,
+      "axes": ["functional", "audit"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/billing/confirm",
+        "headers": { "Authorization-Audit": "Bearer-Audit <token_settlement_confirm>" },
+        "body": { "server_id": "main", "gdate": "202603", "hcode": "C001" }
+      },
+      "expect": { "status": 200, "body_contains": { "yesno": "1" } },
+      "data_assert": [
+        "T2_Ssub WHERE Gdate='202603' AND Hcode='C001' Yesno='1'",
+        "audit_settlement WHERE action='confirm' AND result='success' COUNT >= 1"
+      ]
+    },
+    {
+      "id": "TC-ST-005",
+      "title": "확정 — audit_token 누락 시 401 ST_AUDIT_REQUIRED",
+      "phase1_in_scope": true,
+      "axes": ["audit"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/billing/confirm",
+        "body": { "server_id": "main", "gdate": "202603", "hcode": "C001" }
+      },
+      "expect": { "status": 401, "body_contains": { "code": "ST_AUDIT_REQUIRED" } }
+    },
+    {
+      "id": "TC-ST-006",
+      "title": "취소 (DEC-012 soft) — Yesno='2'",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/billing/cancel",
+        "headers": { "Authorization-Audit": "Bearer-Audit <token>" },
+        "body": { "server_id": "main", "gdate": "202603", "hcode": "C002", "reason": "테스트 취소" }
+      },
+      "expect": { "status": 200, "body_contains": { "yesno": "2" } }
+    },
+    {
+      "id": "TC-ST-007",
+      "title": "이미 취소된 청구 재취소 — 409 ST_ALREADY_CANCELLED",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": { "method": "POST", "path": "/api/v1/settlement/billing/cancel", "headers": { "Authorization-Audit": "Bearer-Audit <token>" }, "body": { "server_id": "main", "gdate": "202603", "hcode": "C002" } },
+      "expect": { "status": 409, "body_contains": { "code": "ST_ALREADY_CANCELLED", "detail": "이미 취소된 자료입니다." } }
+    },
+    {
+      "id": "TC-ST-008",
+      "title": "청구 목록 조회 — 거래처/월 범위 필터",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": { "method": "GET", "path": "/api/v1/settlement/billing?server_id=main&month_from=202602&month_to=202603&hcode=C001" },
+      "expect": { "status": 200, "body_has_keys": ["items", "page"], "body_contains": { "page": { "total": 2 } } }
+    },
+    {
+      "id": "TC-ST-009",
+      "title": "청구 상세 — 헤더 + 라인 N개",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": { "method": "GET", "path": "/api/v1/settlement/billing/202603%7CC001?server_id=main" },
+      "expect": { "status": 200, "body_has_keys": ["billing_key", "summary", "lines"] }
+    },
+    {
+      "id": "TC-ST-010",
+      "title": "청구금액 년월 (Sobo47) — Group By Gdate 합계",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "request": { "method": "GET", "path": "/api/v1/settlement/billing/period?server_id=main&hcode=C001&month_from=202601&month_to=202603" },
+      "expect": {
+        "status": 200,
+        "body_contains": { "totals": { "gsumx": 1500000 } }
+      }
+    },
+    {
+      "id": "TC-ST-011",
+      "title": "변형 takbae (Sobo45_1) — ?variant=takbae 컬럼 헤더 다르고 SQL 동일",
+      "phase1_in_scope": true,
+      "axes": ["functional", "ux"],
+      "request": { "method": "GET", "path": "/api/v1/settlement/billing?server_id=main&month_from=202603&month_to=202603&variant=takbae" },
+      "expect": { "status": 200, "body_has_keys": ["items"] }
+    },
+    {
+      "id": "TC-ST-012",
+      "title": "입금 신규 등록 (Sobo41)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/cash",
+        "body": { "server_id": "main", "gdate": "2026-04-25", "hcode": "C001", "sdate": "202604", "gssum": 500000, "pubun": "이체", "gbigo": "4월 입금" }
+      },
+      "expect": { "status": 200, "body_contains": { "action": "inserted" } },
+      "data_assert": ["T5_Ssub WHERE Gdate='2026.04.25' AND Hcode='C001' COUNT >= 1"]
+    },
+    {
+      "id": "TC-ST-013",
+      "title": "입금 수정 — 동일 (gdate,hcode,jubun) UPSERT",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/cash",
+        "body": { "server_id": "main", "gdate": "2026-03-20", "hcode": "C001", "sdate": "202603", "jubun": "001", "gssum": 700000, "pubun": "이체" }
+      },
+      "expect": { "status": 200, "body_contains": { "action": "updated" } }
+    },
+    {
+      "id": "TC-ST-014",
+      "title": "입금 등록 — 결재구분 누락 시 422 ST_VALIDATION (메시지 보존)",
+      "phase1_in_scope": true,
+      "axes": ["functional", "ux"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/cash",
+        "body": { "server_id": "main", "gdate": "2026-04-25", "hcode": "C001", "sdate": "202604", "gssum": 500000 }
+      },
+      "expect": { "status": 422, "body_contains": { "code": "ST_VALIDATION", "detail": "결재구분을 선택하세요." } }
+    },
+    {
+      "id": "TC-ST-015",
+      "title": "입금 등록 — 대응 청구월(Sdate)이 마감(Yesno='1') 이면 423",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/settlement/cash",
+        "body": { "server_id": "main", "gdate": "2026-02-25", "hcode": "C001", "sdate": "202602", "gssum": 100000, "pubun": "이체" }
+      },
+      "expect": { "status": 423, "body_contains": { "code": "ST_PERIOD_CLOSED" } }
+    },
+    {
+      "id": "TC-ST-016",
+      "title": "입금 목록 조회",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": { "method": "GET", "path": "/api/v1/settlement/cash?server_id=main&date_from=2026-03-01&date_to=2026-03-31&hcode=C001" },
+      "expect": { "status": 200, "body_has_keys": ["items"] }
+    },
+    {
+      "id": "TC-ST-017",
+      "title": "입금 취소 (DEC-012 soft) — Yesno='2'",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": {
+        "method": "PATCH",
+        "path": "/api/v1/settlement/cash/2026.03.20%7CC001%7C001/cancel",
+        "headers": { "Authorization-Audit": "Bearer-Audit <token>" }
+      },
+      "expect": { "status": 200, "body_contains": { "status": "cancelled" } }
+    },
+    {
+      "id": "TC-ST-018",
+      "title": "입금현황 (Sobo42 본 — variant=hcode) 5단 집계",
+      "phase1_in_scope": true,
+      "axes": ["functional", "data"],
+      "request": { "method": "GET", "path": "/api/v1/settlement/cash-status?server_id=main&variant=hcode&month=202603" },
+      "expect": {
+        "status": 200,
+        "body_has_keys": ["items", "totals"],
+        "body_contains": { "variant": "hcode" }
+      }
+    },
+    {
+      "id": "TC-ST-019",
+      "title": "입금현황 (Sobo42_1 변형 — variant=sdate) GPSUM 컬럼 노출",
+      "phase1_in_scope": true,
+      "axes": ["functional", "ux"],
+      "request": { "method": "GET", "path": "/api/v1/settlement/cash-status?server_id=main&variant=sdate&month=202603&hcode=C001" },
+      "expect": {
+        "status": 200,
+        "body_contains": { "variant": "sdate" },
+        "items_each_has": ["sdate", "gpsum"]
+      }
+    },
+    {
+      "id": "TC-ST-020",
+      "title": "audit password verify — 올바른 비밀번호 → 토큰 발급",
+      "phase1_in_scope": true,
+      "axes": ["audit"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/audit/password-verify",
+        "body": { "password": "1234", "scope": "settlement_confirm" }
+      },
+      "expect": { "status": 200, "body_has_keys": ["token", "expires_at", "scope"] }
+    },
+    {
+      "id": "TC-ST-021",
+      "title": "audit password verify — 잘못된 비밀번호 → 401 ST_AUDIT_INVALID",
+      "phase1_in_scope": true,
+      "axes": ["audit"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/audit/password-verify",
+        "body": { "password": "wrong", "scope": "settlement_confirm" }
+      },
+      "expect": { "status": 401, "body_contains": { "code": "ST_AUDIT_INVALID" } }
+    },
+    {
+      "id": "TC-ST-022",
+      "title": "audit lockout — 5회 실패 후 6회째 429 ST_AUDIT_LOCKED",
+      "phase1_in_scope": true,
+      "axes": ["audit", "performance"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/audit/password-verify",
+        "body": { "password": "wrong", "scope": "settlement_confirm" },
+        "repeat": 6
+      },
+      "expect_last": { "status": 429, "body_contains": { "code": "ST_AUDIT_LOCKED" } }
+    },
+    {
+      "id": "TC-ST-023",
+      "title": "audit password rotate (DEC-032) — Gpass 변경",
+      "phase1_in_scope": true,
+      "axes": ["audit", "data"],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/audit/gpass-rotate",
+        "headers": { "Authorization-Audit": "Bearer-Audit <token_gpass_change>" },
+        "body": { "new_password": "newSecret123" }
+      },
+      "expect": { "status": 200, "body_contains": { "algorithm": "bcrypt" } },
+      "data_assert": [
+        "application_settings WHERE scope='audit' AND key='password_hash' value LIKE '$2b$%'",
+        "audit_password_attempts WHERE result='success' AND reason='rotated' COUNT >= 1"
+      ]
+    },
+    {
+      "id": "TC-ST-024",
+      "title": "audit password rotate — token 누락 시 401",
+      "phase1_in_scope": true,
+      "axes": ["audit"],
+      "request": { "method": "POST", "path": "/api/v1/audit/gpass-rotate", "body": { "new_password": "newSecret123" } },
+      "expect": { "status": 401, "body_contains": { "code": "ST_AUDIT_REQUIRED" } }
+    },
+    {
+      "id": "TC-ST-025",
+      "title": "i18n — 마감 메시지가 c5.ko.json 의 'c5.errors.period_closed' 와 byte-equal",
+      "phase1_in_scope": true,
+      "axes": ["ux"],
+      "assert": "response_body.detail == read_json('i18n/messages/c5.ko.json').messages['c5.errors.period_closed'].text"
+    },
+    {
+      "id": "TC-ST-026",
+      "title": "data-legacy-id — Sobo45 청구서관리 페이지 DOM 의 id 가 layout_mappings 와 1:1",
+      "phase1_in_scope": true,
+      "axes": ["ux"],
+      "assert_dom": [
+        "Sobo45.Panel001",
+        "Sobo45.Edit100", "Sobo45.Edit101", "Sobo45.Edit102", "Sobo45.Edit103", "Sobo45.Edit104", "Sobo45.Edit105",
+        "Sobo45.DBGrid201.GDATE",
+        "Sobo45.DBGrid201.GQUT1", "Sobo45.DBGrid201.GQUT2", "Sobo45.DBGrid201.GQUT3", "Sobo45.DBGrid201.GQUT4",
+        "Sobo45.DBGrid201.GQUT5", "Sobo45.DBGrid201.GQUT6", "Sobo45.DBGrid201.GQUT7",
+        "Sobo45.DBGrid201.NAME1", "Sobo45.DBGrid201.NAME2", "Sobo45.DBGrid201.GNAME",
+        "Sobo45.DBGrid201.GSQUT", "Sobo45.DBGrid201.GSSUM", "Sobo45.DBGrid201.YESNO"
+      ]
+    },
+    {
+      "id": "TC-ST-027",
+      "title": "data-legacy-id — Sobo41 입금내역 페이지",
+      "phase1_in_scope": true,
+      "axes": ["ux"],
+      "assert_dom": [
+        "Sobo41.Edit101", "Sobo41.Edit102", "Sobo41.Edit107", "Sobo41.Edit108",
+        "Sobo41.DBGrid101.GDATE", "Sobo41.DBGrid101.SDATE", "Sobo41.DBGrid101.HCODE", "Sobo41.DBGrid101.HNAME",
+        "Sobo41.DBGrid101.GSSUM", "Sobo41.DBGrid101.PUBUN", "Sobo41.DBGrid101.GBIGO",
+        "Sobo41.Edit303", "Sobo41.Edit301", "Sobo41.Edit302", "Sobo41.Edit306", "Sobo41.Edit304",
+        "Sobo41.Button700", "Sobo41.Button701"
+      ]
+    },
+    {
+      "id": "TC-ST-028",
+      "title": "data-legacy-id — Sobo42 / Sobo42_1 입금현황 (variant 별 분리)",
+      "phase1_in_scope": true,
+      "axes": ["ux"],
+      "assert_dom_variant": {
+        "hcode": ["Sobo42.DBGrid.HCODE", "Sobo42.DBGrid.HNAME", "Sobo42.DBGrid.GSUMX", "Sobo42.DBGrid.GSSUM", "Sobo42.DBGrid.GSUSU", "Sobo42.DBGrid.GSUMY"],
+        "sdate": ["Sobo42_1.DBGrid.SDATE", "Sobo42_1.DBGrid.GPSUM", "Sobo42_1.DBGrid.GSSUM"]
+      }
+    },
+    {
+      "id": "TC-ST-029",
+      "title": "performance — 청구 집계 (라인 200건) < 1.5s",
+      "phase1_in_scope": true,
+      "axes": ["performance"],
+      "request": { "method": "POST", "path": "/api/v1/settlement/billing/aggregate", "body_size": 200 },
+      "expect": { "elapsed_ms_lte": 1500 }
+    },
+    {
+      "id": "TC-ST-030",
+      "title": "performance — 입금현황 50거래처 5단 집계 < 1s",
+      "phase1_in_scope": true,
+      "axes": ["performance"],
+      "request": { "method": "GET", "path": "/api/v1/settlement/cash-status?variant=hcode&month=202603&limit=50" },
+      "expect": { "elapsed_ms_lte": 1000 }
+    },
+    {
+      "id": "TC-ST-031",
+      "title": "audit log — confirm 액션이 audit_settlement 에 기록",
+      "phase1_in_scope": true,
+      "axes": ["audit"],
+      "data_assert": [
+        "audit_settlement WHERE action='confirm' AND result='success' COUNT >= 1",
+        "audit_settlement WHERE audit_token_hash IS NOT NULL"
+      ]
+    },
+    {
+      "id": "TC-ST-032",
+      "title": "out-of-scope — Sobo46 청구서출력 endpoint 미존재 (Phase 2)",
+      "phase1_in_scope": false,
+      "axes": ["functional"],
+      "request": { "method": "POST", "path": "/api/v1/settlement/print" },
+      "expect": { "status": 404 }
+    },
+    {
+      "id": "TC-ST-033",
+      "title": "out-of-scope — Sobo49 세금계산서 endpoint 미존재 (Phase 2)",
+      "phase1_in_scope": false,
+      "axes": ["functional"],
+      "request": { "method": "POST", "path": "/api/v1/settlement/tax-invoice" },
+      "expect": { "status": 404 }
+    }
+  ]
+}

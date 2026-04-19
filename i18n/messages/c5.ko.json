@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$comment": "C5 정산(일·월 마감) 한국어 메시지 카탈로그 — 레거시 Subu45.pas / Subu41.pas / Base01.pas 의 ShowMessage·E_* 상수를 단일 출처로 이관 (T2 산출물). 신설 키는 분기 표기 (DEC-031/032).",
+  "scenario": "C5",
+  "phase": 1,
+  "locale": "ko-KR",
+  "messages": {
+    "c5.success.saved": {
+      "text": "저장완료",
+      "source": "Subu45.pas L2982 / Subu45_1.pas L3144",
+      "kind": "info"
+    },
+    "c5.success.updated": {
+      "text": "수정되었습니다.",
+      "source": "Subu45.pas L381 / Subu45_1.pas L433",
+      "kind": "info"
+    },
+    "c5.errors.open": {
+      "text": "오픈시 에러가 발생했습니다.\n다시 시도해 주십시오.",
+      "source": "Base01.pas L13 (E_Open)",
+      "kind": "error"
+    },
+    "c5.errors.insert": {
+      "text": "입력시 에러가 발생했습니다.\n다시 시도해 주십시오.",
+      "source": "Base01.pas L14 (E_Insert)",
+      "kind": "error"
+    },
+    "c5.errors.update": {
+      "text": "수정시 에러가 발생했습니다.\n다시 시도해 주십시오.",
+      "source": "Base01.pas L15 (E_Update)",
+      "kind": "error"
+    },
+    "c5.errors.delete": {
+      "text": "삭제시 에러가 발생했습니다.\n다시 시도해 주십시오.",
+      "source": "Base01.pas L16 (E_Delete)",
+      "kind": "error"
+    },
+    "c5.errors.connect": {
+      "text": "사용관한이 없습니다.\n관리자에게 문의하십시오.",
+      "source": "Base01.pas L17 (E_Connect)",
+      "kind": "error"
+    },
+    "c5.validation.publisher_required": {
+      "text": "출판사명을 입력해 주세요.",
+      "source": "Base01.pas L12 (E_Ggeo)",
+      "kind": "warning"
+    },
+    "c5.validation.publisher_register": {
+      "text": "출판사를 등록해 주세요.",
+      "source": "Subu41.pas L719",
+      "kind": "warning"
+    },
+    "c5.validation.publisher_select": {
+      "text": "거래처를 선택하세요.",
+      "source": "T8 신설 — ST-RULE-5",
+      "kind": "warning",
+      "new": true
+    },
+    "c5.validation.pubun_select": {
+      "text": "결재구분을 선택하세요.",
+      "source": "T8 신설 — ST-RULE-4",
+      "kind": "warning",
+      "new": true
+    },
+    "c5.errors.period_closed": {
+      "text": "마감된 자료입니다.",
+      "source": "T8 신설 — DEC-031, ST-RULE-1 (T2_Ssub.Yesno='1' 분기 표면화)",
+      "kind": "error",
+      "http_status": 423,
+      "code": "ST_PERIOD_CLOSED",
+      "new": true
+    },
+    "c5.errors.already_cancelled": {
+      "text": "이미 취소된 자료입니다.",
+      "source": "T8 신설 — ST-RULE-3 (Yesno='2' 행 재취소)",
+      "kind": "error",
+      "http_status": 409,
+      "code": "ST_ALREADY_CANCELLED",
+      "new": true
+    },
+    "c5.errors.audit_invalid": {
+      "text": "비밀번호가 일치하지 않습니다.",
+      "source": "T8 신설 — ST-RULE-2 / DEC-029",
+      "kind": "error",
+      "http_status": 401,
+      "code": "ST_AUDIT_INVALID",
+      "new": true
+    },
+    "c5.errors.audit_locked": {
+      "text": "비밀번호 시도 한도를 초과했습니다. 30분 후 다시 시도하세요.",
+      "source": "T8 신설 — DEC-029 lockout (15분 5회 → 30분 잠금)",
+      "kind": "error",
+      "http_status": 429,
+      "code": "ST_AUDIT_LOCKED",
+      "new": true
+    },
+    "c5.dialog.password_change_title": {
+      "text": "Password변경",
+      "source": "Subu45.pas L372 (InputBox 1번째 인자) — DEC-032 모달 제목으로 보존",
+      "kind": "info"
+    },
+    "c5.dialog.password_change_prompt": {
+      "text": "비밀번호를 입력 하세요.",
+      "source": "Subu45.pas L372 (InputBox 2번째 인자) — DEC-032 모달 안내문으로 보존",
+      "kind": "info"
+    },
+    "c5.dialog.confirm_close_title": {
+      "text": "정산 마감 확정",
+      "source": "T8 신설 — AuditPasswordModal 제목 (scope=settlement_confirm)",
+      "kind": "info",
+      "new": true
+    },
+    "c5.dialog.confirm_close_warning": {
+      "text": "확정 후에는 해당 월의 청구·취소가 423 응답으로 차단됩니다.",
+      "source": "T8 신설 — DEC-031 가시화",
+      "kind": "warning",
+      "new": true
+    }
+  },
+  "decisions": ["DEC-009", "DEC-012", "DEC-019", "DEC-024", "DEC-028", "DEC-029", "DEC-031", "DEC-032"],
+  "open_questions": ["OQ-ST-1", "OQ-ST-2", "OQ-ST-3", "OQ-ST-4", "OQ-ST-5"]
+}
