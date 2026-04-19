@@ -28,10 +28,10 @@
 #             analysis/c4_returns_flow.md (SQL-RT-1~27 카탈로그)
 
 id: C4-return-receipt
-name: 반품 처리 (CRUD + 3분기 처리 + 일일 보고 + 패스워드 + 임포트)
-version: 1.0.0
-status: approved        # draft → review → approved (1차 동결, DEC-029 신설과 함께)
-scope_phase: phase1
+name: 반품 처리 (CRUD + 3분기 + 일일/기간/원장 보고 + 패스워드 + 임포트 + 라인 diff + 롤백 + 보안)
+version: 1.1.0
+status: approved        # v1.0.0 → v1.1.0 (Phase 2 보강 — 신화면 2개 + 라인 PUT + 롤백 + bcrypt + audit DB + FOR UPDATE + D_Select 헬퍼)
+scope_phase: phase2
 acceptance_goal: |
   1차 포팅 합격선: "기존 사용자가 반품 명세서를 신규 등록 / 수정 / 취소 / 조회 (CRUD) 할 수 있고,
   반품된 책의 운명을 3분기 (재생 / 해체 / 변경) 로 결정할 수 있으며,
@@ -71,6 +71,11 @@ links:
     - analysis/layout_mappings/Sobo51.md
     - analysis/layout_mappings/Sobo55.md
     - analysis/layout_mappings/Sobo40.md
+    - analysis/layout_mappings/Sobo34_4.md  # Phase 2 신규 (OQ-RT-8)
+    - analysis/layout_mappings/Sobo58.md    # Phase 2 신규 (OQ-RT-8)
+  phase2_analysis:
+    - analysis/c4_returns_phase2_flow.md    # SQL-RT-28~40 카탈로그
+    - analysis/sv_ghng_field_catalog.md     # OQ-RT-3 9종 매핑
   dfm_html_artifacts:
     - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23/Sobo23.html
     - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1/Sobo23_1.html
@@ -82,12 +87,16 @@ links:
     - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu55/Sobo55.html
     - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu40/Sobo40.html
   related_open_questions:
-    - OQ-RT-1   # chul_08 자료불러오기 외부 데이터 형식 (운영팀 확인)
-    - OQ-RT-2   # Bdate vs Gdate 의미 검증
-    - OQ-RT-3   # Sv_Ghng Field1/2/3 동적 컬럼명 9종 카탈로그
-    - OQ-RT-4   # Sobo40 패스워드 검증 알고리즘 (Phase 2 bcrypt 마이그레이션)
-    - OQ-RT-5   # Sv_Ghng 동시 변경 충돌 처리
-    - OQ-RT-6   # Subu25 INSERT 의 Time1=Time1 자기 참조 버그 검증
+    # OQ-RT 정본 카탈로그: DEC-030 (legacy-analysis/decisions.md)
+    - OQ-RT-1   # chul_08 자료불러오기 외부 데이터 형식 (운영팀 확인) — Phase 2 assume_default(CSV EUC-KR)
+    - OQ-RT-2   # Bdate vs Gdate 의미 검증 — Phase 2 검증 스크립트 + 분리 유지
+    - OQ-RT-3   # Sv_Ghng Field1/2/3 동적 컬럼명 9종 카탈로그 — Phase 2 sv_ghng_field_catalog.md
+    - OQ-RT-4   # Sobo40 패스워드 검증 알고리즘 — Phase 2 bcrypt(cost=12) + 5회 잠금
+    - OQ-RT-5   # Sv_Ghng 동시 변경 충돌 처리 — Phase 2 SELECT FOR UPDATE
+    - OQ-RT-6   # Subu25 INSERT 의 Time1=Time1 자기 참조 버그 검증 — Phase 1 NOW() 명시 완료
+    - OQ-RT-7   # D_Select 권한키 분기 (DEC-009 해제 의존 → C10) — Phase 2 헬퍼 인터페이스만
+    - OQ-RT-8   # Sobo34_4 (재고원장 폐기) + Sobo58 (기간별 반품 내역서) — Phase 2 신규 화면
+    - OQ-RT-9   # DB audit 비밀번호 검증 + 실패 추적 (OQ-RT-4 와 같이) — Phase 2 audit_password_attempts
 
 # ---------------------------------------------------------------
 # 1. 비즈니스 의도
@@ -1199,6 +1208,268 @@ endpoints:
             - return_key: { gdate, hcode, jubun }
               lines: integer
 
+  # ===============================================================
+  # Phase 2 추가 (v1.1.0) — 신화면 + 라인 PUT + 롤백 + 부분 처리 + bcrypt
+  # ===============================================================
+
+  # ---------- 라인 diff 수정 PUT (B1 — Phase 1 누락 보강) ----------
+  - method: PUT
+    path: /api/v1/returns/{return_key}
+    description: "반품 라인 diff 수정. 추가/수정/삭제(소프트) 단일 트랜잭션. SQL-RT-34."
+    auth: bearer
+    request:
+      headers:
+        Authorization-Context?: 'JSON {"branch_id","role"} (OQ-RT-7 — Phase 2 noop)'
+      path:
+        return_key: "string — 'G|gdate|hcode|jubun' 또는 'B|bdate|hcode|jubun'"
+      query:
+        server_id: "string (required)"
+      content_type: application/json
+      schema:
+        memo?:
+          gbigo: string
+          sbigo: string
+        lines:
+          - idnum?: "integer (null=신규)"
+            bcode: string
+            gsqut: integer
+            gdang: integer
+            grat1?: number
+            gssum?: integer
+            gbigo?: string
+            pubun?: string
+        delete_idnums?:
+          - "integer (선택 — 명시 삭제. lines 의 누락 idnum 도 자동 삭제)"
+    responses:
+      "200":
+        body:
+          return_key: { gdate, bdate, hcode, jubun }
+          inserted: integer
+          updated: integer
+          deleted: integer
+          total_lines: integer
+          total_qty: integer
+          total_amount: integer
+      "404": { body: { detail: "Return not found", code: "RT_NOT_FOUND" } }
+      "409": { body: { detail: "Already cancelled or modified concurrently", code: "RT_CONFLICT" } }
+      "422": { body: { detail: "Invalid line data", code: "RT_VALIDATION" } }
+
+  # ---------- 부분 재생/해체 (B2) ----------
+  - method: POST
+    path: /api/v1/returns/dispose/regen/partial
+    description: "부분 재생 — 선택된 idnum_list 만 Scode='2' 처리. SQL-RT-35. 🔒 audit_token 필수."
+    auth: bearer
+    request:
+      headers:
+        Authorization-Audit: "Bearer-Audit {token}"
+      content_type: application/json
+      schema:
+        server_id: string
+        return_key:
+          gdate: string
+          hcode: string
+          jubun: string
+        idnum_list:
+          - integer
+        gbigo: "string (required) — 부분 처리 사유 감사 로그용"
+    responses:
+      "200":
+        body:
+          processed: integer
+          regenerated_qty: integer
+      "401": { body: { detail: "Audit token required", code: "RT_AUDIT_REQUIRED" } }
+      "422": { body: { detail: "Reason required", code: "RT_REASON_REQUIRED" } }
+
+  - method: POST
+    path: /api/v1/returns/dispose/disassemble/partial
+    description: "부분 해체 — Bdate 키. SQL-RT-35."
+    auth: bearer
+    request:
+      headers:
+        Authorization-Audit: "Bearer-Audit {token}"
+      content_type: application/json
+      schema:
+        server_id: string
+        return_key:
+          bdate: string
+          hcode: string
+          jubun: string
+        idnum_list:
+          - integer
+        gbigo: "string (required)"
+    responses:
+      "200":
+        body:
+          processed: integer
+          disassembled_qty: integer
+
+  # ---------- 3분기 롤백 (B3) ----------
+  - method: POST
+    path: /api/v1/returns/{return_key}/rollback
+    description: "3분기(재생/해체/변경) 처리 24h 이내 롤백. SQL-RT-36. 🔒 audit_token 필수."
+    auth: bearer
+    request:
+      headers:
+        Authorization-Audit: "Bearer-Audit {token}"
+      path:
+        return_key: string
+      query:
+        server_id: "string (required)"
+      content_type: application/json
+      schema:
+        action: "enum: regen|disassemble|change"
+        gbigo: "string (required) — 롤백 사유"
+    responses:
+      "200":
+        body:
+          rolled_back: integer
+          action: string
+          recorded_at: string
+      "401": { body: { detail: "Audit token required", code: "RT_AUDIT_REQUIRED" } }
+      "410": { body: { detail: "Rollback window expired (>24h)", code: "RT_ROLLBACK_EXPIRED" } }
+      "422": { body: { detail: "Rollback not applicable", code: "RT_ROLLBACK_INVALID" } }
+
+  # ---------- A1. Sobo34_4 재고원장 폐기 (OQ-RT-8) ----------
+  - method: GET
+    path: /api/v1/returns/ledger
+    description: "기간별 재고원장 (폐기/반품/재생/해체/변경) — Sobo34_4. SQL-RT-28~30."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: "string (required)"
+        date_to: "string (required)"
+        hcode?: string
+        bcode?: "string — 도서코드 단일 조회 시"
+        detail_for_bcode?: string
+        gubun?: "string — 기본값 'all'. enum: all|반품|재생|해체|변경|폐기"
+        limit: integer
+        offset: integer
+    responses:
+      "200":
+        body:
+          master:
+            - bcode: string
+              book_name: string
+              gname: string
+              gubun: string
+              pubun: string
+              total_qty: integer
+              total_amount: integer
+          detail:    # detail_for_bcode 가 있을 때만 채움
+            - gdate: string
+              gubun: string
+              gcode: string
+              gname: string
+              giqut: integer
+              gisum: integer
+              goqut: integer
+              gosum: integer
+              gjqut: integer
+              gjsum: integer
+              gbqut: integer
+              gbsum: integer
+              gsqut: integer
+              gssum: integer
+          kpi:
+            book_count: integer
+            line_count: integer
+            total_qty: integer
+            total_amount: integer
+          page: { total, limit, offset }
+
+  # ---------- A2. Sobo58 기간별 반품 내역서 (OQ-RT-8) ----------
+  - method: GET
+    path: /api/v1/returns/period-report
+    description: "기간별 반품 내역서 — Sobo58. 출판사별 누계 + 라인 디테일. SQL-RT-31~33."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: "string (required)"
+        date_to: "string (required)"
+        hcode?: string
+        detail_for_hcode?: string
+        limit: integer
+        offset: integer
+    responses:
+      "200":
+        body:
+          master:
+            - hcode: string
+              hname: string
+              line_count: integer
+              total_qty: integer
+              total_amount: integer
+          detail:
+            - gdate: string
+              gcode: string
+              gname: string
+              idnum: integer
+              pubun: string
+              bcode: string
+              bname: string
+              gsqut: integer
+              gdang: integer
+              grat1: number
+              gssum: integer
+          kpi:
+            publisher_count: integer
+            line_count: integer
+            total_qty: integer
+            total_amount: integer
+          page: { total, limit, offset }
+
+  # ---------- C1. bcrypt 패스워드 관리 (OQ-RT-4 / OQ-RT-9) ----------
+  - method: POST
+    path: /api/v1/audit/password-rotate
+    description: "audit 비밀번호 회전 — 새 평문을 bcrypt(cost=12) 해시로 저장. 관리자 권한 필요. SQL-RT-38."
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        new_password: "string (required, min=4)"
+        scope: "string (default 'audit')"
+    responses:
+      "200":
+        body:
+          rotated_at: string
+          algorithm: "string (= 'bcrypt')"
+          cost: integer
+      "403": { body: { detail: "Manager role required", code: "RT_FORBIDDEN" } }
+      "422": { body: { detail: "Password too weak", code: "RT_VALIDATION" } }
+
+  # ---------- C3. audit DB 영속화 (OQ-RT-9) — 조회용 ----------
+  - method: GET
+    path: /api/v1/audit/returns
+    description: "audit_returns 테이블 조회 (관리자 화면용). SQL-RT-40."
+    auth: bearer
+    request:
+      query:
+        server_id?: string
+        gcode?: string
+        action?: "string — created/updated/cancelled/regenerated/disassembled/changed/rolled_back/imported"
+        result?: "string — success/failure"
+        date_from?: string
+        date_to?: string
+        limit: integer
+        offset: integer
+    responses:
+      "200":
+        body:
+          items:
+            - id: integer
+              action: string
+              result: string
+              gcode: string
+              return_key: { gdate, bdate, hcode, jubun }
+              client_ip: string
+              audit_token_hash: "string|null"
+              reason: "string|null"
+              extra: object
+              recorded_at: string
+          page: { total, limit, offset }
+
 # ---------------------------------------------------------------
 # 6. 차이점·결정 사항
 # ---------------------------------------------------------------
@@ -1312,16 +1583,20 @@ equivalence:
 # 8. 비범위
 # ---------------------------------------------------------------
 out_of_scope:
-  - "Sobo34_4 폐기 원장 (D-RT-4 / DEC-027) — Phase 2"
-  - "Sobo58 기간별 반품내역서 (D-RT-4 / DEC-027) — Phase 2"
+  # Phase 2 에서 해결된 항목 (v1.1.0):
+  #   ✓ Sobo34_4 폐기 원장 → /returns/ledger (OQ-RT-8)
+  #   ✓ Sobo58 기간별 반품내역서 → /returns/period-report (OQ-RT-8)
+  #   ✓ Sobo24 부분 재생 정밀 제어 → /returns/dispose/regen/partial (B2)
+  #   ✓ Sv_Ghng Field 9종 → sv_ghng_field_catalog.md (OQ-RT-3 assume_default)
+  #   ✓ bcrypt + audit DB → /api/v1/audit/password-rotate + audit_returns (OQ-RT-4/9)
+  # 여전히 out_of_scope:
   - "인쇄 트리거 (D-RT-5 / DEC-017) — 후속 C7 인쇄"
   - "헤더 전체 물리 삭제 (D-RT-6 / DEC-012)"
-  - "권한키 분기 D_Select (D-RT-7 / DEC-009) — 후속 C10"
+  - "권한키 분기 D_Select 실권한 분기 (OQ-RT-7) — 헬퍼 인터페이스만 Phase 2 노출, 실권한은 C10"
   - "본사 Ocode='A' 반품 — 1차는 지사 Ocode='B' 만"
-  - "Sobo24 부분 재생 정밀 제어 — 1차는 전체 또는 일괄 처리, 라인별 수량 분할은 Phase 2"
   - "Sg_Csum 의 다른 화면 (Sobo67 집계) 동기 — 출고와 동일 후속 정책"
-  - "임포트 엑셀/타 시스템 API/JSON — 1차 CSV EUC-KR 만 (D-RT-8 / OQ-RT-1)"
-  - "Sv_Ghng Field1/2/3 9종 동적 컬럼명 전체 — 1차 핵심 5종만 (OQ-RT-3)"
+  - "임포트 엑셀/타 시스템 API/JSON — Phase 2 도 CSV EUC-KR 만, format=xls 는 501 (OQ-RT-1)"
+  - "DBGrid201 보류 14종 컬럼 (xSQUT/aBQUT/bBQUT 등) — Phase 3 후속"
 
 # ---------------------------------------------------------------
 # 9. 변형 차이 (코드 분기 금지 — 데이터로만 표현)
@@ -1382,10 +1657,58 @@ customer_variants:
     enabled_widgets: ["all"]
     notes: "변형 0건. 단순 4-위젯 다이얼로그. DEC-029 §10 보안 정책 적용."
 
+  # ─── Phase 2 신규 (v1.1.0 — OQ-RT-8) ─────────────────────────────
+  Sobo34_4:                   # 재고원장 폐기 (Phase 2)
+    layout_ref: analysis/layout_mappings/Sobo34_4.md
+    layout_html: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu34_4/Sobo34_4.html
+    enabled_widgets: ["all"]
+    deferred_widgets:
+      - DBGrid201.xSQUT_*    # 14종 보류 — Phase 3
+      - DBGrid201.aBQUT
+      - DBGrid201.bBQUT
+      - Edit105
+      - Edit106
+      - Button700
+      - Button701
+      - Button702
+    notes: "변형 0건. 캡션 '기간별재고원장(상세)-폐기'. S1_Ssub + Sb_Csum + Sv_Ghng 3-table 회계 검증 보고서. 모던 라우트 /returns/ledger."
+
+  Sobo58:                     # 기간별 반품 내역서 (Phase 2)
+    layout_ref: analysis/layout_mappings/Sobo58.md
+    layout_html: tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu58/Sobo58.html
+    enabled_widgets: ["all"]
+    deferred_widgets:
+      - Edit105
+      - Edit106
+      - Panel106
+      - Button701
+      - Button702
+    notes: "변형 0건. 캡션 '기간별반품내역서'. Sobo55 와 데이터 소스 동일 — 일별→기간 차원만 변경. 모던 라우트 /returns/period-report."
+
 # ---------------------------------------------------------------
 # 10. 변경 이력
 # ---------------------------------------------------------------
 changelog:
+  - date: 2026-04-19
+    by: porting-team
+    note: |
+      1.1.0 — Phase 2 보강: 신화면 2건(Sobo34_4/58) + 라인 PUT + 부분/롤백 + bcrypt + audit DB + FOR UPDATE + D_Select 헬퍼.
+      - scope_phase: phase1 → phase2
+      - status: approved (DEC-030 OQ-RT 번호 통일과 동시 동결)
+      - 신규 endpoints (12건):
+        * PUT /returns/{key} (라인 diff)
+        * POST /returns/dispose/regen/partial, /returns/dispose/disassemble/partial (부분)
+        * POST /returns/{key}/rollback (3분기 24h 롤백)
+        * GET /returns/ledger (Sobo34_4)
+        * GET /returns/period-report (Sobo58)
+        * POST /audit/password-rotate (bcrypt 회전)
+        * GET /audit/returns (영속 audit 조회)
+      - 신규 SQL: SQL-RT-28~40 (analysis/c4_returns_phase2_flow.md)
+      - 신규 매핑 노트: Sobo34_4.md / Sobo58.md (DEC-028)
+      - DB 마이그레이션: audit_returns + audit_password_attempts + application_settings.audit_password_hash
+      - OQ-RT 카탈로그: 1~6 (Phase 1 정의) + 7~9 (Phase 2 추가, DEC-030 번호 통일)
+      - Phase 2 외부 의존 4건 assume_default 처리 (OQ-RT-1/2/3/4) — 운영팀 확정 시 데이터/마이그레이션만 변경
+      - D_Select Phase 2 = 헬퍼 인터페이스만 노출 (실권한 분기는 C10 RBAC)
   - date: 2026-04-19
     by: porting-team
     note: |

@@ -446,12 +446,12 @@ class C4AuditPasswordTests(TestCase):
 
     # TC-RT-012 패스워드 검증 성공 → token 발급 ---------------------------------
     def test_tc_rt_012_verify_password_success_returns_token(self) -> None:
-        async def fake_verify(*, server_id, password, scope):
-            assert password == "correct_password"
+        async def fake_verify(**kwargs):
+            assert kwargs.get("password") == "correct_password"
             return {
                 "token": AUDIT_TOKEN,
                 "expires_at": "2026-04-19T03:05:00+00:00",
-                "scope": scope,
+                "scope": kwargs.get("scope"),
             }
 
         with patch.object(returns_service, "verify_audit_password", side_effect=fake_verify):
@@ -467,7 +467,7 @@ class C4AuditPasswordTests(TestCase):
 
     # TC-RT-013 패스워드 검증 실패 → 401 ----------------------------------------
     def test_tc_rt_013_verify_password_wrong_returns_401(self) -> None:
-        async def fake_verify(*, server_id, password, scope):  # noqa: ARG001
+        async def fake_verify(**kwargs):  # noqa: ARG001
             raise AuditTokenError("invalid password")
 
         with patch.object(returns_service, "verify_audit_password", side_effect=fake_verify):
@@ -480,10 +480,10 @@ class C4AuditPasswordTests(TestCase):
 
     # 패스워드 검증 감사 로그 ---------------------------------------------------
     def test_tc_rt_013_audit_password_logs_success_and_failure(self) -> None:
-        async def fake_verify_ok(*, server_id, password, scope):
+        async def fake_verify_ok(**kwargs):  # noqa: ARG001
             return {"token": AUDIT_TOKEN, "expires_at": "...", "scope": "inventory_change"}
 
-        async def fake_verify_fail(*, server_id, password, scope):
+        async def fake_verify_fail(**kwargs):  # noqa: ARG001
             raise AuditTokenError("invalid password")
 
         with patch.object(returns_service, "verify_audit_password", side_effect=fake_verify_ok):
@@ -512,9 +512,9 @@ class C4ImportTests(TestCase):
     def test_tc_rt_014_import_preview_returns_preview_id_and_rows(self) -> None:
         captured: dict = {}
 
-        async def fake_preview(*, server_id, customer_kind, content):
-            captured["customer_kind"] = customer_kind
-            captured["content"] = content
+        async def fake_preview(**kwargs):
+            captured["customer_kind"] = kwargs.get("customer_kind")
+            captured["content"] = kwargs.get("content")
             return {
                 "preview_id": "preview_abc123",
                 "rows": [

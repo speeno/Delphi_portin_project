@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19T01:34:02Z",
+  "updatedAt": "2026-04-19T11:00:00Z",
   "phase": "Phase 1",
   "productNote": "실행 UI는 저장소 `도서물류관리프로그램/` (제품 웹). 본 섹션은 개발 진행용 허브 대시보드 전용.",
   "docLinks": [
@@ -51,7 +51,8 @@
         "C3 EUC-KR 업로드(DEC-027) — DEC-024 와 동일 정책으로 UTF-8 시도 후 `errors='replace'` 폴백. `csv.DictReader` + 헤더별 트랜잭션. 마감(`application_settings.inbound.close_until`) 행이 있으면 423 IN_PERIOD_LOCKED. audit.inbound 4 액션(created/updated/cancelled/imported) 1줄 JSON 표준화 — outbound 와 동일 스키마(receipt_key 만 4-part)",
         "DEC-028 dfm→html 입력 의무화 첫 적용 사례 — Subu22/_1/_2 + Subu54 + Subu57 5개 산출물 인벤토리, `analysis/layout_mappings/{Sobo22,38,54,57}.md` 4 매핑 노트 작성. 변형 폴더 차이는 `inbound_receipt.yaml.customer_variants` 만 적재(코드 분기 금지). 모던 페이지의 모든 입력/버튼/그리드 헤더에 `data-legacy-id` 부착",
         "C4 반품 처리: `returns_service.py` + `returns.py` 라우터 (SQL-RT-1~27, 3분기 + 패스워드 + 임포트)",
-        "C4 audit_service: `log_return_action` + `log_audit_password` (DEC-029 토큰 해시 포함)"
+        "C4 audit_service: `log_return_action` + `log_audit_password` (DEC-029 토큰 해시 포함)",
+        "C4 Phase 2 (2026-04-19, OQ-RT-1~9 모두 완료) — DEC-029 보강 + DEC-030 신규. 신규/확장 엔드포인트 8건: `GET /returns/{ledger,period-report}` (Sobo34_4/Sobo58 신화면 SQL-RT-28~35), `PUT /returns/{key}` (라인 diff), `POST /returns/dispose/{regen,disassemble}/partial` (선택 라인 부분 처리 + Soft-mark), `POST /returns/{key}/rollback` (24h 윈도, 410 RT_ROLLBACK_EXPIRED), `POST /audit/password-rotate` (manager role bcrypt 회전), `GET /audit/returns` (영속 audit 조회). 보안 — `app/services/audit_password_service.py` 신설 — bcrypt(cost=12) + 평문 fallback(Phase1 호환) + 5회 실패/10분 윈도/15분 잠금. 동시성 — `app/core/db.execute_transactional_block()` 신설 (커서 기반 핸들러 방식, mysql3 NotImplementedError 폴백). `process_change` 가 단일 트랜잭션 내 `Sv_Ghng SELECT FOR UPDATE` 후 UPSERT — race 차단. RBAC 인터페이스 — `app/core/d_select.py` (Phase 2 는 `1=1` 무권한, C10 에서 실권한 분기). 마이그레이션 `migrations/2026_04_19_c4_phase2.sql` — `application_settings.password_hash`, `audit_password_attempts`, `audit_returns` 3 테이블"
       ]
     },
     {
@@ -84,7 +85,8 @@
         "C4 반품 명세서 (Sobo23): `/returns/receipts` 목록/신규/상세 + ReturnLineGrid",
         "C4 재고 처리 (Sobo24/25/51): `/returns/inventory` 통합 탭 + AuditPasswordModal (Sobo40)",
         "C4 일별 반품내역서 (Sobo55): `/returns/reports` 마스터-디테일-KPI",
-        "C4 자료불러오기 (Sobo23_1 chul_08): DataImportModal (EUC-KR CSV 미리보기/실행)"
+        "C4 자료불러오기 (Sobo23_1 chul_08): DataImportModal (EUC-KR CSV 미리보기/실행)",
+        "C4 Phase 2 프론트엔드 (2026-04-19) — 신규 페이지 2종: `/returns/ledger` (Sobo34_4 기간별재고원장 상세-폐기, 검색 필터·KPI·마스터/디테일 그리드, data-legacy-id 36건) + `/returns/period-report` (Sobo58 기간별반품내역서, 출판사 합계·반품 라인 그리드, data-legacy-id 33건). receipts 상세 화면(`/returns/receipts/[returnKey]`) 보강 — 편집 모드 토글로 라인 직접 편집(`PUT /returns/{key}`), 체크박스 선택형 부분 재생/해체(`POST /returns/dispose/.../partial`), 24h 롤백 패널(`POST /returns/{key}/rollback`) 추가. 모든 민감 액션은 `AuditPasswordModal` 통과 후 `Authorization-Audit` 헤더 전송. `lib/returns-api.ts` v1.1.0 — `returnsPhase2Api` (ledger/periodReport/updateLines/regenPartial/disassemblePartial/rollback) + `auditApi.{rotatePassword,listReturnsAudit}` 추가. `lib/api-client.ts` — `getWithHeaders` 유틸 신설 (`Authorization-Context` 헤더 D_Select 호환). `form-registry.ts` 에 Sobo34_4/Sobo58 등록(menuGroup=returns, phase=phase2). 회귀 0 — pytest 187 PASS · tsc 0 · eslint 0"
       ]
     },
     {

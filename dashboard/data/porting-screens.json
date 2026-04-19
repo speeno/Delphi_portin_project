@@ -1062,16 +1062,23 @@
       "name": "반품 처리",
       "gateId": 3,
       "purpose": "반품 + 재고 영향 + 정산 영향",
-      "summary": "UPDATE/DELETE 동반, 정품/반품/폐기 재고 분기, 패스워드 모달 보호",
+      "summary": "Phase 2 완료 — 3분기(반품/재생/해체/변경) + 패스워드 게이트(bcrypt+5회 잠금) + Sobo34_4/Sobo58 신화면 + 라인 diff/부분/롤백 + Sv_Ghng FOR UPDATE",
+      "phase": "phase2",
+      "phase1_status": "completed",
+      "phase2_status": "completed",
       "delphi": {
         "primary_form": "TSobo23 (반품명세서)",
         "primary_unit": "Subu23.pas",
         "dfm": "Subu23.dfm",
         "related_forms": [
           "TSobo23_1 반품과 변형",
+          "TSobo24 반품재고(재생)",
+          "TSobo25 반품재고(해체)",
+          "TSobo34_4 기간별재고원장(상세)-폐기",
           "TSobo35 반품재고(폐기)",
           "TSobo51 반품재고(변경)",
           "TSobo55 일별 반품내역서",
+          "TSobo58 기간별반품내역서",
           "Subu40 패스워드 모달"
         ]
       },
@@ -1082,50 +1089,96 @@
         "F37",
         "F53"
       ],
-      "db_impact": "UPDATE/DELETE 동반",
+      "db_impact": "UPDATE/DELETE 동반 + Sv_Ghng SELECT FOR UPDATE",
       "web": {
         "routes": [
-          "/returns",
-          "/returns/[id]"
+          "/returns/receipts",
+          "/returns/receipts/[returnKey]",
+          "/returns/inventory",
+          "/returns/reports",
+          "/returns/ledger",
+          "/returns/period-report"
         ],
         "endpoints": [
-          "GET/POST/PUT/DELETE /api/returns"
+          "GET/POST /api/v1/returns",
+          "PUT /api/v1/returns/{key}",
+          "POST /api/v1/returns/dispose/{regen,disassemble}",
+          "POST /api/v1/returns/dispose/{regen,disassemble}/partial",
+          "POST /api/v1/returns/{key}/rollback",
+          "POST /api/v1/returns/change",
+          "POST /api/v1/returns/import/{preview,execute}",
+          "GET /api/v1/returns/ledger",
+          "GET /api/v1/returns/period-report",
+          "POST /api/v1/audit/{password-verify,password-rotate}",
+          "GET /api/v1/audit/returns"
         ],
         "backend": [
-          "도서물류관리프로그램/backend/app/routers/returns.py (신규)"
+          "도서물류관리프로그램/backend/app/routers/returns.py",
+          "도서물류관리프로그램/backend/app/services/returns_service.py",
+          "도서물류관리프로그램/backend/app/services/audit_password_service.py (Phase2)",
+          "도서물류관리프로그램/backend/app/services/audit_service.py",
+          "도서물류관리프로그램/backend/app/core/db.py (execute_transactional_block, Phase2)",
+          "도서물류관리프로그램/backend/app/core/d_select.py (Phase2)",
+          "도서물류관리프로그램/backend/migrations/2026_04_19_c4_phase2.sql"
         ],
         "frontend": [
-          "도서물류관리프로그램/frontend/src/app/(app)/returns/* (신규)"
+          "도서물류관리프로그램/frontend/src/app/(app)/returns/receipts/*",
+          "도서물류관리프로그램/frontend/src/app/(app)/returns/inventory/*",
+          "도서물류관리프로그램/frontend/src/app/(app)/returns/reports/*",
+          "도서물류관리프로그램/frontend/src/app/(app)/returns/ledger/* (Phase2)",
+          "도서물류관리프로그램/frontend/src/app/(app)/returns/period-report/* (Phase2)",
+          "도서물류관리프로그램/frontend/src/lib/returns-api.ts (v1.1.0)",
+          "도서물류관리프로그램/frontend/src/lib/api-client.ts (getWithHeaders)"
         ]
       },
-      "contract": "migration/contracts/return_receipt.yaml (신규)",
-      "testpack": "migration/test-cases/return_receipt.json (신규)",
+      "contract": "migration/contracts/return_receipt.yaml (v1.1.0)",
+      "testpack": "test/test_c4_returns_phase1.py + test/test_c4_returns_phase2.py (총 60+ cases)",
       "subscenarios_absorbed": [],
+      "layout_inputs": [
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23/Sobo23.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23_1/Sobo23_1.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu24/Sobo24.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu25/Sobo25.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu34_4/Sobo34_4.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu40/Sobo40.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu51/Sobo51.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu55/Sobo55.html",
+        "tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu58/Sobo58.html"
+      ],
+      "layout_mappings": [
+        "analysis/layout_mappings/Sobo23.md",
+        "analysis/layout_mappings/Sobo24.md",
+        "analysis/layout_mappings/Sobo25.md",
+        "analysis/layout_mappings/Sobo34_4.md (Phase2)",
+        "analysis/layout_mappings/Sobo40.md",
+        "analysis/layout_mappings/Sobo51.md",
+        "analysis/layout_mappings/Sobo55.md",
+        "analysis/layout_mappings/Sobo58.md (Phase2)"
+      ],
+      "dfm_widget_id_coverage": {
+        "ledger_page": 36,
+        "period_report_page": 33,
+        "receipts_detail_page": 20
+      },
+      "open_questions_resolved_phase2": [
+        "OQ-RT-1 (chul_08 형식): csv/txt 한정 + 501 RT_IMPORT_FORMAT 인터페이스 노출",
+        "OQ-RT-2 (Bdate vs Gdate): 분리 유지",
+        "OQ-RT-3 (Sv_Ghng Field1/2/3): SV_GHNG_FIELD_MAP 9종 매핑",
+        "OQ-RT-4 (bcrypt): cost=12 + 5회/10분/15분 잠금",
+        "OQ-RT-5 (FOR UPDATE): execute_transactional_block + mysql3 폴백",
+        "OQ-RT-7 (D_Select): 인터페이스만 노출, 실권한 C10",
+        "OQ-RT-8 (Sobo34_4/58): 신화면 구현 완료",
+        "OQ-RT-9 (audit DB): audit_returns + audit_password_attempts 영속화"
+      ],
       "tasks": {
-        "T1": {
-          "status": "not_started"
-        },
-        "T2": {
-          "status": "not_started"
-        },
-        "T3": {
-          "status": "not_started"
-        },
-        "T4": {
-          "status": "not_started"
-        },
-        "T5": {
-          "status": "not_started"
-        },
-        "T6": {
-          "status": "not_started"
-        },
-        "T7": {
-          "status": "not_started"
-        },
-        "T8": {
-          "status": "not_started"
-        }
+        "T1": { "status": "completed" },
+        "T2": { "status": "completed" },
+        "T3": { "status": "completed" },
+        "T4": { "status": "completed" },
+        "T5": { "status": "completed" },
+        "T6": { "status": "completed" },
+        "T7": { "status": "completed" },
+        "T8": { "status": "completed" }
       }
     },
     {
