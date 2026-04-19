@@ -1,0 +1,72 @@
+# 백엔드 ↔ 모든 DB 서버(SSH/MySQL3/MySQL>=4) 연동 점검 — opt-in
+#
+# 정책
+# ----
+# - 기본은 workflow_dispatch (수동) — secrets/네트워크 필요로 PR 자동 트리거 금지.
+# - schedule 은 RUN_DB_SMOKE=1 + secrets.SERVERS_YAML 보유 시에만 의미 있음.
+# - dry-run (RUN_DB_SMOKE 미설정) 모드는 secret 없이도 통과.
+# - 결과 JSON 은 artifact 로만 보존, 로그에는 비밀이 출력되지 않게 한다.
+
+name: DB connectivity smoke (opt-in)
+
+on:
+  workflow_dispatch:
+    inputs:
+      layer:
+        description: "검증 계층 (l2/l4/all)"
+        required: false
+        default: "all"
+        type: choice
+        options: [l2, l4, all]
+      include_cancelled:
+        description: "취소 포함 여부"
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    # 매주 월 09:00 KST (= UTC 0 0). secrets 없으면 dry-run 으로 끝남.
+    - cron: "0 0 * * 1"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RUN_DB_SMOKE: ${{ secrets.RUN_DB_SMOKE || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install backend deps (최소)
+        working-directory: 도서물류관리프로그램/backend
+        run: |
+          python -m pip install -U pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Materialize servers.yaml (live 모드 한정)
+        if: ${{ env.RUN_DB_SMOKE == '1' }}
+        env:
+          SERVERS_YAML: ${{ secrets.SERVERS_YAML }}
+        run: |
+          if [ -z "$SERVERS_YAML" ]; then
+            echo "SERVERS_YAML secret 미설정 — live 모드 불가, dry-run 으로 진행"
+            echo "RUN_DB_SMOKE=" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          mkdir -p 도서물류관리프로그램/backend/config
+          printf '%s' "$SERVERS_YAML" > 도서물류관리프로그램/backend/config/servers.yaml
+          echo "servers.yaml lines=$(wc -l < 도서물류관리프로그램/backend/config/servers.yaml)"
+      - name: Probe (dry-run 또는 live)
+        run: |
+          PYTHONPATH=도서물류관리프로그램/backend \
+            python3 debug/probe_backend_all_servers.py \
+              --layer "${{ github.event.inputs.layer || 'all' }}" \
+              --write-json artifacts/db-smoke.json \
+              ${{ github.event.inputs.include_cancelled == 'true' && '--include-cancelled' || '' }}
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-smoke
+          path: artifacts/db-smoke.json
+          if-no-files-found: ignore

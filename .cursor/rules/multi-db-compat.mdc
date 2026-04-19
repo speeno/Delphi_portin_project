@@ -1,0 +1,44 @@
+---
+description: 백엔드 멀티 DB(mysql3·서버별 스키마) 호환 의무 — DEC-033
+alwaysApply: true
+---
+
+# 멀티 DB 호환 — 모든 포팅 시 의무
+
+`servers.yaml` 에 등록된 **`remote_138` / `remote_153` / `remote_154` / `remote_155`** (또는 그에 대응하는 id) 가 **한 흐름**이어야 한다. MySQL 3.23(154/155)과 슬림 스키마(138)는 **같은 API**로 500을 내지 말고, 변이는 **데이터/계약**에만 남긴다.
+
+## 언제 적용
+
+- [도서물류관리프로그램/backend/app/services/](도서물류관리프로그램/backend/app/services/) 및 [도서물류관리프로그램/backend/app/routers/](도서물류관리프로그램/backend/app/routers/) 의 **신규·변경** 시 의무.
+- 기존 완료 시나리오는 **회귀 발견 시** 동일 룰로 retrofit ([dfm-layout-input.mdc](.cursor/rules/dfm-layout-input.mdc) 와 동일 정책).
+
+## 의무 사항
+
+1. **페이지네이션 SQL**  
+   `LIMIT %s OFFSET %s` 를 문자열에 두었다면 반드시  
+   `apply_limit_offset_syntax(sql, server_id)` 로 감싸고, 바인딩은 `limit_offset_bind(limit, offset, server_id)` 순서를 따른다.  
+   참조: [도서물류관리프로그램/backend/app/core/sql_mysql3.py](도서물류관리프로그램/backend/app/core/sql_mysql3.py).
+
+2. **MySQL 3.x 표현식**  
+   `CAST AS CHAR`, `CASE WHEN`, 연속 `LIMIT … OFFSET …`(바인딩 없는 형태), 필요 시 `COALESCE` 등 레거시 미지원 구문은 피하고, 기존 패턴처럼 `CONCAT`, `IF`, `IFNULL`, 필요 시 공통 헬퍼만 `sql_mysql3.py` 에 추가한다.
+
+3. **테넌트별 DDL 차이**  
+   동일 테이블이라도 컬럼 세트가 다를 수 있다 → 서비스 레이어에 분기 금지.  
+   `SHOW COLUMNS` 기반 어댑터를 **`app/services/<table>_adapt.py`** 한 모듈에 모은다 (예: [t5_ssub_adapt.py](도서물류관리프로그램/backend/app/services/t5_ssub_adapt.py)).
+
+4. **신규 라우터 GET**  
+   스모크 매트릭스에 등록: [debug/probe_backend_all_servers.py](debug/probe_backend_all_servers.py) 의 `_routes_for(...)` 에 그룹 1개 추가.
+
+5. **CI·점검**  
+   로컬/PR에서는 **dry-run** (`RUN_DB_SMOKE` 미설정) 로 매트릭스 출력 확인. live 검증은 [.github/workflows/db-smoke.yml](.github/workflows/db-smoke.yml) 및 운영 정책에 따른다.
+
+## 회귀 가드 (DoD)
+
+- 4대 서버 각각에서 **L2 `SELECT 1`** 성공 + **L4 매트릭스 GET** 성공(빈 목록 OK).
+- 알려진 스키마 차이만 허용하며, 반드시 **`migration/contracts/<flow>.yaml` 의 `customer_variants`** 또는 **DEC** 에 예외를 명시한 뒤에만 통과로 간주한다.
+
+## 참조
+
+- **DEC-033**: `legacy-analysis/decisions.md`
+- 점검 런북: `docs/db-smoke-runbook.md`
+- MySQL 3 연결 메모: `docs/mysql-3.23-legacy-connection-notes.md`
