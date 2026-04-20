@@ -71,14 +71,32 @@ _생성: 2026-04-20 — C10 T2 (Wave D `legacy_permission_map` 시드 확장)_
 - 본 사이클 정본 30 키 만 `legacy_permission_map` v1.1 시드에 추가
 - 라우터 가드는 `app/core/deps.py::require_permission(code)` 1 의존으로 통합
 
-## 4. 결정 (DEC) 트레이서
+## 4. 확장 라인 신규 권한키 (C13/C14)
+
+본 카탈로그는 `C10 풀 + 확장 후보` 의 **신규 permission_code** 를 등록하는 단일 정본이다. C10 의 fail-fast 가드 (`test_G_05_unknown_permission_code_fails_fast`) 가 미등록 키 사용을 차단하므로, 신규 라우터 작성 시 본 §4 갱신을 선행해야 한다.
+
+| 확장 키 | 모던 permission_code | 출처 시나리오 | 용도 | 등록 사이클 |
+|---|---|---|---|---|
+| F50 | `admin.stats.sales` | C13 통계 | 기간별 매출 분석 (`/api/v1/stats/sales-period`) | 확장 라인 v0.2 |
+| F51e | `admin.stats.customer` | C13 통계 | 거래처별 판매 분석 (`/api/v1/stats/customer-analysis`) | 확장 라인 v0.2 |
+| F52e | `admin.stats.book` | C13 통계 | 도서 회전율 (`/api/v1/stats/book-turnover`) | 확장 라인 v0.2 |
+| F53e | `admin.stats.quarterly` | C13 통계 | 분기/반기 손익 (`/api/v1/stats/quarterly-summary`) | 확장 라인 v0.2 |
+| F90 | `admin.audit.read` | C14 운영 | audit 통합 뷰 (`/api/v1/admin/audit`) | 확장 라인 v0.2 |
+| F91 | `admin.metrics.read` | C14 운영 | Prometheus exposition (`/metrics`) | 확장 라인 v0.2 |
+| F92 | `admin.health.read` | C14 운영 | `/health` 확장 dependency 상세 | 확장 라인 v0.2 |
+
+> **명명 규약**: F51/F52/F53 은 §1 의 Sobo51/52/53 (`report.kpi.*` / `report.delivery.read`) 와 의미가 다르므로 카탈로그 키 자체는 `F51e`/`F52e`/`F53e` (extension 접미) 로 표기하고 `permission_code` 만 `admin.stats.*` 단일 정본으로 등록한다 (라우터 grep 가드는 `permission_code` 로 검사).
+
+## 5. 결정 (DEC) 트레이서
 
 - DEC-028 — 본 카탈로그의 모든 30 정본 키는 `data-legacy-id` 부착 시 출처 폼/메뉴 ID (Chul.MenuItem* 등) 와 1:1 일치
 - DEC-040 — 본 카탈로그는 `Chul.pas`/`Subu45.pas`/`Base01.pas` 등 레거시 SQL 5종 패턴을 100% 재사용한 `permission_code` 만 등록 (신규 SQL 도입 0)
 - DEC-041 — 미정의 `permission_code` 가 라우터에서 사용될 경우 `test_G_05_unknown_permission_code_fails_fast` 정적 가드로 차단 → 표준 401/403 응답 트리(C13)에서 fail-fast
+- DEC-044 — 확장 라인(C13/C14) 의 신규 키는 본 §4 단일 등록. 등록 후 contract `*.yaml` 의 `permission_keys_new` 와 1:1 일치 강제 (axis_doc grep)
 
-## 5. 변경 이력
+## 6. 변경 이력
 
 - 2026-04-20 — 초판 (C10 T2 — Chul.pas 80개 호출 지점 인덱싱 + 30 정본 매핑 확정)
 - 2026-04-20 — admin.user.read (F18r) 신규 추가
 - 2026-04-20 — §4 결정 트레이서 추가 (C10 T7)
+- 2026-04-20 — §4 확장 라인 신규 키 7종 등록 (C13/C14 진입 게이트). `admin.stats.{sales,customer,book,quarterly}` + `admin.{audit,metrics,health}.read` + DEC-044 신규.

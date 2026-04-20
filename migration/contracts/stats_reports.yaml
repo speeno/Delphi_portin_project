@@ -1,61 +1,115 @@
-version: 0.1.0
+version: 1.0.0
 scenario_id: C13_stats
 title: 통계/리포트 확장 계약 (외부 시스템 연동 제외)
-status: skeleton  # v0.1 골격
+status: frozen  # v1.0 동결 — 확장 라인 v0.2 §2 (C13) 진입 게이트 충족
 created: 2026-04-20
+updated: 2026-04-20
 owner: 메인개발자
+
 constraints:
-  - 외부 BI 도구 (Tableau/PowerBI) 직결 ❌
-  - 외부 ETL 파이프라인 송출 ❌
-  - 외부 데이터 웨어하우스 직결 ❌
+  external_integrations: excluded   # BI(Tableau/PowerBI) / 외부 ETL / DW 직결 ❌ (DEC-044)
+  new_sql_count: 0                  # 신규 SQL 0건 정책 (DEC-040 + DEC-044)
+  reuse_priority: true              # 기존 service SELECT 재사용 강제
+
 references:
   - analysis/screen_cards/C13_Stats_Reports.md
-  - DEC-019  # 단일 원천
-  - DEC-040  # 신규 SQL 0 정책 (재사용 가능 여부 우선 검토)
+  - analysis/handlers/extension_dependencies.md   # §2 — C4/C5/C6/C10 의존
+  - legacy-analysis/stats_inventory.md            # Sobo50~55 인벤토리 + 4 endpoint 재사용 매핑
+  - DEC-019  # 단일 원천 / 단일 차트 라이브러리
+  - DEC-031  # C5 마감 정책 정합
+  - DEC-040  # 신규 SQL 0 정책
   - DEC-041  # C13 표준 응답 코드
+  - DEC-044  # 확장 라인 v0.2 정책 (외부 연동 제외 + 권한 카탈로그 단일 등록)
 
 scope:
   new_endpoints:
     - id: STAT-1
       method: GET
       path: /api/v1/stats/sales-period
-      guard: F50  # 통계 - 매출 기간별
+      guard_permission: admin.stats.sales       # F50
+      legacy_key: F50
+      reuse_service: reports_service.get_book_sales
       query: [server_id, dateFrom, dateTo, groupBy(daily|weekly|monthly)]
+      partial_marker: true                       # 마감 미완 기간 metadata.partial=true
     - id: STAT-2
       method: GET
       path: /api/v1/stats/customer-analysis
-      guard: F51  # 통계 - 거래처별
-      query: [server_id, hcode?, period]
+      guard_permission: admin.stats.customer    # F51e
+      legacy_key: F51e
+      reuse_service: reports_service.get_customer_sales
+      query: [server_id, hcode?, dateFrom, dateTo]
+      partial_marker: true
     - id: STAT-3
       method: GET
       path: /api/v1/stats/book-turnover
-      guard: F52  # 통계 - 도서 회전율
-      query: [server_id, gcode?, period]
+      guard_permission: admin.stats.book        # F52e
+      legacy_key: F52e
+      reuse_service: reports_service.get_book_sales  # 응답 후처리 — 회전율 계산
+      query: [server_id, hcode, dateFrom, dateTo]
+      partial_marker: true
     - id: STAT-4
       method: GET
       path: /api/v1/stats/quarterly-summary
-      guard: F53  # 통계 - 분기 손익
+      guard_permission: admin.stats.quarterly   # F53e
+      legacy_key: F53e
+      reuse_service: settlement_service.list_billing_period
       query: [server_id, year, quarter]
+      partial_marker: true
+
   permission_keys_new:
-    - F50  # admin.stats.sales (신규 등록 → permission-keys-catalog.md v1.2)
-    - F51  # admin.stats.customer
-    - F52  # admin.stats.book
-    - F53  # admin.stats.quarterly
-  charts_library: recharts  # MIT, React 통합 — 단일 선택 (DEC-019)
-  export_formats: [csv, xlsx, pdf]  # PDF = WeasyPrint 재사용 (DEC-037)
+    - F50    # admin.stats.sales       — permission-keys-catalog.md §4 등록
+    - F51e   # admin.stats.customer    — extension 접미 (§4 명명 규약)
+    - F52e   # admin.stats.book
+    - F53e   # admin.stats.quarterly
+
+  charts_library: recharts            # MIT, React 통합 — 단일 선택 (DEC-019)
+  export_formats: [csv, xlsx, pdf]    # PDF = WeasyPrint 재사용 (DEC-037)
+
+# v0.2 보강 — 마감 정책 정합 (C5 DEC-031)
+period_boundary_policy:
+  description: |
+    통계 endpoint 는 SELECT only 이므로 assert_period_open 호출하지 않는다.
+    단, 사용자 가시성을 위해 마감 미완 기간이 응답에 포함되면 metadata.partial=true 플래그를 부착한다.
+  rules:
+    - id: PBP-1
+      rule: "dateFrom > dateTo 또는 quarter ∉ [1,4] → 422 STAT_INVALID_RANGE"
+    - id: PBP-2
+      rule: "마감되지 않은 미래/현재 기간 포함 시 metadata.partial=true (응답 본문에 표기)"
+    - id: PBP-3
+      rule: "year < 2000 또는 year > 9999 → 422 STAT_INVALID_RANGE"
+
+# v0.2 보강 — 신규 SQL 0건 정적 가드 명령 (DEC-040 정합)
+no_new_sql_guard:
+  description: "stats_service.py / stats_router.py 는 직접 SQL 호출 금지. 기존 service 함수만 호출."
+  enforcement:
+    static_check:
+      command: |
+        grep -nE "(INSERT\\s+INTO|UPDATE\\s+\\w+|DELETE\\s+FROM|CREATE\\s+TABLE|execute_query|execute_in_transaction)" \
+          도서물류관리프로그램/backend/app/services/stats_service.py \
+          도서물류관리프로그램/backend/app/routers/stats.py | grep -v -E "^\\s*#" | wc -l
+      expected: 0
+    test: "test/test_c13_stats_phase1.py::test_S_03_no_new_sql_in_stats_layer"
 
 acceptance_criteria:
   - id: AC-STAT-1
-    description: 4 신규 화면 모두 PermissionGuard (DEC-041) + 표준 에러 응답 정합
+    description: "4 신규 화면 모두 PermissionGuard (DEC-041) + 표준 에러 응답 정합"
+    test: "test/test_c13_stats_phase1.py::test_R_01_unauthorized_returns_401_403"
   - id: AC-STAT-2
-    description: 신규 SQL 0 정책 검토 — 기존 service SELECT 재해석 가능 여부 우선 확인
+    description: "신규 SQL 0건 — stats_service 는 기존 service 함수만 호출"
+    test: "test/test_c13_stats_phase1.py::test_S_03_no_new_sql_in_stats_layer"
   - id: AC-STAT-3
-    description: CSV/Excel/PDF Export 가 모두 동일 데이터 (ETag 정합)
+    description: "기간 경계 검증 (PBP-1/3) — 422 STAT_INVALID_RANGE"
+    test: "test/test_c13_stats_phase1.py::test_R_02_invalid_range_returns_422"
   - id: AC-STAT-4
-    description: 4 server (138/153/154/155) 모두 mysql3 호환 — probe 신규 4 그룹
+    description: "마감 미완 기간 partial 플래그 (PBP-2)"
+    test: "test/test_c13_stats_phase1.py::test_R_03_partial_marker"
+  - id: AC-STAT-5
+    description: "수치 동등성 — 동일 입력 → 동일 출력 + 기존 reports endpoint 와 합계 일치"
+    test: "test/test_c13_stats_phase1.py::test_R_04_numeric_equivalence_with_reports"
 
 decisions:
-  - DEC-STAT-DRAFT-1   # 차트 라이브러리 단일 선택 (recharts)
-  - DEC-STAT-DRAFT-2   # 외부 BI 직결 제외 정책
+  - DEC-STAT-1   # 4 통계 endpoint v1.0 동결 (DEC-STAT-EXP)
+  - DEC-STAT-2   # recharts 단일 선택 (DEC-019 정합)
+  - DEC-044      # 외부 BI/ETL/DW 직결 제외 + admin.stats.* 권한 카탈로그 단일 등록
 open_questions:
-  - OQ-STAT-1   # 통계 데이터 시간 정합 (정산 마감 후 즉시 vs T+1)
+  - OQ-STAT-1    # 통계 데이터 시간 정합 (정산 마감 후 즉시 vs T+1)

@@ -503,6 +503,24 @@
 - **결정자**: 메인개발자 + 사용자 (C10 풀 스코프 승인 + 외부 시스템 연동 제외 명시)
 - **참조**: `app/core/auth_provider.py`, `migration/contracts/admin_permissions.yaml` v1.0.0, DEC-029 (audit_password_service 연계)
 
+### DEC-044: 확장 라인 v0.2 정책 — 신규 SQL 0건 + 권한 카탈로그 단일 등록 + 외부 시스템 연동 제외
+- **일자**: 2026-04-20
+- **결정 사항**: C10 이후 확장 라인(C11/C13/C14/C15)은 다음 단일 정책으로 동결한다.
+  - (a) **신규 SQL 0건 정책 확장**: C13 통계 4 endpoint, C14 audit 통합 뷰, C15 cutover validator 모두 기존 service SELECT 재사용 우선. 신규 SQL 도입 시 본 DEC 보강 + contract 변경 + axis_data 갱신 동시 요구.
+  - (b) **확장 권한키 단일 등록**: C13/C14 신규 permission_code (`admin.stats.*` x4, `admin.{audit,metrics,health}.read` x3) 는 `legacy-analysis/permission-keys-catalog.md` §4 가 단일 정본. C10 의 `test_G_05_unknown_permission_code_fails_fast` 가드를 그대로 활용해 fail-fast.
+  - (c) **외부 시스템 연동 제외 (사용자 명시)**: BI 도구(Tableau/PowerBI/외부 ETL/DW), APM SaaS(Datadog/NewRelic/Sentry), 알림 채널(Slack/Teams/PagerDuty), 로그 집계(ELK/Splunk), 마이그레이션 SaaS(AWS DMS/Azure Migrate) 모두 본 사이클 out-of-scope. DEC-043(IdP/SSO 인터페이스 분리) 패턴 재사용 — 인터페이스만 유지하고 실 연동은 후속 사이클.
+  - (d) **재귀 회귀 차단**: 모든 확장 시나리오 T7 단계에서 기존 C2~C10 전체 회귀(axis_test_full 333+) 동시 PASS 강제.
+  - (e) **공수 추정/게이트**: 본 DEC 와 함께 게이트 #6(운영 SLA, C14 종료) + #7(Cut-over, C15 종료) 신규 정의 — 차단 조건은 계획서 v0.2 §6.
+- **배경/근거**: 사용자 명시 — "확장 후보 시나리오 구현은 외부 시스템 연동을 제외하고 진행" + "재귀 오류가 발생하지 않도록 기존 코드/유사 케이스 확인 후 일반화 해결". DEC-040 (신규 SQL 0) + DEC-041 (응답 코드 표준) + DEC-042 (If-Match) + DEC-043 (인터페이스 분리) 의 정책 패턴이 그대로 확장 라인에 적용 가능.
+- **DoD**:
+  - `analysis/handlers/extension_dependencies.md` 의 의존성 그래프 + 선행 자산표가 4 시나리오 모두 충족.
+  - `legacy-analysis/permission-keys-catalog.md` §4 등록 + axis_doc grep `DEC-044` PASS.
+  - `legacy-analysis/stats_inventory.md` 작성 (C13 진입 게이트).
+  - 각 확장 시나리오 contract 의 `constraints:` 절에 외부 연동 제외 명시.
+  - 각 시나리오 회귀 매트릭스 (`analysis/regression/cN_phase1.md`) 의 axis_data 가 신규 SQL 0건 grep 가드 포함.
+- **결정자**: 메인개발자 + 사용자 (C10 풀 + 확장 후보 시나리오 v0.2 승인)
+- **참조**: `analysis/handlers/extension_dependencies.md`, `legacy-analysis/stats_inventory.md`, `legacy-analysis/permission-keys-catalog.md` §4, DEC-040/041/042/043
+
 ### DEC-033: 멀티 DB 호환 의무 — mysql3 SQL 헬퍼 + 스키마 어댑터 + 정기 점검 (alwaysApply)
 - **일자**: 2026-04-19
 - **결정 사항**: 백엔드는 **모든 등록 DB 서버**(`remote_138`, `remote_153`, `remote_154`, `remote_155` 등 `servers.yaml` 프로필)에서 조회·목록이 동일하게 동작해야 한다.

@@ -130,7 +130,22 @@
 - **선행 차단 요소**: 운영팀과의 외부 FTP 자격증명 공유 합의(보안 정책) — 본 작업은 코드 우선이 아니라 합의가 우선.
 
 ---
-*최종 업데이트: 2026-04-20 — OQ-RT-7 마감 (C10 Phase 1: D_Select 실분기 4 분기 도입, DEC-009 해제). 후속 OQ-IDP-* (외부 IdP/SSO 합의) 미등록 — 외부 합의 트리거 시 신규 (DEC-043 인터페이스 동결로 후속 도입 시 회귀 0).*
+### Cut-over 진입 차단 게이트 (C15 — 확장 라인 v0.2)
+
+다음 OQ 들은 C15 Cut-over (`migration/contracts/cutover.yaml` v1.0) 진입 시 *각각의 cutover_block 플래그* 에 따라 진행 가능 여부를 결정한다 (DEC-044 정합).
+
+| OQ | cutover_block | 차단 사유 | 마감/우회 조건 |
+|---|---|---|---|
+| OQ-IN-1 (FTP 자동 수신 채널 합의) | **true** | "예약입고" 인스턴스 마감/cancel 정책이 결정되지 않으면 cut-over 후 회복 불가. 1차 우회(DEC-027) 가 활성화 되어 있는 동안만 cut-over 진행 시도 가능. | (a) 운영팀 FTP 자격 합의 + DEC-IN-FTP-* 동결 → block 해제, (b) "수동 업로드 only 운영" 정책으로 동결 (DEC 신규) → block 해제. |
+| OQ-DBL-001 (3.23 인스턴스 DB 내 로직) | **true** | cut-over 시 평문 password / 레거시 SQL 트리거의 동작이 신규 환경에 부재하면 보안/정합 사고. | (a) Id_Logn 평문 → bcrypt 일괄 전환 정책 동결 + 마이그레이션 스크립트 1회 dry-run PASS, (b) 3.23 트리거 인벤토리 0건 확인. |
+| OQ-DBL-002 (FK/CHECK/DEFAULT 선언적 규칙) | **false** | cut-over 후 운영 SLA #6 게이트와 함께 후속 보강 가능. 데이터 손실/정합 위험 없음 (단, 신규 컬럼 추가 시 default 값 미정 risk 는 schema_diff (VC-5) 에서 차단). | post-cutover Phase 2 작업 — 본 OQ 자체는 cut-over 진행을 막지 않음. |
+| OQ-DBL-003 (동일 hcode 다중 server 분산) | **true** | 4 server 단계 cut-over 시 동일 hcode 가 두 환경 사이에 분산되면 DEC-033 의 server_id 라우팅이 충돌. | (a) hcode→server_id 1:1 매핑 동결 (DEC 신규), (b) "동일 server 동시 cut-over (138/153/154/155 모두 동일 윈도우)" 운영팀 합의. |
+
+본 표는 `cutover.yaml` §scope.open_questions_handling 과 1:1 정합 (`test/test_c15_cutover_phase1.py::test_S_08_oq_block_gate` 가 최소 3건의 cutover_block:true 등록 확인).
+
+---
+*최종 업데이트: 2026-04-20 — C15 Cut-over 진입 차단 게이트 표 신설 (OQ-IN-1, OQ-DBL-001/003 = block:true / OQ-DBL-002 = block:false). DEC-044 정합 (외부 시스템 연동 제외 + 마감 정책).*
+*이전: 2026-04-20 — OQ-RT-7 마감 (C10 Phase 1: D_Select 실분기 4 분기 도입, DEC-009 해제). 후속 OQ-IDP-* (외부 IdP/SSO 합의) 미등록 — 외부 합의 트리거 시 신규 (DEC-043 인터페이스 동결로 후속 도입 시 회귀 0).*
 *이전: 2026-04-19 — OQ-IN-1 후속 작업 5단계 스파이크 계획 명시 (C3 phase2 UI 보강 완료 시점, HOT-INB-3).*
 *이전: 2026-04-19 — OQ-IN-1 신규 (C3 입고 1차 FTP 우회 결정 후속).*
 *이전: 2026-04-25 — OQ-OUT-1~4 신규 (C2 출고 접수 1차 포팅 동결 반영). (이전: 2026-04-22 OQ-LOGIN-1 "후속 이관" 표기)*

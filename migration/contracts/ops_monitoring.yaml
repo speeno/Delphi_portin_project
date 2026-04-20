@@ -1,22 +1,32 @@
-version: 0.1.0
+version: 1.0.0
 scenario_id: C14
 title: 운영 모니터링 계약 (Self-hosted only — 외부 SaaS APM/알림/로그집계 제외)
-status: skeleton
+status: frozen   # v1.0 동결 — 확장 라인 v0.2 §3 (C14) 진입 게이트 충족
 created: 2026-04-20
+updated: 2026-04-20
 owner: 메인개발자
+
 constraints:
-  - 외부 SaaS APM (Datadog/NewRelic/Sentry 호스티드) ❌
-  - 외부 알림 채널 (Slack/Teams/PagerDuty) ❌
-  - 외부 로그 집계 (ELK 호스티드/Splunk) ❌
+  external_integrations: excluded  # DEC-044 정합 — 외부 SaaS 연동 ❌
+  external_apm:        excluded    # Datadog/NewRelic/Sentry 호스티드 ❌
+  external_alerting:   excluded    # Slack/Teams/PagerDuty 외부 ❌
+  external_log_aggr:   excluded    # ELK 호스티드/Splunk ❌
+  new_sql_count: 0                  # audit 통합 뷰는 기존 audit_* SELECT 재사용 (DEC-040)
+
 references:
   - analysis/screen_cards/C14_Ops_Monitoring.md
+  - legacy-analysis/permission-keys-catalog.md   # §4 — F90/F91/F92 등록
   - DEC-033  # 멀티 DB 호환 (4 server 동시 모니터링)
-  - DEC-041  # 표준 응답 코드 (운영 알림 배너와 별도 채널)
+  - DEC-040  # 신규 SQL 0 정책
+  - DEC-041  # 표준 응답 코드
   - DEC-042  # If-Match/ETag (다중 관리자 동시성)
+  - DEC-044  # 외부 시스템 연동 제외 + 권한 카탈로그 단일 등록
 
 scope:
   health_extension:
-    path: /api/v1/health
+    path: /api/v1/health/full
+    legacy_compat_path: /api/v1/health   # 기존 경량 health 는 보존
+    guard_permission: admin.health.read   # F92
     response_schema:
       status: enum[ok, degraded, fail]
       dependencies:
@@ -24,8 +34,21 @@ scope:
         disk: ok|degraded|fail
         external: ok|na  # 본 페이즈는 항상 na
       uptime_seconds: int
+    # v0.2 보강 — degraded 매핑표 (계획서 v0.2 §3 의 매핑 정책)
+    degraded_mapping:
+      - rule_id: DM-1
+        condition: db.fail OR disk.fail
+        result: status=fail   # HTTP 503
+      - rule_id: DM-2
+        condition: db.degraded OR disk.degraded
+        result: status=degraded   # HTTP 200 (배포 LB 는 통과시키되 in-app 배너 노출)
+      - rule_id: DM-3
+        condition: db.ok AND disk.ok
+        result: status=ok   # HTTP 200
+
   metrics:
     path: /metrics
+    guard_permission: admin.metrics.read   # F91
     format: prometheus_text_004
     library: prometheus_client  # Apache-2.0
     counters:
@@ -38,28 +61,60 @@ scope:
     gauges:
       - db_pool_size
       - db_pool_in_use
+    # v0.2 보강 — 라벨 카디널리티 정책 (Prometheus 폭증 방지)
+    label_cardinality_policy:
+      max_unique_label_values_per_metric: 50
+      forbidden_label_keys:
+        - user_id      # 카디널리티 폭증 — 사용자 단위 메트릭 금지
+        - request_id   # 추적 식별자 — 메트릭 라벨 부적합
+        - hcode_full   # 전체 hcode 카디널리티 (대신 hcode_class 그룹화)
+      allowed_label_keys:
+        - method        # GET/POST/PUT/DELETE — ≤ 8
+        - endpoint_pattern  # 라우터 경로 패턴 — ≤ 50
+        - status_class  # 2xx/3xx/4xx/5xx — ≤ 5
+        - server_id     # 4 server — ≤ 4
+      enforcement:
+        static_check: "test/test_c14_ops_phase1.py::test_S_03_metric_label_cardinality_policy"
+
   audit_view:
     path: /api/v1/admin/audit
-    guard: admin.audit.read   # 신규 permission_code (catalog v1.2)
+    guard_permission: admin.audit.read   # F90
     sources:
       - audit_settlement
       - audit_returns
       - audit_password_attempts
     d_select_policy: 본 사용자 데이터만 (operator) / Server_id 분기 (branch_manager) / 전체 (admin)
+    pagination: { limit: 100, max_limit: 500 }
+
+  in_app_banner:
+    path: /api/v1/admin/alerts
+    guard_permission: admin.audit.read
+    storage: in_memory_queue   # 외부 채널 ❌ — DEC-044
+    severity: enum[info, warn, critical]
+    eviction: max_items=200, retention_minutes=60
 
 acceptance_criteria:
   - id: AC-OPS-1
-    description: /health 가 dependency 별 분리 응답 — 503 부분 실패 시 정상 분리
+    description: "/health/full 이 dependency 별 분리 응답 — degraded_mapping (DM-1~3) 정합"
+    test: "test/test_c14_ops_phase1.py::test_R_01_health_full_dependency_split"
   - id: AC-OPS-2
-    description: /metrics 가 Prometheus exposition 표준 (text-based 0.0.4)
+    description: "/metrics 가 Prometheus exposition 표준 (text 0.0.4) + 라벨 카디널리티 정책 정합"
+    test: "test/test_c14_ops_phase1.py::test_R_02_metrics_prometheus_format"
   - id: AC-OPS-3
-    description: 운영 알림 배너가 서버 권위 (DB persisted 또는 in-memory 큐) — DEC-042 If-Match 정책 점검
+    description: "in-app 알림 배너 — server-authoritative (in-memory 큐) + DEC-042 If-Match 적용"
+    test: "test/test_c14_ops_phase1.py::test_R_03_in_app_banner_etag"
   - id: AC-OPS-4
-    description: audit 통합 뷰가 admin.audit.read 가드 + d_select 적용
+    description: "audit 통합 뷰가 admin.audit.read 가드 + d_select 적용"
+    test: "test/test_c14_ops_phase1.py::test_R_04_audit_view_guard_and_dselect"
+  - id: AC-OPS-5
+    description: "신규 SQL 0건 — audit 통합 뷰는 기존 audit_* SELECT 만 호출"
+    test: "test/test_c14_ops_phase1.py::test_S_04_no_new_sql_in_ops_layer"
 
 decisions:
-  - DEC-OPS-DRAFT-1   # self-hosted only (외부 SaaS 제외)
-  - DEC-OPS-DRAFT-2   # Prometheus 단일 metrics 표준
+  - DEC-OPS-1   # self-hosted only (외부 SaaS 제외 — DEC-044 정합)
+  - DEC-OPS-2   # Prometheus 단일 metrics 표준 + 라벨 카디널리티 정책
+  - DEC-OPS-3   # /health degraded_mapping DM-1~3 동결
+  - DEC-044     # 외부 시스템 연동 제외 + 신규 SQL 0건
 open_questions:
-  - OQ-OPS-1   # 메트릭 보존 정책
-  - OQ-OPS-2   # 알림 임계값
+  - OQ-OPS-1   # 메트릭 보존 정책 (Prometheus retention)
+  - OQ-OPS-2   # 알림 임계값 (degraded → critical 승격)
