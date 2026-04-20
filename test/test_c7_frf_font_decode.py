@@ -269,6 +269,69 @@ class FontDecodeTest(unittest.TestCase):
         self.assertIn("color:#000000", html)
         self.assertNotIn("color:#0200FF", html)
 
+    def test_T_26_amp_literal_space_and_cell_opaque_background(self) -> None:
+        """v0.6.5 — `` & `` 는 짧은 셀에서 <br> 가 세로 겹침을 낳으므로 공백으로만 치환 + 흰 배경."""
+        from app.services.print_ir_compiler import compile_ir_to_html
+
+        ir = {
+            "schema_version": "0.1.0",
+            "report": {"title": "t"},
+            "pages": [
+                {
+                    "size_mm": {"width": 100, "height": 50},
+                    "margin_mm": {"top": 0, "right": 0, "bottom": 0, "left": 0},
+                    "bands": [
+                        {
+                            "name": "B1",
+                            "type": "PageHeader",
+                            "y_mm": 0.0,
+                            "height_mm": 50.0,
+                            "objects": [
+                                {
+                                    "name": "Late",
+                                    "type": "Text",
+                                    "z_order": 9,
+                                    "rect_mm": {"x": 0.0, "y": 0.0, "w": 40.0, "h": 5.0},
+                                    "border": {"left": False, "right": False, "top": False, "bottom": False},
+                                    "fill": {"transparent": False, "color": "#008080"},
+                                    "binding": {"kind": "literal", "value": "청구서 & 발송비내역서"},
+                                    "style": {"font_size_pt": 12.0},
+                                },
+                                {
+                                    "name": "Early",
+                                    "type": "Text",
+                                    "z_order": 1,
+                                    "rect_mm": {"x": 60.0, "y": 0.0, "w": 15.0, "h": 5.0},
+                                    "border": {
+                                        "left": True,
+                                        "right": True,
+                                        "top": True,
+                                        "bottom": True,
+                                        "color": "#000000",
+                                        "width_pt": 0.75,
+                                        "style": "solid",
+                                    },
+                                    "fill": {"transparent": True, "color": "#FFFFFF"},
+                                    "binding": {"kind": "literal", "value": "과장"},
+                                    "style": {"font_size_pt": 10.0},
+                                },
+                            ],
+                        }
+                    ],
+                }
+            ],
+        }
+        html = compile_ir_to_html(ir)
+        self.assertNotIn("<br", html)
+        self.assertIn("청구서", html)
+        self.assertIn("발송비내역서", html)
+        self.assertIn("청구서 발송비내역서", html)
+        self.assertIn("background:#ffffff", html)
+        # z_order 로 DOM 정렬 → Early(1) 가 Late(9) 보다 앞서며, Late 가 위에 보이도록 z-index
+        early_idx = html.find("data-legacy-id='Early'")
+        late_idx = html.find("data-legacy-id='Late'")
+        self.assertLess(early_idx, late_idx)
+
 
 if __name__ == "__main__":
     unittest.main()
