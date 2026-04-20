@@ -179,7 +179,12 @@ class BehaviorGatesC7AutoTemplate(unittest.TestCase):
         self.assertIn("(빈 IR)", html)
         self.assertNotIn("Traceback", html)
 
-    def test_B_05_compiler_skips_unsupported_object_types(self) -> None:
+    def test_B_05_compiler_renders_picture_placeholder_and_text(self) -> None:
+        """v0.2: Picture/Line/Rect 등 비텍스트 객체도 placeholder 로 렌더된다.
+
+        v0.1 까지는 Picture 가 HTML 주석으로 skip 되었지만, v0.2 부터 시각 가시성을 위해
+        `frf-pic` placeholder 를 출력한다 (analysis/print_specs/frf_ir_schema.md §8 참조).
+        """
         ir = {
             "schema_version": "0.1.0",
             "source": {"filename": "x.frf"},
@@ -217,7 +222,8 @@ class BehaviorGatesC7AutoTemplate(unittest.TestCase):
             ],
         }
         html = print_ir_compiler.compile_ir_to_html(ir)
-        self.assertIn("skipped: type=Picture", html)
+        self.assertIn("frf-pic", html)
+        self.assertIn("data-legacy-id='Pic1'", html)
         self.assertIn("hello", html)
 
 
