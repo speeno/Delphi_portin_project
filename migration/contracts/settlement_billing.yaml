@@ -27,8 +27,8 @@
 #              i18n/messages/c5.ko.json (메시지 카탈로그)
 
 id: C5-settlement-billing
-name: 정산 청구·집계·입금 + 마감 가드 (Phase 1) / 청구서출력·세금계산서·재집계·audit 회전 UI (Phase 2)
-version: 1.1.0
+name: 정산 청구·집계·입금 + 마감 가드 (Phase 1) / 청구서출력·세금계산서·재집계·audit 회전 UI (Phase 2) / PDF 다운로드 (C7 Phase 1)
+version: 1.2.0
 status: approved
 scope_phase: phase2
 acceptance_goal: |
@@ -1168,6 +1168,27 @@ endpoints:
         body: "<html>... 청구서 1매 ...</html>"
       "404": { body: { detail: "해당 거래처의 청구 자료가 없습니다.", code: "ST_NOT_FOUND" } }
 
+  - method: GET
+    path: /api/v1/settlement/billing/{billing_key}/print.pdf
+    description: "Sobo46 청구서 1매 PDF 다운로드 (C7 Phase 1 — DEC-037 WeasyPrint). HTML 미리보기와 동일 데이터 + 동일 빌더 함수 (render_invoice_pdf_html → render_pdf)."
+    auth: bearer
+    in_scope_phase: c7_phase1
+    notes: "DEC-037 — WeasyPrint 단일 엔진. 마감(`T2_Ssub.Yesno='1'`) 자료는 본문 위 '마감' 워터마크 (print_specs/c7_phase1.md §4)."
+    request:
+      path:
+        billing_key: "string '{gdate}|{hcode}'"
+      query:
+        server_id: string
+    responses:
+      "200":
+        content_type: application/pdf
+        headers:
+          Content-Disposition: 'inline; filename="invoice_{gdate}_{hcode}.pdf"'
+          Cache-Control: "private, no-store"
+        body: "<binary PDF bytes — `%PDF-` magic + `%%EOF`>"
+      "404": { body: { detail: "해당 거래처의 청구 자료가 없습니다.", code: "ST_NOT_FOUND" } }
+      "503": { body: { detail: "PDF 엔진이 설치되지 않았습니다.", code: "PR_ENGINE_UNAVAILABLE" } }
+
   # ===========================================================
   # Phase 2 — 재집계 잡
   # ===========================================================
@@ -1318,6 +1339,26 @@ endpoints:
         body: "<html>... 세금계산서 1매 ...</html>"
       "404": { body: { detail: "해당 거래처의 세금계산서 자료가 없습니다.", code: "ST_NOT_FOUND" } }
 
+  - method: GET
+    path: /api/v1/settlement/tax-invoice/{billing_key}/print.pdf
+    description: "Sobo49 세금계산서 1매 PDF 다운로드 (C7 Phase 1 — DEC-037). 발행/미발행 배지 + 마감 워터마크 포함."
+    auth: bearer
+    in_scope_phase: c7_phase1
+    request:
+      path:
+        billing_key: "string '{month}|{hcode}'"
+      query:
+        server_id: string
+    responses:
+      "200":
+        content_type: application/pdf
+        headers:
+          Content-Disposition: 'inline; filename="tax_invoice_{month}_{hcode}.pdf"'
+          Cache-Control: "private, no-store"
+        body: "<binary PDF bytes>"
+      "404": { body: { detail: "해당 거래처의 세금계산서 자료가 없습니다.", code: "ST_NOT_FOUND" } }
+      "503": { body: { detail: "PDF 엔진이 설치되지 않았습니다.", code: "PR_ENGINE_UNAVAILABLE" } }
+
   # ===========================================================
   # Phase 2 — audit 회전 UI 목록
   # ===========================================================
@@ -1435,6 +1476,16 @@ deltas:
     phase2_behavior: "신규 페이지 /admin/audit-rotate — 기존 audit_password_service.rotate_password 두 호출(scope='gpass_change' / 'audit')을 한 화면에서 운용. 기존 AuditPasswordModal(returns 폴더 → shared 폴더로 이동) 재사용. GET /audit/settlement 로 최근 N건 표시."
     risk: "두 scope 의 패스워드를 한 운영자가 모두 회전할 수 있음 → audit_settlement 에 user/IP 기록 필수 (Phase 1 audit 인프라 그대로 활용)."
 
+  - id: D-ST-12
+    title: 청구서/세금계산서 PDF 다운로드 (C7 Phase 1 — DEC-037)
+    in_scope_phase1: false
+    in_scope_phase2: false
+    in_scope_c7_phase1: true
+    decision_ref: DEC-037
+    legacy_behavior: "Subu46.pas L418 `Tong40.print_46_01/02`, Subu49.pas L601 `Tong40.PrinTing00` — Delphi Canvas 직접 그리기. C5 Phase 2 = HTML 미리보기까지 (DEC-034 의 'PDF는 C7 이연')."
+    c7_phase1_behavior: "GET .../print.pdf 2건 신규. WeasyPrint 단일 엔진 (DEC-037). 빌더 함수는 기존 render_*_html 재사용 (SRP — 신규 SQL 0). 마감 자료는 '마감' 워터마크 (print_specs/c7_phase1.md §4)."
+    risk: "WeasyPrint 시스템 의존성(libpango/libcairo) 누락 시 503. Dockerfile 메모 + Phase 1 회귀 테스트 1건으로 가시화 (c7.engine.unavailable)."
+
 # ---------------------------------------------------------------
 # 7. 동등성 기준 (5축)
 # ---------------------------------------------------------------
@@ -1490,8 +1541,12 @@ out_of_scope:
   #   - 재집계 잡 (recalc_aggregate) → Phase 2 진입 (동기 트리거 — D-ST-10)
   #   - 고급 audit (audit 회전 UI) → Phase 2 진입 (D-ST-11)
   #
-  # Phase 2 도 포함하지 않는 항목:
-  - "청구서/세금계산서 PDF 생성 + 실인쇄 + 일괄 인쇄 — C7 인쇄 모듈 (DEC-034)"
+  # C7 Phase 1 진입 (D-ST-12 신설로 해소):
+  #   - 청구서/세금계산서 PDF 다운로드 → C7 Phase 1 진입 (DEC-037 WeasyPrint)
+  #
+  # Phase 2 / C7 Phase 1 도 포함하지 않는 항목:
+  - "일괄 인쇄 (Sobo46 Button016/017, Sobo49 Button016/017) — C7 Phase 2"
+  - "프린터 직결 (PrinterSetupDialog) — OQ-002 잔존 (브라우저 인쇄 다이얼로그 위임)"
   - "세금계산서 외부 채널 실연결 (홈택스/이메일/팩스 등) — DEC-035 후속"
   - "재집계 백그라운드 큐 (비동기, 재시도) — Phase 2 합격선 미달 시 후속 사이클"
   - "F43~F47 권한 분기 (DEC-009) — C10 RBAC 통합"
@@ -1572,6 +1627,20 @@ changelog:
       - customer_variants: takbae(Sobo45_1) + cash_status_sdate(Sobo42_1) — 코드 분기 금지
       - i18n: c5.ko.json 단일 출처 (T2 산출물)
       - Phase 2 후속: Sobo46(인쇄)/Sobo49(세금)/재집계 잡/고급 audit
+  - date: 2026-04-20
+    by: porting-team
+    note: |
+      1.2.0 — C7 Phase 1 (청구서/세금계산서 PDF 다운로드) 확장. C5 Phase 2 의 HTML 미리보기에 PDF 응답 2건만 추가.
+      - scope_phase: phase2 유지 + in_scope_c7_phase1 플래그 분기
+      - acceptance_goal: C5 Phase 2 합격선 그대로 + DEC-037 (WeasyPrint) 단일 엔진으로 PDF 다운로드 가능
+      - 신설 결정: DEC-037 (PDF 엔진 = WeasyPrint), DEC-038 (라벨 1종 한정 — 본 contract 무관, print_label.yaml 참조), DEC-039 (.frf 참조용 카탈로그)
+      - endpoints +2건: GET /settlement/billing/{key}/print.pdf, GET /settlement/tax-invoice/{key}/print.pdf
+      - deltas +1건: D-ST-12 (PDF 다운로드)
+      - 신규 SQL: 0 (기존 SQL-ST-13~22 재사용 — 빌더 함수만 신설)
+      - out_of_scope: 'PDF 생성' 항목 제거 (해소). '일괄 인쇄' 와 '프린터 직결' 은 잔존
+      - 회귀: pytest -k 'pdf_signature or pdf_text or closed_watermark' 7케이스 (test_c7_print_phase1.py)
+      - 관련 contract: print_invoice.yaml v1.0.0 (5종 중 P1-A/B 본 contract 가 흡수, P1-C/D/E 는 별도), print_label.yaml v1.0.0 (라벨 — 무관)
+
   - date: 2026-04-19
     by: porting-team
     note: |

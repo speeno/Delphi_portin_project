@@ -23,8 +23,17 @@
 - **질문**: 현장에서 사용하는 스캐너/프린터/저울의 모델과 연동 방식(HID/시리얼/네트워크)은 무엇인가?
 - **발생 시점**: Sprint 0 계획 수립
 - **영향 범위**: 장비 브리지 설계, Capture Harness 캡처 범위
-- **상태**: 미해결
+- **상태**: **추가 해소 (2026-04-20, C8 Phase 1)** — 바코드 스캐너 분기는 DEC-004 + DEC-040 으로 동결 (USB-HID 키보드 웨지 1차, `lib/scanner.ts` keydown+CR+디바운스). 라벨 프린터 직결 + Web Serial 직결 + 저울만 잔여 → **OQ-002-R** 로 분리 (Phase 2 이후).
 - **코드베이스 1차 조사 (레거시 소스)**: [`docs/legacy-print-scanner-integration-survey.md`](../docs/legacy-print-scanner-integration-survey.md) — 프린터(VCL/QuickReport/캔버스), COM 바코드(`Tong08`), 리포트 바코드 객체(`Tong06.dfm`) 확인. TWAIN/WIA 스캐너 API는 미발견.
+- **C7 Phase 1 결과 (2026-04-20)**: PDF 다운로드 = WeasyPrint(Python) 단일 엔진 (DEC-037), 라벨 = 우편엽서 1종 (DEC-038), `.frf` 정본 = 참조용 (DEC-039 / T9 카탈로그). 직결 프린터·라벨 프린터 드라이버 연동은 본 페이즈 out-of-scope.
+- **C8 Phase 1 결과 (2026-04-20)**: USB-HID 키보드 웨지 채택 (DEC-004 = 1차 정책). `POST /api/v1/scan/match` 1 엔드포인트로 G4_Book 매칭 + G1/G2_Ggeo 단가 폴백 (DEC-040). 출고/입고/반품 3 화면에 단일 `ScanInput` 공통 컴포넌트 통합 (DEC-028 룰 7). Web Serial 직결은 **OQ-002-R 잔류**.
+
+### OQ-002-R: 라벨 프린터 직결 + Web Serial 스캐너 직결 + 저울 통합 (잔여)
+- **분리 일자**: 2026-04-20 (C8 Phase 1 마감 시점)
+- **잔여 항목**: (a) 라벨 프린터 직결 (Zebra/Brother 등 ZPL/DPL 스트림 직접 송신), (b) Web Serial API (Chromium 89+) 로 USB 시리얼 스캐너 직결, (c) 저울 (시리얼/USB 로 무게 자동 입력) 의 모던 포팅 방식.
+- **현재 우회**: (a) 모든 라벨/송장 = WeasyPrint PDF 다운로드 후 OS 인쇄 (DEC-037), (b) 모든 스캐너 = USB-HID 키보드 웨지 (DEC-004 / `lib/scanner.ts`), (c) 저울 = 수기 입력.
+- **Phase 2 트리거**: 라벨 프린터 직결 1건 이상 운영 요구 발생, 또는 Web Serial 호환 브라우저 시장 점유 90%+ 달성, 또는 저울 자동 입력 누락 비용 > 도입 비용.
+- **참조**: DEC-004, DEC-040, `analysis/regression/c8_phase1.md` §6 운영 배포 체크.
 
 ### OQ-003: DB 서버 구성
 - **질문**: 운영 DB 서버가 몇 대이며, 서버 간 스키마 차이가 있는가?

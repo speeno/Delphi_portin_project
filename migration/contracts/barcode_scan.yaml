@@ -1,0 +1,257 @@
+# Migration Contract: 바코드 스캔 — 출고/입고/반품 매칭 (C8 Phase 1)
+# 본 계약은 레거시 Tong08 (시리얼) + Tong07.Button100Click (매칭) 의 모던 흡수를 정의합니다.
+# Phase 1 = USB-HID 키보드 웨지 1차 (DEC-004). Web Serial / 시리얼 브리지 = OQ-002-R.
+#
+# 출처(레거시):
+#   - legacy_delphi_source/legacy_source/Tong08.pas (TTong80 — TComPort + ComPortRxChar L40)
+#   - legacy_delphi_source/legacy_source/Tong07.pas (TTong70 frame — Button100Click L78, Edit101KeyPress L66, Button104Click L333)
+#   - legacy_delphi_source/legacy_source/Subu21.pas (Sobo21 nForm='21' L171, FTong07 인스턴스 L704-708)
+#   - legacy_delphi_source/legacy_source/Subu22.pas (Sobo22 nForm='22' L167)
+#   - legacy_delphi_source/legacy_source/Subu23.pas (Sobo23 nForm='23' L167)
+# 핵심 결정:
+#   DEC-004 (USB-HID 1차), DEC-010 (C2 분리 → C8), DEC-028 (dfm 영구 입력),
+#   DEC-040 (서버 매칭 + 클라 라인 분리, 단가 폴백 Hcode='' 우선)
+
+id: C8-barcode-scan
+name: 바코드 스캔 — 출고/입고/반품 매칭 (C8 Phase 1)
+version: 1.0.0
+status: approved
+scope_phase: c8_phase1
+acceptance_goal: |
+  C8 Phase 1 합격선:
+  "기존 사용자가 USB-HID 키보드 웨지 스캐너로 ISBN/바코드를 스캔하면, 출고/입고/반품 화면이
+   자동으로 G4_Book 도서 매칭 + 거래처별 단가 (G1/G2_Ggeo) 를 채워 라인 입력 폼에 미리채운다."
+  매칭 결과는 서버가 단일 응답으로 반환하고, 라인 추가는 클라이언트 책임 (DEC-040).
+  단가 폴백 = Hcode='' 1순위 → 라인 Hcode 2순위 (레거시 Tong07.pas L126-149 동등).
+  Web Serial / 시리얼 브리지 / 자동 라인 병합 = out-of-scope.
+
+owners:
+  business: 메인개발자
+  legacy: 델파이 담당자
+  web: 웹 포팅 팀
+
+links:
+  candidate: docs/core-scenarios-candidates.md#c8-바코드
+  test_pack:
+    - test/test_c8_scan_phase1.py
+  source_legacy:
+    - legacy_delphi_source/legacy_source/Tong08.pas
+    - legacy_delphi_source/legacy_source/Tong08.dfm
+    - legacy_delphi_source/legacy_source/Tong07.pas
+    - legacy_delphi_source/legacy_source/Tong07.dfm
+    - legacy_delphi_source/legacy_source/Subu21.pas
+    - legacy_delphi_source/legacy_source/Subu22.pas
+    - legacy_delphi_source/legacy_source/Subu23.pas
+  source_analysis:
+    - analysis/screen_cards/Tong08.md
+    - analysis/layout_mappings/c8_scan_match.md
+    - analysis/handlers/c8_scan.md
+  source_dfm_artifacts:
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu21/
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu22/
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu23/
+    # 변형: Subu22_1, Subu22_2, Subu23_1, Subu23_1_chul05, Subu23_1_chul08
+
+decisions:
+  - DEC-004      # 인쇄·바코드 웹 대체 1차 (USB-HID)
+  - DEC-010      # C2 출고 1차 포팅에서 Tong08 분리 → C8
+  - DEC-028      # dfm 산출물 영구 입력
+  - DEC-040      # C8 신규 — 서버 매칭 + 클라 라인 분리, 단가 폴백 정책
+
+open_questions:
+  - OQ-002-R     # 라벨 직결 + Web Serial 잔여 (분리)
+
+# ---------------------------------------------------------------
+# 1. 엔드포인트
+# ---------------------------------------------------------------
+endpoints:
+  - method: POST
+    path: /api/v1/scan/match
+    description: |
+      바코드/ISBN 1건 매칭. 레거시 Tong07.Button100Click (L78) 등가.
+      G4_Book 매칭 → G1/G2_Ggeo 단가 폴백 (Hcode='' 우선) → resolved 라인 객체 반환.
+      라인 추가는 클라이언트 책임 (DEC-040). 서버 측 라인 INSERT 없음.
+    auth: bearer
+    in_scope_phase: c8_phase1
+    notes: |
+      신규 SQL 0건. SQL-SC-1 (G4_Book) / SQL-SC-2 (G1_Ggeo) / SQL-SC-3 (G2_Ggwo) / SQL-SC-4 (G4_Book Grat 보강)
+      모두 기존 SQL 의 재해석. 멀티 DB 룰 준수: 단건 SELECT 이지만 4 server 매트릭스 등록.
+    request:
+      body:
+        barcode: "string (ISBN-13 등 — TTong70.Edit101 의 nLen1 자른 값과 등가, 클라이언트 측 trim)"
+        hcode: "string (호출 화면의 거래처 코드 — Sobo*.Edit107.Text 등가)"
+        context: "enum: outbound | inbound | return (레거시 nForm '21'/'22'/'23' 등가)"
+        server_id: "string (멀티 DB — remote_138/153/154/155)"
+    responses:
+      "200":
+        content_type: application/json
+        body:
+          status: "enum: matched | nodata"
+          resolved:
+            type: object|null
+            description: "status=matched 일 때만 채워짐"
+            properties:
+              gcode: string
+              gname: string
+              gjeja: string
+              ocode: "string ('B' default)"
+              gdang: integer
+              grats: "[number, number, number, number, number, number] | null"
+              grats_source: "enum: G1_Ggeo:hcode_empty | G1_Ggeo:hcode_line | G2_Ggwo:hcode_empty | G2_Ggwo:hcode_line | none"
+          barcode: string
+          hcode: string
+          context: string
+        examples:
+          matched:
+            status: matched
+            resolved:
+              gcode: "001"
+              gname: "도서명"
+              gjeja: "저자"
+              ocode: "B"
+              gdang: 15000
+              grats: [0.85, 0.80, 0.75, 0.70, 0.65, 0.60]
+              grats_source: "G1_Ggeo:hcode_empty"
+            barcode: "9788972754381"
+            hcode: "1234"
+            context: outbound
+          nodata:
+            status: nodata
+            resolved: null
+            barcode: "0000000000000"
+            hcode: "1234"
+            context: outbound
+      "400":
+        body: { detail: "거래처를 먼저 선택하세요.", code: "SC_HCODE_REQUIRED" }
+      "422":
+        body: { detail: "필수 필드 누락 또는 context 값이 잘못되었습니다.", code: "SC_VALIDATION_FAILED" }
+
+# ---------------------------------------------------------------
+# 2. 차이점·결정 사항
+# ---------------------------------------------------------------
+deltas:
+  - id: D-SC-1
+    title: 단가 폴백 우선순위 (Hcode='' → 라인 Hcode)
+    decision_ref: DEC-040
+    legacy_behavior: |
+      Tong07.pas L126-149 (출고), L159-184 (입고), L192-218 (반품) 모두 동일 패턴:
+        1) Select Grat* From G1_Ggeo Where Gcode=@Gcode and Hcode='' → NODATA?
+        2) Select Grat* From G1_Ggeo Where Gcode=@Gcode and Hcode=@Hcode → 그래도 NODATA?
+        3) Grat* 없음 (gdang 폴백)
+    c8_behavior: |
+      pricing_service.resolve_grats(context, gcode, hcode, server_id) 가 동일 순서 보장.
+      grats_source 필드로 어느 단계에서 매칭됐는지 가시화 (디버깅 + 운영 분석).
+    risk: "레거시 G6_Ggeo 특별 단가 (L268-289, nForm='21' 만) 는 Phase 1 비범위 → 해당 거래처는 후속 Phase 에서 추가."
+
+  - id: D-SC-2
+    title: 시리얼 (TComPort) → USB-HID 키보드 웨지 단일화
+    decision_ref: DEC-004
+    legacy_behavior: |
+      Tong08.ComPortRxChar 가 시리얼 바이트 수신 → #13 (CR) 종결 → Sobo*.FTong07.Button104Click(nBarcode) 호출.
+      병행: Tong07.Edit101.OnKeyPress (L66) 가 사용자 Enter 시 Button100Click 호출.
+    c8_behavior: |
+      모던은 USB-HID 키보드 웨지만 1차 채택 — 웨지가 OS 수준에서 키 이벤트로 전달.
+      lib/scanner.ts useScanner({ onScan }) 가 keydown 버퍼 + CR 종결 + 30ms 인터벌로 인간/웨지 구분.
+      시리얼 (TComPort) 경로는 Web Serial 또는 로컬 브리지로 OQ-002-R 분리.
+    risk: "기존 시리얼 스캐너 (구형 RS-232) 사용 거래처 → USB-HID 변환 어댑터 또는 신형 스캐너 권장. 운영 매뉴얼 갱신."
+
+  - id: D-SC-3
+    title: 라인 추가 = 클라이언트 책임 (서버는 resolved 만 반환)
+    decision_ref: DEC-040
+    legacy_behavior: |
+      Tong07.Button100Click 가 nSqry.Append (L96-104) 로 즉시 그리드에 라인 추가 — 서버 라운드트립 없음 (DBClient 패턴).
+    c8_behavior: |
+      모던 서버는 매칭만 수행 (resolved 객체 반환). 라인 추가 = 클라이언트 (페이지 상태 라인 배열 mutation).
+      저장은 기존 PUT /orders/{key} / PUT /receipts/{key} / PUT /returns/{key} desired-state diff 가 그대로 받음 → 백엔드 회귀 0.
+    risk: "사용자가 매칭 성공 후 페이지를 닫으면 라인 손실 — 'unsaved changes' 가드 필요 (T6 자동 처리)."
+
+  - id: D-SC-4
+    title: 중복 ISBN 감지 = 클라이언트측 (자동 병합 없음)
+    decision_ref: DEC-040
+    legacy_behavior: "Tong07 본체에 중복 감지 분기 없음 — 매번 새 행 append (Append L98)."
+    c8_behavior: |
+      모던 클라이언트가 라인 배열을 검사하여 동일 ISBN 발견 시 'c8.scan.duplicate' 경고 토스트.
+      자동 수량 병합은 운영 정책 미합의 상태 → Phase 2 (별도 OQ).
+    risk: "사용자가 경고 무시 후 동일 ISBN 라인 N건 입력 → 저장 시 중복 INSERT (기존 PUT diff 가 그대로 처리). 합계 검증은 화면 측 책임."
+
+  - id: D-SC-5
+    title: 서버 매칭 = 단건 LIMIT 1 (멀티 DB 호환)
+    decision_ref: DEC-004
+    legacy_behavior: "Base10.Socket.RunSQL → Body_Data NODATA 검사."
+    c8_behavior: |
+      scan_match_service.py 가 단건 SELECT (LIMIT 1) — 멀티 DB 룰 §1 준수 (apply_limit_offset_syntax 호출 가능 형태).
+      현재 단건이라 LIMIT 미사용이지만 미래 확장 (다건 매칭 후보) 대비 헬퍼 경유.
+    risk: "동일 ISBN 이 동일 거래처에 다건 G4_Book 행이 있을 경우 첫 행만 채택 (레거시 동등). 모순 데이터는 레거시와 동일하게 무음 무시."
+
+# ---------------------------------------------------------------
+# 3. 동등성 기준
+# ---------------------------------------------------------------
+equivalence:
+  functional:
+    - "POST /scan/match 가 matched/nodata 두 status 만 반환 (200 OK 유지, 404 미사용)."
+    - "context=outbound|return → G1_Ggeo, context=inbound → G2_Ggwo."
+    - "단가 폴백 Hcode='' (1순위) → 라인 Hcode (2순위) 순서 보장."
+    - "잘못된 context 값 → 422 + SC_VALIDATION_FAILED."
+    - "hcode 빈 문자열 또는 누락 → 400 + SC_HCODE_REQUIRED (레거시는 빈 Hcode 로도 동작했으나 모던은 명시 요구)."
+  data:
+    - "신규 SQL 0건. SQL-SC-1~4 모두 기존 G4_Book/G1_Ggeo/G2_Ggwo 의 재해석."
+    - "G6_Ggeo (특별 단가) 비범위 — Phase 2."
+    - "트랜잭션 없음 (모두 SELECT)."
+  ux:
+    - "출고/입고/반품 3 페이지 모두 useScanner 훅으로 동일 UX (입력 박스 + 매칭 카드)."
+    - "data-legacy-id='FTong07.Edit101' 3 페이지 부착 ≥ 3건 (T7 grep)."
+    - "토스트 메시지 i18n c8.ko.json 의 8 키 모두 사용."
+  performance:
+    - "단건 매칭 p95 < 200ms (단일 SELECT × 최대 3 → 4 server 매트릭스 평균)."
+    - "스캐너 디바운스 = 30ms 인터벌 임계 (인간 키 입력 vs 웨지 구분)."
+  audit:
+    - "Phase 1 스캔 audit 미기록 (감사 요구 시 별도 시나리오)."
+
+# ---------------------------------------------------------------
+# 4. 비범위
+# ---------------------------------------------------------------
+out_of_scope:
+  - "Web Serial / 시리얼 브리지 (TComPort 직대체) — OQ-002-R / DEC-004 보류"
+  - "라벨 자동 병합 (동일 ISBN 누적 수량) — Phase 2 (OQ 신설)"
+  - "G6_Ggeo 특별 단가 (Tong07.pas L268-289) — Phase 2"
+  - "Tong20.PrinJing/PrinZing/PrinYing/PrinRat1 단가 보정 헬퍼 — Phase 2 (가격 계산 통합)"
+  - "스캔 사용 audit 로그 (KPI/감사) — 운영 요구 발생 시 별도"
+  - "Tong07.Button104Click 의 nLen1 자르기 — 클라이언트 측 lib/scanner.ts trim 으로 흡수"
+  - "동일 ISBN 다건 G4_Book 행 모순 검증 — 레거시 동등 (첫 행)"
+
+# ---------------------------------------------------------------
+# 5. 변형 차이 (코드 분기 금지 — 데이터/어댑터로만)
+# ---------------------------------------------------------------
+customer_variants:
+  default:
+    notes: "기준 — G4_Book/G1_Ggeo/G2_Ggwo 모두 표준 컬럼 (Gisbn/Hcode/Gcode/Grat1~6) 존재."
+    enabled_widgets: ["FTong07.Edit101", "FTong07.Button100"]
+
+  remote_138_slim_schema:
+    notes: |
+      138 slim 스키마 — 일부 거래처 G4_Book 에 Gjeja/Ocode 컬럼 누락 가능.
+      서비스 레이어 분기 금지 — adapt 레이어 (app/services/g4_book_adapt.py 후보) 에서 SHOW COLUMNS 로 흡수.
+    diff_from_base:
+      - "Gjeja/Ocode 누락 시 resolved.gjeja='' / resolved.ocode='B' default."
+
+  mysql_3_legacy:
+    notes: "remote_154/155 (MySQL 3.23) — apply_limit_offset_syntax 의 무바인딩 LIMIT 형태 적용. CAST AS CHAR 미사용."
+    diff_from_base:
+      - "LIMIT/OFFSET 헬퍼 경유 (sql_mysql3.py)."
+
+# ---------------------------------------------------------------
+# 6. 변경 이력
+# ---------------------------------------------------------------
+changelog:
+  - date: 2026-04-20
+    by: porting-team
+    note: |
+      1.0.0 — C8 Phase 1 신규 작성.
+      - DEC-040 신설 (서버 매칭 + 클라 라인 분리, 단가 폴백 Hcode='' 우선)
+      - DEC-010 후속 (C2 분리 → C8 통합) 마감
+      - 신규 SQL 0건 (SQL-SC-1~4 = 기존 G4_Book/G1/G2_Ggeo 재해석)
+      - endpoints +1: POST /api/v1/scan/match
+      - deltas 5건: D-SC-1~5
+      - customer_variants 3건: default + 138 slim + MySQL 3 legacy
+      - 회귀: test_c8_scan_phase1.py + 4 server probe matrix
+      - 잔존: OQ-002-R (Web Serial / 라벨 직결)

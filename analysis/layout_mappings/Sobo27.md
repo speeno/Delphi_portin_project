@@ -153,12 +153,58 @@ dfm Sobo27 에는 **"신규 주문 등록 폼" 자체가 없음** (Button201 클
 - [ ] 변형 차이는 `customer_variants` 에만 존재, 컴포넌트 코드에 if/switch 분기 0건.
 - [ ] DEC-028 §3 "버리는 정보" 가 코드에 들어가지 않았는지 (픽셀 left/top/width/height 등) 리뷰.
 
-## 11. 참조
+## 11. PDF 절 (C7 Phase 1 보강 — 출고 거래명세서)
+
+DEC-009 (인쇄는 후속) 의 후속이 본 C7. Sobo27 자체는 목록 화면이며, 인쇄 대상은 **선택된 단일 출고 전표의 거래명세서**.
+
+| 항목 | 값 | 근거 |
+| --- | --- | --- |
+| 양식 코드 | `P1-C` (출고 거래명세서) | `print_specs/c7_phase1.md` §1 |
+| 용지/여백 | A4 세로 (`210mm 297mm`) / `12mm` | 동 §1 |
+| 헤더 | 거래처명 + 출고일자 + 전표번호 | §3 본 노트 (`Edit101`/`Panel101` 의미 흡수) |
+| 본문 표 | 도서코드/도서명/구분/수량/단가/금액 (6컬럼) | DBGrid101 의 GCODE/GNAME/CODE3/GOQUT/단가/금액 |
+| 합계 | tfoot 2종 (수량합/금액합) | DBGrid101 footer |
+| 엔드포인트 | `GET /api/v1/print/outbound-statement/{order_key}.pdf` (T5b — `routers/print.py` 신규) | T5b |
+| 빌더 | `outbound_service.render_outbound_statement_html(order_key)` (기존 `get_order_detail` 재사용) | T5c — SRP, 신규 SQL 0 |
+| 데이터 출처 | 기존 SQL-OUT-6 (출고 detail) — 신규 SQL 없음 | C2 자산 재사용 |
+| FE 진입점 | 신규 `/print/outbound/[orderKey]/page.tsx` (T6b) — 미리보기 + PDF 다운로드 |  |
+| FE 트리거 | Sobo27 페이지 행 액션 "명세서" 버튼 → 신규 페이지로 이동 | T6b |
+| 회귀 | `pytest -k test_outbound_statement_pdf_signature/text/empty` 3 케이스 | T4 |
+
+> **DEC-009 종결**: "인쇄는 후속" 의 후속이 본 C7. C2 의 SQL/서비스는 그대로, 빌더만 신설.
+
+### 11.1 Phase 2-α 거래처별 변형 표 (10 변형)
+
+`Report_4_51-{0~9}.frf` 10 변형의 시각 차이를 단일 모던 빌더 `render_outbound_statement_html(detail, *, variant: str = "base")` 의 데이터 주도 분기로 흡수한다 (코드 분기 금지 — DEC-019 패턴 재사용).
+
+| variant | .frf 정본 | 헤더 로고/회사명 차이 | 컬럼 구성 차이 | 합계 행 차이 | 우선순위 |
+| --- | --- | --- | --- | --- | --- |
+| `base` | `Report_4_51.frf` | 기본 (로고 없음) | 6 컬럼 (Phase 1 기준) | 수량합/금액합 | Phase 1 (변경 없음) |
+| `v0` | `Report_4_51-0.frf` | 거래처 0 — 기본 변형 | 동일 | 동일 | Phase 2-α |
+| `v1` | `Report_4_51-1.frf` | 거래처 1 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v2` | `Report_4_51-2.frf` | 거래처 2 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v3` | `Report_4_51-3.frf` | 거래처 3 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v4` | `Report_4_51-4.frf` | 거래처 4 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v5` | `Report_4_51-5.frf` | 거래처 5 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v6` | `Report_4_51-6.frf` | 거래처 6 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v7` | `Report_4_51-7.frf` | 거래처 7 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v8` | `Report_4_51-8.frf` | 거래처 8 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v9` | `Report_4_51-9.frf` | 거래처 9 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+
+> **변형 대표 차이 (정본 `.frf` 미열람 한계)**: `.frf` 는 FastReport VCL 4.x 바이너리 (DEC-039) — 본 표는 `frf_catalog.md` 의 매핑 + 레거시 운영 관행 기반 추정. 실제 시각 차이는 운영 SME 검토 후 contract `customer_variants` 에 항목별 diff 채워 갱신 필요. 헤더 텍스트만 다른 경우가 다수, 컬럼 추가/제거 변형은 미발견.
+>
+> **단일 모던 컴포넌트 + 데이터 주도 분기 (DEC-019/028 룰 7)**: 변형별 `if customer_id == ...` 분기 금지. `variant` 파라미터로 헤더 라벨/CSS 클래스만 차이. 거래처 → variant 자동 매핑 테이블은 **Phase 2-β** 보류 (Phase 2-α 는 contract + `?variant=` 쿼리 수동 지정만).
+>
+> **base variant byte-identical 보장**: variant 미지정 시 또는 `variant=base` 시 Phase 1 산출물과 byte 동일 (테스트로 검증).
+
+## 12. 참조
 
 - DEC-028: dfm→html 산출물 영구 입력 동결.
 - DEC-019: customer_variants 통합 정책.
 - DEC-009 / DEC-012: 인쇄 후속 / 소프트 취소만.
+- **DEC-037/038/039** (C7 T8): WeasyPrint / 라벨 1종 / .frf 참조용
 - HA-RET-01: retrofit 백로그 (본 노트가 첫 산출물).
 - 화면 카드: [`analysis/screen_cards/Sobo27.md`](../screen_cards/Sobo27.md)
-- contract: [`migration/contracts/outbound_order.yaml`](../../migration/contracts/outbound_order.yaml)
-- 회귀 테스트: [`test/test_c2_outbound_phase1.py`](../../test/test_c2_outbound_phase1.py)
+- contract: [`migration/contracts/outbound_order.yaml`](../../migration/contracts/outbound_order.yaml), [`migration/contracts/print_invoice.yaml`](../../migration/contracts/print_invoice.yaml) v1.0.0 (C7 PDF 계약)
+- 인쇄 사양: [`analysis/print_specs/c7_phase1.md`](../print_specs/c7_phase1.md) §P1-C
+- 회귀 테스트: [`test/test_c2_outbound_phase1.py`](../../test/test_c2_outbound_phase1.py), [`test/test_c7_print_phase1.py`](../../test/test_c7_print_phase1.py)

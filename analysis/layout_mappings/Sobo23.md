@@ -151,15 +151,56 @@ dfm Panel003 의 입력 위젯 → 모던 `/returns/[returnKey]/page.tsx` 메모
 - [ ] DEC-012 soft cancel — 취소된 반품(`yesno=2`) 은 기본 숨김, 토글로 표시
 - [ ] DEC-028 §3 "버리는 정보" (픽셀 left/top/width/height/Color) 가 코드에 없음
 
-## 11. 참조
+## 11. PDF 절 (C7 Phase 1 보강 — 반품 영수증)
+
+DEC-017 (인쇄 트리거 → C7) 의 종결.
+
+| 항목 | 값 | 근거 |
+| --- | --- | --- |
+| 양식 코드 | `P1-D` (반품 영수증) | `print_specs/c7_phase1.md` §1 |
+| 용지/여백 | A4 세로 (`210mm 297mm`) / `12mm` | 동 §1 |
+| 헤더 | 거래처명 + 반품일자 + 전표번호 | §3 본 노트 (`Edit101`/`Panel101`) |
+| 본문 표 | 도서코드/도서명/구분/수량/단가/할인/금액/비고/상태 (9컬럼) | DBGrid101 + 비고/yesno 추가 |
+| 합계 | tfoot 2종 (수량합/금액합 — `GSQUT`/`GSSUM`) | DBGrid101 footer |
+| 취소행 표시 | `yesno=2` 행에 `text-decoration: line-through` + 회색 | DEC-012 soft cancel 시각화 |
+| 엔드포인트 | `GET /api/v1/print/return-receipt/{return_key}.pdf` (T5b — `routers/print.py`) | T5b |
+| 빌더 | `returns_service.render_return_receipt_html(return_key)` (기존 `get_return_detail` 재사용) | T5c — SRP, 신규 SQL 0 |
+| 데이터 출처 | 기존 SQL-RT-3~5 — 신규 SQL 없음 | C4 자산 재사용 |
+| FE 진입점 | 신규 `/print/returns/[returnKey]/page.tsx` (T6b) — 미리보기 + PDF 다운로드 |  |
+| FE 트리거 | Sobo23 행 액션 "영수증" 버튼 → 신규 페이지 | T6b |
+| 회귀 | `pytest -k test_return_receipt_pdf_signature/text/cancelled_strike` 3 케이스 | T4 |
+
+> **DEC-017 종결**: C4 의 SQL/서비스는 그대로, 빌더 + 신규 페이지/엔드포인트만.
+
+### 11.1 Phase 2-α 거래처별 변형 표 (4 변형)
+
+`Report_2_13-{1,2,3,5}.frf` 4 변형 (※ 4 누락 — 운영 SME 확인 필요) 의 시각 차이를 단일 모던 빌더 `render_return_receipt_html(detail, *, variant: str = "base")` 의 데이터 주도 분기로 흡수한다.
+
+| variant | .frf 정본 | 헤더 로고/회사명 차이 | 컬럼 구성 차이 | 합계 행 차이 | 우선순위 |
+| --- | --- | --- | --- | --- | --- |
+| `base` | `Report_2_13.frf` | 기본 (반품 영수증 표준) | 6 컬럼 (Phase 1 기준) | 수량합/금액합 | Phase 1 (변경 없음) |
+| `v1` | `Report_2_13-1.frf` | 거래처 1 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v2` | `Report_2_13-2.frf` | 거래처 2 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v3` | `Report_2_13-3.frf` | 거래처 3 — 헤더 텍스트 변형 | 동일 | 동일 | Phase 2-α |
+| `v5` | `Report_2_13-5.frf` | 거래처 5 — 헤더 텍스트 변형 (`-4` 결번) | 동일 | 동일 | Phase 2-α |
+
+> **`-4` 결번 추정**: 거래처 4 가 폐업/해지 또는 `-3` 양식 공유 가능성. 운영 SME 확인 후 contract 의 `customer_variants` 에 `note: "거래처 4 결번 — `-3` 공유 또는 미사용"` 기록 필요. variant 매핑 시 `v4` 는 미정의 키로 유지.
+>
+> **단일 모던 컴포넌트 + 데이터 주도 분기 (DEC-019/028 룰 7)**: Sobo27 과 동일 정책. `?variant=` 쿼리 수동 지정만 Phase 2-α 범위.
+>
+> **base variant byte-identical 보장**: variant 미지정 시 또는 `variant=base` 시 Phase 1 산출물과 byte 동일.
+
+## 12. 참조
 
 - DEC-012: 취소는 soft delete (yesno=2)
-- DEC-017: 인쇄 트리거 → C7
+- DEC-017: 인쇄 트리거 → C7 (본 노트에서 종결)
 - DEC-019: customer_variants 정책 (variant 0건 단언)
 - DEC-024: 페이지네이션 표준 (DataGridPager)
 - DEC-028: dfm→html 산출물 영구 입력 동결
+- **DEC-037/038/039** (C7 T8): WeasyPrint / 라벨 1종 / .frf 참조용
 - 화면 카드: [`analysis/screen_cards/Sobo23.md`](../screen_cards/Sobo23.md) (있으면)
-- contract: [`migration/contracts/return_receipt.yaml`](../../migration/contracts/return_receipt.yaml) (T3)
+- contract: [`migration/contracts/return_receipt.yaml`](../../migration/contracts/return_receipt.yaml) (T3), [`migration/contracts/print_invoice.yaml`](../../migration/contracts/print_invoice.yaml) v1.0.0 (C7)
+- 인쇄 사양: [`analysis/print_specs/c7_phase1.md`](../print_specs/c7_phase1.md) §P1-D
 - 보조 라인 입력: [`Sobo23_1.md`](Sobo23_1.md)
-- 회귀 테스트: [`test/test_c4_returns_phase1.py`](../../test/test_c4_returns_phase1.py) (T4)
+- 회귀 테스트: [`test/test_c4_returns_phase1.py`](../../test/test_c4_returns_phase1.py) (T4), [`test/test_c7_print_phase1.py`](../../test/test_c7_print_phase1.py)
 - 선례: `Sobo21.md` (S1_Memo UPSERT, list/detail 분리), `Sobo22.md` (입고 — 같은 거래 메인 패턴)

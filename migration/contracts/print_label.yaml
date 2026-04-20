@@ -1,0 +1,193 @@
+# Migration Contract: 인쇄 — 라벨 1종 PDF 다운로드 (C7 Phase 1)
+# 본 계약은 Seep13 (라벨/택배 라벨 인쇄) 의 모던 PDF 산출물을 정의합니다.
+# Phase 1 = 우편엽서 1종 (Report_1_21.frf 등가) 만 채택 — DEC-038.
+#
+# 출처(레거시):
+#   - legacy_delphi_source/legacy_source/Seep13.pas (TSeep13 라벨/택배 라벨 — Tong60.frReport00_01 LoadFromFile)
+#   - WeLove_FTP/book_21/AutoUpdateX/Report/Report_1_21.frf (우편엽서 — 정본, 참조용)
+#   - WeLove_FTP/book_21/AutoUpdateX/Report/Report_1_22~25.frf (Phase 2 후속)
+# 핵심 결정:
+#   DEC-004 (하이브리드 인쇄), DEC-028 (dfm 영구 입력), DEC-037 (WeasyPrint),
+#   DEC-038 (라벨 1종 한정), DEC-039 (.frf 참조용)
+
+id: C7-print-label
+name: 인쇄 — 라벨 PDF (C7 Phase 1 + Phase 2-α)
+version: 1.1.0
+status: approved
+scope_phase: c7_phase2_alpha
+acceptance_goal: |
+  C7 Phase 1 합격선:
+  "기존 사용자가 출고/반품/거래처별로 우편엽서 라벨 1매를 PDF 로 다운로드할 수 있다."
+  100mm × 148mm 우편엽서 단일 양식 (DEC-038). WeasyPrint 단일 엔진 (DEC-037).
+  수신자명 + 직책+이름 + 주소 + 우편번호 4 라인 흡수. 5종 양식 분기 + 디자인 GUI = out-of-scope.
+
+owners:
+  business: 메인개발자
+  legacy: 델파이 담당자
+  web: 웹 포팅 팀
+
+links:
+  candidate: docs/core-scenarios-candidates.md#c7-인쇄
+  test_pack:
+    - test/test_c7_print_phase1.py
+  source_legacy:
+    - legacy_delphi_source/legacy_source/Seep13.pas
+    - legacy_delphi_source/legacy_source/Seep13.dfm
+    - WeLove_FTP/book_21/AutoUpdateX/Report/Report_1_21.frf   # 정본 — 우편엽서 (DEC-039 참조)
+  source_analysis:
+    - analysis/layout_mappings/Seep13_label.md
+    - analysis/print_specs/c7_phase1.md
+    - analysis/handlers/c7_phase1.md
+
+decisions:
+  - DEC-004      # 하이브리드 인쇄
+  - DEC-028      # dfm 산출물 영구 입력
+  - DEC-037      # PDF 엔진 = WeasyPrint
+  - DEC-038      # 라벨 양식 1종 한정 (Phase 1)
+  - DEC-039      # .frf 참조용 카탈로그
+
+open_questions:
+  - OQ-002       # 프린터 직결
+
+# ---------------------------------------------------------------
+# 5. 엔드포인트
+# ---------------------------------------------------------------
+endpoints:
+  - method: GET
+    path: /api/v1/print/label/{shipment_key}.pdf
+    description: "P1-F 라벨 PDF (1매). Seep13 의 oSqry 단건 — 호출 컨텍스트가 N건이면 N번 호출 (Phase 1 단순화)."
+    auth: bearer
+    in_scope_phase: c7_phase1
+    notes: |
+      DEC-038 갱신 (Phase 2-α): 5종 양식 (form=1..5) 모두 지원 — 우편엽서/일반/대형/2단 분할/2단 大.
+      form=1 = Phase 1 정본 (Report_1_21.frf 등가, byte-identical 보장).
+      DEC-039: 디자인은 Report_1_2X.frf 정본의 수동 재현. 자동 변환 0.
+      OQ-002 잔존: 프린터 직결 미지원 → 다운로드 + 시스템 인쇄 위임.
+    request:
+      path:
+        shipment_key: "string '{table}|{key}' — 호출 컨텍스트별 (Subu23/27/Sobo27 등)"
+      query:
+        server_id: string
+        form?: "integer 1..5 (default 1). 1=일반 (Phase 1 정본) / 2=우편엽서 / 3=대형 / 4=2단 분할 / 5=2단 大. Report_1_2{form+0}.frf 등가."
+        include_oversea?: "boolean (default true) — Seep13 RadioButton2/3 의미 흡수"
+        from?: "integer — 페이지 범위 시작 (Phase 1 = 단건이라 무시)"
+        to?: "integer — 페이지 범위 끝"
+        suffix?: "string — Edit28/29 직책+이름 후행 (옵션)"
+    responses:
+      "200":
+        content_type: application/pdf
+        headers:
+          Content-Disposition: 'inline; filename="label_{shipment_key}.pdf"'
+          Cache-Control: "private, no-store"
+        body: "<binary PDF bytes — form 별 페이지 사양 (1=100mm x 70mm, 2=148mm x 100mm 우편엽서, 3=148mm x 105mm A6, 4=A4 가로 2단, 5=A4 세로 2단 大)>"
+      "404": { body: { detail: "해당 라벨 자료가 없습니다.", code: "PR_LABEL_NOT_FOUND" } }
+      "422": { body: { detail: "지원하지 않는 라벨 양식입니다 (form=1..5).", code: "PR_FORM_UNSUPPORTED" } }
+      "503": { body: { detail: "PDF 엔진이 설치되지 않았습니다.", code: "PR_ENGINE_UNAVAILABLE" } }
+
+# ---------------------------------------------------------------
+# 6. 차이점·결정 사항
+# ---------------------------------------------------------------
+deltas:
+  - id: D-LB-1
+    title: 라벨 양식 5종 흡수 (DEC-038 Phase 2-α 확장)
+    decision_ref: DEC-038
+    legacy_behavior: "Seep13.ComboBox00 5항목 분기 (Report_1_21~25.frf): 1=일반/2=우편엽서/3=대형/4=2단/5=2단大. 디자인은 Tong60.frReport00_01.LoadFromFile 동적 로딩."
+    c7_behavior: |
+      Phase 1 = 일반 1종 (form=1, Report_1_21.frf 등가) — base.
+      Phase 2-α = 5종 모두 지원 (form=1..5). 단일 빌더 label_service.render_label_html(rows, *, form: int = 1) 가 form 별 @page CSS + 컬럼 분할 정책 (form=4/5 = column-count: 2) 데이터 주도 분기.
+      미지원 form (≥6) → 422 PR_FORM_UNSUPPORTED. form=1 byte-identical 보장.
+    risk: "form=4/5 의 2단 분할은 CSS column-count 의 페이지 분할 동작이 WeasyPrint 버전에 민감 → 회귀 byte signature + 페이지 수 검증 추가."
+
+  - id: D-LB-2
+    title: 디자인 GUI 폐기 (DEC-039)
+    decision_ref: DEC-039
+    legacy_behavior: "Seep13 의 SpinEdit*/Edit21~25/SpeedButton1~5/Button1 (Gg_Magn UPDATE) 으로 운영자가 라벨 좌표/폰트/Style 조정."
+    c7_behavior: "디자인 패널 = out-of-scope. Report_1_21.frf 가 정본 — 디자인 변경은 FastReport Designer (Delphi IDE) 에서 수동. 모던 페이지에는 'c7.frf.reference_only' 안내."
+    risk: "기존 운영자의 라벨 미세 조정 권한 상실. 운영 매뉴얼 갱신 필요 (T8)."
+
+  - id: D-LB-3
+    title: 프린터 직결 미지원 (OQ-002 잔존)
+    decision_ref: DEC-004
+    c7_behavior: "PrinterSetupDialog 미이식. 다운로드 후 시스템 인쇄 다이얼로그 위임."
+    risk: "라벨 프린터(Zebra 등) 사용자에게는 추가 설정 필요. Phase 2 에서 IPP/CUPS 직결 검토."
+
+  - id: D-LB-4
+    title: 우편번호 5자리 단순화
+    decision_ref: DEC-038
+    legacy_behavior: "PrinDing01 (L759~798, 본문 주석 처리됨) 은 7자리 우편번호 1자씩 분리 + 공백 패딩 (SpinEdit71~77)."
+    c7_behavior: "한국 5자리 우편번호 letter-spacing 0.4em 으로 단순화. gaps 파라미터 미노출."
+    risk: "구 7자리 우편번호 잔존 자료 → 5자리만 표시 (앞 5자리). 'c7.label.postal_format' 안내."
+
+# ---------------------------------------------------------------
+# 7. 동등성 기준
+# ---------------------------------------------------------------
+equivalence:
+  functional:
+    - "라벨 단건 호출 시 200 + Content-Type=application/pdf + 100mm x 148mm 단일 페이지."
+    - "수신자명 + 직책+이름 + 주소 + 우편번호 4 라인이 oSqry 응답 필드와 1:1 (Gname/Gjice+Gposa/Gadds/Gpost)."
+    - "include_oversea=false 일 때 Scode='O' 자료는 404."
+    - "WeasyPrint 미설치 시 503 + 'c7.engine.unavailable'."
+  data:
+    - "신규 SQL 1건 (SQL-PR-6) — Sg_Csum 또는 호출 컨텍스트의 수신자 컬럼 (Gname/Gposa/Gjice/Gadds/Gpost/Scode/Gbigo)."
+    - "data-legacy-id ↔ 응답 키 1:1 (Seep13_label.md §3)."
+  ux:
+    - "신규 페이지 /print/label/[shipmentKey] (T6b)."
+    - "다운로드 시작 토스트, 'c7.label.single_form_only' / 'c7.label.postal_format' 안내."
+  performance:
+    - "단건 라벨 PDF p95 < 800ms."
+  audit:
+    - "Phase 1 라벨 다운로드 audit 미기록."
+
+# ---------------------------------------------------------------
+# 8. 비범위
+# ---------------------------------------------------------------
+out_of_scope:
+  - "디자인 GUI (Gg_Magn UPDATE) — DEC-039 차단"
+  - "프린터 직결 (PrinterSetupDialog) — OQ-002"
+  - "일괄 라벨 인쇄 (페이지 범위 from/to 다건) — Phase 2 (Phase 1 = 단건 N회 호출)"
+  - "7자리 우편번호 패딩 분리 — Phase 2 (운영 자료 5자리 통일 후 검토)"
+  - "라벨 데이터 audit 기록 — Phase 2"
+
+# ---------------------------------------------------------------
+# 9. 변형 차이 (코드 분기 금지 — 데이터로만)
+# ---------------------------------------------------------------
+customer_variants:
+  Seep13:
+    layout_ref: analysis/layout_mappings/Seep13_label.md
+    enabled_widgets: ["Label.Gname", "Label.Gjice", "Label.Gposa", "Label.Gadds", "Label.Gpost", "Label.Scode", "Label.Gbigo"]
+    notes: "Phase 2-α 기준. form 1~5 모두 활성."
+    label_forms:
+      "1": { frf: Report_1_21.frf, name: "일반 라벨",       page: "100mm x 70mm",       columns: 1, note: "Phase 1 정본 — byte-identical 보장" }
+      "2": { frf: Report_1_22.frf, name: "우편엽서",        page: "148mm x 100mm",      columns: 1, note: "Phase 2-α — 우편번호 박스 + 주소 분할 강조" }
+      "3": { frf: Report_1_23.frf, name: "대형 라벨",       page: "148mm x 105mm (A6)", columns: 1, note: "Phase 2-α — 폰트 크기 1.3x" }
+      "4": { frf: Report_1_24.frf, name: "2단 분할 라벨",    page: "297mm x 210mm (A4 가로)", columns: 2, note: "Phase 2-α — CSS column-count: 2, 페이지당 2매" }
+      "5": { frf: Report_1_25.frf, name: "2단 大 라벨",     page: "210mm x 297mm (A4 세로)", columns: 2, note: "Phase 2-α — CSS column-count: 2, 페이지당 4매 (2x2 grid 배치)" }
+
+# ---------------------------------------------------------------
+# 10. 변경 이력
+# ---------------------------------------------------------------
+changelog:
+  - date: 2026-04-20
+    by: porting-team
+    note: |
+      1.1.0 — C7 Phase 2-α 추가 (라벨 5종 양식 흡수).
+      - DEC-038 확장: form=1..5 모두 지원 (단일 빌더 + form 인자 데이터 주도 분기)
+      - endpoints +1 query param: ?form=1..5
+      - customer_variants.Seep13.label_forms 5종 (1=일반/2=우편엽서/3=대형/4=2단 분할/5=2단 大)
+      - 신규 SQL: 0 (form 별 데이터 동일, @page CSS 와 column-count 만 차이)
+      - 신규 422 응답: PR_FORM_UNSUPPORTED (form ≥ 6)
+      - 회귀: test_c7_print_phase2_alpha.py (form 별 byte 차이 + form=1 byte-identical 보장 + 페이지 수 검증)
+      - D-LB-1 갱신 (5종 흡수 의미)
+      - postcard_variant_2~5 placeholder 제거 → label_forms 표로 통합
+  - date: 2026-04-20
+    by: porting-team
+    note: |
+      1.0.0 — C7 Phase 1 라벨 contract 신규 작성. Seep13 5종 중 우편엽서 1종 (Report_1_21.frf) 채택.
+      - DEC-038 (라벨 1종) + DEC-039 (.frf 참조용) 신설과 동결
+      - DEC-037 (WeasyPrint) 흡수
+      - 신규 SQL: SQL-PR-6 (Sg_Csum 또는 호출 컨텍스트별 수신자 컬럼)
+      - endpoints +1건: GET /print/label/{shipment_key}.pdf
+      - deltas 4건: D-LB-1~4
+      - customer_variants 5건: 본판 + 4 비활성 (Phase 2 후속)
+      - 회귀: test_c7_print_phase1.py (P1-F 3 케이스)
+      - 잔존 OQ-002 (프린터 직결)

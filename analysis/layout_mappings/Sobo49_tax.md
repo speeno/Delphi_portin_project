@@ -160,7 +160,23 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 - [ ] DEC-036 — 단건/일괄 SQL 패턴이 `tax_invoice_service` 단일 헬퍼로 흡수 (3곳 중복 코드 0)
 - [ ] DEC-028 §3 "버리는 정보" (픽셀 좌표·폰트·색상·Glyph) 가 코드에 없음
 
-## 10. 참조
+## 10. PDF 절 (C7 Phase 1 보강)
+
+| 항목 | 값 | 근거 |
+| --- | --- | --- |
+| 양식 코드 | `P1-B` (세금계산서) | `print_specs/c7_phase1.md` §1 |
+| 용지/여백 | A4 가로 (`297mm 210mm`) / `15mm` | 동 §1 |
+| 본문 | 단건 카드 (공급가액/세액/합계금액 3종) — 표 미사용 | §1 |
+| 발행 배지 | `Chek3='1'` 발행 / `'0'` 미발행 (CSS `.badge.issued/not-issued`) | §3 본 노트 |
+| 마감 워터마크 | 호출 거래처의 `T2_Ssub.Yesno='1'` 일 때 | `print_specs/c7_phase1.md` §4 |
+| 엔드포인트 | `GET /api/v1/settlement/tax-invoice/{billing_key}/print.pdf` | T5b |
+| 빌더 | `tax_invoice_service.render_tax_invoice_pdf_html(billing_key)` (기존 `render_tax_invoice_html` 재사용) | T5c — SRP |
+| FE 트리거 | 기존 미리보기 페이지 우상단 "PDF 다운로드" `<a download>` 추가 | T6a |
+| 회귀 | `pytest -k test_tax_invoice_pdf_signature/text/issued_badge` 3 케이스 | T4 |
+
+> **DEC-035 잔존**: PDF 는 단순 시각 표현. 외부 발행 통신은 본 산출물의 책임 아님 (별도 stub 엔드포인트).
+
+## 11. 참조
 
 - DEC-012: soft cancel (yesno=2)
 - DEC-024: 페이지네이션
@@ -170,7 +186,9 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 - **DEC-034** (T8 신설): C5 Phase 2 인쇄 = HTML 미리보기
 - **DEC-035** (T8 신설): 세금계산서 외부 발행 stub 정책 (OQ-ST-1 종결)
 - **DEC-036** (T8 신설): Chek3 토글 단일 SQL 헬퍼 흡수
+- **DEC-037/038/039** (C7 T8): WeasyPrint / 라벨 1종 / .frf 참조용
 - 화면 카드: [`analysis/screen_cards/c5_settlement.md`](../screen_cards/c5_settlement.md)
-- contract: [`migration/contracts/settlement_billing.yaml`](../../migration/contracts/settlement_billing.yaml) v1.1.0
-- 핸들러 인덱스: [`analysis/handlers/c5_phase2.md`](../handlers/c5_phase2.md)
+- contract: [`migration/contracts/settlement_billing.yaml`](../../migration/contracts/settlement_billing.yaml) v1.2.0 (C7 PDF 절 포함)
+- 인쇄 사양: [`analysis/print_specs/c7_phase1.md`](../print_specs/c7_phase1.md) §P1-B
+- 핸들러 인덱스: [`analysis/handlers/c5_phase2.md`](../handlers/c5_phase2.md), [`analysis/handlers/c7_phase1.md`](../handlers/c7_phase1.md)
 - 선례: [`Sobo46_billing.md`](Sobo46_billing.md) (동일 Phase 2 인쇄 패턴), [`Sobo45_billing.md`](Sobo45_billing.md)

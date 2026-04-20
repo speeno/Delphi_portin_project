@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$comment": "C7 라벨/송장 인쇄 한국어 메시지 카탈로그 — 5종 양식 (Sobo46/49/27/23/21) + 라벨 1종 (Seep13) 의 PDF 다운로드/엔진/.frf 정책 메시지 단일 출처 (Phase 1 T2 산출물). 결정: DEC-037 (WeasyPrint 단일) / DEC-038 (라벨 1종) / DEC-039 (.frf 참조용).",
+  "scenario": "C7",
+  "phase": 1,
+  "locale": "ko-KR",
+  "messages": {
+    "c7.print.downloading": {
+      "text": "PDF 를 생성 중입니다…",
+      "source": "Phase 1 T2 신설 — print-api.ts 다운로드 시작 토스트",
+      "kind": "info",
+      "phase": 1,
+      "new": true
+    },
+    "c7.print.ready": {
+      "text": "PDF 다운로드가 시작되었습니다.",
+      "source": "Phase 1 T2 신설 — 응답 200 후 토스트",
+      "kind": "info",
+      "phase": 1,
+      "new": true
+    },
+    "c7.print.failed": {
+      "text": "PDF 생성에 실패했습니다. 잠시 후 다시 시도하세요.",
+      "source": "Phase 1 T2 신설 — 5xx 응답 시",
+      "kind": "error",
+      "code": "PR_RENDER_FAILED",
+      "phase": 1,
+      "new": true
+    },
+    "c7.print.no_data": {
+      "text": "인쇄할 자료가 없습니다.",
+      "source": "Phase 1 T2 신설 — 빈 detail 응답 시",
+      "kind": "warning",
+      "phase": 1,
+      "new": true
+    },
+    "c7.print.preview_only_native": {
+      "text": "프린터 직결은 미지원입니다. 다운로드 후 시스템 인쇄를 사용하세요.",
+      "source": "Phase 1 T2 신설 — OQ-002 잔존 가시화",
+      "kind": "info",
+      "phase": 1,
+      "new": true
+    },
+    "c7.label.single_form_only": {
+      "text": "Phase 1 라벨은 우편엽서 1종만 지원합니다. 다른 라벨은 후속 사이클에서 추가됩니다.",
+      "source": "Phase 1 T2 신설 — DEC-038 가시화 (Seep13 5종 중 Report_1_21.frf 등가만 채택)",
+      "kind": "info",
+      "phase": 1,
+      "new": true
+    },
+    "c7.label.postal_format": {
+      "text": "우편번호는 5자리 한국 우편번호 기준입니다.",
+      "source": "Phase 1 T2 신설 — Seep13_label.md §5 단순화",
+      "kind": "info",
+      "phase": 1,
+      "new": true
+    },
+    "c7.engine.unavailable": {
+      "text": "PDF 엔진이 설치되지 않아 미리보기로만 제공됩니다.",
+      "source": "Phase 1 T2 신설 — DEC-037 fallback 사용자 메시지 (503)",
+      "kind": "warning",
+      "http_status": 503,
+      "code": "PR_ENGINE_UNAVAILABLE",
+      "phase": 1,
+      "new": true
+    },
+    "c7.engine.weasyprint_required": {
+      "text": "서버에 WeasyPrint 가 설치되지 않았습니다. 관리자에게 문의하세요.",
+      "source": "Phase 1 T2 신설 — DEC-037 운영자 안내 (Dockerfile libpango/libcairo 누락 시)",
+      "kind": "error",
+      "phase": 1,
+      "new": true
+    },
+    "c7.frf.reference_only": {
+      "text": "본 양식은 참조용 .frf 정본을 수동 재현한 결과입니다. 디자인 변경은 별도 절차를 따릅니다.",
+      "source": "Phase 1 T2 신설 — DEC-039 가시화 (PDF 푸터 후보, T9 카탈로그와 연동)",
+      "kind": "info",
+      "phase": 1,
+      "new": true
+    }
+  },
+  "decisions": ["DEC-004", "DEC-009", "DEC-017", "DEC-031", "DEC-037", "DEC-038", "DEC-039"],
+  "open_questions": ["OQ-002"],
+  "resolved_open_questions": []
+}

@@ -141,13 +141,33 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 - [ ] DEC-031 — 마감(`T2_Ssub.Yesno='1'`) 행이라도 미리보기는 200(읽기 전용 — 마감 가드는 쓰기 한정)
 - [ ] DEC-028 §3 "버리는 정보" (픽셀 좌표·폰트·색상·Glyph) 가 코드에 없음
 
-## 10. 참조
+## 10. PDF 절 (C7 Phase 1 보강)
+
+C7 (DEC-037 — WeasyPrint) 에서 본 페이지의 미리보기 HTML 을 **그대로** 입력으로 받아 PDF 1매를 산출.
+
+| 항목 | 값 | 근거 |
+| --- | --- | --- |
+| 양식 코드 | `P1-A` (청구서) | `print_specs/c7_phase1.md` §1 |
+| 용지/여백 | A4 세로 (`210mm 297mm`) / `12mm` | 동 §1 |
+| 본문 표 | 15컬럼 (DBGrid201 그대로) | §3 본 노트 |
+| 합계 | tfoot 4종 (Sum26/27/28/Gsusu/Sum_Total) | §5 |
+| 마감 워터마크 | `T2_Ssub.Yesno='1'` 일 때 "마감" 반투명 | `print_specs/c7_phase1.md` §4 |
+| 엔드포인트 | `GET /api/v1/settlement/billing/{billing_key}/print.pdf` | T5b |
+| 빌더 | `settlement_print_service.render_invoice_pdf_html(billing_key)` (기존 `render_preview_html` 재사용) | T5c — SRP |
+| FE 트리거 | 기존 미리보기 페이지 우상단 "PDF 다운로드" `<a download>` 추가 | T6a |
+| 회귀 | `pytest -k test_invoice_pdf_signature/text/empty/closed_watermark` 4 케이스 | T4 |
+
+> **변경 0**: 본 화면 자체 HTML/SQL/Backend 함수는 그대로. C7 추가는 신규 빌더 + 신규 엔드포인트 + FE 다운로드 버튼만.
+
+## 11. 참조
 
 - DEC-024: 페이지네이션 (목록 페이지 책임 — 본 페이지는 단건)
 - DEC-028: dfm→html 산출물 영구 입력 동결
 - DEC-031: 마감 가드 (Phase 1)
 - **DEC-034** (T8 신설): C5 Phase 2 인쇄 = HTML 미리보기
+- **DEC-037/038/039** (C7 T8): WeasyPrint / 라벨 1종 / .frf 참조용
 - 화면 카드: [`analysis/screen_cards/c5_settlement.md`](../screen_cards/c5_settlement.md) §10 Phase 2 체크리스트
-- contract: [`migration/contracts/settlement_billing.yaml`](../../migration/contracts/settlement_billing.yaml) v1.1.0
-- 핸들러 인덱스: [`analysis/handlers/c5_phase2.md`](../handlers/c5_phase2.md)
+- contract: [`migration/contracts/settlement_billing.yaml`](../../migration/contracts/settlement_billing.yaml) v1.2.0 (C7 PDF 절 포함)
+- 인쇄 사양: [`analysis/print_specs/c7_phase1.md`](../print_specs/c7_phase1.md) §P1-A
+- 핸들러 인덱스: [`analysis/handlers/c5_phase2.md`](../handlers/c5_phase2.md), [`analysis/handlers/c7_phase1.md`](../handlers/c7_phase1.md)
 - 선례: [`Sobo45_billing.md`](Sobo45_billing.md) (Phase 1)

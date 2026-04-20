@@ -214,6 +214,79 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # ─── C7 Phase 1 (print_invoice.yaml v1.1.0 / print_label.yaml v1.1.0) ────
+        # PDF 엔드포인트는 단건 키 (404 정상). 라우팅 등록 + WeasyPrint
+        # 의존성 검증만 본 매트릭스가 책임 — 503 PR_ENGINE_UNAVAILABLE 도 통과 (DEC-037 fallback).
+        # gdate 형식 차이로 422 도 정책 통과 (validation 자체는 라우터 등록의 증거).
+        # Phase 2-α: ?variant=v0 / ?form=2 분기 1건씩 추가 — 라우팅 + 422 PR_VARIANT_UNSUPPORTED/PR_FORM_UNSUPPORTED 가드 검증.
+        {
+            "group": "print.outbound_statement_pdf",
+            "path": (
+                f"/api/v1/print/outbound-statement/{df}%7CH0001%7CJ00001.pdf?serverId={sid}"
+            ),
+            "ok_status": {200, 404, 422, 503},
+        },
+        {
+            "group": "print.return_receipt_pdf",
+            "path": (
+                f"/api/v1/print/return-receipt/G%7C{df}%7CH0001%7CJ00001.pdf?serverId={sid}"
+            ),
+            "ok_status": {200, 404, 422, 503},
+        },
+        {
+            "group": "print.sales_statement_pdf",
+            "path": (
+                f"/api/v1/print/sales-statement/{df}%7CH0001%7CJ00001%7C.pdf?serverId={sid}"
+            ),
+            "ok_status": {200, 404, 422, 503},
+        },
+        {
+            "group": "print.label_pdf",
+            "path": f"/api/v1/print/label/SAMPLE.pdf?serverId={sid}&form=1",
+            "ok_status": {200, 404, 422, 503},
+        },
+        # ─── C7 Phase 2-α (print_invoice.yaml v1.1.0 / print_label.yaml v1.1.0) ───
+        {
+            "group": "print.outbound_statement_pdf_variant",
+            "path": (
+                f"/api/v1/print/outbound-statement/{df}%7CH0001%7CJ00001.pdf?serverId={sid}&variant=v0"
+            ),
+            "ok_status": {200, 404, 422, 503},
+        },
+        {
+            "group": "print.return_receipt_pdf_variant_v4_must_422",
+            "path": (
+                f"/api/v1/print/return-receipt/G%7C{df}%7CH0001%7CJ00001.pdf?serverId={sid}&variant=v4"
+            ),
+            "ok_status": {422},
+        },
+        {
+            "group": "print.label_pdf_form2",
+            "path": f"/api/v1/print/label/SAMPLE.pdf?serverId={sid}&form=2",
+            "ok_status": {200, 404, 422, 503},
+        },
+        {
+            "group": "settlement.invoice_pdf",
+            "path": (
+                f"/api/v1/settlement/billing/{month}%7CH0001/print.pdf?serverId={sid}"
+            ),
+            "ok_status": {200, 404, 422, 503},
+        },
+        # ─── C8 Phase 1 (barcode_scan.yaml v1.0.0) ───────────────────────
+        # 라우팅 등록 + G4_Book 단건 SELECT 동작 검증. 미존재 ISBN 은 200+nodata.
+        # 5xx 만 실패. 404 는 라우터 미등록 → 즉시 실패로 간주.
+        {
+            "group": "scan.match",
+            "method": "POST",
+            "path": "/api/v1/scan/match",
+            "json_body": {
+                "barcode": "0000000000000",
+                "hcode": "H0001",
+                "context": "outbound",
+                "server_id": sid,
+            },
+            "ok_status": {200, 400, 422, 503},
+        },
     ]
 
 
@@ -221,8 +294,13 @@ def probe_routes(client, server_id: str, args: argparse.Namespace) -> list[dict[
     out: list[dict[str, Any]] = []
     for spec in _routes_for(server_id, args):
         path = spec["path"]
+        method = spec.get("method", "GET").upper()
+        json_body = spec.get("json_body")
         try:
-            res = client.get(path)
+            if method == "POST":
+                res = client.post(path, json=json_body)
+            else:
+                res = client.get(path)
             ok = res.status_code in spec["ok_status"]
             detail = f"{res.status_code} bytes={len(res.content)}"
             if not ok:
