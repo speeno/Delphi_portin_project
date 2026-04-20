@@ -214,6 +214,42 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # ─── Phase1 12-page 매트릭스 보강 (coverage matrix §3) ─────────────
+        # docs/phase1-promotion-gate.md + migration/coverage/phase1-12pages-coverage.md
+        # 의 회귀 그룹 4건 추가. 5xx 만 실패. 라우터 미등록(404) → 회귀로 즉시 실패.
+        {
+            "group": "inventory.ledger",
+            "path": (
+                f"/api/v1/inventory/ledger?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&hcode=%25&bcode=%25"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "stats.sales_period",
+            "path": (
+                f"/api/v1/stats/sales-period?serverId={sid}"
+                f"&hcode=%25&period=12M"
+            ),
+            # 라우트가 아직 미등록일 수 있음 — 404 도 일시 통과(회귀 러너에서 별도 추적).
+            "ok_status": {200, 404, 503},
+        },
+        {
+            "group": "stats.customer_analysis",
+            "path": (
+                f"/api/v1/reports/customer-sales?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "reports.book_sales",
+            "path": (
+                f"/api/v1/reports/book-sales?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&hcode=%25&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
         # ─── C7 Phase 1 (print_invoice.yaml v1.1.0 / print_label.yaml v1.1.0) ────
         # PDF 엔드포인트는 단건 키 (404 정상). 라우팅 등록 + WeasyPrint
         # 의존성 검증만 본 매트릭스가 책임 — 503 PR_ENGINE_UNAVAILABLE 도 통과 (DEC-037 fallback).

@@ -521,6 +521,42 @@
 - **결정자**: 메인개발자 + 사용자 (C10 풀 + 확장 후보 시나리오 v0.2 승인)
 - **참조**: `analysis/handlers/extension_dependencies.md`, `legacy-analysis/stats_inventory.md`, `legacy-analysis/permission-keys-catalog.md` §4, DEC-040/041/042/043
 
+### DEC-045: Phase1 승격 게이트 = 레거시 동등성 + 자동 회귀 통과 (사이드바 녹색 체크 정의)
+- **일자**: 2026-04-21
+- **결정 사항**: `frontend/src/lib/form-registry.ts` 의 `phase: "phase1"` (사이드바 녹색 체크) 부여 기준을 다음과 같이 강화·동결한다.
+  - (a) **5축 PASS 의무**: `migration/contracts/<flow>.yaml::equivalence` 의 5축(`functional` / `data` / `ui` / `audit` / `performance`) 이 모두 PASS. 단, read-only 화면은 `audit = N/A` 허용.
+  - (b) **자동 회귀 통과 의무**: `test/test_regression_phase1.py` 의 해당 그룹이 PASS (단일 server: functional+performance 축 / `--multi-db`: 4대 DB cross-DB invariant data 축 추가).
+  - (c) **T-Phase 8단 전부 충족**: `docs/phase1-promotion-gate.md` §3 의 T1(screen_card) → T8(promotion PR) 산출물 모두 PR description 첨부.
+  - (d) **승격 PR 단위 분리**: 12개 화면을 묶어서 한 PR 로 승격 금지. 화면 1개 = PR 1개. PR body 에 5축 PASS 표 + 회귀 결과 JSON 링크 첨부.
+  - (e) **강등 정책**: 회귀 1회라도 FAIL / 4대 DB probe 1회라도 불일치 / 운영 5xx ≥ 1% (24h) 시 즉시 `phase: "phase2"` 강등 PR 생성. 강등 사유 PR body 기록.
+  - (f) **단순 200 응답 = 부족**: "API 가 200 을 반환한다" 만으로 phase1 승격 금지. 본 결정 이전에 임의로 phase1 부여된 화면도 회귀 PASS 증빙 부재 시 phase2 강등 후보.
+- **배경/근거**: 사용자 명시 — "테스트 및 동작이 레거시코드 비즈니스로직 및 쿼리 등이 적절하게 동일성을 갖게 적용이 완료되고 테스트가 완료된 이후에 녹색 표시하도록 하는 내용을 계획에 업데이트". 기존 레지스트리는 "UI 가 라우팅된다 = phase1" 수준에서 부여되어 사용자 합격선("기존 사용자가 같은 결과를 얻는다") 과 괴리 발생.
+- **DoD**:
+  - `docs/phase1-promotion-gate.md` 동결 (T1~T8 + 5축 + 강등 정책).
+  - `migration/coverage/phase1-12pages-coverage.md` (12 화면 매트릭스 + 회귀 그룹 정의 + Patch 항목).
+  - `test/test_regression_phase1.py` (10 그룹 회귀 러너 + pytest 통합 + CLI `--multi-db`).
+  - `migration/test-cases/stats_reports.json` (TC-STATS-MONTHLY-001~005 + alias).
+  - `debug/probe_backend_all_servers.py` 에 `inventory.ledger` / `stats.sales_period` / `stats.customer_analysis` / `reports.book_sales` 4 그룹 추가.
+  - `frontend/src/lib/form-registry.ts::FormMeta.phase` JSDoc 에 본 게이트 정책 문서화.
+- **결정자**: 메인개발자 + 사용자 (Phase 1 12-page 합격선 강화 합의)
+- **참조**: `docs/phase1-promotion-gate.md`, `migration/coverage/phase1-12pages-coverage.md`, `test/test_regression_phase1.py`, `migration/test-cases/stats_reports.json`, DEC-040(신규 SQL 0), DEC-041(응답 코드 표준), DEC-033(멀티 DB)
+
+### DEC-007 보강 (2026-04-21): hcode='0000' = 자동 admin 권한 부여 (1차 운영 합격선)
+- **일자**: 2026-04-21 (DEC-007 1차 결정 후속 보강)
+- **결정 사항**: DEC-007 의 "0000 슈퍼유저 분기 1차 제외" 정책을 다음으로 **부분 회복** 한다 — 단, 레거시 가시성 필터(`Chek5='show1'`) 는 여전히 도입하지 않고, **권한 부여만** 자동화한다.
+  - (a) **JWT claim 자동 admin**: `auth_service.authenticate_user` 가 `Id_Logn.Hcode = '0000'` 인 사용자에게 `role="admin"` + `permissions=["*"]` 자동 부여. JWT 의 `role` / `permissions` claim 으로 동봉 (auth.py `_make_token_pair`).
+  - (b) **환경변수 화이트리스트**: 운영 긴급 대응을 위해 `BLS_ADMIN_USER_IDS` (콤마 구분) 도 admin 부여 경로로 추가. hcode 값과 무관하게 admin 권한 부여.
+  - (c) **가시성 필터 미도입**: G7_Ggeo `Chek5='show1'` SELECT 는 1차에서 여전히 미적용 (DEC-007 (a) 그대로).
+  - (d) **명시적 변경 사유**: DEC-007 결정 이후 C10 풀 스코프 (DEC-041~043) 가 도입되면서 `*` 권한 보유자가 필요해짐. admin 페이지 (`/admin/*`) 진입 사용자 0명 상태가 되는 문제 해결.
+- **배경/근거**: 사용자 명시 — "admin 계정에 대해서 관리자 권한을 주도록 수정". DEC-007 의 (1차 in_scope=false) 가 "admin UI 진입 불가" 부작용을 발생시켜 본 보강으로 해소. 가시성 필터(데이터 노출 영향) 는 여전히 후속.
+- **DoD**:
+  - `auth_service._resolve_role_and_permissions(user_id, hcode)` 가 hcode='0000' → `("admin", ["*"])` 반환.
+  - `BLS_ADMIN_USER_IDS=user1,user2` 설정 시 동일 결과 (env precedence 동일).
+  - JWT decode 시 `role` / `permissions` 클레임이 `get_current_user` 응답에 포함.
+  - 프론트 `<PermissionGuard>` 가 admin 사용자에게 모든 화면 진입 허용.
+- **결정자**: 메인개발자 + 사용자 (admin 진입 부재 이슈 해결)
+- **참조**: `도서물류관리프로그램/backend/app/services/auth_service.py`, `도서물류관리프로그램/backend/app/routers/auth.py`, `도서물류관리프로그램/backend/app/services/admin_service.py::list_user_roles_and_permissions`, DEC-007(원본), DEC-041(응답 코드 표준)
+
 ### DEC-CUT-4: C15 Phase 2 — 실 DB 어댑터(Mysql/SqlServer) + cutover_run.py 안전 게이트
 - **일자**: 2026-04-20
 - **결정 사항**: C15 cut-over 자동화 Phase 2 (T6) 는 다음 단일 정책으로 동결한다.
@@ -558,7 +594,8 @@
 - **참조**: `도서물류관리프로그램/backend/app/core/sql_mysql3.py`, `도서물류관리프로그램/backend/app/services/t5_ssub_adapt.py`, `debug/probe_backend_all_servers.py`, `docs/db-smoke-runbook.md`, `.github/workflows/db-smoke.yml`
 
 ---
-*최종 업데이트: 2026-04-20 — DEC-CUT-4 신규 추가 (C15 Phase 2 — 실 DB 어댑터 `MysqlDataSource`/`SqlServerDataSource` + `cutover_run.py` 안전 게이트 3단(OQ 차단·P6 confirm·rollback 시뮬)). 어댑터는 시스템/구조 쿼리만 + sanitize_identifier 화이트리스트 + 드라이버 lazy import + 자격 ENV-only. 외부 SaaS/네트워크 SDK 0건 정적 가드.*
+*최종 업데이트: 2026-04-21 — DEC-045 신규 추가 (Phase1 승격 게이트 = 레거시 동등성 + 자동 회귀 통과, T1~T8 단계, 5축 PASS 의무, 화면 1개=PR 1개, 강등 정책). DEC-007 보강 추가 (hcode='0000' 자동 admin 권한 부여 + BLS_ADMIN_USER_IDS env 화이트리스트). 가시성 필터(G7_Ggeo Chek5='show1') 는 여전히 1차 미도입.*
+*이전: 2026-04-20 — DEC-CUT-4 신규 추가 (C15 Phase 2 — 실 DB 어댑터 `MysqlDataSource`/`SqlServerDataSource` + `cutover_run.py` 안전 게이트 3단(OQ 차단·P6 confirm·rollback 시뮬)). 어댑터는 시스템/구조 쿼리만 + sanitize_identifier 화이트리스트 + 드라이버 lazy import + 자격 ENV-only. 외부 SaaS/네트워크 SDK 0건 정적 가드.*
 *이전: 2026-04-20 — DEC-041/042/043 신규 추가 (C10 풀 스코프 마감: 세션·권한 응답 코드 표준 + 글로벌 401/403 인터셉터 / If-Match·ETag 낙관적 동시편집 / IdP·SSO 인터페이스 분리). OQ-RT-7 (D_Select 실분기) 마감 — Phase 2 인터페이스 → C10 Phase 1 실분기 도입 (admin/branch_manager/auditor/operator 4 분기). 신규 SQL 0건 (DEC-040 룰 적용).*
 *이전: 2026-04-20 — DEC-040 신규 추가 (C8 바코드 스캔 = 서버 매칭 + 클라이언트 라인 반영 분리, 신규 SQL 0). DEC-010 마감 표시 (C8 Phase 1 사이클로 후속 작업 완료). OQ-002 → OQ-002-R 잔류 (Web Serial 직결만).*
 *이전: 2026-04-20 — ⭐ DEC-039 R&D 보강 (4) 게임 체인저: FastReports/FastReport 로컬 소스 직접 분석 → (a) HTML export 코어 내장 (1187+992 LOC, MIT, Layer 모드 = 픽셀 절대 좌표) 발견. (b) PdfSimple 라이선스 MIT 로 교정 (이전 LGPL 오기). (c) Import 플러그인 4종 = `.frf` 임포터 템플릿. (d) 신규 권장 전략 B4 (빌드 타임 변환 + Jinja2) — 자체 파서 비용 6~13 → **4.5~8.5 인주** (30~40% 단축), 운영 .NET 의존성 0. Phase 2 자체 파서 도입 시 1 순위 권장. DEC-039 정책 (Phase 1 = 자동 변환 0) 무변경.*
