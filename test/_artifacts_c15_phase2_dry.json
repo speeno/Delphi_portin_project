@@ -1,0 +1,248 @@
+{
+  "schema_version": "1.0",
+  "started_at": 1776674565.1138308,
+  "finished_at": 1776674565.1142159,
+  "elapsed_sec": 0.0,
+  "mode": "dryrun",
+  "confirmed": false,
+  "legacy": "",
+  "modern": "",
+  "blocked_by": [
+    "OQ-IN-1",
+    "OQ-DBL-001",
+    "OQ-DBL-003"
+  ],
+  "steps": [
+    {
+      "id": "GATE",
+      "name": "OQ 차단 게이트 검사",
+      "started_at": 1776674565.1141062,
+      "finished_at": 1776674565.1141272,
+      "elapsed_sec": 0.0,
+      "ok": true,
+      "note": "WARN — cutover_block OQ 미해소 (['OQ-IN-1', 'OQ-DBL-001', 'OQ-DBL-003']) 가 있으나 dryrun 로 진행"
+    },
+    {
+      "id": "P1",
+      "name": "운영 lock (read-only 모드 전환)",
+      "started_at": 1776674565.1141288,
+      "finished_at": 1776674565.114133,
+      "elapsed_sec": 0.0,
+      "ok": true,
+      "note": "dryrun — 실제 read-only 전환 생략"
+    },
+    {
+      "id": "P2",
+      "name": "mysqldump (per server) + checksum 산출",
+      "started_at": 1776674565.1141388,
+      "finished_at": 1776674565.1141472,
+      "elapsed_sec": 0.0,
+      "ok": true,
+      "note": "본 스크립트는 mysqldump/import 를 직접 실행하지 않는다 — 운영 절차에 따라 수기 실행 후 본 단계는 PASS 표식만 기록"
+    },
+    {
+      "id": "P3",
+      "name": "신규 환경 import + 스키마 어댑터 검증",
+      "started_at": 1776674565.1141481,
+      "finished_at": 1776674565.114149,
+      "elapsed_sec": 0.0,
+      "ok": true,
+      "note": "외부 절차 — PASS 표식만 기록"
+    },
+    {
+      "id": "P4",
+      "name": "cutover_validator 5종 (VC-1~5)",
+      "started_at": 1776674565.1141498,
+      "finished_at": 1776674565.114208,
+      "elapsed_sec": 0.0,
+      "ok": true,
+      "note": "total=15 passed=15 failed=0"
+    },
+    {
+      "id": "P5",
+      "name": "사용자 검수 (UAT 합격)",
+      "started_at": 1776674565.114215,
+      "finished_at": 1776674565.114215,
+      "elapsed_sec": 0.0,
+      "ok": true,
+      "note": "UAT 합격 여부는 외부 게이트 — 본 스크립트는 표식만 기록"
+    },
+    {
+      "id": "P6",
+      "name": "운영 전환 (DNS/proxy 스위치)",
+      "started_at": 1776674565.1142159,
+      "finished_at": 1776674565.1142159,
+      "elapsed_sec": 0.0,
+      "ok": true,
+      "note": "dryrun — DNS/proxy 스위치 생략"
+    }
+  ],
+  "validator": {
+    "started_at": 1776674565.114155,
+    "finished_at": 1776674565.114205,
+    "elapsed_seconds": 4.982948303222656e-05,
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "results": [
+      {
+        "check_id": "VC-1",
+        "table": "Id_Logn",
+        "passed": true,
+        "detail": "row_count legacy=2 modern=2",
+        "legacy_value": 2,
+        "modern_value": 2
+      },
+      {
+        "check_id": "VC-1",
+        "table": "S1_Ssub",
+        "passed": true,
+        "detail": "row_count legacy=1 modern=1",
+        "legacy_value": 1,
+        "modern_value": 1
+      },
+      {
+        "check_id": "VC-1",
+        "table": "G4_Book",
+        "passed": true,
+        "detail": "row_count legacy=1 modern=1",
+        "legacy_value": 1,
+        "modern_value": 1
+      },
+      {
+        "check_id": "VC-2",
+        "table": "Id_Logn",
+        "passed": true,
+        "detail": "checksum cols=['Hcode', 'Pwd'] legacy=af0d9a2d7783e036... modern=af0d9a2d7783e036...",
+        "legacy_value": "af0d9a2d7783e036e2ddc70626c18e2fea506b1d2c82690a2cb4edf008295060",
+        "modern_value": "af0d9a2d7783e036e2ddc70626c18e2fea506b1d2c82690a2cb4edf008295060"
+      },
+      {
+        "check_id": "VC-2",
+        "table": "S1_Ssub",
+        "passed": true,
+        "detail": "checksum cols=['Idx', 'Gssum'] legacy=8597f1e3043654da... modern=8597f1e3043654da...",
+        "legacy_value": "8597f1e3043654da36e26467d59c6c6bbc9c44d498cc15ab2f91fc84440bbc35",
+        "modern_value": "8597f1e3043654da36e26467d59c6c6bbc9c44d498cc15ab2f91fc84440bbc35"
+      },
+      {
+        "check_id": "VC-2",
+        "table": "G4_Book",
+        "passed": true,
+        "detail": "checksum cols=['Gcode', 'Gname'] legacy=0f47c8c5ee97768e... modern=0f47c8c5ee97768e...",
+        "legacy_value": "0f47c8c5ee97768e835b44677ca4a47a106336f1d25a001ce2c5af950d62ef7b",
+        "modern_value": "0f47c8c5ee97768e835b44677ca4a47a106336f1d25a001ce2c5af950d62ef7b"
+      },
+      {
+        "check_id": "VC-3",
+        "table": "Id_Logn",
+        "passed": true,
+        "detail": "encoding samples=4 mojibake=0",
+        "legacy_value": null,
+        "modern_value": []
+      },
+      {
+        "check_id": "VC-3",
+        "table": "S1_Ssub",
+        "passed": true,
+        "detail": "encoding samples=0 mojibake=0",
+        "legacy_value": null,
+        "modern_value": []
+      },
+      {
+        "check_id": "VC-3",
+        "table": "G4_Book",
+        "passed": true,
+        "detail": "encoding samples=2 mojibake=0",
+        "legacy_value": null,
+        "modern_value": []
+      },
+      {
+        "check_id": "VC-4",
+        "table": "Id_Logn",
+        "passed": true,
+        "detail": "mysql3_compat missing_base=[] adapted=[] not_applicable=['Sdate', 'Gdate']",
+        "legacy_value": null,
+        "modern_value": {
+          "missing": [],
+          "adapted": [],
+          "not_applicable": [
+            "Sdate",
+            "Gdate"
+          ]
+        }
+      },
+      {
+        "check_id": "VC-4",
+        "table": "S1_Ssub",
+        "passed": true,
+        "detail": "mysql3_compat missing_base=[] adapted=[] not_applicable=[]",
+        "legacy_value": null,
+        "modern_value": {
+          "missing": [],
+          "adapted": [],
+          "not_applicable": []
+        }
+      },
+      {
+        "check_id": "VC-4",
+        "table": "G4_Book",
+        "passed": true,
+        "detail": "mysql3_compat missing_base=[] adapted=[] not_applicable=['Yesno', 'Sdate', 'Gdate']",
+        "legacy_value": null,
+        "modern_value": {
+          "missing": [],
+          "adapted": [],
+          "not_applicable": [
+            "Yesno",
+            "Sdate",
+            "Gdate"
+          ]
+        }
+      },
+      {
+        "check_id": "VC-5",
+        "table": "Id_Logn",
+        "passed": true,
+        "detail": "schema_diff added_disallowed=[] removed=[]",
+        "legacy_value": {
+          "removed": []
+        },
+        "modern_value": {
+          "added_disallowed": [],
+          "added_allowed": []
+        }
+      },
+      {
+        "check_id": "VC-5",
+        "table": "S1_Ssub",
+        "passed": true,
+        "detail": "schema_diff added_disallowed=[] removed=[]",
+        "legacy_value": {
+          "removed": []
+        },
+        "modern_value": {
+          "added_disallowed": [],
+          "added_allowed": []
+        }
+      },
+      {
+        "check_id": "VC-5",
+        "table": "G4_Book",
+        "passed": true,
+        "detail": "schema_diff added_disallowed=[] removed=[]",
+        "legacy_value": {
+          "removed": []
+        },
+        "modern_value": {
+          "added_disallowed": [],
+          "added_allowed": []
+        }
+      }
+    ]
+  },
+  "rollback_started_at": null,
+  "rollback_elapsed_sec": null,
+  "success": true
+}

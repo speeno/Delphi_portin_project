@@ -129,10 +129,57 @@ acceptance_criteria:
     description: "OQ-IN-1, OQ-DBL-001/003 미마감 → cut-over 진행 차단 게이트"
     test: "test/test_c15_cutover_phase1.py::test_S_08_oq_block_gate"
 
+# ─── Phase 2 (T6) — 실 DB 어댑터 + 운영 cut-over 자동화 ────────
+phase2_runtime:
+  adapters:
+    package: scripts/adapters
+    modules:
+      - scripts/adapters/__init__.py
+      - scripts/adapters/base.py
+      - scripts/adapters/mysql.py     # MysqlDataSource (pymysql lazy)
+      - scripts/adapters/sqlserver.py # SqlServerDataSource (pyodbc lazy)
+    allowed_query_kinds:
+      - "COUNT(*) FROM <table>"           # VC-1
+      - "SELECT <whitelisted cols> FROM <table> LIMIT N"   # VC-2 (Python sha256)
+      - "TOP N <text cols>"               # VC-3 sample
+      - "INFORMATION_SCHEMA.COLUMNS"      # VC-4 / VC-5
+    forbidden_query_kinds:
+      - "INSERT/UPDATE/DELETE/CREATE/DROP/ALTER/TRUNCATE — DML/DDL ❌"
+      - "임의 비즈니스 SELECT — DEC-040/044 정합"
+    identifier_safety: "scripts/adapters/base.py::sanitize_identifier (whitelist regex)"
+    credentials: "ENV only (BLS_C15_PWD__<server_id> 또는 password_env: VAR_NAME)"
+  runner:
+    module: scripts/cutover_run.py
+    cli:
+      - "--dryrun (InMemoryDataSource — 단위 회귀)"
+      - "--legacy / --modern (server profile id, live mode)"
+      - "--profiles (DB 프로필 YAML 경로 — 기본 servers.yaml)"
+      - "--tables (선택, 미지정 시 inventory.tables)"
+      - "--confirm (P6 운영 전환 명시 승인 — live 필수)"
+      - "--ignore-oq-block (권장 ❌, 운영팀 합의 필수)"
+    report_schema:
+      version: "1.0"
+      fields:
+        - schema_version
+        - mode (dryrun|live)
+        - confirmed
+        - blocked_by (cutover_block:true OQ 목록)
+        - steps[] (id, name, started_at, finished_at, ok, note)
+        - validator (run_checks 출력)
+        - rollback_started_at
+        - rollback_elapsed_sec
+        - success
+    safety_guards:
+      - "OQ 차단 게이트 — live mode 에서 cutover_block:true OQ 미해소 시 rc=3 즉시 종료"
+      - "P6 진입 차단 — --confirm 미지정 시 rc=4"
+      - "rollback 시뮬레이션 — 단계 실패 시 동일 리포트에 rollback_*_sec 기록"
+      - "외부 명령 호출 ❌ — mysqldump/import/DNS 스위치는 운영 절차 수기"
+
 decisions:
   - DEC-CUT-1   # 단계 전환 전략 (138 파일럿 → 153 → 154/155)
   - DEC-CUT-2   # 자체 스크립트 only (외부 SaaS 제외 — DEC-044 정합)
   - DEC-CUT-3   # 5종 validator 정합 + RTO 15분 동결
+  - DEC-CUT-4   # Phase 2 — 실 DB 어댑터 (MysqlDataSource/SqlServerDataSource) + cutover_run.py 안전 게이트
   - DEC-044     # 외부 시스템 연동 제외
 open_questions:
   - OQ-CUT-1   # cut-over 윈도우 합의

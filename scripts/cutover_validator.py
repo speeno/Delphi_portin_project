@@ -38,6 +38,7 @@ import json
 import sys
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Iterable, Mapping, Protocol
 
 
@@ -357,8 +358,8 @@ class InMemoryDataSource:
 # ───────────────────────────────────────────────────────────────────
 def _build_argparser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="C15 Cut-over Validator (5 check)")
-    p.add_argument("--legacy", help="legacy server id (e.g. 138_legacy) — Phase 1 dry-run 미사용")
-    p.add_argument("--modern", help="modern server id (e.g. 138_modern) — Phase 1 dry-run 미사용")
+    p.add_argument("--legacy", help="legacy server id (e.g. 138_legacy)")
+    p.add_argument("--modern", help="modern server id (e.g. 138_modern)")
     p.add_argument(
         "--check",
         nargs="+",
@@ -369,7 +370,53 @@ def _build_argparser() -> argparse.ArgumentParser:
     p.add_argument("--report", choices=["json", "text"], default="text")
     p.add_argument("--out", help="report file path (없으면 stdout)")
     p.add_argument("--dryrun", action="store_true", help="InMemory fixture 로 dry-run 검증")
+    p.add_argument(
+        "--profiles",
+        help=(
+            "DB 프로필 YAML 경로 (생략 시 ENV BLS_C15_PROFILES 또는 "
+            "도서물류관리프로그램/backend/servers.yaml — 비밀번호는 ENV 만)"
+        ),
+    )
+    p.add_argument(
+        "--tables",
+        nargs="+",
+        help="검증 대상 테이블 (생략 시 cutover.yaml inventory.tables 사용)",
+    )
     return p
+
+
+def _resolve_tables(args_tables: list[str] | None) -> list[str]:
+    """contract 의 inventory.tables 를 우선 사용, --tables 가 있으면 그쪽 우선."""
+    if args_tables:
+        return list(args_tables)
+    contract = (
+        Path(__file__).resolve().parents[1]
+        / "migration" / "contracts" / "cutover.yaml"
+    )
+    try:
+        import yaml  # type: ignore[import-not-found]
+
+        data = yaml.safe_load(contract.read_text(encoding="utf-8")) or {}
+        inv = ((data.get("scope") or {}).get("inventory") or {}).get("tables") or []
+        return [t["name"] for t in inv if isinstance(t, dict) and "name" in t]
+    except Exception:
+        return list(_CHECKSUM_COLUMNS.keys())
+
+
+def _build_live_source(server_id: str):
+    """서버 프로필 driver 에 맞는 DataSource 인스턴스 생성."""
+    from scripts.adapters import (
+        MysqlDataSource,
+        SqlServerDataSource,
+        resolve_profile,
+    )
+
+    profile = resolve_profile(server_id)
+    if profile.driver == "mysql":
+        return MysqlDataSource(profile)
+    if profile.driver == "sqlserver":
+        return SqlServerDataSource(profile)
+    raise ValueError(f"unsupported driver for {server_id}: {profile.driver}")
 
 
 def _dryrun_sources() -> tuple[InMemoryDataSource, InMemoryDataSource, list[str]]:
@@ -399,9 +446,20 @@ def main(argv: list[str] | None = None) -> int:
     if args.dryrun or not (args.legacy and args.modern):
         legacy, modern, tables = _dryrun_sources()
     else:
-        # 운영 모드 — MysqlDataSource 는 후속 구현 (P2/P3 적재 후)
-        print("MysqlDataSource 미구현 — 본 스크립트는 --dryrun 모드만 Phase 1 에서 지원", file=sys.stderr)
-        return 2
+        # 운영 모드 — Phase 2 (T6) 실 DB 어댑터.
+        if args.profiles:
+            import os as _os
+            _os.environ["BLS_C15_PROFILES"] = args.profiles
+        try:
+            legacy = _build_live_source(args.legacy)
+            modern = _build_live_source(args.modern)
+        except Exception as exc:  # noqa: BLE001
+            print(f"failed to build live data sources: {exc}", file=sys.stderr)
+            return 2
+        tables = _resolve_tables(args.tables)
+        if not tables:
+            print("no tables resolved (provide --tables or update cutover.yaml inventory)", file=sys.stderr)
+            return 2
 
     selected = None if "all" in args.check else args.check
     report = run_checks(legacy=legacy, modern=modern, tables=tables, selected=selected)

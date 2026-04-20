@@ -521,6 +521,30 @@
 - **결정자**: 메인개발자 + 사용자 (C10 풀 + 확장 후보 시나리오 v0.2 승인)
 - **참조**: `analysis/handlers/extension_dependencies.md`, `legacy-analysis/stats_inventory.md`, `legacy-analysis/permission-keys-catalog.md` §4, DEC-040/041/042/043
 
+### DEC-CUT-4: C15 Phase 2 — 실 DB 어댑터(Mysql/SqlServer) + cutover_run.py 안전 게이트
+- **일자**: 2026-04-20
+- **결정 사항**: C15 cut-over 자동화 Phase 2 (T6) 는 다음 단일 정책으로 동결한다.
+  - (a) **어댑터 패키지 단일 게이트**: 실 DB 접속은 `scripts/adapters/{base,mysql,sqlserver}.py` 의 `MysqlDataSource`/`SqlServerDataSource` 만 사용한다. 본 어댑터는 **시스템/구조 쿼리만** 허용 — `COUNT(*)`, `INFORMATION_SCHEMA.COLUMNS`, 화이트리스트 컬럼 LIMIT/TOP fetch + Python sha256. 신규 비즈니스 SQL 0건 (DEC-040/044 정합).
+  - (b) **식별자 sanitizer 의무**: 동적 식별자(테이블/컬럼) 는 `sanitize_identifier` 화이트리스트 정규식 (`[A-Za-z][A-Za-z0-9_]{0,62}`) 통과만 quoting. 미통과 시 `ValueError` — 어떤 escape 도 시도하지 않는다.
+  - (c) **드라이버 lazy import**: `pymysql`/`pyodbc` 는 어댑터 인스턴스의 첫 쿼리 시점에만 import — 미설치 환경(테스트/CI) 에서도 `import scripts.adapters` 만으로는 실패하지 않는다.
+  - (d) **자격(credentials) 격리**: 비밀번호는 코드/YAML 평문 ❌. `BLS_C15_PWD__<server_id>` 환경변수 또는 YAML `password_env: VAR_NAME` 만 허용.
+  - (e) **운영 자동화 = `scripts/cutover_run.py`**: P1~P6 오케스트레이션 + cutover_validator(P4) 통합 + 단일 JSON 리포트 (`schema_version: "1.0"`). 외부 명령(mysqldump/import/DNS 스위치) 직접 실행 ❌ — 운영 절차 수기.
+  - (f) **3단 안전 게이트**:
+    1. **OQ 차단** — `cutover.yaml` `cutover_block: true` OQ 미해소 시 live mode 즉시 종료(rc=3). dryrun 은 경고만 기록 (회귀 학습 허용).
+    2. **P6 confirm** — `--confirm` 없이 live mode P6 진입 거부(rc=4). dryrun 은 무시.
+    3. **rollback 시뮬** — 단계 실패 시 동일 리포트에 `rollback_started_at`/`rollback_elapsed_sec` 기록.
+  - (g) **외부 SaaS/네트워크 ❌**: `boto3/azure/sentry/datadog/requests` 등 SDK import 0건 정적 가드 (`test_c15_cutover_phase2_adapter.py::test_S_05`).
+- **배경/근거**: 사용자 명시 — "재귀 오류가 발생하지 않도록 기존 케이스/유사 코드 확인 후 일반화 해결". DEC-CUT-1~3 (단계 전환 + 자체 스크립트 + 5종 validator) 위에 *실DB 접속 표면* 만 최소·격리 도입. 임시 우회·우선순위 변경 없이 게이트 위반 시 즉시 종료.
+- **DoD**:
+  - `scripts/adapters/__init__.py + base.py + mysql.py + sqlserver.py` 존재 + `import` 만으로 드라이버 미설치 환경 통과.
+  - `scripts/cutover_run.py --dryrun` rc=0 + GATE/P1~P6 모두 PASS.
+  - `scripts/cutover_run.py --legacy ... --modern ...` (live, OQ 미해소) rc=3.
+  - `migration/contracts/cutover.yaml` `phase2_runtime` 섹션 + DEC-CUT-4 등록 + `acceptance_criteria` 4건 (Phase 1) 그대로 PASS.
+  - `test/test_c15_cutover_phase2_adapter.py` 의 S/R/G 회귀 PASS + Phase 1 회귀 동시 PASS.
+  - `dashboard/data/porting-screens.json` `C15.tasks.T6 = completed`.
+- **결정자**: 메인개발자 + 사용자 (Phase 2 잔여 — C13/C14/C15 T6 실행 계획 마감)
+- **참조**: `scripts/adapters/`, `scripts/cutover_run.py`, `scripts/cutover_validator.py`, `migration/contracts/cutover.yaml`, `test/test_c15_cutover_phase2_adapter.py`, DEC-CUT-1/2/3, DEC-040/044, DEC-033
+
 ### DEC-033: 멀티 DB 호환 의무 — mysql3 SQL 헬퍼 + 스키마 어댑터 + 정기 점검 (alwaysApply)
 - **일자**: 2026-04-19
 - **결정 사항**: 백엔드는 **모든 등록 DB 서버**(`remote_138`, `remote_153`, `remote_154`, `remote_155` 등 `servers.yaml` 프로필)에서 조회·목록이 동일하게 동작해야 한다.
@@ -534,7 +558,8 @@
 - **참조**: `도서물류관리프로그램/backend/app/core/sql_mysql3.py`, `도서물류관리프로그램/backend/app/services/t5_ssub_adapt.py`, `debug/probe_backend_all_servers.py`, `docs/db-smoke-runbook.md`, `.github/workflows/db-smoke.yml`
 
 ---
-*최종 업데이트: 2026-04-20 — DEC-041/042/043 신규 추가 (C10 풀 스코프 마감: 세션·권한 응답 코드 표준 + 글로벌 401/403 인터셉터 / If-Match·ETag 낙관적 동시편집 / IdP·SSO 인터페이스 분리). OQ-RT-7 (D_Select 실분기) 마감 — Phase 2 인터페이스 → C10 Phase 1 실분기 도입 (admin/branch_manager/auditor/operator 4 분기). 신규 SQL 0건 (DEC-040 룰 적용).*
+*최종 업데이트: 2026-04-20 — DEC-CUT-4 신규 추가 (C15 Phase 2 — 실 DB 어댑터 `MysqlDataSource`/`SqlServerDataSource` + `cutover_run.py` 안전 게이트 3단(OQ 차단·P6 confirm·rollback 시뮬)). 어댑터는 시스템/구조 쿼리만 + sanitize_identifier 화이트리스트 + 드라이버 lazy import + 자격 ENV-only. 외부 SaaS/네트워크 SDK 0건 정적 가드.*
+*이전: 2026-04-20 — DEC-041/042/043 신규 추가 (C10 풀 스코프 마감: 세션·권한 응답 코드 표준 + 글로벌 401/403 인터셉터 / If-Match·ETag 낙관적 동시편집 / IdP·SSO 인터페이스 분리). OQ-RT-7 (D_Select 실분기) 마감 — Phase 2 인터페이스 → C10 Phase 1 실분기 도입 (admin/branch_manager/auditor/operator 4 분기). 신규 SQL 0건 (DEC-040 룰 적용).*
 *이전: 2026-04-20 — DEC-040 신규 추가 (C8 바코드 스캔 = 서버 매칭 + 클라이언트 라인 반영 분리, 신규 SQL 0). DEC-010 마감 표시 (C8 Phase 1 사이클로 후속 작업 완료). OQ-002 → OQ-002-R 잔류 (Web Serial 직결만).*
 *이전: 2026-04-20 — ⭐ DEC-039 R&D 보강 (4) 게임 체인저: FastReports/FastReport 로컬 소스 직접 분석 → (a) HTML export 코어 내장 (1187+992 LOC, MIT, Layer 모드 = 픽셀 절대 좌표) 발견. (b) PdfSimple 라이선스 MIT 로 교정 (이전 LGPL 오기). (c) Import 플러그인 4종 = `.frf` 임포터 템플릿. (d) 신규 권장 전략 B4 (빌드 타임 변환 + Jinja2) — 자체 파서 비용 6~13 → **4.5~8.5 인주** (30~40% 단축), 운영 .NET 의존성 0. Phase 2 자체 파서 도입 시 1 순위 권장. DEC-039 정책 (Phase 1 = 자동 변환 0) 무변경.*
 *이전: 2026-04-20 — DEC-039 R&D 보강 (3): atkins126/FastReportExport (Apache-2.0, antoniojmsjr 본 fork) 조사 반영. 부수: `.frf` 시그니처 hexdump 검증 → §1.3 FreeReport 2.3 가설 100% 유효.*
