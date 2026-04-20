@@ -10,8 +10,11 @@
 
 id: WD-admin-web-platform
 name: 웹 관리 플레인 (사용자·서버·역할/권한·환경설정 개정)
-version: 1.0.0
+version: 1.1.0
 status: draft
+revision_history:
+  - { version: 1.0.0, date: 2026-04-08, summary: Wave D MVP 가동 (가드 미적용, JSON 저장) }
+  - { version: 1.1.0, date: 2026-04-20, summary: "C10 Phase 1 — D-ADM-1 마감 (require_permission 강제), D-ADM-3 부분 흡수 (관리자 비번 리셋만), admin_permissions.yaml@1.0.0 와 페어링" }
 scope_phase: phase1
 acceptance_goal: |
   관리자가 웹관리 메뉴에서:
@@ -137,14 +140,16 @@ equivalence:
 
 deferred:
   - id: D-ADM-1
-    description: RBAC 미들웨어 강제 (require_role("admin"))
+    description: RBAC 미들웨어 강제 (require_role("admin") / require_permission(code))
     target_phase: phase2
+    status: closed_by_C10  # 2026-04-20 — admin_permissions.yaml@1.0.0 + core/deps.py 도입
   - id: D-ADM-2
     description: web_admin.json → RDB 마이그레이션
     target_phase: phase2
   - id: D-ADM-3
     description: 사용자 비밀번호/인증 통합 (현재 레거시 Id_Logn 그대로)
     target_phase: phase2
+    status: partial_C10  # 2026-04-20 — 관리자 비번 리셋만 흡수 (ADMINP-5), 사용자 자가 변경은 Phase 2
 
 risks:
   - id: R-ADM-1

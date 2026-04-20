@@ -1,0 +1,53 @@
+version: 0.1.0
+scenario_id: C11
+title: 모바일/태블릿 UAT 계약
+status: skeleton  # v0.1 골격 — 페이즈 진입 시 v1.0 으로 동결
+created: 2026-04-20
+owner: 메인개발자
+references:
+  - analysis/screen_cards/C11_Mobile_UAT.md
+  - DEC-004  # USB-HID 1차 (모바일 OTG 어댑터 동일 정책)
+  - DEC-019  # 단일 빌드 산출물 (반응형 CSS — 별도 모바일 앱 미생성)
+  - DEC-040  # 스캔 분기 정합 (서버 매칭 + 클라이언트 라인 반영)
+
+scope:
+  device_matrix:
+    - id: ipad_pro_15
+      label: iPad Pro 12.9" (iPadOS 15)
+      browser: Safari
+    - id: ipad_pro_17
+      label: iPad Pro 12.9" (iPadOS 17)
+      browser: Safari
+    - id: galaxy_tab_s8
+      label: Galaxy Tab S8 (Android 12)
+      browser: Chrome
+    - id: galaxy_tab_s9
+      label: Galaxy Tab S9 (Android 14)
+      browser: Chrome
+    - id: pixel_8
+      label: Pixel 8 (Android 14)
+      browser: Chrome
+  scenario_matrix:
+    - C2_outbound_orders
+    - C3_inbound_receipts
+    - C4_returns_receipts
+    - C8_scan_match
+  out_of_scope:
+    - C5_settlement   # 데스크톱 우선 사용처
+    - C7_print        # PDF 다운로드 = 데스크톱 우선
+
+acceptance_criteria:
+  - id: AC-MOB-1
+    description: viewport ≤ 768px 반응형 — 핵심 4 시나리오 데스크톱 동등 워크플로우
+  - id: AC-MOB-2
+    description: USB-OTG 어댑터 + USB-HID 바코드 스캐너 호환 — `lib/scanner.ts` 동작 정합 (모바일 가상 키보드와 충돌 없음)
+  - id: AC-MOB-3
+    description: 터치 영역 ≥ 44×44 pt (Apple HIG)
+  - id: AC-MOB-4
+    description: 5 디바이스 × 4 시나리오 = 20 테스트 PASS
+
+decisions:
+  - DEC-MOB-DRAFT-1
+  - DEC-MOB-DRAFT-2
+open_questions:
+  - OQ-MOB-1   # USB-OTG 어댑터 호환 모델 매트릭스

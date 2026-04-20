@@ -1,0 +1,193 @@
+# Migration Contract: 관리자·권한 매트릭스 (C10 Phase 1 — Full)
+#
+# 본 계약은 Wave D `admin_web_platform.yaml` v1.0 의 D-ADM-1 갭(가드 미적용) 을 마감하고,
+# 레거시 Id_Logn 사용자/권한 매트릭스(F11~F89) 의 단일 모던 통합 화면(`/admin/id-logn`) 을 정의합니다.
+#
+# 정책 요약:
+#   - 모든 쓰기 라우터 = `require_permission("<code>")` 가드 강제
+#   - F11~F89 매트릭스 = `legacy_permission_map` v1.1 시드 30 정본 키
+#   - Hcode='0000' (슈퍼유저) 보호 + 자기권한 박탈 차단 (422 정형 가드)
+#   - 동시편집 = If-Match/ETag (C15)
+#   - 세션 만료/권한 부족 = 401/403 표준 응답 (C13)
+
+id: C10-admin-permissions
+name: 관리자·권한 매트릭스 (Id_Logn F11~F89 + 가드 강제)
+version: 1.0.0
+status: draft
+scope_phase: phase1
+related_contract: admin_web_platform.yaml@1.1.0
+
+acceptance_goal: |
+  관리자가 `/admin/id-logn` 매트릭스 페이지에서:
+    1) 사용자 목록(Id_Logn) 의 검색/페이지/생성/수정 (지점·권한·비번)
+    2) F11~F89 권한 매트릭스 셀(O/R/X) 토글 → revision 증분
+    3) 비번 리셋 (audit_password_service 재사용)
+    4) 자기권한 박탈은 422 ID_LOGN_SELF_REVOKE 로 차단
+    5) Hcode='0000' 외부 변경은 422 ID_LOGN_SUPER_USER_PROTECTED
+    6) 동시편집 충돌 시 409 STALE_VERSION
+    7) 토큰 만료 = 401 AUTH_TOKEN_EXPIRED, 권한 부족 = 403 PERMISSION_DENIED
+  모든 동작은 audit.admin 로거에 기록된다.
+
+owners:
+  business: 메인개발자
+  web: 웹 포팅 팀
+
+decisions:
+  - id: DEC-041
+    title: require_permission 활성화 + 세션·동시편집 응답 코드 표준
+    summary: |
+      모든 도메인 라우터(auth 제외) 에 `Depends(require_permission("..."))` 적용.
+      401 AUTH_TOKEN_EXPIRED / 403 PERMISSION_DENIED / 409 STALE_VERSION /
+      428 PRECONDITION_REQUIRED 4종을 표준 응답 envelope 로 고정.
+  - id: DEC-042
+    title: If-Match/ETag 동시편집 정책 (소프트 락)
+    summary: |
+      마스터/주문/정산/관리자 라우터의 모든 PUT/DELETE 는 If-Match 헤더 필수.
+      누락 = 428, 불일치 = 409. 응답 헤더 ETag 는 row.revision 또는 SHA-256(payload).
+  - id: DEC-043
+    title: IdP/SSO Provider 인터페이스 분리 (실연동은 외부 사이클)
+    summary: |
+      `app/core/auth_provider.py::AuthProvider` 추상 인터페이스 + LegacyIdLognProvider
+      구현체. SAML/OIDC/Keycloak 은 stub (NotImplementedError) — 실연동 = 외부 연동 사이클.
+
+data_model:
+  legacy_permission_map:
+    fields: [permission_code, fkey, description, seed_version]
+    seed_v11_additions:
+      # T2 carlatog 30 정본 (이미 v1.0 시드 7개 외 신규)
+      - { permission_code: master.customer.read, fkey: F11 }
+      - { permission_code: master.book.read,    fkey: F12 }
+      - { permission_code: master.book_code.read, fkey: F13 }
+      - { permission_code: master.book_code.write, fkey: F17 }
+      - { permission_code: admin.user.write,    fkey: F18 }
+      - { permission_code: return.write,        fkey: F23 }
+      - { permission_code: outbound.write,      fkey: F21 }
+      - { permission_code: outbound.cancel,     fkey: F22 }
+      - { permission_code: master.write,        fkey: F26 }
+      - { permission_code: outbound.export,     fkey: F27 }
+      - { permission_code: inventory.read,      fkey: F31 }
+      - { permission_code: inventory.write,     fkey: F34 }
+      - { permission_code: report.read,         fkey: F36 }
+      - { permission_code: report.inventory.read, fkey: F37 }
+      - { permission_code: settlement.deposit,  fkey: F41 }
+      - { permission_code: settlement.report.read, fkey: F43 }
+      - { permission_code: settlement.write,    fkey: F45 }
+      - { permission_code: settlement.report.month, fkey: F47 }
+  id_logn_revisions:
+    note: |
+      Id_Logn 테이블에 직접 revision 컬럼이 없으면 SHA-256(row payload) 을 ETag 로 사용.
+      Phase 2 에서 revision INT 컬럼 추가 (cut-over 시점).
+
+endpoints:
+  - id: ADMINP-1
+    method: GET
+    path: /api/v1/admin/id-logn
+    guard: require_permission("admin.user.read")
+    query:
+      - { name: q, type: string, required: false }
+      - { name: branch_id, type: string, required: false }
+      - { name: page, type: integer, default: 1 }
+      - { name: pageSize, type: integer, default: 50 }
+    response_keys: [items, total, page, pageSize]
+    legacy_sql_source: "Chul.pas L2451 (Select Hcode,Hname,Gpass From Id_Logn)"
+
+  - id: ADMINP-2
+    method: POST
+    path: /api/v1/admin/id-logn
+    guard: require_permission("admin.user.write")
+    body: { hcode, hname, gcode, gname, password, permissions }
+    response_keys: [hcode, hname, gcode, gname, permissions, etag]
+    audit: { logger: audit.admin, action: id_logn.insert }
+    invariants:
+      - "hcode='0000' 신규 생성은 422 ID_LOGN_SUPER_USER_PROTECTED (외부 사용자 금지)"
+
+  - id: ADMINP-3
+    method: PUT
+    path: /api/v1/admin/id-logn/{hcode}
+    guard: require_permission("admin.user.write")
+    headers_required: [If-Match]
+    body: { hname, gcode, gname, permissions }
+    response_keys: [hcode, hname, gcode, gname, permissions, etag]
+    audit: { logger: audit.admin, action: id_logn.update }
+    invariants:
+      - "If-Match 누락 = 428 PRECONDITION_REQUIRED"
+      - "If-Match 불일치 = 409 STALE_VERSION"
+      - "본인이 자신의 admin.user.write 를 O→X 로 떨어뜨릴 시 422 ID_LOGN_SELF_REVOKE"
+      - "hcode='0000' 외부 사용자 수정 시 422 ID_LOGN_SUPER_USER_PROTECTED"
+
+  - id: ADMINP-4
+    method: PUT
+    path: /api/v1/admin/id-logn/{hcode}/permissions
+    guard: require_permission("admin.user.write")
+    headers_required: [If-Match]
+    body:
+      matrix:
+        F11: "O|R|X"
+        F12: "O|R|X"
+        # ... F89 까지 (정본 30 키)
+    response_keys: [hcode, permissions, etag]
+    audit: { logger: audit.admin, action: id_logn.permissions.update }
+    invariants:
+      - "셀 값 enum: O|R|X 외 422 INVALID_PERMISSION_CELL"
+      - "본인 admin.user.write O→X 토글 시 422 ID_LOGN_SELF_REVOKE"
+      - "hcode='0000' 외부 사용자 매트릭스 수정 시 422 ID_LOGN_SUPER_USER_PROTECTED"
+
+  - id: ADMINP-5
+    method: POST
+    path: /api/v1/admin/id-logn/{hcode}/password-reset
+    guard: require_permission("admin.user.write")
+    headers_required: [X-Audit-Token]
+    body: { newPassword: "string|optional (auto-generate if absent)" }
+    response_keys: [hcode, generatedPassword, etag]
+    audit: { logger: audit.admin, action: id_logn.password.reset }
+    invariants:
+      - "X-Audit-Token 검증 = audit_password_service.verify_admin (5회 실패/10분 잠금 — 기존 정책)"
+      - "본인 비번 리셋은 본 엔드포인트 비허용 → /auth/change-password (D-ADM-3 Phase 2)"
+
+equivalence:
+  legacy_sql_count: 0  # 신규 SQL 없음 — Chul.pas 5건 + Subu45.pas 1건 100% 재사용
+  reused_services:
+    - app/services/audit_password_service.py
+    - app/services/admin_service.py (Wave D 공통)
+    - app/core/security.py::verify_legacy_password
+  permission_seed_source: legacy-analysis/permission-keys-catalog.md
+
+response_envelope:
+  error:
+    schema:
+      code: string  # AUTH_TOKEN_EXPIRED | PERMISSION_DENIED | STALE_VERSION | PRECONDITION_REQUIRED | ID_LOGN_SELF_REVOKE | ID_LOGN_SUPER_USER_PROTECTED | INVALID_PERMISSION_CELL
+      message: string
+      detail: object
+  success:
+    schema:
+      data: object
+      etag: "string|optional"
+
+guards_matrix:
+  /admin/id-logn:        { GET: admin.user.read, POST: admin.user.write }
+  /admin/id-logn/{h}:    { PUT: admin.user.write }
+  /admin/id-logn/{h}/permissions: { PUT: admin.user.write }
+  /admin/id-logn/{h}/password-reset: { POST: admin.user.write }
+
+deferred:
+  - id: D-C10-1
+    description: 레거시 평문/MD5 비번 → bcrypt 일괄 마이그레이션
+    target_phase: phase2 (D-ADM-3 흡수)
+  - id: D-C10-2
+    description: SAML/OIDC/Keycloak 실연동 (DEC-043 stub)
+    target_phase: external_integration_cycle
+  - id: D-C10-3
+    description: Id_Logn 에 revision INT 컬럼 추가 (현재는 SHA-256 ETag)
+    target_phase: cutover_phase
+
+risks:
+  - id: R-C10-1
+    description: require_permission 도입 시 기존 라우터 회귀 — 기본 토큰에 admin 시드 누락 가능
+    mitigation: T7 회귀 가드 (시드 토큰에 admin 자동 부여 + collect-only 단계 fail-fast)
+  - id: R-C10-2
+    description: F11~F89 30 정본 외 키 사용 화면 발생
+    mitigation: T7 정적 가드 (`require_permission(<unknown>)` → unit test fail)
+
+regression:
+  test_file: test/test_c10_admin_phase1.py
+  expected_cases: 30

@@ -1,0 +1,65 @@
+version: 0.1.0
+scenario_id: C14
+title: 운영 모니터링 계약 (Self-hosted only — 외부 SaaS APM/알림/로그집계 제외)
+status: skeleton
+created: 2026-04-20
+owner: 메인개발자
+constraints:
+  - 외부 SaaS APM (Datadog/NewRelic/Sentry 호스티드) ❌
+  - 외부 알림 채널 (Slack/Teams/PagerDuty) ❌
+  - 외부 로그 집계 (ELK 호스티드/Splunk) ❌
+references:
+  - analysis/screen_cards/C14_Ops_Monitoring.md
+  - DEC-033  # 멀티 DB 호환 (4 server 동시 모니터링)
+  - DEC-041  # 표준 응답 코드 (운영 알림 배너와 별도 채널)
+  - DEC-042  # If-Match/ETag (다중 관리자 동시성)
+
+scope:
+  health_extension:
+    path: /api/v1/health
+    response_schema:
+      status: enum[ok, degraded, fail]
+      dependencies:
+        db: ok|degraded|fail
+        disk: ok|degraded|fail
+        external: ok|na  # 본 페이즈는 항상 na
+      uptime_seconds: int
+  metrics:
+    path: /metrics
+    format: prometheus_text_004
+    library: prometheus_client  # Apache-2.0
+    counters:
+      - http_requests_total
+      - http_errors_total
+      - db_queries_total
+    histograms:
+      - http_request_duration_seconds
+      - db_query_duration_seconds
+    gauges:
+      - db_pool_size
+      - db_pool_in_use
+  audit_view:
+    path: /api/v1/admin/audit
+    guard: admin.audit.read   # 신규 permission_code (catalog v1.2)
+    sources:
+      - audit_settlement
+      - audit_returns
+      - audit_password_attempts
+    d_select_policy: 본 사용자 데이터만 (operator) / Server_id 분기 (branch_manager) / 전체 (admin)
+
+acceptance_criteria:
+  - id: AC-OPS-1
+    description: /health 가 dependency 별 분리 응답 — 503 부분 실패 시 정상 분리
+  - id: AC-OPS-2
+    description: /metrics 가 Prometheus exposition 표준 (text-based 0.0.4)
+  - id: AC-OPS-3
+    description: 운영 알림 배너가 서버 권위 (DB persisted 또는 in-memory 큐) — DEC-042 If-Match 정책 점검
+  - id: AC-OPS-4
+    description: audit 통합 뷰가 admin.audit.read 가드 + d_select 적용
+
+decisions:
+  - DEC-OPS-DRAFT-1   # self-hosted only (외부 SaaS 제외)
+  - DEC-OPS-DRAFT-2   # Prometheus 단일 metrics 표준
+open_questions:
+  - OQ-OPS-1   # 메트릭 보존 정책
+  - OQ-OPS-2   # 알림 임계값

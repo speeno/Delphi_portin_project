@@ -1,0 +1,71 @@
+version: 0.1.0
+scenario_id: C15_cutover
+title: 데이터 마이그레이션/Cut-over 계약 (자체 스크립트 only — 외부 SaaS 제외)
+status: skeleton
+created: 2026-04-20
+owner: 메인개발자 + 운영팀 (cut-over 윈도우 합의 필요)
+constraints:
+  - 외부 마이그레이션 SaaS (AWS DMS / Azure Migrate) ❌
+  - 외부 데이터 변환 서비스 ❌
+references:
+  - analysis/screen_cards/C15_Cutover.md
+  - DEC-033  # 4 server 멀티 DB (mysql3 폴백)
+  - DEC-041  # cut-over 후 멀티 사용자 동시 접속
+  - DEC-042  # If-Match/ETag 부하 검증
+
+scope:
+  inventory:
+    tables:
+      - { name: Id_Logn, criticality: critical }
+      - { name: S1_Ssub, criticality: critical }
+      - { name: S2_Stra, criticality: critical }
+      - { name: R1_Rsub, criticality: high }
+      - { name: R2_Rtra, criticality: high }
+      - { name: Sv_Ghng, criticality: high }
+      - { name: G4_Book, criticality: medium }   # 마스터
+      - { name: G3_Sang, criticality: medium }
+      - { name: G1_Ggeo, criticality: medium }
+      - { name: G2_Ggwo, criticality: medium }
+    servers: [remote_138, remote_153, remote_154, remote_155]
+  procedure:
+    - id: P1
+      step: 마지막 영업일 종료 후 운영 lock (read-only 모드 전환)
+      duration_min: 15
+    - id: P2
+      step: mysqldump (per server) + checksum 산출
+      duration_min: 60
+    - id: P3
+      step: 신규 환경 import + 스키마 어댑터 검증 (DEC-033 t5_ssub_adapt 등)
+      duration_min: 120
+    - id: P4
+      step: cutover_validator.py 1차 검증 (count + checksum + sample row)
+      duration_min: 30
+    - id: P5
+      step: 사용자 검수 (UAT 합격 — 7 핵심 시나리오)
+      duration_min: 60
+    - id: P6
+      step: 운영 전환 (DNS/proxy 스위치) + 신규 환경 read-write
+      duration_min: 15
+    total_window_min: 300  # ≈ 5h (단일 server) — 4 server 단계 진행 시 ×4 또는 동시
+  rollback:
+    trigger: 24h 이내 critical(P0/P1) 결함 발생
+    rto_min: 15  # 15분 내 레거시 EXE 복구
+    data_loss: 신규 환경 read-only 우회로 데이터 손실 0 (cut-over 후 24h 이내)
+
+acceptance_criteria:
+  - id: AC-CUT-1
+    description: 4 server 모두 cutover_validator.py 100% PASS
+  - id: AC-CUT-2
+    description: 24시간 운영 검증 후 0 critical 결함 → 레거시 EXE 종결
+  - id: AC-CUT-3
+    description: 7 핵심 시나리오 (C2/C3/C4/C5/C6/C7/C8) 운영 시연 PASS
+  - id: AC-CUT-4
+    description: 롤백 절차 1회 dry-run 완료 (RTO ≤ 15분)
+
+decisions:
+  - DEC-CUT-DRAFT-1   # 단계 전환 전략 (138 파일럿 → 153 → 154/155)
+  - DEC-CUT-DRAFT-2   # 자체 스크립트 only (외부 SaaS 제외)
+open_questions:
+  - OQ-CUT-1   # cut-over 윈도우 합의
+  - OQ-CUT-2   # 4 server 동시 vs 단계
+  - OQ-CUT-3   # 레거시 EXE 종결 시점

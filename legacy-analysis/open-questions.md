@@ -101,6 +101,21 @@
 - **영향 범위**: 1차는 메타로 처리하여 URL key 미포함. 운영 데이터 분포 (한 hcode 가 여러 gjisa 를 갖는지) 확인 후 합성키 추가 결정.
 - **상태**: **후속 이관** — 운영 데이터 분포 분석 사이클 후 closure.
 
+### OQ-RT-7: D_Select 권한키 분기 (DEC-009 해제 + C10 마감)
+- **질문**: `D_Select` 헬퍼가 Phase 2 (C4) 시점에는 인터페이스만 노출 (`1=1` 폴백) — 실권한 분기는 C10 (권한 관리) 로 이관. C10 Phase 1 시점에서 admin / branch_manager / auditor / operator 4 분기를 도입할 수 있는가?
+- **발생 시점**: C4 Phase 2 (2026-04-19) — DEC-030 으로 OQ-RT-1 → OQ-RT-7 재번호.
+- **영향 범위**: 모든 도메인 라우터 (마스터/주문/입고/반품/정산/리포트) 의 d_select 호출 정합. C10 의 Id_Logn F11~F89 매트릭스와 1:1 의존.
+- **상태**: **마감 (2026-04-20, C10 Phase 1)** — DEC-009 해제 (1차 포팅 단순화 종료). `app/core/d_select.py::build_d_select_clause(table, user_context)` 가 4 분기 도입.
+- **마감 근거**:
+  - admin (Hcode='0000' 또는 role='admin') → `1=1` (전 데이터)
+  - branch_manager / auditor → `Server_id = '<server_id>'` (본 지점 + 산하 / R/O 강제)
+  - operator (그 외) → `Branch_id = '<branch_id>' AND Hcode = '<hcode>'` (본 사용자 데이터만)
+  - `app/core/deps.py::get_user_context` 가 JWT claim 우선 + `Authorization-Context` 헤더 fallback 으로 user_context 조립
+  - `test/test_c10_admin_phase1.py::DSelectBranching` 3 케이스 PASS (admin/branch/operator).
+  - `analysis/handlers/c10_phase1.md` §5 d_select 매트릭스 동결.
+- **후속 작업**: 마스터/주문/정산 라우터에 d_select 점진 도입 (별도 리팩토링 사이클) — 회귀 면적 제어를 위해 라우터별 분리.
+- **참조**: DEC-030, `app/core/d_select.py`, `app/core/deps.py`, `test/test_c10_admin_phase1.py`, `analysis/regression/c10_phase1.md`
+
 ### OQ-IN-1: FTP 자동 수신 — 자격증명·스케줄러 인프라 합의
 - **질문**: 레거시 TSobo38(전송자료받기) 가 사용하던 외부 FTP 서버의 호스트/계정/스케줄과 파일 포맷(EUC-KR 고정폭? CSV?) 은 무엇인가? 모던 환경에서 FTP 폴링/SFTP/오브젝트 스토리지 중 어느 채널을 채택할 것인가?
 - **발생 시점**: C3 입고 접수 1차 포팅 (2026-04-19, `analysis/screen_cards/Sobo38.md`)
@@ -115,6 +130,7 @@
 - **선행 차단 요소**: 운영팀과의 외부 FTP 자격증명 공유 합의(보안 정책) — 본 작업은 코드 우선이 아니라 합의가 우선.
 
 ---
-*최종 업데이트: 2026-04-19 — OQ-IN-1 후속 작업 5단계 스파이크 계획 명시 (C3 phase2 UI 보강 완료 시점, HOT-INB-3).*
+*최종 업데이트: 2026-04-20 — OQ-RT-7 마감 (C10 Phase 1: D_Select 실분기 4 분기 도입, DEC-009 해제). 후속 OQ-IDP-* (외부 IdP/SSO 합의) 미등록 — 외부 합의 트리거 시 신규 (DEC-043 인터페이스 동결로 후속 도입 시 회귀 0).*
+*이전: 2026-04-19 — OQ-IN-1 후속 작업 5단계 스파이크 계획 명시 (C3 phase2 UI 보강 완료 시점, HOT-INB-3).*
 *이전: 2026-04-19 — OQ-IN-1 신규 (C3 입고 1차 FTP 우회 결정 후속).*
 *이전: 2026-04-25 — OQ-OUT-1~4 신규 (C2 출고 접수 1차 포팅 동결 반영). (이전: 2026-04-22 OQ-LOGIN-1 "후속 이관" 표기)*

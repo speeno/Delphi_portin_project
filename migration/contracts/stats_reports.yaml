@@ -1,0 +1,61 @@
+version: 0.1.0
+scenario_id: C13_stats
+title: 통계/리포트 확장 계약 (외부 시스템 연동 제외)
+status: skeleton  # v0.1 골격
+created: 2026-04-20
+owner: 메인개발자
+constraints:
+  - 외부 BI 도구 (Tableau/PowerBI) 직결 ❌
+  - 외부 ETL 파이프라인 송출 ❌
+  - 외부 데이터 웨어하우스 직결 ❌
+references:
+  - analysis/screen_cards/C13_Stats_Reports.md
+  - DEC-019  # 단일 원천
+  - DEC-040  # 신규 SQL 0 정책 (재사용 가능 여부 우선 검토)
+  - DEC-041  # C13 표준 응답 코드
+
+scope:
+  new_endpoints:
+    - id: STAT-1
+      method: GET
+      path: /api/v1/stats/sales-period
+      guard: F50  # 통계 - 매출 기간별
+      query: [server_id, dateFrom, dateTo, groupBy(daily|weekly|monthly)]
+    - id: STAT-2
+      method: GET
+      path: /api/v1/stats/customer-analysis
+      guard: F51  # 통계 - 거래처별
+      query: [server_id, hcode?, period]
+    - id: STAT-3
+      method: GET
+      path: /api/v1/stats/book-turnover
+      guard: F52  # 통계 - 도서 회전율
+      query: [server_id, gcode?, period]
+    - id: STAT-4
+      method: GET
+      path: /api/v1/stats/quarterly-summary
+      guard: F53  # 통계 - 분기 손익
+      query: [server_id, year, quarter]
+  permission_keys_new:
+    - F50  # admin.stats.sales (신규 등록 → permission-keys-catalog.md v1.2)
+    - F51  # admin.stats.customer
+    - F52  # admin.stats.book
+    - F53  # admin.stats.quarterly
+  charts_library: recharts  # MIT, React 통합 — 단일 선택 (DEC-019)
+  export_formats: [csv, xlsx, pdf]  # PDF = WeasyPrint 재사용 (DEC-037)
+
+acceptance_criteria:
+  - id: AC-STAT-1
+    description: 4 신규 화면 모두 PermissionGuard (DEC-041) + 표준 에러 응답 정합
+  - id: AC-STAT-2
+    description: 신규 SQL 0 정책 검토 — 기존 service SELECT 재해석 가능 여부 우선 확인
+  - id: AC-STAT-3
+    description: CSV/Excel/PDF Export 가 모두 동일 데이터 (ETag 정합)
+  - id: AC-STAT-4
+    description: 4 server (138/153/154/155) 모두 mysql3 호환 — probe 신규 4 그룹
+
+decisions:
+  - DEC-STAT-DRAFT-1   # 차트 라이브러리 단일 선택 (recharts)
+  - DEC-STAT-DRAFT-2   # 외부 BI 직결 제외 정책
+open_questions:
+  - OQ-STAT-1   # 통계 데이터 시간 정합 (정산 마감 후 즉시 vs T+1)

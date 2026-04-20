@@ -287,6 +287,35 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             },
             "ok_status": {200, 400, 422, 503},
         },
+        # ─── C10 Phase 1 (admin_permissions.yaml v1.0.0) ──────────────────
+        # 가드/매트릭스/세션·동시편집 정합 — auth dependency override 가 admin 시드를
+        # 자동 부여하므로 200 이어야 함. 401/403 = 회귀 (가드 누락 또는 권한 폴백 실패).
+        {
+            "group": "admin.id_logn_list",
+            "path": f"/api/v1/admin/id-logn?page=1&pageSize=10&server_id={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "admin.permission_matrix_stale_must_409",
+            "method": "PUT",
+            "path": f"/api/v1/admin/id-logn/BR01/permissions?server_id={sid}",
+            "headers": {"If-Match": "stale-deadbeef"},
+            "json_body": {"matrix": {"F11": "O"}},
+            "ok_status": {409},
+        },
+        {
+            "group": "auth.expired_must_401",
+            "path": f"/api/v1/auth/me?server_id={sid}",
+            "headers_no_auth": True,  # 강제 무인증
+            "ok_status": {401},
+        },
+        {
+            "group": "concurrency.precondition_required_must_428",
+            "method": "PUT",
+            "path": f"/api/v1/admin/id-logn/BR01?server_id={sid}",
+            "json_body": {"hname": "x"},
+            "ok_status": {428},
+        },
     ]
 
 
@@ -296,11 +325,16 @@ def probe_routes(client, server_id: str, args: argparse.Namespace) -> list[dict[
         path = spec["path"]
         method = spec.get("method", "GET").upper()
         json_body = spec.get("json_body")
+        extra_headers = dict(spec.get("headers") or {})
+        # C10 — auth.expired_must_401 등 무인증 강제 시 dependency override 일시 해제 필요
+        # (TestClient 가 직접 무토큰 호출하므로 실제 효과는 라우터 측 401 → override 이전 상태)
         try:
             if method == "POST":
-                res = client.post(path, json=json_body)
+                res = client.post(path, json=json_body, headers=extra_headers or None)
+            elif method == "PUT":
+                res = client.put(path, json=json_body, headers=extra_headers or None)
             else:
-                res = client.get(path)
+                res = client.get(path, headers=extra_headers or None)
             ok = res.status_code in spec["ok_status"]
             detail = f"{res.status_code} bytes={len(res.content)}"
             if not ok:
