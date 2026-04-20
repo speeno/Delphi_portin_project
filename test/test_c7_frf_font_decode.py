@@ -158,7 +158,11 @@ class FontDecodeTest(unittest.TestCase):
         finally:
             Path(tmp_path).unlink(missing_ok=True)
         # 실패-허용 — 최소한 source/decoder_version 은 v0.6.0.
-        self.assertEqual(ir["source"]["decoder_version"], "0.6.0")
+        dv = ir["source"]["decoder_version"]
+        self.assertTrue(
+            dv.startswith("0.6."),
+            f"decoder_version 기대 0.6.x: {dv}",
+        )
         # pages / unsupported_objects 둘 중 하나는 채워져야 한다 (전부 비면 디코더 실패).
         has_pages = bool(ir.get("pages"))
         has_warnings = bool(ir.get("decoder_warnings"))

@@ -92,7 +92,7 @@ SCHEMA_VERSION = "0.1.0"
 #       마다 *가로 폭 raw px* 가 다르게 저장될 수 있다 (예: 112px vs 132px). 이는
 #       소스 FRF 제작 시 세로 2단 복사 본이 *서로 다른 격자* 가 박힌 것이지
 #       디코더 rect 오탐이 아니다. 맞춤이 필요하면 IR 후처리/에디터로 별도 정합.
-DECODER_VERSION = "0.6.0"
+DECODER_VERSION = "0.6.3"
 
 # ---------------------------------------------------------------------------
 # 좌표 단위 — 데이터 기반 결정 (debug/frf_unit_probe.py, 2026-04-20)
@@ -1367,6 +1367,11 @@ def _infer_text_font_sizes(ir: IR) -> None:
                 if obj.get("type") != "Text":
                     continue
                 style = obj.get("style") or {}
+                # v0.6.3 — Font 블록을 이미 디코드한 객체는 rect 추정으로 덮어쓰면 안 된다.
+                # 예: 계산서 Memo702 하단 각주 (h≈4mm) → 추정 ≈9.37pt 가 실제 8pt 추출값을
+                # 밀어내 화면·PDF 에서 각주만 비정상적으로 커 보였다.
+                if style.get("_font_extracted"):
+                    continue
                 rect = obj.get("rect_mm") or {}
                 w_mm = float(rect.get("w") or 0.0)
                 h_mm = float(rect.get("h") or 0.0)

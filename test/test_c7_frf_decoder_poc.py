@@ -246,6 +246,34 @@ class FrfDecoderFontInferenceTest(unittest.TestCase):
         self.assertLessEqual(pt, 12.0)
         self.assertLessEqual(pt, (5.0 * 0.85) / MM_PER_PT + 0.5)
 
+    def test_font_extracted_not_overwritten_by_rect_infer(self) -> None:
+        """v0.6.3 — ``_font_extracted`` 가 있으면 rect 기반 추정이 pt 를 덮어쓰지 않는다."""
+        from debug import frf_decoder_poc as dec
+        ir = dec.IR(
+            schema_version="0.1.0",
+            source={},
+            report={},
+            pages=[{
+                "size_mm": {"width": 200.0, "height": 300.0},
+                "margin_mm": {},
+                "bands": [{"name": "B", "objects": [
+                    {"name": "Small", "type": "Text",
+                     "rect_mm": {"x": 0, "y": 0, "w": 50.0, "h": 4.0},
+                     "style": {
+                         "font_size_pt": 8.0,
+                         "_font_extracted": True,
+                     }},
+                ]}],
+            }],
+            data_sources=[], expressions_dictionary={}, variant_profile=None,
+            unsupported_objects=[], decoder_warnings=[],
+        )
+        dec._infer_text_font_sizes(ir)
+        self.assertEqual(
+            ir.pages[0]["bands"][0]["objects"][0]["style"]["font_size_pt"],
+            8.0,
+        )
+
 
 class FrfDecoderImageExtractionTest(unittest.TestCase):
     """v0.4.0 — Picture 객체에 임베디드 이미지(JPG/PNG/BMP) 매칭."""
