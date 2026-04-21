@@ -8,7 +8,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 from unittest import TestCase, main
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 ROOT = Path(__file__).resolve().parents[1]
 BACKEND = ROOT / "도서물류관리프로그램" / "backend"
@@ -65,6 +65,59 @@ class ShipmentStatusRouteTests(TestCase):
         self.assertEqual(body["items"][0]["hcode"], "H001")
         self.assertEqual(body["items"][0]["orders"], 2)
         self.assertEqual(body["page"]["total"], 1)
+
+
+class ShipmentStatusMysql3PathTests(TestCase):
+    """mysql3_protocol=true 일 때 파생 테이블 없이 단일 GROUP BY + 메모리 집계."""
+
+    @patch("app.services.outbound_service.mysql3_protocol", return_value=True)
+    @patch("app.services.outbound_service._fetch_customer_names", new_callable=AsyncMock)
+    @patch("app.services.outbound_service.execute_query", new_callable=AsyncMock)
+    def test_shipment_status_mysql3_in_memory_aggregate(
+        self,
+        mock_exec: AsyncMock,
+        mock_names: AsyncMock,
+        _mock_m3: MagicMock,
+    ) -> None:
+        mock_names.return_value = {"H001": "가게"}
+        mock_exec.side_effect = [
+            [
+                {
+                    "Gdate": "2026.04.01",
+                    "Hcode": "H001",
+                    "Jubun": "J1",
+                    "yesno_max": "1",
+                    "qty": 5,
+                    "amount": 500,
+                },
+                {
+                    "Gdate": "2026.04.01",
+                    "Hcode": "H001",
+                    "Jubun": "J2",
+                    "yesno_max": "2",
+                    "qty": 3,
+                    "amount": 100,
+                },
+            ]
+        ]
+        client = TestClient(app)
+        r = client.get(
+            "/api/v1/outbound/shipment-status",
+            params={
+                "serverId": "remote_any_mysql3",
+                "dateFrom": "2026-04-01",
+                "dateTo": "2026-04-30",
+                "limit": 50,
+                "offset": 0,
+            },
+        )
+        self.assertEqual(r.status_code, 200, r.text)
+        body = r.json()
+        self.assertEqual(len(body["items"]), 1)
+        self.assertEqual(body["items"][0]["orders"], 2)
+        self.assertEqual(body["items"][0]["qty"], 8)
+        self.assertEqual(body["items"][0]["cancelled_orders"], 1)
+        mock_exec.assert_called_once()
 
 
 class ShipmentStatusStoreKindTests(TestCase):
