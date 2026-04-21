@@ -126,11 +126,20 @@ inputs:
       note: "Yesno='2' (취소) 포함 여부. C2 outbound 와 동일 패턴."
 
   ledger_filter:                 # /inventory/ledger
+    # DEC-033 (f) — 재고관리 메뉴(Sobo44_inv 재고현황 / Sobo33_ledger 도서수불장) 정책:
+    #   hcode/bcode 가 비어 있으면 백엔드가 해당 WHERE 절을 동적 제거해 전체 대상으로 조회한다.
+    #   서버 LIMIT(BLS_INVENTORY_LEDGER_MAX, 기본 5,000행) + truncated 플래그로 풀스캔 가드.
+    #   일자(date_from/date_to) 는 mysql3 stall 회피를 위해 필수 유지.
+    - name: hcode
+      type: string
+      required: false
+      legacy_field: "S1_Ssub.Hcode (옵셔널 override — common_filter 의 필수 정책을 LEDGER 엔드포인트에서만 완화)"
+      note: "Subu31 Edit107. 비우면 전체 거래처/지사. Sobo33_ledger 의 '%' 트릭은 백엔드에서 None 으로 정규화."
     - name: bcode
       type: string
-      required: true
+      required: false
       legacy_field: "S1_Ssub.Bcode"
-      note: "Subu31 Edit103 — 도서 코드 단건 또는 시리즈 묶음."
+      note: "Subu31 Edit103 — 도서 코드 단건 또는 시리즈 묶음. 비우면 전체 도서."
     - name: bcode_to
       type: string
       required: false
@@ -144,6 +153,13 @@ inputs:
       note: "Subu31 Panel103 캡션 — '본사도서'='A', '도 서 명'/'창고도서'='B'."
 
   reports_filter:                # /reports/book-sales 와 /reports/customer-sales 공통
+    # DEC-033 (f) — Sobo33_1_ledger(통합 도서수불장) 정책: book-sales 는 hcode 옵셔널 허용.
+    #   페이지네이션(limit/offset) 으로 풀스캔 가드 유지. customer-sales 는 기존 옵셔널 정책 유지.
+    - name: hcode
+      type: string
+      required: false
+      legacy_field: "S1_Ssub.Hcode (book-sales 옵셔널 override — Sobo33_1_ledger 통합 정책)"
+      note: "Sobo33_1_ledger 비우면 전체 거래처 합계. 서버에서 None/빈/'%' 모두 None 으로 정규화."
     - name: bcode_from
       type: string
       required: false
@@ -234,6 +250,8 @@ outputs:
       - { name: gpsum,  type: integer, note: "Sg_Csum 폐기 합계 (Subu61 L404 패턴 재사용)" }
     summary:
       - { name: opening_balance, type: integer, source: "Sv_Ghng Max(Gdate) (Subu31 L336)" }
+    flags:
+      - { name: truncated, type: boolean, default: false, note: "DEC-033 (f) — 서버 LIMIT(BLS_INVENTORY_LEDGER_MAX, 기본 5,000행) 도달 시 true." }
 
   book_sales_rows:               # /reports/book-sales
     fields:
@@ -523,15 +541,18 @@ endpoints:
 
   - method: GET
     path: /api/v1/inventory/ledger
-    description: "도서별 수불원장 (TSobo31 Button101→102/103 동등)."
+    description: |
+      도서별 수불원장 (TSobo31 Button101→102/103 동등).
+      DEC-033 (f) — 재고관리 메뉴(Sobo44_inv/Sobo33_ledger) 정책: hcode/bcode 옵셔널 +
+      서버 LIMIT(BLS_INVENTORY_LEDGER_MAX, 기본 5,000행) + truncated 플래그.
     auth: bearer
     request:
       query:
         server_id: string
-        hcode: string
+        hcode?: string             # DEC-033 (f) — 비우면 전체 거래처/지사
         date_from: string
         date_to: string
-        bcode: string
+        bcode?: string             # DEC-033 (f) — 비우면 전체 도서
         bcode_to?: string
         scope?: "string ('A'|'B', default 'B')"
     responses:
@@ -539,15 +560,18 @@ endpoints:
         body:
           opening_date: string
           rows: [...]              # ledger_rows 스키마
+          truncated: boolean       # DEC-033 (f) — LIMIT 가드 도달 시 true
 
   - method: GET
     path: /api/v1/reports/book-sales
-    description: "도서별 판매 (TSobo61 Button101Click 동등) — C14 동등성 캡처 대상."
+    description: |
+      도서별 판매 (TSobo61 Button101Click 동등) — C14 동등성 캡처 대상.
+      DEC-033 (f) — Sobo33_1_ledger 통합 정책: hcode 옵셔널 (페이지네이션 가드 유지).
     auth: bearer
     request:
       query:
         server_id: string
-        hcode: string
+        hcode?: string             # DEC-033 (f) — 비우면 전체 거래처 합계
         date_from: string
         date_to: string
         bcode_from?: string
