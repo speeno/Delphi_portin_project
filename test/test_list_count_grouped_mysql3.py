@@ -235,15 +235,16 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
         )
 
     async def test_returns_list(self) -> None:
-        # returns_service.list_returns: data SELECT 1회 + publisher lookup 1회 (Hcode 있으면)
+        # returns_service.list_returns: data SELECT 1회 + publisher lookup 1회.
+        # publisher lookup 은 ``in_clause_lookup`` 헬퍼 경유 — 헬퍼 자체를 stub.
         from app.services import returns_service as rs
 
         async def fake_exec(server_id: str, sql: str, params: tuple) -> list[dict[str, Any]]:
-            if "G7_Ggeo" in sql:
-                return [{"hcode": "H001", "hname": "출판사A"}]
             return [_row_returns()]
 
         with patch("app.services.returns_service.execute_query", new=fake_exec), \
+             patch("app.services.returns_service.in_clause_lookup",
+                   new=AsyncMock(return_value=[{"hcode": "H001", "hname": "출판사A"}])), \
              patch("app.services.returns_service.count_grouped", new=AsyncMock(return_value=99)) as cg_mock:
             await rs.list_returns(
                 server_id="srv",
