@@ -22,6 +22,8 @@ alwaysApply: true
 2. **MySQL 3.x 표현식**  
    `CAST AS CHAR`, `CASE WHEN`, 연속 `LIMIT … OFFSET …`(바인딩 없는 형태), 필요 시 `COALESCE` 등 레거시 미지원 구문은 피하고, 기존 패턴처럼 `CONCAT`, `IF`, `IFNULL`, 필요 시 공통 헬퍼만 `sql_mysql3.py` 에 추가한다.
 
+   **파생 테이블(derived table) 금지** — `SELECT COUNT(*) FROM (subquery) t` 패턴은 MySQL 3.23 미지원(1064). LIST 의 `total` 산출은 반드시 `count_grouped(server_id, table=, where_sql=, group_by=, having=, params=)` 헬퍼만 사용한다 (DEC-033 §결정 사항 (d) — 2026-04-21 HOTFIX). 회귀 가드: [test/test_list_count_grouped_mysql3.py](test/test_list_count_grouped_mysql3.py).
+
 3. **테넌트별 DDL 차이**  
    동일 테이블이라도 컬럼 세트가 다를 수 있다 → 서비스 레이어에 분기 금지.  
    `SHOW COLUMNS` 기반 어댑터를 **`app/services/<table>_adapt.py`** 한 모듈에 모은다 (예: [t5_ssub_adapt.py](도서물류관리프로그램/backend/app/services/t5_ssub_adapt.py)).

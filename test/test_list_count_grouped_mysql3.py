@@ -335,13 +335,20 @@ class HttpRouterRegressionTests(TestCase):
         def _override_auth() -> dict:
             return {"user_id": "u1", "server_id": "srv"}
 
+        # 이전에 등록된 override 가 있다면 보존했다가 tearDown 에서 복원 — 다른 테스트
+        # 파일이 모듈 레벨로 등록한 override 를 의도치 않게 지우지 않도록 한다
+        # (사용자 룰 §재귀 오류 방지: 이전 케이스 고려).
+        self._prev_override = app.dependency_overrides.get(get_current_user)
         app.dependency_overrides[get_current_user] = _override_auth
         self.app = app
         self.client = TestClient(app)
 
     def tearDown(self) -> None:
         from app.routers.auth import get_current_user
-        self.app.dependency_overrides.pop(get_current_user, None)
+        if self._prev_override is not None:
+            self.app.dependency_overrides[get_current_user] = self._prev_override
+        else:
+            self.app.dependency_overrides.pop(get_current_user, None)
 
     @patch("app.services.transactions_service.count_grouped", new_callable=AsyncMock)
     @patch("app.services.transactions_service._fetch_customer_names", new_callable=AsyncMock)
