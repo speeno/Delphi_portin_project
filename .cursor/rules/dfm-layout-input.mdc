@@ -43,6 +43,7 @@ tools/delphi_porting_accelerator/examples/generated/legacy_source_root/<Subu*>/
 - 모던 페이지의 모든 입력/버튼/그리드 헤더에 `data-legacy-id` 부착.
 - T7 단계에서 매핑 노트의 `legacy_id` 목록과 페이지 DOM 의 `data-legacy-id` 집합이 일치하는지 자동 검사.
 - 일치하지 않으면 즉시 차단 (5축 평가의 `axis_data` 와 동일한 즉시 차단 정책).
+- **phase1 승격 전** `analysis/audit/phase1-component-fidelity.md` 매트릭스를 갱신하고 GAP-P0 = 0 을 확인한다 (DEC-053).
 
 ## 적용 대상
 

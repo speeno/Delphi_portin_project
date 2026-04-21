@@ -285,6 +285,7 @@
   - `.cursor/rules/dfm-layout-input.mdc` 신규 (alwaysApply: true) — 모든 AI 작업자에 자동 강제.
   - `tools/analysis/screen_card_builder.py` 가 화면 카드 §0/§9 에 dfm 산출물 경로 + layout_mappings 작성 의무를 자동 안내.
   - 기존 done 시나리오(C1·C2·C6·C9 phase1)는 회귀 발견 시 동일 룰로 retrofit.
+  - **(2026-04-21 보강)** phase1 승격 시 `analysis/audit/phase1-component-fidelity.md` 매트릭스 GAP-P0 = 0 가드 (DEC-053).
 - **결정자**: 메인개발자 + 사용자
 - **참조**: `tools/delphi_porting_accelerator/examples/generated/legacy_source_root/`, `.cursor/rules/dfm-layout-input.mdc`, `analysis/layout_mappings/`
 
@@ -712,8 +713,23 @@
 - **결정자**: 메인개발자 + 사용자 (1 사용자 1 데이터 서버 정책 합의)
 - **참조**: `도서물류관리프로그램/backend/app/services/admin_service.py`, `도서물류관리프로그램/backend/data/web_admin.json`, `도서물류관리프로그램/frontend/src/app/(app)/admin/user-servers/page.tsx`, `도서물류관리프로그램/frontend/src/components/app-shell/header.tsx`, `test/test_admin_primary_server.py`, DEC-051
 
+### DEC-053: 1차 포팅 화면 컴포넌트 동등성 정기 재점검 (Phase 1 Component Fidelity Audit)
+- **일자**: 2026-04-21
+- **결정 사항**: `form-registry.ts` 의 모든 `phase: "phase1"` 폼(현 33행) 은 `analysis/audit/phase1-component-fidelity.md` 단일 매트릭스에 5 축(W/B/U/D/O) PASS/OOS 평가를 보유한다. **phase1 승격 게이트** (DEC-045) 는 본 매트릭스의 `GAP-P0 = 0` 을 의무화한다 — P0 1건이라도 있으면 phase1 승격을 차단한다.
+  - (a) **5 축**: W(Widget — dfm 위젯 누락) / B(Business logic — OnXxx·SQL) / U(User flow — TabOrder·단축키·토글·라디오) / D(Data — 컬럼·집계·필터 기본값) / O(Out-of-scope — 의식적 비포함). 각 축은 한 단어: PASS / GAP-P0 / GAP-P1 / GAP-P2 / OOS.
+  - (b) **P0 정의**: 사용자 작업이 차단되는 항목 (예: 본사/창고 토글 부재로 데이터가 비어 보임 — 본 사이클 직전 Sobo67 핫픽스 사례).
+  - (c) **단일 원천**: 위젯 표·이벤트 매핑·인쇄 절은 `analysis/layout_mappings/<Sobo*>.md` 단일 원천 — 본 매트릭스는 5축 한 단어 + 매핑 노트 링크만 보유. 매핑 노트 변경 시 본 매트릭스를 동시 갱신한다.
+  - (d) **재실행 트리거**: 신규 DEC, 백엔드/프런트 변경, 사용자 보고로 인한 5축 의미 변경 시 audit_only 사이클로 매트릭스 재실행.
+  - (e) **HA-RET-02**: P0/P1 발견 시 `dashboard/data/human-action-items.json::HA-RET-02` 에 항목 등록 후 별 사이클(retrofit) 로 처리. 본 사이클 자체는 코드 변경 0.
+- **배경/근거**: Sobo67 본사/창고 토글 부재로 출고현황 화면이 비어 보이는 P0 가 phase2 포팅 후 사용자 보고로 발견됨 → DEC-019 변형 통합 정책과 dfm 의 의식적 OOS 구분 가이드가 부족했음. 폼 단위 5축 평가를 phase1 승격 게이트에 묶어 동일 회귀 재발을 결정적으로 차단한다.
+- **DoD**: `analysis/audit/phase1-component-fidelity.md` 매트릭스 33 행 GAP-P0 합계 = 0 + DEC-028 §결정 1줄 보강 + `.cursor/rules/dfm-layout-input.mdc` §회귀 가드 1줄 추가. 코드 변경 0.
+- **운영**: 본 사이클 결과 P0 = 0 / P1 = 0 / P2 = 15(모두 의식적 deltas). HA-RET-02 ID 예약 + 항목 = 0.
+- **결정자**: 메인개발자 + 사용자 (1차 폼 컴포넌트 누락 0 가드 합의)
+- **참조**: `analysis/audit/phase1-component-fidelity.md`, `.cursor/rules/dfm-layout-input.mdc`, DEC-028(공식 입력) + DEC-045(phase1 승격 게이트) + GR-CODE-001 (고객사 분기 보존) + GR-PROC-004 (capture 없는 동등성 주장 금지)
+
 ---
-*최종 업데이트: 2026-04-21 — DEC-051/052 신규 추가 (인증 서버 단일화 = `BLS_AUTH_SERVER_ID` 고정 게이트, 로그인 화면 서버 콤보 제거, JWT `sid`=primary 데이터 서버 / 사용자-데이터 서버 1:1(Primary) = `web_user_servers` 다대다→1대1 의미 좁힘 + admin 라디오 UI + 부팅 1회 idempotent 마이그레이션 + 미설정 헤더 경고 배지). DEC-050 등 기존 결정 무변경.*
+*최종 업데이트: 2026-04-21 — DEC-053 신규 추가 (1차 포팅 화면 컴포넌트 동등성 정기 재점검 — `analysis/audit/phase1-component-fidelity.md` 단일 매트릭스 + 5축 W/B/U/D/O + GAP-P0 = 0 phase1 승격 게이트, HA-RET-02 후속 ID 예약). DEC-028 §영향에 phase1 승격 시 매트릭스 GAP-P0 가드 1줄 보강. `.cursor/rules/dfm-layout-input.mdc` §회귀 가드 1줄 추가. 본 사이클 결과 P0 = 0 / P1 = 0.*
+*이전: 2026-04-21 — DEC-051/052 신규 추가 (인증 서버 단일화 = `BLS_AUTH_SERVER_ID` 고정 게이트, 로그인 화면 서버 콤보 제거, JWT `sid`=primary 데이터 서버 / 사용자-데이터 서버 1:1(Primary) = `web_user_servers` 다대다→1대1 의미 좁힘 + admin 라디오 UI + 부팅 1회 idempotent 마이그레이션 + 미설정 헤더 경고 배지). DEC-050 등 기존 결정 무변경.*
 *이전: 2026-04-21 — DEC-050 신규 추가 (.frf→HTML 운영 결합 = per-form 화이트리스트 옵트인, 자동 변환 0 영속, Phase 3 게이트 G1/G2/G3 + 품질 점수 게이트 binding≥0.7/coord≥0.95, print_template_registry + label_service 위임 + frf-html-porting.json/renderFrfHtmlPorting 단일 원천, 회귀 19 PASS).*
 *이전: 2026-04-21 — DEC-049 신규 추가 (발송비/입금 메뉴 IA 복원 = settlement 라우트 별칭, billing 그룹은 진입점 only, wrong_id 2건 가드 + 진짜 발송비 도메인 P2 백로그 분리, 신규 SQL 0).*
 *이전: 2026-04-21 — DEC-046/047/048 신규 추가. DEC-046(phase2 32화면 운영체계 = 시나리오/단계카드/계약/회귀 4 단일원천 + 사이드바 1줄 표시 + ScreenPlaceholder DRY). DEC-047(phase2→phase1 승격 = 0건, 4대 DB 환경 등록 + cross-DB PASS 후 재평가, Tier A 12 / Tier B 15 / Tier C 5 분류). DEC-048(T-B4 .frf→HTML 변환 작업 100% 완료 = 트랙 status=done, Phase 3 운영 결합은 SME·ROI·R&D 3 조건 별도 게이트, DEC-039 정책 유지).*
