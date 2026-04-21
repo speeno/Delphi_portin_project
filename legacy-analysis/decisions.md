@@ -654,6 +654,27 @@
 - **결정자**: 메인개발자 + 사용자 (발송비/입금 하위 메뉴 포팅 작업 계획 합의)
 - **참조**: DEC-019 (Sobo42_1/45_1 = variant 단일화), DEC-031/032/034/035/036 (C5 정산), DEC-040 (신규 SQL 0), DEC-046 (단일 원천 패턴), `migration/coverage/billing-deposit-menu-legacy-to-web-map.md`, `migration/coverage/billing-subu43-44-shipping-backlog.md` (P2 백로그), `dashboard/data/billing-c5-menu-porting.json`, `dashboard/js/app.js::renderBillingMenuPorting`
 
+### DEC-050: .frf→HTML 운영 결합 = per-form 화이트리스트 옵트인 (자동 변환 0 영속 + Phase 3 게이트)
+
+- **일자**: 2026-04-21
+- **결정 사항**: 1744 변환 자산 (`debug/output/frf_converted_all/`) 의 운영 결합은 **per-form 화이트리스트 PR 단위 옵트인** 으로만 진행하며, **자동 변환 0** (DEC-039) 영속 정책을 유지한다.
+  - (a) **레지스트리 단일 원천**: `backend/app/services/print_template_registry.py::_WHITELIST` dict 1개가 화이트리스트 정본. 행 추가는 PR 1건 = 1행 (혼합 금지). 동일 PR 에 IR 파일을 `print_templates/auto/` 로 **수동 복사** 의무. 자동 sync 스크립트 작성·실행 0.
+  - (b) **환경변수 게이트**: `PRINT_TEMPLATE_MODE=auto` (기본 `manual`) 인 경우만 화이트리스트 활성화. 운영 기본은 manual 보존 — Phase 1 byte-identical 정본 회귀 0.
+  - (c) **Phase 3 게이트 3 조건** (`docs/phase3-print-gate.md`): G1 SME 협의 (`analysis/research/c7_phase3_sme_review.md`) + G2 B1 vs B4 ROI (`analysis/research/c7_b1_vs_b4_roi.md`) + G3 R&D 가용성 (`analysis/research/c7_phase3_capacity.md`) 모두 PASS 시에만 화이트리스트 PR 개시.
+  - (d) **품질 점수 게이트**: SOP-A 진입 자격 = `binding_fill ≥ 0.7` AND `coord_recovery ≥ 0.95` (`docs/print-form-add-sop.md` §A4). HIGH 버킷 996/1744 만 자동 대상.
+  - (e) **graceful fallback**: IR 파일 누락 / 컴파일 에러 / 화이트리스트 미등록 시 자동으로 manual 빌더로 폴백 + WARNING 로그. 운영 5xx 누설 0.
+  - (f) **DEC-046 단일 원천 불변식**: `_WHITELIST` 행 수 = `print_templates/auto/*.ir.json` 파일 수 = `dashboard/data/frf-html-porting.json::screens` 의 `mappingType="ir_in_use"` 행 수 (3 곳 동수). 본 invariant 는 `test_print_template_registry::test_R03_single_source_truth` 가 회귀 가드.
+- **배경/근거**: T-B4 PoC 가 1744 자산 변환을 100% 완료 (DEC-048) 했으나 운영 결합 1건만 (`Report_1_21.ir.json`) 인 상태. SME 합의 없이 1744 자산을 모두 결합하면 (1) 양식 변경 추적 불가 (2) 시각 회귀 비용 폭증 (3) DEC-039 정책 충돌. per-form opt-in PR + Phase 3 게이트 + 품질 점수 게이트로 점진 도입이 회귀 비용·DEC-039 정합·DEC-046 단일 원천 모두 만족.
+- **대안**: (1) B1 자체 파서 신규 작성 (운영 결합 자동) → DEC-039 충돌 + 파서 RFC 4~6 주 비용. ROI 게이트 G2 에서 비교 검토 (`c7_b1_vs_b4_roi.md`). (2) 1744 전체 자동 결합 → 양식 변경 추적 불가 + 회귀 비용 ∞. (3) 카탈로그 only (운영 결합 0 유지) → P0 라벨 / 청구서 / 세금 정합도 향상 기회 손실.
+- **DoD**:
+  - `print_template_registry.py` 신설 + `label_service._try_render_label_auto` 위임 (행동 정합) + `test_print_template_registry` 8 PASS + `test_c7_print_phase3_auto_template` 11 PASS 회귀 0.
+  - 4 산출물 동결: `migration/coverage/frf-html-form-catalog.md` (1744 카탈로그) + `migration/coverage/frf-to-screen-usage-map.md` (169 직접 호출 + Tong40.PrinTing00 디스패처) + `docs/print-html-status.md` (운영 라우트 6 + IR 결합 1) + `docs/print-form-add-sop.md` (A/B 경로 + 품질 게이트).
+  - 게이트 3 산출물 양식 동결 (PENDING 으로 표시): `c7_phase3_sme_review.md` + `c7_b1_vs_b4_roi.md` + `c7_phase3_capacity.md`.
+  - 대시보드 단일 원천: `dashboard/data/frf-html-porting.json` (8 카드, P0~P3 백로그 4 분류 등록) + `dashboard/js/app.js::renderFrfHtmlPorting` 노출.
+  - DEC-046 단일 원천 invariant: `_WHITELIST` 행 수 = 1 = `print_templates/auto/*.ir.json` 파일 수 = `screens[mappingType=ir_in_use]` 행 수.
+- **결정자**: 메인개발자 + 사용자 (.frf→HTML 운영 결합 + 신규 서식 SOP 계획 합의)
+- **참조**: DEC-037 (WeasyPrint 단일 엔진), DEC-038 (라벨 1종 → Phase 2-α 5종 확장), DEC-039 (운영 .frf 자동 변환 0), DEC-040 (신규 SQL 0), DEC-046 (단일 원천 패턴), DEC-048 (T-B4 종결 + Phase 3 별도 게이트), `backend/app/services/print_template_registry.py`, `backend/app/services/label_service.py`, `docs/phase3-print-gate.md`, `docs/print-form-add-sop.md`, `dashboard/data/frf-html-porting.json`, `dashboard/js/app.js::renderFrfHtmlPorting`, `test/test_print_template_registry.py`
+
 ### DEC-033: 멀티 DB 호환 의무 — mysql3 SQL 헬퍼 + 스키마 어댑터 + 정기 점검 (alwaysApply)
 - **일자**: 2026-04-19
 - **결정 사항**: 백엔드는 **모든 등록 DB 서버**(`remote_138`, `remote_153`, `remote_154`, `remote_155` 등 `servers.yaml` 프로필)에서 조회·목록이 동일하게 동작해야 한다.
@@ -667,7 +688,8 @@
 - **참조**: `도서물류관리프로그램/backend/app/core/sql_mysql3.py`, `도서물류관리프로그램/backend/app/services/t5_ssub_adapt.py`, `debug/probe_backend_all_servers.py`, `docs/db-smoke-runbook.md`, `.github/workflows/db-smoke.yml`
 
 ---
-*최종 업데이트: 2026-04-21 — DEC-049 신규 추가 (발송비/입금 메뉴 IA 복원 = settlement 라우트 별칭, billing 그룹은 진입점 only, wrong_id 2건 가드 + 진짜 발송비 도메인 P2 백로그 분리, 신규 SQL 0).*
+*최종 업데이트: 2026-04-21 — DEC-050 신규 추가 (.frf→HTML 운영 결합 = per-form 화이트리스트 옵트인, 자동 변환 0 영속, Phase 3 게이트 G1/G2/G3 + 품질 점수 게이트 binding≥0.7/coord≥0.95, print_template_registry + label_service 위임 + frf-html-porting.json/renderFrfHtmlPorting 단일 원천, 회귀 19 PASS).*
+*이전: 2026-04-21 — DEC-049 신규 추가 (발송비/입금 메뉴 IA 복원 = settlement 라우트 별칭, billing 그룹은 진입점 only, wrong_id 2건 가드 + 진짜 발송비 도메인 P2 백로그 분리, 신규 SQL 0).*
 *이전: 2026-04-21 — DEC-046/047/048 신규 추가. DEC-046(phase2 32화면 운영체계 = 시나리오/단계카드/계약/회귀 4 단일원천 + 사이드바 1줄 표시 + ScreenPlaceholder DRY). DEC-047(phase2→phase1 승격 = 0건, 4대 DB 환경 등록 + cross-DB PASS 후 재평가, Tier A 12 / Tier B 15 / Tier C 5 분류). DEC-048(T-B4 .frf→HTML 변환 작업 100% 완료 = 트랙 status=done, Phase 3 운영 결합은 SME·ROI·R&D 3 조건 별도 게이트, DEC-039 정책 유지).*
 *이전: 2026-04-21 — DEC-045 신규 추가 (Phase1 승격 게이트 = 레거시 동등성 + 자동 회귀 통과, T1~T8 단계, 5축 PASS 의무, 화면 1개=PR 1개, 강등 정책). DEC-007 보강 추가 (hcode='0000' 자동 admin 권한 부여 + BLS_ADMIN_USER_IDS env 화이트리스트). 가시성 필터(G7_Ggeo Chek5='show1') 는 여전히 1차 미도입.*
 *이전: 2026-04-20 — DEC-CUT-4 신규 추가 (C15 Phase 2 — 실 DB 어댑터 `MysqlDataSource`/`SqlServerDataSource` + `cutover_run.py` 안전 게이트 3단(OQ 차단·P6 confirm·rollback 시뮬)). 어댑터는 시스템/구조 쿼리만 + sanitize_identifier 화이트리스트 + 드라이버 lazy import + 자격 ENV-only. 외부 SaaS/네트워크 SDK 0건 정적 가드.*
