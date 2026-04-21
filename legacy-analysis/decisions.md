@@ -635,6 +635,25 @@
 - **결정자**: 메인개발자 + 사용자 (.frf 변환 작업 종결 + Phase 3 별도 게이트 합의)
 - **참조**: `analysis/research/c7_b4_poc_1day_report.md`, `debug/frf_batch_convert_all.py`, `debug/frf_quality_report.py`, `debug/output/frf_converted_all/`, `dashboard/data/tracks.json`, `dashboard/data/timeline.json`, `dashboard/data/web-porting-progress.json`, DEC-037(WeasyPrint), DEC-038(우편엽서 1종), DEC-039(운영 .frf 자동 변환 0)
 
+### DEC-049: 발송비/입금 메뉴 IA 복원 = settlement 라우트 별칭 (billing 그룹은 메뉴 진입점 only)
+
+- **일자**: 2026-04-21
+- **결정 사항**: 웹 `MENU_GROUPS` 의 `billing` (발송비/입금) 그룹은 **레거시 「메인 메뉴 / 발송비/입금관리」 트리의 IA 복원 전용** 으로 운영하며, **백엔드 라우트의 정본은 모두 `/settlement/*`** 로 유지한다.
+  - (a) **별칭 정책**: `form-registry.ts` 의 `menuGroup: "billing"` 항목은 동일 `route` 를 가리키는 얇은 별칭 (`*_bill` 접미). 라우트·페이지·계약·테스트는 단일 (DEC-046 단일 원천). 별칭 8 행 = 청구서관리(택배 변형 포함) / 청구금액(년월) / 청구서출력 / 입금내역 / 입금현황(거래처/일자) / 세금계산서.
+  - (b) **단일 원천 매핑**: 레거시 14행 ↔ 웹 매핑은 [`migration/coverage/billing-deposit-menu-legacy-to-web-map.md`](../migration/coverage/billing-deposit-menu-legacy-to-web-map.md) 1 파일이 정본. 카드 추적은 [`dashboard/data/billing-c5-menu-porting.json`](../dashboard/data/billing-c5-menu-porting.json) 1 파일이 정본 (T1~T8 단계).
+  - (c) **wrong_id 가드**: 레거시 `Subu43` (발송비내역) ↔ 웹 `Sobo43_stats_route` (출판사통계, `/stats/publisher`), 레거시 `Subu44` (발송비현황) ↔ 웹 `Sobo44_inv` (재고현황, `/inventory/status`) 두 건은 **동일 폴더·다른 도메인**. 진짜 발송비 도메인은 신규 ID **`Sobo43_shipping_ledger` / `Sobo44_shipping_status`** + 신규 라우트 (`/settlement/shipping-ledger` / `/settlement/shipping-status`) 로 분리한다 (P2 백로그).
+  - (d) **이전 (`moved`) 미노출**: 반품수거내역(Sobo36)·반품수거현황(Sobo37)·출고내역서(Sobo39) 는 이미 다른 메뉴(statistics/report) 에 배치되어 있어 `billing` 메뉴에는 노출하지 않는다 (중복 진입점 회피).
+  - (e) **신규 SQL 0**: 별칭은 라우트 재사용 only — 백엔드 SQL/계약/테스트 추가 0 (DEC-040 정합).
+- **배경/근거**: 사용자 확인 (2026-04-21) — "발송비/입금 메뉴는 아직 준비중... 이라고 메시지가 나오는데 레거시 델파이 소스에는 기존 기능이 없나?". 조사 결과 레거시에는 14화면 (입금/청구/세금/발송비/반품수거/출고내역서/메세지) 이 존재하나, 웹 `billing` 그룹에 등록된 폼이 0건이라 사이드바가 「준비 중...」 만 표시. C5 기능 8개는 이미 `settlement` 그룹으로 포팅 완료 (DEC-031/032/034/035/036) 이므로 라우트를 옮기지 않고 **별칭만 추가** 하는 것이 회귀 비용·DEC-046 단일 원천·DEC-040 신규 SQL 0 정책에 모두 부합.
+- **대안**: (1) 정산 화면을 `/billing/*` 로 물리 이동 + 리다이렉트 → DEC-046 단일 원천 충돌, 회귀 비용 큼. (2) 레거시 `Subu43`/`Subu44` 명칭을 그대로 가져와 ID 재사용 → wrong_id 충돌 영구화. (3) 메뉴 노출 안 하고 그대로 두기 → 레거시 사용자 IA 학습 비용 증가.
+- **DoD**:
+  - `form-registry.ts` 에 `menuGroup: "billing"` 항목 ≥ 1 (실제 8 행) — 사이드바 「준비 중」 메시지 해소.
+  - 매핑 문서 행 수 = 대시보드 JSON `screens[]` 수 (현 16 행).
+  - wrong_id 2 건 매핑 문서 §3 + 대시보드 `wrong_id_warnings[]` + 본 결정 (c) 에 모두 기록.
+  - Subu43/44 진짜 발송비 도메인은 본 결정 시점에는 메뉴 미노출, P2 백로그 (단계 4) 등록.
+- **결정자**: 메인개발자 + 사용자 (발송비/입금 하위 메뉴 포팅 작업 계획 합의)
+- **참조**: DEC-019 (Sobo42_1/45_1 = variant 단일화), DEC-031/032/034/035/036 (C5 정산), DEC-040 (신규 SQL 0), DEC-046 (단일 원천 패턴), `migration/coverage/billing-deposit-menu-legacy-to-web-map.md`, `migration/coverage/billing-subu43-44-shipping-backlog.md` (P2 백로그), `dashboard/data/billing-c5-menu-porting.json`, `dashboard/js/app.js::renderBillingMenuPorting`
+
 ### DEC-033: 멀티 DB 호환 의무 — mysql3 SQL 헬퍼 + 스키마 어댑터 + 정기 점검 (alwaysApply)
 - **일자**: 2026-04-19
 - **결정 사항**: 백엔드는 **모든 등록 DB 서버**(`remote_138`, `remote_153`, `remote_154`, `remote_155` 등 `servers.yaml` 프로필)에서 조회·목록이 동일하게 동작해야 한다.
@@ -648,7 +667,8 @@
 - **참조**: `도서물류관리프로그램/backend/app/core/sql_mysql3.py`, `도서물류관리프로그램/backend/app/services/t5_ssub_adapt.py`, `debug/probe_backend_all_servers.py`, `docs/db-smoke-runbook.md`, `.github/workflows/db-smoke.yml`
 
 ---
-*최종 업데이트: 2026-04-21 — DEC-046/047/048 신규 추가. DEC-046(phase2 32화면 운영체계 = 시나리오/단계카드/계약/회귀 4 단일원천 + 사이드바 1줄 표시 + ScreenPlaceholder DRY). DEC-047(phase2→phase1 승격 = 0건, 4대 DB 환경 등록 + cross-DB PASS 후 재평가, Tier A 12 / Tier B 15 / Tier C 5 분류). DEC-048(T-B4 .frf→HTML 변환 작업 100% 완료 = 트랙 status=done, Phase 3 운영 결합은 SME·ROI·R&D 3 조건 별도 게이트, DEC-039 정책 유지).*
+*최종 업데이트: 2026-04-21 — DEC-049 신규 추가 (발송비/입금 메뉴 IA 복원 = settlement 라우트 별칭, billing 그룹은 진입점 only, wrong_id 2건 가드 + 진짜 발송비 도메인 P2 백로그 분리, 신규 SQL 0).*
+*이전: 2026-04-21 — DEC-046/047/048 신규 추가. DEC-046(phase2 32화면 운영체계 = 시나리오/단계카드/계약/회귀 4 단일원천 + 사이드바 1줄 표시 + ScreenPlaceholder DRY). DEC-047(phase2→phase1 승격 = 0건, 4대 DB 환경 등록 + cross-DB PASS 후 재평가, Tier A 12 / Tier B 15 / Tier C 5 분류). DEC-048(T-B4 .frf→HTML 변환 작업 100% 완료 = 트랙 status=done, Phase 3 운영 결합은 SME·ROI·R&D 3 조건 별도 게이트, DEC-039 정책 유지).*
 *이전: 2026-04-21 — DEC-045 신규 추가 (Phase1 승격 게이트 = 레거시 동등성 + 자동 회귀 통과, T1~T8 단계, 5축 PASS 의무, 화면 1개=PR 1개, 강등 정책). DEC-007 보강 추가 (hcode='0000' 자동 admin 권한 부여 + BLS_ADMIN_USER_IDS env 화이트리스트). 가시성 필터(G7_Ggeo Chek5='show1') 는 여전히 1차 미도입.*
 *이전: 2026-04-20 — DEC-CUT-4 신규 추가 (C15 Phase 2 — 실 DB 어댑터 `MysqlDataSource`/`SqlServerDataSource` + `cutover_run.py` 안전 게이트 3단(OQ 차단·P6 confirm·rollback 시뮬)). 어댑터는 시스템/구조 쿼리만 + sanitize_identifier 화이트리스트 + 드라이버 lazy import + 자격 ENV-only. 외부 SaaS/네트워크 SDK 0건 정적 가드.*
 *이전: 2026-04-20 — DEC-041/042/043 신규 추가 (C10 풀 스코프 마감: 세션·권한 응답 코드 표준 + 글로벌 401/403 인터셉터 / If-Match·ETag 낙관적 동시편집 / IdP·SSO 인터페이스 분리). OQ-RT-7 (D_Select 실분기) 마감 — Phase 2 인터페이스 → C10 Phase 1 실분기 도입 (admin/branch_manager/auditor/operator 4 분기). 신규 SQL 0건 (DEC-040 룰 적용).*
