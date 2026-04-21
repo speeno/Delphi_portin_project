@@ -51,6 +51,7 @@ DECISIONS = ROOT / "legacy-analysis" / "decisions.md"
 STATS_SERVICE = BACKEND / "app" / "services" / "stats_service.py"
 STATS_ROUTER = BACKEND / "app" / "routers" / "stats.py"
 MAIN_PY = BACKEND / "app" / "main.py"
+WEB_ADMIN_SEED = BACKEND / "data" / "web_admin.json"
 
 sys.path.insert(0, str(BACKEND))
 
@@ -235,6 +236,37 @@ class StaticGuardC13(TestCase):
         c = _read(MAIN_PY)
         self.assertIn("stats", c)
         self.assertIn("app.include_router(stats.router)", c)
+
+    def test_S_08_admin_role_seed_lists_stats_permissions(self):
+        """TC-C13-S-08 — web_admin.json::role-admin 이 admin.stats.* 4 키를 명시 등재.
+
+        배경
+        ----
+        - `core/deps.py::_resolve_permissions` 는 ``role=='admin'`` 또는
+          ``permissions==['*']`` 면 모든 가드를 통과시킨다(LSP 슈퍼유저 규칙).
+        - 그러나 운영 감사/카탈로그 정합 관점에서는 wildcard 만 남겨 두면 향후
+          (Phase 2) wildcard 제거 시 도서 회전율(`admin.stats.book`) 등 신규 가드가
+          모두 회귀로 깨질 수 있다 — 이를 사전에 차단하기 위해 4 stats 키를
+          **명시 등재**한다 (DEC-041 / DEC-044 의 권한 정본화 기조).
+        - 본 테스트는 시드의 wildcard 의존도를 줄이고 도서 회전율 화면이
+          admin 계정으로 항상 통과하도록 보증한다.
+        """
+        import json
+        seed = json.loads(_read(WEB_ADMIN_SEED))
+        roles = {r.get("code"): r for r in seed.get("web_roles", [])}
+        admin_role = roles.get("admin")
+        self.assertIsNotNone(admin_role, "role-admin 시드 누락")
+        admin_perms = set(admin_role.get("permissions") or [])
+        for code in (
+            "admin.stats.sales",
+            "admin.stats.customer",
+            "admin.stats.book",       # 도서 회전율 — F52e
+            "admin.stats.quarterly",
+        ):
+            self.assertIn(
+                code, admin_perms,
+                f"role-admin 에 {code} 명시 등재 누락 — wildcard 만 의존 시 Phase 2 회귀 위험",
+            )
 
 
 # ============================================================================
