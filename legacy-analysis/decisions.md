@@ -687,8 +687,34 @@
 - **결정자**: 메인개발자 + 사용자 (멀티 DB API 연동 점검 계획 반영)
 - **참조**: `도서물류관리프로그램/backend/app/core/sql_mysql3.py`, `도서물류관리프로그램/backend/app/services/t5_ssub_adapt.py`, `debug/probe_backend_all_servers.py`, `docs/db-smoke-runbook.md`, `.github/workflows/db-smoke.yml`
 
+### DEC-051: 인증 서버 단일화 — `BLS_AUTH_SERVER_ID` 게이트
+- **일자**: 2026-04-21
+- **결정 사항**: 모든 사용자 비밀번호 검증은 환경변수 `BLS_AUTH_SERVER_ID` (기본 `remote_138`) 한 곳의 `web_users` 에서만 수행한다. 기타 등록된 데이터 서버(`remote_153`, `remote_154`, `remote_155` 등)는 **데이터 전용**이며 자체 자격증명을 노출하지 않는다.
+  - (a) 로그인 화면(`(public)/login/page.tsx`) 의 「DB 서버 선택」 콤보·`useEffect(/api/v1/servers)` 호출은 제거된다.
+  - (b) `POST /api/v1/auth/login` 의 `serverId` 입력값은 **무시**되며(BC 위해 필드는 deprecated 로 유지), 라우터는 항상 `BLS_AUTH_SERVER_ID` 로 `authenticate_user()` 를 호출한다.
+  - (c) JWT `sid` 클레임은 인증 서버가 아니라 **사용자별 primary 데이터 서버**(DEC-052) 로 채워지며, 미설정 시에만 `BLS_AUTH_SERVER_ID` 로 폴백한다.
+- **배경/근거**: 운영상 `web_users` 시드는 `remote_138` 한 곳에 통합되어 있고, 기존 다중 콤보 UI 는 (1) 잘못된 서버 선택 시 401, (2) 인증 서버와 데이터 서버 의미를 사용자에게 떠넘기는 혼란을 일으킨다. 레거시 `Sobo10` 도 부팅 환경 1개 DB 만 본다.
+- **DoD**: `serverId` 미전송 로그인 200 + JWT `sid` = primary 매핑(없으면 auth 서버) + 회귀 `test_auth_login_fixed_server.py` 전건 PASS + 4대 서버 L4 GET 매트릭스(DEC-033) 무회귀.
+- **운영**: `.env`/실행 안내에 `BLS_AUTH_SERVER_ID=remote_138` 를 명시. 인증 서버를 다른 곳으로 옮길 때는 본 키만 변경. 데이터 서버 추가/삭제는 자격증명 동기화 없이 가능.
+- **결정자**: 메인개발자 + 사용자 (로그인 서버 선택 UI 제거 합의)
+- **참조**: `도서물류관리프로그램/backend/app/routers/auth.py`, `도서물류관리프로그램/backend/app/services/auth_service.py`, `도서물류관리프로그램/frontend/src/app/(public)/login/page.tsx`, `도서물류관리프로그램/frontend/src/contexts/auth-context.tsx`, `test/test_auth_login_fixed_server.py`, DEC-052
+
+### DEC-052: 사용자별 데이터 서버 1:1 (Primary)
+- **일자**: 2026-04-21
+- **결정 사항**: `web_user_servers` 의 의미를 **다대다 → 1대1(Primary)** 로 좁힌다. 한 사용자(`user_id`) 는 0~1 row 만 가진다.
+  - (a) admin UI([(app)/admin/user-servers/page.tsx](../도서물류관리프로그램/frontend/src/app/(app)/admin/user-servers/page.tsx)) 는 다중 토글 → **라디오 1개 선택(Primary)** 으로 교체. `adminApi.setPrimaryServer(userId, serverId|null)` 신설.
+  - (b) `admin_service.assign_server(allow=True)` 호출 시 동일 `user_id` 의 기존 row 를 모두 제거 후 1건 INSERT (LSP 보존: 시그니처 유지, 의미만 좁힘). `set_primary_data_server(user_id, server_id, actor)` / `get_primary_data_server(login_id) -> str|None` 신규 함수.
+  - (c) `_load_state()` 직후 `_normalize_primary_servers()` 로 **부팅 1회 idempotent 마이그레이션** 실행 — 동일 user_id 가 2건 이상이면 마지막 created 만 유지하고 나머지는 audit `user.server.dedup` 로 기록.
+  - (d) 라우터(`/api/v1/auth/login`) 는 `data_server_id = get_primary_data_server(user_id) or BLS_AUTH_SERVER_ID` 로 JWT `sid` 적재.
+- **배경/근거**: 다중 매핑은 「로그인 서버 선택 콤보」 와 1:1 대응될 때만 의미 있는데, DEC-051 로 콤보가 사라지면 사용자가 어느 서버로 작업할지 자체적으로 결정할 수 없다. 운영자 1인이 admin 화면에서 명시적으로 1개 서버를 부여하는 정책이 안전하고 단순하다.
+- **DoD**: 동일 user 다중 row → 1건 정리 audit 발생 + admin 라디오 UI 단일 선택 강제 + 회귀 `test_admin_primary_server.py` PASS + 사용자 헤더에 미설정 경고 배지 노출.
+- **운영**: 데이터 모델 컬럼명은 변경하지 않는다(BC). 기존 자동화 스크립트가 동일 사용자에게 다중 row 를 기록해도 다음 부팅 시 1건으로 정리된다.
+- **결정자**: 메인개발자 + 사용자 (1 사용자 1 데이터 서버 정책 합의)
+- **참조**: `도서물류관리프로그램/backend/app/services/admin_service.py`, `도서물류관리프로그램/backend/data/web_admin.json`, `도서물류관리프로그램/frontend/src/app/(app)/admin/user-servers/page.tsx`, `도서물류관리프로그램/frontend/src/components/app-shell/header.tsx`, `test/test_admin_primary_server.py`, DEC-051
+
 ---
-*최종 업데이트: 2026-04-21 — DEC-050 신규 추가 (.frf→HTML 운영 결합 = per-form 화이트리스트 옵트인, 자동 변환 0 영속, Phase 3 게이트 G1/G2/G3 + 품질 점수 게이트 binding≥0.7/coord≥0.95, print_template_registry + label_service 위임 + frf-html-porting.json/renderFrfHtmlPorting 단일 원천, 회귀 19 PASS).*
+*최종 업데이트: 2026-04-21 — DEC-051/052 신규 추가 (인증 서버 단일화 = `BLS_AUTH_SERVER_ID` 고정 게이트, 로그인 화면 서버 콤보 제거, JWT `sid`=primary 데이터 서버 / 사용자-데이터 서버 1:1(Primary) = `web_user_servers` 다대다→1대1 의미 좁힘 + admin 라디오 UI + 부팅 1회 idempotent 마이그레이션 + 미설정 헤더 경고 배지). DEC-050 등 기존 결정 무변경.*
+*이전: 2026-04-21 — DEC-050 신규 추가 (.frf→HTML 운영 결합 = per-form 화이트리스트 옵트인, 자동 변환 0 영속, Phase 3 게이트 G1/G2/G3 + 품질 점수 게이트 binding≥0.7/coord≥0.95, print_template_registry + label_service 위임 + frf-html-porting.json/renderFrfHtmlPorting 단일 원천, 회귀 19 PASS).*
 *이전: 2026-04-21 — DEC-049 신규 추가 (발송비/입금 메뉴 IA 복원 = settlement 라우트 별칭, billing 그룹은 진입점 only, wrong_id 2건 가드 + 진짜 발송비 도메인 P2 백로그 분리, 신규 SQL 0).*
 *이전: 2026-04-21 — DEC-046/047/048 신규 추가. DEC-046(phase2 32화면 운영체계 = 시나리오/단계카드/계약/회귀 4 단일원천 + 사이드바 1줄 표시 + ScreenPlaceholder DRY). DEC-047(phase2→phase1 승격 = 0건, 4대 DB 환경 등록 + cross-DB PASS 후 재평가, Tier A 12 / Tier B 15 / Tier C 5 분류). DEC-048(T-B4 .frf→HTML 변환 작업 100% 완료 = 트랙 status=done, Phase 3 운영 결합은 SME·ROI·R&D 3 조건 별도 게이트, DEC-039 정책 유지).*
 *이전: 2026-04-21 — DEC-045 신규 추가 (Phase1 승격 게이트 = 레거시 동등성 + 자동 회귀 통과, T1~T8 단계, 5축 PASS 의무, 화면 1개=PR 1개, 강등 정책). DEC-007 보강 추가 (hcode='0000' 자동 admin 권한 부여 + BLS_ADMIN_USER_IDS env 화이트리스트). 가시성 필터(G7_Ggeo Chek5='show1') 는 여전히 1차 미도입.*
