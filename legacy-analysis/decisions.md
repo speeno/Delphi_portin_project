@@ -195,6 +195,7 @@
   - contract `master_data.yaml`: SQL-MAS-3/6 (PATCH) 만 활성, DELETE 미제공.
   - 사이드바 라벨 정정: "환경설정" → "환경설정(레거시)".
   - Wave D `/admin/settings` 페이지에서 application_settings 만 다룸.
+  - **(2026-04-21 보강 — 사이드바 정합화)** Sobo19 는 `Subu14/12/11/15.pas` 에서 `ShowModal` 로 호출되는 InputBox 류 다이얼로그(폼 크기 306x137)로 정식 메뉴가 아님. 모바일웹(m.websend.kr)·델파이 정식 메뉴 어디에도 단독 노출 사례 없음 → form-registry.ts 의 `Sobo19` stub 항목을 사이드바에서 제거(Wave D `/admin/settings` `WebAdmEnv` 만 단일 원천 노출). 레거시 dfm/pas 보존은 변동 없음.
 - **결정자**: 메인개발자
 - **참조**: `migration/contracts/master_data.yaml`, `migration/contracts/admin_web_platform.yaml`
 
@@ -249,8 +250,9 @@
 - **영향**:
   - frontend `form-registry.ts`: Sobo11/14/17/38/39/45 에 `route`/`phase: phase1` 부여, Sobo36/37/43 라벨 정정.
   - backend `masters_service.py`: 자동완성 함수는 보존, 신규 list/get/update 함수 추가.
+  - **(2026-04-21 보강 — 사이드바 정합화)** 「대표 1폼만 1차 노출」 원칙에 따라 사이드바에서 `Sobo39_1`(할인율 2)·`Sobo39_2`(할인율 기타)·`Sobo39_5`(할인율 물류) stub 3건 제거. 변형 차이는 `migration/contracts/master_data.yaml` 의 `customer_variants` 단일 원천에만 보유하고, `/master/discount/[type]` 동적 라우트는 직접 URL 진입 시에만 placeholder 노출(메뉴 비노출). 사이드바 master 그룹은 정식 6폼(Sobo11/14/17/38/39/45) + phase2 1폼(Sobo16_special) = 7행으로 정합. **Sobo16_special(특별관리)** phase1 정식 승격 절차는 `docs/master-special-implementation-plan.md` 단일 원천에 T1~T8 계획·blocker(BLK-SPC-1/2)·DoD 정리.
 - **결정자**: 메인개발자
-- **참조**: `analysis/screen_cards/Sobo{11,14,17,38,39,45}*.md`, `migration/contracts/master_data.yaml`
+- **참조**: `analysis/screen_cards/Sobo{11,14,17,38,39,45}*.md`, `migration/contracts/master_data.yaml`, `docs/master-special-implementation-plan.md`
 
 ### DEC-024: aiomysql 운영 DB 문자셋 — bytes 수신 + EUC-KR replace 디코딩으로 패킷 깨짐 차단
 - **일자**: 2026-04-18
@@ -726,11 +728,14 @@
 - **배경/근거**: Sobo67 본사/창고 토글 부재로 출고현황 화면이 비어 보이는 P0 가 phase2 포팅 후 사용자 보고로 발견됨 → DEC-019 변형 통합 정책과 dfm 의 의식적 OOS 구분 가이드가 부족했음. 폼 단위 5축 평가를 phase1 승격 게이트에 묶어 동일 회귀 재발을 결정적으로 차단한다.
 - **DoD**: `analysis/audit/phase1-component-fidelity.md` 매트릭스 33 행 GAP-P0 합계 = 0 + DEC-028 §결정 1줄 보강 + `.cursor/rules/dfm-layout-input.mdc` §회귀 가드 1줄 추가. 코드 변경 0.
 - **운영**: 본 사이클 결과 P0 = 0 / P1 = 0 / P2 = 15(모두 의식적 deltas). HA-RET-02 ID 예약 + 항목 = 0.
+  - **(2026-04-21 보강 — phase1 정식 승격 1건)** `Sobo67_status`(출고현황, `/outbound/status`) 가 본사/창고/전체 토글 복원(DEC-051/052) + `count_grouped` 서버 집계(DEC-033 d) + `in_clause_lookup` 청크 마스터 룩업(DEC-033 e) 5축 모두 PASS 로 phase1 정식 승격(`form-registry.ts::Sobo67_status.phase = "phase1"`). 사이드바 P2 amber 배지 → `CheckCircle2` 초록 체크로 마무리. 매트릭스 §2.1 합계는 본 사이클 동결(33행) 유지 — **34행 정식 편입은 다음 audit 사이클에서 처리** (사례는 §2.3 phase1 정식 승격 1건 기록). `dashboard/data/phase2-screen-cards.json` Sobo67_status 카드 T8=done(다음 사이클 phase2 카드에서 제거 예정).
 - **결정자**: 메인개발자 + 사용자 (1차 폼 컴포넌트 누락 0 가드 합의)
 - **참조**: `analysis/audit/phase1-component-fidelity.md`, `.cursor/rules/dfm-layout-input.mdc`, DEC-028(공식 입력) + DEC-045(phase1 승격 게이트) + GR-CODE-001 (고객사 분기 보존) + GR-PROC-004 (capture 없는 동등성 주장 금지)
 
 ---
-*최종 업데이트: 2026-04-21 — DEC-033 §결정 사항에 (e) 보강 1줄 추가 (POC `seak80-sample` 의 `_SOBO67_GNAME_CODES_CHUNK = 400` 정책 일반화 — 마스터 lookup `WHERE Gcode IN (…)` 단발 거대 쿼리 금지, `in_clause_lookup(server_id, sql_template, keys, prefix_params, chunk_size)` 공통 헬퍼 의무 사용). 적용 9곳: 거래/입고/출고/재고/리포트/반품 lookup. 회귀 가드 `test/test_in_clause_lookup_chunked.py` 17/17 PASS, 인접 회귀 `test/test_list_count_grouped_mysql3.py` 11/11 PASS, 전체 581 PASS.*
+*최종 업데이트: 2026-04-21 — 사이드바 「기초관리」 정합화 사이클. (1) DEC-019 §영향 보강 — Sobo19 stub(InputBox 다이얼로그) 사이드바 제거, Wave D `WebAdmEnv` 단일 원천 노출만 유지. (2) DEC-023 §영향 보강 — Sobo39_1/_2/_5 stub 3건 사이드바 제거(대표 Sobo39 + customer_variants contract 단일 원천), `/master/discount/[type]` 동적 라우트 직접 진입은 placeholder 그대로 보존. (3) Sobo16_special(특별관리) phase1 정식 승격 절차 `docs/master-special-implementation-plan.md` 신설(T1~T8 + BLK-SPC-1/2 해소 절차 + 5축 audit §AH 입력 정의). master 그룹 사이드바 11행 → 7행(정식 6 + phase2 1) 정합. 코드 변경 0(메타/문서만), tsc/lint/회귀 0 영향.*
+*이전: 2026-04-21 — DEC-053 §운영에 phase1 정식 승격 사례 1건 추가 (Sobo67_status `/outbound/status` 5축 PASS → `form-registry.phase=phase1` + 사이드바 P2 → 초록 체크). 매트릭스 §2.3 phase1 정식 승격 사례 신규(34행 정식 편입은 다음 audit 사이클 예약 — 현 33행 동결 유지). `phase2-screen-cards.json` Sobo67_status 카드 T8=done. 코드 변경 0(라벨 메타만), tsc/lint/회귀 0 영향.*
+*이전: 2026-04-21 — DEC-033 §결정 사항에 (e) 보강 1줄 추가 (POC `seak80-sample` 의 `_SOBO67_GNAME_CODES_CHUNK = 400` 정책 일반화 — 마스터 lookup `WHERE Gcode IN (…)` 단발 거대 쿼리 금지, `in_clause_lookup(server_id, sql_template, keys, prefix_params, chunk_size)` 공통 헬퍼 의무 사용). 적용 9곳: 거래/입고/출고/재고/리포트/반품 lookup. 회귀 가드 `test/test_in_clause_lookup_chunked.py` 17/17 PASS, 인접 회귀 `test/test_list_count_grouped_mysql3.py` 11/11 PASS, 전체 581 PASS.*
 *이전: 2026-04-21 — DEC-033 §결정 사항에 (d) HOTFIX 항목 1줄 보강 (LIST 엔드포인트 `total` 산출은 `count_grouped` 헬퍼 의무 사용 — 파생 테이블 직접 작성 금지, mysql3 1064→HTTP 500 재발 차단). 4 화면(C2 출고접수/C3 입고접수/C4 반품/C6 거래명세서) 회귀 일괄 수정 + `transactions_service.list_sales_statements` `hcode` 옵셔널화(빈 값 = 전체 거래처). 회귀 `test/test_list_count_grouped_mysql3.py` 11/11 PASS, 인접 스모크 무회귀.*
 *이전: 2026-04-21 — DEC-053 신규 추가 (1차 포팅 화면 컴포넌트 동등성 정기 재점검 — `analysis/audit/phase1-component-fidelity.md` 단일 매트릭스 + 5축 W/B/U/D/O + GAP-P0 = 0 phase1 승격 게이트, HA-RET-02 후속 ID 예약). DEC-028 §영향에 phase1 승격 시 매트릭스 GAP-P0 가드 1줄 보강. `.cursor/rules/dfm-layout-input.mdc` §회귀 가드 1줄 추가. 본 사이클 결과 P0 = 0 / P1 = 0.*
 *이전: 2026-04-21 — DEC-051/052 신규 추가 (인증 서버 단일화 = `BLS_AUTH_SERVER_ID` 고정 게이트, 로그인 화면 서버 콤보 제거, JWT `sid`=primary 데이터 서버 / 사용자-데이터 서버 1:1(Primary) = `web_user_servers` 다대다→1대1 의미 좁힘 + admin 라디오 UI + 부팅 1회 idempotent 마이그레이션 + 미설정 헤더 경고 배지). DEC-050 등 기존 결정 무변경.*
