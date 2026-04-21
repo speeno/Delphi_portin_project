@@ -1,0 +1,140 @@
+# Migration Contract: 거래처원장 + 도서수불장 (Phase 2 — 4 변형)
+# 출처(레거시):
+#   - legacy_delphi_source/legacy_source/Subu32.pas (TSobo32 거래처원장 — 단일)
+#   - legacy_delphi_source/legacy_source/Subu32_1.pas (TSobo32_1 통합 거래처원장)
+#   - legacy_delphi_source/legacy_source/Subu33.pas (TSobo33 도서수불장 — 단일 + 구간)
+# 본 contract 는 sales_inquiry.yaml (C6 4폼) 의 phase2 확장 sub-contract.
+
+id: C6-customer-book-ledger-phase2
+name: 거래처원장 + 도서수불장 4 변형 (단일 / 통합)
+version: 1.0.0
+status: draft
+scope_phase: phase2
+created: 2026-04-21
+updated: 2026-04-21
+owner: 메인개발자
+
+references:
+  - analysis/screen_cards/Sobo32.md
+  - analysis/screen_cards/Sobo32_1.md
+  - analysis/screen_cards/Sobo33.md
+  - migration/contracts/sales_inquiry.yaml
+
+constraints:
+  new_sql_count: 0   # 기존 S1_Ssub + Sb_Csum + Sg_Csum 만 재사용
+  external_integrations: excluded
+
+intent: |
+  4 변형 — (1) 단일 거래처 원장, (2) 통합(전체 거래처) 원장,
+            (3) 단일 도서 수불장, (4) 도서 구간 통합 수불장.
+  레거시 ADO Query 의 단일 SQL + 클라이언트 누적 잔액 계산을 웹에서는 백엔드에서 누적 후 응답.
+
+scope:
+  customer_single:
+    path: GET /api/v1/ledger/customer
+    legacy_id: Sobo32
+    permission: ledger.customer.read
+    query_params:
+      customer_code: required
+      from_date: required ISO date
+      to_date: required ISO date
+      page: { limit: 200, max_limit: 500 }
+    response:
+      items:
+        - txn_date: ISO date
+          slip_no: string
+          txn_type: enum[sale, return, payment, billing, opening]
+          debit: int       # 차변
+          credit: int      # 대변
+          balance: int     # 누적 잔액
+      summary:
+        opening_balance: int
+        total_debit: int
+        total_credit: int
+        closing_balance: int
+
+  customer_integrated:
+    path: GET /api/v1/ledger/customer-integrated
+    legacy_id: Sobo32_1
+    permission: ledger.customer.read
+    query_params:
+      from_date: required ISO date
+      to_date: required ISO date
+      page: { limit: 200, max_limit: 500 }
+    response:
+      items:
+        - customer_code: string
+          customer_name: string
+          opening_balance: int
+          period_debit: int
+          period_credit: int
+          closing_balance: int
+      total_count: int
+
+  book_single:
+    path: GET /api/v1/ledger/book
+    legacy_id: Sobo33
+    permission: ledger.book.read
+    query_params:
+      book_code: required
+      from_date: required ISO date
+      to_date: required ISO date
+      page: { limit: 200, max_limit: 500 }
+    response:
+      items:
+        - txn_date: ISO date
+          slip_no: string
+          txn_type: enum[inbound, sale, return, opening]
+          inbound_qty: int
+          outbound_qty: int    # sale + return
+          balance_qty: int     # 누적 잔량
+      summary:
+        opening_qty: int
+        total_inbound: int
+        total_outbound: int
+        closing_qty: int
+
+  book_integrated:
+    path: GET /api/v1/ledger/book-integrated
+    legacy_id: Sobo33_1
+    permission: ledger.book.read
+    query_params:
+      book_code_from: required
+      book_code_to: required
+      from_date: required ISO date
+      to_date: required ISO date
+      page: { limit: 200, max_limit: 500 }
+    response:
+      items:
+        - book_code: string
+          book_name: string
+          opening_qty: int
+          period_inbound: int
+          period_outbound: int
+          closing_qty: int
+      total_count: int
+
+acceptance_criteria:
+  - id: AC-LDG-1
+    description: "customer_single — opening + sum(debit) - sum(credit) = closing 자기일관성 (5축 회계 등가)"
+    test: "test/test_c6_ledger_phase2.py::test_customer_single_self_consistent"
+  - id: AC-LDG-2
+    description: "book_single — opening + inbound - outbound = closing 잔량 자기일관성"
+    test: "test/test_c6_ledger_phase2.py::test_book_single_quantity_consistent"
+  - id: AC-LDG-3
+    description: "customer_integrated 의 모든 customer 합계 = customer_single 단일 호출의 누적과 일치"
+    test: "test/test_c6_ledger_phase2.py::test_integrated_equals_single_aggregated"
+  - id: AC-LDG-4
+    description: "book_integrated 의 book_code_from > to 시 422 BAD_REQUEST"
+    test: "test/test_c6_ledger_phase2.py::test_book_range_validation"
+  - id: AC-LDG-5
+    description: "권한별 d_select — operator 본인 거래처만, branch_manager 지사, admin 전체"
+    test: "test/test_c6_ledger_phase2.py::test_dselect_by_role"
+  - id: AC-LDG-6
+    description: "페이지네이션 — limit > 500 시 422 + has_more 정확성"
+    test: "test/test_c6_ledger_phase2.py::test_pagination_correctness"
+
+decisions:
+  - DEC-040
+  - DEC-041
+  - DEC-046

@@ -1,0 +1,80 @@
+{
+  "$schema_note": "Phase2 회귀 팩. migration/contracts/settlement_outstanding.yaml 1:1.",
+  "id": "C5-settlement-outstanding",
+  "contract": "migration/contracts/settlement_outstanding.yaml",
+  "version": "1.0.0-phase2",
+  "scope_phase": "phase2",
+  "axes": ["functional", "data", "audit", "permission"],
+  "fixtures": {
+    "tables": {
+      "G1_Ggeo": [
+        { "Hcode": "C001", "Gcode": "C001", "Gname": "신화서점" },
+        { "Hcode": "C001", "Gcode": "C002", "Gname": "한길북스" }
+      ],
+      "S2_Ssum_seed": [
+        { "Gcode": "C001", "Yymm": "202603", "Gssum": 500000 },
+        { "Gcode": "C002", "Yymm": "202603", "Gssum": 300000 }
+      ],
+      "S2_Pamt_seed": [
+        { "Gcode": "C001", "Pdate": "2026.04.01", "Pamt": 200000 }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "TC-OUT-001",
+      "title": "outstanding_list — 기준일 단순 합계 (billed - paid)",
+      "axes": ["functional", "data"],
+      "given": { "auth_token": "operator", "permissions": ["settlement.outstanding.read"] },
+      "request": { "method": "GET", "path": "/api/v1/settlement/outstanding", "query": { "base_date": "2026-04-30" } },
+      "expected": {
+        "status": 200,
+        "body": {
+          "items_contains_in_order": [
+            { "customer_code": "C001", "billed_amount": 500000, "paid_amount": 200000, "outstanding_amount": 300000 },
+            { "customer_code": "C002", "billed_amount": 300000, "paid_amount": 0, "outstanding_amount": 300000 }
+          ]
+        }
+      },
+      "covers_acceptance": ["AC-OUT-1"]
+    },
+    {
+      "id": "TC-OUT-002",
+      "title": "payment_slip INSERT — outstanding 차감 검증",
+      "axes": ["functional", "data", "audit"],
+      "given": { "auth_token": "operator", "permissions": ["settlement.payment.write", "settlement.outstanding.read"] },
+      "request": {
+        "method": "POST", "path": "/api/v1/settlement/payment-slip",
+        "body": { "customer_code": "C001", "payment_date": "2026-05-01", "amount": 100000, "method": "transfer", "lines": [ { "billing_key": "C001-202603", "allocated_amount": 100000 } ] }
+      },
+      "expected": { "status": 200, "body_contains": { "slip_no": "*", "audit_id": "*" } },
+      "follow_up_request": { "method": "GET", "path": "/api/v1/settlement/outstanding", "query": { "base_date": "2026-05-31" } },
+      "follow_up_expected": { "status": 200, "body": { "items_contains": [ { "customer_code": "C001", "outstanding_amount": 200000 } ] } },
+      "covers_acceptance": ["AC-OUT-2", "AC-OUT-5"]
+    },
+    {
+      "id": "TC-OUT-003",
+      "title": "payment_slip — allocated_amount 합 ≠ amount → 422 BAD_REQUEST",
+      "axes": ["functional"],
+      "given": { "auth_token": "operator", "permissions": ["settlement.payment.write"] },
+      "request": {
+        "method": "POST", "path": "/api/v1/settlement/payment-slip",
+        "body": { "customer_code": "C001", "payment_date": "2026-05-02", "amount": 100000, "method": "cash", "lines": [ { "billing_key": "C001-202603", "allocated_amount": 50000 } ] }
+      },
+      "expected": { "status": 422, "body": { "code": "BAD_REQUEST" } },
+      "covers_acceptance": ["AC-OUT-3"]
+    },
+    {
+      "id": "TC-OUT-004",
+      "title": "권한별 d_select — operator 본인 / branch_manager 지사 / admin 전체",
+      "axes": ["permission", "data"],
+      "matrix": [
+        { "auth_token": "operator_C001", "expected_count": 1, "expected_codes": ["C001"] },
+        { "auth_token": "branch_manager_main", "expected_count": 2, "expected_codes": ["C001", "C002"] },
+        { "auth_token": "admin", "expected_count": 2 }
+      ],
+      "request": { "method": "GET", "path": "/api/v1/settlement/outstanding", "query": { "base_date": "2026-04-30" } },
+      "covers_acceptance": ["AC-OUT-4"]
+    }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "$schema_note": "Phase2 보강 회귀 팩. 기존 contract 의 phase2 추가 endpoint/section 만 추가 케이스로 구성. NEW contract 6종은 별도 파일 (settlement_outstanding/special_master/transactions_misc/inventory_status/customer_book_ledger_phase2/delivery_dispatch).",
+  "id": "PHASE2-ADDENDUM",
+  "version": "1.0.0",
+  "scope_phase": "phase2",
+  "created": "2026-04-21",
+  "owner": "메인개발자",
+  "axes": ["functional", "data", "audit", "permission"],
+  "addenda": [
+    {
+      "contract": "migration/contracts/sales_inquiry.yaml",
+      "section": "phase2_addendum.transactions_status_view",
+      "screens": ["Sobo21_status_list", "Sobo21_status_summary", "Sobo21_status_memo"],
+      "cases": [
+        {
+          "id": "TC-INQ-P2-001",
+          "title": "view=list — Sobo21 거래명세서 1:1 매핑 (행 수·합계 ±0)",
+          "axes": ["functional", "data"],
+          "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
+          "request_pair": [
+            { "method": "GET", "path": "/api/v1/transactions/status", "query": { "view": "list", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+            { "method": "GET", "path": "/api/v1/transactions/sales-statement", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30" } }
+          ],
+          "assertion": "view_list.items.length == legacy.items.length AND sum(view_list.items.total_amount) == sum(legacy.items.total_amount)",
+          "covers_acceptance": ["AC-INQ-P2-1"]
+        },
+        {
+          "id": "TC-INQ-P2-002",
+          "title": "view=summary — 거래처 단위 GROUP BY 합계 자기일관성",
+          "axes": ["data"],
+          "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
+          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "view": "summary", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+          "expected": { "status": 200, "body": { "self_consistent_sort": "items sorted by total_amount desc" } },
+          "covers_acceptance": ["AC-INQ-P2-2"]
+        },
+        {
+          "id": "TC-INQ-P2-003",
+          "title": "view=memo — 메모 비어있지 않은 행만 반환",
+          "axes": ["functional"],
+          "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
+          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "view": "memo", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+          "expected": { "status": 200, "body": { "items_filter_check": "all items.memo_preview not in [null, '']" } },
+          "covers_acceptance": ["AC-INQ-P2-3"]
+        },
+        {
+          "id": "TC-INQ-P2-004",
+          "title": "view 미지정 → 기본값 list (하위 호환)",
+          "axes": ["functional"],
+          "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
+          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+          "expected": { "status": 200, "body": { "shape_matches_view": "list" } },
+          "covers_acceptance": ["AC-INQ-P2-4"]
+        }
+      ]
+    },
+    {
+      "contract": "migration/contracts/sales_inquiry.yaml",
+      "section": "phase2_addendum.audit_compare",
+      "screens": ["Sobo48_compare"],
+      "blockers": ["BLK-CMP-1"],
+      "cases": [
+        {
+          "id": "TC-CMP-001",
+          "title": "[BLK-CMP-1 해소 후] difference == customer_amount - house_amount",
+          "axes": ["data"],
+          "pending_blocker": "BLK-CMP-1",
+          "given": { "auth_token": "admin", "permissions": ["ledger.audit.read"] },
+          "request": { "method": "GET", "path": "/api/v1/ledger/comparison", "query": { "customer_code": "C001", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+          "expected": { "status": 200, "body": { "self_consistent": "all items.difference == items.customer_amount - items.house_amount" } },
+          "covers_acceptance": ["AC-CMP-1"]
+        },
+        {
+          "id": "TC-CMP-002",
+          "title": "[BLK-CMP-1 차단 시] 503 NOT_IMPLEMENTED",
+          "axes": ["functional"],
+          "given": { "auth_token": "admin", "permissions": ["ledger.audit.read"], "feature_flag": "audit_compare_enabled=false" },
+          "request": { "method": "GET", "path": "/api/v1/ledger/comparison", "query": { "customer_code": "C001", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+          "expected": { "status": 503, "body": { "code": "NOT_IMPLEMENTED" } }
+        },
+        {
+          "id": "TC-CMP-003",
+          "title": "권한 가드 — ledger.audit.read 미보유 → 403",
+          "axes": ["permission"],
+          "given": { "auth_token": "operator", "permissions": ["ledger.customer.read"] },
+          "request": { "method": "GET", "path": "/api/v1/ledger/comparison", "query": { "customer_code": "C001", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+          "expected": { "status": 403, "body": { "code": "PERMISSION_DENIED" } }
+        }
+      ]
+    },
+    {
+      "contract": "migration/contracts/stats_reports.yaml",
+      "section": "phase2_addendum.monthly",
+      "screens": ["Stats_monthly"],
+      "cases": [
+        {
+          "id": "TC-STAT-MO-001",
+          "title": "monthly(year=2026) 12개월 합계 == sales_period(2026-01-01~12-31) 합계 ±0",
+          "axes": ["data"],
+          "given": { "auth_token": "admin", "permissions": ["admin.stats.monthly", "admin.stats.sales"] },
+          "request_pair": [
+            { "method": "GET", "path": "/api/v1/stats/monthly", "query": { "year": 2026 } },
+            { "method": "GET", "path": "/api/v1/stats/sales-period", "query": { "from_date": "2026-01-01", "to_date": "2026-12-31" } }
+          ],
+          "assertion": "sum(monthly.items.sales_amount) == period.summary.sales_amount",
+          "covers_acceptance": ["AC-STAT-MO-1"]
+        },
+        {
+          "id": "TC-STAT-MO-002",
+          "title": "권한 가드 — admin.stats.monthly 미보유 → 403",
+          "axes": ["permission"],
+          "given": { "auth_token": "operator", "permissions": [] },
+          "request": { "method": "GET", "path": "/api/v1/stats/monthly", "query": { "year": 2026 } },
+          "expected": { "status": 403, "body": { "code": "PERMISSION_DENIED" } },
+          "covers_acceptance": ["AC-STAT-MO-2"]
+        },
+        {
+          "id": "TC-STAT-MO-003",
+          "title": "year 범위 검증 — year < 2000 OR > 2099 → 422",
+          "axes": ["functional"],
+          "given": { "auth_token": "admin", "permissions": ["admin.stats.monthly"] },
+          "request": { "method": "GET", "path": "/api/v1/stats/monthly", "query": { "year": 1999 } },
+          "expected": { "status": 422, "body": { "code": "BAD_REQUEST" } }
+        }
+      ]
+    },
+    {
+      "contract": "migration/contracts/stats_reports.yaml",
+      "section": "phase2_addendum.publisher_variant",
+      "screens": ["Sobo43_stats_route"],
+      "cases": [
+        {
+          "id": "TC-STAT-PUB-001",
+          "title": "publisher_code 합계 = book 단위 stats publisher GROUP 합계 ±0",
+          "axes": ["data"],
+          "given": { "auth_token": "admin", "permissions": ["admin.stats.publisher", "admin.stats.book"] },
+          "request_pair": [
+            { "method": "GET", "path": "/api/v1/stats/publisher", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+            { "method": "GET", "path": "/api/v1/stats/book-turnover", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30" } }
+          ],
+          "assertion": "publisher.items[publisher_code=P001].sales_amount == sum(book.items[publisher=P001].sales_amount)",
+          "covers_acceptance": ["AC-STAT-PUB-1"]
+        },
+        {
+          "id": "TC-STAT-PUB-002",
+          "title": "publisher_code 필터 적용 시 단일 출판사 행만 반환",
+          "axes": ["functional"],
+          "given": { "auth_token": "admin", "permissions": ["admin.stats.publisher"] },
+          "request": { "method": "GET", "path": "/api/v1/stats/publisher", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30", "publisher_code": "P001" } },
+          "expected": { "status": 200, "body": { "items_filter_check": "all items.publisher_code == 'P001'" } },
+          "covers_acceptance": ["AC-STAT-PUB-2"]
+        },
+        {
+          "id": "TC-STAT-PUB-003",
+          "title": "권한 가드 — admin.stats.publisher 미보유 → 403",
+          "axes": ["permission"],
+          "given": { "auth_token": "operator", "permissions": [] },
+          "request": { "method": "GET", "path": "/api/v1/stats/publisher", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+          "expected": { "status": 403, "body": { "code": "PERMISSION_DENIED" } }
+        }
+      ]
+    },
+    {
+      "contract": "migration/contracts/ops_monitoring.yaml",
+      "section": "audit_rotate",
+      "screens": ["WebAdmAuditRotate"],
+      "cases": [
+        {
+          "id": "TC-AUD-RT-001",
+          "title": "신·구 비밀번호 동일 → 422 AUDIT_ROTATE_SAME",
+          "axes": ["functional"],
+          "given": { "auth_token": "admin", "permissions": ["admin.audit.rotate"] },
+          "request": { "method": "POST", "path": "/api/v1/admin/audit-rotate", "body": { "audit_password_old": "AbcDef123!@#", "audit_password_new": "AbcDef123!@#", "audit_password_new_confirm": "AbcDef123!@#" } },
+          "expected": { "status": 422, "body": { "code": "AUDIT_ROTATE_SAME" } },
+          "covers_acceptance": ["AC-AUD-RT-1"]
+        },
+        {
+          "id": "TC-AUD-RT-002",
+          "title": "신 비밀번호 정책 미달 (12자 미만) → 422 AUDIT_ROTATE_WEAK",
+          "axes": ["functional"],
+          "given": { "auth_token": "admin", "permissions": ["admin.audit.rotate"] },
+          "request": { "method": "POST", "path": "/api/v1/admin/audit-rotate", "body": { "audit_password_old": "AbcDef123!@#", "audit_password_new": "weak1!", "audit_password_new_confirm": "weak1!" } },
+          "expected": { "status": 422, "body": { "code": "AUDIT_ROTATE_WEAK" } },
+          "covers_acceptance": ["AC-AUD-RT-2"]
+        },
+        {
+          "id": "TC-AUD-RT-003",
+          "title": "회전 후 audit_settlement.rotation_event INSERT + 토큰 폐기",
+          "axes": ["audit"],
+          "given": { "auth_token": "admin", "permissions": ["admin.audit.rotate"] },
+          "request": { "method": "POST", "path": "/api/v1/admin/audit-rotate", "body": { "audit_password_old": "AbcDef123!@#", "audit_password_new": "NewStr0ng!Pwd456", "audit_password_new_confirm": "NewStr0ng!Pwd456" } },
+          "expected": { "status": 200, "body_contains": { "rotated_at": "*", "next_expire_at": "*" } },
+          "audit_check": { "table": "audit_settlement", "where": { "event": "rotation" }, "expect_columns": { "actor": "admin" } },
+          "follow_up_token_invalid": true,
+          "covers_acceptance": ["AC-AUD-RT-3"]
+        }
+      ]
+    }
+  ]
+}

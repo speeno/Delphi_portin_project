@@ -1,0 +1,90 @@
+# Migration Contract: 기타명세서 (Phase 2)
+# 출처(레거시):
+#   - legacy_delphi_source/legacy_source/Subu29.pas (TSobo29 기타명세서)
+# blocker: 레거시 폼이 단순 출력기 — 표준 SQL 미확정.
+
+id: C6-transactions-misc
+name: 기타명세서 (비정형 거래 출력)
+version: 0.9.0
+status: draft
+scope_phase: phase2
+created: 2026-04-21
+updated: 2026-04-21
+owner: 메인개발자
+
+references:
+  - analysis/screen_cards/Sobo29.md
+  - migration/contracts/sales_inquiry.yaml
+  - migration/coverage/placeholder-t1-t2-index.md
+
+constraints:
+  new_sql_count: 0   # 기존 S1_Ssub SELECT 만 사용
+  external_integrations: excluded
+
+blockers:
+  - id: BLK-MSC-1
+    description: "Subu29.pas 의 print template 가 단일 SQL 부재 — 클라이언트 후처리 인쇄. T3 단계에서 SQL pattern 추출 필요."
+    owner: 델파이 담당자
+    eta: 2026-Q2
+
+intent: |
+  운영자가 비정형 행(공급처 직배송, 샘플 출고, 기증 등)을 거래처별로 입력하여
+  "기타명세서" PDF 미리보기 + 인쇄 양식을 생성한다.
+  레거시 Subu29 는 단일 SQL 부재 — 본 contract 는 phase2 에서 입력 행 schema 만 단언.
+
+scope:
+  preview:
+    path: POST /api/v1/transactions/misc/preview
+    legacy_id: Sobo29
+    permission: transactions.misc.print
+    request_body:
+      customer_code: required
+      transaction_date: required ISO date
+      lines:
+        - book_code: required
+          quantity: required int
+          unit_price: required int
+          memo: optional
+          category: enum[direct_ship, sample, donation, other]
+      footer_memo: optional
+    response:
+      preview_html: string   # PDF 변환은 클라이언트 print
+      generated_at: ISO datetime
+      audit_id: string
+
+  list:
+    path: GET /api/v1/transactions/misc
+    permission: transactions.misc.read
+    query_params:
+      customer_code: optional
+      from_date: optional
+      to_date: optional
+      page: { limit: 100, max_limit: 500 }
+    response:
+      items:
+        - misc_id: string
+          customer_code: string
+          transaction_date: ISO date
+          line_count: int
+          total_amount: int
+          generated_at: ISO datetime
+
+acceptance_criteria:
+  - id: AC-MSC-1
+    description: "preview 호출 시 입력 행 합계가 footer 합계와 일치 + audit_misc 에 행 단위 기록"
+    test: "test/test_c6_transactions_misc.py::test_preview_total_consistency"
+  - id: AC-MSC-2
+    description: "권한 가드 — transactions.misc.print 미보유 시 403"
+    test: "test/test_c6_transactions_misc.py::test_permission_guard"
+  - id: AC-MSC-3
+    description: "list 권한별 d_select — operator 본인, branch_manager 지사, admin 전체"
+    test: "test/test_c6_transactions_misc.py::test_dselect_by_role"
+  - id: AC-MSC-4   # blocker 해소 후 추가
+    description: "BLK-MSC-1 해소 후 — preview HTML 가 레거시 인쇄 양식과 layout 등가"
+    test: "test/test_c6_transactions_misc.py::test_layout_equivalence_with_legacy"
+    pending_blocker: BLK-MSC-1
+
+decisions:
+  - DEC-040
+  - DEC-041
+  - DEC-046

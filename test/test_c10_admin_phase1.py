@@ -424,5 +424,63 @@ class RegressionGuards(TestCase):
         self.assertEqual(unknown, [], f"unknown permission_codes used in routers: {unknown}")
 
 
+# ============================================================================
+# P — 권한 분리 회귀 (DEC-047 — F1 시드 + BLS_DEFAULT_ROLE)
+# ============================================================================
+class PermissionSeparation(TestCase):
+    """auth_service._resolve_role_and_permissions 회귀 — 일반 사용자가 admin 권한을 갖지 않음."""
+
+    def setUp(self):  # noqa: D401
+        if not _RUNTIME_OK:
+            self.skipTest("auth_service not importable")
+        from app.services import auth_service as _auth_svc  # type: ignore
+        self._svc = _auth_svc
+
+    def tearDown(self):  # noqa: D401
+        import os
+        os.environ.pop("BLS_DEFAULT_ROLE", None)
+        os.environ.pop("BLS_ADMIN_USER_IDS", None)
+
+    def test_P_01_super_user_hcode_0000_admin(self):
+        role, perms = self._svc._resolve_role_and_permissions("anyone", "0000")
+        self.assertEqual(role, "admin")
+        self.assertEqual(perms, ["*"])
+
+    def test_P_02_admin_whitelist_id(self):
+        import os
+        os.environ["BLS_ADMIN_USER_IDS"] = "ops-superuser-1"
+        role, perms = self._svc._resolve_role_and_permissions("ops-superuser-1", "BR01")
+        self.assertEqual(role, "admin")
+        self.assertEqual(perms, ["*"])
+
+    def test_P_03_unknown_user_no_default_role(self):
+        # BLS_DEFAULT_ROLE 미설정 — 시드 없는 사용자는 빈 권한
+        role, perms = self._svc._resolve_role_and_permissions("__unseeded__", "BR99")
+        self.assertEqual(role, "")
+        self.assertEqual(perms, [])
+
+    def test_P_04_default_role_opt_in_operator(self):
+        # BLS_DEFAULT_ROLE=operator — 시드 없는 사용자도 operator 권한 부여
+        import os
+        os.environ["BLS_DEFAULT_ROLE"] = "operator"
+        role, perms = self._svc._resolve_role_and_permissions("__unseeded2__", "BR99")
+        self.assertEqual(role, "operator")
+        # operator 는 admin.user.read/write 를 갖지 않아야 함 (권한 분리)
+        self.assertNotIn("admin.user.read", perms)
+        self.assertNotIn("admin.user.write", perms)
+        self.assertNotIn("*", perms)
+        # 그러나 audit.read / health.read 는 가져야 함 (시드 정합)
+        self.assertIn("admin.health.read", perms)
+        self.assertIn("admin.audit.read", perms)
+
+    def test_P_05_default_role_unknown_role_safe_empty(self):
+        # 알 수 없는 role code 가 BLS_DEFAULT_ROLE 로 와도 안전 — role 만 기록, 권한 빈 셋
+        import os
+        os.environ["BLS_DEFAULT_ROLE"] = "__not_a_role__"
+        role, perms = self._svc._resolve_role_and_permissions("__unseeded3__", "BR99")
+        self.assertEqual(role, "__not_a_role__")
+        self.assertEqual(perms, [])
+
+
 if __name__ == "__main__":
     main(verbosity=2)

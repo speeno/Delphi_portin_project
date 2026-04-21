@@ -1,0 +1,95 @@
+{
+  "$schema_note": "Phase2 회귀 팩. migration/contracts/customer_book_ledger_phase2.yaml 1:1.",
+  "id": "C6-customer-book-ledger-phase2",
+  "contract": "migration/contracts/customer_book_ledger_phase2.yaml",
+  "version": "1.0.0-phase2",
+  "scope_phase": "phase2",
+  "axes": ["functional", "data", "permission"],
+  "fixtures": {
+    "tables": {
+      "G1_Ggeo": [
+        { "Hcode": "C001", "Gcode": "C001", "Gname": "신화서점" }
+      ],
+      "G4_Book": [
+        { "Hcode": "C001", "Gcode": "B001", "Gname": "FastAPI 실전" }
+      ],
+      "Sb_Csum_seed": [
+        { "Gcode": "C001", "Open_balance": 100000 }
+      ],
+      "S1_Ssub_seed": [
+        { "Gdate": "2026.04.05", "Gcode": "C001", "Bcode": "B001", "Gubun": "출고", "Gssum": 50000, "Gsqut": 5 },
+        { "Gdate": "2026.04.10", "Gcode": "C001", "Bcode": "B001", "Gubun": "반품", "Gssum": 10000, "Gsqut": 1 }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "TC-LDG-001",
+      "title": "customer_single — opening + debit - credit = closing 자기일관성",
+      "axes": ["functional", "data"],
+      "given": { "auth_token": "operator", "permissions": ["ledger.customer.read"] },
+      "request": { "method": "GET", "path": "/api/v1/ledger/customer", "query": { "customer_code": "C001", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+      "expected": {
+        "status": 200,
+        "body": {
+          "summary": { "opening_balance": 100000, "total_debit": 50000, "total_credit": 10000, "closing_balance": 140000 },
+          "self_consistent": "summary.opening_balance + summary.total_debit - summary.total_credit == summary.closing_balance"
+        }
+      },
+      "covers_acceptance": ["AC-LDG-1"]
+    },
+    {
+      "id": "TC-LDG-002",
+      "title": "book_single — opening + inbound - outbound = closing 잔량 자기일관성",
+      "axes": ["functional", "data"],
+      "given": { "auth_token": "operator", "permissions": ["ledger.book.read"] },
+      "request": { "method": "GET", "path": "/api/v1/ledger/book", "query": { "book_code": "B001", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+      "expected": {
+        "status": 200,
+        "body": { "self_consistent_quantity": "summary.opening_qty + summary.total_inbound - summary.total_outbound == summary.closing_qty" }
+      },
+      "covers_acceptance": ["AC-LDG-2"]
+    },
+    {
+      "id": "TC-LDG-003",
+      "title": "integrated == sum(single) — customer_integrated 합계 = 거래처별 customer_single 누적과 일치",
+      "axes": ["data"],
+      "given": { "auth_token": "admin", "permissions": ["ledger.customer.read"] },
+      "request_pair": [
+        { "method": "GET", "path": "/api/v1/ledger/customer-integrated", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+        { "method": "GET", "path": "/api/v1/ledger/customer", "query": { "customer_code": "C001", "from_date": "2026-04-01", "to_date": "2026-04-30" } }
+      ],
+      "assertion": "integrated.items[customer_code=C001].closing_balance == single.summary.closing_balance",
+      "covers_acceptance": ["AC-LDG-3"]
+    },
+    {
+      "id": "TC-LDG-004",
+      "title": "book_integrated — book_code_from > to → 422 BAD_REQUEST",
+      "axes": ["functional"],
+      "given": { "auth_token": "operator", "permissions": ["ledger.book.read"] },
+      "request": { "method": "GET", "path": "/api/v1/ledger/book-integrated", "query": { "book_code_from": "B999", "book_code_to": "B001", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+      "expected": { "status": 422, "body": { "code": "BAD_REQUEST" } },
+      "covers_acceptance": ["AC-LDG-4"]
+    },
+    {
+      "id": "TC-LDG-005",
+      "title": "권한별 d_select 4 변형 모두 일관 적용",
+      "axes": ["permission"],
+      "matrix": [
+        { "auth_token": "operator_C001", "endpoints": ["/api/v1/ledger/customer-integrated", "/api/v1/ledger/book-integrated"], "expected_constraint": "본인 거래처만" },
+        { "auth_token": "branch_manager_main", "expected_constraint": "지사" },
+        { "auth_token": "admin", "expected_constraint": "전체" }
+      ],
+      "covers_acceptance": ["AC-LDG-5"]
+    },
+    {
+      "id": "TC-LDG-006",
+      "title": "페이지네이션 — limit > 500 → 422 + has_more 정확성",
+      "axes": ["functional"],
+      "given": { "auth_token": "operator", "permissions": ["ledger.customer.read"] },
+      "request": { "method": "GET", "path": "/api/v1/ledger/customer", "query": { "customer_code": "C001", "from_date": "2026-01-01", "to_date": "2026-12-31", "limit": 1000 } },
+      "expected": { "status": 422, "body": { "code": "BAD_REQUEST" } },
+      "covers_acceptance": ["AC-LDG-6"]
+    }
+  ]
+}

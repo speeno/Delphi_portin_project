@@ -1,0 +1,74 @@
+{
+  "$schema_note": "Phase2 회귀 팩. migration/contracts/special_master.yaml 1:1.",
+  "id": "C9-special-master",
+  "contract": "migration/contracts/special_master.yaml",
+  "version": "0.9.0-phase2",
+  "scope_phase": "phase2",
+  "axes": ["functional", "audit", "permission"],
+  "blockers": ["BLK-SPC-1", "BLK-SPC-2"],
+  "fixtures": {
+    "tables": {
+      "G1_Ggeo": [
+        { "Hcode": "C001", "Gcode": "C001", "Gname": "신화서점", "Special_flag": "N" }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "TC-SPC-001",
+      "title": "upsert → list — read-after-write 일관성",
+      "axes": ["functional"],
+      "given": { "auth_token": "admin", "permissions": ["master.special.write", "master.special.read"] },
+      "request": {
+        "method": "PUT", "path": "/api/v1/master/special/C001",
+        "body": { "special_flag": true, "special_class_code": "VIP", "memo": "주요 거래처" }
+      },
+      "expected": { "status": 200, "body_contains": { "customer_code": "C001", "audit_id": "*" } },
+      "follow_up_request": { "method": "GET", "path": "/api/v1/master/special" },
+      "follow_up_expected": { "status": 200, "body": { "items_contains": [ { "customer_code": "C001", "special_class_code": "VIP", "memo": "주요 거래처" } ] } },
+      "covers_acceptance": ["AC-SPC-1"]
+    },
+    {
+      "id": "TC-SPC-002",
+      "title": "권한 가드 — master.special.write 미보유 → 403",
+      "axes": ["permission"],
+      "given": { "auth_token": "operator", "permissions": ["master.special.read"] },
+      "request": {
+        "method": "PUT", "path": "/api/v1/master/special/C001",
+        "body": { "special_flag": true, "special_class_code": "VIP" }
+      },
+      "expected": { "status": 403, "body": { "code": "PERMISSION_DENIED" } },
+      "covers_acceptance": ["AC-SPC-2"]
+    },
+    {
+      "id": "TC-SPC-003",
+      "title": "audit_master — upsert 이벤트 before/after diff 기록",
+      "axes": ["audit"],
+      "given": { "auth_token": "admin", "permissions": ["master.special.write"] },
+      "request": {
+        "method": "PUT", "path": "/api/v1/master/special/C001",
+        "body": { "special_flag": false, "memo": "" }
+      },
+      "expected": { "status": 200 },
+      "audit_check": {
+        "table": "audit_master",
+        "where": { "entity": "master_special", "entity_id": "C001" },
+        "expect_columns": { "actor": "*", "before_json": "*", "after_json": "*" }
+      },
+      "covers_acceptance": ["AC-SPC-3"]
+    },
+    {
+      "id": "TC-SPC-004",
+      "title": "[BLK-SPC-2 해소 후] 카탈로그 외 special_class_code → 422",
+      "axes": ["functional"],
+      "pending_blocker": "BLK-SPC-2",
+      "given": { "auth_token": "admin", "permissions": ["master.special.write"] },
+      "request": {
+        "method": "PUT", "path": "/api/v1/master/special/C001",
+        "body": { "special_flag": true, "special_class_code": "INVALID_CODE" }
+      },
+      "expected": { "status": 422, "body": { "code": "BAD_REQUEST" } },
+      "covers_acceptance": ["AC-SPC-4"]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+# Migration Contract: 특별관리 (Phase 2)
+# 출처(레거시):
+#   - legacy_delphi_source/legacy_source/Subu16.pas (TSobo16 특별관리)
+# 본 contract 는 master_data.yaml 의 phase2 sub-contract.
+# blocker: 레거시 SQL 미확정 (placeholder-t1-t2-index.md §1 #1).
+
+id: C9-special-master
+name: 특별관리 (거래처 플래그 + 분류 카탈로그)
+version: 0.9.0   # 0.9 = blocker 잔존
+status: draft
+scope_phase: phase2
+created: 2026-04-21
+updated: 2026-04-21
+owner: 메인개발자
+
+references:
+  - analysis/screen_cards/Sobo16.md
+  - migration/contracts/master_data.yaml
+  - migration/coverage/placeholder-t1-t2-index.md   # blocker 출처
+
+constraints:
+  new_sql_count: 0
+  external_integrations: excluded
+
+blockers:
+  - id: BLK-SPC-1
+    description: "레거시 Subu16.pas 의 단일 핵심 SQL 미확정 — 추출 필요"
+    owner: 델파이 담당자
+    eta: 2026-Q2
+  - id: BLK-SPC-2
+    description: "특별관리 분류 카탈로그(special_class_codes) 합의 필요 — 비즈니스 사용자 결정"
+    owner: 비즈니스
+    eta: 2026-Q2
+
+intent: |
+  운영자가 거래처에 "특별관리" 플래그를 설정하고 분류 코드를 지정.
+  분류는 사전 정의된 카탈로그(BLK-SPC-2 해소 후 확정).
+  특별관리 거래처는 미수 회수 / 영업 모니터링에 사용.
+
+scope:
+  upsert:
+    path: PUT /api/v1/master/special/{customer_code}
+    legacy_id: Sobo16
+    permission: master.special.write
+    request_body:
+      special_flag: bool
+      special_class_code: string   # 카탈로그 키 (BLK-SPC-2 해소 후 enum)
+      memo: optional string
+    response:
+      customer_code: string
+      updated_at: ISO datetime
+      audit_id: string
+
+  list:
+    path: GET /api/v1/master/special
+    permission: master.special.read
+    query_params:
+      class_code: optional
+      page: { limit: 100, max_limit: 500 }
+    response:
+      items:
+        - customer_code: string
+          customer_name: string
+          special_class_code: string
+          memo: string | null
+          updated_at: ISO datetime
+
+acceptance_criteria:
+  - id: AC-SPC-1
+    description: "upsert 후 list 응답에 즉시 반영 (read-after-write 일관성)"
+    test: "test/test_c9_master_special.py::test_upsert_visible_in_list"
+  - id: AC-SPC-2
+    description: "권한 가드 — master.special.write 미보유 시 403 PERMISSION_DENIED"
+    test: "test/test_c9_master_special.py::test_permission_guard"
+  - id: AC-SPC-3
+    description: "audit_master 에 upsert 이벤트 기록 (before/after diff)"
+    test: "test/test_c9_master_special.py::test_audit_diff_recorded"
+  - id: AC-SPC-4   # blocker 해소 후 추가
+    description: "BLK-SPC-2 해소 후 — special_class_code 가 카탈로그에 없을 시 422 BAD_REQUEST"
+    test: "test/test_c9_master_special.py::test_invalid_class_code_rejected"
+    pending_blocker: BLK-SPC-2
+
+decisions:
+  - DEC-040
+  - DEC-041
+  - DEC-046

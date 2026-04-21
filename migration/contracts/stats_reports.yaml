@@ -113,3 +113,58 @@ decisions:
   - DEC-044      # 외부 BI/ETL/DW 직결 제외 + admin.stats.* 권한 카탈로그 단일 등록
 open_questions:
   - OQ-STAT-1    # 통계 데이터 시간 정합 (정산 마감 후 즉시 vs T+1)
+
+# ─── Phase 2 보강 (2026-04-21) — 모바일 메뉴 통합 (DEC-046) ─────────
+phase2_addendum:
+  monthly:
+    base_legacy: Subu48 (재집계용)
+    endpoint: GET /api/v1/stats/monthly
+    legacy_id: Stats_monthly
+    permission: admin.stats.monthly
+    note: "모바일 「월별통계」 메뉴 — 기존 stats_service 의 sales_period 를 월 GROUP 으로 호출하는 wrapper. 신규 SQL 0건."
+    query_params:
+      year: required int (2000~2099)
+      group_by: optional enum[total, customer, book], default total
+      page: { limit: 12, max_limit: 24 }     # 12개월 * 1년 또는 2년
+    response:
+      items:
+        - month: int (1~12)
+          sales_amount: int
+          return_amount: int
+          net_amount: int
+          slip_count: int
+      year: int
+    acceptance:
+      - id: AC-STAT-MO-1
+        description: "monthly(year=Y) 12개월 합계 = sales_period(from=Y-01-01, to=Y-12-31) 합계 ±0"
+        test: "test/test_c13_stats_phase2.py::test_monthly_equals_period"
+      - id: AC-STAT-MO-2
+        description: "권한 가드 — admin.stats.monthly 미보유 시 403"
+        test: "test/test_c13_stats_phase2.py::test_monthly_permission_guard"
+
+  publisher_variant:
+    base_legacy: Sobo43
+    endpoint: GET /api/v1/stats/publisher
+    legacy_id: Sobo43_stats_route
+    permission: admin.stats.publisher
+    note: "출판사통계 — Sobo43.dfm 의 출판사 GROUP BY variant. 신규 SQL 0건 (기존 S1_Ssub + G4_Book JOIN)."
+    query_params:
+      from_date: required ISO date
+      to_date: required ISO date
+      publisher_code: optional
+      page: { limit: 100, max_limit: 500 }
+    response:
+      items:
+        - publisher_code: string
+          publisher_name: string
+          sales_amount: int
+          return_amount: int
+          balance_qty: int
+      total_count: int
+    acceptance:
+      - id: AC-STAT-PUB-1
+        description: "publisher_code 합계 = book 단위 stats 의 publisher GROUP 합계 ±0"
+        test: "test/test_c13_stats_phase2.py::test_publisher_aggregation_consistent"
+      - id: AC-STAT-PUB-2
+        description: "publisher_code 필터 적용 시 단일 출판사 행만 반환"
+        test: "test/test_c13_stats_phase2.py::test_publisher_filter"

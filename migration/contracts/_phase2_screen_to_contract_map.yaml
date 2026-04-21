@@ -1,0 +1,198 @@
+# Phase 2 32 화면 ↔ Contract 매핑 단일 원천
+# ----------------------------------------------------------------
+# 목적: form-registry.ts (phase==='phase2') 32 화면이 각각 어느 contract.yaml
+#       의 어느 endpoint·acceptance_criteria 를 참조하는지 1:N 매핑.
+# 단일 원천: 본 yaml + dashboard/data/phase2-screen-cards.json + form-registry.ts.
+# 변경 정책: 신규 contract 추가 시 본 yaml 의 mapping 항목 1행 추가가 필수.
+# ----------------------------------------------------------------
+
+id: PHASE2-CONTRACT-MAP
+version: 1.0.0
+status: draft
+created: 2026-04-21
+updated: 2026-04-21
+owner: 메인개발자
+
+references:
+  - migration/coverage/phase2-32screens-t1-t2-index.md
+  - dashboard/data/phase2-screen-cards.json
+  - 도서물류관리프로그램/frontend/src/lib/form-registry.ts
+
+# 분류 기호:
+#   COVERED       = 기존 contract 가 그대로 적용 (보강 불필요)
+#   COVERED+      = 기존 contract + 본 phase2 가 endpoint/section 보강
+#   NEW           = 본 phase2 에서 신규 contract 분리 (이 PR 에서 생성)
+
+mapping:
+  # ─── C3 입고 보고 ──────────────────────────────────────────────
+  - screen: Sobo54
+    contract: inbound_receipt.yaml
+    section: reports.daily
+    status: COVERED
+  - screen: Sobo57
+    contract: inbound_receipt.yaml
+    section: reports.period
+    status: COVERED
+
+  # ─── C4 반품 ───────────────────────────────────────────────────
+  - screen: Sobo34_4
+    contract: return_receipt.yaml
+    section: ledger.detail
+    status: COVERED
+  - screen: Sobo58
+    contract: return_receipt.yaml
+    section: reports.period
+    status: COVERED
+
+  # ─── C5 정산 ───────────────────────────────────────────────────
+  - screen: Sobo46_billing
+    contract: settlement_billing.yaml
+    section: print.preview
+    status: COVERED
+  - screen: Sobo49_tax
+    contract: settlement_billing.yaml
+    section: tax_invoice
+    status: COVERED
+  - screen: Settle_outstanding
+    contract: settlement_outstanding.yaml   # NEW
+    section: outstanding.list
+    status: NEW
+  - screen: Sobo41_slip
+    contract: settlement_outstanding.yaml   # NEW
+    section: payment_slip
+    status: NEW
+
+  # ─── C9 마스터 ──────────────────────────────────────────────────
+  - screen: Sobo16_special
+    contract: special_master.yaml          # NEW
+    section: special.upsert
+    status: NEW
+
+  # ─── C6 거래/잔액 (4폼) — 추가 변형 ────────────────────────────
+  - screen: Sobo21_status_list
+    contract: sales_inquiry.yaml
+    section: transactions.status.list      # COVERED+ (view 모드 추가)
+    status: COVERED+
+  - screen: Sobo21_status_summary
+    contract: sales_inquiry.yaml
+    section: transactions.status.summary
+    status: COVERED+
+  - screen: Sobo21_status_memo
+    contract: sales_inquiry.yaml
+    section: transactions.status.memo
+    status: COVERED+
+  - screen: Sobo29_other
+    contract: transactions_misc.yaml       # NEW
+    section: misc.print
+    status: NEW
+
+  # ─── 출고 (모바일) ─────────────────────────────────────────────
+  - screen: Sobo67_status
+    contract: outbound_order.yaml
+    section: status.list
+    status: COVERED
+
+  # ─── 재고 / 원장 ───────────────────────────────────────────────
+  - screen: Sobo44_inv
+    contract: inventory_status.yaml         # NEW
+    section: status.snapshot
+    status: NEW
+  - screen: Sobo32_ledger
+    contract: customer_book_ledger_phase2.yaml  # NEW
+    section: customer.single
+    status: NEW
+  - screen: Sobo32_1_ledger
+    contract: customer_book_ledger_phase2.yaml
+    section: customer.integrated
+    status: NEW
+  - screen: Sobo33_ledger
+    contract: customer_book_ledger_phase2.yaml
+    section: book.single
+    status: NEW
+  - screen: Sobo33_1_ledger
+    contract: customer_book_ledger_phase2.yaml
+    section: book.integrated
+    status: NEW
+  - screen: Sobo48_compare
+    contract: sales_inquiry.yaml
+    section: transactions.audit_compare    # blocker — T3 보강 필요
+    status: COVERED+
+
+  # ─── 통계 (recharts 4 + 모바일 추가) ───────────────────────────
+  - screen: Sobo50_stats
+    contract: stats_reports.yaml
+    section: sales_period
+    status: COVERED
+  - screen: Sobo51_stats
+    contract: stats_reports.yaml
+    section: customer_analysis
+    status: COVERED
+  - screen: Sobo52_stats
+    contract: stats_reports.yaml
+    section: book_turnover
+    status: COVERED
+  - screen: Sobo53_stats
+    contract: stats_reports.yaml
+    section: quarterly_summary
+    status: COVERED
+  - screen: Stats_monthly
+    contract: stats_reports.yaml
+    section: monthly                       # COVERED+ (모바일 메뉴 신규)
+    status: COVERED+
+  - screen: Sobo36_stats_route
+    contract: stats_reports.yaml
+    section: customer_list
+    status: COVERED
+  - screen: Sobo37_stats_route
+    contract: stats_reports.yaml
+    section: book_list
+    status: COVERED
+  - screen: Sobo43_stats_route
+    contract: stats_reports.yaml
+    section: publisher_variant
+    status: COVERED+
+
+  # ─── 택배 (NEW 도메인) ─────────────────────────────────────────
+  - screen: Sobo28_delivery
+    contract: delivery_dispatch.yaml       # NEW
+    section: dispatch.list
+    status: NEW
+
+  # ─── 운영 모니터링 + 감사 ──────────────────────────────────────
+  - screen: WebAdmAuditRotate
+    contract: ops_monitoring.yaml
+    section: audit_rotate                  # COVERED+ (rotate endpoint 추가)
+    status: COVERED+
+  - screen: WebAdmOps
+    contract: ops_monitoring.yaml
+    section: phase2_frontend.pages[/admin/ops]
+    status: COVERED
+  - screen: WebAdmAudit
+    contract: ops_monitoring.yaml
+    section: audit_view
+    status: COVERED
+
+# 통계
+summary:
+  total: 32
+  covered: 19
+  covered_plus: 7
+  new: 6
+  new_contracts:
+    - settlement_outstanding.yaml
+    - special_master.yaml
+    - transactions_misc.yaml
+    - inventory_status.yaml
+    - customer_book_ledger_phase2.yaml
+    - delivery_dispatch.yaml
+  covered_plus_existing:
+    - sales_inquiry.yaml         # +transactions.status.{list,summary,memo} +audit_compare
+    - stats_reports.yaml         # +monthly +publisher_variant
+    - ops_monitoring.yaml        # +audit_rotate
+
+decisions_referenced:
+  - DEC-040  # 신규 SQL 0건 정책 — 본 매핑은 기존 SQL 재사용 단언
+  - DEC-041  # 표준 응답 코드
+  - DEC-044  # 외부 시스템 연동 제외
+  - DEC-046  # phase2 contract 분리 정책 (신규)
+  - DEC-047  # phase2-32 단일 매핑 원천 (본 yaml)

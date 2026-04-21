@@ -731,3 +731,89 @@ changelog:
             §9 out_of_scope (OOS-INQ-1~7, layout_mappings §6 와 동기),
             layout_mappings 4건 신규 (analysis/layout_mappings/Sobo{21,31,61,62}.md).
       모던 페이지 5종에 data-legacy-id 부착 (속성 추가만, 동작·스타일 변경 0)."
+  - date: 2026-04-21
+    version: 1.2.0
+    note: |
+      Phase 2 보강 — Sobo21 모바일 메뉴 통합 (DEC-046).
+      §11 phase2_addendum 추가: transactions.status.{list,summary,memo} view 모드 + audit_compare (Sobo48).
+      신규 SQL 0 (DEC-040 정합) — 본 추가는 기존 S1_Ssub SELECT 의 view 파라미터 분기만 도입.
+
+# ---------------------------------------------------------------
+# 11. Phase 2 보강 — 모바일 메뉴 통합 (DEC-046)
+# ---------------------------------------------------------------
+# 본 섹션은 Sobo21 + Sobo48 의 phase2 변형(view 모드 / audit 비교)만 추가.
+# 단일 원천: migration/contracts/_phase2_screen_to_contract_map.yaml
+phase2_addendum:
+  transactions_status_view:
+    base_legacy: Sobo21
+    base_endpoint: GET /api/v1/transactions/status
+    permission: transactions.status.read
+    new_query_param:
+      view: required enum[list, summary, memo]   # 모바일 통합 메뉴 분기
+    response_variants:
+      list:
+        items:
+          - txn_date: ISO date
+            slip_no: string
+            customer_code: string
+            customer_name: string
+            book_count: int
+            total_amount: int
+        page: { limit: 200, max_limit: 500 }
+      summary:
+        items:
+          - customer_code: string
+            customer_name: string
+            slip_count: int
+            total_qty: int
+            total_amount: int
+        sort: amount_desc
+      memo:
+        items:
+          - txn_date: ISO date
+            slip_no: string
+            customer_name: string
+            memo_preview: string   # 첫 100자
+        filter: memo IS NOT NULL AND LENGTH(memo) > 0
+    acceptance:
+      - id: AC-INQ-P2-1
+        description: "view=list 응답이 기존 Sobo21 거래명세서 1:1 매핑 (행 수·합계 ±0)"
+        test: "test/test_c6_inquiry_phase2.py::test_view_list_equivalent"
+      - id: AC-INQ-P2-2
+        description: "view=summary 응답이 거래처 단위 GROUP BY 합계 자기일관성"
+        test: "test/test_c6_inquiry_phase2.py::test_view_summary_aggregation"
+      - id: AC-INQ-P2-3
+        description: "view=memo 응답이 메모 비어있지 않은 행만 반환"
+        test: "test/test_c6_inquiry_phase2.py::test_view_memo_filter"
+      - id: AC-INQ-P2-4
+        description: "view 미지정 시 기본값 list (하위 호환)"
+        test: "test/test_c6_inquiry_phase2.py::test_view_default_list"
+
+  audit_compare:
+    base_legacy: Sobo48
+    endpoint: GET /api/v1/ledger/comparison
+    permission: ledger.audit.read
+    blockers:
+      - id: BLK-CMP-1
+        description: "레거시 Sobo48 의 단일 SQL 미확정 — 거래처 ↔ 본사 장부 차액 알고리즘 합의 필요"
+        owner: 델파이 담당자
+        eta: 2026-Q2
+    query_params:
+      customer_code: required
+      from_date: required ISO date
+      to_date: required ISO date
+    response:
+      items:
+        - txn_date: ISO date
+          slip_no: string
+          customer_amount: int
+          house_amount: int
+          difference: int
+          reason: string | null
+      summary:
+        total_diff: int
+    acceptance:
+      - id: AC-CMP-1
+        description: "BLK-CMP-1 해소 후 — difference = customer_amount - house_amount 자기일관성"
+        test: "test/test_c6_audit_compare.py::test_diff_consistency"
+        pending_blocker: BLK-CMP-1

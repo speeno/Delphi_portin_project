@@ -581,6 +581,60 @@
 - **결정자**: 메인개발자 + 사용자 (Phase 2 잔여 — C13/C14/C15 T6 실행 계획 마감)
 - **참조**: `scripts/adapters/`, `scripts/cutover_run.py`, `scripts/cutover_validator.py`, `migration/contracts/cutover.yaml`, `test/test_c15_cutover_phase2_adapter.py`, DEC-CUT-1/2/3, DEC-040/044, DEC-033
 
+### DEC-046: Phase 2 32화면 운영체계 — 시나리오 단일 원천 + 사이드바·placeholder·dashboard 동조
+- **일자**: 2026-04-21
+- **결정 사항**: phase2(32화면) 의 운영 정보(시나리오·진행 단계·blocker)는 다음 단일 원천 체계로 동결한다.
+  - (a) **시나리오 단일 원천 = `frontend/src/lib/form-registry.ts::FormMeta.scenario`**: 각 phase2 화면이 `{ input, process, output, eta?, blockers? }` 5필드를 보유. 사이드바 1줄 요약·tooltip·`<ScreenPlaceholder>` 본문이 본 객체만 읽는다 (DRY).
+  - (b) **단계 카드 단일 원천 = `dashboard/data/phase2-screen-cards.json`**: 32 화면 × T1~T8 8단 status (`done`/`in_progress`/`pending`/`blocked`). 대시보드 (`dashboard/js/app.js::renderPhase2ScreenCards`) 가 본 JSON 만 렌더 (T1~T8 ✓/◐/○/✕ 색띠 + blocker 강조).
+  - (c) **계약 매핑 단일 원천 = `migration/contracts/_phase2_screen_to_contract_map.yaml`**: 32 화면 → 9 yaml(신규 6 + 기존 보강 3) 매핑 + COVERED/COVERED+/NEW 분류. 신규 yaml 추가 시 본 매핑 필수 갱신.
+  - (d) **회귀 러너 = `test/test_regression_phase2.py`**: phase2-screen-cards.json 을 자동 로드 → 32 그룹 동적 생성. blocker 보유 화면은 503 NOT_IMPLEMENTED 허용. write-only 화면(POST/PATCH) 은 GET probe SKIP. P95 임계 1200ms (Phase 1 의 800ms 보다 완화 — 신규 SQL 미튜닝 보정). `--multi-db` 로 4대 DB cross-DB invariant 검증.
+  - (e) **사이드바 phase2 표시 정책**: phase1 = 녹색 ✓, phase2 = "P2" 배지 + 시나리오 1줄 + tooltip 전체 + ETA, preview = 회색 dot. 사용자 요구("녹색 표시는 5축 PASS 후") 강제.
+- **배경/근거**: 사용자 명시 — "각 미구현 화면들에 대해서 항목별로 단순하지만 시나리오로 규정하고 화면과 같은 대시보드 계획까지 업데이트". 시나리오·단계·계약이 4곳(레지스트리/placeholder/사이드바/대시보드) 에 흩뿌려지면 동기 비용 폭증 → 4곳이 동일 단일 원천을 읽도록 통일.
+- **DoD**:
+  - `form-registry.ts::FormMeta.scenario` 32 phase2 화면 모두 5필드 채움 (`input`/`process`/`output` 필수).
+  - `phase2-screen-cards.json` 32 화면 × 8단 status 채움 + `_phase2_screen_to_contract_map.yaml` 9 매핑 등록.
+  - `dashboard/js/app.js::renderPhase2ScreenCards` 가 단계 색띠 + blocker 강조 + 진행률 4 카운터 렌더.
+  - `<ScreenPlaceholder>` (`screen-placeholder.tsx`) 가 `scenario` 자동 노출 (별도 prop 미주입).
+  - `sidebar.tsx` phase2 항목 1줄 요약 + tooltip + ETA 표시.
+  - `migration/coverage/phase2-32screens-t1-t2-index.md` 32 화면 분류표 (NEW 15 / REUSE+ 12 / REUSE 5).
+  - `test/test_regression_phase2.py` 32 그룹 동적 로드 + dryrun rc=0 + live `--write-json` JSON 산출.
+- **결정자**: 메인개발자 + 사용자 (phase2 운영체계 통일 합의)
+- **참조**: `frontend/src/lib/form-registry.ts`, `frontend/src/components/screen-placeholder.tsx`, `frontend/src/components/layout/sidebar.tsx`, `dashboard/data/phase2-screen-cards.json`, `dashboard/js/app.js`, `migration/contracts/_phase2_screen_to_contract_map.yaml`, `migration/coverage/phase2-32screens-t1-t2-index.md`, `test/test_regression_phase2.py`, DEC-045(phase1 게이트), DEC-040(신규 SQL 0)
+
+### DEC-047: Phase 2 → Phase 1 승격 = 0건 (1차 baseline) — 4대 DB 환경 등록 + cross-DB PASS 후 재평가
+- **일자**: 2026-04-21
+- **결정 사항**: 본 PR(F1~F6) 시점에서 phase2 32 화면의 phase1 승격은 **0건** 으로 동결. 사이드바 녹색 ✓ 는 기존 phase1 12 화면만 유지.
+  - (a) **승격 0건 근거**: `reports/phase2-regression-2026-04-21.md` 라이브 결과 — 1 PASS / 2 SKIP / 29 FAIL. 단일 PASS(`WebAdmAudit`) 도 data 축(4대 DB cross-DB invariant) 미측정 (`Unknown server id 'mysql8'` 환경 오류). DEC-045 5축 중 data 축 SKIP → 승격 비대상.
+  - (b) **승격 게이트 재확인**: phase2 → phase1 승격은 다음 6 항목 모두 충족 시에만 form-registry.ts 의 `phase` 필드 단일 변경 PR 발행 — (1) phase2-screen-cards.json `tasks.T7 == done`, (2) `test_regression_phase2.py --multi-db --servers mysql3 mysql5 mysql8 maria` functional+data+performance PASS, (3) write 화면이면 별도 audit 테스트 PASS, (4) `scenario.blockers == []`, (5) `analysis/screen_cards/<Form>.md` T1 카드 존재, (6) PR description 에 5축 결과 표 + 회귀 JSON 첨부.
+  - (c) **차단 화면 명시**: 5 화면(`Sobo48_compare`, `Sobo16_special`, `Sobo29_other`, `Sobo28_delivery`, `Sobo43_stats_route`) 은 `scenario.blockers` 보유 → blocker 해소 전까지 phase1 승격 비대상. `_stub.py` 503 NOT_IMPLEMENTED 응답으로 운영.
+  - (d) **승격 후보 분류 (재평가용)**: Tier A 12(T1~T6 done, T7 진행) / Tier B 15(T6 in_progress) / Tier C 5(blocker). 4대 DB 환경 등록 후 Tier A 12 우선 재실행.
+  - (e) **재평가 트리거**: backend `BLS_DB_SERVERS` 또는 `app/db/server_registry.py` 에 mysql3/mysql5/mysql8/maria 4 server_id 등록 완료 시 → `test_regression_phase2.py --multi-db` 재실행 → Tier A 12 화면별로 승격 PR 1개씩 분리 발행.
+- **배경/근거**: 사용자 명시 — "테스트 및 동작이 레거시코드 비즈니스로직 및 쿼리 등이 적절하게 동일성을 갖게 적용이 완료되고 테스트가 완료된 이후에 녹색 표시" (DEC-045). 라이브 환경 단일 server `mysql8` 만으로 cross-DB invariant 미증명 → 사용자 정책 엄격 적용 결과 0건.
+- **DoD**:
+  - `form-registry.ts::FormMeta.phase` 32 화면 모두 phase2 유지 (변경 0).
+  - `migration/coverage/phase2-promotion-candidates.md` Tier A/B/C 분류 + 승격 진입 체크리스트 6항 + 재평가 명령 동결.
+  - `reports/phase2-regression-2026-04-21.json` + `.md` 라이브 baseline 보존.
+  - `dashboard/data/phase2-screen-cards.json::tasks.T7` 32 화면 모두 `in_progress`/`pending` (T7 done 0건 정합).
+- **결정자**: 메인개발자 + 사용자 (phase1 승격 게이트 엄격 적용 + 환경 미정비 재평가 합의)
+- **참조**: `migration/coverage/phase2-promotion-candidates.md`, `reports/phase2-regression-2026-04-21.md`, `reports/phase2-regression-2026-04-21.json`, `frontend/src/lib/form-registry.ts`, `dashboard/data/phase2-screen-cards.json`, DEC-045(승격 게이트), DEC-033(멀티 DB), DEC-046(phase2 운영체계)
+
+### DEC-048: T-B4 트랙 종결 + Phase 3(운영 결합) 별도 게이트로 이관 (.frf→HTML 자동 변환)
+- **일자**: 2026-04-21
+- **결정 사항**: R&D 트랙 T-B4 (.frf → HTML 자동 변환 PoC) 의 **변환 작업 자체는 100% 완료** 로 동결. 단, **운영 FastAPI 결합(Phase 3) 은 별도 게이트로 이관** 한다.
+  - (a) **트랙 status = done**: 저장소 전역 .frf 1744 양식을 `*.template.html` + `*.ir.json` 으로 1:1 자동 변환 완료 (`debug/output/frf_converted_all`). 변환 스크립트 `debug/frf_batch_convert_all.py` + 품질 리포트 `debug/frf_quality_report.py` 동결. PoC 1일 보고서 `analysis/research/c7_b4_poc_1day_report.md` 3 가설 (H1 부분 / H2 ✅ / H3 ⚠️) 정리.
+  - (b) **Phase 3 진입 = 별도 게이트**: 운영 FastAPI/WeasyPrint 결합은 **3 조건 게이트** — (1) 운영 SME 협의 (98 양식 변경 빈도 합의), (2) ROI 비교 회의록 (B1 자체 파서 vs B4 빌드타임 변환), (3) R&D 가용성. 3 조건 동시 충족 전까지 운영 제품(`도서물류관리프로그램/`) 에 본 산출물 결합 0줄.
+  - (c) **DEC-039 정책 유지**: "운영 .frf 자동 변환 0" (DEC-039) 는 Phase 3 게이트 통과 전까지 계속 유지. 본 산출물은 빌드타임 참조 자산 만으로 분류.
+  - (d) **대시보드 정합**: `dashboard/data/tracks.json::T-B4.status = done` + `phase3_followup = deferred_dec048`. `M1c` (트랙 종결) 마감 / `M2`(SME 협의)·`M3`(ROI 회의록)·`M4`(Phase 3 결정) 는 본 결정 별도 추적.
+- **배경/근거**: 사용자 확인 (2026-04-21) — ".frf → HTML 자동 변환 (B4 PoC) 변환 처리 완료되었다고 보는데 대시보드 확인하여 업데이트". 변환 작업 자체와 운영 결합을 분리하지 않으면 (1) 본 PoC 의 객관적 산출물 가치(1744 양식 자동화) 가 'Phase 3 미진입' 라벨에 가려지고, (2) Phase 3 운영 결합 비용(SME·ROI·R&D 가용성) 이 무리하게 끌려가는 위험. 두 게이트 분리.
+- **DoD**:
+  - `dashboard/data/tracks.json::T-B4.status = done` + `phase3_followup = deferred_dec048`.
+  - `dashboard/data/web-porting-progress.json::phase` 라벨에 "Track B4 done (DEC-048)" 포함.
+  - `dashboard/data/timeline.json` 에 DEC-048 entry 1건.
+  - `dashboard/js/app.js` 의 트랙 카드 렌더에서 `phase3_followup` 배지 노출.
+  - `legacy-analysis/decisions.md` 에 본 결정 등록.
+- **결정자**: 메인개발자 + 사용자 (.frf 변환 작업 종결 + Phase 3 별도 게이트 합의)
+- **참조**: `analysis/research/c7_b4_poc_1day_report.md`, `debug/frf_batch_convert_all.py`, `debug/frf_quality_report.py`, `debug/output/frf_converted_all/`, `dashboard/data/tracks.json`, `dashboard/data/timeline.json`, `dashboard/data/web-porting-progress.json`, DEC-037(WeasyPrint), DEC-038(우편엽서 1종), DEC-039(운영 .frf 자동 변환 0)
+
 ### DEC-033: 멀티 DB 호환 의무 — mysql3 SQL 헬퍼 + 스키마 어댑터 + 정기 점검 (alwaysApply)
 - **일자**: 2026-04-19
 - **결정 사항**: 백엔드는 **모든 등록 DB 서버**(`remote_138`, `remote_153`, `remote_154`, `remote_155` 등 `servers.yaml` 프로필)에서 조회·목록이 동일하게 동작해야 한다.
@@ -594,7 +648,8 @@
 - **참조**: `도서물류관리프로그램/backend/app/core/sql_mysql3.py`, `도서물류관리프로그램/backend/app/services/t5_ssub_adapt.py`, `debug/probe_backend_all_servers.py`, `docs/db-smoke-runbook.md`, `.github/workflows/db-smoke.yml`
 
 ---
-*최종 업데이트: 2026-04-21 — DEC-045 신규 추가 (Phase1 승격 게이트 = 레거시 동등성 + 자동 회귀 통과, T1~T8 단계, 5축 PASS 의무, 화면 1개=PR 1개, 강등 정책). DEC-007 보강 추가 (hcode='0000' 자동 admin 권한 부여 + BLS_ADMIN_USER_IDS env 화이트리스트). 가시성 필터(G7_Ggeo Chek5='show1') 는 여전히 1차 미도입.*
+*최종 업데이트: 2026-04-21 — DEC-046/047/048 신규 추가. DEC-046(phase2 32화면 운영체계 = 시나리오/단계카드/계약/회귀 4 단일원천 + 사이드바 1줄 표시 + ScreenPlaceholder DRY). DEC-047(phase2→phase1 승격 = 0건, 4대 DB 환경 등록 + cross-DB PASS 후 재평가, Tier A 12 / Tier B 15 / Tier C 5 분류). DEC-048(T-B4 .frf→HTML 변환 작업 100% 완료 = 트랙 status=done, Phase 3 운영 결합은 SME·ROI·R&D 3 조건 별도 게이트, DEC-039 정책 유지).*
+*이전: 2026-04-21 — DEC-045 신규 추가 (Phase1 승격 게이트 = 레거시 동등성 + 자동 회귀 통과, T1~T8 단계, 5축 PASS 의무, 화면 1개=PR 1개, 강등 정책). DEC-007 보강 추가 (hcode='0000' 자동 admin 권한 부여 + BLS_ADMIN_USER_IDS env 화이트리스트). 가시성 필터(G7_Ggeo Chek5='show1') 는 여전히 1차 미도입.*
 *이전: 2026-04-20 — DEC-CUT-4 신규 추가 (C15 Phase 2 — 실 DB 어댑터 `MysqlDataSource`/`SqlServerDataSource` + `cutover_run.py` 안전 게이트 3단(OQ 차단·P6 confirm·rollback 시뮬)). 어댑터는 시스템/구조 쿼리만 + sanitize_identifier 화이트리스트 + 드라이버 lazy import + 자격 ENV-only. 외부 SaaS/네트워크 SDK 0건 정적 가드.*
 *이전: 2026-04-20 — DEC-041/042/043 신규 추가 (C10 풀 스코프 마감: 세션·권한 응답 코드 표준 + 글로벌 401/403 인터셉터 / If-Match·ETag 낙관적 동시편집 / IdP·SSO 인터페이스 분리). OQ-RT-7 (D_Select 실분기) 마감 — Phase 2 인터페이스 → C10 Phase 1 실분기 도입 (admin/branch_manager/auditor/operator 4 분기). 신규 SQL 0건 (DEC-040 룰 적용).*
 *이전: 2026-04-20 — DEC-040 신규 추가 (C8 바코드 스캔 = 서버 매칭 + 클라이언트 라인 반영 분리, 신규 SQL 0). DEC-010 마감 표시 (C8 Phase 1 사이클로 후속 작업 완료). OQ-002 → OQ-002-R 잔류 (Web Serial 직결만).*

@@ -1,0 +1,58 @@
+{
+  "$schema_note": "Phase2 회귀 팩. migration/contracts/transactions_misc.yaml 1:1.",
+  "id": "C6-transactions-misc",
+  "contract": "migration/contracts/transactions_misc.yaml",
+  "version": "0.9.0-phase2",
+  "scope_phase": "phase2",
+  "axes": ["functional", "audit", "permission"],
+  "blockers": ["BLK-MSC-1"],
+  "cases": [
+    {
+      "id": "TC-MSC-001",
+      "title": "preview — 입력 행 합계 == footer 합계 자기일관성",
+      "axes": ["functional"],
+      "given": { "auth_token": "operator", "permissions": ["transactions.misc.print"] },
+      "request": {
+        "method": "POST", "path": "/api/v1/transactions/misc/preview",
+        "body": {
+          "customer_code": "C001",
+          "transaction_date": "2026-04-21",
+          "lines": [
+            { "book_code": "B001", "quantity": 10, "unit_price": 15000, "category": "sample" },
+            { "book_code": "B002", "quantity":  5, "unit_price": 20000, "category": "donation" }
+          ]
+        }
+      },
+      "expected": {
+        "status": 200,
+        "body_contains": { "preview_html": "*", "audit_id": "*" },
+        "html_contains_text": ["250,000"]
+      },
+      "covers_acceptance": ["AC-MSC-1"]
+    },
+    {
+      "id": "TC-MSC-002",
+      "title": "권한 가드 — transactions.misc.print 미보유 → 403",
+      "axes": ["permission"],
+      "given": { "auth_token": "operator", "permissions": ["transactions.misc.read"] },
+      "request": {
+        "method": "POST", "path": "/api/v1/transactions/misc/preview",
+        "body": { "customer_code": "C001", "transaction_date": "2026-04-21", "lines": [] }
+      },
+      "expected": { "status": 403, "body": { "code": "PERMISSION_DENIED" } },
+      "covers_acceptance": ["AC-MSC-2"]
+    },
+    {
+      "id": "TC-MSC-003",
+      "title": "list 권한별 d_select",
+      "axes": ["permission", "data"],
+      "matrix": [
+        { "auth_token": "operator_C001", "expected_min_count": 0, "expected_codes_only": ["C001"] },
+        { "auth_token": "branch_manager_main", "expected_min_count": 0, "expected_includes_codes": ["C001", "C002"] },
+        { "auth_token": "admin", "expected_min_count": 0 }
+      ],
+      "request": { "method": "GET", "path": "/api/v1/transactions/misc", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+      "covers_acceptance": ["AC-MSC-3"]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "$schema_note": "Phase2 회귀 팩. migration/contracts/delivery_dispatch.yaml 1:1.",
+  "id": "C2-delivery-dispatch",
+  "contract": "migration/contracts/delivery_dispatch.yaml",
+  "version": "0.9.0-phase2",
+  "scope_phase": "phase2",
+  "axes": ["functional", "audit", "permission"],
+  "blockers": ["BLK-DLV-1"],
+  "fixtures": {
+    "tables": {
+      "S1_Ssub_seed": [
+        { "Gdate": "2026.04.21", "Gcode": "C001", "Bcode": "B001", "Gubun": "출고", "Slip_no": "S001" }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "TC-DLV-001",
+      "title": "list — ship_date 단일일자 + carrier 필터",
+      "axes": ["functional"],
+      "given": { "auth_token": "operator", "permissions": ["delivery.dispatch.read"] },
+      "request": { "method": "GET", "path": "/api/v1/delivery/dispatch", "query": { "ship_date": "2026-04-21", "carrier": "cj" } },
+      "expected": { "status": 200, "body": { "items_filter_check": "all items.carrier == 'cj' and items.ship_date == '2026-04-21'" } },
+      "covers_acceptance": ["AC-DLV-1"]
+    },
+    {
+      "id": "TC-DLV-002",
+      "title": "upsert_tracking — tracking_no 중복 → 409 CONFLICT",
+      "axes": ["functional"],
+      "given": { "auth_token": "operator", "permissions": ["delivery.dispatch.write"], "preset_tracking": { "dispatch_id": "D001", "tracking_no": "1234567890" } },
+      "request": { "method": "PUT", "path": "/api/v1/delivery/dispatch/D002/tracking", "body": { "tracking_no": "1234567890", "carrier": "cj" } },
+      "expected": { "status": 409, "body": { "code": "CONFLICT" } },
+      "covers_acceptance": ["AC-DLV-2"]
+    },
+    {
+      "id": "TC-DLV-003",
+      "title": "audit_delivery — tracking_no upsert before/after 기록",
+      "axes": ["audit"],
+      "given": { "auth_token": "operator", "permissions": ["delivery.dispatch.write"] },
+      "request": { "method": "PUT", "path": "/api/v1/delivery/dispatch/D003/tracking", "body": { "tracking_no": "9876543210", "carrier": "hanjin" } },
+      "expected": { "status": 200 },
+      "audit_check": { "table": "audit_delivery", "where": { "entity_id": "D003" }, "expect_columns": { "actor": "*", "before_json": "*", "after_json": "*" } },
+      "covers_acceptance": ["AC-DLV-3"]
+    },
+    {
+      "id": "TC-DLV-004",
+      "title": "권한 가드 — delivery.dispatch.write 미보유 → 403",
+      "axes": ["permission"],
+      "given": { "auth_token": "operator", "permissions": ["delivery.dispatch.read"] },
+      "request": { "method": "PUT", "path": "/api/v1/delivery/dispatch/D004/tracking", "body": { "tracking_no": "1111", "carrier": "cj" } },
+      "expected": { "status": 403, "body": { "code": "PERMISSION_DENIED" } },
+      "covers_acceptance": ["AC-DLV-4"]
+    },
+    {
+      "id": "TC-DLV-005",
+      "title": "[BLK-DLV-1 해소 후] status_refresh — 외부 API 호출 후 status 자동 갱신",
+      "axes": ["functional"],
+      "pending_blocker": "BLK-DLV-1",
+      "given": { "auth_token": "operator", "permissions": ["delivery.dispatch.read"], "external_api_mock": "cj_in_transit" },
+      "request": { "method": "POST", "path": "/api/v1/delivery/dispatch/D003/refresh", "body": {} },
+      "expected": { "status": 200, "body": { "status": "in_transit", "last_updated": "*" } },
+      "covers_acceptance": ["AC-DLV-5"]
+    }
+  ]
+}

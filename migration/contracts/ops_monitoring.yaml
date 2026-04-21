@@ -86,6 +86,37 @@ scope:
     d_select_policy: 본 사용자 데이터만 (operator) / Server_id 분기 (branch_manager) / 전체 (admin)
     pagination: { limit: 100, max_limit: 500 }
 
+  # ─── Phase 2 보강 (2026-04-21) — DEC-029/032 audit 비밀번호 회전 ──
+  audit_rotate:
+    path: POST /api/v1/admin/audit-rotate
+    legacy_id: WebAdmAuditRotate
+    permission: admin.audit.rotate   # F90 + 추가 가드
+    request_body:
+      audit_password_old: required string
+      audit_password_new: required string
+      audit_password_new_confirm: required string
+    response:
+      rotated_at: ISO datetime
+      next_expire_at: ISO datetime
+      audit_id: string
+    validation:
+      - rule: new != old
+        error_code: AUDIT_ROTATE_SAME
+      - rule: new == new_confirm
+        error_code: AUDIT_ROTATE_MISMATCH
+      - rule: len(new) >= 12 AND has(upper, lower, digit, special)
+        error_code: AUDIT_ROTATE_WEAK
+    acceptance:
+      - id: AC-AUD-RT-1
+        description: "신·구 비밀번호 동일 시 422 AUDIT_ROTATE_SAME"
+        test: "test/test_c5_audit_rotate.py::test_same_rejected"
+      - id: AC-AUD-RT-2
+        description: "신 비밀번호 정책 미달 시 422 AUDIT_ROTATE_WEAK"
+        test: "test/test_c5_audit_rotate.py::test_weak_rejected"
+      - id: AC-AUD-RT-3
+        description: "회전 후 audit_settlement.rotation_event INSERT + 토큰 폐기"
+        test: "test/test_c5_audit_rotate.py::test_rotation_emit_and_token_invalidated"
+
   in_app_banner:
     path: /api/v1/admin/alerts
     guard_permission: admin.audit.read

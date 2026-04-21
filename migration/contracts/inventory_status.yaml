@@ -1,0 +1,77 @@
+# Migration Contract: 재고현황 (Phase 2)
+# 출처(레거시):
+#   - legacy_delphi_source/legacy_source/Subu44.pas (TSobo44 재고현황)
+# 본 contract 는 모바일 m.websend.kr 「재고현황」 메뉴 1:1.
+
+id: C9-inventory-status
+name: 재고현황 (스냅샷 + 부족재고 강조)
+version: 1.0.0
+status: draft
+scope_phase: phase2
+created: 2026-04-21
+updated: 2026-04-21
+owner: 메인개발자
+
+references:
+  - analysis/screen_cards/Sobo44.md
+  - dashboard/data/phase2-screen-cards.json
+
+constraints:
+  new_sql_count: 0   # 기존 G4_Book + S1_Ssub 합산만 사용
+  external_integrations: excluded
+
+intent: |
+  운영자가 기준일 시점의 도서별 재고(=누적 입고 - 누적 판매 - 누적 반품)를 조회하고,
+  부족재고(safety_stock 미만) 도서를 강조 표시.
+  레거시 Subu44 의 단일 그리드 패턴 동등.
+
+scope:
+  snapshot:
+    path: GET /api/v1/inventory/status
+    legacy_id: Sobo44
+    permission: inventory.status.read
+    query_params:
+      base_date: required ISO date    # 기준일
+      book_code_from: optional
+      book_code_to: optional
+      include_zero: optional bool, default false   # 잔량 0 포함 여부
+      page: { limit: 200, max_limit: 500 }
+    response:
+      items:
+        - book_code: string
+          book_name: string
+          publisher: string
+          inbound_qty: int
+          sales_qty: int
+          return_qty: int
+          balance_qty: int            # 잔량
+          safety_stock: int | null
+          is_below_safety: bool
+      base_date: ISO date
+      total: int
+      summary:
+        total_books: int
+        below_safety_count: int
+        total_balance: int
+
+acceptance_criteria:
+  - id: AC-INV-1
+    description: "base_date 기준 잔량 = 누적 입고 - 누적 판매 - 누적 반품 — 레거시 Subu44 결과와 ±0 일치"
+    test: "test/test_c9_inventory_status.py::test_balance_calculation_equivalence"
+  - id: AC-INV-2
+    description: "is_below_safety 플래그 — safety_stock 보유 도서에 대해 balance < safety_stock 시 true"
+    test: "test/test_c9_inventory_status.py::test_below_safety_flag"
+  - id: AC-INV-3
+    description: "include_zero=false 기본 — 잔량 0 도서는 응답 제외"
+    test: "test/test_c9_inventory_status.py::test_include_zero_default"
+  - id: AC-INV-4
+    description: "페이지네이션 — limit > 500 시 422 BAD_REQUEST (MAX_PAGE_LIMIT)"
+    test: "test/test_c9_inventory_status.py::test_max_limit_enforced"
+  - id: AC-INV-5
+    description: "권한 가드 — inventory.status.read 미보유 시 403"
+    test: "test/test_c9_inventory_status.py::test_permission_guard"
+
+decisions:
+  - DEC-040
+  - DEC-041
+  - DEC-046

@@ -1,0 +1,68 @@
+{
+  "$schema_note": "Phase2 회귀 팩. migration/contracts/inventory_status.yaml 1:1.",
+  "id": "C9-inventory-status",
+  "contract": "migration/contracts/inventory_status.yaml",
+  "version": "1.0.0-phase2",
+  "scope_phase": "phase2",
+  "axes": ["functional", "data", "permission"],
+  "fixtures": {
+    "tables": {
+      "G4_Book": [
+        { "Hcode": "C001", "Gcode": "B001", "Gname": "FastAPI 실전",   "Safety_stock": 5 },
+        { "Hcode": "C001", "Gcode": "B002", "Gname": "리팩터링 2판",   "Safety_stock": 10 }
+      ],
+      "S1_Ssub_seed": [
+        { "Bcode": "B001", "Gubun": "입고", "Gsqut": 100 },
+        { "Bcode": "B001", "Gubun": "출고", "Gsqut":  92 },
+        { "Bcode": "B002", "Gubun": "입고", "Gsqut":  50 },
+        { "Bcode": "B002", "Gubun": "출고", "Gsqut":  47 }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "TC-INV-001",
+      "title": "snapshot — 잔량 = 입고 - 판매 - 반품 (자기일관성)",
+      "axes": ["functional", "data"],
+      "given": { "auth_token": "operator", "permissions": ["inventory.status.read"] },
+      "request": { "method": "GET", "path": "/api/v1/inventory/status", "query": { "base_date": "2026-04-30" } },
+      "expected": {
+        "status": 200,
+        "body": {
+          "items_contains": [
+            { "book_code": "B001", "balance_qty": 8, "safety_stock": 5, "is_below_safety": false },
+            { "book_code": "B002", "balance_qty": 3, "safety_stock": 10, "is_below_safety": true }
+          ]
+        }
+      },
+      "covers_acceptance": ["AC-INV-1", "AC-INV-2"]
+    },
+    {
+      "id": "TC-INV-002",
+      "title": "include_zero=false 기본 — 잔량 0 도서 응답 제외",
+      "axes": ["functional"],
+      "given": { "auth_token": "operator", "permissions": ["inventory.status.read"] },
+      "request": { "method": "GET", "path": "/api/v1/inventory/status", "query": { "base_date": "2026-04-30" } },
+      "expected": { "status": 200, "body": { "items_no_book_code": ["B999"] } },
+      "covers_acceptance": ["AC-INV-3"]
+    },
+    {
+      "id": "TC-INV-003",
+      "title": "limit > 500 → 422 BAD_REQUEST (MAX_PAGE_LIMIT)",
+      "axes": ["functional"],
+      "given": { "auth_token": "operator", "permissions": ["inventory.status.read"] },
+      "request": { "method": "GET", "path": "/api/v1/inventory/status", "query": { "base_date": "2026-04-30", "limit": 1000 } },
+      "expected": { "status": 422, "body": { "code": "BAD_REQUEST" } },
+      "covers_acceptance": ["AC-INV-4"]
+    },
+    {
+      "id": "TC-INV-004",
+      "title": "권한 가드 — inventory.status.read 미보유 → 403",
+      "axes": ["permission"],
+      "given": { "auth_token": "operator", "permissions": [] },
+      "request": { "method": "GET", "path": "/api/v1/inventory/status", "query": { "base_date": "2026-04-30" } },
+      "expected": { "status": 403, "body": { "code": "PERMISSION_DENIED" } },
+      "covers_acceptance": ["AC-INV-5"]
+    }
+  ]
+}
