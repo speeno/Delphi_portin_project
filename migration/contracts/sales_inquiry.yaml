@@ -130,6 +130,9 @@ inputs:
     #   hcode/bcode 가 비어 있으면 백엔드가 해당 WHERE 절을 동적 제거해 전체 대상으로 조회한다.
     #   서버 LIMIT(BLS_INVENTORY_LEDGER_MAX, 기본 5,000행) + truncated 플래그로 풀스캔 가드.
     #   일자(date_from/date_to) 는 mysql3 stall 회피를 위해 필수 유지.
+    # DEC-033 (g) — limit/offset 표준 페이지네이션 추가:
+    #   일자(by_date) 누적 결과를 7화면 공통 페이저(`DataGridPager`) 로 순차 탐색.
+    #   기본 limit=100 / 상한 ceil=2000 (clamp_limit). page 메타(limit/offset/total/has_more) 동봉.
     - name: hcode
       type: string
       required: false
@@ -151,6 +154,17 @@ inputs:
       required: false
       default: "B"
       note: "Subu31 Panel103 캡션 — '본사도서'='A', '도 서 명'/'창고도서'='B'."
+    - name: limit
+      type: integer
+      required: false
+      default: 100
+      ceil: 2000
+      note: "DEC-033 (g) — clamp_limit. 일자 누적 결과의 페이지 크기."
+    - name: offset
+      type: integer
+      required: false
+      default: 0
+      note: "DEC-033 (g) — clamp_offset. 일자 누적 결과의 시작 오프셋."
 
   reports_filter:                # /reports/book-sales 와 /reports/customer-sales 공통
     # DEC-033 (f) — Sobo33_1_ledger(통합 도서수불장) 정책: book-sales 는 hcode 옵셔널 허용.
@@ -252,6 +266,9 @@ outputs:
       - { name: opening_balance, type: integer, source: "Sv_Ghng Max(Gdate) (Subu31 L336)" }
     flags:
       - { name: truncated, type: boolean, default: false, note: "DEC-033 (f) — 서버 LIMIT(BLS_INVENTORY_LEDGER_MAX, 기본 5,000행) 도달 시 true." }
+    pagination:
+      - { name: total, type: integer, note: "DEC-033 (g) — by_date 누적 후 전체 행 수." }
+      - { name: page, type: object, schema: { limit: integer, offset: integer, total: integer, has_more: boolean }, note: "DEC-024 / DEC-033 (g) — DataGridPager 표준 메타." }
 
   book_sales_rows:               # /reports/book-sales
     fields:
@@ -545,6 +562,8 @@ endpoints:
       도서별 수불원장 (TSobo31 Button101→102/103 동등).
       DEC-033 (f) — 재고관리 메뉴(Sobo44_inv/Sobo33_ledger) 정책: hcode/bcode 옵셔널 +
       서버 LIMIT(BLS_INVENTORY_LEDGER_MAX, 기본 5,000행) + truncated 플래그.
+      DEC-033 (g) — 일자(by_date) 누적 결과에 limit/offset 표준 페이지네이션 적용
+      (7화면 공통 DataGridPager 호환). truncated 가드와 페이지 메타는 직교(독립).
     auth: bearer
     request:
       query:
@@ -555,11 +574,19 @@ endpoints:
         bcode?: string             # DEC-033 (f) — 비우면 전체 도서
         bcode_to?: string
         scope?: "string ('A'|'B', default 'B')"
+        limit?: "integer (default 100, ge=1, le=2000)"   # DEC-033 (g)
+        offset?: "integer (default 0, ge=0)"             # DEC-033 (g)
     responses:
       "200":
         body:
           opening_date: string
           rows: [...]              # ledger_rows 스키마
+          total: integer           # DEC-033 (g) — by_date 누적 행 수
+          page:                    # DEC-024 / DEC-033 (g) — DataGridPager 표준
+            limit: integer
+            offset: integer
+            total: integer
+            has_more: boolean
           truncated: boolean       # DEC-033 (f) — LIMIT 가드 도달 시 true
 
   - method: GET

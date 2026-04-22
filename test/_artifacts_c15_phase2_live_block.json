@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "started_at": 1776765361.9289842,
-  "finished_at": 1776765361.929142,
+  "started_at": 1776816832.947306,
+  "finished_at": 1776816832.947485,
   "elapsed_sec": 0.0,
   "mode": "live",
   "confirmed": false,
@@ -16,8 +16,8 @@
     {
       "id": "GATE",
       "name": "OQ 차단 게이트 검사",
-      "started_at": 1776765361.929139,
-      "finished_at": 1776765361.929142,
+      "started_at": 1776816832.947482,
+      "finished_at": 1776816832.947485,
       "elapsed_sec": 0.0,
       "ok": false,
       "note": "unresolved cutover_block OQ: ['OQ-IN-1', 'OQ-DBL-001', 'OQ-DBL-003'] (해소 후 재실행)"
