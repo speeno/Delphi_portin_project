@@ -472,24 +472,49 @@ git push
 
 ## 운영 가이드 — admin 슈퍼유저 인식 (DEC-056 적용 2026-04-22)
 
-`admin` / `admin123` 계정의 슈퍼유저 인식은 `Id_Logn.hcode == '0000'` (4자리 영) 분기로 자동 판정된다.
+`admin` / `admin123` 계정은 **3중 안전망**으로 항상 슈퍼유저(`role=admin` + `permissions=['*']`) 로 인식된다 — 어느 한 경로가 실패해도 다른 경로로 자동 폴백.
 
-**신규 환경**:
+### 3중 안전망 구성
+
+| # | 경로 | 트리거 조건 | 비고 |
+|---|------|-------------|------|
+| 1 | `Id_Logn.hcode == '0000'` (4자리 영) | DB 의 admin 행이 4자리 hcode | 가장 빠름 (분기 1) |
+| 2 | `BLS_ADMIN_USER_IDS` 화이트리스트 | env 미설정 시 **기본 폴백 `{'admin'}`** | env="" 명시 시 비활성, "X,Y" 명시 시 그 값만 |
+| 3 | `web_admin.json::web_user_roles` 매핑 | admin → `role-admin` (perms=`['*']`) | 신규 환경에 `_empty_state()` 자동 시드, 기존 환경에 `_ensure_admin_role_mapping()` 자동 보정 |
+
+### 신규 환경 부트스트랩
 
 ```bash
 python3 debug/bootstrap_admin_id_logn.py --apply --hcode 0000
 ```
 
-**기존 환경에서 admin 행이 5자리(`'00000'`) 로 저장되어 있는 경우** (예: 2026-04-22 이전 부트스트랩):
+→ Id_Logn 에 4자리 `hcode='0000'` 으로 admin 적재 (안전망 #1 활성).
+→ `web_admin.json` 자동 시드(첫 부팅) 가 admin → role-admin 매핑 동시 적용 (안전망 #3 활성).
+
+### 기존 환경 — admin 행이 5자리(`'00000'`) 로 저장된 경우
+
+세 가지 옵션 중 *하나만* 적용해도 admin 슈퍼유저 인식 회복:
 
 ```sql
+-- (옵션 1) DB 직접 정정 (영구)
 UPDATE Id_Logn SET hcode='0000' WHERE gcode='admin' AND hcode='00000';
 ```
 
-또는 즉시 우회가 필요하면 환경변수만 설정해도 동일 효과(분기 2 슈퍼유저 폴백):
+```bash
+# (옵션 2) 환경변수 명시 (즉시) — 이미 기본 폴백에 admin 포함이지만 명시도 OK
+export BLS_ADMIN_USER_IDS=admin
+```
 
 ```bash
-export BLS_ADMIN_USER_IDS=admin
+# (옵션 3) 무조치 — 부팅 시 web_admin.json 의 admin 매핑(안전망 #3)이 자동 보정됨
+```
+
+### 보안 격리 환경 (admin 자동 슈퍼유저 비활성)
+
+운영자가 `admin` 폴백을 *완전 차단* 하려면 환경변수를 **명시적 빈 문자열** 로 설정 + DB·web_admin.json 매핑도 제거:
+
+```bash
+export BLS_ADMIN_USER_IDS=""   # 안전망 #2 비활성 (운영자 명시 의사 존중)
 ```
 
 > 일반 사용자의 권한은 `Id_Logn` 의 `F11~F89` 80셀(`'O'`/`'R'`/`'X'`) 매트릭스가 자동 합성되어 모던 `permission_code` (52 정본 키, `legacy-analysis/permission-keys-catalog.md` §1+§4) 로 부여된다(DEC-056 분기 3). 사이드바는 `usePermissions()` 훅으로 권한 없는 메뉴를 hidden 처리한다(DEC-058 — 레거시 `if nUse2='X' then ShowMessage` 동등).
