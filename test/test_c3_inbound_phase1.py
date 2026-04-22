@@ -63,7 +63,8 @@ VALID_HEADER = {
     "gjisa": "1",
     "gubun": "입고",
     "ocode": "B",
-    "scode": "X",
+    # DEC-033 (k) — 입고는 Subu22.pas 원본 ``Scode='Y'`` (출고 ``X`` 와 분리).
+    "scode": "Y",
 }
 VALID_LINES = [
     {"bcode": "B0001", "pubun": "신간", "gsqut": 5, "gdang": 10000, "grat1": 0.7, "gssum": 35000},

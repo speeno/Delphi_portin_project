@@ -1,0 +1,500 @@
+# DEC-054 — 레거시 포팅 누락 회귀 가드 allowlist
+#
+# 본 파일은 `tools/audit_legacy_coverage.py` 가 신규 위반을 감별하기 위한
+# 의도된 부채(baseline) + 의도된 deferral 의 단일 원천이다.
+#
+# 신규 항목 추가 정책 (사용자 룰):
+#   1) `reason` 필수 — 누락/불일치 사유 한 줄
+#   2) `until`  필수 — 정리 시점 (Phase / merge / 분기 명시)
+#   3) PR 리뷰 시 신규 추가 사유 검토
+#
+# 분기 정기 점검 (plan §5.3):
+#   - `until` 만료 항목 일괄 재분류 → registry 보강 또는 별도 포팅 plan 수립
+#
+# 카테고리:
+#   missing_forms       : DFM root caption 있지만 registry id 에도 없고 어떤
+#                          entry 의 scenario.legacy_form 에서도 참조되지 않음
+#   caption_mismatches  : registry id ↔ DFM caption 정확 일치 위반
+#                          (registry id base prefix 매칭 포함 — 예: Sobo67_status → Sobo67)
+#
+# ── 의도된 신규 포팅 (registry 등록 OK, DFM form_name 으로는 미존재) ──
+# baseline 으로 surface 되지 않으므로 audit 카테고리 영향 없음 — 문서화 목적.
+# (intentional_new_forms 섹션과 교차 검증)
+intentional_new_forms:
+  - form_name: Sobo67_yearbook
+    reason: "별도 사이클 — '도서별년말집계 신규 포팅' (DEC-033 (k+1)) 산출"
+    until: "Sobo67_yearbook merge"
+
+missing_forms:
+  - form_name: Exls10
+    dfm_caption: "택배 송장번호  가져오기"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Exls70
+    dfm_caption: "출판사명 매칭관리"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak10
+    dfm_caption: "자료찾기"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak20
+    dfm_caption: "자료검색"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak30
+    dfm_caption: "자료정렬"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak40
+    dfm_caption: "우편번호검색현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak40_1
+    dfm_caption: "우편번호검색"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak50
+    dfm_caption: "프린터출력"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak60
+    dfm_caption: "출력셋팅"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak70
+    dfm_caption: "거래명세서출력자료"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak80
+    dfm_caption: "출판사검색현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seak90
+    dfm_caption: "계약내용"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seek10
+    dfm_caption: "거래처검색현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seek20
+    dfm_caption: "입고처검색현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seek30
+    dfm_caption: "저자검색현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seek40
+    dfm_caption: "도서검색현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seek50
+    dfm_caption: "기타거래처검색현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seek60
+    dfm_caption: "계정검색현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seek70
+    dfm_caption: "신간발행"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seek80
+    dfm_caption: "배본처검색현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seek90
+    dfm_caption: "운송비 계정코드"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seok10
+    dfm_caption: "지점관리"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seok20
+    dfm_caption: "거래명세서-천일"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seok30
+    dfm_caption: "메세지(팝업창)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seok40
+    dfm_caption: "메세지"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Seok90
+    dfm_caption: "DownLoad........."
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo10
+    dfm_caption: "로그인"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo12
+    dfm_caption: "입고처관리"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo13
+    dfm_caption: "지역분류(시내+지방)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo13_1
+    dfm_caption: "출고증정렬"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo14_1
+    dfm_caption: "도서관리(위치)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo15
+    dfm_caption: "거래처관리-개별"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo17_1
+    dfm_caption: "출판사관리-택배"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo18
+    dfm_caption: "종당관리"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo19
+    dfm_caption: "Sobo19"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo19_1
+    dfm_caption: "Sobo19_1"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo1A
+    dfm_caption: "환경설정"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo20
+    dfm_caption: "거래내역변경"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo22_1
+    dfm_caption: "가입고 요청서"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo22_2
+    dfm_caption: "가입고 현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo26
+    dfm_caption: "출고접수현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo30
+    dfm_caption: "Sobo30"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo34
+    dfm_caption: "기간별재고원장"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo34_1
+    dfm_caption: "재고 및 재고금액"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo34_2
+    dfm_caption: "기간별재고원장(상세)-정품"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo34_3
+    dfm_caption: "기간별재고원장(상세)-비품"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo35
+    dfm_caption: "거래처원장총괄"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo38_1
+    dfm_caption: "운임관리-택배"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo38_2
+    dfm_caption: "운송비-입력(1)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo43_1
+    dfm_caption: "반품비내역"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo44_1
+    dfm_caption: "반품비현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo56
+    dfm_caption: "기간별출고내역서"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo59
+    dfm_caption: "기간별택배내역서"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo59_1
+    dfm_caption: "일별 내역서(요약)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo59_2
+    dfm_caption: "출고 검증관리"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo59_3
+    dfm_caption: "출고 검증관리(개별)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo60
+    dfm_caption: "Sobo60"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo63
+    dfm_caption: "도서별집계"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo64
+    dfm_caption: "거래처집계"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo65
+    dfm_caption: "도서별출고현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo66
+    dfm_caption: "거래처출고현황"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo68
+    dfm_caption: "거래처년말집계"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo69
+    dfm_caption: "Sobo69"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo91
+    dfm_caption: "기타명세서"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo93
+    dfm_caption: "일별 출고내역서-(택배)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo96
+    dfm_caption: "출고접수현황-(택배)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo97
+    dfm_caption: "출고접수관리-(택배)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo98
+    dfm_caption: "출고택배관리-(택배)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo99
+    dfm_caption: "출고내역서-(택배)"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Subu00
+    dfm_caption: "도서물류관리프로그램"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Tong30
+    dfm_caption: "특수문자"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Tong40
+    dfm_caption: "Tong40"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Tong50
+    dfm_caption: "메일전송"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Tong60
+    dfm_caption: "Tong60"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+  - form_name: Tong80
+    dfm_caption: "Tong80"
+    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
+    until: "Phase 3 audit"
+
+caption_mismatches:
+  - form_name: Sobo11
+    dfm_caption: "거래처관리-통합"
+    registry_caption: "거래처관리(마스터)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo14
+    dfm_caption: "도서관리"
+    registry_caption: "도서관리(마스터)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo17
+    dfm_caption: "출판사관리"
+    registry_caption: "출판사·출고거래처(마스터)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo21_status_list
+    dfm_caption: "거래명세서"
+    registry_caption: "거래현황(LIST)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo21_status_memo
+    dfm_caption: "거래명세서"
+    registry_caption: "거래현황(메모)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo21_status_summary
+    dfm_caption: "거래명세서"
+    registry_caption: "거래현황(요약)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo22
+    dfm_caption: "입고명세서"
+    registry_caption: "입고접수관리"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo22_import
+    dfm_caption: "입고명세서"
+    registry_caption: "입고 파일 업로드"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo24
+    dfm_caption: "반품재고(정품입고)-재생"
+    registry_caption: "반품재고(재생)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo25
+    dfm_caption: "반품재고(반품입고)-해체"
+    registry_caption: "반품재고(해체)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo29_other
+    dfm_caption: "신간명세서"
+    registry_caption: "기타명세서"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo32_1_ledger
+    dfm_caption: "출판사별 재고 현황"
+    registry_caption: "통합 거래처원장"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo32_ledger
+    dfm_caption: "기간별평균재고"
+    registry_caption: "거래처원장"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo33_ledger
+    dfm_caption: "기간별재고원장"
+    registry_caption: "도서수불장"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo34_4
+    dfm_caption: "기간별재고원장(상세)-폐기"
+    registry_caption: "기간별재고원장(상세)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo36_stats_route
+    dfm_caption: "도서별원장총괄"
+    registry_caption: "거래처통계(목록)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo37_stats_route
+    dfm_caption: "담당자판매원장"
+    registry_caption: "도서통계(목록)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo38
+    dfm_caption: "Sobo38"
+    registry_caption: "도서코드(마스터)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo39
+    dfm_caption: "출고내역서"
+    registry_caption: "할인율(대표)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo41_slip
+    dfm_caption: "입금내역"
+    registry_caption: "입금전표"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo42_1_cash_bill
+    dfm_caption: "입금현황(2)"
+    registry_caption: "입금현황(일자별)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo42_cash
+    dfm_caption: "입금현황(1)"
+    registry_caption: "입금현황"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo42_cash_bill
+    dfm_caption: "입금현황(1)"
+    registry_caption: "입금현황(거래처별)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo43_stats_route
+    dfm_caption: "발송비내역"
+    registry_caption: "출판사통계"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo44_inv
+    dfm_caption: "발송비현황"
+    registry_caption: "재고현황"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo45
+    dfm_caption: "청구서관리"
+    registry_caption: "물류비"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo46_billing
+    dfm_caption: "청구서출력"
+    registry_caption: "청구서 인쇄(미리보기)"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo48_compare
+    dfm_caption: "출판사관리(설정)"
+    registry_caption: "장부대조"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo49_tax_bill
+    dfm_caption: "세금계산서발행"
+    registry_caption: "세금계산서"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo50_stats
+    dfm_caption: "Sobo50"
+    registry_caption: "기간별 매출 분석"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo51_stats
+    dfm_caption: "반품재고(변경)"
+    registry_caption: "거래처별 판매 분석"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo52_stats
+    dfm_caption: "정품재고(변경)"
+    registry_caption: "도서 회전율"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo53_stats
+    dfm_caption: "일별 출고내역서"
+    registry_caption: "분기/반기 손익"
+    reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
+    until: "Phase 3 audit"
+  - form_name: Sobo67_status
+    dfm_caption: "도서별년말집계"
+    registry_caption: "출고현황"
+    reason: "baseline (도서별년말집계 vs 출고현황 라벨 붕괴 — DEC-033 (k+1) 신규 포팅으로 의미 분리, 본 entry 는 출고현황 별도 화면이라 caption 차이 의도)"
+    until: "Sobo67_status caption 정정 또는 legacy_form 재매핑"

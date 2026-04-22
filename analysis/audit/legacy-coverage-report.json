@@ -1,0 +1,1175 @@
+{
+  "generated_at": "2026-04-22T02:28:17.781026+00:00",
+  "summary": {
+    "total_dfm_candidates": 118,
+    "registry_entries": 68,
+    "ok": 23,
+    "missing_forms": 0,
+    "caption_mismatches": 0,
+    "allowed": 109
+  },
+  "missing_forms": [],
+  "caption_mismatches": [],
+  "allowed": [
+    {
+      "form_name": "Exls10",
+      "form_class": "TExls10",
+      "dfm_caption": "택배 송장번호  가져오기",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Exls01.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Exls70",
+      "form_class": "TExls70",
+      "dfm_caption": "출판사명 매칭관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Exls07.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak10",
+      "form_class": "TSeak10",
+      "dfm_caption": "자료찾기",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak01.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak20",
+      "form_class": "TSeak20",
+      "dfm_caption": "자료검색",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak02.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak30",
+      "form_class": "TSeak30",
+      "dfm_caption": "자료정렬",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak03.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak40",
+      "form_class": "TSeak40",
+      "dfm_caption": "우편번호검색현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak04.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak40_1",
+      "form_class": "TSeak40_1",
+      "dfm_caption": "우편번호검색",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak04_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak50",
+      "form_class": "TSeak50",
+      "dfm_caption": "프린터출력",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak05.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak60",
+      "form_class": "TSeak60",
+      "dfm_caption": "출력셋팅",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak06.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak70",
+      "form_class": "TSeak70",
+      "dfm_caption": "거래명세서출력자료",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak07.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak80",
+      "form_class": "TSeak80",
+      "dfm_caption": "출판사검색현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak08.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seak90",
+      "form_class": "TSeak90",
+      "dfm_caption": "계약내용",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seak09.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seek10",
+      "form_class": "TSeek10",
+      "dfm_caption": "거래처검색현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek01.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seek20",
+      "form_class": "TSeek20",
+      "dfm_caption": "입고처검색현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek02.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seek30",
+      "form_class": "TSeek30",
+      "dfm_caption": "저자검색현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek03.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seek40",
+      "form_class": "TSeek40",
+      "dfm_caption": "도서검색현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek04.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seek50",
+      "form_class": "TSeek50",
+      "dfm_caption": "기타거래처검색현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek05.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seek60",
+      "form_class": "TSeek60",
+      "dfm_caption": "계정검색현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek06.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seek70",
+      "form_class": "TSeek70",
+      "dfm_caption": "신간발행",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek07.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seek80",
+      "form_class": "TSeek80",
+      "dfm_caption": "배본처검색현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek08.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seek90",
+      "form_class": "TSeek90",
+      "dfm_caption": "운송비 계정코드",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seek09.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seok10",
+      "form_class": "TSeok10",
+      "dfm_caption": "지점관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok01.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seok20",
+      "form_class": "TSeok20",
+      "dfm_caption": "거래명세서-천일",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok02.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seok30",
+      "form_class": "TSeok30",
+      "dfm_caption": "메세지(팝업창)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok03.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seok40",
+      "form_class": "TSeok40",
+      "dfm_caption": "메세지",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok04.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Seok90",
+      "form_class": "TSeok90",
+      "dfm_caption": "DownLoad.........",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Seok09.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo10",
+      "form_class": "TSobo10",
+      "dfm_caption": "로그인",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu10.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo11",
+      "dfm_form_name": "Sobo11",
+      "registry_caption": "거래처관리(마스터)",
+      "dfm_caption": "거래처관리-통합",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu11.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo12",
+      "form_class": "TSobo12",
+      "dfm_caption": "입고처관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu12.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo13",
+      "form_class": "TSobo13",
+      "dfm_caption": "지역분류(시내+지방)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu13.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo13_1",
+      "form_class": "TSobo13_1",
+      "dfm_caption": "출고증정렬",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu13_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo14",
+      "dfm_form_name": "Sobo14",
+      "registry_caption": "도서관리(마스터)",
+      "dfm_caption": "도서관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu14.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo14_1",
+      "form_class": "TSobo14_1",
+      "dfm_caption": "도서관리(위치)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu14_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo15",
+      "form_class": "TSobo15",
+      "dfm_caption": "거래처관리-개별",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu15.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo17",
+      "dfm_form_name": "Sobo17",
+      "registry_caption": "출판사·출고거래처(마스터)",
+      "dfm_caption": "출판사관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu17.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo17_1",
+      "form_class": "TSobo17_1",
+      "dfm_caption": "출판사관리-택배",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu17_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo18",
+      "form_class": "TSobo18",
+      "dfm_caption": "종당관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu18.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo19",
+      "form_class": "TSobo19",
+      "dfm_caption": "Sobo19",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu19.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo19_1",
+      "form_class": "TSobo19_1",
+      "dfm_caption": "Sobo19_1",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu19_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo1A",
+      "form_class": "TSobo1A",
+      "dfm_caption": "환경설정",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu1A.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo20",
+      "form_class": "TSobo20",
+      "dfm_caption": "거래내역변경",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu20.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo21_status_list",
+      "dfm_form_name": "Sobo21",
+      "registry_caption": "거래현황(LIST)",
+      "dfm_caption": "거래명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo21_status_memo",
+      "dfm_form_name": "Sobo21",
+      "registry_caption": "거래현황(메모)",
+      "dfm_caption": "거래명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo21_status_summary",
+      "dfm_form_name": "Sobo21",
+      "registry_caption": "거래현황(요약)",
+      "dfm_caption": "거래명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo22",
+      "dfm_form_name": "Sobo22",
+      "registry_caption": "입고접수관리",
+      "dfm_caption": "입고명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo22_1",
+      "form_class": "TSobo22_1",
+      "dfm_caption": "가입고 요청서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo22_2",
+      "form_class": "TSobo22_2",
+      "dfm_caption": "가입고 현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22_2.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo22_import",
+      "dfm_form_name": "Sobo22",
+      "registry_caption": "입고 파일 업로드",
+      "dfm_caption": "입고명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo24",
+      "dfm_form_name": "Sobo24",
+      "registry_caption": "반품재고(재생)",
+      "dfm_caption": "반품재고(정품입고)-재생",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu24.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo25",
+      "dfm_form_name": "Sobo25",
+      "registry_caption": "반품재고(해체)",
+      "dfm_caption": "반품재고(반품입고)-해체",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo26",
+      "form_class": "TSobo26",
+      "dfm_caption": "출고접수현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu26.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo29_other",
+      "dfm_form_name": "Sobo29",
+      "registry_caption": "기타명세서",
+      "dfm_caption": "신간명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu29.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo30",
+      "form_class": "TSobo30",
+      "dfm_caption": "Sobo30",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu30.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo32_1_ledger",
+      "dfm_form_name": "Sobo32_1",
+      "registry_caption": "통합 거래처원장",
+      "dfm_caption": "출판사별 재고 현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu32_1.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo32_ledger",
+      "dfm_form_name": "Sobo32",
+      "registry_caption": "거래처원장",
+      "dfm_caption": "기간별평균재고",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu32.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo33_ledger",
+      "dfm_form_name": "Sobo33",
+      "registry_caption": "도서수불장",
+      "dfm_caption": "기간별재고원장",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu33.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo34",
+      "form_class": "TSobo34",
+      "dfm_caption": "기간별재고원장",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo34_1",
+      "form_class": "TSobo34_1",
+      "dfm_caption": "재고 및 재고금액",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo34_2",
+      "form_class": "TSobo34_2",
+      "dfm_caption": "기간별재고원장(상세)-정품",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_2.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo34_3",
+      "form_class": "TSobo34_3",
+      "dfm_caption": "기간별재고원장(상세)-비품",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_3.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo34_4",
+      "dfm_form_name": "Sobo34_4",
+      "registry_caption": "기간별재고원장(상세)",
+      "dfm_caption": "기간별재고원장(상세)-폐기",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_4.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo35",
+      "form_class": "TSobo35",
+      "dfm_caption": "거래처원장총괄",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu35.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo36_stats_route",
+      "dfm_form_name": "Sobo36",
+      "registry_caption": "거래처통계(목록)",
+      "dfm_caption": "도서별원장총괄",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu36.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo37_stats_route",
+      "dfm_form_name": "Sobo37",
+      "registry_caption": "도서통계(목록)",
+      "dfm_caption": "담당자판매원장",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu37.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo38",
+      "dfm_form_name": "Sobo38",
+      "registry_caption": "도서코드(마스터)",
+      "dfm_caption": "Sobo38",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu38.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo38_1",
+      "form_class": "TSobo38_1",
+      "dfm_caption": "운임관리-택배",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu38_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo38_2",
+      "form_class": "TSobo38_2",
+      "dfm_caption": "운송비-입력(1)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu38_2.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo39",
+      "dfm_form_name": "Sobo39",
+      "registry_caption": "할인율(대표)",
+      "dfm_caption": "출고내역서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu39.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo41_slip",
+      "dfm_form_name": "Sobo41",
+      "registry_caption": "입금전표",
+      "dfm_caption": "입금내역",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu41.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo42_1_cash_bill",
+      "dfm_form_name": "Sobo42_1",
+      "registry_caption": "입금현황(일자별)",
+      "dfm_caption": "입금현황(2)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu42_1.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo42_cash",
+      "dfm_form_name": "Sobo42",
+      "registry_caption": "입금현황",
+      "dfm_caption": "입금현황(1)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu42.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo42_cash_bill",
+      "dfm_form_name": "Sobo42",
+      "registry_caption": "입금현황(거래처별)",
+      "dfm_caption": "입금현황(1)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu42.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo43_1",
+      "form_class": "TSobo43_1",
+      "dfm_caption": "반품비내역",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu43_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo43_stats_route",
+      "dfm_form_name": "Sobo43",
+      "registry_caption": "출판사통계",
+      "dfm_caption": "발송비내역",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu43.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo44_1",
+      "form_class": "TSobo44_1",
+      "dfm_caption": "반품비현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu44_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo44_inv",
+      "dfm_form_name": "Sobo44",
+      "registry_caption": "재고현황",
+      "dfm_caption": "발송비현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu44.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo45",
+      "dfm_form_name": "Sobo45",
+      "registry_caption": "물류비",
+      "dfm_caption": "청구서관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu45.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo46_billing",
+      "dfm_form_name": "Sobo46",
+      "registry_caption": "청구서 인쇄(미리보기)",
+      "dfm_caption": "청구서출력",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu46.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo48_compare",
+      "dfm_form_name": "Sobo48",
+      "registry_caption": "장부대조",
+      "dfm_caption": "출판사관리(설정)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu48.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo49_tax_bill",
+      "dfm_form_name": "Sobo49",
+      "registry_caption": "세금계산서",
+      "dfm_caption": "세금계산서발행",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu49.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo50_stats",
+      "dfm_form_name": "Sobo50",
+      "registry_caption": "기간별 매출 분석",
+      "dfm_caption": "Sobo50",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu50.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo51_stats",
+      "dfm_form_name": "Sobo51",
+      "registry_caption": "거래처별 판매 분석",
+      "dfm_caption": "반품재고(변경)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu51.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo52_stats",
+      "dfm_form_name": "Sobo52",
+      "registry_caption": "도서 회전율",
+      "dfm_caption": "정품재고(변경)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu52.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo53_stats",
+      "dfm_form_name": "Sobo53",
+      "registry_caption": "분기/반기 손익",
+      "dfm_caption": "일별 출고내역서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu53.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo56",
+      "form_class": "TSobo56",
+      "dfm_caption": "기간별출고내역서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu56.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo59",
+      "form_class": "TSobo59",
+      "dfm_caption": "기간별택배내역서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo59_1",
+      "form_class": "TSobo59_1",
+      "dfm_caption": "일별 내역서(요약)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_1.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo59_2",
+      "form_class": "TSobo59_2",
+      "dfm_caption": "출고 검증관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_2.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo59_3",
+      "form_class": "TSobo59_3",
+      "dfm_caption": "출고 검증관리(개별)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_3 - 복사본.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo60",
+      "form_class": "TSobo60",
+      "dfm_caption": "Sobo60",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu60.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo63",
+      "form_class": "TSobo63",
+      "dfm_caption": "도서별집계",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu63.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo64",
+      "form_class": "TSobo64",
+      "dfm_caption": "거래처집계",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu64.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo65",
+      "form_class": "TSobo65",
+      "dfm_caption": "도서별출고현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu65.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo66",
+      "form_class": "TSobo66",
+      "dfm_caption": "거래처출고현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu66.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo67_status",
+      "dfm_form_name": "Sobo67",
+      "registry_caption": "출고현황",
+      "dfm_caption": "도서별년말집계",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu67.dfm",
+      "category": "caption_mismatch",
+      "reason": "baseline (도서별년말집계 vs 출고현황 라벨 붕괴 — DEC-033 (k+1) 신규 포팅으로 의미 분리, 본 entry 는 출고현황 별도 화면이라 caption 차이 의도)",
+      "until": "Sobo67_status caption 정정 또는 legacy_form 재매핑"
+    },
+    {
+      "form_name": "Sobo68",
+      "form_class": "TSobo68",
+      "dfm_caption": "거래처년말집계",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu68.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo69",
+      "form_class": "TSobo69",
+      "dfm_caption": "Sobo69",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu69.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo91",
+      "form_class": "TSobo91",
+      "dfm_caption": "기타명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu91.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo93",
+      "form_class": "TSobo93",
+      "dfm_caption": "일별 출고내역서-(택배)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu93.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo96",
+      "form_class": "TSobo96",
+      "dfm_caption": "출고접수현황-(택배)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu96.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo97",
+      "form_class": "TSobo97",
+      "dfm_caption": "출고접수관리-(택배)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu97.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo98",
+      "form_class": "TSobo98",
+      "dfm_caption": "출고택배관리-(택배)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu98.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo99",
+      "form_class": "TSobo99",
+      "dfm_caption": "출고내역서-(택배)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu99.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Subu00",
+      "form_class": "TSubu00",
+      "dfm_caption": "도서물류관리프로그램",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Chul.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Tong30",
+      "form_class": "TTong30",
+      "dfm_caption": "특수문자",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong03.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Tong40",
+      "form_class": "TTong40",
+      "dfm_caption": "Tong40",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong04.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Tong50",
+      "form_class": "TTong50",
+      "dfm_caption": "메일전송",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong05.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Tong60",
+      "form_class": "TTong60",
+      "dfm_caption": "Tong60",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong06.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Tong80",
+      "form_class": "TTong80",
+      "dfm_caption": "Tong80",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Tong08.dfm",
+      "category": "missing",
+      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    }
+  ],
+  "ok": [
+    {
+      "form_name": "Sobo16_special",
+      "dfm_form_name": "Sobo16",
+      "caption": "특별관리"
+    },
+    {
+      "form_name": "Sobo21",
+      "dfm_form_name": "Sobo21",
+      "caption": "거래명세서"
+    },
+    {
+      "form_name": "Sobo23",
+      "dfm_form_name": "Sobo23",
+      "caption": "반품명세서"
+    },
+    {
+      "form_name": "Sobo27",
+      "dfm_form_name": "Sobo27",
+      "caption": "출고접수관리"
+    },
+    {
+      "form_name": "Sobo28_delivery",
+      "dfm_form_name": "Sobo28",
+      "caption": "출고택배관리"
+    },
+    {
+      "form_name": "Sobo31",
+      "dfm_form_name": "Sobo31",
+      "caption": "도서별수불원장"
+    },
+    {
+      "form_name": "Sobo41_cash",
+      "dfm_form_name": "Sobo41",
+      "caption": "입금내역"
+    },
+    {
+      "form_name": "Sobo41_cash_bill",
+      "dfm_form_name": "Sobo41",
+      "caption": "입금내역"
+    },
+    {
+      "form_name": "Sobo45_1_billing_bill",
+      "dfm_form_name": "Sobo45_1",
+      "caption": "청구서관리-택배"
+    },
+    {
+      "form_name": "Sobo45_billing",
+      "dfm_form_name": "Sobo45",
+      "caption": "청구서관리"
+    },
+    {
+      "form_name": "Sobo45_billing_bill",
+      "dfm_form_name": "Sobo45",
+      "caption": "청구서관리"
+    },
+    {
+      "form_name": "Sobo46_billing_bill",
+      "dfm_form_name": "Sobo46",
+      "caption": "청구서출력"
+    },
+    {
+      "form_name": "Sobo47_billing",
+      "dfm_form_name": "Sobo47",
+      "caption": "청구금액(년월)"
+    },
+    {
+      "form_name": "Sobo47_billing_bill",
+      "dfm_form_name": "Sobo47",
+      "caption": "청구금액(년월)"
+    },
+    {
+      "form_name": "Sobo49_tax",
+      "dfm_form_name": "Sobo49",
+      "caption": "세금계산서발행"
+    },
+    {
+      "form_name": "Sobo51",
+      "dfm_form_name": "Sobo51",
+      "caption": "반품재고(변경)"
+    },
+    {
+      "form_name": "Sobo54",
+      "dfm_form_name": "Sobo54",
+      "caption": "일별 입고내역서"
+    },
+    {
+      "form_name": "Sobo55",
+      "dfm_form_name": "Sobo55",
+      "caption": "일별 반품내역서"
+    },
+    {
+      "form_name": "Sobo57",
+      "dfm_form_name": "Sobo57",
+      "caption": "기간별입고내역서"
+    },
+    {
+      "form_name": "Sobo58",
+      "dfm_form_name": "Sobo58",
+      "caption": "기간별반품내역서"
+    },
+    {
+      "form_name": "Sobo61",
+      "dfm_form_name": "Sobo61",
+      "caption": "도서별판매"
+    },
+    {
+      "form_name": "Sobo62",
+      "dfm_form_name": "Sobo62",
+      "caption": "거래처판매"
+    },
+    {
+      "form_name": "Sobo67_yearbook",
+      "dfm_form_name": "Sobo67",
+      "caption": "도서별년말집계"
+    }
+  ],
+  "stale_allowlist": [],
+  "intentional_new_forms": [
+    "Sobo21_status_list",
+    "Sobo21_status_memo",
+    "Sobo21_status_summary",
+    "Sobo22_import",
+    "Sobo29_other",
+    "Sobo32_1_ledger",
+    "Sobo32_ledger",
+    "Sobo33_ledger",
+    "Sobo36_stats_route",
+    "Sobo37_stats_route",
+    "Sobo41_slip",
+    "Sobo42_1_cash_bill",
+    "Sobo42_cash",
+    "Sobo42_cash_bill",
+    "Sobo43_stats_route",
+    "Sobo44_inv",
+    "Sobo46_billing",
+    "Sobo48_compare",
+    "Sobo49_tax_bill",
+    "Sobo50_stats",
+    "Sobo51_stats",
+    "Sobo52_stats",
+    "Sobo53_stats",
+    "Sobo67_status",
+    "Sobo67_yearbook"
+  ]
+}

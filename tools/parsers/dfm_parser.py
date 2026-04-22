@@ -154,10 +154,18 @@ def parse_dfm_file(filepath: str) -> dict:
 
     collect(root)
 
+    # DEC-054 — root form Caption surface (옵셔널). 사용자 진입 가능 화면 후보 식별용
+    # (TDataModule 류는 Caption 미보유 → audit 단계에서 자동 제외).
+    raw_caption = root.get("properties", {}).get("Caption")
+    caption: str | None = None
+    if isinstance(raw_caption, str) and raw_caption.strip():
+        caption = normalize_delphi_display_string(raw_caption)
+
     return {
         "file": filepath,
         "form_name": root["name"],
         "form_class": root["type"],
+        "caption": caption,
         "component_count": len(all_components),
         "event_count": len(all_events),
         "components": all_components,
@@ -328,6 +336,7 @@ def main():
             "form_name": r["form_name"],
             "form_class": r["form_class"],
             "file": r["file"],
+            "caption": r.get("caption"),
             "component_count": r["component_count"],
             "event_count": r["event_count"],
             "component_summary": r["component_summary"],
