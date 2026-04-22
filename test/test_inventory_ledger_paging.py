@@ -1,4 +1,4 @@
-"""재고관리 메뉴 일자 누적 페이지네이션 회귀 — DEC-033 (g).
+"""재고관리 메뉴 일자 SQL 페이지네이션 회귀 — DEC-033 (g→h).
 
 대상 함수
 ---------
@@ -8,11 +8,13 @@
 검증 포인트
 -----------
 1. 응답 dict 에 ``page`` (limit/offset/total/has_more) + ``total`` 필드가 항상 존재.
-2. ``limit`` / ``offset`` 으로 일자(by_date) 누적 결과가 정확히 슬라이싱된다.
-3. ``has_more`` 신호는 다음 페이지가 남았을 때 True (offset+returned < total).
-4. ``truncated`` 플래그(raw 행 LIMIT 가드)는 페이지네이션과 독립으로 유지된다.
-5. ``limit`` 미지정 시 기본값(100) + ``ceil`` 상한(2000) 정책이 ``clamp_limit`` 으로 적용된다.
-6. ``rows`` 결과가 비어 있어도 ``page.total=0`` / ``page.has_more=False`` 로 반환.
+2. ``COUNT(DISTINCT Gdate)`` 결과가 ``page.total`` 로 노출된다.
+3. ``SELECT DISTINCT Gdate ... LIMIT/OFFSET`` 으로 페이지의 일자만 fetch 한다.
+4. raw 행 fetch (``IN (page_dates)``) 가 페이지에 한정되므로 truncated 는 사실상 미발생.
+5. ``has_more`` 신호 = (offset + returned < total).
+6. ``limit`` 미지정 시 기본값(100) + ``ceil`` 상한(2000) ``clamp_limit`` 정책 적용.
+7. raw 행이 LEDGER_MAX 초과 안전망 — truncated=True (페이지네이션과 직교 유지).
+8. ``rows`` 결과가 비어 있어도 ``page.total=0`` / ``page.has_more=False`` 로 반환.
 
 격리
 -----
@@ -33,12 +35,15 @@ BACKEND = ROOT / "도서물류관리프로그램" / "backend"
 sys.path.insert(0, str(BACKEND))
 
 
-def _row(idx: int) -> dict[str, Any]:
-    """일자별 1행씩 — by_date 누적 후 N개 일자 = N개 결과 행."""
+def _date_str(idx: int) -> str:
     day = (idx % 28) + 1
     month = ((idx // 28) % 12) + 1
+    return f"2026.{month:02d}.{day:02d}"
+
+
+def _raw_row(date: str, idx: int) -> dict[str, Any]:
     return {
-        "Gdate": f"2026.{month:02d}.{day:02d}",
+        "Gdate": date,
         "Bcode": f"B{idx:04d}",
         "Scode": "X",
         "Gubun": "출고",
@@ -53,21 +58,65 @@ class InventoryLedgerPagingTests(IsolatedAsyncioTestCase):
     async def _run(
         self,
         *,
-        raw_count: int,
+        total_dates: int,
+        rows_per_date: int = 1,
+        rows_for_page_override: int | None = None,
         limit: int | None = None,
         offset: int = 0,
-    ) -> dict[str, Any]:
+    ) -> tuple[dict[str, Any], list[tuple[str, tuple[Any, ...]]], list[dict[str, Any]]]:
+        """SQL-aware mock 으로 새 3-step 아키텍처를 재현.
+
+        Parameters
+        ----------
+        total_dates
+            ``COUNT(DISTINCT Gdate)`` 가 반환할 가상 일자 수 (= page.total).
+        rows_per_date
+            in_clause_lookup 으로 fetch 되는 일자별 raw 행 수 (truncated 시뮬레이션).
+        rows_for_page_override
+            in_clause_lookup 결과 행 총수를 강제 지정 (truncated 회귀 가드 용).
+        """
         from app.services import inventory_service as inv
 
+        captured_sql: list[tuple[str, tuple[Any, ...]]] = []
+        page_dates_holder: list[str] = []
+
         async def fake_exec(server_id: str, sql: str, params: tuple) -> list[dict[str, Any]]:
+            captured_sql.append((sql, tuple(params)))
             if "Sv_Ghng" in sql:
                 return [{"opening_date": "2026.03.31"}]
-            return [_row(i) for i in range(raw_count)]
+            if "COUNT(DISTINCT Gdate)" in sql:
+                return [{"cnt": total_dates}]
+            if sql.lstrip().startswith("SELECT DISTINCT Gdate"):
+                lim_p, off_p = params[-2], params[-1]
+                end = min(off_p + lim_p, total_dates)
+                dates = [_date_str(i) for i in range(off_p, end)]
+                page_dates_holder.extend(dates)
+                return [{"Gdate": d} for d in dates]
+            return []
 
-        spy = AsyncMock(return_value=[])
+        async def fake_in_lookup(
+            server_id: str,
+            *,
+            sql_template: str,
+            keys: Any,
+            prefix_params: tuple = (),
+            chunk_size: int | None = None,
+        ) -> list[dict[str, Any]]:
+            if "G4_Book" in sql_template:
+                return []
+            keys_list = list(keys)
+            if rows_for_page_override is not None:
+                base = keys_list[0] if keys_list else "2026.01.01"
+                return [_raw_row(base, i) for i in range(rows_for_page_override)]
+            return [
+                _raw_row(d, i * 100 + j)
+                for i, d in enumerate(keys_list)
+                for j in range(rows_per_date)
+            ]
+
         with patch("app.services.inventory_service.execute_query", new=fake_exec), \
-             patch("app.services.inventory_service.in_clause_lookup", new=spy):
-            return await inv.get_inventory_ledger(
+             patch("app.services.inventory_service.in_clause_lookup", new=fake_in_lookup):
+            result = await inv.get_inventory_ledger(
                 server_id="srv",
                 hcode=None,
                 bcode=None,
@@ -77,58 +126,73 @@ class InventoryLedgerPagingTests(IsolatedAsyncioTestCase):
                 limit=limit,
                 offset=offset,
             )
+        return result, captured_sql, [{"Gdate": d} for d in page_dates_holder]
 
     async def test_page_meta_always_present(self) -> None:
-        result = await self._run(raw_count=10)
+        result, _, _ = await self._run(total_dates=10)
         self.assertIn("page", result)
         self.assertIn("total", result)
-        page = result["page"]
         for key in ("limit", "offset", "total", "has_more"):
-            self.assertIn(key, page, f"page.{key} 필수")
+            self.assertIn(key, result["page"], f"page.{key} 필수")
+
+    async def test_total_uses_count_distinct(self) -> None:
+        # total = COUNT(DISTINCT Gdate) 결과를 그대로 노출.
+        result, captured, _ = await self._run(total_dates=42, limit=10)
+        self.assertEqual(result["page"]["total"], 42)
+        self.assertEqual(result["total"], 42)
+        # COUNT 쿼리가 발행되었는지 확인.
+        count_sqls = [s for s, _ in captured if "COUNT(DISTINCT Gdate)" in s]
+        self.assertTrue(count_sqls, "COUNT(DISTINCT Gdate) SQL 발행 필수")
 
     async def test_default_limit_when_not_specified(self) -> None:
-        # limit=None → clamp_limit 기본값(100).
-        result = await self._run(raw_count=5, limit=None)
+        result, _, _ = await self._run(total_dates=5, limit=None)
         self.assertEqual(result["page"]["limit"], 100)
         self.assertEqual(result["page"]["offset"], 0)
         self.assertEqual(result["page"]["total"], 5)
         self.assertFalse(result["page"]["has_more"])
         self.assertEqual(len(result["rows"]), 5)
 
-    async def test_limit_offset_slices_aggregated_rows(self) -> None:
-        # 일자가 모두 다른 30행(by_date 누적 후 30 결과 행)을 limit=10, offset=10 으로 페이징.
-        result = await self._run(raw_count=30, limit=10, offset=10)
+    async def test_limit_offset_paginates_dates(self) -> None:
+        # total=30, limit=10, offset=10 → 일자 10개 page → rows 10개 (each date 1 row).
+        result, captured, _ = await self._run(total_dates=30, limit=10, offset=10)
         self.assertEqual(result["page"]["limit"], 10)
         self.assertEqual(result["page"]["offset"], 10)
         self.assertEqual(result["page"]["total"], 30)
         self.assertEqual(len(result["rows"]), 10)
-        self.assertTrue(result["page"]["has_more"], "offset+returned(20) < total(30) 이면 has_more=True")
+        self.assertTrue(result["page"]["has_more"])
+        # SELECT DISTINCT Gdate 쿼리가 발행되었는지 확인.
+        dates_sqls = [s for s, _ in captured if s.lstrip().startswith("SELECT DISTINCT Gdate")]
+        self.assertTrue(dates_sqls)
 
     async def test_last_page_has_more_false(self) -> None:
-        result = await self._run(raw_count=25, limit=10, offset=20)
+        result, _, _ = await self._run(total_dates=25, limit=10, offset=20)
         self.assertEqual(len(result["rows"]), 5)
-        self.assertFalse(result["page"]["has_more"], "마지막 페이지는 has_more=False")
+        self.assertFalse(result["page"]["has_more"])
 
-    async def test_empty_result_returns_zero_page(self) -> None:
-        result = await self._run(raw_count=0, limit=50)
+    async def test_empty_result_skips_dates_and_raw_queries(self) -> None:
+        result, captured, _ = await self._run(total_dates=0, limit=50)
         self.assertEqual(result["rows"], [])
         self.assertEqual(result["page"]["total"], 0)
-        self.assertEqual(result["page"]["limit"], 50)
         self.assertFalse(result["page"]["has_more"])
         self.assertFalse(result["truncated"])
+        # total=0 이면 dates page / raw 쿼리는 발행되지 않아야 한다 (round-trip 절감).
+        dates_sqls = [s for s, _ in captured if s.lstrip().startswith("SELECT DISTINCT Gdate")]
+        self.assertFalse(dates_sqls, "total=0 이면 dates page SQL 미발행")
 
     async def test_limit_ceiling_clamped(self) -> None:
-        # ceil=2000. 5000 요청 시 2000 으로 클램프.
-        result = await self._run(raw_count=10, limit=5000)
+        result, _, _ = await self._run(total_dates=10, limit=5000)
         self.assertEqual(result["page"]["limit"], 2000)
 
-    async def test_truncated_flag_orthogonal_to_paging(self) -> None:
+    async def test_truncated_flag_safety_net(self) -> None:
         from app.services import inventory_service as inv
-        # raw 행이 LEDGER_MAX + 1 → truncated True. 페이지네이션은 그래도 동작.
-        result = await self._run(raw_count=inv.LEDGER_MAX + 1, limit=20, offset=0)
-        self.assertTrue(result["truncated"], "raw 가 LEDGER_MAX 초과 시 truncated=True")
+        # 페이지 raw 가 LEDGER_MAX + 1 → truncated=True (안전망).
+        result, _, _ = await self._run(
+            total_dates=20,
+            limit=20,
+            rows_for_page_override=inv.LEDGER_MAX + 1,
+        )
+        self.assertTrue(result["truncated"])
         self.assertEqual(result["page"]["limit"], 20)
-        self.assertLessEqual(len(result["rows"]), 20)
 
 
 if __name__ == "__main__":  # pragma: no cover

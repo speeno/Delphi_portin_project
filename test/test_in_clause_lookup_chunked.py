@@ -236,14 +236,32 @@ class LookupCallersUseHelperTests(IsolatedAsyncioTestCase):
         )
 
     async def test_inventory_book_lookup_uses_helper(self) -> None:
-        # inventory_service 의 lookup 은 get_inventory_ledger 내부 인라인이라
-        # 함수 호출까지 가서 in_clause_lookup spy 만 검증.
+        # DEC-033 (h) — get_inventory_ledger 는 in_clause_lookup 을 두 번 호출한다:
+        #   (a) raw 행 fetch — S1_Ssub WHERE Gdate IN (...)
+        #   (b) 도서명 lookup — G4_Book WHERE Hcode=? AND Gcode IN (...)
+        # 본 테스트는 (b) book lookup 호출의 prefix_params 가 (hcode,) 인지 검증한다.
         from app.services import inventory_service as inv
 
         async def fake_exec(server_id: str, sql: str, params: tuple) -> list[dict[str, Any]]:
             if "Sv_Ghng" in sql:
                 return [{"opening_date": "2026.03.31"}]
-            # main S1_Ssub
+            if "COUNT(DISTINCT Gdate)" in sql:
+                return [{"cnt": 1}]
+            if sql.lstrip().startswith("SELECT DISTINCT Gdate"):
+                return [{"Gdate": "2026.04.01"}]
+            return []
+
+        # raw 행 fetch (a) 시뮬레이터 — book lookup (b) spy 와 분리.
+        async def fake_in_lookup(
+            server_id: str,
+            *,
+            sql_template: str,
+            keys: Any,
+            prefix_params: tuple = (),
+            chunk_size: int | None = None,
+        ) -> list[dict[str, Any]]:
+            if "G4_Book" in sql_template:
+                return []
             return [
                 {
                     "Gdate": "2026.04.01",
@@ -257,7 +275,7 @@ class LookupCallersUseHelperTests(IsolatedAsyncioTestCase):
                 }
             ]
 
-        spy = AsyncMock(return_value=[])
+        spy = AsyncMock(side_effect=fake_in_lookup)
         with patch("app.services.inventory_service.execute_query", new=fake_exec), \
              patch("app.services.inventory_service.in_clause_lookup", new=spy):
             await inv.get_inventory_ledger(
@@ -268,10 +286,12 @@ class LookupCallersUseHelperTests(IsolatedAsyncioTestCase):
                 date_from="2026-04-01",
                 date_to="2026-04-30",
             )
-        spy.assert_awaited()
-        # prefix_params 가 (hcode,) 인지 확인
-        kwargs = spy.await_args.kwargs
-        self.assertEqual(kwargs.get("prefix_params"), ("H001",))
+        # 두 번 호출됐는지 확인 — (a) raw rows, (b) book names.
+        self.assertGreaterEqual(spy.await_count, 2)
+        # 마지막 호출 (도서명 lookup) 의 prefix_params 가 (hcode,) 인지 확인.
+        last_kwargs = spy.await_args_list[-1].kwargs
+        self.assertEqual(last_kwargs.get("prefix_params"), ("H001",))
+        self.assertIn("G4_Book", last_kwargs.get("sql_template", ""))
 
     async def test_reports_book_sales_uses_helper(self) -> None:
         from app.services import reports_service as rs
