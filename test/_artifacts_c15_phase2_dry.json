@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "started_at": 1776854718.349256,
-  "finished_at": 1776854718.349482,
+  "started_at": 1776874336.508706,
+  "finished_at": 1776874336.508899,
   "elapsed_sec": 0.0,
   "mode": "dryrun",
   "confirmed": false,
@@ -16,8 +16,8 @@
     {
       "id": "GATE",
       "name": "OQ 차단 게이트 검사",
-      "started_at": 1776854718.349417,
-      "finished_at": 1776854718.349421,
+      "started_at": 1776874336.5088398,
+      "finished_at": 1776874336.508843,
       "elapsed_sec": 0.0,
       "ok": true,
       "note": "WARN — cutover_block OQ 미해소 (['OQ-IN-1', 'OQ-DBL-001', 'OQ-DBL-003']) 가 있으나 dryrun 로 진행"
@@ -25,8 +25,8 @@
     {
       "id": "P1",
       "name": "운영 lock (read-only 모드 전환)",
-      "started_at": 1776854718.349421,
-      "finished_at": 1776854718.349422,
+      "started_at": 1776874336.508843,
+      "finished_at": 1776874336.5088441,
       "elapsed_sec": 0.0,
       "ok": true,
       "note": "dryrun — 실제 read-only 전환 생략"
@@ -34,8 +34,8 @@
     {
       "id": "P2",
       "name": "mysqldump (per server) + checksum 산출",
-      "started_at": 1776854718.3494232,
-      "finished_at": 1776854718.3494232,
+      "started_at": 1776874336.5088441,
+      "finished_at": 1776874336.508845,
       "elapsed_sec": 0.0,
       "ok": true,
       "note": "본 스크립트는 mysqldump/import 를 직접 실행하지 않는다 — 운영 절차에 따라 수기 실행 후 본 단계는 PASS 표식만 기록"
@@ -43,8 +43,8 @@
     {
       "id": "P3",
       "name": "신규 환경 import + 스키마 어댑터 검증",
-      "started_at": 1776854718.3494232,
-      "finished_at": 1776854718.3494232,
+      "started_at": 1776874336.508845,
+      "finished_at": 1776874336.508845,
       "elapsed_sec": 0.0,
       "ok": true,
       "note": "외부 절차 — PASS 표식만 기록"
@@ -52,8 +52,8 @@
     {
       "id": "P4",
       "name": "cutover_validator 5종 (VC-1~5)",
-      "started_at": 1776854718.3494241,
-      "finished_at": 1776854718.349476,
+      "started_at": 1776874336.508846,
+      "finished_at": 1776874336.5088918,
       "elapsed_sec": 0.0,
       "ok": true,
       "note": "total=15 passed=15 failed=0"
@@ -61,8 +61,8 @@
     {
       "id": "P5",
       "name": "사용자 검수 (UAT 합격)",
-      "started_at": 1776854718.3494809,
-      "finished_at": 1776854718.3494809,
+      "started_at": 1776874336.508898,
+      "finished_at": 1776874336.508898,
       "elapsed_sec": 0.0,
       "ok": true,
       "note": "UAT 합격 여부는 외부 게이트 — 본 스크립트는 표식만 기록"
@@ -70,17 +70,17 @@
     {
       "id": "P6",
       "name": "운영 전환 (DNS/proxy 스위치)",
-      "started_at": 1776854718.349482,
-      "finished_at": 1776854718.349482,
+      "started_at": 1776874336.508898,
+      "finished_at": 1776874336.508899,
       "elapsed_sec": 0.0,
       "ok": true,
       "note": "dryrun — DNS/proxy 스위치 생략"
     }
   ],
   "validator": {
-    "started_at": 1776854718.349428,
-    "finished_at": 1776854718.349472,
-    "elapsed_seconds": 4.410743713378906e-05,
+    "started_at": 1776874336.508849,
+    "finished_at": 1776874336.5088892,
+    "elapsed_seconds": 4.029273986816406e-05,
     "total": 15,
     "passed": 15,
     "failed": 0,

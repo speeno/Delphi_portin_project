@@ -470,6 +470,32 @@ git push
 
 ---
 
+## 운영 가이드 — admin 슈퍼유저 인식 (DEC-056 적용 2026-04-22)
+
+`admin` / `admin123` 계정의 슈퍼유저 인식은 `Id_Logn.hcode == '0000'` (4자리 영) 분기로 자동 판정된다.
+
+**신규 환경**:
+
+```bash
+python3 debug/bootstrap_admin_id_logn.py --apply --hcode 0000
+```
+
+**기존 환경에서 admin 행이 5자리(`'00000'`) 로 저장되어 있는 경우** (예: 2026-04-22 이전 부트스트랩):
+
+```sql
+UPDATE Id_Logn SET hcode='0000' WHERE gcode='admin' AND hcode='00000';
+```
+
+또는 즉시 우회가 필요하면 환경변수만 설정해도 동일 효과(분기 2 슈퍼유저 폴백):
+
+```bash
+export BLS_ADMIN_USER_IDS=admin
+```
+
+> 일반 사용자의 권한은 `Id_Logn` 의 `F11~F89` 80셀(`'O'`/`'R'`/`'X'`) 매트릭스가 자동 합성되어 모던 `permission_code` (52 정본 키, `legacy-analysis/permission-keys-catalog.md` §1+§4) 로 부여된다(DEC-056 분기 3). 사이드바는 `usePermissions()` 훅으로 권한 없는 메뉴를 hidden 처리한다(DEC-058 — 레거시 `if nUse2='X' then ShowMessage` 동등).
+
+---
+
 ## 의존성
 
 ### Python (3.10+)

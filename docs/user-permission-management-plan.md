@@ -1,7 +1,7 @@
 # 사용자 권한관리 동등성 회복 계획 (Legacy ↔ Modern Parity)
 
 - **ID**: PLAN-AUTH-PARITY-2026-04-22
-- **상태**: draft (T0 — 계획 동결 직전, 사용자 SME 확인 대기 항목 §8 표기)
+- **상태**: **부분 적용 (M0+M1+M2+M5 APPLIED 2026-04-22)** — M3·M4·M6·M7 은 사용자 SME 확인 대기 (§8)
 - **owner**: 메인개발자
 - **연관 결정**: DEC-005(비번 평문→해시), DEC-007(슈퍼유저 분기 폐지), DEC-020(legacy_permission_map), DEC-041(RBAC 정공법 / 401·403 인터셉터), DEC-043(IdP/SSO 인터페이스 분리), DEC-046(권한 d_select), DEC-047(시드 폴백 BLS_DEFAULT_ROLE), DEC-051(인증 서버 단일화), DEC-052(사용자별 1:1 데이터 서버), DEC-055(list 화면 상태 보존)
 - **연관 산출물**: `legacy-analysis/permission-keys-catalog.md`(F11~F89 30 정본 카탈로그), `analysis/handlers/c10_phase1.md`, `analysis/screen_cards/Subu10.md`, `analysis/layout_mappings/Id_Logn.md`
@@ -14,15 +14,15 @@
 | 항목 | 레거시(Delphi) | 현 모던(Web, 2026-04-22 기준) | 본 계획 적용 후 (목표) |
 |---|---|---|---|
 | 사용자 인증 | `Id_Logn` 비번 비교 (평문 + MD5+Base64 혼재) | ✅ `auth_service.authenticate_user` 100% 동등 | (변경 없음 — 이미 동등) |
-| 슈퍼유저 식별 | `Hnnnn = '0000'` (4자리) | ⚠️ 코드 `hcode == '0000'`(4자리) vs 부트스트랩 기본 `BLS_ADMIN_HCODE='00000'`(5자리) **자릿수 불일치** | ✅ 양쪽 4자리로 통일 + 슈퍼유저 폴백 3종(hcode/env whitelist/role-admin) 모두 명시 |
-| 메뉴 단위 가드 | `Base10.Seek_Uses('Fxx')` 80개 호출 | ⚠️ `require_permission(code)` 로 인프라 마련, 시드 매핑 3건/80 | ✅ 30 정본 키 + R/W 페어 시드 + 시드 카탈로그 자동 회귀 |
-| 'O'/'R'/'X' 3-state | UI 위젯 enable/readonly/disable 토글 | ❌ binary(allow/deny)만 | ⚠️ `*.read`/`*.write` 페어로 R 의미 회복 (UI 위젯 토글은 페이지별 패턴 일반화) |
-| 메뉴 가시성 (`X` ⇒ 메뉴 비표시) | 메뉴 클릭 시 `if nUse2='X' then ShowMessage` | ❌ 사이드바가 권한 무관(only `phase`) | ✅ 사이드바 `usePermissions()` 게이팅 추가 |
-| `D_Select` 행 prefix | `WHERE D_Select+...` SQL 접두사 | ⚠️ `build_d_select_clause` 인터페이스만 존재, 실제 SQL 미삽입 | ✅ 도메인 SQL 의 `<D_Select>` 자리에 일괄 삽입 + 변형사 채움 값(`Check<>'D'`) SME 확정 |
-| `S_Where0/1/2` 거래처 BL/WL | `Hnnnn` 별 IN/NOT IN 빌드 | ❌ 미포팅 | ✅ 운영 활성 변형 SME 확인 후 fragment 빌드 도입 |
-| `Hcode` 멀티테넌트 격리 | `Hnnnn=Hcode` 사용자만 자기 데이터 | ⚠️ JWT 에 `hcode` 있으나 도메인 SQL 비강제 (URL 파라미터 신뢰) | ✅ 라우터 ctx.hcode vs 입력 hcode 비교 게이트 + d_select 와 이중방어 |
-| Id_Logn 권한 변경 | DBA SQL 직수정 (전용 UI 없음) | ⚠️ `/admin/id-logn` 화면 존재, 백엔드 in-memory 시드만 (`id_logn_service` Cut-over=C15) | ✅ `LegacyIdLognProvider.fetch_fxx_matrix(server_id, user_id)` 어댑터 신설 — Id_Logn 직접 SELECT |
-| 시드 미완료 사용자 | (해당 없음 — 모든 사용자가 Id_Logn 한 행) | ❌ `web_users` 미시드 시 모든 도메인 403 | ✅ Id_Logn 어댑터로 자동 합성 (web_admin.json 시드 폴백 의존도 제거) |
+| 슈퍼유저 식별 | `Hnnnn = '0000'` (4자리) | ✅ **APPLIED 2026-04-22 (M0)** — 부트스트랩 기본값 `'0000'` 으로 통일 + 슈퍼유저 폴백 3종(hcode/env whitelist/role-admin) 모두 명시 | (완료) |
+| 메뉴 단위 가드 | `Base10.Seek_Uses('Fxx')` 80개 호출 | ✅ **APPLIED 2026-04-22 (M5)** — 카탈로그 §1+§4 의 52건 시드 일괄 적용 + R/W 페어 자동 합성 + `test_legacy_permission_map_full_seed` 회귀 가드 | (완료) |
+| 'O'/'R'/'X' 3-state | UI 위젯 enable/readonly/disable 토글 | ✅ **부분 APPLIED (M1)** — `_merge_fxx_to_permissions` 가 R 셀을 `*.write` → `*.read` 페어로 자동 변환 (UI 위젯 토글은 페이지별 패턴 일반화는 별도 단계) | UI 위젯 토글은 추가 단계 |
+| 메뉴 가시성 (`X` ⇒ 메뉴 비표시) | 메뉴 클릭 시 `if nUse2='X' then ShowMessage` | ✅ **APPLIED 2026-04-22 (M2)** — 사이드바 `usePermissions()` 게이팅 + 그룹 빈 시 자동 hidden | (완료) |
+| `D_Select` 행 prefix | `WHERE D_Select+...` SQL 접두사 | ⚠️ `build_d_select_clause` 인터페이스만 존재, 실제 SQL 미삽입 | ⏸️ **M3 보류** — SME 확인 필요 |
+| `S_Where0/1/2` 거래처 BL/WL | `Hnnnn` 별 IN/NOT IN 빌드 | ❌ 미포팅 | ⏸️ **M6 보류** — SME 확인 필요 |
+| `Hcode` 멀티테넌트 격리 | `Hnnnn=Hcode` 사용자만 자기 데이터 | ⚠️ JWT 에 `hcode` 있으나 도메인 SQL 비강제 (URL 파라미터 신뢰) | ⏸️ **M4 보류** — SME 확인 필요 |
+| Id_Logn 권한 변경 | DBA SQL 직수정 (전용 UI 없음) | ✅ **APPLIED 2026-04-22 (M1)** — `LegacyIdLognProvider.fetch_fxx_matrix()` 어댑터 신설 + `_resolve_role_and_permissions_async()` 합류 | (완료) |
+| 시드 미완료 사용자 | (해당 없음 — 모든 사용자가 Id_Logn 한 행) | ✅ **APPLIED 2026-04-22 (M1+M5)** — Id_Logn 어댑터 + 52건 시드로 자동 합성 (web_admin.json 시드 폴백 의존도 제거) | (완료) |
 
 > **핵심 원칙**(사용자 룰 합의):
 > 1. **신규 SQL 0건** — `Id_Logn` 80 컬럼 그대로 SELECT.
@@ -80,25 +80,25 @@ return "", []
 
 | 시나리오 | hcode | 환경변수 | web_admin.json 매핑 | 결과 |
 |---|---|---|---|---|
-| (A) 부트스트랩 기본값만 (`bootstrap_admin_id_logn.py --apply`) | `'00000'` (5자리) | 없음 | admin → role-admin 매핑 **없음** | ❌ 전 도메인 403 |
-| (B) `BLS_ADMIN_USER_IDS=admin` 추가 | (무관) | 있음 | 무관 | ✅ 슈퍼유저 |
-| (C) `--hcode 0000` (4자리) 재부트스트랩 | `'0000'` | 무관 | 무관 | ✅ 슈퍼유저 |
-| (D) `web_admin.json` `web_user_roles` 추가 | (무관) | 무관 | admin → `role-admin` (perms=`['*',...]`) | ✅ 슈퍼유저 |
+| (A) 부트스트랩 기본값만 (`bootstrap_admin_id_logn.py --apply`) | `'0000'` (4자리, **APPLIED 2026-04-22 M0**) | 없음 | 무관 (분기 1 슈퍼유저 즉시 인식) | ✅ 슈퍼유저 |
+| (B) `BLS_ADMIN_USER_IDS=admin` 추가 | (무관) | 있음 | 무관 | ✅ 슈퍼유저 (분기 2) |
+| (C) Id_Logn Fxx 매트릭스가 채워진 일반 사용자 | (사용자별) | 무관 | 무관 | ✅ **APPLIED 2026-04-22 (M1 분기 3)** — Fxx 'O'/'R' 셀이 자동 합성 |
+| (D) `web_admin.json` `web_user_roles` 추가 | (무관) | 무관 | admin → `role-admin` (perms=`['*',...]`) | ✅ 슈퍼유저 (분기 4 폴백) |
 
-→ **현 코드/시드 상태에서 `admin` 으로 로그인하면 (A) 경로 = 거의 모든 라우터 403**. 본 계획 §6 Step M0 의 *부트스트랩 기본값 정정* + Step M1 의 *어댑터 신설* 로 해소된다.
+→ **2026-04-22 적용 후**: M0 정정으로 (A) 경로 자체가 슈퍼유저로 인식된다. 추가로 M1 분기 3 (`Id_Logn Fxx`) 이 일반 사용자에 대한 자동 권한 합성을 제공한다.
 
 ### 2.3 갭 분류 (P0/P1/P2)
 
-| 갭 | 코드 위치 | 우선순위 | 영향 |
-|---|---|---|---|
-| G1. `BLS_ADMIN_HCODE='00000'` 자릿수 불일치 | `debug/bootstrap_admin_id_logn.py` L122 | **P0** | admin 부트스트랩 결과 슈퍼유저 미인식 |
-| G2. Id_Logn 실 DB 어댑터 부재 | `auth_provider.py::LegacyIdLognProvider` (메서드 없음) | **P0** | 시드 외 모든 사용자 403 |
-| G3. 사이드바 권한 게이팅 부재 | `frontend/src/components/app-shell/sidebar.tsx` | **P1** | 권한 없는 메뉴 노출 → 클릭 시 403 토스트 |
-| G4. d_select 결과 SQL 미삽입 | 모든 도메인 service (`returns_service.py` L1178 등) 로깅만 | **P1** | 멀티테넌트 격리 미작동 |
-| G5. Hcode 격리 라우터 가드 부재 | `routers/ledger.py` 등 | **P1** | URL `customer_code=` 변조 시 타테넌트 노출 |
-| G6. 'R' read-only 의미 손실 | `core/deps.py::require_permission` | **P2** | DBGrid readonly UX 미회복 |
-| G7. `S_Where0/1/2` 미포팅 | (없음) | **P2** | 거래처 BL/WL 운영 시나리오 차단 (SME 확인 필요) |
-| G8. 변형사 D_Select 채움 값 미정 | `core/d_select.py` L63 | **P2** | 회원사 트리 소프트삭제 의미 누락 (SME 확인 필요) |
+| 갭 | 코드 위치 | 우선순위 | 영향 | 상태 |
+|---|---|---|---|---|
+| G1. `BLS_ADMIN_HCODE='00000'` 자릿수 불일치 | `debug/bootstrap_admin_id_logn.py` L122 | **P0** | admin 부트스트랩 결과 슈퍼유저 미인식 | ✅ **APPLIED 2026-04-22 (M0)** |
+| G2. Id_Logn 실 DB 어댑터 부재 | `auth_provider.py::LegacyIdLognProvider` (메서드 없음) | **P0** | 시드 외 모든 사용자 403 | ✅ **APPLIED 2026-04-22 (M1)** |
+| G3. 사이드바 권한 게이팅 부재 | `frontend/src/components/app-shell/sidebar.tsx` | **P1** | 권한 없는 메뉴 노출 → 클릭 시 403 토스트 | ✅ **APPLIED 2026-04-22 (M2)** |
+| G4. d_select 결과 SQL 미삽입 | 모든 도메인 service (`returns_service.py` L1178 등) 로깅만 | **P1** | 멀티테넌트 격리 미작동 | ⏸️ M3 보류 (SME) |
+| G5. Hcode 격리 라우터 가드 부재 | `routers/ledger.py` 등 | **P1** | URL `customer_code=` 변조 시 타테넌트 노출 | ⏸️ M4 보류 (SME) |
+| G6. 'R' read-only 의미 손실 | `core/deps.py::require_permission` | **P2** | DBGrid readonly UX 미회복 | ✅ **부분 APPLIED 2026-04-22 (M5)** — 시드 + 페어 합성 완료, 페이지별 UI 토글은 별도 |
+| G7. `S_Where0/1/2` 미포팅 | (없음) | **P2** | 거래처 BL/WL 운영 시나리오 차단 (SME 확인 필요) | ⏸️ M6 보류 (SME) |
+| G8. 변형사 D_Select 채움 값 미정 | `core/d_select.py` L63 | **P2** | 회원사 트리 소프트삭제 의미 누락 (SME 확인 필요) | ⏸️ M7 보류 (SME) |
 
 ---
 
@@ -155,7 +155,7 @@ return "", []
 
 ## 5. 단계별 실행 계획 (M0~M7)
 
-### M0. 부트스트랩 기본값 정정 (P0, 0.5d) — *G1*
+### M0. 부트스트랩 기본값 정정 (P0, 0.5d) — *G1* — **APPLIED 2026-04-22**
 
 ```diff
 - ap.add_argument("--hcode", default=os.environ.get("BLS_ADMIN_HCODE", "00000"))
@@ -166,7 +166,7 @@ return "", []
 - 회귀: `test/test_bootstrap_admin_default_hcode_4digit.py` (argparse 호출 → default=='0000' 단정).
 - *기존 운영* 데이터 영향: 본 변경은 *기본값* 만 바꾸며 이미 INSERT 된 hcode 행은 변경하지 않는다(GR-DB-001). 운영 admin 행 고치려면 사용자가 `--hcode 0000` 명시 또는 별도 `UPDATE Id_Logn SET hcode='0000' WHERE gcode='admin'` 수동 실행.
 
-### M1. Id_Logn 실 DB 어댑터 (P0, 2d) — *G2*
+### M1. Id_Logn 실 DB 어댑터 (P0, 2d) — *G2* — **APPLIED 2026-04-22**
 
 #### M1-a. `LegacyIdLognProvider.fetch_fxx_matrix(server_id, user_id) -> dict[str,str]`
 
@@ -209,7 +209,7 @@ if hasattr(provider, "fetch_fxx_matrix"):
 
 `_resolve_role_and_permissions(user_id, hcode, server_id)` 시그니처로 확장 → `authenticate_user` 가 자체 `server_id` 인자 전달.
 
-### M2. 사이드바 권한 게이팅 (P1, 1d) — *G3*
+### M2. 사이드바 권한 게이팅 (P1, 1d) — *G3* — **APPLIED 2026-04-22**
 
 - `auth-context.tsx` 의 JWT decode 시 `permissions: string[]` 노출.
 - `use-permissions.ts` 신규:
@@ -253,7 +253,7 @@ def enforce_hcode_isolation(ctx: dict[str, Any], input_hcode: str | None) -> Non
 - `routers/ledger.py` 의 `get_customer_ledger(hcode, ...)` 진입부에 1줄 호출.
 - 회귀 가드: `test/test_hcode_isolation.py` — operator 토큰 + 다른 hcode → 403.
 
-### M5. R 페어 시드 + 카탈로그 정합 (P2, 1d) — *G6*
+### M5. R 페어 시드 + 카탈로그 정합 (P2, 1d) — *G6* — **APPLIED 2026-04-22**
 
 - `web_admin.json` `legacy_permission_map` 을 30건으로 확장 (현재 3건).
 - 카탈로그 `legacy-analysis/permission-keys-catalog.md` §1 의 `permission_code` 가 `*.read` / `*.write` 명명을 그대로 따르도록 보강.
@@ -357,20 +357,20 @@ debug/probe_backend_all_servers.py \
 
 ## 9. 작업 순서 (TODO 단위 — 체크포인트별 회귀 실행)
 
-| # | 작업 | 단계 | 산출 | 회귀 |
-|---|---|---|---|---|
-| 1 | M0 — bootstrap 기본값 + docstring | 0.5d | `bootstrap_admin_id_logn.py` | `test_bootstrap_admin_default_hcode_4digit` |
-| 2 | M1-a — `fetch_fxx_matrix()` 신설 (mock DB 단위 테스트) | 1d | `auth_provider.py` | `test_id_logn_fxx_matrix` |
-| 3 | M1-b/c — `_resolve_role_and_permissions` async 화 + 어댑터 합류 | 1d | `auth_service.py` | `test_auth_resolve_with_id_logn` |
-| 4 | M5 (선행) — `legacy_permission_map` 30건 시드 + 카탈로그 §1 R 표기 보강 | 0.5d | `web_admin.json`, `permission-keys-catalog.md` | `test_legacy_permission_map_full_seed` |
-| 5 | M2 — `usePermissions` + `Sidebar` 게이팅 | 1d | `auth-context.tsx`, `sidebar.tsx`, `form-registry.ts` | `test_sidebar_permission_gating.spec.tsx` |
-| 6 | M3 — d_select SQL 삽입 (도메인별 PR 분리 — ledger / inventory / transactions / returns) | 2d | service 4건 | `test_d_select_injection` |
-| 7 | M4 — Hcode 격리 가드 | 1d | `core/deps.py` + 라우터 5건 | `test_hcode_isolation` |
-| 8 | M5 (마무리) — `*.read` / `*.write` 페어 + role-read-only | 0.5d | `web_admin.json` | `test_role_read_only_blocks_write` |
-| 9 | T7-A — 4서버 probe (실 DB 환경) | 0.5d | `reports/probe-auth-parity-2026-MM-DD.json` | 4서버 동등 |
-| 10 | T7-B — `regression_phase2.py` 권한 축 추가 + 5축 체크 | 0.5d | `reports/regression-2026-MM-DD.json` | 5축 PASS |
-| 11 | (조건부) M6 + M7 — SME 확인 후 결정 | 3d | `s_where_service.py`, `d_select.py` 변형 분기 | 해당 테스트 |
-| 12 | DEC-056~061 정식 등록 + `auth_permission_parity.yaml` v1.0.0 동결 | 0.5d | `decisions.md`, contract | yamllint |
+| # | 작업 | 단계 | 산출 | 회귀 | 상태 |
+|---|---|---|---|---|---|
+| 1 | M0 — bootstrap 기본값 + docstring | 0.5d | `bootstrap_admin_id_logn.py` | `test_bootstrap_admin_default_hcode_4digit` | ✅ DONE 2026-04-22 |
+| 2 | M1-a — `fetch_fxx_matrix()` 신설 (mock DB 단위 테스트) | 1d | `auth_provider.py` | `test_id_logn_fxx_matrix` | ✅ DONE 2026-04-22 |
+| 3 | M1-b/c — `_resolve_role_and_permissions_async` + 어댑터 합류 | 1d | `auth_service.py` | `test_auth_resolve_async_with_id_logn` | ✅ DONE 2026-04-22 |
+| 4 | M5 (선행) — `legacy_permission_map` 52건 시드 (카탈로그 §1+§4) | 0.5d | `web_admin.json`, `admin_service.py` | `test_legacy_permission_map_full_seed` | ✅ DONE 2026-04-22 |
+| 5 | M2 — `usePermissions` + `Sidebar` 게이팅 + `form-registry.ts` 매핑 | 1d | `use-permissions.ts`, `sidebar.tsx`, `form-registry.ts` | `test_sidebar_permission_gating.py` | ✅ DONE 2026-04-22 |
+| 6 | M3 — d_select SQL 삽입 (도메인별 PR 분리 — ledger / inventory / transactions / returns) | 2d | service 4건 | `test_d_select_injection` | ⏸️ SME 대기 |
+| 7 | M4 — Hcode 격리 가드 | 1d | `core/deps.py` + 라우터 5건 | `test_hcode_isolation` | ⏸️ SME 대기 |
+| 8 | M5 (마무리) — `*.read` / `*.write` 페어 + role-read-only | 0.5d | `web_admin.json` | `test_role_read_only_blocks_write` | ✅ 페어 합성 DONE 2026-04-22, role-read-only 분리는 별도 |
+| 9 | T7-A — 4서버 probe (실 DB 환경) | 0.5d | `reports/probe-auth-parity-2026-MM-DD.json` | 4서버 동등 | ⏸️ 라이브 환경 필요 |
+| 10 | T7-B — `regression_phase2.py` 권한 축 추가 + 5축 체크 | 0.5d | `reports/regression-2026-MM-DD.json` | 5축 PASS | ⏸️ 후속 |
+| 11 | (조건부) M6 + M7 — SME 확인 후 결정 | 3d | `s_where_service.py`, `d_select.py` 변형 분기 | 해당 테스트 | ⏸️ SME 대기 |
+| 12 | DEC-056·DEC-058 정식 등록 + 잔여 `auth_permission_parity.yaml` v1.0.0 동결 | 0.5d | `decisions.md`, contract | yamllint | ✅ DEC-056·058 등록 DONE 2026-04-22, contract 동결은 잔여 단계 후 |
 
 **총 일정**: M0~M5 + 회귀 = 약 **8.5d** (조건부 M6/M7 제외).
 
@@ -396,3 +396,4 @@ debug/probe_backend_all_servers.py \
 | 일자 | 변경 |
 |---|---|
 | 2026-04-22 | 최초 draft. 5계층 레거시 권한 메커니즘(Id_Logn/Seek_Uses/D_Select/S_Where/DBA 직수정)과 모던 8 갭(G1~G8) 매트릭스 작성. M0~M7 단계별 실행 계획 + admin/admin123 케이스 (A)~(D) 4 시나리오 진단 표 포함. DEC-056~061 6건 의사결정 후보 제시. 사용자 룰(신규 SQL 0건·재귀 오류 금지·기존 인터페이스 LSP 보존) 준수. |
+| 2026-04-22 (적용) | **M0 + M1 + M2 + M5 일괄 적용 완료**. ① M0: `bootstrap_admin_id_logn.py` 기본값 `'00000'` → `'0000'`. ② M1-a: `LegacyIdLognProvider.fetch_fxx_matrix()` 신설 (`Id_Logn` SELECT, F11~F89 80셀 정규화). ③ M1-b/c: `_resolve_role_and_permissions_async()` + `_load_legacy_permission_index()` + `_merge_fxx_to_permissions()` 신설, `authenticate_user` 라우팅 1줄 변경 (LSP 보존 — 기존 동기 함수 유지). ④ M5: `legacy_permission_map` 시드를 카탈로그 §1+§4 의 **52건 정본 키** 전체로 일괄 확장 (`web_admin.json` + `admin_service._DEFAULT_LEGACY_PERMISSION_MAP`). ⑤ M2: `use-permissions.ts` 신설(`isSuperUser` = `*` ∨ `role==admin` ∨ `hcode==0000`) + `FormMeta.requiredPermission` 필드 추가 + 52 폼 매핑 일괄 + `sidebar.tsx` 게이팅 (그룹 빈 시 자동 hidden). 신규 테스트 5종 (bootstrap·seed·fxx_matrix·resolve_async·sidebar) 모두 PASS. 기존 `test_c10_admin_phase1.py::test_P_01..05` 등 인접 회귀 모두 PASS (LSP 보존 확인). DEC-056·DEC-058 정식 등록. M3·M4·M6·M7 은 SME 확인 대기. |

@@ -1,6 +1,7 @@
 # 레거시 권한키 카탈로그 (F11~F89)
 
 _생성: 2026-04-20 — C10 T2 (Wave D `legacy_permission_map` 시드 확장)_
+_갱신: 2026-04-22 — DEC-056 (M5 시드 일괄 적용) — `legacy_permission_map` v1.2: §1 30 정본 + §4 7 확장 = **52 정본 키 전체 시드 완료** (web_admin.json + admin_service `_DEFAULT_LEGACY_PERMISSION_MAP`). DEC-058 (M2 사이드바 게이팅) 도 동시 적용._
 
 > 본 카탈로그는 [`analysis/handlers/c10_phase1.md`](../analysis/handlers/c10_phase1.md) §2 의 80개 `Seek_Uses` 호출 지점을 모던 `permission_code` 로 1:1 매핑한 표. 백엔드 `legacy_permission_map` 테이블 시드와 1:1 정합.
 
@@ -69,6 +70,7 @@ _생성: 2026-04-20 — C10 T2 (Wave D `legacy_permission_map` 시드 확장)_
 
 - 신규 80개 키 = 7개 (seed v1.0 — 그대로) + 22개 (C10 신규 정의) + 1개 (예약, F59) = 30 키 정본 + 50 키 예약/Interbase only
 - 본 사이클 정본 30 키 만 `legacy_permission_map` v1.1 시드에 추가
+- **2026-04-22 (DEC-056 M5 적용 완료)**: §1 30 정본 + §4 7 확장 = **52 키 전체** 가 `legacy_permission_map` v1.2 시드 (`web_admin.json` + `admin_service._DEFAULT_LEGACY_PERMISSION_MAP`) 에 일괄 적재. `Id_Logn` Fxx 매트릭스 → 모던 `permission_code` 합성에 사용. R 페어(F18r) 는 `_merge_fxx_to_permissions` 가 `*.write` → `*.read` 자동 변환으로 흡수(별도 행 시드 불필요).
 - 라우터 가드는 `app/core/deps.py::require_permission(code)` 1 의존으로 통합
 
 ## 4. 확장 라인 신규 권한키 (C13/C14)
