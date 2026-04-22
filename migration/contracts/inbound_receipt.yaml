@@ -19,7 +19,7 @@
 
 id: C3-inbound-receipt
 name: 입고 접수(입고명세서 입력)
-version: 1.2.1
+version: 1.2.2
 status: approved        # draft → review → approved (1차 동결, DEC-027). 1.1.0 = phase2 UI 보강(자체 행위 변경 0).
 scope_phase: phase1
 acceptance_goal: |
@@ -895,3 +895,20 @@ changelog:
         GROUP BY/JOIN 비용이 본질적으로 큼 — 30s 기본 한도와의 ALIGN).
       - 회귀 가드: ``test_c3_inbound_reports_phase2.py::ReportServicePagingTest`` 9건 PASS
         (LIMIT+1 슬라이싱, 클램프, has_more, offset>0 시 grand_totals 미산출).
+  - date: 2026-04-22
+    by: porting-team
+    note: |
+      1.2.2 — Sobo54/Sobo57 mysql3 read_timeout(300s) 회귀 근본 수정 (DEC-033(e/g)):
+      - backend.log 11518~11553 분석으로 ``LIMIT+1`` 도입 후에도 paged 메인 쿼리 한 건이
+        ``read_timeout=300s`` 안에 끝나지 못함을 확인.
+      - 원인: ``S1_Ssub`` ⨝ ``G7_Ggeo`` ⨝ ``G1_Ggeo`` ⨝ ``G4_Book`` (LEFT JOIN 3개)
+        + 6컬럼 GROUP BY + ORDER BY 조합이 mysql 3.x 옵티마이저 한계를 초과.
+      - 수정: 메인 쿼리에서 JOIN 3개 + 이름 컬럼 모두 제거 → ``S1_Ssub`` 단일 테이블
+        ``Gdate`` range scan + GROUP BY 만 수행 (인덱스 친화).
+        이름은 페이지 행 기준 distinct hcode/gcode/bcode 만 추출하여 기존
+        ``_fetch_publisher_names`` / ``_fetch_vendor_names`` / ``_fetch_product_names``
+        헬퍼(``in_clause_lookup`` 청크 분할) 로 별도 lookup → Python 측 merge.
+      - 라우터 500 응답의 ``detail.message`` 에 예외 클래스명을 포함 (값/스택 노출 X)
+        → 추가 회귀 시 진단 시간 단축.
+      - 회귀 가드: ``test_c3_inbound_reports_phase2.py`` 9건 PASS (mock SQL 분기를
+        ``hcode`` 컬럼 유무로 갱신 — JOIN 분리 후 alias 차이가 사라졌음).

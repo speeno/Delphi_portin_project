@@ -222,8 +222,9 @@ class ReportServicePagingTest(TestCase):
             # GRAND_TOTALS: SUM 만 + GROUP BY 없음
             if "sum(gsqut)" in sql_lower and "group by" not in sql_lower:
                 return [{"qty": grand_qty, "amount": grand_amount}]
-            # publisher / vendor 분기 — SELECT 컬럼 차이로 구분
-            if "as hname" in sql_lower:
+            # publisher / vendor 분기 — by_publisher 만 ``hcode`` 컬럼 SELECT (JOIN 분리 후
+            # 메인 쿼리는 단일 테이블이므로 alias 차이 대신 컬럼 유무로 구분).
+            if "hcode" in sql_lower:
                 return pub_rows
             return ven_rows
 
