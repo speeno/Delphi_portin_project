@@ -1,0 +1,309 @@
+{
+  "generated_at": "2026-04-22T03:49:42.415704+00:00",
+  "summary": {
+    "total_pages": 73,
+    "covered": 17,
+    "violations": 0,
+    "allowed": 0,
+    "skipped": 56
+  },
+  "covered": [
+    {
+      "route_key": "inbound.receipts",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/page.tsx"
+    },
+    {
+      "route_key": "inventory.status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/status/page.tsx"
+    },
+    {
+      "route_key": "ledger.book",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/book/page.tsx"
+    },
+    {
+      "route_key": "ledger.book-integrated",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/book-integrated/page.tsx"
+    },
+    {
+      "route_key": "master.book",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/book/page.tsx"
+    },
+    {
+      "route_key": "master.book-code",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/book-code/page.tsx"
+    },
+    {
+      "route_key": "master.customer",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/customer/page.tsx"
+    },
+    {
+      "route_key": "master.discount",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/discount/page.tsx"
+    },
+    {
+      "route_key": "master.logistics-cost",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/logistics-cost/page.tsx"
+    },
+    {
+      "route_key": "master.publisher",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/publisher/page.tsx"
+    },
+    {
+      "route_key": "outbound.orders",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/page.tsx"
+    },
+    {
+      "route_key": "outbound.status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/status/page.tsx"
+    },
+    {
+      "route_key": "reports.book-sales",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/reports/book-sales/page.tsx"
+    },
+    {
+      "route_key": "reports.customer-sales",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/reports/customer-sales/page.tsx"
+    },
+    {
+      "route_key": "reports.year-end-book",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/reports/year-end-book/page.tsx"
+    },
+    {
+      "route_key": "returns.receipts",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/receipts/page.tsx"
+    },
+    {
+      "route_key": "transactions.sales-statement",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/page.tsx"
+    }
+  ],
+  "violations": [],
+  "allowed": [],
+  "skipped": [
+    {
+      "route_key": "admin",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/page.tsx"
+    },
+    {
+      "route_key": "admin.audit",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/audit/page.tsx"
+    },
+    {
+      "route_key": "admin.audit-rotate",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/audit-rotate/page.tsx"
+    },
+    {
+      "route_key": "admin.id-logn",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/id-logn/page.tsx"
+    },
+    {
+      "route_key": "admin.ops",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/ops/page.tsx"
+    },
+    {
+      "route_key": "admin.rbac",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/rbac/page.tsx"
+    },
+    {
+      "route_key": "admin.settings",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/settings/page.tsx"
+    },
+    {
+      "route_key": "admin.user-servers",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/user-servers/page.tsx"
+    },
+    {
+      "route_key": "dashboard",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/dashboard/page.tsx"
+    },
+    {
+      "route_key": "delivery.management",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/delivery/management/page.tsx"
+    },
+    {
+      "route_key": "inbound.import",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/import/page.tsx"
+    },
+    {
+      "route_key": "inbound.receipts",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/[receiptKey]/page.tsx"
+    },
+    {
+      "route_key": "inbound.receipts.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/new/page.tsx"
+    },
+    {
+      "route_key": "inbound.reports.daily",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/reports/daily/page.tsx"
+    },
+    {
+      "route_key": "inbound.reports.period",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/reports/period/page.tsx"
+    },
+    {
+      "route_key": "inventory.ledger",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/ledger/page.tsx"
+    },
+    {
+      "route_key": "ledger.comparison",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/comparison/page.tsx"
+    },
+    {
+      "route_key": "ledger.customer",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer/page.tsx"
+    },
+    {
+      "route_key": "ledger.customer-integrated",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer-integrated/page.tsx"
+    },
+    {
+      "route_key": "master",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/page.tsx"
+    },
+    {
+      "route_key": "master.book",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/book/[gcode]/page.tsx"
+    },
+    {
+      "route_key": "master.customer",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/customer/[gcode]/page.tsx"
+    },
+    {
+      "route_key": "master.discount",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/discount/[type]/page.tsx"
+    },
+    {
+      "route_key": "master.special",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/special/page.tsx"
+    },
+    {
+      "route_key": "outbound.orders",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/[orderKey]/page.tsx"
+    },
+    {
+      "route_key": "outbound.orders.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/new/page.tsx"
+    },
+    {
+      "route_key": "outbound.orders.print",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/[orderKey]/print/page.tsx"
+    },
+    {
+      "route_key": "print.label",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/print/label/[shipmentKey]/page.tsx"
+    },
+    {
+      "route_key": "returns.inventory",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/inventory/page.tsx"
+    },
+    {
+      "route_key": "returns.ledger",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/ledger/page.tsx"
+    },
+    {
+      "route_key": "returns.period-report",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/period-report/page.tsx"
+    },
+    {
+      "route_key": "returns.receipts",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/receipts/[returnKey]/page.tsx"
+    },
+    {
+      "route_key": "returns.receipts.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/receipts/new/page.tsx"
+    },
+    {
+      "route_key": "returns.receipts.print",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/receipts/[returnKey]/print/page.tsx"
+    },
+    {
+      "route_key": "returns.reports",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/reports/page.tsx"
+    },
+    {
+      "route_key": "settlement.billing",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/billing/page.tsx"
+    },
+    {
+      "route_key": "settlement.billing.print",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/billing/[billingKey]/print/page.tsx"
+    },
+    {
+      "route_key": "settlement.cash",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/cash/page.tsx"
+    },
+    {
+      "route_key": "settlement.cash-status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/cash-status/page.tsx"
+    },
+    {
+      "route_key": "settlement.outstanding",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/outstanding/page.tsx"
+    },
+    {
+      "route_key": "settlement.payment-slip",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/payment-slip/page.tsx"
+    },
+    {
+      "route_key": "settlement.period",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/period/page.tsx"
+    },
+    {
+      "route_key": "settlement.tax-invoice",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/page.tsx"
+    },
+    {
+      "route_key": "settlement.tax-invoice.print",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/[billingKey]/print/page.tsx"
+    },
+    {
+      "route_key": "stats.book",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/book/page.tsx"
+    },
+    {
+      "route_key": "stats.book-turnover",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/book-turnover/page.tsx"
+    },
+    {
+      "route_key": "stats.customer",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/customer/page.tsx"
+    },
+    {
+      "route_key": "stats.customer-analysis",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/customer-analysis/page.tsx"
+    },
+    {
+      "route_key": "stats.monthly",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/monthly/page.tsx"
+    },
+    {
+      "route_key": "stats.publisher",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/publisher/page.tsx"
+    },
+    {
+      "route_key": "stats.quarterly-summary",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/quarterly-summary/page.tsx"
+    },
+    {
+      "route_key": "stats.sales-period",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/sales-period/page.tsx"
+    },
+    {
+      "route_key": "transactions.other",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/other/page.tsx"
+    },
+    {
+      "route_key": "transactions.sales-statement",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/[orderKey]/page.tsx"
+    },
+    {
+      "route_key": "transactions.sales-statement.print",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/[orderKey]/print/page.tsx"
+    },
+    {
+      "route_key": "transactions.status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/status/page.tsx"
+    }
+  ],
+  "stale_allowlist": []
+}

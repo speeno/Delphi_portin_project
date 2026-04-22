@@ -1,0 +1,11 @@
+# DEC-055 — list 화면 상태 보존 의도적 deferral allowlist.
+#
+# DataGridPager 를 사용하지만 useListSession 도입을 의도적으로 보류한 화면을
+# route_key 기준으로 등록한다. 신규 등록 시 reason + until 필수.
+#
+# route_key 는 frontend route segment 를 dot-join (e.g. "master.customer",
+# "outbound.orders"). dynamic([id])·grouping((app)) 세그먼트는 제외.
+#
+# 현재(2026-04-21) 17개 list 화면 전부 useListSession 도입 완료 — deferred 없음.
+
+deferred_pages: []
