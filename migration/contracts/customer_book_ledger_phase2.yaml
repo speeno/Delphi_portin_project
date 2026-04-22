@@ -7,74 +7,119 @@
 
 id: C6-customer-book-ledger-phase2
 name: 거래처원장 + 도서수불장 4 변형 (단일 / 통합)
-version: 1.0.0
+version: 1.1.0
 status: draft
 scope_phase: phase2
 created: 2026-04-21
-updated: 2026-04-21
+updated: 2026-04-22
 owner: 메인개발자
 
 references:
   - analysis/screen_cards/Sobo32.md
   - analysis/screen_cards/Sobo32_1.md
   - analysis/screen_cards/Sobo33.md
+  - analysis/layout_mappings/Sobo32.md      # T5(a) 신규 — DEC-028 매핑
+  - analysis/layout_mappings/Sobo32_1.md    # T5(a) 신규 — DEC-028 매핑
   - migration/contracts/sales_inquiry.yaml
+  - docs/customer-ledger-implementation-plan.md   # T0 계획서 (회귀 가드 R1~R7)
 
 constraints:
-  new_sql_count: 0   # 기존 S1_Ssub + Sb_Csum + Sg_Csum 만 재사용
+  new_sql_count: 0   # DEC-040 — 기존 S1_Ssub + Sb_Csum + Sv_Ghng + G7_Ggeo + G4_Book 만 재사용
   external_integrations: excluded
+  reused_helpers:    # SOLID DIP — 신설 service 가 의존하는 저수준 추상화
+    - app.services.inventory_service._opening_sql           # SQL-INQ-5
+    - app.services.inventory_service._build_filter_where    # 공통 WHERE
+    - app.services.inventory_service._dates_count_sql       # 페이저 Step1
+    - app.services.inventory_service._dates_page_sql        # 페이저 Step2
+    - app.services.inventory_service._ledger_rows_sql       # 페이저 Step3 (사전집계)
+    - app.services.inventory_service._accumulate_row        # §1.4 분기 표 (Subu31/32 공유)
+    - app.services.inbound_service._fetch_publisher_names   # G7_Ggeo 청크 룩업
+    - app.services.inbound_service._fetch_product_names     # G4_Book 청크 룩업
+    - app.core.sql_mysql3.in_clause_lookup
+    - app.core.sql_mysql3.apply_limit_offset_syntax
+    - app.core.sql_mysql3.limit_offset_bind
+    - app.core.pagination.build_page / clamp_limit / clamp_offset
 
 intent: |
   4 변형 — (1) 단일 거래처 원장, (2) 통합(전체 거래처) 원장,
             (3) 단일 도서 수불장, (4) 도서 구간 통합 수불장.
   레거시 ADO Query 의 단일 SQL + 클라이언트 누적 잔액 계산을 웹에서는 백엔드에서 누적 후 응답.
+  Sobo54/57 v1.2.2 회귀(mysql3 read_timeout) 에서 학습한 7개 회귀 가드(R1~R7) 를
+  본 계약의 모든 endpoint 에 의무 적용.
 
 scope:
   customer_single:
     path: GET /api/v1/ledger/customer
     legacy_id: Sobo32
+    legacy_pas:
+      - Subu32.pas#L380-L508 (Button102Click — 메인 SQL + 누적 분기 본체)
+      - Subu32.pas#L411-L506 (Yesno×Gubun×Pubun 9 분기 — §branch_table 1:1)
+      - Subu32.pas#L513-L660 (Bdate IS NOT NULL — 유통반품재고 분기)
+      - Subu32.pas#L1276 (Sb_Csum — 이월 잔량)
+      - Subu32.pas#L303 (Sv_Ghng — 이월 기준일)
     permission: ledger.customer.read
     query_params:
-      customer_code: required
-      from_date: required ISO date
-      to_date: required ISO date
-      page: { limit: 200, max_limit: 500 }
+      customer_code: { type: string, required: true, legacy: "Edit107.Text (Hcode)" }
+      from_date:     { type: ISO date, required: true, legacy: "Edit101 → 'YYYY.MM.DD' 정규화" }
+      to_date:       { type: ISO date, required: true, legacy: "Edit102" }
+      bcode_from:    { type: string, required: false, legacy: "Edit103" }
+      bcode_to:      { type: string, required: false, legacy: "Edit105 (HIDDEN)" }
+      scope:         { type: enum, values: [A, B, ALL], default: B, legacy: "Panel102 토글 (A=본사 / B=창고 / ALL=전체)" }
+      limit:         { type: int, default: 100, max: 500 }
+      offset:        { type: int, default: 0, ge: 0 }
     response:
-      items:
-        - txn_date: ISO date
-          slip_no: string
-          txn_type: enum[sale, return, payment, billing, opening]
-          debit: int       # 차변
-          credit: int      # 대변
-          balance: int     # 누적 잔액
-      summary:
-        opening_balance: int
-        total_debit: int
-        total_credit: int
-        closing_balance: int
+      opening_date: { type: ISO date, source: "Sv_Ghng.Max(Gdate) where Hcode=customer_code (이월 기준일)" }
+      rows:         # 일자 단위 페이지 — DEC-033(g) 페이저
+        - gdate:       string
+          gpsum:       int   # 이동
+          gisum:       int   # 반품
+          giqut:       int   # 입고
+          gjqut:       int   # 증정
+          goqut:       int   # 출고
+          gpqut:       int   # 폐기수
+          gbqut:       int   # 비품수
+          gjsum:       int   # 비품금
+          gbsum:       int   # 폐기금
+          balance_qty: int   # 누적 잔량 (모던 신설) = opening + Σ(giqut+gisum) - Σ(goqut+gjqut+gpqut+gbqut)
+      summary:        # R4 — offset==0 일 때만 산출. 후속 페이지는 모두 0 (프론트 totalsCache)
+        opening_qty:  int
+        total_in:     int
+        total_out:    int
+        closing_qty:  int   # = opening_qty + total_in - total_out (자기일관)
+      page: { limit: int, offset: int, total: int, has_more: bool }   # ceiling: offset + visible + (1 if has_more)
+      truncated: bool   # LEDGER_MAX 도달 안전망
 
   customer_integrated:
     path: GET /api/v1/ledger/customer-integrated
     legacy_id: Sobo32_1
+    legacy_pas:
+      - Subu32_1.pas#L298 (G7_Ggeo Select Gcode,Gname,Chek1)
+      - Subu32_1.pas#L322 (Sv_Ghng — 이월 기준일)
+      - Subu32_1.pas#L344 (G7_Ggeo Select Chek3 — 권한 체크)
     permission: ledger.customer.read
     query_params:
-      from_date: required ISO date
-      to_date: required ISO date
-      page: { limit: 200, max_limit: 500 }
+      from_date:        { type: ISO date, required: true }
+      to_date:          { type: ISO date, required: true }
+      customer_pattern: { type: string, required: false, legacy: "Edit107.Text — prefix LIKE '%pat%'" }
+      scope:            { type: enum, values: [A, B, ALL], default: B }
+      limit:            { type: int, default: 100, max: 500 }
+      offset:           { type: int, default: 0, ge: 0 }
     response:
-      items:
-        - customer_code: string
-          customer_name: string
-          opening_balance: int
-          period_debit: int
-          period_credit: int
-          closing_balance: int
-      total_count: int
+      rows:        # 거래처 단위 페이지
+        - hcode:        string
+          hname:        string
+          opening_qty:  int
+          period_in:    int
+          period_out:   int
+          closing_qty:  int
+      page: { limit: int, offset: int, total: int, has_more: bool }
+      truncated: bool
 
   book_single:
     path: GET /api/v1/ledger/book
     legacy_id: Sobo33
     permission: ledger.book.read
+    status: phase1   # 이미 승격 완료 (phase1-promotion-gate §6 #8)
     query_params:
       book_code: required
       from_date: required ISO date
@@ -98,6 +143,7 @@ scope:
     path: GET /api/v1/ledger/book-integrated
     legacy_id: Sobo33_1
     permission: ledger.book.read
+    status: phase1   # 이미 승격 완료 (phase1-promotion-gate §6 #9)
     query_params:
       book_code_from: required
       book_code_to: required
@@ -114,27 +160,96 @@ scope:
           closing_qty: int
       total_count: int
 
+# ---------------------------------------------------------------
+# §branch_table — Subu32.pas L411~L506 의 누적 분기 (단일 원천 SSOT)
+# 백엔드 _accumulate_row (inventory_service) 가 본 표를 그대로 재현 — 결과 등가성 보장
+# ---------------------------------------------------------------
+branch_table:
+  - { yesno: Y, gubun: "*",  pubun: 이동, add: { gsqut: +Gsqut },                     pas_line: 454, note: "Sobo32 DBGrid101.GPSUM 컬럼은 모던 응답에서 'gsqut' 키로 매핑 — Subu31._accumulate_row SSOT" }
+  - { yesno: Y, gubun: "*",  pubun: 반품, add: { gisum: +Gsqut },                     pas_line: 457 }
+  - { yesno: Y, gubun: 입고, pubun: "*",  add: { giqut: +Gsqut },                     pas_line: 460 }
+  - { yesno: X, gubun: "*",  pubun: 증정, add: { gjqut: +Gsqut, gosum: +Gssum },      pas_line: 464 }
+  - { yesno: X, gubun: 출고, pubun: "*",  add: { goqut: +Gsqut, gosum: +Gssum },      pas_line: 467 }
+  - { yesno: X, gubun: 폐기, pubun: 비품, add: { gpqut: +Gsqut, gjsum: +Gsqut },      pas_line: 471 }
+  - { yesno: X, gubun: 폐기, pubun: "_else", add: { gpqut: +Gsqut, gbsum: +Gsqut },   pas_line: 474 }
+  - { yesno: X, gubun: "_else", pubun: 비품, add: { gbqut: +Gsqut, gjsum: -Gsqut },   pas_line: 482 }
+  - { yesno: X, gubun: "_else", pubun: 폐기, add: { gpqut: +Gsqut },                  pas_line: 484 }
+  - { yesno: X, gubun: 반품, pubun: "*",  add: { gbsum: -Gsqut, gbqut: +Gsqut },      pas_line: 504 }
+
+# ---------------------------------------------------------------
+# 회귀 가드 — Sobo54/57 v1.2.2 에서 일반화 (모든 endpoint 의무 적용)
+# ---------------------------------------------------------------
+regression_guards:
+  R1_no_count_grouped:
+    rule: "메인 페이저 total 산출은 단일 컬럼 COUNT(DISTINCT) 만 허용."
+    forbidden_helpers: [count_grouped]
+    enforced_helper: app.services.inventory_service._dates_count_sql
+    reason: "Sobo54/57 30s frontend timeout (2026-04-22) 회귀."
+  R2_join_separation:
+    rule: "S1_Ssub 메인 SQL 에 G4_Book/G7_Ggeo/G1_Ggeo JOIN 금지 — 페이지 행에서 distinct 코드 추출 후 청크 룩업."
+    enforced_helper: app.services.inbound_service._fetch_{publisher,product}_names
+    reason: "Sobo54/57 mysql3 5분 read_timeout (v1.2.2)."
+  R3_pager_limit_plus_one:
+    rule: "메인 페이저는 LIMIT+1 has_more 패턴. count_grouped 없이 has_more 산출."
+    enforced_helper: app.core.sql_mysql3.{apply_limit_offset_syntax,limit_offset_bind}
+  R4_summary_offset_zero_only:
+    rule: "summary(전역 합계) 는 offset==0 일 때만 산출. 후속 페이지는 0 (프론트 totalsCache)."
+  R5_in_clause_lookup_chunked:
+    rule: "이름 룩업은 in_clause_lookup 청크 분할 — 거대 IN 파싱 stall 가드."
+  R6_router_exception_class_in_detail:
+    rule: "라우터 500 응답 detail.message 에 type(exc).__name__ 포함."
+    pattern: 'detail={"code": "INQ_TX_FAILED", "message": f"{flow} failed: {type(exc).__name__}"}'
+  R7_dselect_role_scope:
+    rule: "operator=본인 거래처만, branch_manager=지사, admin=전체 — DEC-046."
+    enforced_dependency: app.core.d_select
+
 acceptance_criteria:
   - id: AC-LDG-1
-    description: "customer_single — opening + sum(debit) - sum(credit) = closing 자기일관성 (5축 회계 등가)"
-    test: "test/test_c6_ledger_phase2.py::test_customer_single_self_consistent"
+    description: "customer_single — opening + Σin - Σout = closing_qty 자기일관성 (5축 회계 등가)"
+    test: "test/test_c6_customer_ledger_phase2.py::test_customer_single_self_consistent"
   - id: AC-LDG-2
-    description: "book_single — opening + inbound - outbound = closing 잔량 자기일관성"
+    description: "book_single — opening + inbound - outbound = closing 잔량 자기일관성 (이미 phase1)"
     test: "test/test_c6_ledger_phase2.py::test_book_single_quantity_consistent"
   - id: AC-LDG-3
     description: "customer_integrated 의 모든 customer 합계 = customer_single 단일 호출의 누적과 일치"
-    test: "test/test_c6_ledger_phase2.py::test_integrated_equals_single_aggregated"
+    test: "test/test_c6_customer_ledger_phase2.py::test_integrated_equals_single_aggregated"
   - id: AC-LDG-4
-    description: "book_integrated 의 book_code_from > to 시 422 BAD_REQUEST"
+    description: "book_integrated 의 book_code_from > to 시 422 BAD_REQUEST (이미 phase1)"
     test: "test/test_c6_ledger_phase2.py::test_book_range_validation"
   - id: AC-LDG-5
     description: "권한별 d_select — operator 본인 거래처만, branch_manager 지사, admin 전체"
-    test: "test/test_c6_ledger_phase2.py::test_dselect_by_role"
+    test: "test/test_c6_customer_ledger_phase2.py::test_dselect_by_role"
   - id: AC-LDG-6
     description: "페이지네이션 — limit > 500 시 422 + has_more 정확성"
-    test: "test/test_c6_ledger_phase2.py::test_pagination_correctness"
+    test: "test/test_c6_customer_ledger_phase2.py::test_pagination_correctness"
+  - id: AC-LDG-7
+    description: "§branch_table 10건 모두 _accumulate_row 가 1:1 재현 (결과 등가)"
+    test: "test/test_c6_customer_ledger_phase2.py::test_branch_table_equivalence"
+  - id: AC-LDG-8
+    description: "메인 SQL 정적 검사 — JOIN G4_Book/G7_Ggeo/G1_Ggeo 미포함 (R2 회귀 가드)"
+    test: "test/test_c6_customer_ledger_phase2.py::test_no_join_in_main_sql"
+  - id: AC-LDG-9
+    description: "라우터 500 응답에 type(exc).__name__ 포함 (R6 회귀 가드)"
+    test: "test/test_c6_customer_ledger_phase2.py::test_router_500_includes_exception_class_name"
 
 decisions:
-  - DEC-040
+  - DEC-028  # DFM 산출물 입력 동결 → analysis/layout_mappings/Sobo32{,_1}.md
+  - DEC-033  # mysql3 호환 — 페이저/JOIN 분리 — 본 contract 의 R1~R5 회귀 가드
+  - DEC-040  # 신규 SQL 0건 정책 — constraints.new_sql_count: 0
   - DEC-041
-  - DEC-046
+  - DEC-046  # 권한 d_select — R7 회귀 가드
+  - DEC-055  # useListSession (프론트 list snapshot 보존)
+
+changelog:
+  - version: 1.1.0
+    date: 2026-04-22
+    changes:
+      - "customer_single / customer_integrated 2건 보강 — legacy_pas 라인 인용, 9 컬럼 응답 스키마, balance_qty(모던 신설) 추가."
+      - "§branch_table 신설 — Subu32.pas L411~L506 의 9 분기 누적식 SSOT 동결."
+      - "regression_guards R1~R7 — Sobo54/57 v1.2.2 회귀(mysql3 read_timeout) 학습 항목 일반화 (사용자 룰: '유사 케이스까지 모두 해결')."
+      - "constraints.reused_helpers — SOLID DIP 차원에서 신설 service 가 의존할 헬퍼 명시. SQL 신설 0건 + 코드 중복 0건 보장."
+      - "AC-LDG-7/8/9 — 분기 표 등가 + JOIN 분리 정적 검사 + 라우터 진단성 회귀 가드."
+  - version: 1.0.0
+    date: 2026-04-21
+    changes:
+      - "초기 4 endpoint draft."

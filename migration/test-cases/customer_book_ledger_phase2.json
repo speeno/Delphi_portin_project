@@ -2,7 +2,7 @@
   "$schema_note": "Phase2 회귀 팩. migration/contracts/customer_book_ledger_phase2.yaml 1:1.",
   "id": "C6-customer-book-ledger-phase2",
   "contract": "migration/contracts/customer_book_ledger_phase2.yaml",
-  "version": "1.0.0-phase2",
+  "version": "1.1.0-phase2",
   "scope_phase": "phase2",
   "axes": ["functional", "data", "permission"],
   "fixtures": {
@@ -90,6 +90,58 @@
       "request": { "method": "GET", "path": "/api/v1/ledger/customer", "query": { "customer_code": "C001", "from_date": "2026-01-01", "to_date": "2026-12-31", "limit": 1000 } },
       "expected": { "status": 422, "body": { "code": "BAD_REQUEST" } },
       "covers_acceptance": ["AC-LDG-6"]
+    },
+    {
+      "id": "TC-LDG-007",
+      "title": "분기 표 10건 — Subu32.pas L411~L506 의 분기 누적식 1:1 재현",
+      "axes": ["data"],
+      "covers_acceptance": ["AC-LDG-7"],
+      "ssot": "app.services.inventory_service._accumulate_row",
+      "branch_table": [
+        { "row": 1, "yesno": "Y", "gubun": "*", "pubun": "이동", "input": { "Gsqut": 5, "Gssum": 0 }, "expect_acc_delta": { "gsqut": 5 }, "pas_line": 454, "note": "DBGrid GPSUM 컬럼은 모던 응답에서 'gsqut' 키로 매핑됨" },
+        { "row": 2, "yesno": "Y", "gubun": "*", "pubun": "반품", "input": { "Gsqut": 7 }, "expect_acc_delta": { "gisum": 7 }, "pas_line": 457 },
+        { "row": 3, "yesno": "Y", "gubun": "입고", "pubun": "신간", "input": { "Gsqut": 10 }, "expect_acc_delta": { "giqut": 10 }, "pas_line": 460 },
+        { "row": 4, "yesno": "X", "gubun": "*", "pubun": "증정", "input": { "Gsqut": 3, "Gssum": 21000 }, "expect_acc_delta": { "gjqut": 3, "gosum": 21000 }, "pas_line": 464 },
+        { "row": 5, "yesno": "X", "gubun": "출고", "pubun": "신간", "input": { "Gsqut": 4, "Gssum": 28000 }, "expect_acc_delta": { "goqut": 4, "gosum": 28000 }, "pas_line": 467 },
+        { "row": 6, "yesno": "X", "gubun": "폐기", "pubun": "비품", "input": { "Gsqut": 2 }, "expect_acc_delta": { "gpqut": 2, "gjsum": 2 }, "pas_line": 471 },
+        { "row": 7, "yesno": "X", "gubun": "폐기", "pubun": "_else", "input": { "Gsqut": 6 }, "expect_acc_delta": { "gpqut": 6, "gpsum": 6 }, "pas_line": 474 },
+        { "row": 8, "yesno": "X", "gubun": "_else", "pubun": "비품", "input": { "Gsqut": 5, "Gssum": 35000 }, "expect_acc_delta": { "gbqut": 5, "gbsum": 35000, "gjsum": -5 }, "pas_line": 482 },
+        { "row": 9, "yesno": "X", "gubun": "_else", "pubun": "폐기", "input": { "Gsqut": 4 }, "expect_acc_delta": { "gpqut": 4 }, "pas_line": 484 },
+        { "row": 10, "yesno": "X", "gubun": "잡기타", "pubun": "잡기타", "input": { "Gsqut": 99 }, "expect_acc_delta": {}, "note": "분기 미매칭 시 가산 0 (회귀 가드)" }
+      ],
+      "test_python": "test/test_c6_customer_ledger_phase2.py::BranchTableEquivalenceTest"
+    },
+    {
+      "id": "TC-LDG-008",
+      "title": "메인 SQL 정적 검사 — JOIN G4_Book/G7_Ggeo/G1_Ggeo 미포함 (R2)",
+      "axes": ["functional", "performance"],
+      "covers_acceptance": ["AC-LDG-8"],
+      "regression_guard": "R2_join_separation",
+      "test_python": "test/test_c6_customer_ledger_phase2.py::CustomerLedgerServicePagingTest::test_no_join_in_main_sql",
+      "rationale": "Sobo54/57 v1.2.2 의 mysql3 5분 read_timeout 회귀 일반화."
+    },
+    {
+      "id": "TC-LDG-009",
+      "title": "라우터 500 응답 detail.message 에 type(exc).__name__ 포함 (R6)",
+      "axes": ["functional"],
+      "covers_acceptance": ["AC-LDG-9"],
+      "regression_guard": "R6_router_exception_class_in_detail",
+      "scenarios": [
+        { "endpoint": "/api/v1/ledger/customer", "service_raises": "TimeoutError", "expect_substring": "TimeoutError" },
+        { "endpoint": "/api/v1/ledger/customer-integrated", "service_raises": "TimeoutError", "expect_substring": "TimeoutError" }
+      ],
+      "test_python": "test/test_c6_customer_ledger_phase2.py::CustomerLedgerRouterContractTest::test_router_500_includes_exception_class_name"
+    },
+    {
+      "id": "TC-LDG-010",
+      "title": "summary 는 offset==0 일 때만 채워짐 (R4 / 프론트 totalsCache)",
+      "axes": ["functional"],
+      "regression_guard": "R4_summary_offset_zero_only",
+      "scenarios": [
+        { "offset": 0, "expect": "summary.opening_qty > 0 또는 행에 따라 변동" },
+        { "offset": 1, "expect": "summary.{opening_qty,total_in,total_out,closing_qty} == 0" }
+      ],
+      "test_python": "test/test_c6_customer_ledger_phase2.py::CustomerLedgerServicePagingTest::test_summary_offset_zero_only"
     }
   ]
 }
