@@ -19,7 +19,7 @@
 
 id: C3-inbound-receipt
 name: 입고 접수(입고명세서 입력)
-version: 1.1.0
+version: 1.2.1
 status: approved        # draft → review → approved (1차 동결, DEC-027). 1.1.0 = phase2 UI 보강(자체 행위 변경 0).
 scope_phase: phase1
 acceptance_goal: |
@@ -672,12 +672,24 @@ endpoints:
 
   - method: GET
     path: /api/v1/inbound/reports/daily
-    description: "일별 입고내역서 (Sobo54). DBGrid101 (출판사 단위) + DBGrid201 (입고처 단위) 두 그리드."
+    description: |
+      일별 입고내역서 (Sobo54). DBGrid101 (출판사 단위) + DBGrid201 (입고처 단위) 두 그리드.
+      페이징 정책 (이중 그리드 동기 롤 + LIMIT+1 has_more — DEC-033(g) 대용량 변형):
+        - limit/offset 은 두 그리드(by_publisher / by_vendor) 에 동일 적용. UI 페이저 1개로 제어.
+        - 서버는 ``LIMIT (limit+1) OFFSET offset`` 쿼리로 has_more 만 판정 — count_grouped 미사용
+          (6컬럼 GROUP BY + JOIN 3개 환경에서 30s+ 타임아웃을 방지하기 위한 핵심 정책).
+        - page.has_more = (publisher 측 has_more) OR (vendor 측 has_more) — 한 그리드라도 다음 페이지가 있으면 True.
+        - page.total = ``offset + max(len(by_publisher), len(by_vendor)) + (1 if has_more else 0)``
+          (정확한 그룹 수가 아닌 진척도 ceiling — 실제 다음/이전 네비게이션은 has_more 가 진실의 원천).
+        - totals (qty/amount) 는 페이지 무관 **전역 합계** — 별도 SUM 쿼리로 산출하며 ``offset==0`` 응답에서만 채워진다.
+          후속 페이지 응답에서는 ``totals = {qty: 0, amount: 0}`` 이며 프론트가 첫 페이지 응답을 캐시해 표시한다.
     auth: bearer
     request:
       query:
         server_id: string
         gdate: "string (required, 'YYYY-MM-DD')"
+        limit?: integer    # 기본 100, 최대 500 (DEC-024)
+        offset?: integer   # 기본 0
     responses:
       "200":
         body:
@@ -685,17 +697,26 @@ endpoints:
             - { gdate, hcode, hname, gcode, gname, idnum, pubun, bcode, bname, gsqut, gdang }
           by_vendor:       # DBGrid201 — layout_mappings/Sobo54.md §3
             - { gcode, gname, idnum, pubun, bcode, bname, gsqut, gdang, grat1, gssum }
-          totals: { qty: integer, amount: integer }
+          totals: { qty: integer, amount: integer }   # 전역 합 (offset==0 1회만 채움)
+          page:
+            limit: integer
+            offset: integer
+            total: integer    # ceiling = offset + visible (+1 if has_more)
+            has_more: boolean # 진실의 원천 (count 미사용)
 
   - method: GET
     path: /api/v1/inbound/reports/period
-    description: "기간별 입고내역서 (Sobo57). 시작/종료 일자 BETWEEN."
+    description: |
+      기간별 입고내역서 (Sobo57). 시작/종료 일자 BETWEEN.
+      페이징·합계 정책은 /reports/daily 와 동일 (이중 그리드 동기 롤 + LIMIT+1 has_more + 전역 totals 첫 페이지 캐시).
     auth: bearer
     request:
       query:
         server_id: string
         date_from: "string (required, 'YYYY-MM-DD')"
         date_to: "string (required, 'YYYY-MM-DD')"
+        limit?: integer    # 기본 100, 최대 500
+        offset?: integer
     responses:
       "200":
         body:
@@ -703,7 +724,12 @@ endpoints:
             - { hcode, hname, gdate, gcode, gname, idnum, pubun, bcode, bname, gsqut, gdang }
           by_vendor:       # DBGrid201 — layout_mappings/Sobo57.md §3
             - { gdate, gcode, gname, idnum, pubun, bcode, bname, gsqut, gdang, grat1, gssum }
-          totals: { qty: integer, amount: integer }
+          totals: { qty: integer, amount: integer }   # 전역 합 (offset==0 1회만 채움)
+          page:
+            limit: integer
+            offset: integer
+            total: integer    # ceiling = offset + visible (+1 if has_more)
+            has_more: boolean
 
 # ---------------------------------------------------------------
 # 6. 차이점·결정 사항
@@ -840,3 +866,32 @@ changelog:
           status=cancelled 는 read-only 유지 (DEC-027).
       - DEC-028 회귀 가드: Sobo22.DBGrid101 / Sobo54·Sobo57 DBGrid101·DBGrid201 헤더에
         `data-legacy-id` 부착, 매핑 노트 §5 체크리스트 충족.
+  - date: 2026-04-22
+    by: porting-team
+    note: |
+      1.2.0 — Sobo54/Sobo57 P2 승격 준비 (계약 + 회귀 동기화):
+      - GET /inbound/reports/daily·/period 에 ``limit``/``offset`` query 추가 (기본 100·최대 500).
+      - 응답에 ``page: {limit, offset, total, has_more}`` 메타 신설 (DEC-033(g) 페이저 표준).
+      - 이중 그리드 동기 롤 정책 명시: 한 그리드가 먼저 소진되면 빈 페이지.
+      - ``totals`` 필드 의미 변경: **페이지 무관 전역 SUM** (별도 SQL_*_GRAND_TOTALS).
+        그리드 풋터 합계가 페이지 변경에 흔들리지 않도록 페이지 행 합과 분리.
+      - 회귀 팩 ``_phase2_addendum.json`` 에 ``inbound_receipt → endpoints.reports.daily_period``
+        섹션 신설 (TC-IN-RPT-001~006, AC-IN-RPT-1~6 — 422/500/페이징/전역합/빈집합 가드).
+      - 백엔드 mysql3 호환: ``apply_limit_offset_syntax`` 공통 헬퍼 사용 (DEC-033).
+  - date: 2026-04-22
+    by: porting-team
+    note: |
+      1.2.1 — Sobo54/Sobo57 30s 타임아웃 회귀 근본 수정 (DEC-033(g) 대용량 변형):
+      - 6컬럼 GROUP BY (Gdate·Hcode·Gcode·Jubun·Pubun·Bcode) + JOIN 3개 환경에서
+        ``count_grouped`` 가 GROUP BY 결과를 전부 Python 으로 가져와 길이만 세는 구조라
+        22일 BETWEEN 검색에서 30s+ HTTP TIMEOUT 을 일으키던 회귀 제거.
+      - 페이저 진실의 원천을 ``LIMIT (limit+1) OFFSET offset`` 의 ``has_more`` 로 전환:
+          page.has_more = (publisher 측 has_more) OR (vendor 측 has_more)
+          page.total = offset + max(len(by_publisher), len(by_vendor)) + (1 if has_more else 0)
+        (정확한 그룹 수가 아닌 진척도 ceiling — 다음/이전은 has_more 가 권위).
+      - ``totals`` 는 ``offset==0`` 응답에서만 SUM 산출 (후속 페이지 0/0). 프론트가
+        첫 페이지 응답을 캐시해 표시하므로 「전체 합계」 흔들림 없음.
+      - 프론트 ``inboundApi.daily/period`` 타임아웃 60s 로 상향 (리포트는 일반 CRUD 대비
+        GROUP BY/JOIN 비용이 본질적으로 큼 — 30s 기본 한도와의 ALIGN).
+      - 회귀 가드: ``test_c3_inbound_reports_phase2.py::ReportServicePagingTest`` 9건 PASS
+        (LIMIT+1 슬라이싱, 클램프, has_more, offset>0 시 grand_totals 미산출).

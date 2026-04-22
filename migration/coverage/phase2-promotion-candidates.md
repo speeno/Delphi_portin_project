@@ -42,8 +42,8 @@ dashboard `tasks` 가 `T1~T6 == done` 인 화면. 4대 DB 환경 등록 + cross-
 
 | 화면 | 라우트 | 비고 |
 |---|---|---|
-| `Sobo54` | `/inbound/reports/daily` | 백엔드+프론트 done — 422 (러너 query 보강) |
-| `Sobo57` | `/inbound/reports/period` | 백엔드+프론트 done — 500 (DB 미등록) |
+| `Sobo54` | `/inbound/reports/daily` | **준비 완료** — 422 해결(러너 `_query_for` 에 `gdate` 분기), 페이저 동기 롤(`limit/offset`) + `useListSession` + 전역/페이지 합 분리. T7 RUN_DB_SMOKE 등록 시 200 확인 후 승격. |
+| `Sobo57` | `/inbound/reports/period` | **준비 완료** — 500 회귀: mysql3 LIMIT 호환(`apply_limit_offset_syntax`) + 별도 SUM 쿼리로 페이지·합계 분리. 코드 경로 8건 mocked 회귀 PASS (`test_c3_inbound_reports_phase2.py`). RUN_DB_SMOKE 등록 시 200 확인 후 승격. |
 | `Sobo34_4` | `/returns/ledger` | 백엔드+프론트 done — transport 0 (라우터 매핑 누락) |
 | `Sobo58` | `/returns/period-report` | 백엔드+프론트 done — 404 (라우터 path 차이) |
 | `Sobo49_tax` | `/settlement/tax-invoice` | 백엔드+프론트 done — 422 |

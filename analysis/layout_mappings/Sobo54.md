@@ -65,8 +65,21 @@ DEC-028 의무 — DBGrid 컬럼·정렬·합계와 위젯 ID·TabOrder 를 1:1 
 - [x] 합계 행: `gsqut`/`gssum` footer 합계 표시 (그리드 직하 totals 영역).
 - [x] `data-legacy-id="Sobo54.DBGrid101"`, `data-legacy-id="Sobo54.DBGrid201"` + 컬럼별 `Sobo54.DBGrid***.${FIELD}` 부착.
 - [x] 검색 일자 변경 후 「조회」 클릭 시 두 그리드 동시 새로고침.
+- [x] `DataGridPager` (DEC-033(g)) + `useListSession` (DEC-055) 적용 — 페이지/limit/일자가 sessionStorage 에 보존.
+- [x] **합계 분리**: 화면 상단 「전체 합계」는 페이지 무관 전역 SUM (`totals`), 각 그리드 직하 「현재 페이지 합」은 페이지 행 SUM 으로 분리 표시.
+- [x] **이중 그리드 동기 롤**: 두 그리드(by_publisher / by_vendor) 가 단일 페이저 1개로 동시 진행. `page.has_more = pub.has_more OR ven.has_more`. `page.total` 은 진척도 ceiling (정확한 그룹 수 아님) — `count_grouped` 대신 `LIMIT+1` has_more 패턴으로 30s 타임아웃 회피 (DEC-033(g) 대용량 변형).
 
 ## 6. 참조
 
-- DEC-028 (dfm 영구 입력), DEC-004 (인쇄 1차 보류).
-- contract: `migration/contracts/inbound_receipt.yaml` SQL-IN-3 (READ daily report).
+- DEC-028 (dfm 영구 입력), DEC-004 (인쇄 1차 보류), DEC-033(g) (페이저 표준), DEC-055 (`useListSession`).
+- contract: `migration/contracts/inbound_receipt.yaml`
+  - 엔드포인트: `GET /api/v1/inbound/reports/daily` — `data_access` SQL-IN-10 (DAILY REPORT).
+  - 회귀 팩: `migration/test-cases/_phase2_addendum.json` `endpoints.reports.daily_period` (TC-IN-RPT-001~003 / AC-IN-RPT-1~3).
+
+## 7. Phase2 deltas (의도적 차이 — 레거시 대비)
+
+| ID | 항목 | 레거시 | 모던 (phase2) | 사유 |
+| --- | --- | --- | --- | --- |
+| Δ-IN-RPT-1 | 행 적재 | 일자 매칭 전량 로드 | 서버 페이징 (limit/offset, 기본 100·최대 500) | 행 수 폭증 대비 (DEC-033(g)). |
+| Δ-IN-RPT-2 | 합계 출처 | DBGrid 자체 footer (현재 표시 행 합) | `totals` 별도 SUM (전역) + 그리드 footer (페이지 합) 병행 | 페이지 변경 시 합계가 흔들리지 않도록 분리. |
+| Δ-IN-RPT-3 | 페이저 단위 | 그리드별 분리 가능 | **두 그리드 동기 롤** (단일 페이저) | 레거시는 동일 조건 동시 갱신 — UI 단순화 + 재귀 버그 방지. |

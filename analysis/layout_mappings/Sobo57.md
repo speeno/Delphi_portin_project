@@ -65,8 +65,23 @@ DEC-028 의무 — DBGrid 컬럼·정렬·합계와 위젯 ID 를 1:1 보존.
 - [x] 합계 행: `gsqut`/`gssum` 두 그리드 모두 표시.
 - [x] `data-legacy-id="Sobo57.DBGrid101"`, `data-legacy-id="Sobo57.DBGrid201"` + 컬럼별 `Sobo57.DBGrid***.${FIELD}` 부착.
 - [x] 시작/종료 일자 양방향 검증 (시작 ≤ 종료) — 클라이언트 가드.
+- [x] `DataGridPager` (DEC-033(g)) + `useListSession` (DEC-055) 적용 — 페이지/limit/시작/종료 일자가 sessionStorage 에 보존.
+- [x] **합계 분리**: 화면 상단 「전체 합계」는 페이지 무관 전역 SUM (`totals`), 각 그리드 직하 「현재 페이지 합」은 페이지 행 SUM 으로 분리 표시.
+- [x] **이중 그리드 동기 롤**: 두 그리드(by_publisher / by_vendor) 가 단일 페이저 1개로 동시 진행. `page.has_more = pub.has_more OR ven.has_more` (한 그리드라도 다음 페이지가 있으면 True). `page.total` 은 진척도 ceiling — 정확한 그룹 수가 아닌 `offset + visible (+1 if has_more)`.
+- [x] 빈 집합 (기간 내 입고 없음) → 200 + 빈 배열 + `totals={qty:0,amount:0}` (DEC-033 mysql3 빈집합 정합).
 
 ## 6. 참조
 
-- DEC-028, DEC-004.
-- contract: `migration/contracts/inbound_receipt.yaml` SQL-IN-4 (READ period report).
+- DEC-028, DEC-004, DEC-033 (mysql3 호환 + 페이저 표준), DEC-055 (`useListSession`).
+- contract: `migration/contracts/inbound_receipt.yaml`
+  - 엔드포인트: `GET /api/v1/inbound/reports/period` — `data_access` SQL-IN-11 (PERIOD REPORT).
+  - 회귀 팩: `migration/test-cases/_phase2_addendum.json` `endpoints.reports.daily_period` (TC-IN-RPT-004~006 / AC-IN-RPT-4~6).
+
+## 7. Phase2 deltas (의도적 차이 — 레거시 대비)
+
+| ID | 항목 | 레거시 | 모던 (phase2) | 사유 |
+| --- | --- | --- | --- | --- |
+| Δ-IN-RPT-1 | 행 적재 | 기간 매칭 전량 로드 | 서버 페이징 (limit/offset, 기본 100·최대 500) | 기간 길이에 비례한 행 수 폭증 대비 (DEC-033(g)). |
+| Δ-IN-RPT-2 | 합계 출처 | DBGrid 자체 footer (현재 표시 행 합) | `totals` 별도 SUM (전역) + 그리드 footer (페이지 합) 병행 | 페이지 변경 시 합계가 흔들리지 않도록 분리. |
+| Δ-IN-RPT-3 | 페이저 단위 | 그리드별 분리 가능 | **두 그리드 동기 롤** (단일 페이저) | UI 단순화 + 재귀 버그 방지. Sobo54 와 동일. |
+| Δ-IN-RPT-4 | mysql3 LIMIT 문법 | 단일 LIMIT 절 | `apply_limit_offset_syntax` + `limit_offset_bind` (3.23 호환) | 4대 DB SKIP 환경에서도 200 보장 — 500 회귀 근본 제거. |

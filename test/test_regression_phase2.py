@@ -62,7 +62,7 @@ from contextlib import suppress
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import pytest
 
@@ -143,13 +143,28 @@ _WRITE_ONLY_SCREENS = {
 }
 
 
+# 라우트별 필수 query 보강 — 공통 dateFrom/dateTo/limit 만으로는 422 가 발생하는
+# 엔드포인트만 예외로 매핑한다. 한 곳에 모아 신규 화면 추가 시 회귀를 가드한다.
+_ROUTE_REQUIRED_QUERY: dict[str, Callable[[str, str], str]] = {
+    # Sobo54 일별 입고 리포트는 단일 일자(`gdate`) 가 필수 (FastAPI Query(...) 검증).
+    # `dateFrom` 만 보내면 422.
+    "/inbound/reports/daily": lambda df, dt: f"gdate={df}",
+}
+
+
 def _query_for(route: str, df: str, dt: str) -> str:
-    """frontend route → backend GET query 파라미터 자동 부여."""
-    base = f"dateFrom={df}&dateTo={dt}&limit=1"
-    if "?" in route:
-        # query 가 이미 있는 경우 (예: /transactions/status?view=list)
-        return base
-    return base
+    """frontend route → backend GET query 파라미터 자동 부여.
+
+    - 기본은 ``dateFrom/dateTo`` 범위 + ``limit=1`` (페이징 1페이지 1건 스모크).
+    - 기본 파라미터로 422 가 나는 라우트만 ``_ROUTE_REQUIRED_QUERY`` 에 등록해
+      route-specific query 로 대체한다 (예: ``/inbound/reports/daily`` 는 ``gdate``).
+    - ``limit/offset`` 은 페이징 도입 후에도 명시 — 실제 페이징 코드 경로를 타도록.
+    """
+    route_no_query, _, _ = route.partition("?")
+    builder = _ROUTE_REQUIRED_QUERY.get(route_no_query)
+    if builder is not None:
+        return f"{builder(df, dt)}&limit=1&offset=0"
+    return f"dateFrom={df}&dateTo={dt}&limit=1&offset=0"
 
 
 def _phase2_groups(server_id: str, df: str, dt: str) -> list[GroupSpec]:

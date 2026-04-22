@@ -1,16 +1,24 @@
 {
-  "generated_at": "2026-04-22T10:46:49.117829+00:00",
+  "generated_at": "2026-04-22T11:25:46.263538+00:00",
   "summary": {
     "total_pages": 73,
-    "covered": 26,
+    "covered": 28,
     "violations": 0,
     "allowed": 0,
-    "skipped": 47
+    "skipped": 45
   },
   "covered": [
     {
       "route_key": "inbound.receipts",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/page.tsx"
+    },
+    {
+      "route_key": "inbound.reports.daily",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/reports/daily/page.tsx"
+    },
+    {
+      "route_key": "inbound.reports.period",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/reports/period/page.tsx"
     },
     {
       "route_key": "inventory.ledger",
@@ -167,14 +175,6 @@
     {
       "route_key": "inbound.receipts.new",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/new/page.tsx"
-    },
-    {
-      "route_key": "inbound.reports.daily",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/reports/daily/page.tsx"
-    },
-    {
-      "route_key": "inbound.reports.period",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/reports/period/page.tsx"
     },
     {
       "route_key": "ledger.comparison",
