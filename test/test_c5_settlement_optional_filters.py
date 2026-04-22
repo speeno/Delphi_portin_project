@@ -318,5 +318,77 @@ class PaginationRoundTripTests(_BaseClient):
         self.assertEqual(captured.get("offset"), 0)
 
 
+class BillingMysql3CompatTests(_BaseClient):
+    """청구서관리(/billing) — mysql3 호환 회귀 가드 (2026-04-22 500 핫픽스).
+
+    배경
+    -----
+    `_SQL_LIST_BILLING` 의 SELECT 절에 인라인 스칼라 서브쿼리
+    ``(SELECT COUNT(*) FROM T3_Ssub d WHERE …) AS LineCnt`` 가 포함되어
+    MySQL 3.23 (mysql3_protocol) 서버에서 1064 SQL syntax error → HTTP 500
+    이 발생했음. DEC-033 (d) 패턴(파생/서브쿼리 제거 + Python merge)을 일반화
+    적용하여 수정. 본 테스트는 두 가지 회귀를 동시에 막는다.
+
+    1) ``_SQL_LIST_BILLING`` 에 ``(SELECT`` 가 다시 들어오는지.
+    2) ``list_billing`` 이 별도 헬퍼(``_fetch_billing_line_counts``) 결과를
+       ``total_lines`` 로 정확히 머지하는지 — 청구서관리 좌측 그리드의
+       라인수 표시가 회귀되지 않도록.
+    """
+
+    def test_list_billing_sql_has_no_scalar_subquery(self) -> None:
+        sql = settlement_service._SQL_LIST_BILLING
+        self.assertNotIn(
+            "(SELECT", sql,
+            "MySQL 3.23 비호환 — _SQL_LIST_BILLING SELECT 에 스칼라 서브쿼리 금지 "
+            "(DEC-033 (d)). _fetch_billing_line_counts 헬퍼로 분리 유지.",
+        )
+
+    def test_list_billing_merges_line_counts_via_helper(self) -> None:
+        """list_billing 이 _fetch_billing_line_counts 결과를 total_lines 로 머지."""
+        import asyncio
+
+        rows = [
+            {"Gdate": "202604", "Hcode": "H0001", "Hname": "출판사1",
+             "Sum26": 1000, "Sum27": 100, "Sum28": 1100, "Yesno": "0"},
+            {"Gdate": "202604", "Hcode": "H0002", "Hname": "출판사2",
+             "Sum26": 500, "Sum27": 50, "Sum28": 550, "Yesno": "1"},
+        ]
+
+        async def fake_execute(server_id, sql, params=()):  # noqa: ARG001
+            if sql.lstrip().upper().startswith("SELECT COUNT"):
+                return [{"cnt": 2}]
+            return rows
+
+        async def fake_helper(server_id, keys):  # noqa: ARG001
+            return {("202604", "H0001"): 7, ("202604", "H0002"): 3}
+
+        with patch.object(settlement_service, "execute_query", side_effect=fake_execute), \
+             patch.object(settlement_service, "_fetch_billing_line_counts", side_effect=fake_helper):
+            items, total = asyncio.run(settlement_service.list_billing(
+                server_id="remote_1",
+                month_from="202604",
+                month_to="202604",
+            ))
+        self.assertEqual(total, 2)
+        self.assertEqual([i["total_lines"] for i in items], [7, 3])
+
+    def test_list_billing_route_returns_200_on_mysql3_safe_path(self) -> None:
+        """라우터 → list_billing 호출이 정상 200 반환 (서비스 mock; mysql3 안전성은 SQL 스트링 가드로 보장)."""
+        async def fake_list(**kwargs):  # noqa: ARG001
+            return ([
+                {"gdate": "202604", "hcode": "H0001", "hname": "출판사1",
+                 "total_lines": 5, "sum26": 1000, "sum27": 100, "sum28": 1100, "yesno": "0"},
+            ], 1)
+
+        with patch.object(settlement_service, "list_billing", side_effect=fake_list, create=True):
+            res = self.client.get(
+                "/api/v1/settlement/billing"
+                "?serverId=remote_1&monthFrom=202604&monthTo=202604"
+            )
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        self.assertEqual(body["items"][0]["total_lines"], 5)
+
+
 if __name__ == "__main__":  # pragma: no cover
     main()
