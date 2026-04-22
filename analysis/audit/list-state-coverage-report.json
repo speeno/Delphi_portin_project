@@ -1,16 +1,20 @@
 {
-  "generated_at": "2026-04-22T03:49:42.415704+00:00",
+  "generated_at": "2026-04-22T04:29:27.765462+00:00",
   "summary": {
     "total_pages": 73,
-    "covered": 17,
+    "covered": 20,
     "violations": 0,
     "allowed": 0,
-    "skipped": 56
+    "skipped": 53
   },
   "covered": [
     {
       "route_key": "inbound.receipts",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/page.tsx"
+    },
+    {
+      "route_key": "inventory.ledger",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/ledger/page.tsx"
     },
     {
       "route_key": "inventory.status",
@@ -23,6 +27,14 @@
     {
       "route_key": "ledger.book-integrated",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/book-integrated/page.tsx"
+    },
+    {
+      "route_key": "ledger.customer",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer/page.tsx"
+    },
+    {
+      "route_key": "ledger.customer-integrated",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer-integrated/page.tsx"
     },
     {
       "route_key": "master.book",
@@ -141,20 +153,8 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/reports/period/page.tsx"
     },
     {
-      "route_key": "inventory.ledger",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/ledger/page.tsx"
-    },
-    {
       "route_key": "ledger.comparison",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/comparison/page.tsx"
-    },
-    {
-      "route_key": "ledger.customer",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer/page.tsx"
-    },
-    {
-      "route_key": "ledger.customer-integrated",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer-integrated/page.tsx"
     },
     {
       "route_key": "master",
