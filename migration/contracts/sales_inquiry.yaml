@@ -797,48 +797,68 @@ changelog:
 phase2_addendum:
   transactions_status_view:
     base_legacy: Sobo21
-    base_endpoint: GET /api/v1/transactions/status
-    permission: transactions.status.read
-    new_query_param:
-      view: required enum[list, summary, memo]   # 모바일 통합 메뉴 분기
+    # 단일 진실: 기존 GET /api/v1/transactions/sales-statement 서비스 함수
+    # (transactions_service.list_sales_statements / summarize_sales_statements_by_customer).
+    # facade GET /api/v1/transactions/status 는 view 쿼리만 분기하는 얇은 래퍼이며
+    # 동일 서비스 호출만 수행 (SQL/비즈니스 규칙 중복 0).
+    canonical_endpoint: GET /api/v1/transactions/sales-statement
+    facade_endpoint:    GET /api/v1/transactions/status
+    permission: transactions.status.read   # 1차 RBAC 미적용 (DEC-016) — 인증만 요구
+    query_params:
+      shared:
+        serverId: required string
+        dateFrom: required ISO date (camelCase)   # snake_case dateFrom 도 허용
+        dateTo:   required ISO date (camelCase)
+        hcode:    optional (빈 값 = 전체 거래처 — 2026-04-21 정책)
+        includeCancelled: optional bool (default false — Yesno='2' 제외)
+        limit:    optional int (1~500, default 50)
+        offset:   optional int (>=0, default 0)
+      facade_only:
+        view: required enum[list, summary, memo] (default list — 미지정 = list)
+        memoLike: optional string (view=memo 한정, 본문 LIKE)
+      sales_statement_phase2:    # canonical 직접 호출 시 동등 매핑
+        memoPresence: optional enum[has_memo]  # view=memo 와 동등
+        memoLike:    optional string
+        includeMemoPreview: optional bool      # view=memo 는 자동 true
     response_variants:
-      list:
-        items:
-          - txn_date: ISO date
-            slip_no: string
-            customer_code: string
-            customer_name: string
-            book_count: int
-            total_amount: int
-        page: { limit: 200, max_limit: 500 }
-      summary:
+      list:                       # view=list 또는 ?view 미지정 (facade)
+        same_shape_as: SalesStatementListResponse
+        items_extension:
+          memo_preview: optional string (default "")   # 일반 LIST 에서는 빈 문자열
+      summary:                    # view=summary
+        wrapper: TransactionsStatusSummaryResponse
         items:
           - customer_code: string
             customer_name: string
             slip_count: int
             total_qty: int
             total_amount: int
-        sort: amount_desc
-      memo:
-        items:
-          - txn_date: ISO date
-            slip_no: string
-            customer_name: string
-            memo_preview: string   # 첫 100자
-        filter: memo IS NOT NULL AND LENGTH(memo) > 0
+        sort: amount_desc, customer_code asc (안정 정렬)
+        truncated: bool (서버 cap BLS_TXN_STATUS_FETCH_MAX=5000 도달 시 true)
+      memo:                       # view=memo
+        same_shape_as: SalesStatementListResponse
+        items_extension:
+          memo_preview: required string (≤100자, 본문 첫 100자)
+        filter: EXISTS S1_Memo (mysql3 호환 — 두 단계 fetch + Python 교집합)
     acceptance:
       - id: AC-INQ-P2-1
         description: "view=list 응답이 기존 Sobo21 거래명세서 1:1 매핑 (행 수·합계 ±0)"
         test: "test/test_c6_inquiry_phase2.py::test_view_list_equivalent"
       - id: AC-INQ-P2-2
-        description: "view=summary 응답이 거래처 단위 GROUP BY 합계 자기일관성"
+        description: "view=summary 응답이 거래처 단위 합계 자기일관성 + amount_desc 정렬"
         test: "test/test_c6_inquiry_phase2.py::test_view_summary_aggregation"
       - id: AC-INQ-P2-3
-        description: "view=memo 응답이 메모 비어있지 않은 행만 반환"
+        description: "view=memo 응답이 메모 보유 명세서만 반환 + memo_preview 채워짐"
         test: "test/test_c6_inquiry_phase2.py::test_view_memo_filter"
       - id: AC-INQ-P2-4
         description: "view 미지정 시 기본값 list (하위 호환)"
         test: "test/test_c6_inquiry_phase2.py::test_view_default_list"
+      - id: AC-INQ-P2-5
+        description: "view=memo + memoLike 키워드 부분일치 — 매칭되지 않는 행은 제외"
+        test: "test/test_c6_inquiry_phase2.py::test_view_memo_like_filter"
+      - id: AC-INQ-P2-6
+        description: "canonical /sales-statement?memoPresence=has_memo 응답이 facade view=memo 와 동등"
+        test: "test/test_c6_inquiry_phase2.py::test_canonical_memo_equivalent"
 
   audit_compare:
     base_legacy: Sobo48

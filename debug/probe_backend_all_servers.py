@@ -214,6 +214,32 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # Phase 2 — 거래현황(LIST/요약/메모) facade. 단일 라우트 + view 분기.
+        # DEC-033 §의무 사항 4 — 신규 라우터 GET 매트릭스 등록.
+        {
+            "group": "transactions.status.list",
+            "path": (
+                f"/api/v1/transactions/status?serverId={sid}"
+                f"&view=list&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.status.summary",
+            "path": (
+                f"/api/v1/transactions/status?serverId={sid}"
+                f"&view=summary&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.status.memo",
+            "path": (
+                f"/api/v1/transactions/status?serverId={sid}"
+                f"&view=memo&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
         # ─── Phase1 12-page 매트릭스 보강 (coverage matrix §3) ─────────────
         # docs/phase1-promotion-gate.md + migration/coverage/phase1-12pages-coverage.md
         # 의 회귀 그룹 4건 추가. 5xx 만 실패. 라우터 미등록(404) → 회귀로 즉시 실패.

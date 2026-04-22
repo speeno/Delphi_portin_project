@@ -11,6 +11,7 @@
       "contract": "migration/contracts/sales_inquiry.yaml",
       "section": "phase2_addendum.transactions_status_view",
       "screens": ["Sobo21_status_list", "Sobo21_status_summary", "Sobo21_status_memo"],
+      "_query_param_note": "백엔드 라우터는 camelCase alias (dateFrom/dateTo/serverId/includeCancelled/memoLike/memoPresence/includeMemoPreview) 사용 — snake_case 별명도 populate_by_name 으로 허용. 본 케이스는 실제 호출 형태인 camelCase 로 기재.",
       "cases": [
         {
           "id": "TC-INQ-P2-001",
@@ -18,28 +19,28 @@
           "axes": ["functional", "data"],
           "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
           "request_pair": [
-            { "method": "GET", "path": "/api/v1/transactions/status", "query": { "view": "list", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
-            { "method": "GET", "path": "/api/v1/transactions/sales-statement", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30" } }
+            { "method": "GET", "path": "/api/v1/transactions/status", "query": { "serverId": "<sid>", "view": "list", "dateFrom": "2026-04-01", "dateTo": "2026-04-30" } },
+            { "method": "GET", "path": "/api/v1/transactions/sales-statement", "query": { "serverId": "<sid>", "dateFrom": "2026-04-01", "dateTo": "2026-04-30" } }
           ],
-          "assertion": "view_list.items.length == legacy.items.length AND sum(view_list.items.total_amount) == sum(legacy.items.total_amount)",
+          "assertion": "view_list.items.length == legacy.items.length AND sum(view_list.items.amount) == sum(legacy.items.amount)",
           "covers_acceptance": ["AC-INQ-P2-1"]
         },
         {
           "id": "TC-INQ-P2-002",
-          "title": "view=summary — 거래처 단위 GROUP BY 합계 자기일관성",
+          "title": "view=summary — 거래처 단위 합계 자기일관성 + amount_desc 정렬",
           "axes": ["data"],
           "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
-          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "view": "summary", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
-          "expected": { "status": 200, "body": { "self_consistent_sort": "items sorted by total_amount desc" } },
+          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "serverId": "<sid>", "view": "summary", "dateFrom": "2026-04-01", "dateTo": "2026-04-30" } },
+          "expected": { "status": 200, "body": { "self_consistent_sort": "items sorted by total_amount desc, customer_code asc" } },
           "covers_acceptance": ["AC-INQ-P2-2"]
         },
         {
           "id": "TC-INQ-P2-003",
-          "title": "view=memo — 메모 비어있지 않은 행만 반환",
+          "title": "view=memo — 메모 보유 명세서만 반환 + memo_preview 채워짐",
           "axes": ["functional"],
           "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
-          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "view": "memo", "from_date": "2026-04-01", "to_date": "2026-04-30" } },
-          "expected": { "status": 200, "body": { "items_filter_check": "all items.memo_preview not in [null, '']" } },
+          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "serverId": "<sid>", "view": "memo", "dateFrom": "2026-04-01", "dateTo": "2026-04-30" } },
+          "expected": { "status": 200, "body": { "items_filter_check": "all items have non-empty memo_preview" } },
           "covers_acceptance": ["AC-INQ-P2-3"]
         },
         {
@@ -47,9 +48,30 @@
           "title": "view 미지정 → 기본값 list (하위 호환)",
           "axes": ["functional"],
           "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
-          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "from_date": "2026-04-01", "to_date": "2026-04-30" } },
+          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "serverId": "<sid>", "dateFrom": "2026-04-01", "dateTo": "2026-04-30" } },
           "expected": { "status": 200, "body": { "shape_matches_view": "list" } },
           "covers_acceptance": ["AC-INQ-P2-4"]
+        },
+        {
+          "id": "TC-INQ-P2-005",
+          "title": "view=memo + memoLike — 본문 부분일치 행만 반환",
+          "axes": ["functional"],
+          "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
+          "request": { "method": "GET", "path": "/api/v1/transactions/status", "query": { "serverId": "<sid>", "view": "memo", "dateFrom": "2026-04-01", "dateTo": "2026-04-30", "memoLike": "<keyword>" } },
+          "expected": { "status": 200, "body": { "items_filter_check": "memo_preview substring(case-insensitive)에 keyword 포함" } },
+          "covers_acceptance": ["AC-INQ-P2-5"]
+        },
+        {
+          "id": "TC-INQ-P2-006",
+          "title": "canonical 동등성 — /sales-statement?memoPresence=has_memo&includeMemoPreview=true ≡ facade view=memo",
+          "axes": ["data"],
+          "given": { "auth_token": "operator", "permissions": ["transactions.status.read"] },
+          "request_pair": [
+            { "method": "GET", "path": "/api/v1/transactions/sales-statement", "query": { "serverId": "<sid>", "dateFrom": "2026-04-01", "dateTo": "2026-04-30", "memoPresence": "has_memo", "includeMemoPreview": true } },
+            { "method": "GET", "path": "/api/v1/transactions/status", "query": { "serverId": "<sid>", "view": "memo", "dateFrom": "2026-04-01", "dateTo": "2026-04-30" } }
+          ],
+          "assertion": "canonical.items == facade.items (same set + same memo_preview)",
+          "covers_acceptance": ["AC-INQ-P2-6"]
         }
       ]
     },
