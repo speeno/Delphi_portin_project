@@ -335,12 +335,39 @@ class SettlementPhase1TestCase(TestCase):
         self.assertEqual(body["totals"]["gssum"], 330)
 
     def test_p1_12_period_summary_validation(self) -> None:
-        """TC-ST-P1-12: hcode 누락 시 422."""
-        res = self.client.get(
+        """TC-ST-P1-12: hcode 누락 시 422가 아닌 200 — DEC-033 (f) 옵셔널 정책.
+
+        2026-04-22 DEC-033 (f) 확장: hcode 가 없으면 전체 거래처 합산으로 fallback.
+        대신 monthFrom/monthTo 같은 경계 파라미터는 여전히 필수 (422).
+        """
+        captured: dict = {}
+
+        async def fake_period(**kwargs):
+            captured.update(kwargs)
+            return {
+                "items": [
+                    {"gdate": "202603", "gsumx": 999, "gsumy": 99,
+                     "gssum": 1098, "name1": ""},
+                ],
+                "totals": {"gsumx": 999, "gsumy": 99, "gssum": 1098},
+                "total": 1,
+            }
+
+        with patch.object(settlement_service, "list_period_summary",
+                          side_effect=fake_period, create=True):
+            res_no_hcode = self.client.get(
+                "/api/v1/settlement/billing/period"
+                "?serverId=remote_1&monthFrom=202603&monthTo=202604"
+            )
+        self.assertEqual(res_no_hcode.status_code, 200, res_no_hcode.text)
+        self.assertIsNone(captured.get("hcode"))
+
+        # 경계 파라미터(monthFrom)는 여전히 필수 — 422.
+        res_no_month = self.client.get(
             "/api/v1/settlement/billing/period"
-            "?serverId=remote_1&monthFrom=202603&monthTo=202604"
+            "?serverId=remote_1&hcode=H0001&monthTo=202604"
         )
-        self.assertEqual(res.status_code, 422, res.text)
+        self.assertEqual(res_no_month.status_code, 422, res_no_month.text)
 
     def test_p1_13_period_summary_routing_precedence(self) -> None:
         """TC-ST-P1-13: '/billing/period' 가 '/billing/{key}' 보다 먼저 매칭 (FastAPI route order)."""

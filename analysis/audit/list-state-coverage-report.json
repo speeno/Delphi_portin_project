@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-04-22T08:28:20.197700+00:00",
+  "generated_at": "2026-04-22T10:08:28.308169+00:00",
   "summary": {
     "total_pages": 73,
-    "covered": 21,
+    "covered": 26,
     "violations": 0,
     "allowed": 0,
-    "skipped": 52
+    "skipped": 47
   },
   "covered": [
     {
@@ -83,6 +83,26 @@
     {
       "route_key": "returns.receipts",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/receipts/page.tsx"
+    },
+    {
+      "route_key": "settlement.billing",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/billing/page.tsx"
+    },
+    {
+      "route_key": "settlement.cash",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/cash/page.tsx"
+    },
+    {
+      "route_key": "settlement.cash-status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/cash-status/page.tsx"
+    },
+    {
+      "route_key": "settlement.outstanding",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/outstanding/page.tsx"
+    },
+    {
+      "route_key": "settlement.tax-invoice",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/page.tsx"
     },
     {
       "route_key": "transactions.sales-statement",
@@ -225,24 +245,8 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/reports/page.tsx"
     },
     {
-      "route_key": "settlement.billing",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/billing/page.tsx"
-    },
-    {
       "route_key": "settlement.billing.print",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/billing/[billingKey]/print/page.tsx"
-    },
-    {
-      "route_key": "settlement.cash",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/cash/page.tsx"
-    },
-    {
-      "route_key": "settlement.cash-status",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/cash-status/page.tsx"
-    },
-    {
-      "route_key": "settlement.outstanding",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/outstanding/page.tsx"
     },
     {
       "route_key": "settlement.payment-slip",
@@ -251,10 +255,6 @@
     {
       "route_key": "settlement.period",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/period/page.tsx"
-    },
-    {
-      "route_key": "settlement.tax-invoice",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/page.tsx"
     },
     {
       "route_key": "settlement.tax-invoice.print",

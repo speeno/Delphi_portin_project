@@ -27,8 +27,8 @@
 #              i18n/messages/c5.ko.json (메시지 카탈로그)
 
 id: C5-settlement-billing
-name: 정산 청구·집계·입금 + 마감 가드 (Phase 1) / 청구서출력·세금계산서·재집계·audit 회전 UI (Phase 2) / PDF 다운로드 (C7 Phase 1)
-version: 1.2.0
+name: 정산 청구·집계·입금 + 마감 가드 (Phase 1) / 청구서출력·세금계산서·재집계·audit 회전 UI (Phase 2) / PDF 다운로드 (C7 Phase 1) / 발송비입금 422 핫픽스 (DEC-033 (f) 확장)
+version: 1.3.0
 status: approved
 scope_phase: phase2
 acceptance_goal: |
@@ -929,14 +929,19 @@ endpoints:
   # ---------- 청구금액 년월 (Sobo47) ----------
   - method: GET
     path: /api/v1/settlement/billing/period
-    description: "월별 청구금액 합계 보고 (Sobo47)."
+    description: |
+      월별 청구금액 합계 보고 (Sobo47).
+      DEC-033 (f): hcode 옵셔널 — 빈값/생략 시 전체 거래처 합산 (필터 vs 경계 구분).
+      DEC-033 (g): 표준 페이저(limit/offset).
     auth: bearer
     request:
       query:
         server_id: string
-        hcode: "string (required)"
+        hcode?: "string — 옵셔널, 미제공 시 전체 거래처 합산 (DEC-033 (f))"
         month_from: "string (required) 'YYYYMM'"
         month_to: "string (required)"
+        limit?: "integer (default 50, max 500)"
+        offset?: "integer (default 0)"
     responses:
       "200":
         body:
@@ -950,6 +955,7 @@ endpoints:
             gsumx: integer
             gsumy: integer
             gssum: integer
+          total: integer       # DEC-033 (g) 표준 페이저
 
   # ---------- 입금내역 (Sobo41) ----------
   - method: GET
@@ -1025,14 +1031,16 @@ endpoints:
   # ---------- 입금현황 (Sobo42/42_1) ----------
   - method: GET
     path: /api/v1/settlement/cash-status
-    description: "입금현황 5단 집계 — variant=hcode (Sobo42 본) | sdate (Sobo42_1 변형)."
+    description: |
+      입금현황 5단 집계 — variant=hcode (Sobo42 본) | sdate (Sobo42_1 변형).
+      DEC-033 (f): hcode 옵셔널 — 빈값이면 variant=sdate 도 전체 거래처 합산으로 fallback.
     auth: bearer
     request:
       query:
         server_id: string
         variant: "string ('hcode'|'sdate', default 'hcode')"
         month: "string (required) 'YYYYMM' — 기준월"
-        hcode?: "string — variant=sdate 시 필수"
+        hcode?: "string — 옵셔널, variant=sdate 도 빈값 시 전체 거래처 (DEC-033 (f))"
         limit?: integer
         offset?: integer
     responses:
@@ -1214,20 +1222,63 @@ endpoints:
       "423": { body: { detail: "마감된 자료입니다.", code: "ST_PERIOD_CLOSED" } }
 
   # ===========================================================
-  # Phase 2 — Sobo49 세금계산서
+  # Phase 2 — 미수현황 (Outstanding) 신규 서버 집계 (DEC-033 (f))
   # ===========================================================
   - method: GET
-    path: /api/v1/settlement/tax-invoice
-    description: "Sobo49 월 세금계산서 발행 대상 목록 (Sum27<>0 필터)."
+    path: /api/v1/settlement/outstanding
+    description: |
+      거래처별 미수금 집계 (청구금액 누계 - 입금 누계). 기존 화면이 fetchAllPages 로
+      클라이언트 누적하던 동작을 서버측 단일 집계로 흡수.
+      mysql3 호환: T2_Ssub + T5_Ssub fetch + Python merge (subquery/derived 미사용).
+      DEC-033 (f) — hcode 옵셔널, monthFrom/monthTo 필수 경계.
+      OUTSTANDING_FETCH_MAX 안전 한도 도달 시 truncated=true 응답.
     auth: bearer
     in_scope_phase: phase2
     request:
       query:
         server_id: string
-        month: "string (required) 'YYYYMM'"
-        hcode?: string
-        limit?: integer
-        offset?: integer
+        month_from: "string (required) 'YYYYMM'"
+        month_to: "string (required) 'YYYYMM'"
+        hcode?: "string — 옵셔널, 미제공 시 전체 거래처 (DEC-033 (f))"
+        limit?: "integer (default 50, max 500)"
+        offset?: "integer (default 0)"
+    responses:
+      "200":
+        body:
+          items:
+            - hcode: string                # alias customer_code
+              hname: string                # alias customer_name
+              billed: integer              # 청구금액 누계
+              paid: integer                # alias cash_received
+              balance: integer             # alias outstanding
+          totals:
+            billed: integer
+            cash_received: integer
+            balance: integer
+          total: integer
+          limit: integer
+          offset: integer
+          truncated: boolean
+          page: { limit, offset, total, has_more }
+
+  # ===========================================================
+  # Phase 2 — Sobo49 세금계산서
+  # ===========================================================
+  - method: GET
+    path: /api/v1/settlement/tax-invoice
+    description: |
+      Sobo49 월 세금계산서 발행 대상 목록 (Sum27<>0 필터).
+      DEC-033 (f): hcode 옵셔널 — 빈값/생략 시 월 전체 거래처. 경계(gdate)는 필수.
+      DEC-033 (g): 표준 페이저(limit/offset).
+    auth: bearer
+    in_scope_phase: phase2
+    request:
+      query:
+        server_id: string
+        gdate: "string (required) 'YYYYMM' (6~8자, 숫자) — 경계 파라미터, 422 가시화"
+        hcode?: "string — 옵셔널, 미제공 시 월 전체 거래처 (DEC-033 (f))"
+        limit?: "integer (default 50, max 500)"
+        offset?: "integer (default 0)"
     responses:
       "200":
         body:
@@ -1613,6 +1664,24 @@ customer_variants:
 # 10. 변경 이력
 # ---------------------------------------------------------------
 changelog:
+  - date: 2026-04-22
+    by: porting-team
+    note: |
+      1.3.0 — 발송비/입금 422 핫픽스 사이클 (DEC-033 (f) 확장 적용).
+      배경: Sobo45/45_1/47/41/42/42_1/49 7화면 중 일부가 빈 필터 자동 진입 시 422/500 으로 실패.
+      해결: 필터(hcode 등)는 옵셔널화하여 "전체 대상 fallback", 경계(month_from/to·gdate)는 필수 유지.
+      추가: 미수현황 신규 서버 집계 endpoint /api/v1/settlement/outstanding (mysql3 호환 fetch+Python merge + truncated).
+      - endpoint 변경 (시그니처만 — 기존 동작 보존):
+        - GET /settlement/billing/period: hcode 필수→옵셔널, limit/offset/total 표준화
+        - GET /settlement/cash-status: variant=sdate 도 hcode 옵셔널 (백엔드 fallback)
+        - GET /settlement/tax-invoice: hcode 옵셔널, limit/offset 신규, gdate 422 메시지 명확화
+      - endpoint +1: GET /settlement/outstanding (OutstandingItem/Response 신설)
+      - data_access: 기존 SQL 패턴 재사용 (DEC-033 (f) `(%s = '' OR Hcode = %s)` 분기 + LIMIT/OFFSET)
+      - 신규 SQL: 0 (기존 SQL-ST-6/10/11/18 + reports_service.summarize 패턴 재사용)
+      - 회귀 테스트: test/test_c5_settlement_optional_filters.py 신설 (period/cash-status/tax-invoice/outstanding/페이저 round-trip)
+      - 프런트: 5 list 화면(billing/cash/cash-status/tax-invoice/outstanding) 표준 페이저 + DEC-055 useListSession 합류,
+        period/payment-slip 은 useListSession 만 추가 (페이저 미적용, 소량 의도 유지).
+
   - date: 2026-04-19
     by: porting-team
     note: |

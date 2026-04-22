@@ -433,6 +433,80 @@
       "axes": ["functional"],
       "request": { "method": "POST", "path": "/api/v1/settlement/tax-invoice" },
       "expect": { "status": 404 }
+    },
+    {
+      "id": "TC-ST-P1-12-OPT-HCODE",
+      "title": "DEC-033 (f) — period: hcode 빈값 시 전체 거래처 합산 200 (필터 옵셔널화)",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/settlement/billing/period?serverId=remote_1&monthFrom=202603&monthTo=202604"
+      },
+      "expect": { "status": 200, "body_contains": { "items": [] } }
+    },
+    {
+      "id": "TC-ST-P1-12-MISS-MONTH",
+      "title": "DEC-033 (f) — period: 경계(monthFrom) 누락은 422 유지",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/settlement/billing/period?serverId=remote_1&monthTo=202604"
+      },
+      "expect": { "status": 422 }
+    },
+    {
+      "id": "TC-ST-CASH-STATUS-SDATE-OPT",
+      "title": "DEC-033 (f) — cash-status variant=sdate + hcode 빈값 → 200 (전체 거래처 fallback)",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/settlement/cash-status?serverId=remote_1&variant=sdate&month=202603"
+      },
+      "expect": { "status": 200 }
+    },
+    {
+      "id": "TC-ST-TAX-OPT-HCODE",
+      "title": "DEC-033 (f) — tax-invoice: hcode 빈값 + 페이저 round-trip",
+      "phase1_in_scope": false,
+      "phase2_in_scope": true,
+      "axes": ["functional"],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/settlement/tax-invoice?serverId=remote_1&gdate=202603&limit=50&offset=0"
+      },
+      "expect": { "status": 200 }
+    },
+    {
+      "id": "TC-ST-OUTSTANDING-200",
+      "title": "신규 — outstanding 서버 집계 단일 호출 200 + truncated 플래그 + 페이저",
+      "phase1_in_scope": false,
+      "phase2_in_scope": true,
+      "axes": ["functional", "performance"],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/settlement/outstanding?serverId=remote_1&monthFrom=202601&monthTo=202604&limit=50&offset=0"
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": { "totals": { "billed": 0, "cash_received": 0, "balance": 0 } }
+      }
+    },
+    {
+      "id": "TC-ST-PAGER-ROUND-TRIP",
+      "title": "DEC-033 (g) — 5 list 화면 limit/offset round-trip (page.limit/offset/total/has_more 보존)",
+      "phase1_in_scope": true,
+      "axes": ["functional"],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/settlement/billing?serverId=remote_1&monthFrom=202603&monthTo=202604&limit=10&offset=0"
+      },
+      "expect": {
+        "status": 200,
+        "body_contains": { "page": { "limit": 10, "offset": 0 } }
+      }
     }
   ]
 }

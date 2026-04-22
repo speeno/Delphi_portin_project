@@ -199,6 +199,16 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # 발송비/입금 422 핫픽스 사이클 — 미수현황 신규 서버 집계 (DEC-033 (f)).
+        # hcode 미지정 시 전체 거래처 fallback 가 200 으로 통과해야 함.
+        {
+            "group": "settlement.outstanding",
+            "path": (
+                f"/api/v1/settlement/outstanding?serverId={sid}"
+                f"&monthFrom={month}&monthTo={month}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
         {
             "group": "settlement.audit_settlement",
             "path": (

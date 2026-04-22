@@ -381,7 +381,7 @@ class C7PrintStaticTestCase(TestCase):
         contract = (ROOT / "migration" / "contracts" / "settlement_billing.yaml").read_text(
             encoding="utf-8"
         )
-        self.assertIn("version: 1.2.0", contract)
+        self.assertIn("version: 1.3.0", contract)
         for path in (
             "/billing/{billing_key}/print.pdf",
             "/tax-invoice/{billing_key}/print.pdf",
