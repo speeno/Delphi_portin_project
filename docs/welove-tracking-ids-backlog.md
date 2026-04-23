@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 |------|------|
 | 작성일 | 2026-04-23 (2026-04-24 갱신: BLD-* / MENU-* / OQ-BLD-1~7 / OQ-MENUVIS-* / MENUVIS-DEC-* / DSN-DEC-06~07 / ACC-MULTI-* / OQ-LICENSE-KEY-MAP) |
-| 추적 ID | `MAN-*`, `SCH-*`, `DSN-*`, `ONB-*`, `ACC-*`, `PROF-*`, **`BLD-*`**, **`MENU-*`**, **`MENUVIS-DEC-*`**, **`OQ-BLD-*`**, **`OQ-MENUVIS-*`**, **`OQ-LICENSE-KEY-MAP`** |
+| 추적 ID | `MAN-*`, `SCH-*`, `DSN-*`, `ONB-*`, `ACC-*`, `PROF-*`, **`BLD-*`**, **`MENU-*`**, **`MENUVIS-DEC-*`**, **`OQ-BLD-*`**, **`OQ-MENUVIS-*`**, **`OQ-LICENSE-KEY-MAP`**, **`ACTR-DEC-*`**, **`WHL-*`**, **`TENDIR-*`** |
 | 단일 원천 | 본 문서 — 본 사이클에서 **결정** 된 모든 추적 ID 가 후속 PR 에서 어디에 합류해야 하는지를 1행씩 나열. |
 | 정합 | [`docs/manual-catalog.md`](manual-catalog.md), [`docs/welove-publish-schema-dictionary.md`](welove-publish-schema-dictionary.md), [`docs/welove-schema-reconciliation.md`](welove-schema-reconciliation.md), [`docs/decision-login-db-routing.md`](decision-login-db-routing.md), [`docs/onboarding-governance-spec.md`](onboarding-governance-spec.md), [`docs/onboarding-rbac-menu-matrix.md`](onboarding-rbac-menu-matrix.md), [`docs/profile-password-ux-spec.md`](profile-password-ux-spec.md), [`docs/welove-chul-build-menu-matrix.md`](welove-chul-build-menu-matrix.md), [`docs/menu-visibility-runtime-design.md`](menu-visibility-runtime-design.md) |
 
@@ -95,7 +95,39 @@
 
 ---
 
-## 6. `dashboard/data/todos.json` 등 대시보드 합류 (선택)
+## 6. 온보딩 RBAC 사이클 신규 ID (2026-04-24)
+
+### 계정 유형 결정 (ACTR-DEC-*)
+
+| ID | 내용 | 출처 |
+|----|------|------|
+| `ACTR-DEC-01` | web_users.account_type 명시값 최우선 | [`docs/onboarding-account-type-resolution.md`](onboarding-account-type-resolution.md) |
+| `ACTR-DEC-02` | hcode=0000 / BLS_ADMIN_USER_IDS → T1 | 동 문서 |
+| `ACTR-DEC-03` | web_publisher_whitelist 매칭 → expected_account_type | 동 문서 |
+| `ACTR-DEC-04` | tenants_directory 조회 → default_account_type | 동 문서 |
+| `ACTR-DEC-05` | 미결정 폴백 → "" (관리자 수동 지정 대기) | 동 문서 |
+| `ACTR-RISK-01..04` | 계정 유형 결정 위험 요인 4건 | 동 문서 §7 |
+
+### 화이트리스트 (WHL-*)
+
+| ID | 내용 | 출처 |
+|----|------|------|
+| `WHL-VAL-DIST_UNKNOWN` | T2-PUB 가입 시 dist_hcode 없으면 422 | [`migration/contracts/web_publisher_whitelist.yaml`](../migration/contracts/web_publisher_whitelist.yaml) |
+| `WHL-VAL-NOT_IN_WHITELIST` | (dist_hcode, publisher_hcode) 미등록 → 422 | 동 파일 |
+| `WHL-VAL-ALREADY_REGISTERED` | 이미 활성 web_users 행 존재 → 409 | 동 파일 |
+| `WHL-VAL-STATUS_CHECK` | whitelist.status==disabled → 가입 불가 | 동 파일 |
+| `ONB-REJ-NOT_IN_WHITELIST` | 응답 코드 (백엔드 HTTPException detail) | `publisher_whitelist_service.py` |
+
+### 테넌트 디렉토리 (TENDIR-*)
+
+| ID | 내용 | 출처 |
+|----|------|------|
+| `TENDIR-v1` | 테넌트 디렉토리 계약 초안 | [`migration/contracts/tenants_directory.yaml`](../migration/contracts/tenants_directory.yaml) |
+| `OQ-TENDIR-1..3` | chul_09_db 공유·한국도서유통 다중빌드·시드 불완전 미결 | 동 파일 open_questions |
+
+---
+
+## 7. `dashboard/data/todos.json` 등 대시보드 합류 (선택)
 
 본 문서 §2~§5 의 ID 들은 다음 사이클에서 대시보드 todo 카드 1장씩 매핑한다 — 본 사이클은 **문서 결정만**, 카드 등록은 별 PR.
 

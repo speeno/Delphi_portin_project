@@ -49,7 +49,22 @@ decisions:
 data_model:
   web_users:
     primary_key: id
-    fields: [id, login_id, status, created_at]
+    # 2026-04-24 보강 (온보딩 RBAC + DSN-DEC-06/07 합류):
+    #   tenant_id, account_type, account_family, dist_hcode,
+    #   approved_at, approved_by, activation_token, activation_expires_at 추가.
+    fields:
+      - id
+      - login_id
+      - status                   # pending | active | disabled
+      - created_at
+      - tenant_id                # FK → tenants_directory.tenant_id (nullable: 승인 전)
+      - account_type             # T1 | T2_DIST | T2_PUB | T3 | T3_WAREHOUSE_LITE | T3_WAREHOUSE_FULL (nullable: 매핑 대기)
+      - account_family           # chul_09 | book_07 | book_21 | book_kb | ... (DSN 라우팅 캐시)
+      - dist_hcode               # T2-PUB 의 상위 총판 hcode (nullable)
+      - approved_at              # 관리자 승인 일시 (nullable)
+      - approved_by              # 승인 admin user_id (nullable)
+      - activation_token         # secrets.token_urlsafe(32) — 초기 비밀번호 설정용 (nullable, expires 후 null 처리)
+      - activation_expires_at    # activation_token 만료 일시 (nullable)
   web_user_servers:
     primary_key: [user_id, server_id]
   web_roles:

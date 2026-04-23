@@ -1,0 +1,133 @@
+# Migration Contract: 사전등록 출판사 화이트리스트 (WHL)
+#
+# 목적
+# ----
+# 총판에 소속된 출판사(T2-PUB)가 웹에서 자가 회원가입할 때,
+# "이미 총판이 등록한 출판사인지" 검증하는 화이트리스트.
+# 회의 메모(2026-04-23): "예전에는 출판사명과 출판사코드를 알고 설치하였음" → 동일 개념.
+#
+# 운영 저장소
+# -----------
+# 백엔드: backend/data/web_publisher_whitelist.json (JSON 파일 영속, atomic replace)
+# 환경변수: BLS_PUBLISHER_WHITELIST_PATH 로 경로 변경 가능
+# 관리: (app)/admin/whitelist — 총판 계정(T2-DIST)은 자기 dist_hcode 범위만 CRUD 가능
+#
+# 비밀 정책 (secrets-policy.md G3)
+# ----------------------------------
+# - DB 자격증명 0건. publisher_hcode/publisher_name 만 GREEN 등급 공개 가능.
+# - contact_email 은 내부 저장만, API 응답에 last4 마스킹 적용.
+#
+# 추적 ID: WHL-*
+# 연관: ACTR-DEC-03 (계정유형 결정 분기 3), ONB-REJ-NOT_IN_WHITELIST
+
+id: WHL-v1
+name: 사전등록 출판사 화이트리스트
+version: 1.0.0
+status: draft
+revision_history:
+  - { version: 1.0.0, date: 2026-04-24, summary: "초안 — T2-PUB 자가 가입 검증 기반" }
+
+schema:
+  publisher_hcode:
+    type: str
+    pk: true
+    desc: "출판사 고유 코드 (Id_Logn.Hcode 와 동일 체계)"
+  publisher_name:
+    type: str
+    desc: "출판사 표시명 (회원가입 위저드 검색·자동완성 키)"
+  dist_tenant_id:
+    type: uuid
+    nullable: true
+    desc: "소속 총판 tenant_id (null 이면 독립 출판사 예비 등록)"
+  dist_hcode:
+    type: str
+    nullable: true
+    desc: "소속 총판 hcode — T2-PUB 검증 시 매칭 키"
+  expected_account_type:
+    type: enum
+    values: [T2_PUB, T3, T3_WAREHOUSE_LITE, T3_WAREHOUSE_FULL]
+    desc: "승인 시 자동 적재될 계정 유형 (ACTR-DEC-03)"
+  default_account_family:
+    type: str
+    nullable: true
+    desc: "기본 DSN 라우팅 account_family (tenants_directory 참조)"
+  default_primary_server:
+    type: str
+    nullable: true
+    desc: "기본 데이터 서버 ID"
+  status:
+    type: enum
+    values: [active, pending, disabled]
+    default: pending
+    desc: "active: 가입 가능 / pending: 총판 등록 대기 / disabled: 비활성"
+  created_by:
+    type: str
+    desc: "등록한 총판 admin user_id"
+  created_at:
+    type: datetime
+  notes:
+    type: str
+    nullable: true
+
+api_endpoints:
+  - method: GET
+    path: /api/v1/public/whitelist/lookup
+    params: [dist_hcode, q (name prefix, min 2자)]
+    auth: none
+    rate_limit: 30 req/min per IP
+    response_fields: [publisher_hcode, publisher_name, dist_hcode]
+    desc: "회원가입 위저드 Step2 — 총판 소속 출판사 검색 (GREEN 필드만 반환)"
+
+  - method: GET
+    path: /api/v1/public/dist/list
+    auth: none
+    rate_limit: 10 req/min per IP
+    response_fields: [tenant_id, tenant_label_kor, dist_hcode_representative]
+    desc: "회원가입 위저드 Step2 — 총판 드롭다운 목록 (active T2-DIST 테넌트)"
+
+  - method: GET
+    path: /api/v1/admin/whitelist
+    auth: T1 or T2_DIST (자기 dist_hcode 범위)
+    params: [dist_hcode, status, q, page, page_size]
+    desc: "사전등록 출판사 목록 조회"
+
+  - method: POST
+    path: /api/v1/admin/whitelist
+    auth: T1 or T2_DIST
+    body: [publisher_hcode, publisher_name, dist_hcode, expected_account_type, default_account_family, default_primary_server, notes]
+    desc: "신규 등록"
+
+  - method: PUT
+    path: /api/v1/admin/whitelist/{publisher_hcode}
+    auth: T1 or T2_DIST (자기 범위)
+    desc: "수정"
+
+  - method: DELETE
+    path: /api/v1/admin/whitelist/{publisher_hcode}
+    auth: T1 or T2_DIST (자기 범위)
+    desc: "비활성화 (물리 삭제 금지 — secrets-policy.md 감사 요건)"
+
+validation_rules:
+  - id: WHL-VAL-DIST_UNKNOWN
+    desc: "T2-PUB 가입 신청 시 dist_hcode 가 없으면 즉시 422 — 총판 선택 필수"
+  - id: WHL-VAL-NOT_IN_WHITELIST
+    desc: "T2-PUB 가입 신청 시 (dist_hcode, publisher_hcode) 가 whitelist 에 없으면 ONB-REJ-NOT_IN_WHITELIST 응답"
+  - id: WHL-VAL-ALREADY_REGISTERED
+    desc: "publisher_hcode 가 이미 web_users 에 활성 사용자로 존재하면 409 — 재활성화 흐름 안내"
+  - id: WHL-VAL-STATUS_CHECK
+    desc: "whitelist.status == 'disabled' 인 경우에도 가입 불가 (총판 관리자 활성화 필요)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 1차 시드 예시 (운영 데이터는 총판 관리자가 admin UI 에서 직접 등록)
+# ─────────────────────────────────────────────────────────────────────────────
+seed_examples:
+  - publisher_hcode: "HCODE_EXAMPLE_001"
+    publisher_name: "예시출판사"
+    dist_hcode: "DIST_HCODE_EXAMPLE"
+    dist_tenant_id: tendir-chul05-jungang-001
+    expected_account_type: T2_PUB
+    default_account_family: chul_05
+    default_primary_server: 서버3
+    status: active
+    created_by: system
+    notes: "1차 시드 예시 — 운영 적용 전 삭제 필요"

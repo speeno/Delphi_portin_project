@@ -1,0 +1,239 @@
+# Migration Contract: Tenants Directory (DSN-DEC-06)
+#
+# 로그인 기반 DSN 라우팅의 정본 메타.
+# 라우팅 키 = (tenant_id, account_family) — Uses 라벨 단독 사용 금지 (DSN-DEC-06).
+#
+# 비밀 정책 (secrets-policy.md G3)
+# ----------------------------------
+# - DB UserName / Password 는 이 파일 어디에도 기록하지 않는다.
+# - 자격증명은 Vault 또는 환경변수(BLS_DB__<server>__USER, BLS_DB__<server>__PASSWORD)에만.
+# - has_credentials_in_source 가 true 인 테넌트는 welove_db_route_matrix.json 에서
+#   감지된 원본 파일 기록을 의미하며, 웹 인프라에는 vault 주입을 사용한다.
+#
+# 1차 시드 출처
+# -------------
+# - analysis/welove_db_route_matrix.json   (40 routes — server_id, db_name_logical, account_family)
+# - analysis/welove_chul_builds.json       (7 builds — build_id, build_role, account_type_inferred)
+# - docs/decision-login-db-routing.md      (DSN-DEC-06 설계)
+# - tools/seed_tenants_directory.py        (자동 시드 스크립트)
+#
+# 추적 ID
+# --------
+# TENDIR-* 는 docs/welove-tracking-ids-backlog.md 에 등록됨.
+#
+# 동일 테넌트 다중 빌드 정책 (ACC-MULTI-*)
+# ------------------------------------------
+# - 같은 tenant_label_kor 로 여러 build_role 이 존재할 경우 각각 별도 행으로 등록.
+#   예: 한국도서유통 → distributor / publisher / warehouse_publisher 세 행.
+# - 사용자의 build_role 은 web_users.account_type / web_publisher_whitelist 승인 시 결정.
+
+id: TENDIR-v1
+name: 테넌트 디렉토리 (DSN 라우팅 정본)
+version: 1.0.0
+status: draft
+revision_history:
+  - { version: 1.0.0, date: 2026-04-24, summary: "DSN-DEC-06 초안 — welove_db_route_matrix.json + welove_chul_builds.json 결합 1차 시드" }
+
+schema:
+  tenant_id:       { type: uuid, pk: true, desc: "UUID v4 (시드 시 자동 생성)" }
+  tenant_label_kor: { type: str, desc: "한글 표시 라벨 (Config.Ini Uses 값과 동일)" }
+  account_family:  { type: str, desc: "DB prefix / 빌드 SKU (chul_09, book_07, book_21, book_kb ...)" }
+  active_build_id: { type: str, nullable: true, desc: "BLD-* ID (analysis/welove_chul_builds.json 정합)" }
+  build_role:      { type: enum, values: [distributor, publisher, warehouse_publisher, super], desc: "빌드 역할" }
+  parent_tenant_id: { type: uuid, nullable: true, desc: "상위 총판 tenant_id (T2-PUB 인 경우)" }
+  default_account_type:
+    type: enum
+    values: [T1, T2_DIST, T2_PUB, T3, T3_WAREHOUSE_LITE, T3_WAREHOUSE_FULL]
+    desc: "회원가입/로그인 시 자동 매핑될 계정 유형 후보"
+  primary_server:  { type: str, desc: "데이터 서버 ID (서버1~4, welove_db_route_matrix::server_id)" }
+  db_name_logical: { type: str, desc: "DB 이름 (자격증명 제외 — chul_09_db 등)" }
+  is_active:       { type: bool, default: true, desc: "테넌트 활성 여부" }
+  notes:           { type: str, nullable: true }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 1차 시드 데이터 (OQ-SME 검증 전 — DRAFT)
+#
+# 계정 유형 결정 근거:
+#   chul_* (총판 계열)  → T2_DIST (distributor)
+#   book_kb             → T2_DIST / T2_PUB / T3_WAREHOUSE_FULL (한국도서유통 다중빌드)
+#   chul_09 (위러브)    → T3_WAREHOUSE_LITE (warehouse_publisher, 출판사관리 부재)
+#   book_21 (MS북스)    → T3_WAREHOUSE_FULL (warehouse_publisher, 출판사관리 + TSCLIB)
+#   book_07 (북앤북류)  → T3_WAREHOUSE_FULL (warehouse_publisher, 출판사관리 + 신규폼군)
+#   book_* (독립출판사) → T3 (publisher)
+# ─────────────────────────────────────────────────────────────────────────────
+tenants:
+
+  # ── 서버3 ──────────────────────────────────────────────────────────────────
+  - tenant_id: tendir-chul05-jungang-001
+    tenant_label_kor: "중앙라인(한강북)"
+    account_family: chul_05
+    active_build_id: BLD-DIST-STD
+    build_role: distributor
+    parent_tenant_id: null
+    default_account_type: T2_DIST
+    primary_server: 서버3
+    db_name_logical: chul_05_db
+    is_active: true
+
+  - tenant_id: tendir-chul09-gyomun-001
+    tenant_label_kor: "교문사"
+    account_family: chul_09
+    active_build_id: BLD-PUB-WAREHOUSE-WELOVE
+    build_role: warehouse_publisher
+    parent_tenant_id: null
+    default_account_type: T3_WAREHOUSE_LITE
+    primary_server: 서버3
+    db_name_logical: chul_09_db
+    is_active: true
+    notes: "chul_09_db 공유 — hcode 격리 필수 (DSN-RISK-07)"
+
+  - tenant_id: tendir-chul09-welove3-001
+    tenant_label_kor: "위러브3"
+    account_family: chul_09
+    active_build_id: BLD-PUB-WAREHOUSE-WELOVE
+    build_role: warehouse_publisher
+    parent_tenant_id: null
+    default_account_type: T3_WAREHOUSE_LITE
+    primary_server: 서버3
+    db_name_logical: chul_09_db
+    is_active: true
+    notes: "chul_09_db 공유 — hcode 격리 필수"
+
+  - tenant_id: tendir-book10-asaem-001
+    tenant_label_kor: "아샘"
+    account_family: book_10
+    active_build_id: null
+    build_role: publisher
+    parent_tenant_id: null
+    default_account_type: T3
+    primary_server: 서버3
+    db_name_logical: book_10_db
+    is_active: true
+
+  - tenant_id: tendir-chul06-bookscity-001
+    tenant_label_kor: "북씨티"
+    account_family: chul_06
+    active_build_id: BLD-DIST-STD
+    build_role: distributor
+    parent_tenant_id: null
+    default_account_type: T2_DIST
+    primary_server: 서버3
+    db_name_logical: chul_06_db
+    is_active: true
+
+  - tenant_id: tendir-chul07-booksroad-001
+    tenant_label_kor: "북스로드"
+    account_family: chul_07
+    active_build_id: BLD-DIST-STD
+    build_role: distributor
+    parent_tenant_id: null
+    default_account_type: T2_DIST
+    primary_server: 서버3
+    db_name_logical: chul_07_db
+    is_active: true
+
+  - tenant_id: tendir-chul08-booknder-001
+    tenant_label_kor: "북앤더"
+    account_family: chul_08
+    active_build_id: BLD-DIST-STD
+    build_role: distributor
+    parent_tenant_id: null
+    default_account_type: T2_DIST
+    primary_server: 서버3
+    db_name_logical: chul_08_db
+    is_active: true
+
+  # ── 서버1 ──────────────────────────────────────────────────────────────────
+  - tenant_id: tendir-book07-booknbook-001
+    tenant_label_kor: "북앤북"
+    account_family: book_07
+    active_build_id: BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW
+    build_role: warehouse_publisher
+    parent_tenant_id: null
+    default_account_type: T3_WAREHOUSE_FULL
+    primary_server: 서버1
+    db_name_logical: book_07_db
+    is_active: true
+    notes: "book_07_db 공유 (유앤북과) — hcode 격리 필수. Uses=한국도서유통 (OQ-BLD-5)"
+
+  - tenant_id: tendir-chul09-welove1-001
+    tenant_label_kor: "위러브1"
+    account_family: chul_09
+    active_build_id: BLD-PUB-WAREHOUSE-WELOVE
+    build_role: warehouse_publisher
+    parent_tenant_id: null
+    default_account_type: T3_WAREHOUSE_LITE
+    primary_server: 서버1
+    db_name_logical: chul_09_db
+    is_active: true
+    notes: "chul_09_db 공유 (위러브2·3·교문사와)"
+
+  # ── 서버2 ──────────────────────────────────────────────────────────────────
+  - tenant_id: tendir-chul09-welove2-001
+    tenant_label_kor: "위러브2"
+    account_family: chul_09
+    active_build_id: BLD-PUB-WAREHOUSE-WELOVE
+    build_role: warehouse_publisher
+    parent_tenant_id: null
+    default_account_type: T3_WAREHOUSE_LITE
+    primary_server: 서버2
+    db_name_logical: chul_09_db
+    is_active: true
+    notes: "chul_09_db 공유"
+
+  # ── 서버4 ──────────────────────────────────────────────────────────────────
+  - tenant_id: tendir-book07-uanbook-001
+    tenant_label_kor: "유앤북"
+    account_family: book_07
+    active_build_id: BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW
+    build_role: warehouse_publisher
+    parent_tenant_id: null
+    default_account_type: T3_WAREHOUSE_FULL
+    primary_server: 서버4
+    db_name_logical: book_07_db
+    is_active: true
+    notes: "book_07_db 공유 (북앤북과)"
+
+  - tenant_id: tendir-bookkb-kbt-dist-001
+    tenant_label_kor: "한국도서유통"
+    account_family: book_kb
+    active_build_id: BLD-DIST-KBT
+    build_role: distributor
+    parent_tenant_id: null
+    default_account_type: T2_DIST
+    primary_server: 서버4
+    db_name_logical: book_kb_db
+    is_active: true
+    notes: "Uses=한국도서유통 (OQ-BLD-5). 동일 tenant_label_kor 로 publisher/warehouse_publisher 빌드도 존재"
+
+  - tenant_id: tendir-bookkb-kbt-pub-001
+    tenant_label_kor: "한국도서유통(출판)"
+    account_family: book_kb
+    active_build_id: BLD-PUB-KBT
+    build_role: publisher
+    parent_tenant_id: tendir-bookkb-kbt-dist-001
+    default_account_type: T2_PUB
+    primary_server: 서버4
+    db_name_logical: book_kb_db
+    is_active: true
+    notes: "BLD-PUB-KBT ≡ BLD-PUB-STD (MD5 동일). parent=KBT 총판"
+
+  - tenant_id: tendir-book21-msbooks-001
+    tenant_label_kor: "MS북스"
+    account_family: book_21
+    active_build_id: BLD-PUB-WAREHOUSE-MS
+    build_role: warehouse_publisher
+    parent_tenant_id: null
+    default_account_type: T3_WAREHOUSE_FULL
+    primary_server: 서버4
+    db_name_logical: book_21_db
+    is_active: true
+    notes: "TSCLIB.dll 라벨 프린터 (OQ-BLD-4). FormShow 8건 menu hide (OQ-BLD-MS-1)"
+
+open_questions:
+  - id: OQ-TENDIR-1
+    desc: "chul_09_db 가 4 테넌트(위러브1·2·3·교문사)에 공유됨 — hcode 격리(M4) 결정 전까지 행 레벨 가드 부재 위험"
+  - id: OQ-TENDIR-2
+    desc: "한국도서유통 3 빌드(distributor/publisher/warehouse_publisher) 의 tenant_label_kor 가 Uses 라벨과 동일해 lookup 충돌 가능 — (tenant_id, build_role) 복합 조회 필수"
+  - id: OQ-TENDIR-3
+    desc: "시드 데이터는 welove_db_route_matrix.json 40행 중 warehouse/KB/MS 계열만 포함 — 나머지 chul_01~04, book_01~06 등 SME 확인 후 추가 필요"
