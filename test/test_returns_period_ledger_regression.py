@@ -81,6 +81,74 @@ class PeriodMasterSqlPublisherJoinTests(TestCase):
 # C. ledger_query — derived table 직접 발행 0 + count_grouped 사용
 # ---------------------------------------------------------------
 
+class LedgerMasterRowKeyShapeTests(IsolatedAsyncioTestCase):
+    """frontend React key 합성용 ``scode`` 가 master 응답에 포함되어야 한다.
+
+    원인
+    ----
+    레거시 ``Subu34_4.pas:404,406`` 의 ``Group By Bcode, Scode, Gubun, Pubun``
+    4컬럼 분할을 보존하므로 동일 ``bcode`` 가 다중 row 로 등장한다.
+    frontend 의 React ``key`` 합성 (``${bcode}|${scode}|${gubun}|${pubun}``)
+    이 unique 하려면 응답에 ``scode`` 가 반드시 들어 있어야 한다 — 누락 시
+    "Encountered two children with the same key" 콘솔 오류 회귀.
+    """
+
+    async def test_master_row_includes_scode_for_react_key(self) -> None:
+        from app.services import returns_service
+
+        async def fake_execute(server_id: str, sql: str, params: tuple = ()) -> list[dict[str, Any]]:
+            if "GROUP BY s.Bcode" in sql and "ORDER BY s.Bcode" in sql:
+                # 동일 Bcode + 다른 Scode/Gubun/Pubun → 분할 row.
+                return [
+                    {
+                        "Bcode": "CP-018S", "Scode": "X", "Gubun": "반품", "Pubun": "구간",
+                        "total_qty": 3, "total_amount": 3000,
+                        "book_name": "도서A", "gname": "거래처A",
+                    },
+                    {
+                        "Bcode": "CP-018S", "Scode": "Y", "Gubun": "재생", "Pubun": "낱권",
+                        "total_qty": 2, "total_amount": 2000,
+                        "book_name": "도서A", "gname": "거래처A",
+                    },
+                ]
+            if "DISTINCT" in sql or "publisher_count" in sql:
+                return [{"book_count": 1, "line_count": 5, "total_qty": 5, "total_amount": 5000}]
+            return []
+
+        with (
+            patch("app.services.returns_service.execute_query", new=fake_execute),
+            patch(
+                "app.services.returns_service.count_grouped",
+                new=AsyncMock(return_value=2),
+            ),
+            patch(
+                "app.services.returns_service.build_d_select_clause",
+                new=AsyncMock(return_value=" 1=1 "),
+            ),
+        ):
+            res = await returns_service.ledger_query(
+                server_id="remote_155",
+                date_from="2026-03-01",
+                date_to="2026-04-01",
+                limit=10,
+                offset=0,
+            )
+
+        self.assertEqual(len(res["master"]), 2)
+        for row in res["master"]:
+            self.assertIn("scode", row, "master row 에 scode 키가 없음 — React key 회귀")
+        # frontend 합성 키가 실제로 unique 한지 직접 시뮬레이션.
+        composed = {
+            f"{r['bcode']}|{r['scode']}|{r['gubun']}|{r['pubun']}"
+            for r in res["master"]
+        }
+        self.assertEqual(
+            len(composed),
+            len(res["master"]),
+            "(bcode|scode|gubun|pubun) 합성 키가 중복 — React 'two children with same key' 회귀",
+        )
+
+
 class LedgerQueryUsesCountGroupedTests(IsolatedAsyncioTestCase):
     async def test_ledger_query_calls_count_grouped_no_derived_table(self) -> None:
         from app.services import returns_service
