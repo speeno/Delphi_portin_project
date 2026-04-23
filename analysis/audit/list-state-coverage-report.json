@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-04-22T16:12:17.255468+00:00",
+  "generated_at": "2026-04-23T07:33:28.002888+00:00",
   "summary": {
-    "total_pages": 73,
+    "total_pages": 72,
     "covered": 28,
     "violations": 0,
     "allowed": 0,
-    "skipped": 45
+    "skipped": 44
   },
   "covered": [
     {
@@ -61,10 +61,6 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/discount/page.tsx"
     },
     {
-      "route_key": "master.logistics-cost",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/logistics-cost/page.tsx"
-    },
-    {
       "route_key": "master.publisher",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/publisher/page.tsx"
     },
@@ -87,6 +83,10 @@
     {
       "route_key": "reports.year-end-book",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/reports/year-end-book/page.tsx"
+    },
+    {
+      "route_key": "returns.ledger",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/ledger/page.tsx"
     },
     {
       "route_key": "returns.receipts",
@@ -219,10 +219,6 @@
     {
       "route_key": "returns.inventory",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/inventory/page.tsx"
-    },
-    {
-      "route_key": "returns.ledger",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/ledger/page.tsx"
     },
     {
       "route_key": "returns.period-report",

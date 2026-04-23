@@ -1,4 +1,12 @@
-# 레이아웃 매핑: Sobo45 (물류비 마스터) → 모던 `/master/logistics-cost` (READ only, 1차)
+# [DEPRECATED] 레이아웃 매핑: Sobo45 (구 「물류비 마스터」 추정 매핑)
+
+> **상태**: ⛔ DEPRECATED (2026-04-23, master_data.yaml v1.2.0 — DEC-060 채택).
+> **사유**: 본 문서는 `Subu45.dfm` 의 실제 Caption 인 **'청구서관리'** 가 아닌, `G5_Ggeo.Gposa` 컬럼만 보고 추정한 「물류비 마스터」 의미를 담고 있어 폐기됨.
+> **대체 매핑**: 청구서관리는 `Sobo45_billing` (folder=Subu45, route=`/settlement/billing`) 으로 정상 등록되어 있으며, `analysis/layout_mappings/Sobo45_billing.md` 가 단일 원천.
+> **G5_Ggeo.Gposa 의 정상 흡수처**: 청구서관리 화면 내부의 inline lookup (레거시 `Subu45.pas:L372` `G5_Ggeo.Locate` 패턴 그대로) — 단독 마스터 화면은 레거시에 부재하므로 모던에도 신설하지 않는다 (DEC-060 옵션 B).
+> **재발 방지**: 동일 추정 오류 차단을 위해 새 마스터 화면 추가 시 DFM Caption 1차 검증 의무 (DEC-060 §재발 방지). 본 문서의 이하 본문은 역사 기록으로 보존.
+
+---
 
 DEC-028 — `Subu45/Sobo45.*` 단일 원천. 11 섹션 구조.
 
@@ -6,10 +14,10 @@ DEC-028 — `Subu45/Sobo45.*` 단일 원천. 11 섹션 구조.
 
 - DFM HTML/JSON: [`tools/.../legacy_source_root/Subu45/Sobo45.html`](../../tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu45/Sobo45.html), `.form.json`, `.tree.json`, `.meta.json`
 - 변형: `Subu45_1/Sobo45_1.*` (위젯 트리 동일 — §9)
-- 원 dfm: [`legacy_delphi_source/legacy_source/Subu45.dfm`](../../legacy_delphi_source/legacy_source/Subu45.dfm)
+- 원 dfm: [`legacy_delphi_source/legacy_source/Subu45.dfm`](../../legacy_delphi_source/legacy_source/Subu45.dfm) — Caption='청구서관리' (DEC-060 정정)
 - 화면 카드: [`analysis/screen_cards/Sobo45.md`](../screen_cards/Sobo45.md)
-- 모던 라우트: [`도서물류관리프로그램/frontend/src/app/(app)/master/logistics-cost/page.tsx`](../../도서물류관리프로그램/frontend/src/app/(app)/master/logistics-cost/page.tsx)
-- 계약: `migration/contracts/master_data.yaml` (`/api/v1/masters/logistics-cost`)
+- (DEPRECATED) 모던 라우트: 구 `/master/logistics-cost/page.tsx` — 2026-04-23 삭제됨. 정상 라우트는 `/settlement/billing` (Sobo45_billing).
+- (DEPRECATED) 계약: 구 `migration/contracts/master_data.yaml` SQL-MAS-10 — v1.2.0 에서 제거. 정상 계약은 `migration/contracts/settlement_billing.yaml`.
 
 ## 1. 의미 분기 — 검색·등록 통합 윈도우 → 1차 단순 3컬럼 그리드
 

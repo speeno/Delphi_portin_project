@@ -874,6 +874,36 @@
 - **결정자**: 메인개발자 + 사용자 (2026-04-23 — "P3/P4 단계로 진행해야할 부분이 있으면 표기하고자 한다" + "CRUD 동등성도 같이 보고싶다" 합의)
 - **참조**: `docs/menu-roadmap-waves.md`(신규 정책 단일 원천), `docs/crud-backlog.md`(신규 — CRUD gap matrix + G0~G4 보강 절차 + P2/P3/P4 우선순위), `도서물류관리프로그램/frontend/src/lib/form-registry.ts`(`FormMeta` 확장 + 식별 행 채움), `도서물류관리프로그램/frontend/src/components/app-shell/sidebar.tsx`(보조 배지 + tooltip 한 줄 자막), `dashboard/data/phase2-screen-cards.json`($comment 동기화 의무), `test/test_form_registry_metadata.py`(허용값·일관성 정적 가드), DEC-053(품질 phase 게이트 — 본 결정의 짝), DEC-058(사이드바 권한 게이팅 — 필터링 책임은 분리), DEC-019(마스터 PATCH «수정 ON · 삭제 OFF» 정책 — `crudParity: RU` 인 마스터 화면의 백엔드 짝)
 
+### DEC-060: 레거시 매핑 추정 오류 사전 차단 — DFM Caption 대조 게이트 (DEC-019/023/028 보강)
+
+- **일자**: 2026-04-23
+- **결정 사항**: 모든 모던 화면(`form-registry.ts::FormMeta` 항목)은 `folder` (예: `Subu45`) 가 가리키는 레거시 DFM 의 `Caption` 과 의미적으로 일치해야 한다. 단일 `folder` 에 두 개 이상의 `FormMeta` 가 매핑되는 경우(접미 `_billing`/`_cash` 등 DEC-019 변형 통합 정책 예외) 는 모두 동일한 본 화면(Caption)에서 파생된 단일 의미여야 하며, 「테이블 컬럼만 보고 마스터 카탈로그를 추정해 새로운 ID 를 부여하는 행위」를 금지한다. master_data.yaml v1.0.0 (Wave A/B/C) 가 `G5_Ggeo.Gposa` 컬럼만 보고 「Sobo45 = 물류비 마스터」 로 추정했으나 실제 `Subu45.dfm Caption='청구서관리'` (Sobo45_billing) 와 어긋났던 사례를 일반화 차단한다.
+- **배경/근거**:
+  1. **사용자 보고 (2026-04-23)**: "이 화면이 레거시 델파이 프로그램에서는 청구서관리 화면이고 검색 필터를 위한 입력 항목도 다른데?" — `/master/logistics-cost` 화면 헤더가 "Sobo45 · G5_Ggeo · 1차 READ only" 였으나 사용자가 즉시 잘못된 매핑을 식별.
+  2. **사실 검증**: `Subu45.dfm` Caption (EUC-KR 디코딩) = `'청구서관리'`. `Subu45_1.dfm` = `'청구서관리-택배'`. 청구서관리는 이미 `Sobo45_billing` (folder=Subu45, route=/settlement/billing) 으로 정상 등록되어 있어 동일 folder 에 모순된 두 ID 가 공존.
+  3. **근본 원인**: master_data.yaml v1.0.0 작성 시 G5_Ggeo.Gposa 컬럼이 "물류비" 의미였기 때문에 Subu45 폴더의 폼 1개를 그 마스터 화면이라고 추정 — DFM Caption 1차 검증을 누락. 동일 패턴이 다른 G*_* 마스터 테이블에도 잠복 가능.
+  4. **대안 검토**:
+     - (A) 화면 자체는 G5_Ggeo CRUD 카탈로그로 의미 보존, ID/부제만 정정 (예: `WebMasterLogisticsCost`).
+     - **(B) 화면 제거 + 청구서관리(Sobo45_billing) 로 통합** ← 채택. G5_Ggeo.Gposa 는 Subu45.pas L372 의 `G5_Ggeo.Locate` 패턴대로 청구서관리 화면 내부 lookup 으로 흡수되며, 단독 마스터 화면이 레거시에 존재하지 않으므로 「레거시에 없는 화면을 신설하지 않는다 = 5축 동등성 보존」 원칙에 부합.
+     - (C) 별도 신규 카탈로그로 보존 — 사용자 가치가 모호하고 청구서관리와 데이터 영역 중복.
+- **영향**:
+  - **백엔드**: `routers/masters.py` 의 `GET /api/v1/masters/logistics-cost` 엔드포인트 + `services/masters_service.list_logistics_costs` + `models/master.LogisticsCost*` 제거.
+  - **프론트**: `(app)/master/logistics-cost/page.tsx` 삭제, `lib/form-registry.ts` 의 `Sobo45 (caption='물류비', menuGroup='master')` 항목 제거 (단일 folder 중복 매핑 차단), `lib/master-api.ts` `logisticsCostList` + `LogisticsCost*` 인터페이스 제거, `(app)/master/page.tsx` 카드 1건 제거.
+  - **계약**: `migration/contracts/master_data.yaml` v1.1.0→**v1.2.0**, catalog 행 `Sobo45 → 물류비` + endpoints[SQL-MAS-10] + customer_variants[Sobo45] 제거. 6 종 → 5 종 마스터 표기 일괄 정정 (DEC-024/025/026 본문 내 라인).
+  - **테스트**: `test/test_masters_q_search.py` LIST_FUNCS 6→5, 18 케이스→15 케이스 + `LogisticsCostMappingRemovedTests` 5축 부재 단언 신규(서비스/모델/라우트/프론트 페이지/계약 catalog). `test/test_pagination_contracts.py::test_logistics_cost_list` 제거. `test/test_list_state_persistence_audit.py` baseline 6→5.
+  - **감사/대시보드**: `analysis/audit/list-state-coverage-report.json` 자동 재생성 필요. `analysis/audit/phase1-component-fidelity.md` Sobo45 행 DEPRECATED 마킹. `analysis/layout_mappings/Sobo45.md` 헤더에 DEPRECATED 마킹 + 대체 참조 추가. `dashboard/data/porting-screens.json` 라우트/엔드포인트/요약 항목 정정.
+- **DoD (수용 기준)**:
+  - ① `pytest test/test_masters_q_search.py test/test_pagination_contracts.py test/test_list_state_persistence_audit.py` 전부 PASS — 신규 부재 단언(`LogisticsCostMappingRemovedTests` 5/5) 포함.
+  - ② `cd 도서물류관리프로그램/frontend && npx tsc --noEmit` exit 0.
+  - ③ `master_data.yaml` 에 `path: /api/v1/masters/logistics-cost` 라인 0건, `LogisticsCostListResponse` 참조 0건.
+  - ④ `form-registry.ts` 에서 `id: "Sobo45"` (caption=물류비 매핑) 0건, `id: "Sobo45_billing"` 단일 매핑만 보존.
+- **재발 방지 (일반화)**:
+  - 새 마스터 화면 추가 시 「DFM Caption 1차 검증」 절차 의무: `iconv -f EUC-KR -t UTF-8 legacy_delphi_source/legacy_source/Subu*.dfm | grep -E '^  Caption'` 으로 폼 단위 Caption 을 확인하고 카탈로그 추정 대신 사실 매핑.
+  - 동일 `folder` 에 두 개 이상의 `FormMeta` 가 등록되는 경우, 각 항목의 의미가 본 폼 Caption 에서 파생된 단일 의미인지 (DEC-019 변형 통합 또는 다른 화면 카탈로그 위치 분리) 매핑 노트 §0 에 명시.
+  - 신규 카탈로그 항목 도입 전 DEC-019 (수정 ON·삭제 OFF) + DEC-023 (단일 원천) + DEC-028 (DFM 산출물 동결) 3 결정 본문을 1차 점검 가드로 사용.
+- **결정자**: 메인개발자 + 사용자 (2026-04-23 매핑 검증 사이클)
+- **참조**: `migration/contracts/master_data.yaml` v1.2.0, `legacy_delphi_source/legacy_source/Subu45.dfm` (Caption='청구서관리'), `migration/contracts/settlement_billing.yaml` (Sobo45_billing 정상 매핑), `analysis/layout_mappings/Sobo45.md` (DEPRECATED), `test/test_masters_q_search.py::LogisticsCostMappingRemovedTests`, DEC-019(마스터 정책), DEC-023(단일 원천), DEC-028(DFM 동결), DEC-053(Phase 1 component fidelity)
+
 ### DEC-058: 사이드바 권한 게이팅 — `usePermissions()` + `requiredPermission` (legacy 'X' 동등 = hidden)
 
 - **결정 사항**: 모던 사이드바를 레거시 `if nUse2='X' then ShowMessage` 클릭 시점 거부와 동등한 **메뉴 비표시** 정책으로 게이팅한다. 채택 패턴:
@@ -895,7 +925,9 @@
 - **참조**: `도서물류관리프로그램/frontend/src/lib/use-permissions.ts`(신규), `도서물류관리프로그램/frontend/src/lib/form-registry.ts`(`FormMeta.requiredPermission` 추가 + 52 매핑), `도서물류관리프로그램/frontend/src/components/app-shell/sidebar.tsx`(`isVisibleForm` 게이팅 + 빈 그룹 hidden), `legacy-analysis/permission-keys-catalog.md` §1+§4, `docs/user-permission-management-plan.md` §5 M2, `test/test_sidebar_permission_gating.py`, DEC-041(RBAC 401·403 인터셉터 — 라우터 게이트 무변동), DEC-046(권한 d_select), DEC-056(Id_Logn Fxx 어댑터 — 본 결정의 백엔드 짝)
 
 ---
-*최종 업데이트: 2026-04-23 — DEC-059 신규 추가 (메뉴 메타 3축 분리 — `phase`/`roadmapWave`/`crudParity` 직교 분리). 사용자 요청 "P3/P4 단계로 진행해야할 부분이 있으면 표기하고자 한다" + "CRUD 동등성도 같이 보고싶다". 결과: ① `docs/menu-roadmap-waves.md` 신규(정책 단일 원천 — 3축 정의 + 사이드바 배지 규칙 + tooltip 템플릿 + 정적 가드 §5). ② `docs/crud-backlog.md` 신규(CRUD gap matrix 1차 인벤토리 + G0~G4 보강 절차 + P2/P3/P4 우선순위 권고). ③ `FormMeta` 에 `roadmapWave`/`crudParity`/`crudNotes` 3 필드 추가, 식별된 R/RU/STUB 행 일괄 채움(마스터 6 + 정산 5 + 통계 6 + 반품/원장/감사/택배/특별 등). ④ 사이드바에 보조 배지 2개(`R`/`RU`/`STUB` 회색 outline + `W3`/`W4` sky outline) + tooltip 한 줄 자막. ⑤ `dashboard/data/phase2-screen-cards.json` `$comment` 에 `form-registry` 단일 원천 + 동기화 의무 명시(다음 사이클 일괄 채움 예정). ⑥ 정적 회귀 가드 `test/test_form_registry_metadata.py` 신규 — 허용값 검증 + `phase1` + R/RU/STUB 행은 `crudNotes` 또는 blocker 사유 보유 강제. 검증: pytest PASS(form-registry 메타 가드 신규) · tsc 0 · ReadLints 0.*
+*최종 업데이트: 2026-04-23 — DEC-060 신규 추가 (레거시 매핑 추정 오류 사전 차단 — DFM Caption 대조 게이트). 사용자 보고 "이 화면이 레거시 델파이 프로그램에서는 청구서관리 화면이고 검색 필터를 위한 입력 항목도 다른데?" — `/master/logistics-cost` 화면이 레거시 `Subu45.dfm Caption='청구서관리'` 와 어긋나게 「Sobo45 = 물류비」로 잘못 매핑되어 있던 사례를 일반화 차단. master_data.yaml v1.0.0 (Wave A/B/C, 2026-04-18) 가 G5_Ggeo.Gposa 컬럼만 보고 추정한 결과로, 동일 folder `Subu45` 가 정상 매핑인 `Sobo45_billing` (청구서관리) + 잘못된 매핑 `Sobo45` (물류비) 두 ID 로 중복 등록되어 있었음. 옵션 (B) 채택 — 화면/엔드포인트/모델/계약/테스트 일괄 제거 + 청구서관리(Sobo45_billing) 내부 lookup 으로 흡수 (G5_Ggeo.Gposa 는 Subu45.pas L372 G5_Ggeo.Locate 패턴 그대로). 영향 범위: 백엔드 3 파일 (routers/masters.py + services/masters_service.py + models/master.py) · 프론트 4 파일 (page.tsx 삭제 + form-registry.ts + master-api.ts + master/page.tsx) · 계약 1 파일 (master_data.yaml v1.1.0→v1.2.0 — catalog 행 + endpoints[SQL-MAS-10] + customer_variants[Sobo45] 제거 + DEC-024/025/026 본문 6→5 정정) · 테스트 3 파일 (test_masters_q_search.py LIST_FUNCS 6→5 + LogisticsCostMappingRemovedTests 5축 부재 단언 신규 / test_pagination_contracts.py + test_list_state_persistence_audit.py) · 감사·대시보드 (Sobo45.md DEPRECATED + porting-screens.json + web-porting-progress.json + phase1-component-fidelity.md). 재발 방지: 신규 마스터 화면 추가 시 「DFM Caption 1차 검증 (`iconv` EUC-KR 디코딩)」 의무화 + 동일 folder 다중 FormMeta 매핑 시 의미 파생 명시. 검증: tsc 0 · pytest 신규 5축 부재 단언 PASS · 인접 회귀 0. 사용자 룰("임시방편 금지·일반화 해결·이전 케이스 호환·재귀 오류 차단") 부합.*
+
+*과거: 2026-04-23 — DEC-059 신규 추가 (메뉴 메타 3축 분리 — `phase`/`roadmapWave`/`crudParity` 직교 분리). 사용자 요청 "P3/P4 단계로 진행해야할 부분이 있으면 표기하고자 한다" + "CRUD 동등성도 같이 보고싶다". 결과: ① `docs/menu-roadmap-waves.md` 신규(정책 단일 원천 — 3축 정의 + 사이드바 배지 규칙 + tooltip 템플릿 + 정적 가드 §5). ② `docs/crud-backlog.md` 신규(CRUD gap matrix 1차 인벤토리 + G0~G4 보강 절차 + P2/P3/P4 우선순위 권고). ③ `FormMeta` 에 `roadmapWave`/`crudParity`/`crudNotes` 3 필드 추가, 식별된 R/RU/STUB 행 일괄 채움(마스터 6 + 정산 5 + 통계 6 + 반품/원장/감사/택배/특별 등). ④ 사이드바에 보조 배지 2개(`R`/`RU`/`STUB` 회색 outline + `W3`/`W4` sky outline) + tooltip 한 줄 자막. ⑤ `dashboard/data/phase2-screen-cards.json` `$comment` 에 `form-registry` 단일 원천 + 동기화 의무 명시(다음 사이클 일괄 채움 예정). ⑥ 정적 회귀 가드 `test/test_form_registry_metadata.py` 신규 — 허용값 검증 + `phase1` + R/RU/STUB 행은 `crudNotes` 또는 blocker 사유 보유 강제. 검증: pytest PASS(form-registry 메타 가드 신규) · tsc 0 · ReadLints 0.*
 
 *과거: 2026-04-23 — DEC-033 (d++) 보강 (반품 화면 2종 동시 핫픽스 — `returns_service.ledger_query` derived-table → `count_grouped` 헬퍼 + `SQL_PERIOD_MASTER` G1_Ggeo+`g.Hcode=''` → G7_Ggeo 단일키 출판사 lookup, 레거시 `Subu58.pas:376` 패턴 1:1). 사용자 보고 "기간별 반품 내역서 화면에 거래처명이 출력되지 않는다" + "기간별 재고원장 화면은 500 오류". 회귀 가드 `test/test_returns_period_ledger_regression.py` 4/4 + 인접 32/32 무회귀, 광범위 회귀(반품/원장/정산/기간) 278/278 PASS, ReadLints 0.*
 

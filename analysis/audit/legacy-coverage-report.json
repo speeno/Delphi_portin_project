@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-04-23T01:56:55.557977+00:00",
+  "generated_at": "2026-04-23T07:33:40.165241+00:00",
   "summary": {
     "total_dfm_candidates": 118,
-    "registry_entries": 68,
+    "registry_entries": 67,
     "ok": 23,
     "missing_forms": 0,
     "caption_mismatches": 0,
-    "allowed": 109
+    "allowed": 108
   },
   "missing_forms": [],
   "caption_mismatches": [],
@@ -716,16 +716,6 @@
       "registry_caption": "재고현황",
       "dfm_caption": "발송비현황",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu44.dfm",
-      "category": "caption_mismatch",
-      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
-      "until": "Phase 3 audit"
-    },
-    {
-      "form_name": "Sobo45",
-      "dfm_form_name": "Sobo45",
-      "registry_caption": "물류비",
-      "dfm_caption": "청구서관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu45.dfm",
       "category": "caption_mismatch",
       "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
       "until": "Phase 3 audit"

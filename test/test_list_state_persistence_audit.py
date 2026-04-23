@@ -41,13 +41,12 @@ from audit_list_state_persistence import (  # noqa: E402  (sys.path 보강 후 i
 
 # plan §1 ‑ 17 list 화면 baseline (route_key 기준).
 EXPECTED_COVERED_KEYS = {
-    # master 6
+    # master 5 (구 6 — master_data.yaml v1.2.0 정정으로 logistics-cost 제외)
     "master.customer",
     "master.book",
     "master.publisher",
     "master.book-code",
     "master.discount",
-    "master.logistics-cost",
     # C2/C3/C4/C6 — 5
     "outbound.orders",
     "outbound.status",

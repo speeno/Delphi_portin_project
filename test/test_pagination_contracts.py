@@ -7,8 +7,9 @@ DEC-024 — list 응답 계약 회귀 가드 (C2/C6/C9 + reports).
 - C2 outbound list: ``page`` + BC 평면(total/limit/offset).
 - C6 sales-statement list: ``page`` + BC 평면.
 - C6 reports book-sales / customer-sales: ``page`` (가상 페이징, BC total).
-- C9 master 6개 (customer/book/publisher/book-code/discount/logistics-cost):
+- C9 master 5개 (customer/book/publisher/book-code/discount):
   ``page`` 단독 (BC 평면 없음 — 신규 표준).
+  (구 ``logistics-cost`` 는 master_data.yaml v1.2.0 정정으로 제거 — 2026-04-23.)
 
 실 DB 미사용 — 서비스 함수만 patch 하여 라우터 직렬화/스키마 계약을 검증.
 """
@@ -271,17 +272,10 @@ class C9MastersListPageContract(TestCase):
         self.assertEqual(res.status_code, 200, res.text)
         self._check_only_page(res.json(), expected_total=9)
 
-    def test_logistics_cost_list(self) -> None:
-        with patch.object(
-            masters_service,
-            "list_logistics_costs",
-            side_effect=self._fake_response(6),
-        ):
-            res = self.client.get(
-                "/api/v1/masters/logistics-cost?serverId=remote_1",
-            )
-        self.assertEqual(res.status_code, 200, res.text)
-        self._check_only_page(res.json(), expected_total=6)
+    # ``test_logistics_cost_list`` 제거 (master_data.yaml v1.2.0, 2026-04-23) —
+    # 「Sobo45 = 물류비」 매핑 추정 오류 정정. 라우트 ``/api/v1/masters/logistics-cost``
+    # 와 서비스 ``list_logistics_costs`` 동시 제거. 부재 단언 회귀 가드는
+    # ``test_masters_q_search.LogisticsCostMappingRemovedTests`` 가 보유.
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # Migration Contract: 기초 마스터 단일 원천 (C9) — Wave A/B/C
 #
-# 본 계약은 레거시 Sobo11/14/17/38/39/45 의 단일 원천 매핑(DEC-023)을 웹 API+UI
+# 본 계약은 레거시 Sobo11/14/17/38/39 의 단일 원천 매핑(DEC-023)을 웹 API+UI
 # 에서 동등하게 노출하기 위한 1차 계약입니다. Sobo36/37/43 은 통계 화면으로 분리됨.
 #
 # 단일 원천 (DEC-023):
@@ -9,7 +9,14 @@
 #   - Sobo17 → 출판사·G7거래처(G7_Ggeo + G7_Gbun)    ✅ Wave B (READ only)
 #   - Sobo38 → 도서코드 (G4_Book READ)              ✅ Wave B (READ only)
 #   - Sobo39 → 할인율 (G7_Ggeo.Gpper, 대표 1폼)     ✅ Wave C (READ only)
-#   - Sobo45 → 물류비 (G5_Ggeo.Gposa)               ✅ Wave C (READ only)
+#
+# 정정 (2026-04-23, v1.2.0): 「Sobo45 → 물류비 (G5_Ggeo.Gposa)」 매핑 제거.
+#   레거시 Subu45.dfm Caption='청구서관리' (TSobo45) 가 실제 정의이며,
+#   청구서관리는 ``Sobo45_billing`` (folder=Subu45, route=/settlement/billing) 으로
+#   별도 정상 등록되어 있음(C5 정산 phase1, return_receipt.yaml/billing 계약 측 보유).
+#   G5_Ggeo.Gposa 는 청구서관리 화면 내부 inline lookup (레거시 Subu45.pas
+#   ``G5_Ggeo.Locate`` 패턴) 으로 흡수. 단독 마스터 화면은 레거시에 부재.
+#   사용자 룰 — 임시방편 금지·일반화 해결·이전 케이스(Sobo45_billing) 우선 활용.
 #
 # 1차 미접근 (후속):
 #   - 마스터 INSERT/DELETE  (DEC-019: 수정 ON · 삭제 OFF)
@@ -18,21 +25,35 @@
 #   - 자동완성(GET /masters/customers, /products) 은 C2 contract 에서 보존, 본 계약은 영향 0
 
 id: C9-master-data
-name: 기초 마스터 단일 원천 (Sobo11/14/17/38/39/45)
-version: 1.1.0
+name: 기초 마스터 단일 원천 (Sobo11/14/17/38/39)
+version: 1.2.0
 status: draft
 scope_phase: phase1
 # Changelog
+#   v1.2.0 (2026-04-23) — 매핑 추정 오류 정정. 「Sobo45 → 물류비 (G5_Ggeo.Gposa)」
+#                        catalog 행 + endpoints[SQL-MAS-10] + customer_variants[Sobo45]
+#                        제거. 근본 원인: v1.0.0 Wave A/B/C 초기 catalog 작성 시
+#                        G5_Ggeo.Gposa 컬럼만 보고 Subu45.dfm Caption 미확인 →
+#                        실제 Caption='청구서관리' (Sobo45_billing 으로 별도 정상 등록).
+#                        프론트 라우트 /master/logistics-cost · 페이지 · master-api
+#                        logisticsCostList · 백엔드 /api/v1/masters/logistics-cost ·
+#                        masters_service.list_logistics_costs · models LogisticsCost*
+#                        동시 제거. 회귀 가드: test_masters_q_search /
+#                        test_pagination_contracts / test_list_state_persistence_audit
+#                        에서 logistics-cost 항목 제거 + form-registry / contract /
+#                        page 매핑 부재 단언 신규.
 #   v1.1.0 (2026-04-19) — DEC-028 retrofit. customer_variants(Subu14_1/Subu17_1/Subu38_1/Subu38_2/Subu45_1
 #                        4폼 변형 폴더 사실 + Subu11/Subu39 변형 0건 단언) + out_of_scope(OOS-MAS-1~5:
 #                        admin Wave D DFM 부재 / Sobo36/37/43 통계 분리 / 마스터 CREATE·DELETE /
 #                        자동완성 별 트랙 / Subu39_* accelerator 미생성). endpoints/schemas/data_access 변경 0.
 #   v1.0.0 (2026-04-18) — Wave A/B/C 초기 contract.
 acceptance_goal: |
-  웹 사용자가 기초관리 메뉴에서 거래처/도서/출판사/도서코드/할인율/물류비를 조회 가능하고,
+  웹 사용자가 기초관리 메뉴에서 거래처/도서/출판사/도서코드/할인율을 조회 가능하고,
   거래처·도서는 부분 수정(PATCH)이 가능해야 한다. 모든 PATCH 는 audit.master 로거에
   actor/entity/target/updated_fields 1줄 JSON 으로 기록된다.
   삭제(DELETE)·신규(INSERT) 는 DEC-019 로 후속 사이클로 이관.
+  「물류비」 화면은 본 계약에서 제외 — 청구서관리(Sobo45_billing, 별도 계약) 내부에서
+  G5_Ggeo.Gposa lookup 으로 흡수 (v1.2.0 정정).
 
 owners:
   business: 메인개발자
@@ -61,8 +82,8 @@ decisions:
   - id: DEC-026
     title: 마스터 list PK NULL/빈 row 가드 + DataGrid rowKey 안전 폴백
     summary: |
-      6 종 마스터 list (customer/book/publisher/book-code/discount/logistics-cost)
-      에서 PK 컬럼(``Gcode``) 이 NULL 또는 빈 문자열인 row 가 ORDER BY Gcode
+      5 종 마스터 list (customer/book/publisher/book-code/discount; v1.2.0 정정 — 구
+      logistics-cost 제외) 에서 PK 컬럼(``Gcode``) 이 NULL 또는 빈 문자열인 row 가 ORDER BY Gcode
       정렬 상단에 몰려 화면이 "빈 행" 으로 보이고 React rowKey 중복 경고를
       유발하는 사용자 보고에 대응.
       1) backend ``masters_service._build_master_where`` 헬퍼 신설 — 모든
@@ -71,14 +92,15 @@ decisions:
       2) frontend ``DataGrid`` 의 row 렌더러를 ``renderBodyRows`` 로 추출,
          호출자 ``rowKey`` 가 빈 문자열/NULL/중복을 반환해도 index 합성으로
          React duplicate key warning 을 차단 (LSP — 컴포넌트는 호출자
-         입력이 깨져도 안전 동작해야 함). 6 마스터 + outbound + sales-statement
-         + reports 2 등 DataGrid 사용 모든 화면 자동 보호.
-      3) 회귀 가드 — ``test/test_masters_q_search.py`` MasterPkGuard 12 subtest
-         (6 마스터 × 빈/non-empty q 매트릭스 + 헬퍼 단위).
+         입력이 깨져도 안전 동작해야 함). 5 마스터 + outbound + sales-statement
+         + reports 2 등 DataGrid 사용 모든 화면 자동 보호 (v1.2.0 정정 — 구
+         6 마스터 중 logistics-cost 제외).
+      3) 회귀 가드 — ``test/test_masters_q_search.py`` MasterPkGuard 10 subtest
+         (5 마스터 × 빈/non-empty q 매트릭스 + 헬퍼 단위; v1.2.0 정정).
   - id: DEC-025
     title: 마스터 q 검색 회귀 가드 + 동적 페이저
     summary: |
-      DEC-024 직후 6 종 마스터 list 의 q 검색 회귀 핫픽스.
+      DEC-024 직후 5 종 마스터 list 의 q 검색 회귀 핫픽스 (v1.2.0 정정 — 구 6 종 중 logistics-cost 제외).
       1) ``app/core/db._escape_mysql3_value`` — int/float/bool 은 quote 없이 인라인.
          (MySQL 3.x ``LIMIT 'N' OFFSET 'M'`` 거부 → root cause #1 해결).
       2) ``masters_service._likify`` 헬퍼로 6 개 list 의 LIKE 패턴 생성을 단일화.
@@ -86,8 +108,8 @@ decisions:
          이 한 곳만 보강 (SOLID OCP).
       3) ``BLS_DEBUG_MASTER_SEARCH=1`` 게이트로 q raw bytes / pattern / SQL / params 캡처.
          진단 보조 스크립트: ``debug/diagnose_master_search.py``.
-      4) 회귀 가드: ``test/test_masters_q_search.py`` — 빈/ASCII/한글 q × 6 마스터 = 18 케이스
-         + db escape 단위.
+      4) 회귀 가드: ``test/test_masters_q_search.py`` — 빈/ASCII/한글 q × 5 마스터 = 15 케이스
+         + db escape 단위 (v1.2.0 정정 — 구 6 마스터 18 케이스 중 logistics-cost 3건 제외).
       5) 프론트 ``DataGridPager`` 에 「자동(N)」옵션 + ``useDynamicPageSize`` 훅 (ResizeObserver +
          localStorage 수동 우선) 으로 viewport 기반 page size 추천 — 8 개 list 화면 적용.
 
@@ -188,18 +210,10 @@ endpoints:
       schema_ref: backend/app/models/master.py#DiscountListResponse
       shape: "{ items: [...], page: { limit, offset, total, has_more } }"
 
-  # 물류비 (Sobo45) — READ only 1차
-  - id: SQL-MAS-10
-    method: GET
-    path: /api/v1/masters/logistics-cost
-    query:
-      - { name: serverId, type: string, required: true }
-      - { name: q, type: string, required: false }
-      - { name: limit, type: int, default: 100, max: 500, note: "DEC-024" }
-      - { name: offset, type: int, default: 0 }
-    response:
-      schema_ref: backend/app/models/master.py#LogisticsCostListResponse
-      shape: "{ items: [...], page: { limit, offset, total, has_more } }"
+  # SQL-MAS-10 (구 「Sobo45 물류비」 endpoint) — v1.2.0 (2026-04-23) 제거됨.
+  # 라우트 /api/v1/masters/logistics-cost · 모델 LogisticsCost* · 서비스
+  # masters_service.list_logistics_costs · 프론트 /master/logistics-cost 동시 제거.
+  # G5_Ggeo.Gposa 는 청구서관리(Sobo45_billing, 별도 계약) 내부 lookup 으로 흡수.
 
 equivalence:
   read:
@@ -250,11 +264,9 @@ customer_variants:
       Subu39_* 변형 폴더가 accelerator 산출물에 미생성 (OOS-MAS-5).
       form-registry.ts 메타에는 Subu39_1/_2/_5 가 존재. DEC-023 단일 원천 정책에 따라 phase1
       은 본 폼 4컬럼만 노출. layout_mappings/Sobo39.md §9.
-  - form: Sobo45
-    variant_folders: [Subu45_1]
-    note: |
-      Subu45_1/Sobo45_1 — 위젯 트리 1:1 동일 (form.json SQL 차이만 추정).
-      모던 /master/logistics-cost 단일 라우트 흡수. layout_mappings/Sobo45.md §9.
+  # 「Sobo45」 항목 (구 customer_variants) v1.2.0 (2026-04-23) 제거됨.
+  # 본 계약은 Sobo45 매핑을 더 이상 보유하지 않음. 청구서관리(Subu45/Subu45_1) 의
+  # 변형 정보는 settlement/billing 측 계약(Sobo45_billing) 으로 이관.
 
 # DEC-028 — phase1 contract 차원에서 명시적 비범위(deferred 와 분리: deferred 는 후속 사이클 약속,
 # out_of_scope 는 본 contract 가 다루지 않는 영역의 사유 기록).
