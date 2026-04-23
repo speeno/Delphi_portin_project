@@ -470,17 +470,36 @@ git push
 
 ---
 
-## 운영 가이드 — admin 슈퍼유저 인식 (DEC-056 적용 2026-04-22)
+## 운영 가이드 — admin 슈퍼유저 인식 (DEC-056 / 2026-04-22 갱신: Wave B 분기 0)
 
-`admin` / `admin123` 계정은 **3중 안전망**으로 항상 슈퍼유저(`role=admin` + `permissions=['*']`) 로 인식된다 — 어느 한 경로가 실패해도 다른 경로로 자동 폴백.
+`admin` / `admin123` 계정은 **4중 안전망**으로 항상 슈퍼유저(`role=admin` + `permissions=['*']`) 로 인식된다 — 어느 한 경로가 실패해도 다른 경로로 자동 폴백.
 
-### 3중 안전망 구성
+### 4중 안전망 구성 (DEC-056 Wave A + Wave B)
 
 | # | 경로 | 트리거 조건 | 비고 |
 |---|------|-------------|------|
-| 1 | `Id_Logn.hcode == '0000'` (4자리 영) | DB 의 admin 행이 4자리 hcode | 가장 빠름 (분기 1) |
+| **0 (NEW Wave B)** | `web_admin.json` 의 admin role 매핑 | `admin_service.list_user_roles_and_permissions(user_id)` 가 `'admin'`/`'role-admin'` 반환 | **분기 1·2·3 모두 우회** — Id_Logn Fxx 가 operator 합성해도 admin 로 즉시 회복 |
+| 1 | `Id_Logn.hcode == '0000'` (4자리 영) | DB 의 admin 행이 4자리 hcode | M0 부트스트랩 정합 |
 | 2 | `BLS_ADMIN_USER_IDS` 화이트리스트 | env 미설정 시 **기본 폴백 `{'admin'}`** | env="" 명시 시 비활성, "X,Y" 명시 시 그 값만 |
-| 3 | `web_admin.json::web_user_roles` 매핑 | admin → `role-admin` (perms=`['*']`) | 신규 환경에 `_empty_state()` 자동 시드, 기존 환경에 `_ensure_admin_role_mapping()` 자동 보정 |
+| 3 | `web_admin.json::web_user_roles` 매핑 | admin → `role-admin` (perms=`['*']`) | `_empty_state()` 자동 시드 + `_ensure_admin_role_mapping()` 자동 보정 (분기 0 가 발효 못한 fail-safe 경로 — 동일 데이터 평가) |
+
+> **분기 0 vs 분기 3 차이**: 분기 0 은 `_resolve_role_and_permissions{,_async}` 의 *가장 첫 검사* — Id_Logn Fxx 합성(분기 3 Wave A) 보다 먼저 발효하여 admin lacuna 를 원천 차단. 분기 3 은 분기 0 헬퍼 자체가 실패(`admin_service` 미가용 등) 한 fail-safe 경로.
+
+### 분기 0 적용 후 — 재로그인 안내 (필수)
+
+분기 0 는 *JWT 발급 시점* 에 발효한다. 적용 직후 admin 사용자는 다음 중 하나:
+
+1. **로그아웃 → 재로그인** (즉시 효력)
+2. **토큰 만료 대기** (15분, 자동 갱신 후 효력)
+
+현재 토큰의 클레임을 즉시 진단하려면:
+
+```bash
+# 브라우저 LocalStorage 의 access_token 복사 후
+python3 debug/show_jwt_claims.py "<jwt_token>"
+```
+
+→ 출력의 "분기 0 (admin role 매핑) 결과: 슈퍼유저" 로 표시되면 정상.
 
 ### 신규 환경 부트스트랩
 
@@ -518,6 +537,19 @@ export BLS_ADMIN_USER_IDS=""   # 안전망 #2 비활성 (운영자 명시 의사
 ```
 
 > 일반 사용자의 권한은 `Id_Logn` 의 `F11~F89` 80셀(`'O'`/`'R'`/`'X'`) 매트릭스가 자동 합성되어 모던 `permission_code` (52 정본 키, `legacy-analysis/permission-keys-catalog.md` §1+§4) 로 부여된다(DEC-056 분기 3). 사이드바는 `usePermissions()` 훅으로 권한 없는 메뉴를 hidden 처리한다(DEC-058 — 레거시 `if nUse2='X' then ShowMessage` 동등).
+
+### 정산 화면 — 변형사 DB 컬럼 부재 호환 (DEC-058 보강 2026-04-22)
+
+일부 변형사 DB(예: `remote_152`) 의 `T2_Ssub` 에는 `Chek3` / `Sdate` / `Yesno` 컬럼이 없다. `tax_invoice_service._t2_columns(server_id)` 어댑터가 `SHOW COLUMNS` 결과를 캐시해 동적 SELECT 를 빌드 — 컬럼 부재 시 `'0' AS Chek3` 정적 리터럴로 대체한다. 운영자는 별도 조치 불요(자동 흡수).
+
+정산 7화면 라이브 점검:
+
+```bash
+PYTHONPATH=도서물류관리프로그램/backend python3 debug/probe_settlement_endpoints.py
+PYTHONPATH=도서물류관리프로그램/backend python3 debug/probe_settlement_endpoints.py --month 202604 --servers remote_152,remote_153
+```
+
+→ 4 서버 × 7 endpoint = 28/28 OK 가 정상.
 
 ---
 
