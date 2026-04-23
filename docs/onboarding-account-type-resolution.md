@@ -154,6 +154,33 @@ if tenant:
     → activation_token 발급
 ```
 
+### T2_DIST (총판 / 물류센터) — 온라인 가입 + 계약 승인 워크플로우 (`ACTR-DEC-01` 우선)
+
+T1(수퍼관리자)만 차단하고, T2_DIST 도 공개 가입 신청을 허용한다. 단 출판사 목록 엑셀 첨부와 계약 PDF 활성화가 강제된다.
+
+```
+가입 위저드 Step1 → T2_DIST 선택
+    → Step2: 회사 기본 정보(11 필드) + tenant_label_kor + primary_server_hint?
+        + 출판사 목록 엑셀(.xlsx, ≤5MB) 다운로드 → 작성 → 업로드 (ONB-DIST-SUBMIT)
+    → POST /api/v1/public/signup-requests/distributor (multipart)
+        → attachment_service.save (ATT-VAL-*)
+        → distributor_publishers_excel.parse_publisher_rows (parsed_publisher_count + parse_warnings)
+        → status=contract_review (다른 유형은 pending)
+
+관리자 검토 (T1 또는 dist_hcode 범위 T2_DIST):
+    → GET /api/v1/admin/signup-requests/{id}/attachment (엑셀 다운로드)
+    → POST /api/v1/admin/signup-requests/{id}/contract (PDF, ≤10MB)
+        → contract_pdf_id, contract_signed_at 기록 (ONB-DIST-CONTRACT)
+    → POST /api/v1/admin/signup-requests/{id}/approve
+        → 계약 PDF 미첨부 시 422 SIGNUP_APPROVE_CONTRACT_REQUIRED
+        → tenants_directory.upsert_tenant (overlay 파일에만 기록 — 시드 무손상, TENDIR-UPSERT-*)
+        → publisher_whitelist.bulk_upsert(dist_hcode, rows) (부분 실패 허용, WHL-BULK-*)
+        → Id_Logn 생성 + activation_token 발급 (ONB-DIST-APPROVE)
+```
+
+- ACTR 적용: 승인 시 `web_users.account_type=T2_DIST` 가 직접 적재되므로 이후 로그인은 ACTR-DEC-01 로 즉시 결정.
+- 계약 PDF / 첨부 엑셀의 본문은 `attachments_index.json` 에 적재 금지(SEC-POL-CITE-03). 인덱스에는 `id, original_filename, content_type, size_bytes, sha256, related_*` 만 기록.
+
 ---
 
 ## 6. 사전등록(레거시) 사용자 활성화 흐름

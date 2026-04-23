@@ -124,6 +124,25 @@
 |----|------|------|
 | `TENDIR-v1` | 테넌트 디렉토리 계약 초안 | [`migration/contracts/tenants_directory.yaml`](../migration/contracts/tenants_directory.yaml) |
 | `OQ-TENDIR-1..3` | chul_09_db 공유·한국도서유통 다중빌드·시드 불완전 미결 | 동 파일 open_questions |
+| `TENDIR-UPSERT-OVERLAY` | 운영 추가분은 overlay 파일(`tenants_directory_overlay.json`) 에만 기록, 시드 무손상 | 동 파일 + [`backend/app/services/tenants_directory_service.py`](../도서물류관리프로그램/backend/app/services/tenants_directory_service.py) |
+| `TENDIR-UPSERT-IDEMPOTENT` | `upsert_tenant(tenant_id=...)` 동일 ID 재호출 시 갱신만 수행 | 동 서비스 |
+
+### 총판 가입·계약 워크플로우 (ONB-DIST-*, ATT-VAL-*, WHL-BULK-*)
+
+| ID | 내용 | 출처 |
+|----|------|------|
+| `ONB-DIST-SUBMIT` | T2_DIST 공개 가입 (multipart, 출판사 엑셀 첨부 필수, status=contract_review) | [`docs/onboarding-account-type-resolution.md`](onboarding-account-type-resolution.md) §5.T2_DIST + [`backend/app/routers/public_signup.py`](../도서물류관리프로그램/backend/app/routers/public_signup.py) |
+| `ONB-DIST-CONTRACT` | 관리자 계약 PDF 업로드 → contract_signed_at 기록, contract_review 행에만 허용 | [`backend/app/routers/admin.py`](../도서물류관리프로그램/backend/app/routers/admin.py) |
+| `ONB-DIST-APPROVE` | 승인 시 tenants_directory.upsert + publisher_whitelist.bulk_upsert + Id_Logn 생성 | [`backend/app/services/member_signup_service.py`](../도서물류관리프로그램/backend/app/services/member_signup_service.py) `approve_request` T2_DIST 분기 |
+| `ATT-VAL-EXT` | 첨부 확장자 화이트리스트 (`.xlsx`, `.pdf` 등) — 이외 거부 | [`backend/app/services/attachment_service.py`](../도서물류관리프로그램/backend/app/services/attachment_service.py) |
+| `ATT-VAL-MIME` | content_type 화이트리스트 + 확장자와 정합 | 동 서비스 |
+| `ATT-VAL-SIZE` | 엑셀 ≤5MB / PDF ≤10MB (관련 엔티티별 max_bytes 주입) | 동 서비스 |
+| `ATT-VAL-SHA256` | sha256 인덱스에 저장, 본문은 `var/attachments/` 에만 기록 (G3) | 동 서비스 |
+| `WHL-BULK-CREATE` | 신규 hcode → status=active 로 신규 등록 | [`backend/app/services/publisher_whitelist_service.py`](../도서물류관리프로그램/backend/app/services/publisher_whitelist_service.py) `bulk_upsert` |
+| `WHL-BULK-UPDATE` | 기존 행은 dist_hcode/이름/노트만 갱신 (status 유지) | 동 서비스 |
+| `WHL-BULK-PARTIAL_FAIL` | 행별 검증 실패는 `errors` 리스트로 반환, 나머지는 적재 | 동 서비스 |
+| `SIGNUP_APPROVE_CONTRACT_REQUIRED` | T2_DIST 승인 시 `contract_pdf_id` 미적재면 422 | 동 `member_signup_service.approve_request` |
+| `SIGNUP_DIST_PUBLISHER_LIST_REQUIRED` | T2_DIST 신청 시 `publisher_attachment_id` 누락이면 422 | 동 `submit_request` |
 
 ---
 

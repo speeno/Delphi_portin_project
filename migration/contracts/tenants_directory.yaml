@@ -26,6 +26,17 @@
 # - 같은 tenant_label_kor 로 여러 build_role 이 존재할 경우 각각 별도 행으로 등록.
 #   예: 한국도서유통 → distributor / publisher / warehouse_publisher 세 행.
 # - 사용자의 build_role 은 web_users.account_type / web_publisher_whitelist 승인 시 결정.
+#
+# Overlay 파일 규약 (TENDIR-UPSERT-OVERLAY)
+# ------------------------------------------
+# - 시드 파일(`backend/data/tenants_directory_seed.json`) 은 운영 중 절대 수정하지 않는다.
+# - 운영 추가분(예: 총판 온라인 가입 승인 시 신규 등록되는 tenant) 은
+#   `BLS_TENANTS_DIRECTORY_OVERLAY_PATH` (기본: `backend/data/tenants_directory_overlay.json`)
+#   에만 적재한다.
+# - `tenants_directory_service.upsert_tenant(tenant_id=...)` 가 단일 진입점이며,
+#   overlay 파일은 atomic-replace 로만 갱신, threading.Lock 으로 직렬화한다.
+# - 조회 시 (시드 + overlay) 가 합쳐지며, 동일 tenant_id 가 양쪽에 존재하면 overlay 가 우선한다.
+# - 감사 로그 액션: tenant.upsert (actor + tenant_id + 결과 코드만 기록).
 
 id: TENDIR-v1
 name: 테넌트 디렉토리 (DSN 라우팅 정본)

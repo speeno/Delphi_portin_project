@@ -118,6 +118,33 @@ validation_rules:
     desc: "whitelist.status == 'disabled' 인 경우에도 가입 불가 (총판 관리자 활성화 필요)"
 
 # ─────────────────────────────────────────────────────────────────────────────
+# bulk_upsert (총판 가입 승인 시 엑셀 첨부 일괄 등록)
+#
+# `member_signup_service.approve_request` T2_DIST 분기에서 호출되는 일괄 UPSERT.
+# 부분 실패를 허용하여, 행별 검증 실패는 errors[] 로 반환하되 나머지 정상 행은 적재한다.
+# ─────────────────────────────────────────────────────────────────────────────
+bulk_upsert:
+  function: publisher_whitelist_service.bulk_upsert
+  inputs:
+    dist_hcode: "필수 — 총판 코드 (web_users.account_family 와 정합)"
+    rows: "엑셀 파싱 결과 list[dict] — publisher_hcode/publisher_name 필수, biz_number/contact_person/contact_phone/note 선택"
+    actor: "감사 로그 — admin user_id"
+    expected_account_type: "기본 'T2_PUB'"
+    default_account_family: "선택 — 미지정 시 dist_hcode 그대로"
+    default_primary_server: "선택 — 신규 행에 한해 기본값 부여"
+    dist_tenant_id: "선택 — overlay 로 추가된 신규 총판의 tenant_id"
+  partial_failure: "허용 — 행별 오류는 result.errors=[{row_index, publisher_hcode, code, message}] 로 반환"
+  result_summary:
+    created: "신규 등록 행 수"
+    updated: "기존 행 갱신 수 (status 는 유지)"
+    errors_count: "검증 실패 행 수"
+  audit_action: whitelist.bulk_upsert
+  tracking_ids:
+    - WHL-BULK-CREATE
+    - WHL-BULK-UPDATE
+    - WHL-BULK-PARTIAL_FAIL
+
+# ─────────────────────────────────────────────────────────────────────────────
 # 1차 시드 예시 (운영 데이터는 총판 관리자가 admin UI 에서 직접 등록)
 # ─────────────────────────────────────────────────────────────────────────────
 seed_examples:

@@ -129,6 +129,25 @@ stateDiagram-v2
 
 ---
 
+## 6.5 총판(T2_DIST) 온라인 가입 + 계약 승인 워크플로우 (`ONB-DIST-*`)
+
+회의 결과(2026-04-24) 총판도 공개 가입 신청을 허용하되, 출판사 목록 엑셀 첨부 + 계약 PDF 활성화의 **2 단계 게이트** 를 강제한다(상세는 [`docs/onboarding-account-type-resolution.md`](onboarding-account-type-resolution.md) §5.T2_DIST).
+
+| 추적 ID | 액션 | 감사 로그 액션명 |
+|----|------|-------|
+| `ONB-DIST-SUBMIT` | `POST /api/v1/public/signup-requests/distributor` (multipart, 엑셀 첨부 필수) | `signup.submit_distributor` |
+| `ONB-DIST-CONTRACT` | `POST /api/v1/admin/signup-requests/{id}/contract` (PDF 첨부) | `signup.contract_attach` |
+| `ONB-DIST-APPROVE` | `POST /api/v1/admin/signup-requests/{id}/approve` (T2_DIST 분기) | `signup.approve` + `tenant.upsert` + `whitelist.bulk_upsert` |
+| `ATT-VAL-*` | `attachment_service` 확장자/MIME/크기 화이트리스트 + sha256 무결성 | `attachment.save` (id/filename/sha256만, 본문 미저장) |
+| `WHL-BULK-*` | `publisher_whitelist_service.bulk_upsert` 부분 실패 허용 | `whitelist.bulk_upsert` (created/updated/errors_count) |
+| `TENDIR-UPSERT-*` | `tenants_directory_service.upsert_tenant` overlay 파일에만 기록 | `tenant.upsert` |
+
+상태 기계 확장: `pending → contract_review → approved` 경로를 T2_DIST 신청에만 적용. 계약 PDF 미첨부 시 승인은 422 `SIGNUP_APPROVE_CONTRACT_REQUIRED` 로 거부.
+
+G3 정책: 첨부 본문(엑셀/PDF) 은 `backend/var/attachments/` 에만 저장하고, 인덱스(`backend/data/attachments_index.json`) 와 `member_signup_requests.json` 에는 식별자/파일명/sha256/사이즈만 적재한다. 두 파일 모두 `.gitignore` 등록 + `test_secrets_policy_gate.py` 회귀로 검증.
+
+---
+
 ## 7. 위험·미해결
 
 | ID | 항목 | 닫는 조건 |
