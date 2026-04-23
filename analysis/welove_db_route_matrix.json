@@ -1,0 +1,686 @@
+{
+  "source": "WeLove_FTP/Welove_인수인계/셋팅방법/DB정보, DB_FTP 엑셀/DB정보 엑셀정리.xlsx",
+  "manual_id": "MAN-017",
+  "secrets_policy": "Per docs/secrets-policy.md: 사용자/비밀번호/root 토큰은 본 JSON 에 포함하지 않는다. has_credentials_in_source 가 true 면 원본 엑셀에 자격증명이 평문으로 존재함을 의미하며, 운영 vault 또는 환경변수로 이전 후 원본은 작업자 PC 한정 보존한다.",
+  "schema": {
+    "server_id": "logical id derived from sheet column '서버' (예: 서버1·서버2·서버3·서버4)",
+    "account_family": "user-id prefix without _user suffix (예: chul_05, book_07, sky_01) — credential-free",
+    "db_name_logical": "database name as written; secrets stripped",
+    "tenant_name_kor": "korean tenant label (publisher/distributor) — used for UX and onboarding"
+  },
+  "servers": [
+    {
+      "server_id": "서버3",
+      "raw_label": "115.68.3.153(서버3)",
+      "tenant_count": 8
+    },
+    {
+      "server_id": "서버1",
+      "raw_label": "115.68.3.154(서버1)",
+      "tenant_count": 13
+    },
+    {
+      "server_id": "서버2",
+      "raw_label": "115.68.3.155(서버2)",
+      "tenant_count": 7
+    },
+    {
+      "server_id": "서버4",
+      "raw_label": "115.68.7.138(서버4)",
+      "tenant_count": 12
+    }
+  ],
+  "routes": [
+    {
+      "server_label_raw": "115.68.3.153(서버3)",
+      "server_id": "서버3",
+      "tenant_name_kor": "중앙라인(한강북)",
+      "db_name_logical": "chul_05_db",
+      "account_family": "chul_05",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.153(서버3)",
+      "server_id": "서버3",
+      "tenant_name_kor": "아샘",
+      "db_name_logical": "book_10_db",
+      "account_family": "book_10",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.153(서버3)",
+      "server_id": "서버3",
+      "tenant_name_kor": "북씨티",
+      "db_name_logical": "chul_06_db",
+      "account_family": "chul_06",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.153(서버3)",
+      "server_id": "서버3",
+      "tenant_name_kor": "북스로드",
+      "db_name_logical": "chul_07_db",
+      "account_family": "chul_07",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.153(서버3)",
+      "server_id": "서버3",
+      "tenant_name_kor": "북앤더",
+      "db_name_logical": "chul_08_db",
+      "account_family": "chul_08",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.153(서버3)",
+      "server_id": "서버3",
+      "tenant_name_kor": "교문사",
+      "db_name_logical": "chul_09_db",
+      "account_family": "chul_09",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.153(서버3)",
+      "server_id": "서버3",
+      "tenant_name_kor": "서버3(위러브3)",
+      "db_name_logical": "chul_09_db",
+      "account_family": "chul_09",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.153(서버3)",
+      "server_id": "서버3",
+      "tenant_name_kor": "서버(3)-sky_01_db",
+      "db_name_logical": "",
+      "account_family": "sky_01",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "진성사(1)X",
+      "db_name_logical": "book_js_db",
+      "account_family": "book_js",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "진성사(2)X",
+      "db_name_logical": "book_gs_db",
+      "account_family": "book_gs",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "진성사",
+      "db_name_logical": "book_01_db",
+      "account_family": "book_01",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "진성사(2)",
+      "db_name_logical": "book_02_db",
+      "account_family": "book_02",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "수레사",
+      "db_name_logical": "book_03_db",
+      "account_family": "book_03",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "협진물류",
+      "db_name_logical": "book_04_db",
+      "account_family": "book_04",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "해피데이",
+      "db_name_logical": "book_06_db",
+      "account_family": "book_06",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "북앤북",
+      "db_name_logical": "book_07_db",
+      "account_family": "book_07",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "정진물류",
+      "db_name_logical": "book_11_db",
+      "account_family": "book_11",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "플러스비",
+      "db_name_logical": "book_12_db",
+      "account_family": "book_12",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "지필미디어",
+      "db_name_logical": "book_13_db",
+      "account_family": "book_13",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "서버1(위러브1)",
+      "db_name_logical": "chul_09_db",
+      "account_family": "chul_09",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.154(서버1)",
+      "server_id": "서버1",
+      "tenant_name_kor": "test용(테스트용)",
+      "db_name_logical": "test_db",
+      "account_family": "book_04",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.155(서버2)",
+      "server_id": "서버2",
+      "tenant_name_kor": "한강물류",
+      "db_name_logical": "chul_01_db",
+      "account_family": "chul_01",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.155(서버2)",
+      "server_id": "서버2",
+      "tenant_name_kor": "신영북스",
+      "db_name_logical": "chul_02_db",
+      "account_family": "chul_02",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.155(서버2)",
+      "server_id": "서버2",
+      "tenant_name_kor": "한강도서라인",
+      "db_name_logical": "chul_03_db",
+      "account_family": "chul_03",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.155(서버2)",
+      "server_id": "서버2",
+      "tenant_name_kor": "한국도서물류",
+      "db_name_logical": "chul_04_db",
+      "account_family": "chul_04",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.155(서버2)",
+      "server_id": "서버2",
+      "tenant_name_kor": "북스테이",
+      "db_name_logical": "book_bs_db",
+      "account_family": "book_bs",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.155(서버2)",
+      "server_id": "서버2",
+      "tenant_name_kor": "서버2(위러브2)",
+      "db_name_logical": "chul_09_db",
+      "account_family": "chul_09",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.3.155(서버2)",
+      "server_id": "서버2",
+      "tenant_name_kor": "book(1)-NEW",
+      "db_name_logical": "book_01_db",
+      "account_family": "book_01",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "고려물류",
+      "db_name_logical": "book_01_db",
+      "account_family": "book_01",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "원일사",
+      "db_name_logical": "book_02_db",
+      "account_family": "book_02",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "런닝북",
+      "db_name_logical": "book_03_db",
+      "account_family": "book_03",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "출마로직스",
+      "db_name_logical": "book_04_db",
+      "account_family": "book_04",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "손수레",
+      "db_name_logical": "book_05_db",
+      "account_family": "book_05",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "탐북(타밈북스)",
+      "db_name_logical": "book_06_db",
+      "account_family": "book_06",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "유앤북",
+      "db_name_logical": "book_07_db",
+      "account_family": "book_07",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "도서유통 북112",
+      "db_name_logical": "book_11_db",
+      "account_family": "book_11",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "한국도서유통",
+      "db_name_logical": "book_kb_db",
+      "account_family": "book_kb",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "MS북스",
+      "db_name_logical": "book_21_db",
+      "account_family": "book_21",
+      "note": "",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "협회링크",
+      "db_name_logical": "book_91_db",
+      "account_family": "book_91",
+      "note": "대한출판문화협회",
+      "has_credentials_in_source": true
+    },
+    {
+      "server_label_raw": "115.68.7.138(서버4)",
+      "server_id": "서버4",
+      "tenant_name_kor": "(테스트용)",
+      "db_name_logical": "book_99_db",
+      "account_family": "book_99",
+      "note": "",
+      "has_credentials_in_source": true
+    }
+  ],
+  "by_family": {
+    "서버3": {
+      "chul_05": [
+        {
+          "tenant_name_kor": "중앙라인(한강북)",
+          "db_name_logical": "chul_05_db",
+          "note": ""
+        }
+      ],
+      "book_10": [
+        {
+          "tenant_name_kor": "아샘",
+          "db_name_logical": "book_10_db",
+          "note": ""
+        }
+      ],
+      "chul_06": [
+        {
+          "tenant_name_kor": "북씨티",
+          "db_name_logical": "chul_06_db",
+          "note": ""
+        }
+      ],
+      "chul_07": [
+        {
+          "tenant_name_kor": "북스로드",
+          "db_name_logical": "chul_07_db",
+          "note": ""
+        }
+      ],
+      "chul_08": [
+        {
+          "tenant_name_kor": "북앤더",
+          "db_name_logical": "chul_08_db",
+          "note": ""
+        }
+      ],
+      "chul_09": [
+        {
+          "tenant_name_kor": "교문사",
+          "db_name_logical": "chul_09_db",
+          "note": ""
+        },
+        {
+          "tenant_name_kor": "서버3(위러브3)",
+          "db_name_logical": "chul_09_db",
+          "note": ""
+        }
+      ],
+      "sky_01": [
+        {
+          "tenant_name_kor": "서버(3)-sky_01_db",
+          "db_name_logical": "",
+          "note": ""
+        }
+      ]
+    },
+    "서버1": {
+      "book_js": [
+        {
+          "tenant_name_kor": "진성사(1)X",
+          "db_name_logical": "book_js_db",
+          "note": ""
+        }
+      ],
+      "book_gs": [
+        {
+          "tenant_name_kor": "진성사(2)X",
+          "db_name_logical": "book_gs_db",
+          "note": ""
+        }
+      ],
+      "book_01": [
+        {
+          "tenant_name_kor": "진성사",
+          "db_name_logical": "book_01_db",
+          "note": ""
+        }
+      ],
+      "book_02": [
+        {
+          "tenant_name_kor": "진성사(2)",
+          "db_name_logical": "book_02_db",
+          "note": ""
+        }
+      ],
+      "book_03": [
+        {
+          "tenant_name_kor": "수레사",
+          "db_name_logical": "book_03_db",
+          "note": ""
+        }
+      ],
+      "book_04": [
+        {
+          "tenant_name_kor": "협진물류",
+          "db_name_logical": "book_04_db",
+          "note": ""
+        },
+        {
+          "tenant_name_kor": "test용(테스트용)",
+          "db_name_logical": "test_db",
+          "note": ""
+        }
+      ],
+      "book_06": [
+        {
+          "tenant_name_kor": "해피데이",
+          "db_name_logical": "book_06_db",
+          "note": ""
+        }
+      ],
+      "book_07": [
+        {
+          "tenant_name_kor": "북앤북",
+          "db_name_logical": "book_07_db",
+          "note": ""
+        }
+      ],
+      "book_11": [
+        {
+          "tenant_name_kor": "정진물류",
+          "db_name_logical": "book_11_db",
+          "note": ""
+        }
+      ],
+      "book_12": [
+        {
+          "tenant_name_kor": "플러스비",
+          "db_name_logical": "book_12_db",
+          "note": ""
+        }
+      ],
+      "book_13": [
+        {
+          "tenant_name_kor": "지필미디어",
+          "db_name_logical": "book_13_db",
+          "note": ""
+        }
+      ],
+      "chul_09": [
+        {
+          "tenant_name_kor": "서버1(위러브1)",
+          "db_name_logical": "chul_09_db",
+          "note": ""
+        }
+      ]
+    },
+    "서버2": {
+      "chul_01": [
+        {
+          "tenant_name_kor": "한강물류",
+          "db_name_logical": "chul_01_db",
+          "note": ""
+        }
+      ],
+      "chul_02": [
+        {
+          "tenant_name_kor": "신영북스",
+          "db_name_logical": "chul_02_db",
+          "note": ""
+        }
+      ],
+      "chul_03": [
+        {
+          "tenant_name_kor": "한강도서라인",
+          "db_name_logical": "chul_03_db",
+          "note": ""
+        }
+      ],
+      "chul_04": [
+        {
+          "tenant_name_kor": "한국도서물류",
+          "db_name_logical": "chul_04_db",
+          "note": ""
+        }
+      ],
+      "book_bs": [
+        {
+          "tenant_name_kor": "북스테이",
+          "db_name_logical": "book_bs_db",
+          "note": ""
+        }
+      ],
+      "chul_09": [
+        {
+          "tenant_name_kor": "서버2(위러브2)",
+          "db_name_logical": "chul_09_db",
+          "note": ""
+        }
+      ],
+      "book_01": [
+        {
+          "tenant_name_kor": "book(1)-NEW",
+          "db_name_logical": "book_01_db",
+          "note": ""
+        }
+      ]
+    },
+    "서버4": {
+      "book_01": [
+        {
+          "tenant_name_kor": "고려물류",
+          "db_name_logical": "book_01_db",
+          "note": ""
+        }
+      ],
+      "book_02": [
+        {
+          "tenant_name_kor": "원일사",
+          "db_name_logical": "book_02_db",
+          "note": ""
+        }
+      ],
+      "book_03": [
+        {
+          "tenant_name_kor": "런닝북",
+          "db_name_logical": "book_03_db",
+          "note": ""
+        }
+      ],
+      "book_04": [
+        {
+          "tenant_name_kor": "출마로직스",
+          "db_name_logical": "book_04_db",
+          "note": ""
+        }
+      ],
+      "book_05": [
+        {
+          "tenant_name_kor": "손수레",
+          "db_name_logical": "book_05_db",
+          "note": ""
+        }
+      ],
+      "book_06": [
+        {
+          "tenant_name_kor": "탐북(타밈북스)",
+          "db_name_logical": "book_06_db",
+          "note": ""
+        }
+      ],
+      "book_07": [
+        {
+          "tenant_name_kor": "유앤북",
+          "db_name_logical": "book_07_db",
+          "note": ""
+        }
+      ],
+      "book_11": [
+        {
+          "tenant_name_kor": "도서유통 북112",
+          "db_name_logical": "book_11_db",
+          "note": ""
+        }
+      ],
+      "book_kb": [
+        {
+          "tenant_name_kor": "한국도서유통",
+          "db_name_logical": "book_kb_db",
+          "note": ""
+        }
+      ],
+      "book_21": [
+        {
+          "tenant_name_kor": "MS북스",
+          "db_name_logical": "book_21_db",
+          "note": ""
+        }
+      ],
+      "book_91": [
+        {
+          "tenant_name_kor": "협회링크",
+          "db_name_logical": "book_91_db",
+          "note": "대한출판문화협회"
+        }
+      ],
+      "book_99": [
+        {
+          "tenant_name_kor": "(테스트용)",
+          "db_name_logical": "book_99_db",
+          "note": ""
+        }
+      ]
+    }
+  },
+  "totals": {
+    "servers": 4,
+    "routes": 40,
+    "credential_rows_in_source": 40
+  }
+}

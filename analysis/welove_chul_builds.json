@@ -1,0 +1,389 @@
+{
+  "source": "WeLove_FTP/도서유통-* (직접 디스크 스캔)",
+  "secrets_policy": "Per docs/secrets-policy.md (G3): Config.Ini 의 UserName/Password 는 어떠한 형태로도 본 JSON 에 포함하지 않는다. config_has_credentials_in_source 가 true 면 원본 Config.Ini 에 평문 자격증명이 존재함을 의미.",
+  "schema": {
+    "build_id": "BLD-* 추적 ID — RBAC 매트릭스의 source_builds 컬럼 키",
+    "build_role": "distributor | publisher | warehouse_publisher",
+    "account_family_inferred": "DB 사용자 계정 prefix 군 (chul_09, book_07 등) — 빌드 SKU 식별자",
+    "config_uses_label": "Config.Ini Uses= 값 (테넌트 라벨, GREEN 등급)",
+    "dfm_md5/pas_md5": "Chul.dfm/Chul.pas 의 MD5 — 바이너리 동일 빌드 검출용",
+    "form_families": "*.pas 폼 파일 prefix 별 갯수 (Subu, Tong, Seak, Seek, Seok, Seep, Base 등)"
+  },
+  "builds": [
+    {
+      "build_id": "BLD-DIST-STD",
+      "path": "WeLove_FTP/도서유통-총판",
+      "build_role": "distributor",
+      "account_family_inferred": null,
+      "account_type_inferred": [
+        "ACC-T2-DIST"
+      ],
+      "config_uses_label": "Client02",
+      "config_has_credentials_in_source": true,
+      "app_caption": "총판관리프로그램",
+      "dfm_size": 91865,
+      "pas_size": 107108,
+      "dfm_md5": "6d13c3719665bc3b04b31fef2778260a",
+      "pas_md5": "839bac480e6e27b1200e40f3c29cb607",
+      "extra_libraries": [],
+      "db_backend_dirs": [
+        "MsSQL",
+        "MySQL"
+      ],
+      "all_subdirs": [
+        "Data",
+        "Excel",
+        "Login",
+        "MsSQL",
+        "MySQL",
+        "Report"
+      ],
+      "form_families": {
+        "Base": 1,
+        "Seak": 9,
+        "Seek": 9,
+        "Seep": 2,
+        "Subu": 61,
+        "Tong": 8
+      },
+      "top_menu_captions": [
+        "기초관리",
+        "거래관리",
+        "원장관리",
+        "회계관리",
+        "자료관리",
+        "통계관리"
+      ],
+      "top_menu_count": 6,
+      "has_publisher_management": true,
+      "has_menu_visibility_toggle": false,
+      "notes": "표준 총판 배포 템플릿. Config.Ini Uses=Client02 (샘플 placeholder)."
+    },
+    {
+      "build_id": "BLD-PUB-STD",
+      "path": "WeLove_FTP/도서유통-출판",
+      "build_role": "publisher",
+      "account_family_inferred": null,
+      "account_type_inferred": [
+        "ACC-T2-PUB"
+      ],
+      "config_uses_label": "홍길동",
+      "config_has_credentials_in_source": true,
+      "app_caption": "출판관리프로그램",
+      "dfm_size": 93067,
+      "pas_size": 110478,
+      "dfm_md5": "9a8b00af750364863383446411a03ade",
+      "pas_md5": "d6db1247ce3e8af3c1f12c25f47e29cf",
+      "extra_libraries": [],
+      "db_backend_dirs": [
+        "MsSQL",
+        "MySQL"
+      ],
+      "all_subdirs": [
+        "ChulpanKey",
+        "Data",
+        "MsSQL",
+        "MySQL",
+        "자료전송"
+      ],
+      "form_families": {
+        "Base": 1,
+        "Seak": 10,
+        "Seek": 9,
+        "Seep": 2,
+        "Seok": 3,
+        "Subu": 77,
+        "Tong": 12
+      },
+      "top_menu_captions": [
+        "기초관리",
+        "거래관리",
+        "원장관리",
+        "회계관리",
+        "자료관리",
+        "통계관리",
+        "년/월(통계)"
+      ],
+      "top_menu_count": 7,
+      "has_publisher_management": false,
+      "has_menu_visibility_toggle": true,
+      "notes": "표준 출판 배포 템플릿. Config.Ini Uses=홍길동 (샘플 placeholder). 메뉴보이기/감추기 토글 보유."
+    },
+    {
+      "build_id": "BLD-DIST-KBT",
+      "path": "WeLove_FTP/도서유통-New/도서유통/한국도서유통/유통",
+      "build_role": "distributor",
+      "account_family_inferred": "book_kb",
+      "account_type_inferred": [
+        "ACC-T2-DIST"
+      ],
+      "config_uses_label": "한국도서유통",
+      "config_has_credentials_in_source": true,
+      "app_caption": "도서물류관리프로그램",
+      "dfm_size": 177260,
+      "pas_size": 157133,
+      "dfm_md5": "ebc91f02602aeb612c730b63d168b9cd",
+      "pas_md5": "d85145fe25ce4e433e4d41d0bf4e2da7",
+      "extra_libraries": [
+        "libmysql.dll",
+        "midas.dll"
+      ],
+      "db_backend_dirs": [],
+      "all_subdirs": [
+        "BackUP",
+        "Data",
+        "Editing",
+        "Report",
+        "도서유통"
+      ],
+      "form_families": {
+        "Base": 1,
+        "Exls": 2,
+        "Seak": 11,
+        "Seek": 9,
+        "Seep": 2,
+        "Seok": 7,
+        "Smms": 4,
+        "Subu": 89,
+        "Tong": 8
+      },
+      "top_menu_captions": [
+        "출고관리",
+        "택배관리",
+        "재고원장",
+        "재고관리",
+        "발송비/입금관리",
+        "내역서관리",
+        "통계관리",
+        "반품관리",
+        "기초관리",
+        "추가",
+        "등록",
+        "삭제",
+        "추가",
+        "등록",
+        "삭제"
+      ],
+      "top_menu_count": 15,
+      "has_publisher_management": true,
+      "has_menu_visibility_toggle": false,
+      "notes": "한국도서유통 테넌트의 총판 빌드. 표준 총판보다 메뉴/폼 다수 추가 (Subu13_1, Subu59_3 등)."
+    },
+    {
+      "build_id": "BLD-PUB-KBT",
+      "path": "WeLove_FTP/도서유통-New/도서유통/한국도서유통/출판",
+      "build_role": "publisher",
+      "account_family_inferred": null,
+      "account_type_inferred": [
+        "ACC-T2-PUB"
+      ],
+      "config_uses_label": "홍길동",
+      "config_has_credentials_in_source": true,
+      "app_caption": "출판관리프로그램",
+      "dfm_size": 93067,
+      "pas_size": 110478,
+      "dfm_md5": "9a8b00af750364863383446411a03ade",
+      "pas_md5": "d6db1247ce3e8af3c1f12c25f47e29cf",
+      "extra_libraries": [],
+      "db_backend_dirs": [
+        "MySQL"
+      ],
+      "all_subdirs": [
+        "MySQL"
+      ],
+      "form_families": {
+        "Base": 1,
+        "Seak": 10,
+        "Seek": 9,
+        "Seep": 2,
+        "Seok": 4,
+        "Subu": 77,
+        "Tong": 12
+      },
+      "top_menu_captions": [
+        "기초관리",
+        "거래관리",
+        "원장관리",
+        "회계관리",
+        "자료관리",
+        "통계관리",
+        "년/월(통계)"
+      ],
+      "top_menu_count": 7,
+      "has_publisher_management": false,
+      "has_menu_visibility_toggle": true,
+      "notes": "한국도서유통 패키지에 동봉된 표준 출판 빌드. Chul.dfm/pas MD5 가 BLD-PUB-STD 와 동일 (binary-identical) — 별도 변형 아님."
+    },
+    {
+      "build_id": "BLD-PUB-WAREHOUSE-WELOVE",
+      "path": "WeLove_FTP/도서유통-New/도서유통/chul_09(위러브)",
+      "build_role": "warehouse_publisher",
+      "account_family_inferred": "chul_09",
+      "account_type_inferred": [
+        "ACC-T3",
+        "ACC-T3-WAREHOUSE-LITE"
+      ],
+      "config_uses_label": "위러브",
+      "config_has_credentials_in_source": true,
+      "app_caption": "도서물류관리프로그램",
+      "dfm_size": 92256,
+      "pas_size": 114487,
+      "dfm_md5": "e0272b6f2324883fbc41a053274ebcc2",
+      "pas_md5": "1d762a51b9f962ee03e5869784088221",
+      "extra_libraries": [
+        "libmysql.dll"
+      ],
+      "db_backend_dirs": [
+        "Remote"
+      ],
+      "all_subdirs": [
+        "Remote"
+      ],
+      "form_families": {
+        "Subu": 3
+      },
+      "top_menu_captions": [
+        "출고관리",
+        "재고원장",
+        "반품재고관리",
+        "발송비/입금관리",
+        "내역서관리",
+        "통계관리",
+        "기초관리"
+      ],
+      "top_menu_count": 7,
+      "has_publisher_management": true,
+      "has_menu_visibility_toggle": false,
+      "notes": "자체 물류 보유 출판사 (lite 변형). 상단 메뉴 7 항목 (반품재고관리 통합). 출판사관리 보유. chul_09 SKU 는 위러브1/2/3 + 교문사 4개 테넌트 공유."
+    },
+    {
+      "build_id": "BLD-PUB-WAREHOUSE-MS",
+      "path": "WeLove_FTP/도서유통-New/도서유통/book_21(MS북스)",
+      "build_role": "warehouse_publisher",
+      "account_family_inferred": "book_21",
+      "account_type_inferred": [
+        "ACC-T3-WAREHOUSE-FULL"
+      ],
+      "config_uses_label": "MS북스",
+      "config_has_credentials_in_source": true,
+      "app_caption": "도서관리프로그램",
+      "dfm_size": 174268,
+      "pas_size": 147601,
+      "dfm_md5": "a13124d97d353a52ec01bf6ab17b45df",
+      "pas_md5": "3dac2d22584927c6415ef2f3d3e31890",
+      "extra_libraries": [
+        "TSCLIB.dll",
+        "libmysql.dll"
+      ],
+      "db_backend_dirs": [],
+      "all_subdirs": [
+        "Report"
+      ],
+      "form_families": {
+        "Subu": 1
+      },
+      "top_menu_captions": [
+        "출고관리",
+        "재고원장",
+        "재고관리",
+        "발송비/입금관리",
+        "내역서관리",
+        "통계관리",
+        "반품관리",
+        "기초관리",
+        "추가",
+        "등록",
+        "삭제",
+        "추가",
+        "등록",
+        "삭제"
+      ],
+      "top_menu_count": 14,
+      "has_publisher_management": true,
+      "has_menu_visibility_toggle": false,
+      "notes": "자체 물류 + 출판사관리 보유 + TSCLIB.dll(라벨 SDK). 상단 메뉴 8 항목 (재고관리/반품관리 분리). App Caption '도서관리프로그램'. ACC-T3-WAREHOUSE-FULL 후보."
+    },
+    {
+      "build_id": "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW",
+      "path": "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)",
+      "build_role": "warehouse_publisher",
+      "account_family_inferred": "book_07",
+      "account_type_inferred": [
+        "ACC-T3-WAREHOUSE-FULL"
+      ],
+      "config_uses_label": "한국도서유통",
+      "config_has_credentials_in_source": true,
+      "app_caption": "도서물류관리프로그램",
+      "dfm_size": 94836,
+      "pas_size": 119959,
+      "dfm_md5": "1c7cec084623fbd68acd8d79ae161f8e",
+      "pas_md5": "96fc95e105d5979750d7f20903de58ff",
+      "extra_libraries": [
+        "libmysql.dll"
+      ],
+      "db_backend_dirs": [
+        "Interbase",
+        "Mysql",
+        "Remote"
+      ],
+      "all_subdirs": [
+        "Data",
+        "Interbase",
+        "Mysql",
+        "Remote",
+        "Report",
+        "도서유통",
+        "속도체크(샘플)"
+      ],
+      "form_families": {
+        "Base": 1,
+        "Seak": 10,
+        "Seek": 9,
+        "Seep": 2,
+        "Seok": 6,
+        "Subu": 71,
+        "Tong": 9
+      },
+      "top_menu_captions": [
+        "출고관리",
+        "재고원장",
+        "재고관리",
+        "발송비/입금관리",
+        "내역서관리",
+        "통계관리",
+        "반품관리",
+        "기초관리"
+      ],
+      "top_menu_count": 8,
+      "has_publisher_management": true,
+      "has_menu_visibility_toggle": false,
+      "notes": "자체 물류 + 출판사관리 보유 + 신규 폼군 (Seak/Seek/Seok/Seep/Base) + 다중 DB 백엔드 디렉토리 (Interbase/Mysql/Remote). 상단 메뉴 8 항목 (MS북스와 동일 패턴). book_07 SKU 는 북앤북·유앤북 2 테넌트 공유. Config.Ini Uses=한국도서유통 — 동일 테넌트 다중 빌드 사례 (OQ-BLD-5)."
+    }
+  ],
+  "binary_identical_groups": [
+    {
+      "dfm_md5": "9a8b00af750364863383446411a03ade",
+      "pas_md5": "d6db1247ce3e8af3c1f12c25f47e29cf",
+      "build_ids": [
+        "BLD-PUB-STD",
+        "BLD-PUB-KBT"
+      ]
+    }
+  ],
+  "tenant_label_groups": [
+    {
+      "uses_label": "한국도서유통",
+      "build_ids": [
+        "BLD-DIST-KBT",
+        "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW"
+      ]
+    },
+    {
+      "uses_label": "홍길동",
+      "build_ids": [
+        "BLD-PUB-STD",
+        "BLD-PUB-KBT"
+      ]
+    }
+  ]
+}

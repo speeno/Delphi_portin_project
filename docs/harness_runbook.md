@@ -124,5 +124,52 @@ python tools/harness/progressive_rollout.py \
 
 ---
 
-*문서 버전: v1.0*
-*작성일: 2026-04-11*
+## 6. L1 인수인계 자산 반입 절차 (`MAN-*` / `SCH-*` / `DSN-*` / `ONB-*`)
+
+본 절차는 [`harness-architecture.md` L1](../harness-architecture.md#L1) 의 운영 측면이다 — 신규 인수인계 자산이 도착했을 때 따른다.
+
+### 6.1 메뉴얼 (`MAN-*`)
+
+1. 신규 파일을 [`WeLove_FTP/Welove_인수인계/`](../WeLove_FTP/Welove_인수인계) 하위 적정 폴더에 보존.
+2. [`docs/manual-catalog.md`](manual-catalog.md) §2~§4 표에 1 행 추가 — 채널·주제·비밀 표기(○/△/×)를 [`docs/secrets-policy.md`](secrets-policy.md) 기준으로 분류.
+3. 비밀 자산(○)은 본문 인용 금지, 메타만 §5 매핑 표에 합류.
+
+### 6.2 스키마 사전 (`SCH-WELOVE-출판-*`)
+
+1. `MAN-030` ([`출판(테이블구조).xls`](../WeLove_FTP/Welove_인수인계/출판setting/weelove/출판(테이블구조).xls)) 가 갱신되면:
+   ```bash
+   python3 tools/extract_welove_schema.py
+   ```
+2. 갱신된 [`analysis/welove_schema_dictionary.json`](../analysis/welove_schema_dictionary.json) 와 운영 DB 스키마(`tools/db/schema_diff.py`) 를 [`docs/welove-schema-reconciliation.md`](welove-schema-reconciliation.md) §3 표로 교차 검증.
+3. 신규 불일치는 `SCH-RECON-*` ID 부여 후 OQ 등록.
+
+### 6.3 DSN 라우팅 메타 (`DSN-*`)
+
+1. `MAN-017` 또는 `MAN-018` (`DB정보·DB_FTP 엑셀정리.xlsx`) 가 갱신되면:
+   ```bash
+   python3 tools/extract_welove_db_routes.py
+   ```
+2. 갱신된 [`analysis/welove_db_route_matrix.json`](../analysis/welove_db_route_matrix.json) 의 `routes[]` 와 admin 화면(DEC-052) 을 정합 — 신규 테넌트는 (메타 1행) + (vault 비번 적재) + (admin 라디오 노출) 3 단계 PR.
+3. 본 JSON 에는 절대 자격증명을 추가하지 않는다 — `has_credentials_in_source` 플래그만 갱신.
+
+### 6.4 온보딩·RBAC 매트릭스 (`ONB-*` / `ACC-*`)
+
+1. 회의/SME 결과로 계정 유형·메뉴 노출이 변경되면 [`docs/onboarding-rbac-menu-matrix.md`](onboarding-rbac-menu-matrix.md) §2~§7 의 표 1행 갱신.
+2. 본 표 변경은 PermissionGuard / 라우터 가드 PR 의 1차 입력 — 커밋 메시지에 `ACC-MENU-*` 또는 `ACC-API-*` 추적 ID 명시.
+3. 가입 트랙 정책(A AND B / A OR B / A only) 변경은 [`docs/onboarding-governance-spec.md`](onboarding-governance-spec.md) §3 의 옵션을 굵게 동결한 후 DEC ONB-001 로 등록.
+
+### 6.5 회귀 시나리오 갱신
+
+신규 계정 유형 또는 가입 정책 변경 시 다음 4 시나리오를 반드시 갱신/추가한다 — [`docs/manual-to-scenario-matrix.md`](manual-to-scenario-matrix.md) §3:
+
+| ID | 트리거 |
+|----|---|
+| `SCN-MIN-T1-01` | admin 콘솔 변경 |
+| `SCN-MIN-T2-DIST-01` | 총판 승인 흐름 변경 |
+| `SCN-MIN-T2-PUB-01` | 가입 게이트(A/B 옵션) 변경 |
+| `SCN-MIN-T3-01` | 독립 출판사 트랙·DSN 부여 변경 |
+
+---
+
+*문서 버전: v1.1*
+*작성일: 2026-04-11 (v1.0) → 2026-04-23 (v1.1: §6 L1 반입 절차 추가)*

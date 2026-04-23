@@ -1,8 +1,8 @@
 # DB 스키마 메타 분석 — 포팅 준비도 요약
 
-**갱신:** 2026-04-19  
-**도구:** `tools/db/extract_server_schema.py`, `tools/db/schema_diff.py`  
-**원칙:** 전체 DB dump·데이터 스냅샷 없음. 메타(JSON) 및 구조 diff만.
+**갱신:** 2026-04-23  
+**도구:** `tools/db/extract_server_schema.py`, `tools/db/schema_diff.py`, `tools/extract_welove_schema.py`(스키마 사전), `tools/extract_welove_db_routes.py`(DSN 메타)  
+**원칙:** 전체 DB dump·데이터 스냅샷 없음. 메타(JSON) 및 구조 diff만. **스키마 사전 정본은 `MAN-030`** ([`analysis/welove_schema_dictionary.json`](../analysis/welove_schema_dictionary.json)). **DSN 라우팅 정본은** [`analysis/welove_db_route_matrix.json`](../analysis/welove_db_route_matrix.json) — 본 가이드는 두 정본을 1차 입력으로 한다.
 
 ## 1. 포팅에 필요한 정보가 생겼는가?
 
@@ -54,3 +54,35 @@
 4. **DB 로직 인벤토리·갭 리포트** 갱신 후 OQ-DBL 시리즈 클로저.
 
 상세 JSON은 로컬 `debug/output/schema/` 에서 재생성하세요.
+
+## 5. SCH-WELOVE-출판 사전 우선순위 (`G5` 적용)
+
+[`analysis/welove_schema_dictionary.json`](../analysis/welove_schema_dictionary.json) 가 단일 원천이다 — `Size(전)→Size(후)` 흔적은 멀티 DB 호환 어댑터(DEC-033)의 1차 후보를 제공하고, [`docs/welove-schema-reconciliation.md`](welove-schema-reconciliation.md) 의 `SCH-RECON-01..04` 4 항목이 본 가이드의 진단 게이트다.
+
+| 게이트 | 통과 조건 |
+|---|---|
+| **G5-Gate-A** | 신규 컬럼 어댑터 PR 시 사전(JSON) 의 해당 행을 인용 + diff 보고. |
+| **G5-Gate-B** | 사전과 운영 DB 의 컬럼 size 가 다르면 `OQ-SCH-NEW-*` 등록. |
+| **G5-Gate-C** | 사전 미수록(§3.1 23 테이블) 의 화면 포팅 시 SME 회의 의제로 격상. |
+
+## 6. 로그인 기반 DSN 라우팅 (`G6` 적용 — 신설)
+
+본 가이드의 DB 결정 흐름은 [`docs/decision-login-db-routing.md`](decision-login-db-routing.md) 에 위임한다 — 본 절은 **DB 포팅 단계에서 지켜야 할 항목**만 요약한다.
+
+| 항목 | 결정 |
+|---|---|
+| 인증 서버 | 단일 (`BLS_AUTH_SERVER_ID`) — DEC-051. |
+| 데이터 서버 | 사용자별 1:1 (DEC-052) → JWT `primary_server` 적재. |
+| 풀 선택 헬퍼 | `pool_for(jwt)` 1 개 — 도메인 서비스 신설 시 본 헬퍼만 사용. |
+| 메타 단일 원천 | [`analysis/welove_db_route_matrix.json`](../analysis/welove_db_route_matrix.json). 자격증명은 본 JSON 에 **0건** — vault 분리. |
+| 신규 테넌트 추가 | 메타 1행 추가 + admin 화면 드롭다운 갱신 + 운영 vault 비번 적재 — 3 단계 PR. |
+
+> **DB 포팅 게이트:** 신규 SQL/마이그레이션 작성 시 (1) 사전(`MAN-030`) 의 컬럼 정의 + (2) 본 라우팅 표의 `server_id` 매칭 두 가지를 함께 인용해야 한다.
+
+## 7. 자동 재현 스니펫
+
+```bash
+python3 tools/extract_welove_schema.py            # 사전 갱신 (UTF-8)
+python3 tools/extract_welove_db_routes.py         # DSN 메타 갱신 (자격증명 0건)
+python3 tools/db/extract_server_schema.py --server <id>   # 운영 DB 메타 갱신 (메타만)
+```

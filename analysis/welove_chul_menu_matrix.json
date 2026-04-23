@@ -1,0 +1,5093 @@
+{
+  "source_catalog": "analysis/welove_chul_builds.json",
+  "secrets_policy": "Per docs/secrets-policy.md (G3): 메뉴 캡션 union (UI 라벨 GREEN 등급).",
+  "matrix": {
+    "builds": [
+      "BLD-DIST-STD",
+      "BLD-PUB-STD",
+      "BLD-DIST-KBT",
+      "BLD-PUB-KBT",
+      "BLD-PUB-WAREHOUSE-WELOVE",
+      "BLD-PUB-WAREHOUSE-MS",
+      "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW"
+    ],
+    "rows": [
+      {
+        "path": [
+          "거래관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu200",
+          "BLD-PUB-STD": "Menu200",
+          "BLD-PUB-KBT": "Menu200"
+        },
+        "menu_id": "MENU-거래관리",
+        "leaf_caption": "거래관리"
+      },
+      {
+        "path": [
+          "거래관리",
+          "거래명세서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu201Click",
+          "BLD-PUB-STD": "Menu201Click",
+          "BLD-PUB-KBT": "Menu201Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu201",
+          "BLD-PUB-STD": "Menu201",
+          "BLD-PUB-KBT": "Menu201"
+        },
+        "menu_id": "MENU-거래명세서",
+        "leaf_caption": "거래명세서"
+      },
+      {
+        "path": [
+          "거래관리",
+          "거래현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu204Click",
+          "BLD-PUB-STD": "Menu204Click",
+          "BLD-PUB-KBT": "Menu204Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu204",
+          "BLD-PUB-STD": "Menu204",
+          "BLD-PUB-KBT": "Menu204"
+        },
+        "menu_id": "MENU-거래현황",
+        "leaf_caption": "거래현황"
+      },
+      {
+        "path": [
+          "거래관리",
+          "기타명세서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu203Click",
+          "BLD-PUB-STD": "Menu203Click",
+          "BLD-PUB-KBT": "Menu203Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu203",
+          "BLD-PUB-STD": "Menu203",
+          "BLD-PUB-KBT": "Menu203"
+        },
+        "menu_id": "MENU-기타명세서",
+        "leaf_caption": "기타명세서"
+      },
+      {
+        "path": [
+          "거래관리",
+          "신간발행"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu209Click",
+          "BLD-PUB-STD": "Menu209Click",
+          "BLD-PUB-KBT": "Menu209Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu209",
+          "BLD-PUB-STD": "Menu209",
+          "BLD-PUB-KBT": "Menu209"
+        },
+        "menu_id": "MENU-신간발행",
+        "leaf_caption": "신간발행"
+      },
+      {
+        "path": [
+          "거래관리",
+          "원천징수"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu208Click",
+          "BLD-PUB-STD": "Menu208Click",
+          "BLD-PUB-KBT": "Menu208Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu208",
+          "BLD-PUB-STD": "Menu208",
+          "BLD-PUB-KBT": "Menu208"
+        },
+        "menu_id": "MENU-원천징수",
+        "leaf_caption": "원천징수"
+      },
+      {
+        "path": [
+          "거래관리",
+          "입고명세서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu202Click",
+          "BLD-PUB-STD": "Menu202Click",
+          "BLD-PUB-KBT": "Menu202Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu202",
+          "BLD-PUB-STD": "Menu202",
+          "BLD-PUB-KBT": "Menu202"
+        },
+        "menu_id": "MENU-입고명세서",
+        "leaf_caption": "입고명세서"
+      },
+      {
+        "path": [
+          "거래관리",
+          "입고현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu205Click",
+          "BLD-PUB-STD": "Menu205Click",
+          "BLD-PUB-KBT": "Menu205Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu205",
+          "BLD-PUB-STD": "Menu205",
+          "BLD-PUB-KBT": "Menu205"
+        },
+        "menu_id": "MENU-입고현황",
+        "leaf_caption": "입고현황"
+      },
+      {
+        "path": [
+          "거래관리",
+          "제작명세서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu206Click",
+          "BLD-PUB-STD": "Menu206Click",
+          "BLD-PUB-KBT": "Menu206Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu206",
+          "BLD-PUB-STD": "Menu206",
+          "BLD-PUB-KBT": "Menu206"
+        },
+        "menu_id": "MENU-제작명세서",
+        "leaf_caption": "제작명세서"
+      },
+      {
+        "path": [
+          "거래관리",
+          "제작현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu207Click",
+          "BLD-PUB-STD": "Menu207Click",
+          "BLD-PUB-KBT": "Menu207Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu207",
+          "BLD-PUB-STD": "Menu207",
+          "BLD-PUB-KBT": "Menu207"
+        },
+        "menu_id": "MENU-제작현황",
+        "leaf_caption": "제작현황"
+      },
+      {
+        "path": [
+          "기초관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu100",
+          "BLD-PUB-STD": "Menu100",
+          "BLD-DIST-KBT": "Menu100",
+          "BLD-PUB-KBT": "Menu100",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu100",
+          "BLD-PUB-WAREHOUSE-MS": "Menu100",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu100"
+        },
+        "menu_id": "MENU-기초관리",
+        "leaf_caption": "기초관리"
+      },
+      {
+        "path": [
+          "기초관리",
+          "E&xit"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu109Click",
+          "BLD-PUB-STD": "Menu109Click",
+          "BLD-DIST-KBT": "Menu109Click",
+          "BLD-PUB-KBT": "Menu109Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu109Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu109Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu109Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu109",
+          "BLD-PUB-STD": "Menu109",
+          "BLD-DIST-KBT": "Menu109",
+          "BLD-PUB-KBT": "Menu109",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu109",
+          "BLD-PUB-WAREHOUSE-MS": "Menu109",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu109"
+        },
+        "menu_id": "MENU-E_xit",
+        "leaf_caption": "E&xit"
+      },
+      {
+        "path": [
+          "기초관리",
+          "거래처관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu101Click",
+          "BLD-PUB-STD": "Menu101Click",
+          "BLD-PUB-KBT": "Menu101Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu101",
+          "BLD-PUB-STD": "Menu101",
+          "BLD-PUB-KBT": "Menu101"
+        },
+        "menu_id": "MENU-거래처관리",
+        "leaf_caption": "거래처관리"
+      },
+      {
+        "path": [
+          "기초관리",
+          "거래처관리-개별"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu105Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu105Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu105Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu105Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu105",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu105",
+          "BLD-PUB-WAREHOUSE-MS": "Menu105",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu105"
+        },
+        "menu_id": "MENU-거래처관리_개별",
+        "leaf_caption": "거래처관리-개별"
+      },
+      {
+        "path": [
+          "기초관리",
+          "거래처관리-통합"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu101Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu101Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu101Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu101Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu101",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu101",
+          "BLD-PUB-WAREHOUSE-MS": "Menu101",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu101"
+        },
+        "menu_id": "MENU-거래처관리_통합",
+        "leaf_caption": "거래처관리-통합"
+      },
+      {
+        "path": [
+          "기초관리",
+          "기타거래처"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu105Click",
+          "BLD-PUB-STD": "Menu105Click",
+          "BLD-PUB-KBT": "Menu105Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu105",
+          "BLD-PUB-STD": "Menu105",
+          "BLD-PUB-KBT": "Menu105"
+        },
+        "menu_id": "MENU-기타거래처",
+        "leaf_caption": "기타거래처"
+      },
+      {
+        "path": [
+          "기초관리",
+          "도서관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu104Click",
+          "BLD-PUB-STD": "Menu104Click",
+          "BLD-DIST-KBT": "Menu104Click",
+          "BLD-PUB-KBT": "Menu104Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu104Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu104Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu104Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu104",
+          "BLD-PUB-STD": "Menu104",
+          "BLD-DIST-KBT": "Menu104",
+          "BLD-PUB-KBT": "Menu104",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu104",
+          "BLD-PUB-WAREHOUSE-MS": "Menu104",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu104"
+        },
+        "menu_id": "MENU-도서관리",
+        "leaf_caption": "도서관리"
+      },
+      {
+        "path": [
+          "기초관리",
+          "도서관리(위치)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-MS": "Menu104_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-MS": "Menu104_1"
+        },
+        "menu_id": "MENU-도서관리_위치",
+        "leaf_caption": "도서관리(위치)"
+      },
+      {
+        "path": [
+          "기초관리",
+          "메뉴감추기"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu108Click",
+          "BLD-PUB-KBT": "Menu108Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu108",
+          "BLD-PUB-KBT": "Menu108"
+        },
+        "menu_id": "MENU-메뉴감추기",
+        "leaf_caption": "메뉴감추기"
+      },
+      {
+        "path": [
+          "기초관리",
+          "메뉴보이기"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu107Click",
+          "BLD-PUB-KBT": "Menu107Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu107",
+          "BLD-PUB-KBT": "Menu107"
+        },
+        "menu_id": "MENU-메뉴보이기",
+        "leaf_caption": "메뉴보이기"
+      },
+      {
+        "path": [
+          "기초관리",
+          "입고처관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu102Click",
+          "BLD-PUB-STD": "Menu102Click",
+          "BLD-DIST-KBT": "Menu102Click",
+          "BLD-PUB-KBT": "Menu102Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu102Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu102Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu102Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu102",
+          "BLD-PUB-STD": "Menu102",
+          "BLD-DIST-KBT": "Menu102",
+          "BLD-PUB-KBT": "Menu102",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu102",
+          "BLD-PUB-WAREHOUSE-MS": "Menu102",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu102"
+        },
+        "menu_id": "MENU-입고처관리",
+        "leaf_caption": "입고처관리"
+      },
+      {
+        "path": [
+          "기초관리",
+          "저자관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu103Click",
+          "BLD-PUB-STD": "Menu103Click",
+          "BLD-PUB-KBT": "Menu103Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu103",
+          "BLD-PUB-STD": "Menu103",
+          "BLD-PUB-KBT": "Menu103"
+        },
+        "menu_id": "MENU-저자관리",
+        "leaf_caption": "저자관리"
+      },
+      {
+        "path": [
+          "기초관리",
+          "종당관리(도서)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu108Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu108Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu108Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu108",
+          "BLD-PUB-WAREHOUSE-MS": "Menu108",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu108"
+        },
+        "menu_id": "MENU-종당관리_도서",
+        "leaf_caption": "종당관리(도서)"
+      },
+      {
+        "path": [
+          "기초관리",
+          "지역분류"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu103Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu103"
+        },
+        "menu_id": "MENU-지역분류",
+        "leaf_caption": "지역분류"
+      },
+      {
+        "path": [
+          "기초관리",
+          "지역분류(시내+지방)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu103Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu103Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu103Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu103",
+          "BLD-PUB-WAREHOUSE-MS": "Menu103",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu103"
+        },
+        "menu_id": "MENU-지역분류_시내_지방",
+        "leaf_caption": "지역분류(시내+지방)"
+      },
+      {
+        "path": [
+          "기초관리",
+          "출고정지유무"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu408Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu408"
+        },
+        "menu_id": "MENU-출고정지유무",
+        "leaf_caption": "출고정지유무"
+      },
+      {
+        "path": [
+          "기초관리",
+          "출고증정렬"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu103_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu103_1"
+        },
+        "menu_id": "MENU-출고증정렬",
+        "leaf_caption": "출고증정렬"
+      },
+      {
+        "path": [
+          "기초관리",
+          "출판사MMS(설정)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu410Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu410"
+        },
+        "menu_id": "MENU-출판사MMS_설정",
+        "leaf_caption": "출판사MMS(설정)"
+      },
+      {
+        "path": [
+          "기초관리",
+          "출판사MMS(조회)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu411Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu411"
+        },
+        "menu_id": "MENU-출판사MMS_조회",
+        "leaf_caption": "출판사MMS(조회)"
+      },
+      {
+        "path": [
+          "기초관리",
+          "출판사관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu107Click",
+          "BLD-DIST-KBT": "Menu107Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu107Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu107Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu107Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu107",
+          "BLD-DIST-KBT": "Menu107",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu107",
+          "BLD-PUB-WAREHOUSE-MS": "Menu107",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu107"
+        },
+        "menu_id": "MENU-출판사관리",
+        "leaf_caption": "출판사관리"
+      },
+      {
+        "path": [
+          "기초관리",
+          "출판사관리(설정)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu408Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu408Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu408",
+          "BLD-PUB-WAREHOUSE-MS": "Menu408"
+        },
+        "menu_id": "MENU-출판사관리_설정",
+        "leaf_caption": "출판사관리(설정)"
+      },
+      {
+        "path": [
+          "기초관리",
+          "출판사관리-택배"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu107_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu107_1"
+        },
+        "menu_id": "MENU-출판사관리_택배",
+        "leaf_caption": "출판사관리-택배"
+      },
+      {
+        "path": [
+          "기초관리",
+          "특별관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu106Click",
+          "BLD-PUB-STD": "Menu106Click",
+          "BLD-DIST-KBT": "Menu106Click",
+          "BLD-PUB-KBT": "Menu106Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu106Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu106Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu106Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu106",
+          "BLD-PUB-STD": "Menu106",
+          "BLD-DIST-KBT": "Menu106",
+          "BLD-PUB-KBT": "Menu106",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu106",
+          "BLD-PUB-WAREHOUSE-MS": "Menu106",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu106"
+        },
+        "menu_id": "MENU-특별관리",
+        "leaf_caption": "특별관리"
+      },
+      {
+        "path": [
+          "기초관리",
+          "환경설정"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu110Click",
+          "BLD-PUB-STD": "Menu110Click",
+          "BLD-DIST-KBT": "Menu110Click",
+          "BLD-PUB-KBT": "Menu110Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu110Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu110Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu110Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu110",
+          "BLD-PUB-STD": "Menu110",
+          "BLD-DIST-KBT": "Menu110",
+          "BLD-PUB-KBT": "Menu110",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu110",
+          "BLD-PUB-WAREHOUSE-MS": "Menu110",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu110"
+        },
+        "menu_id": "MENU-환경설정",
+        "leaf_caption": "환경설정"
+      },
+      {
+        "path": [
+          "내역서관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu500",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu500",
+          "BLD-PUB-WAREHOUSE-MS": "Menu500",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu500"
+        },
+        "menu_id": "MENU-내역서관리",
+        "leaf_caption": "내역서관리"
+      },
+      {
+        "path": [
+          "내역서관리",
+          "기간별반품내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu508Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu508Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu508Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu508Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu508",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu508",
+          "BLD-PUB-WAREHOUSE-MS": "Menu508",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu508"
+        },
+        "menu_id": "MENU-기간별반품내역서",
+        "leaf_caption": "기간별반품내역서"
+      },
+      {
+        "path": [
+          "내역서관리",
+          "기간별입고내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu507Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu507Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu507Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu507Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu507",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu507",
+          "BLD-PUB-WAREHOUSE-MS": "Menu507",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu507"
+        },
+        "menu_id": "MENU-기간별입고내역서",
+        "leaf_caption": "기간별입고내역서"
+      },
+      {
+        "path": [
+          "내역서관리",
+          "기간별출고내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu506Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu506Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu506Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu506Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu506",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu506",
+          "BLD-PUB-WAREHOUSE-MS": "Menu506",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu506"
+        },
+        "menu_id": "MENU-기간별출고내역서",
+        "leaf_caption": "기간별출고내역서"
+      },
+      {
+        "path": [
+          "내역서관리",
+          "기간별택배내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu509Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu509Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu509",
+          "BLD-PUB-WAREHOUSE-MS": "Menu509"
+        },
+        "menu_id": "MENU-기간별택배내역서",
+        "leaf_caption": "기간별택배내역서"
+      },
+      {
+        "path": [
+          "내역서관리",
+          "일별 내역서(요약)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu509_1Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu509_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu509_1",
+          "BLD-PUB-WAREHOUSE-MS": "Menu509_1"
+        },
+        "menu_id": "MENU-일별_내역서_요약",
+        "leaf_caption": "일별 내역서(요약)"
+      },
+      {
+        "path": [
+          "내역서관리",
+          "일별 반품내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu505Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu505Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu505Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu505Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu505",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu505",
+          "BLD-PUB-WAREHOUSE-MS": "Menu505",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu505"
+        },
+        "menu_id": "MENU-일별_반품내역서",
+        "leaf_caption": "일별 반품내역서"
+      },
+      {
+        "path": [
+          "내역서관리",
+          "일별 입고내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu504Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu504Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu504Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu504Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu504",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu504",
+          "BLD-PUB-WAREHOUSE-MS": "Menu504",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu504"
+        },
+        "menu_id": "MENU-일별_입고내역서",
+        "leaf_caption": "일별 입고내역서"
+      },
+      {
+        "path": [
+          "내역서관리",
+          "일별 출고내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu503Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu503Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu503Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu503Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu503",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu503",
+          "BLD-PUB-WAREHOUSE-MS": "Menu503",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu503"
+        },
+        "menu_id": "MENU-일별_출고내역서",
+        "leaf_caption": "일별 출고내역서"
+      },
+      {
+        "path": [
+          "년/월(통계)"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu700",
+          "BLD-PUB-KBT": "Menu700"
+        },
+        "menu_id": "MENU-년_월_통계",
+        "leaf_caption": "년/월(통계)"
+      },
+      {
+        "path": [
+          "년/월(통계)",
+          "거래처/구분별판매"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu702Click",
+          "BLD-PUB-KBT": "Menu702Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu702",
+          "BLD-PUB-KBT": "Menu702"
+        },
+        "menu_id": "MENU-거래처_구분별판매",
+        "leaf_caption": "거래처/구분별판매"
+      },
+      {
+        "path": [
+          "년/월(통계)",
+          "거래처수금(구분별)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu708Click",
+          "BLD-PUB-KBT": "Menu708Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu708",
+          "BLD-PUB-KBT": "Menu708"
+        },
+        "menu_id": "MENU-거래처수금_구분별",
+        "leaf_caption": "거래처수금(구분별)"
+      },
+      {
+        "path": [
+          "년/월(통계)",
+          "거래처수금(년/월)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu707Click",
+          "BLD-PUB-KBT": "Menu707Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu707",
+          "BLD-PUB-KBT": "Menu707"
+        },
+        "menu_id": "MENU-거래처수금_년_월",
+        "leaf_caption": "거래처수금(년/월)"
+      },
+      {
+        "path": [
+          "년/월(통계)",
+          "거래처판매(년/월)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu704Click",
+          "BLD-PUB-KBT": "Menu704Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu704",
+          "BLD-PUB-KBT": "Menu704"
+        },
+        "menu_id": "MENU-거래처판매_년_월",
+        "leaf_caption": "거래처판매(년/월)"
+      },
+      {
+        "path": [
+          "년/월(통계)",
+          "년/월판매(거래처)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu706Click",
+          "BLD-PUB-KBT": "Menu706Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu706",
+          "BLD-PUB-KBT": "Menu706"
+        },
+        "menu_id": "MENU-년_월판매_거래처",
+        "leaf_caption": "년/월판매(거래처)"
+      },
+      {
+        "path": [
+          "년/월(통계)",
+          "년/월판매(도서별)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu705Click",
+          "BLD-PUB-KBT": "Menu705Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu705",
+          "BLD-PUB-KBT": "Menu705"
+        },
+        "menu_id": "MENU-년_월판매_도서별",
+        "leaf_caption": "년/월판매(도서별)"
+      },
+      {
+        "path": [
+          "년/월(통계)",
+          "도서별/분류별판매"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu701Click",
+          "BLD-PUB-KBT": "Menu701Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu701",
+          "BLD-PUB-KBT": "Menu701"
+        },
+        "menu_id": "MENU-도서별_분류별판매",
+        "leaf_caption": "도서별/분류별판매"
+      },
+      {
+        "path": [
+          "년/월(통계)",
+          "도서별판매(년/월)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-STD": "Menu703Click",
+          "BLD-PUB-KBT": "Menu703Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-STD": "Menu703",
+          "BLD-PUB-KBT": "Menu703"
+        },
+        "menu_id": "MENU-도서별판매_년_월",
+        "leaf_caption": "도서별판매(년/월)"
+      },
+      {
+        "path": [
+          "반품관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu800",
+          "BLD-PUB-WAREHOUSE-MS": "Menu800",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu800"
+        },
+        "menu_id": "MENU-반품관리",
+        "leaf_caption": "반품관리"
+      },
+      {
+        "path": [
+          "반품관리",
+          "기간별 반품내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu805Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu805Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu805Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu805",
+          "BLD-PUB-WAREHOUSE-MS": "Menu805",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu805"
+        },
+        "menu_id": "MENU-기간별_반품내역서",
+        "leaf_caption": "기간별 반품내역서"
+      },
+      {
+        "path": [
+          "반품관리",
+          "반품명세서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu801Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu801Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu801Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu801",
+          "BLD-PUB-WAREHOUSE-MS": "Menu801",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu801"
+        },
+        "menu_id": "MENU-반품명세서",
+        "leaf_caption": "반품명세서"
+      },
+      {
+        "path": [
+          "반품관리",
+          "반품재고원장"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu802Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu802Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu803Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu802",
+          "BLD-PUB-WAREHOUSE-MS": "Menu802",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu803"
+        },
+        "menu_id": "MENU-반품재고원장",
+        "leaf_caption": "반품재고원장"
+      },
+      {
+        "path": [
+          "반품관리",
+          "반품재고현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu803Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu803Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu803",
+          "BLD-PUB-WAREHOUSE-MS": "Menu803"
+        },
+        "menu_id": "MENU-반품재고현황",
+        "leaf_caption": "반품재고현황"
+      },
+      {
+        "path": [
+          "반품관리",
+          "일자별 반품내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu804Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu804Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu804Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu804",
+          "BLD-PUB-WAREHOUSE-MS": "Menu804",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu804"
+        },
+        "menu_id": "MENU-일자별_반품내역서",
+        "leaf_caption": "일자별 반품내역서"
+      },
+      {
+        "path": [
+          "반품재고관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu700"
+        },
+        "menu_id": "MENU-반품재고관리",
+        "leaf_caption": "반품재고관리"
+      },
+      {
+        "path": [
+          "반품재고관리",
+          "반품재고(입고)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu204Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu204"
+        },
+        "menu_id": "MENU-반품재고_입고",
+        "leaf_caption": "반품재고(입고)"
+      },
+      {
+        "path": [
+          "반품재고관리",
+          "반품재고(폐기)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu205Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu205"
+        },
+        "menu_id": "MENU-반품재고_폐기",
+        "leaf_caption": "반품재고(폐기)"
+      },
+      {
+        "path": [
+          "반품재고관리",
+          "반품재고입력-자체운영"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu302Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu302"
+        },
+        "menu_id": "MENU-반품재고입력_자체운영",
+        "leaf_caption": "반품재고입력-자체운영"
+      },
+      {
+        "path": [
+          "반품재고관리",
+          "반품재고현황-자체운영"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu304Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu304"
+        },
+        "menu_id": "MENU-반품재고현황_자체운영",
+        "leaf_caption": "반품재고현황-자체운영"
+      },
+      {
+        "path": [
+          "반품재고관리",
+          "재고변경(반품재고)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu501Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu501"
+        },
+        "menu_id": "MENU-재고변경_반품재고",
+        "leaf_caption": "재고변경(반품재고)"
+      },
+      {
+        "path": [
+          "반품재고관리",
+          "재고변경(정품재고)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu502Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu502"
+        },
+        "menu_id": "MENU-재고변경_정품재고",
+        "leaf_caption": "재고변경(정품재고)"
+      },
+      {
+        "path": [
+          "발송비/입금관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu400",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu400",
+          "BLD-PUB-WAREHOUSE-MS": "Menu400",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu400"
+        },
+        "menu_id": "MENU-발송비_입금관리",
+        "leaf_caption": "발송비/입금관리"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "메세지(팝업창)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu310Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu307Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu310Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu310Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu310",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu307",
+          "BLD-PUB-WAREHOUSE-MS": "Menu310",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu310"
+        },
+        "menu_id": "MENU-메세지_팝업창",
+        "leaf_caption": "메세지(팝업창)"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "명세서 발송건수"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu204_9Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu204_9Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu204_9",
+          "BLD-PUB-WAREHOUSE-MS": "Menu204_9"
+        },
+        "menu_id": "MENU-명세서_발송건수",
+        "leaf_caption": "명세서 발송건수"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "반 품 수 거"
+        ],
+        "depth": 2,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "N2",
+          "BLD-PUB-WAREHOUSE-MS": "N2",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "N2"
+        },
+        "menu_id": "MENU-반_품_수_거",
+        "leaf_caption": "반 품 수 거"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "반 품 수 거",
+          "반품수거내역"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu306Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu306Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu306Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu306",
+          "BLD-PUB-WAREHOUSE-MS": "Menu306",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu306"
+        },
+        "menu_id": "MENU-반품수거내역",
+        "leaf_caption": "반품수거내역"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "반 품 수 거",
+          "반품수거현황"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu307Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu307Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu307Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu307",
+          "BLD-PUB-WAREHOUSE-MS": "Menu307",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu307"
+        },
+        "menu_id": "MENU-반품수거현황",
+        "leaf_caption": "반품수거현황"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "발송비관리"
+        ],
+        "depth": 2,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "N1",
+          "BLD-PUB-WAREHOUSE-MS": "N1",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "N1"
+        },
+        "menu_id": "MENU-발송비관리",
+        "leaf_caption": "발송비관리"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "발송비관리",
+          "발송비내역"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu403Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu403Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu403Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu403",
+          "BLD-PUB-WAREHOUSE-MS": "Menu403",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu403"
+        },
+        "menu_id": "MENU-발송비내역",
+        "leaf_caption": "발송비내역"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "발송비관리",
+          "발송비현황"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu404Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu404Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu404Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu404",
+          "BLD-PUB-WAREHOUSE-MS": "Menu404",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu404"
+        },
+        "menu_id": "MENU-발송비현황",
+        "leaf_caption": "발송비현황"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "발송비내역"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu403Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu403"
+        },
+        "menu_id": "MENU-발송비내역-2",
+        "leaf_caption": "발송비내역"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "발송비현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu404Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu404"
+        },
+        "menu_id": "MENU-발송비현황-2",
+        "leaf_caption": "발송비현황"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "세금계산서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu409Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu409Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu409Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu409",
+          "BLD-PUB-WAREHOUSE-MS": "Menu409",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu409"
+        },
+        "menu_id": "MENU-세금계산서",
+        "leaf_caption": "세금계산서"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "운임관리-택배"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu308_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu308_1"
+        },
+        "menu_id": "MENU-운임관리_택배",
+        "leaf_caption": "운임관리-택배"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "입금관리"
+        ],
+        "depth": 2,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu402_0",
+          "BLD-PUB-WAREHOUSE-MS": "Menu402_0"
+        },
+        "menu_id": "MENU-입금관리",
+        "leaf_caption": "입금관리"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "입금관리",
+          "입금내역"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu401Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu401Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu401",
+          "BLD-PUB-WAREHOUSE-MS": "Menu401"
+        },
+        "menu_id": "MENU-입금내역",
+        "leaf_caption": "입금내역"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "입금관리",
+          "입금현황(1)"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu402Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu402Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu402",
+          "BLD-PUB-WAREHOUSE-MS": "Menu402"
+        },
+        "menu_id": "MENU-입금현황_1",
+        "leaf_caption": "입금현황(1)"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "입금관리",
+          "입금현황(2)"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu402_1Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu402_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu402_1",
+          "BLD-PUB-WAREHOUSE-MS": "Menu402_1"
+        },
+        "menu_id": "MENU-입금현황_2",
+        "leaf_caption": "입금현황(2)"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "입금내역"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu401Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu401Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu401",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu401"
+        },
+        "menu_id": "MENU-입금내역-2",
+        "leaf_caption": "입금내역"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "입금현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu402Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu402"
+        },
+        "menu_id": "MENU-입금현황",
+        "leaf_caption": "입금현황"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "입금현황(1)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu402Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu402"
+        },
+        "menu_id": "MENU-입금현황_1-2",
+        "leaf_caption": "입금현황(1)"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "입금현황(2)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu402_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu402_1"
+        },
+        "menu_id": "MENU-입금현황_2-2",
+        "leaf_caption": "입금현황(2)"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "청구금액(년월)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu407Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu407Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu407Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu407",
+          "BLD-PUB-WAREHOUSE-MS": "Menu407",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu407"
+        },
+        "menu_id": "MENU-청구금액_년월",
+        "leaf_caption": "청구금액(년월)"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "청구서관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu405Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu405Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu405Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu405Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu405",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu405",
+          "BLD-PUB-WAREHOUSE-MS": "Menu405",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu405"
+        },
+        "menu_id": "MENU-청구서관리",
+        "leaf_caption": "청구서관리"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "청구서관리-택배"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu405_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu405_1"
+        },
+        "menu_id": "MENU-청구서관리_택배",
+        "leaf_caption": "청구서관리-택배"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "청구서출력"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu406Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu406Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu406Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu406",
+          "BLD-PUB-WAREHOUSE-MS": "Menu406",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu406"
+        },
+        "menu_id": "MENU-청구서출력",
+        "leaf_caption": "청구서출력"
+      },
+      {
+        "path": [
+          "발송비/입금관리",
+          "출고내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu309Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu309Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu309Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu309Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu309",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu309",
+          "BLD-PUB-WAREHOUSE-MS": "Menu309",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu309"
+        },
+        "menu_id": "MENU-출고내역서",
+        "leaf_caption": "출고내역서"
+      },
+      {
+        "path": [
+          "원장관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu300",
+          "BLD-PUB-STD": "Menu300",
+          "BLD-PUB-KBT": "Menu300"
+        },
+        "menu_id": "MENU-원장관리",
+        "leaf_caption": "원장관리"
+      },
+      {
+        "path": [
+          "원장관리",
+          "거래처거래원장"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu301Click",
+          "BLD-PUB-STD": "Menu301Click",
+          "BLD-PUB-KBT": "Menu301Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu301",
+          "BLD-PUB-STD": "Menu301",
+          "BLD-PUB-KBT": "Menu301"
+        },
+        "menu_id": "MENU-거래처거래원장",
+        "leaf_caption": "거래처거래원장"
+      },
+      {
+        "path": [
+          "원장관리",
+          "거래처원장총괄"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu305Click",
+          "BLD-PUB-STD": "Menu305Click",
+          "BLD-PUB-KBT": "Menu305Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu305",
+          "BLD-PUB-STD": "Menu305",
+          "BLD-PUB-KBT": "Menu305"
+        },
+        "menu_id": "MENU-거래처원장총괄",
+        "leaf_caption": "거래처원장총괄"
+      },
+      {
+        "path": [
+          "원장관리",
+          "기간별미수원장"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu303Click",
+          "BLD-PUB-STD": "Menu303Click",
+          "BLD-PUB-KBT": "Menu303Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu303",
+          "BLD-PUB-STD": "Menu303",
+          "BLD-PUB-KBT": "Menu303"
+        },
+        "menu_id": "MENU-기간별미수원장",
+        "leaf_caption": "기간별미수원장"
+      },
+      {
+        "path": [
+          "원장관리",
+          "기간별재고원장"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu304Click",
+          "BLD-PUB-STD": "Menu304Click",
+          "BLD-PUB-KBT": "Menu304Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu304",
+          "BLD-PUB-STD": "Menu304",
+          "BLD-PUB-KBT": "Menu304"
+        },
+        "menu_id": "MENU-기간별재고원장",
+        "leaf_caption": "기간별재고원장"
+      },
+      {
+        "path": [
+          "원장관리",
+          "담당자판매실적"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu307Click",
+          "BLD-PUB-STD": "Menu307Click",
+          "BLD-PUB-KBT": "Menu307Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu307",
+          "BLD-PUB-STD": "Menu307",
+          "BLD-PUB-KBT": "Menu307"
+        },
+        "menu_id": "MENU-담당자판매실적",
+        "leaf_caption": "담당자판매실적"
+      },
+      {
+        "path": [
+          "원장관리",
+          "도서별수불원장"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu302Click",
+          "BLD-PUB-STD": "Menu302Click",
+          "BLD-PUB-KBT": "Menu302Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu302",
+          "BLD-PUB-STD": "Menu302",
+          "BLD-PUB-KBT": "Menu302"
+        },
+        "menu_id": "MENU-도서별수불원장",
+        "leaf_caption": "도서별수불원장"
+      },
+      {
+        "path": [
+          "원장관리",
+          "도서별원장총괄"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu306Click",
+          "BLD-PUB-STD": "Menu306Click",
+          "BLD-PUB-KBT": "Menu306Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu306",
+          "BLD-PUB-STD": "Menu306",
+          "BLD-PUB-KBT": "Menu306"
+        },
+        "menu_id": "MENU-도서별원장총괄",
+        "leaf_caption": "도서별원장총괄"
+      },
+      {
+        "path": [
+          "자료관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu500",
+          "BLD-PUB-STD": "Menu500",
+          "BLD-PUB-KBT": "Menu500"
+        },
+        "menu_id": "MENU-자료관리",
+        "leaf_caption": "자료관리"
+      },
+      {
+        "path": [
+          "자료관리",
+          "원장변경"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu501Click",
+          "BLD-PUB-STD": "Menu501Click",
+          "BLD-PUB-KBT": "Menu501Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu501",
+          "BLD-PUB-STD": "Menu501",
+          "BLD-PUB-KBT": "Menu501"
+        },
+        "menu_id": "MENU-원장변경",
+        "leaf_caption": "원장변경"
+      },
+      {
+        "path": [
+          "자료관리",
+          "자료백업"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu508Click",
+          "BLD-PUB-STD": "Menu508Click",
+          "BLD-PUB-KBT": "Menu508Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu508",
+          "BLD-PUB-STD": "Menu508",
+          "BLD-PUB-KBT": "Menu508"
+        },
+        "menu_id": "MENU-자료백업",
+        "leaf_caption": "자료백업"
+      },
+      {
+        "path": [
+          "자료관리",
+          "자료삭제"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu509Click",
+          "BLD-PUB-STD": "Menu509Click",
+          "BLD-PUB-KBT": "Menu509Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu509",
+          "BLD-PUB-STD": "Menu509",
+          "BLD-PUB-KBT": "Menu509"
+        },
+        "menu_id": "MENU-자료삭제",
+        "leaf_caption": "자료삭제"
+      },
+      {
+        "path": [
+          "자료관리",
+          "재고변경"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu502Click",
+          "BLD-PUB-STD": "Menu502Click",
+          "BLD-PUB-KBT": "Menu502Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu502",
+          "BLD-PUB-STD": "Menu502",
+          "BLD-PUB-KBT": "Menu502"
+        },
+        "menu_id": "MENU-재고변경",
+        "leaf_caption": "재고변경"
+      },
+      {
+        "path": [
+          "자료관리",
+          "초기계정"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu505Click",
+          "BLD-PUB-STD": "Menu505Click",
+          "BLD-PUB-KBT": "Menu505Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu505",
+          "BLD-PUB-STD": "Menu505",
+          "BLD-PUB-KBT": "Menu505"
+        },
+        "menu_id": "MENU-초기계정",
+        "leaf_caption": "초기계정"
+      },
+      {
+        "path": [
+          "자료관리",
+          "초기미수"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu503Click",
+          "BLD-PUB-STD": "Menu503Click",
+          "BLD-PUB-KBT": "Menu503Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu503",
+          "BLD-PUB-STD": "Menu503",
+          "BLD-PUB-KBT": "Menu503"
+        },
+        "menu_id": "MENU-초기미수",
+        "leaf_caption": "초기미수"
+      },
+      {
+        "path": [
+          "자료관리",
+          "초기재고"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu504Click",
+          "BLD-PUB-STD": "Menu504Click",
+          "BLD-PUB-KBT": "Menu504Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu504",
+          "BLD-PUB-STD": "Menu504",
+          "BLD-PUB-KBT": "Menu504"
+        },
+        "menu_id": "MENU-초기재고",
+        "leaf_caption": "초기재고"
+      },
+      {
+        "path": [
+          "자료관리",
+          "코드변경"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu506Click",
+          "BLD-PUB-STD": "Menu506Click",
+          "BLD-PUB-KBT": "Menu506Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu506",
+          "BLD-PUB-STD": "Menu506",
+          "BLD-PUB-KBT": "Menu506"
+        },
+        "menu_id": "MENU-코드변경",
+        "leaf_caption": "코드변경"
+      },
+      {
+        "path": [
+          "자료관리",
+          "회계정리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu507Click",
+          "BLD-PUB-STD": "Menu507Click",
+          "BLD-PUB-KBT": "Menu507Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu507",
+          "BLD-PUB-STD": "Menu507",
+          "BLD-PUB-KBT": "Menu507"
+        },
+        "menu_id": "MENU-회계정리",
+        "leaf_caption": "회계정리"
+      },
+      {
+        "path": [
+          "재고관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu700",
+          "BLD-PUB-WAREHOUSE-MS": "Menu700",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu700"
+        },
+        "menu_id": "MENU-재고관리",
+        "leaf_caption": "재고관리"
+      },
+      {
+        "path": [
+          "재고관리",
+          "반품재고(반품입고)-해체"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu205Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu205Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu205",
+          "BLD-PUB-WAREHOUSE-MS": "Menu205"
+        },
+        "menu_id": "MENU-반품재고_반품입고_해체",
+        "leaf_caption": "반품재고(반품입고)-해체"
+      },
+      {
+        "path": [
+          "재고관리",
+          "반품재고(변경)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu501Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu501Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu501Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu501",
+          "BLD-PUB-WAREHOUSE-MS": "Menu501",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu501"
+        },
+        "menu_id": "MENU-반품재고_변경",
+        "leaf_caption": "반품재고(변경)"
+      },
+      {
+        "path": [
+          "재고관리",
+          "반품재고(입고)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu204Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu204"
+        },
+        "menu_id": "MENU-반품재고_입고-2",
+        "leaf_caption": "반품재고(입고)"
+      },
+      {
+        "path": [
+          "재고관리",
+          "반품재고(정품입고)-재생"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu204Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu204Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu204",
+          "BLD-PUB-WAREHOUSE-MS": "Menu204"
+        },
+        "menu_id": "MENU-반품재고_정품입고_재생",
+        "leaf_caption": "반품재고(정품입고)-재생"
+      },
+      {
+        "path": [
+          "재고관리",
+          "반품재고(폐기)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu305Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu305Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu305Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu305",
+          "BLD-PUB-WAREHOUSE-MS": "Menu305",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu305"
+        },
+        "menu_id": "MENU-반품재고_폐기-2",
+        "leaf_caption": "반품재고(폐기)"
+      },
+      {
+        "path": [
+          "재고관리",
+          "반품재고입력-자체운영"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu319Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu319Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu319Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu319",
+          "BLD-PUB-WAREHOUSE-MS": "Menu319",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu319"
+        },
+        "menu_id": "MENU-반품재고입력_자체운영-2",
+        "leaf_caption": "반품재고입력-자체운영"
+      },
+      {
+        "path": [
+          "재고관리",
+          "반품재고현황-자체운영"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu329Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu329Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu329Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu329",
+          "BLD-PUB-WAREHOUSE-MS": "Menu329",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu329"
+        },
+        "menu_id": "MENU-반품재고현황_자체운영-2",
+        "leaf_caption": "반품재고현황-자체운영"
+      },
+      {
+        "path": [
+          "재고관리",
+          "정품재고(변경)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu502Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu502Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu502Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu502",
+          "BLD-PUB-WAREHOUSE-MS": "Menu502",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu502"
+        },
+        "menu_id": "MENU-정품재고_변경",
+        "leaf_caption": "정품재고(변경)"
+      },
+      {
+        "path": [
+          "재고관리",
+          "정품재고(폐기)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu304Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu304Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu304Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu304",
+          "BLD-PUB-WAREHOUSE-MS": "Menu304",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu304"
+        },
+        "menu_id": "MENU-정품재고_폐기",
+        "leaf_caption": "정품재고(폐기)"
+      },
+      {
+        "path": [
+          "재고관리",
+          "폐기재고(파기)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu359Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu359"
+        },
+        "menu_id": "MENU-폐기재고_파기",
+        "leaf_caption": "폐기재고(파기)"
+      },
+      {
+        "path": [
+          "재고원장"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu300",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu300",
+          "BLD-PUB-WAREHOUSE-MS": "Menu300",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu300"
+        },
+        "menu_id": "MENU-재고원장",
+        "leaf_caption": "재고원장"
+      },
+      {
+        "path": [
+          "재고원장",
+          "기간별재고(세분)"
+        ],
+        "depth": 2,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu304_0"
+        },
+        "menu_id": "MENU-기간별재고_세분",
+        "leaf_caption": "기간별재고(세분)"
+      },
+      {
+        "path": [
+          "재고원장",
+          "기간별재고(세분)",
+          "기간별재고원장(비품)"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu304_3Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu304_3"
+        },
+        "menu_id": "MENU-기간별재고원장_비품",
+        "leaf_caption": "기간별재고원장(비품)"
+      },
+      {
+        "path": [
+          "재고원장",
+          "기간별재고(세분)",
+          "기간별재고원장(정품)"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu304_2Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu304_2"
+        },
+        "menu_id": "MENU-기간별재고원장_정품",
+        "leaf_caption": "기간별재고원장(정품)"
+      },
+      {
+        "path": [
+          "재고원장",
+          "기간별재고(세분)",
+          "기간별재고원장(폐기)"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu304_4Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu304_4"
+        },
+        "menu_id": "MENU-기간별재고원장_폐기",
+        "leaf_caption": "기간별재고원장(폐기)"
+      },
+      {
+        "path": [
+          "재고원장",
+          "기간별재고원장"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu303Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu303Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu303Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu303Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu303",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu303",
+          "BLD-PUB-WAREHOUSE-MS": "Menu303",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu303"
+        },
+        "menu_id": "MENU-기간별재고원장-2",
+        "leaf_caption": "기간별재고원장"
+      },
+      {
+        "path": [
+          "재고원장",
+          "기간별평균재고"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu302Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu302Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu302",
+          "BLD-PUB-WAREHOUSE-MS": "Menu302"
+        },
+        "menu_id": "MENU-기간별평균재고",
+        "leaf_caption": "기간별평균재고"
+      },
+      {
+        "path": [
+          "재고원장",
+          "도서별수불원장"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu301Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu301Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu301Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu301Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu301",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu301",
+          "BLD-PUB-WAREHOUSE-MS": "Menu301",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu301"
+        },
+        "menu_id": "MENU-도서별수불원장-2",
+        "leaf_caption": "도서별수불원장"
+      },
+      {
+        "path": [
+          "재고원장",
+          "재고 및 재고금액"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu304_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu304_1"
+        },
+        "menu_id": "MENU-재고_및_재고금액",
+        "leaf_caption": "재고 및 재고금액"
+      },
+      {
+        "path": [
+          "재고원장",
+          "출판사재고현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu302_1Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu302_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu302_1",
+          "BLD-PUB-WAREHOUSE-MS": "Menu302_1"
+        },
+        "menu_id": "MENU-출판사재고현황",
+        "leaf_caption": "출판사재고현황"
+      },
+      {
+        "path": [
+          "출고관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu200",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu200",
+          "BLD-PUB-WAREHOUSE-MS": "Menu200",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu200"
+        },
+        "menu_id": "MENU-출고관리",
+        "leaf_caption": "출고관리"
+      },
+      {
+        "path": [
+          "출고관리",
+          "가입고관리"
+        ],
+        "depth": 2,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-MS": "Menu202_0"
+        },
+        "menu_id": "MENU-가입고관리",
+        "leaf_caption": "가입고관리"
+      },
+      {
+        "path": [
+          "출고관리",
+          "가입고관리",
+          "가입고요청서"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-MS": "Menu202_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-MS": "Menu202_1"
+        },
+        "menu_id": "MENU-가입고요청서",
+        "leaf_caption": "가입고요청서"
+      },
+      {
+        "path": [
+          "출고관리",
+          "가입고관리",
+          "가입고현황"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-MS": "Menu202_2Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-MS": "Menu202_2"
+        },
+        "menu_id": "MENU-가입고현황",
+        "leaf_caption": "가입고현황"
+      },
+      {
+        "path": [
+          "출고관리",
+          "거래명세서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu201Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu201Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu201Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu201Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu201",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu201",
+          "BLD-PUB-WAREHOUSE-MS": "Menu201",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu201"
+        },
+        "menu_id": "MENU-거래명세서-2",
+        "leaf_caption": "거래명세서"
+      },
+      {
+        "path": [
+          "출고관리",
+          "반품명세서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu203Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu203Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu203Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu203Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu203",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu203",
+          "BLD-PUB-WAREHOUSE-MS": "Menu203",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu203"
+        },
+        "menu_id": "MENU-반품명세서-2",
+        "leaf_caption": "반품명세서"
+      },
+      {
+        "path": [
+          "출고관리",
+          "신간 가입고 관리"
+        ],
+        "depth": 2,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu202_0"
+        },
+        "menu_id": "MENU-신간_가입고_관리",
+        "leaf_caption": "신간 가입고 관리"
+      },
+      {
+        "path": [
+          "출고관리",
+          "신간 가입고 관리",
+          "가입고요청서"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu202_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu202_1"
+        },
+        "menu_id": "MENU-가입고요청서-2",
+        "leaf_caption": "가입고요청서"
+      },
+      {
+        "path": [
+          "출고관리",
+          "신간 가입고 관리",
+          "가입고현황"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu202_2Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu202_2"
+        },
+        "menu_id": "MENU-가입고현황-2",
+        "leaf_caption": "가입고현황"
+      },
+      {
+        "path": [
+          "출고관리",
+          "신간가입고 관리"
+        ],
+        "depth": 2,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu202_0"
+        },
+        "menu_id": "MENU-신간가입고_관리",
+        "leaf_caption": "신간가입고 관리"
+      },
+      {
+        "path": [
+          "출고관리",
+          "신간가입고 관리",
+          "가입고요청서"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu202_1Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu202_1"
+        },
+        "menu_id": "MENU-가입고요청서-3",
+        "leaf_caption": "가입고요청서"
+      },
+      {
+        "path": [
+          "출고관리",
+          "신간가입고 관리",
+          "가입고현황"
+        ],
+        "depth": 3,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu202_2Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu202_2"
+        },
+        "menu_id": "MENU-가입고현황-3",
+        "leaf_caption": "가입고현황"
+      },
+      {
+        "path": [
+          "출고관리",
+          "신간발행"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu209Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu209Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu209Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu209Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu209",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu209",
+          "BLD-PUB-WAREHOUSE-MS": "Menu209",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu209"
+        },
+        "menu_id": "MENU-신간발행-2",
+        "leaf_caption": "신간발행"
+      },
+      {
+        "path": [
+          "출고관리",
+          "입고명세서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu202Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu202Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu202Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu202Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu202",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu202",
+          "BLD-PUB-WAREHOUSE-MS": "Menu202",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu202"
+        },
+        "menu_id": "MENU-입고명세서-2",
+        "leaf_caption": "입고명세서"
+      },
+      {
+        "path": [
+          "출고관리",
+          "전송자료받기(FTP)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu308Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu308Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu308Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu308Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu308",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu308",
+          "BLD-PUB-WAREHOUSE-MS": "Menu308",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu308"
+        },
+        "menu_id": "MENU-전송자료받기_FTP",
+        "leaf_caption": "전송자료받기(FTP)"
+      },
+      {
+        "path": [
+          "출고관리",
+          "출고검증관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu509_2Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu509_2Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu509_2",
+          "BLD-PUB-WAREHOUSE-MS": "Menu509_2"
+        },
+        "menu_id": "MENU-출고검증관리",
+        "leaf_caption": "출고검증관리"
+      },
+      {
+        "path": [
+          "출고관리",
+          "출고검증관리(개별)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu509_3Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu509_3Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu509_3",
+          "BLD-PUB-WAREHOUSE-MS": "Menu509_3"
+        },
+        "menu_id": "MENU-출고검증관리_개별",
+        "leaf_caption": "출고검증관리(개별)"
+      },
+      {
+        "path": [
+          "출고관리",
+          "출고접수관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu207Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu207Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu207Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu207Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu207",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu207",
+          "BLD-PUB-WAREHOUSE-MS": "Menu207",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu207"
+        },
+        "menu_id": "MENU-출고접수관리",
+        "leaf_caption": "출고접수관리"
+      },
+      {
+        "path": [
+          "출고관리",
+          "출고접수현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu206Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu206Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu206Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu206Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu206",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu206",
+          "BLD-PUB-WAREHOUSE-MS": "Menu206",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu206"
+        },
+        "menu_id": "MENU-출고접수현황",
+        "leaf_caption": "출고접수현황"
+      },
+      {
+        "path": [
+          "출고관리",
+          "출고택배관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu208Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu208Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu208Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu208Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu208",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu208",
+          "BLD-PUB-WAREHOUSE-MS": "Menu208",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu208"
+        },
+        "menu_id": "MENU-출고택배관리",
+        "leaf_caption": "출고택배관리"
+      },
+      {
+        "path": [
+          "택배관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu900"
+        },
+        "menu_id": "MENU-택배관리",
+        "leaf_caption": "택배관리"
+      },
+      {
+        "path": [
+          "택배관리",
+          "기타명세서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu901Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu901"
+        },
+        "menu_id": "MENU-기타명세서-2",
+        "leaf_caption": "기타명세서"
+      },
+      {
+        "path": [
+          "택배관리",
+          "일별 출고내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu903Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu903"
+        },
+        "menu_id": "MENU-일별_출고내역서-2",
+        "leaf_caption": "일별 출고내역서"
+      },
+      {
+        "path": [
+          "택배관리",
+          "출고내역서"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu909Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu909"
+        },
+        "menu_id": "MENU-출고내역서-2",
+        "leaf_caption": "출고내역서"
+      },
+      {
+        "path": [
+          "택배관리",
+          "출고접수관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu907Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu907"
+        },
+        "menu_id": "MENU-출고접수관리-2",
+        "leaf_caption": "출고접수관리"
+      },
+      {
+        "path": [
+          "택배관리",
+          "출고접수현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu906Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu906"
+        },
+        "menu_id": "MENU-출고접수현황-2",
+        "leaf_caption": "출고접수현황"
+      },
+      {
+        "path": [
+          "택배관리",
+          "출고택배관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu908Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu908"
+        },
+        "menu_id": "MENU-출고택배관리-2",
+        "leaf_caption": "출고택배관리"
+      },
+      {
+        "path": [
+          "통계관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu600",
+          "BLD-PUB-STD": "Menu600",
+          "BLD-DIST-KBT": "Menu600",
+          "BLD-PUB-KBT": "Menu600",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu600",
+          "BLD-PUB-WAREHOUSE-MS": "Menu600",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu600"
+        },
+        "menu_id": "MENU-통계관리",
+        "leaf_caption": "통계관리"
+      },
+      {
+        "path": [
+          "통계관리",
+          "거래처년말집계"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu608Click",
+          "BLD-PUB-STD": "Menu608Click",
+          "BLD-DIST-KBT": "Menu608Click",
+          "BLD-PUB-KBT": "Menu608Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu608Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu608Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu608Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu608",
+          "BLD-PUB-STD": "Menu608",
+          "BLD-DIST-KBT": "Menu608",
+          "BLD-PUB-KBT": "Menu608",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu608",
+          "BLD-PUB-WAREHOUSE-MS": "Menu608",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu608"
+        },
+        "menu_id": "MENU-거래처년말집계",
+        "leaf_caption": "거래처년말집계"
+      },
+      {
+        "path": [
+          "통계관리",
+          "거래처집계"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu604Click",
+          "BLD-PUB-STD": "Menu604Click",
+          "BLD-PUB-KBT": "Menu604Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu604",
+          "BLD-PUB-STD": "Menu604",
+          "BLD-PUB-KBT": "Menu604"
+        },
+        "menu_id": "MENU-거래처집계",
+        "leaf_caption": "거래처집계"
+      },
+      {
+        "path": [
+          "통계관리",
+          "거래처출고현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu606Click",
+          "BLD-PUB-STD": "Menu606Click",
+          "BLD-PUB-KBT": "Menu606Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu606",
+          "BLD-PUB-STD": "Menu606",
+          "BLD-PUB-KBT": "Menu606"
+        },
+        "menu_id": "MENU-거래처출고현황",
+        "leaf_caption": "거래처출고현황"
+      },
+      {
+        "path": [
+          "통계관리",
+          "거래처판매"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu602Click",
+          "BLD-PUB-STD": "Menu602Click",
+          "BLD-DIST-KBT": "Menu602Click",
+          "BLD-PUB-KBT": "Menu602Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu602Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu602Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu602Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu602",
+          "BLD-PUB-STD": "Menu602",
+          "BLD-DIST-KBT": "Menu602",
+          "BLD-PUB-KBT": "Menu602",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu602",
+          "BLD-PUB-WAREHOUSE-MS": "Menu602",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu602"
+        },
+        "menu_id": "MENU-거래처판매",
+        "leaf_caption": "거래처판매"
+      },
+      {
+        "path": [
+          "통계관리",
+          "도서별년말집계"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu607Click",
+          "BLD-PUB-STD": "Menu607Click",
+          "BLD-DIST-KBT": "Menu607Click",
+          "BLD-PUB-KBT": "Menu607Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu607Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu607Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu607Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu607",
+          "BLD-PUB-STD": "Menu607",
+          "BLD-DIST-KBT": "Menu607",
+          "BLD-PUB-KBT": "Menu607",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu607",
+          "BLD-PUB-WAREHOUSE-MS": "Menu607",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu607"
+        },
+        "menu_id": "MENU-도서별년말집계",
+        "leaf_caption": "도서별년말집계"
+      },
+      {
+        "path": [
+          "통계관리",
+          "도서별집계"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu603Click",
+          "BLD-PUB-STD": "Menu603Click",
+          "BLD-PUB-KBT": "Menu603Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu603",
+          "BLD-PUB-STD": "Menu603",
+          "BLD-PUB-KBT": "Menu603"
+        },
+        "menu_id": "MENU-도서별집계",
+        "leaf_caption": "도서별집계"
+      },
+      {
+        "path": [
+          "통계관리",
+          "도서별출고현황"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu605Click",
+          "BLD-PUB-STD": "Menu605Click",
+          "BLD-PUB-KBT": "Menu605Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu605",
+          "BLD-PUB-STD": "Menu605",
+          "BLD-PUB-KBT": "Menu605"
+        },
+        "menu_id": "MENU-도서별출고현황",
+        "leaf_caption": "도서별출고현황"
+      },
+      {
+        "path": [
+          "통계관리",
+          "도서별판매"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu601Click",
+          "BLD-PUB-STD": "Menu601Click",
+          "BLD-DIST-KBT": "Menu601Click",
+          "BLD-PUB-KBT": "Menu601Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu601Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu601Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu601Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu601",
+          "BLD-PUB-STD": "Menu601",
+          "BLD-DIST-KBT": "Menu601",
+          "BLD-PUB-KBT": "Menu601",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu601",
+          "BLD-PUB-WAREHOUSE-MS": "Menu601",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu601"
+        },
+        "menu_id": "MENU-도서별판매",
+        "leaf_caption": "도서별판매"
+      },
+      {
+        "path": [
+          "통계관리",
+          "출판사별판매(1)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu605Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu605Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu605Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu605Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu605",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu605",
+          "BLD-PUB-WAREHOUSE-MS": "Menu605",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu605"
+        },
+        "menu_id": "MENU-출판사별판매_1",
+        "leaf_caption": "출판사별판매(1)"
+      },
+      {
+        "path": [
+          "통계관리",
+          "출판사별판매(2)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu606Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu606Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu606Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu606Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu606",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu606",
+          "BLD-PUB-WAREHOUSE-MS": "Menu606",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu606"
+        },
+        "menu_id": "MENU-출판사별판매_2",
+        "leaf_caption": "출판사별판매(2)"
+      },
+      {
+        "path": [
+          "통계관리",
+          "출판사월별집계(1)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu603Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu603Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu603Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu603Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu603",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu603",
+          "BLD-PUB-WAREHOUSE-MS": "Menu603",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu603"
+        },
+        "menu_id": "MENU-출판사월별집계_1",
+        "leaf_caption": "출판사월별집계(1)"
+      },
+      {
+        "path": [
+          "통계관리",
+          "출판사월별집계(2)"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-KBT": "Menu604Click",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu604Click",
+          "BLD-PUB-WAREHOUSE-MS": "Menu604Click",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu604Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": false,
+          "BLD-PUB-STD": false,
+          "BLD-DIST-KBT": true,
+          "BLD-PUB-KBT": false,
+          "BLD-PUB-WAREHOUSE-WELOVE": true,
+          "BLD-PUB-WAREHOUSE-MS": true,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": true
+        },
+        "object_id_by_build": {
+          "BLD-DIST-KBT": "Menu604",
+          "BLD-PUB-WAREHOUSE-WELOVE": "Menu604",
+          "BLD-PUB-WAREHOUSE-MS": "Menu604",
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": "Menu604"
+        },
+        "menu_id": "MENU-출판사월별집계_2",
+        "leaf_caption": "출판사월별집계(2)"
+      },
+      {
+        "path": [
+          "회계관리"
+        ],
+        "depth": 1,
+        "leaf": false,
+        "onclick_by_build": {},
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu400",
+          "BLD-PUB-STD": "Menu400",
+          "BLD-PUB-KBT": "Menu400"
+        },
+        "menu_id": "MENU-회계관리",
+        "leaf_caption": "회계관리"
+      },
+      {
+        "path": [
+          "회계관리",
+          "계산서발행"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu409Click",
+          "BLD-PUB-STD": "Menu409Click",
+          "BLD-PUB-KBT": "Menu409Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu409",
+          "BLD-PUB-STD": "Menu409",
+          "BLD-PUB-KBT": "Menu409"
+        },
+        "menu_id": "MENU-계산서발행",
+        "leaf_caption": "계산서발행"
+      },
+      {
+        "path": [
+          "회계관리",
+          "계정년월집계"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu407Click",
+          "BLD-PUB-STD": "Menu407Click",
+          "BLD-PUB-KBT": "Menu407Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu407",
+          "BLD-PUB-STD": "Menu407",
+          "BLD-PUB-KBT": "Menu407"
+        },
+        "menu_id": "MENU-계정년월집계",
+        "leaf_caption": "계정년월집계"
+      },
+      {
+        "path": [
+          "회계관리",
+          "계정원장"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu403Click",
+          "BLD-PUB-STD": "Menu403Click",
+          "BLD-PUB-KBT": "Menu403Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu403",
+          "BLD-PUB-STD": "Menu403",
+          "BLD-PUB-KBT": "Menu403"
+        },
+        "menu_id": "MENU-계정원장",
+        "leaf_caption": "계정원장"
+      },
+      {
+        "path": [
+          "회계관리",
+          "계정월별집계"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu408Click",
+          "BLD-PUB-STD": "Menu408Click",
+          "BLD-PUB-KBT": "Menu408Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu408",
+          "BLD-PUB-STD": "Menu408",
+          "BLD-PUB-KBT": "Menu408"
+        },
+        "menu_id": "MENU-계정월별집계",
+        "leaf_caption": "계정월별집계"
+      },
+      {
+        "path": [
+          "회계관리",
+          "계정집계표"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu405Click",
+          "BLD-PUB-STD": "Menu405Click",
+          "BLD-PUB-KBT": "Menu405Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu405",
+          "BLD-PUB-STD": "Menu405",
+          "BLD-PUB-KBT": "Menu405"
+        },
+        "menu_id": "MENU-계정집계표",
+        "leaf_caption": "계정집계표"
+      },
+      {
+        "path": [
+          "회계관리",
+          "어음관리"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu406Click",
+          "BLD-PUB-STD": "Menu406Click",
+          "BLD-PUB-KBT": "Menu406Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu406",
+          "BLD-PUB-STD": "Menu406",
+          "BLD-PUB-KBT": "Menu406"
+        },
+        "menu_id": "MENU-어음관리",
+        "leaf_caption": "어음관리"
+      },
+      {
+        "path": [
+          "회계관리",
+          "입출금전표-거래처"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu401Click",
+          "BLD-PUB-STD": "Menu401Click",
+          "BLD-PUB-KBT": "Menu401Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu401",
+          "BLD-PUB-STD": "Menu401",
+          "BLD-PUB-KBT": "Menu401"
+        },
+        "menu_id": "MENU-입출금전표_거래처",
+        "leaf_caption": "입출금전표-거래처"
+      },
+      {
+        "path": [
+          "회계관리",
+          "입출금전표-사무실"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu402Click",
+          "BLD-PUB-STD": "Menu402Click",
+          "BLD-PUB-KBT": "Menu402Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu402",
+          "BLD-PUB-STD": "Menu402",
+          "BLD-PUB-KBT": "Menu402"
+        },
+        "menu_id": "MENU-입출금전표_사무실",
+        "leaf_caption": "입출금전표-사무실"
+      },
+      {
+        "path": [
+          "회계관리",
+          "현금출납장"
+        ],
+        "depth": 2,
+        "leaf": true,
+        "onclick_by_build": {
+          "BLD-DIST-STD": "Menu404Click",
+          "BLD-PUB-STD": "Menu404Click",
+          "BLD-PUB-KBT": "Menu404Click"
+        },
+        "presence": {
+          "BLD-DIST-STD": true,
+          "BLD-PUB-STD": true,
+          "BLD-DIST-KBT": false,
+          "BLD-PUB-KBT": true,
+          "BLD-PUB-WAREHOUSE-WELOVE": false,
+          "BLD-PUB-WAREHOUSE-MS": false,
+          "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": false
+        },
+        "object_id_by_build": {
+          "BLD-DIST-STD": "Menu404",
+          "BLD-PUB-STD": "Menu404",
+          "BLD-PUB-KBT": "Menu404"
+        },
+        "menu_id": "MENU-현금출납장",
+        "leaf_caption": "현금출납장"
+      }
+    ],
+    "summary": {
+      "total_unique_paths": 180,
+      "per_build_path_count": {
+        "BLD-DIST-STD": 57,
+        "BLD-PUB-STD": 67,
+        "BLD-DIST-KBT": 101,
+        "BLD-PUB-KBT": 67,
+        "BLD-PUB-WAREHOUSE-WELOVE": 53,
+        "BLD-PUB-WAREHOUSE-MS": 83,
+        "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": 72
+      },
+      "per_build_top_bar_count": {
+        "BLD-DIST-STD": 6,
+        "BLD-PUB-STD": 7,
+        "BLD-DIST-KBT": 9,
+        "BLD-PUB-KBT": 7,
+        "BLD-PUB-WAREHOUSE-WELOVE": 7,
+        "BLD-PUB-WAREHOUSE-MS": 8,
+        "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": 8
+      }
+    }
+  }
+}

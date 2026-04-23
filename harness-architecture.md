@@ -57,6 +57,11 @@
 | SQL 스크립트 | DDL, 프로시저, 뷰 | .sql |
 | DB 스키마 | 테이블/인덱스/FK/트리거 | INFORMATION_SCHEMA |
 | 운영 매뉴얼 | 사용자 가이드, 교육자료 | .doc/.pdf |
+| **인수인계 메뉴얼 메타** | 채널·주제 태그된 매뉴얼/자산 카탈로그 | [`docs/manual-catalog.md`](docs/manual-catalog.md) (`MAN-*`) |
+| **스키마 사전** | 출판 테이블 구조 — 한글 캡션·Size 변경 흔적 | [`analysis/welove_schema_dictionary.json`](analysis/welove_schema_dictionary.json) (`MAN-030` / `SCH-WELOVE-출판-*`) |
+| **DSN 라우팅 메타** | 서버·테넌트·DB 매핑 (자격증명 0건) | [`analysis/welove_db_route_matrix.json`](analysis/welove_db_route_matrix.json) (`MAN-017` 메타화) |
+| **온보딩·RBAC 매트릭스** | 4 가지 계정 유형(`ACC-T1/T2-DIST/T2-PUB/T3`) × 메뉴/API 노출 | [`docs/onboarding-rbac-menu-matrix.md`](docs/onboarding-rbac-menu-matrix.md) (`ACC-MENU-*`) |
+| **메뉴얼 ↔ 시나리오** | `MAN-*` × `C*` × 라우트 × contract 합류표 | [`docs/manual-to-scenario-matrix.md`](docs/manual-to-scenario-matrix.md) |
 
 **표준화 출력**:
 - `inventory/dpr_files.json` - 프로젝트 파일 목록
@@ -64,6 +69,11 @@
 - `inventory/dfm_files.json` - 폼 정의 파일 목록
 - `inventory/sql_files.json` - SQL 스크립트 목록
 - `inventory/db_schema.json` - DB 스키마 정보
+- `analysis/welove_schema_dictionary.json` — 스키마 사전 (`MAN-030`)
+- `analysis/welove_db_route_matrix.json` — DSN 라우팅 메타 (자격증명 0건; G3 강화)
+- `docs/manual-catalog.md` — 인수인계 자산 메타 카탈로그 (비밀 표기 ○/△/×)
+
+**비밀 처리 (G3 강화):** 자격증명·root 토큰 포함 자산은 본 L1 출력에 **메타만** 포함한다. 원문은 작업자 PC 한정이며 레포 커밋 금지 — 정책 정본은 [`docs/secrets-policy.md`](docs/secrets-policy.md).
 
 ### L2 - 정적 분석 (Static Analysis)
 

@@ -2,11 +2,17 @@
 
 본 문서는 [`docs/core-scenarios-candidates.md`](core-scenarios-candidates.md) **C1~C10** 후보를 베타 라인까지 끌어가기 위한 **실행용 계획서**입니다.
 - **목적**: 회의 합의를 기다리지 않고도 "다음에 뭘 만들지·어떤 델파이 폼을 봐야 하는지·어디까지 동등성을 맞춰야 하는지"를 한 표로 알 수 있게 한다.
-- **연관 산출물**: [`migration/contracts/`](../migration/contracts/) · [`migration/test-cases/`](../migration/test-cases/) · [`analysis/screen_cards/`](../analysis/screen_cards/) · [`dashboard/data/porting-screens.json`](../dashboard/data/porting-screens.json)
+- **연관 산출물**: [`migration/contracts/`](../migration/contracts/) · [`migration/test-cases/`](../migration/test-cases/) · [`analysis/screen_cards/`](../analysis/screen_cards/) · [`dashboard/data/porting-screens.json`](../dashboard/data/porting-screens.json) · **[`docs/delphi-form-screen-equivalence-matrix.md`](delphi-form-screen-equivalence-matrix.md)** (`python3 tools/delphi_form_screen_matrix.py` 로 갱신 — 레거시 DFM Caption ↔ `form-registry` 동등성 표, **DEC-061**)
 - **베이스 라인**: [`legacy-analysis/decisions.md`](../legacy-analysis/decisions.md) **DEC-003**(읽기→등록→수정/취소→배치/인쇄/장비→고객사 분기) · **DEC-004**(인쇄·바코드 1차 방향)
 - **범위**: "**기능을 최대한 동일하게 유지**"가 원칙. 차이는 [`legacy-analysis/decisions.md`](../legacy-analysis/decisions.md) DEC와 [`legacy-analysis/open-questions.md`](../legacy-analysis/open-questions.md) OQ로 명시 추적.
 
 > 본 계획서는 회의 확정 전이라도 **델파이 소스만으로** 도출 가능한 매핑·순서·절차를 동결합니다. C1~C10 채택이 변경되면 본 문서 §1·§3 표만 갱신해 후속 산출물 링크를 유지합니다.
+
+### 포팅 파이프라인 훅 (레거시 제목 대조)
+
+1. **폼 레지스트리·계약·라우트 수정 전후**: `python3 tools/delphi_form_screen_matrix.py` 실행 → [`delphi-form-screen-equivalence-matrix.md`](delphi-form-screen-equivalence-matrix.md) 및 `analysis/audit/delphi-form-screen-matrix.json` 갱신.
+2. **품질 게이트**: `python3 tools/delphi_form_screen_matrix.py --check` — 등록된 `Subu*` 폴더에 대응 `*.dfm` 없으면 실패. 제목 문자열까지 엄격히 맞추려면 `--strict`(초기 코드베이스는 차이 행 다수 가능).
+3. **회귀**: `pytest test/test_delphi_form_screen_matrix.py`.
 
 ---
 

@@ -3,6 +3,8 @@
 웹 포팅 시 **소스·DFM만으로는 알 수 없는** 업무 규칙, DB·장비, 운영 관행을 **기존 델파이 개발자(또는 장기 유지 담당자)**에게 확인하기 위한 질문 목록입니다.  
 회의 전에 항목을 복사해 빈칸에 답변을 기록하면 이후 `migration/contracts`, Eval 시나리오, OQ(미해결 질문) 갱신에 연결할 수 있습니다.
 
+**한눈에 보는 문의 목록(색인)**: [`docs/porting-information-inquiry-list.md`](porting-information-inquiry-list.md)
+
 **관련 레포 산출물**
 
 - 미해결 질문: [`legacy-analysis/open-questions.md`](../legacy-analysis/open-questions.md) (OQ-001 ~ OQ-003, OQ-DBL-001 ~ OQ-DBL-003)
@@ -14,6 +16,7 @@
 - 하네스·포팅 순서: [`harness-architecture.md`](../harness-architecture.md)
 - 프린트·바코드(스캐너) 연동 코드 조사: [`docs/legacy-print-scanner-integration-survey.md`](legacy-print-scanner-integration-survey.md)
 - 현장 인터뷰 진행·기록 템플릿: [`docs/field-interview-meeting-template.md`](field-interview-meeting-template.md)
+- 현장 인터뷰 **회의록(누적)**: [`docs/field-interview-2026-04-23.md`](field-interview-2026-04-23.md) — 레거시 유지보수 담당자와 설치 전제(출판사명·코드) 확인
 - 핵심 시나리오 후보(5~10개 합의용): [`docs/core-scenarios-candidates.md`](core-scenarios-candidates.md)
 - 핵심 10 시나리오 화면 단위 포팅 계획·진행표: [`docs/core-scenarios-porting-plan.md`](core-scenarios-porting-plan.md)
 - 쿼리 캡처 리허설 트래커: [`docs/query-capture-rehearsal-tracker.md`](query-capture-rehearsal-tracker.md)
@@ -34,6 +37,7 @@
 
 | 회의 일자 | 장소/방식 | 참석(델파이) | 참석(웹 포팅) |
 |-----------|------------|--------------|----------------|
+| **2026-04-23** | (회의록 §1 보완) | 예전 델파이 유지보수 담당 | (회의록 §1 보완) |
 |           |            |              |                |
 
 ---
@@ -42,7 +46,7 @@
 
 | # | 확인 사항 | 답변 요약 | 비고 |
 |---|-----------|-----------|------|
-| 1.1 | 운영 중인 **고객사(설치) 수**와, 고객사별로 **다른 화면·로직·DB**가 있는가? 있다면 분기 조건은 무엇인가? (회사코드, INI, 레지스트리, 하드코딩 등) | | → OQ-001 |
+| 1.1 | 운영 중인 **고객사(설치) 수**와, 고객사별로 **다른 화면·로직·DB**가 있는가? 있다면 분기 조건은 무엇인가? (회사코드, INI, 레지스트리, 하드코딩 등) | **부분 확인(2026-04-23 회의)**: 레거시 설치는 **출판사명·출판사코드**를 사전에 알고 진행하는 전제가 있었음 — [`field-interview-2026-04-23.md`](field-interview-2026-04-23.md) FI-2026-04-23-01. 고객사 수·화면/DB 분기 상세는 추가 확인 | → OQ-001 |
 | 1.2 | `Id_Logn`의 **f11~f89** 외에, 소스에 **별도 권한 체크**(특정 `gcode`, PC명, IP)가 더 있는가? | | |
 | 1.3 | **금액·할인·세금·반올림** 계산 순서와, 반드시 레거시와 동일해야 하는 **경계 케이스**(0원, 부분 취소, 반품+재출고 등)는 무엇인가? | | |
 | 1.4 | 화면에 없는 **배치 작업·야간 작업·외부 EXE**가 업무에 포함되는가? 스케줄러·작업 스케줄러 연동 여부 | | |

@@ -1,0 +1,5565 @@
+{
+  "source": "WeLove_FTP/Welove_인수인계/출판setting/weelove/출판(테이블구조).xls",
+  "manual_id": "MAN-030",
+  "schema_id_prefix": "SCH-WELOVE-출판",
+  "encoding": "UTF-8 (extracted from CP949 source via xlrd)",
+  "catalog": [
+    {
+      "table": "G1_Ggeo",
+      "caption_kor": "거래처",
+      "changed": true
+    },
+    {
+      "table": "H1_Gbun",
+      "caption_kor": "계정과목",
+      "changed": true
+    },
+    {
+      "table": "G1_Gbun",
+      "caption_kor": "거래처구분",
+      "changed": false
+    },
+    {
+      "table": "H2_Gbun",
+      "caption_kor": "거래처지점/",
+      "changed": false
+    },
+    {
+      "table": "G2_Ggwo",
+      "caption_kor": "입고처",
+      "changed": true
+    },
+    {
+      "table": "H1_Ssub",
+      "caption_kor": "입출금",
+      "changed": true
+    },
+    {
+      "table": "G2_Gbun",
+      "caption_kor": "입고처구분",
+      "changed": false
+    },
+    {
+      "table": "H4_Iyeo",
+      "caption_kor": "어음",
+      "changed": true
+    },
+    {
+      "table": "H5_Bang",
+      "caption_kor": "은행",
+      "changed": true
+    },
+    {
+      "table": "G3_Gjeo",
+      "caption_kor": "저자",
+      "changed": true
+    },
+    {
+      "table": "G3_Gbun",
+      "caption_kor": "저자구분",
+      "changed": false
+    },
+    {
+      "table": "In_Gsum",
+      "caption_kor": "초기미수",
+      "changed": false
+    },
+    {
+      "table": "In_Csum",
+      "caption_kor": "초기재고",
+      "changed": false
+    },
+    {
+      "table": "G4_Book",
+      "caption_kor": "도서",
+      "changed": true
+    },
+    {
+      "table": "G4_Gbun",
+      "caption_kor": "도서분류",
+      "changed": false
+    },
+    {
+      "table": "S1_Ssub",
+      "caption_kor": "거래명세서",
+      "changed": true
+    },
+    {
+      "table": "S1_Memo",
+      "caption_kor": "거래명세서메모",
+      "changed": true
+    },
+    {
+      "table": "G5_Ggeo",
+      "caption_kor": "기타거래처",
+      "changed": true
+    },
+    {
+      "table": "S1_CheK",
+      "caption_kor": "거래명세서체크",
+      "changed": false
+    },
+    {
+      "table": "G5_Gbun",
+      "caption_kor": "거래처구분",
+      "changed": false
+    },
+    {
+      "table": "S2_Ssub",
+      "caption_kor": "제작명세서",
+      "changed": true
+    },
+    {
+      "table": "G6_Ggeo",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "S3_Ssub",
+      "caption_kor": "원천징수",
+      "changed": true
+    },
+    {
+      "table": "S4_Ssub",
+      "caption_kor": "가입고 요청서",
+      "changed": false
+    },
+    {
+      "table": "G7_Ggeo",
+      "caption_kor": "출판사",
+      "changed": true
+    },
+    {
+      "table": "G7_Gbun",
+      "caption_kor": "출판사구분",
+      "changed": false
+    },
+    {
+      "table": "Sb_Csum",
+      "caption_kor": "",
+      "changed": true
+    },
+    {
+      "table": "G8_Ggeo",
+      "caption_kor": "",
+      "changed": true
+    },
+    {
+      "table": "Sg_Gsum",
+      "caption_kor": "장부대조",
+      "changed": true
+    },
+    {
+      "table": "G8_Gbun",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "Sg_Csum",
+      "caption_kor": "재고대조",
+      "changed": true
+    },
+    {
+      "table": "Gg_Magn",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "Sv_Gsum",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "Gg_Megn",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "Sv_Csum",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "Gg_Post",
+      "caption_kor": "우편번호",
+      "changed": false
+    },
+    {
+      "table": "Sv_Chng",
+      "caption_kor": "마감(거래처)",
+      "changed": false
+    },
+    {
+      "table": "Gg_Prnt",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "Sv_Ghng",
+      "caption_kor": "마감(재고)",
+      "changed": false
+    },
+    {
+      "table": "Gs_Gsum",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "T1_Gbun",
+      "caption_kor": "지역분류(출판사별로)",
+      "changed": true
+    },
+    {
+      "table": "Gs_Csum",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "T1_Ssub",
+      "caption_kor": "발송비",
+      "changed": false
+    },
+    {
+      "table": "T2_Ssub",
+      "caption_kor": "청구서",
+      "changed": false
+    },
+    {
+      "table": "J1_Ggeo",
+      "caption_kor": "사원관리",
+      "changed": false
+    },
+    {
+      "table": "T3_Ssub",
+      "caption_kor": "청구서(저장)",
+      "changed": false
+    },
+    {
+      "table": "J1_Ssub",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "T4_Ssub",
+      "caption_kor": "출고내역서",
+      "changed": true
+    },
+    {
+      "table": "T5_Ssub",
+      "caption_kor": "입금내역",
+      "changed": false
+    },
+    {
+      "table": "P1_Ggeo",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "T6_Ssub",
+      "caption_kor": "반품수거내역",
+      "changed": false
+    },
+    {
+      "table": "P1_Ssub",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "T7_Ssub",
+      "caption_kor": "반품비",
+      "changed": false
+    },
+    {
+      "table": "P2_Ssub",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "Id_Logn",
+      "caption_kor": "로그인(계정)",
+      "changed": true
+    },
+    {
+      "table": "Sx_CheK",
+      "caption_kor": "",
+      "changed": false
+    },
+    {
+      "table": "Id_Memo",
+      "caption_kor": "로그인(ip별로 기록)",
+      "changed": false
+    },
+    {
+      "table": "Sx_Host",
+      "caption_kor": "",
+      "changed": true
+    },
+    {
+      "table": "Ie_Logn",
+      "caption_kor": "로그인(저자별)",
+      "changed": false
+    },
+    {
+      "table": "Sx_Memo",
+      "caption_kor": "",
+      "changed": true
+    },
+    {
+      "table": "Ie_Memo",
+      "caption_kor": "로그인(ip별로 기록)",
+      "changed": false
+    },
+    {
+      "table": "Me_Sage",
+      "caption_kor": "메시지",
+      "changed": false
+    }
+  ],
+  "tables": [
+    {
+      "table": "G1_Gbun",
+      "field_count": 6,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "구분명",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmmeo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G1_Ggeo",
+      "field_count": 48,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "tcode",
+          "description": "북앤북(배본처)",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "지역",
+          "size_before": "6",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "pubun",
+          "description": "출고증구분",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "거래처명",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gposa",
+          "description": "대표자명",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "사업자번호",
+          "size_before": "12",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "guper",
+          "description": "업태",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gjomo",
+          "description": "종목",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpost",
+          "description": "우편번호",
+          "size_before": "7",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd1",
+          "description": "주소(1)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd2",
+          "description": "주소(2)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel1",
+          "description": "전화(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel2",
+          "description": "전화(2)",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax1",
+          "description": "팩스(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax2",
+          "description": "팩스(2)",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "grat1",
+          "description": "비율1(위탁)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat2",
+          "description": "비율2(현매)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat3",
+          "description": "비율3(매절)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat4",
+          "description": "비율4(납품)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat5",
+          "description": "비율5(특별)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat6",
+          "description": "비율6(기타)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat7",
+          "description": "비율6(한도)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat8",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat9",
+          "description": "정지유무(0,1)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut1",
+          "description": "신간부수",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "yesno",
+          "description": "계산서발행유무",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "비고2",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "계산서(거래처명)",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpper",
+          "description": "담당자",
+          "size_before": "10",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고1",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gphon",
+          "description": "핸드폰번호",
+          "size_before": "15",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "email",
+          "description": "정지사유",
+          "size_before": "15",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo1",
+          "description": "거래방법(위탁,우수,…)",
+          "size_before": "8",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo2",
+          "description": "배송방법(소망,택배,…)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo3",
+          "description": "출력안함,일괄출력",
+          "size_before": "8",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo4",
+          "description": "유지,보류,종료",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnum1",
+          "description": "번호(수레사,해피데이)",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnum2",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memos",
+          "description": "메모",
+          "size_before": "<blob>",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gssum",
+          "description": "한도액",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G2_Gbun",
+      "field_count": 6,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "구분명",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmmeo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G2_Ggwo",
+      "field_count": 48,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "tcode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "지역",
+          "size_before": "6",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "pubun",
+          "description": "출고증구분",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "입고처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "거래처명",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gposa",
+          "description": "대표자명",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "사업자번호",
+          "size_before": "12",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "guper",
+          "description": "업태",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gjomo",
+          "description": "종목",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpost",
+          "description": "우편번호",
+          "size_before": "7",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd1",
+          "description": "주소(1)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd2",
+          "description": "주소(2)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel1",
+          "description": "전화(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel2",
+          "description": "전화(2)",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax1",
+          "description": "팩스(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax2",
+          "description": "팩스(2)",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "grat1",
+          "description": "비율1(위탁)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat2",
+          "description": "비율2(현매)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat3",
+          "description": "비율3(매절)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat4",
+          "description": "비율4(납품)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat5",
+          "description": "비율5(특별)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat6",
+          "description": "비율6(기타)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat7",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat8",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat9",
+          "description": "정지유무(0,1)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut1",
+          "description": "신간부수",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "yesno",
+          "description": "계산서발행유무",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "비고2",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "계산서(거래처명)",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpper",
+          "description": "담당자",
+          "size_before": "10",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고1",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gphon",
+          "description": "핸드폰번호",
+          "size_before": "15",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "email",
+          "description": "정지사유",
+          "size_before": "15",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo1",
+          "description": "거래방법(위탁,우수,…)",
+          "size_before": "8",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo2",
+          "description": "배송방법(소망,택배,…)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo3",
+          "description": "출력안함,일괄출력",
+          "size_before": "8",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo4",
+          "description": "유지,보류,종료",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnum1",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnum2",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memos",
+          "description": "메모",
+          "size_before": "<blob>",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gssum",
+          "description": "한도액",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G3_Gbun",
+      "field_count": 6,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "구분명",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmmeo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G3_Gjeo",
+      "field_count": 38,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "저자코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gposa",
+          "description": "저자명",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "직작명",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "date1",
+          "description": "등록일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "date2",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gjice",
+          "description": "직책명",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gscho",
+          "description": "출신학교",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "사업자번호",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnum1",
+          "description": "주민등록",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnum2",
+          "description": "계좌번호",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel1",
+          "description": "전화(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel2",
+          "description": "전화(2)",
+          "size_before": "9",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax1",
+          "description": "팩스(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax2",
+          "description": "팩스(2)",
+          "size_before": "9",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpost",
+          "description": "집주소",
+          "size_before": "7",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd1",
+          "description": "주소(1)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd2",
+          "description": "주소(2)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpost",
+          "description": "직장주소",
+          "size_before": "7",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd1",
+          "description": "주소(1)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd2",
+          "description": "주소(2)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고1",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f11~f19",
+          "description": "필드사용 유무체크",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f21~f29",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f31~f39",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f41~f49",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f51~f59",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f61~f69",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f71~f79",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f81~f89",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "Ghost",
+          "description": "아이디",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "Gpass",
+          "description": "패스워드",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "yesno",
+          "description": "사용정지(유무)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G4_Book",
+      "field_count": 55,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "tcode",
+          "description": "북앤북(수량,부록,CD,태잎)",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "분류코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "도서처리",
+          "size_before": "6",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "pubun",
+          "description": "",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "도서구분",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "도서코드",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "도서명",
+          "size_before": "40",
+          "size_after": "80",
+          "char_or_num": ""
+        },
+        {
+          "field": "gjeja",
+          "description": "저자",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdabi",
+          "description": "단위",
+          "size_before": "6",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdang",
+          "description": "단가",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "odang",
+          "description": "매입가",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "price",
+          "description": "원가",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gisbn",
+          "description": "ISBN",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "grat1",
+          "description": "비율1(위탁)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat2",
+          "description": "비율2(현매)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat3",
+          "description": "비율3(매절)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat4",
+          "description": "비율4(납품)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat5",
+          "description": "비율5(특별)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat6",
+          "description": "비율6(기타)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat7",
+          "description": "비율7(한도),세액(손수레,북앤북)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat8",
+          "description": "셋트(물류청구)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat9",
+          "description": "정지유무(0,1)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "srat1",
+          "description": "인세율",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gbill",
+          "description": "도서질",
+          "size_before": "6",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "date1",
+          "description": "발행일",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "date2",
+          "description": "등록일",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "등록번호",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "판형",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "정지사유",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpage",
+          "description": "페이지(쪽수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gpan1",
+          "description": "페이지(판수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gpan2",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gbigo",
+          "description": "비고1",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "yesno",
+          "description": "종당관리비(유,무)",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jeja1",
+          "description": "",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jeja2",
+          "description": "",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "apost",
+          "description": "창고동위치",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpost",
+          "description": "서가위치",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "opost",
+          "description": "",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bcode",
+          "description": "",
+          "size_before": "13",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo1",
+          "description": "세액유무",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo2",
+          "description": "재고절판,재고현황에서 안보이기",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo3",
+          "description": "전자책",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo4",
+          "description": "청구서에 재고미청구",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memo1",
+          "description": "계약조건",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memo2",
+          "description": "메모2",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memos",
+          "description": "메모",
+          "size_before": "<blob>",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gqut1",
+          "description": "덩이(라벨)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut2",
+          "description": "그람(라벨)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gssum",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G4_Gbun",
+      "field_count": 10,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "구분명",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "grat1",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat2",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat3",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat4",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G5_Gbun",
+      "field_count": 6,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "구분명",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmmeo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G5_Ggeo",
+      "field_count": 48,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "tcode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "지역",
+          "size_before": "6",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "pubun",
+          "description": "출고증구분",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "거래처명",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gposa",
+          "description": "대표자명",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "사업자번호",
+          "size_before": "12",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "guper",
+          "description": "업태",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gjomo",
+          "description": "종목",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpost",
+          "description": "우편번호",
+          "size_before": "7",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd1",
+          "description": "주소(1)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd2",
+          "description": "주소(2)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel1",
+          "description": "전화(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel2",
+          "description": "전화(2)",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax1",
+          "description": "팩스(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax2",
+          "description": "팩스(2)",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "grat1",
+          "description": "비율1(위탁)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat2",
+          "description": "비율2(현매)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat3",
+          "description": "비율3(매절)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat4",
+          "description": "비율4(납품)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat5",
+          "description": "비율5(특별)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat6",
+          "description": "비율6(기타)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat7",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat8",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat9",
+          "description": "정지유무(0,1)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut1",
+          "description": "신간부수",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "yesno",
+          "description": "계산서발행유무",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "비고2",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "계산서(거래처명)",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpper",
+          "description": "담당자",
+          "size_before": "10",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고1",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gphon",
+          "description": "핸드폰번호",
+          "size_before": "15",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "email",
+          "description": "정지사유",
+          "size_before": "15",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo1",
+          "description": "거래방법(위탁,우수,…)",
+          "size_before": "8",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo2",
+          "description": "배송방법(소망,택배,…)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo3",
+          "description": "출력안함,일괄출력",
+          "size_before": "8",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo4",
+          "description": "유지,보류,종료",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnum1",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnum2",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memos",
+          "description": "메모",
+          "size_before": "<blob>",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gssum",
+          "description": "한도액",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G6_Ggeo",
+      "field_count": 19,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bcode",
+          "description": "도서코드",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "구분명",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "지역명",
+          "size_before": "6",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpper",
+          "description": "담당자",
+          "size_before": "10",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "grat1",
+          "description": "비율1(위탁)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat2",
+          "description": "비율2(현매)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat3",
+          "description": "비율3(매절)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat4",
+          "description": "비율4(납품)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat5",
+          "description": "비율5(특별)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat6",
+          "description": "비율6(기타)",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat7",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat8",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat9",
+          "description": "",
+          "size_before": "3",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gssum",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G7_Ggeo",
+      "field_count": 54,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "chek1",
+          "description": "반품입력유무(True),개별거래처(본사,창고)",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "chek2",
+          "description": "List별도(True,False),개별거래처(폐기->정품),북앤북:신영(과거자료수정할수있게)",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "chek3",
+          "description": "유통(도서셋트수량:사용유무)",
+          "size_before": "5",
+          "size_after": "ok:(더북)->창고재고 수정못하게",
+          "char_or_num": ""
+        },
+        {
+          "field": "chek4",
+          "description": "코업북(자료전송)",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "chek5",
+          "description": "과거자료수정유무(True,False)",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "hcode",
+          "description": "전표번호(사용유무),(bqut:반품입력시 정품이 먼저)",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "지역",
+          "size_before": "6",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "출고중지유무(Y,N)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "(1:사용중지,전송중지)",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "출판사명",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gposa",
+          "description": "대표자명",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "사업자번호",
+          "size_before": "12",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "guper",
+          "description": "업태",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "종목",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "핸드폰번호",
+          "size_before": "30",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "참고내용",
+          "size_before": "30",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "jumin",
+          "description": "계산서발행유무(True)",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpper",
+          "description": "담당자",
+          "size_before": "10",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpost",
+          "description": "우편번호",
+          "size_before": "7",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd1",
+          "description": "주소(1)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd2",
+          "description": "주소(2)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel1",
+          "description": "전화(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel2",
+          "description": "전화(2)",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax1",
+          "description": "팩스(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax2",
+          "description": "팩스(2)",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "email",
+          "description": "",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo1",
+          "description": "비고(청구서)",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "bigo2",
+          "description": "계좌번호",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnum1",
+          "description": "번호(수레사,해피데이)",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memo1",
+          "description": "명세서하단출력1",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memo2",
+          "description": "명세서하단출력2",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memo3",
+          "description": "명세서하단출력3",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "계약일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "date1",
+          "description": "시작일",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "date2",
+          "description": "종료일",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "yesno",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memos",
+          "description": "메모장",
+          "size_before": "",
+          "size_after": "blob",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "chek3",
+          "description": "ok: 창고(접수된 자료 수정못하고), 예)더북",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": "거래명세서,입고명세서,재고변경 창고재고 못하게, 예)최강물류",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": "True: 거래처(창고 미접수시 전송못하게), 예)경문사",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": ":배본사(도서셋트시 사용)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": "False:",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": "Jeago: 도서관리에 (본사,창고) 재고 보이게, 예)학고재",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": "isbn: 도서검색,거래현황isbn나오게, 예)K & J",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": "grat1,grat2: 입력전 내용불러오기(단가,비율), 예)스타리치북스",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": "grat9:거래명세서(사용유무된 거래처,도서)안나오게, 예)골든벨",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": "send: 문화유통,북센 등 자료전송, 예)플로스예감",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "",
+          "description": "bqut: 반품입력시 정품이 먼저, 예)경문사",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G8_Gbun",
+      "field_count": 6,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "구분코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "구분명",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmmeo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "G8_Ggeo",
+      "field_count": 23,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "",
+          "size_before": "6",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gposa",
+          "description": "",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "",
+          "size_before": "30",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "",
+          "size_before": "30",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpost",
+          "description": "우편번호",
+          "size_before": "7",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd1",
+          "description": "주소(1)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gadd2",
+          "description": "주소(2)",
+          "size_before": "44",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel1",
+          "description": "전화(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel2",
+          "description": "전화(2)",
+          "size_before": "14",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax1",
+          "description": "팩스(1)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gfax2",
+          "description": "팩스(2)",
+          "size_before": "14",
+          "size_after": "20",
+          "char_or_num": ""
+        },
+        {
+          "field": "email",
+          "description": "",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "H1_Gbun",
+      "field_count": 15,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "계정코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "계정과목(화면)",
+          "size_before": "20",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "oname",
+          "description": "계정과목(출력)",
+          "size_before": "40",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "초기일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "clas1",
+          "description": "현금",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "clas2",
+          "description": "어음",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "clas3",
+          "description": "은행",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsum1",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsum2",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsum3",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "scode",
+          "description": "구분(1,2,3,0)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "H1_Ssub",
+      "field_count": 21,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "idnum",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "구분(입금,출금)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "구분(X,Y,Z)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "거래처명",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "tcode",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "계정코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "oname",
+          "description": "계정명",
+          "size_before": "20",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gssum",
+          "description": "금액",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsumx",
+          "description": "전잔액",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsumy",
+          "description": "미수금",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "pubun",
+          "description": "구분(현금,어음,은행)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고",
+          "size_before": "15",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time1",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time2",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time3",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "H2_Gbun",
+      "field_count": 17,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "지점명",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "oname",
+          "description": "코드",
+          "size_before": "40",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "지역",
+          "size_before": "15",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "구분(시내,지방)",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "clas1",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "clas2",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "clas3",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsum1",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsum2",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsum3",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "scode",
+          "description": "구분(X,Y,Z)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "출고정지사유",
+          "size_before": "40",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "H4_Iyeo",
+      "field_count": 20,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "idnum",
+          "description": "",
+          "size_before": "int",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "어음번호",
+          "size_before": "12",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "발행처",
+          "size_before": "20",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gposa",
+          "description": "발행인",
+          "size_before": "20",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "date1",
+          "description": "발행일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "date2",
+          "description": "받은일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "date3",
+          "description": "지급일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "date4",
+          "description": "만기일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbang",
+          "description": "지급은행",
+          "size_before": "12",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "지급처",
+          "size_before": "12",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "지급지점",
+          "size_before": "20",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "처리코드(보유증,할인율)",
+          "size_before": "8",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "grat1",
+          "description": "할인율",
+          "size_before": "int",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gosum",
+          "description": "금액",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gssum",
+          "description": "할인금액",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gbigo",
+          "description": "비고",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "H5_Bang",
+      "field_count": 16,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "은행코드",
+          "size_before": "8",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "은행명",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gposa",
+          "description": "예금주",
+          "size_before": "10",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "계좌번호",
+          "size_before": "24",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "은행구분",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtels",
+          "description": "전화번호",
+          "size_before": "15",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "고객번호",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "거래점",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "초기일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "class",
+          "description": "초기금액",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gssum",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsusu",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "Id_Logn",
+      "field_count": 15,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "hname",
+          "description": "출판사명",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "사용자",
+          "size_before": "50",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "아이디",
+          "size_before": "50",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "f11~f19",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f21~f29",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f31~f39",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f41~f49",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f51~f59",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f61~f69",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f71~f79",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "f81~f89",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gpass",
+          "description": "paaword",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "Ie_Logn",
+      "field_count": 7,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "구분(T)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "저자코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bcode",
+          "description": "도서코드",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "S1_CheK",
+      "field_count": 17,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "구분(X,Y,Z)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "구분(A,B)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "전표구분",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gjisa",
+          "description": "지점명",
+          "size_before": "15",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "bcode",
+          "description": "도서코드",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gsqut",
+          "description": "수량",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "yesno",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time1",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time2",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time3",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time4",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "S1_Memo",
+      "field_count": 19,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "구분(X,Y,Z)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "구분(입고,출고,반품)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "전표구분",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "구분(A,B)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고(1)",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "sbigo",
+          "description": "비고(2)",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel1",
+          "description": "핸드폰번호",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gtel2",
+          "description": "전화번호",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gname",
+          "description": "받는사람",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gjisa",
+          "description": "지점명",
+          "size_before": "15",
+          "size_after": "30",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time1",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time2",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time3",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "S1_Ssub",
+      "field_count": 27,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "idnum",
+          "description": "",
+          "size_before": "int",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bdate",
+          "description": "반품일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "구분(X,Y,Z)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "구분(A,B)",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bcode",
+          "description": "도서코드",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "구분(입고,출고,반품)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "전표구분",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "pubun",
+          "description": "구분(위탁,현매,매절…)",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gsqut",
+          "description": "수량",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "qsqut",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gdang",
+          "description": "단가",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat1",
+          "description": "비율",
+          "size_before": "int",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gssum",
+          "description": "금액",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "jeago",
+          "description": "재고",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gbigo",
+          "description": "비고",
+          "size_before": "20",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "yesno",
+          "description": "접수유무",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gjisa",
+          "description": "지점명",
+          "size_before": "15",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time1",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time2",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time3",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time4",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "S2_Ssub",
+      "field_count": 59,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "ycode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gubun",
+          "description": "제작구분",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "scode",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "거래처명",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "hcode",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "ocode",
+          "description": "계정코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "oname",
+          "description": "계정명",
+          "size_before": "24",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "bcode",
+          "description": "도서코드",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gsqut",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gdang",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gssum",
+          "description": "금액",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gbigo",
+          "description": "비고",
+          "size_before": "20",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "sdate",
+          "description": "",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "sum01",
+          "description": "당월총출고부수",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum02",
+          "description": "기본부수및및월정료(부수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum03",
+          "description": "기본부수및및월정료(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum04",
+          "description": "기본부수및및월정료(합계)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum05",
+          "description": "초과부수(부수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum06",
+          "description": "초과부수(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum07",
+          "description": "초과부수(합계)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum08",
+          "description": "지방직송비(부수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum09",
+          "description": "지방직송비(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum10",
+          "description": "지방직송비(합계)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum11",
+          "description": "책보호대(부수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum12",
+          "description": "책보호대(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum13",
+          "description": "책보호대(합계)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum14",
+          "description": "박스대(부수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum15",
+          "description": "박스대(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum16",
+          "description": "박스대(합계)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum17",
+          "description": "발송비",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum18",
+          "description": "입출고월정관리비(부수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum19",
+          "description": "입출고월정관리비(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum20",
+          "description": "입출고월정관리비(합계)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum21",
+          "description": "입출고초과관리비(부수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum22",
+          "description": "입출고초과관리비(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum23",
+          "description": "입출고초과관리비(합계)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum24",
+          "description": "반품월정관리",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum25",
+          "description": "전산작업업무비",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum26",
+          "description": "전월미수금",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum27",
+          "description": "당월청구비",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum28",
+          "description": "부가세",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum29",
+          "description": "월말정폼도서총재고",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum30",
+          "description": "합계금액",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum31",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum32",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum33",
+          "description": "정품재고월보관비(부수)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum34",
+          "description": "정품재고월보관비(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum35",
+          "description": "정품재고월보관비(합계)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum36",
+          "description": "비고(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "sum37",
+          "description": "참고사항(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        }
+      ]
+    },
+    {
+      "table": "S3_Ssub",
+      "field_count": 13,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "저자코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "저자명",
+          "size_before": "20",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bcode",
+          "description": "적요",
+          "size_before": "10",
+          "size_after": "50",
+          "char_or_num": ""
+        },
+        {
+          "field": "gssum",
+          "description": "지급액",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "grat1",
+          "description": "세율",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gisum",
+          "description": "소득세",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gosum",
+          "description": "주민세",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gbsum",
+          "description": "합계",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "S4_Ssub",
+      "field_count": 18,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bcode",
+          "description": "도서코드",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "sdate",
+          "description": "출간예정일",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "담당자",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "memo1",
+          "description": "메모",
+          "size_before": "text",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gsqut",
+          "description": "수량",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdang",
+          "description": "단가",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "code1",
+          "description": "신간",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "code2",
+          "description": "요청",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "code3",
+          "description": "확인",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time1",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time2",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time3",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "time4",
+          "description": "datetime",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "T1_Gbun",
+      "field_count": 9,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "구분",
+          "size_before": "20",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gjisa",
+          "description": "지정명",
+          "size_before": "15",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "지역",
+          "size_before": "15",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "bebon",
+          "description": "배본",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "T1_Ssub",
+      "field_count": 14,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "거래처명",
+          "size_before": "24",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "지역명",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "화물명",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "운송장번호",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gsqut",
+          "description": "부수",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gdang",
+          "description": "단가",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gssum",
+          "description": "금액",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "T3_Ssub",
+      "field_count": 25,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "서점명",
+          "size_before": "24",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "발송비내역",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "반품내역",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gqut1",
+          "description": "시내부수",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut2",
+          "description": "지방부수",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut3",
+          "description": "박스대",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut4",
+          "description": "보호대",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut5",
+          "description": "반품총부수",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut6",
+          "description": "반품내역(박스)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut7",
+          "description": "반품내역(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut8",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut9",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gsqut",
+          "description": "발송내역(박스)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gssum",
+          "description": "발송내역(금액)",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "aqut1",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "aqut2",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "bqut1",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "bqut2",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "yesno",
+          "description": "저장유무",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "T4_Ssub",
+      "field_count": 14,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "거래처코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gjisa",
+          "description": "지점명",
+          "size_before": "15",
+          "size_after": "30",
+          "char_or_num": ""
+        },
+        {
+          "field": "jubun",
+          "description": "전표구분",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "pubun",
+          "description": "",
+          "size_before": "2",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gsqut",
+          "description": "",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut1",
+          "description": "덩이",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut2",
+          "description": "보호대",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut3",
+          "description": "박스",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gbigo",
+          "description": "비고",
+          "size_before": "40",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "T5_Ssub",
+      "field_count": 9,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "sdate",
+          "description": "입금일자",
+          "size_before": "7",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "청구일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gssum",
+          "description": "금액",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "pubun",
+          "description": "결재",
+          "size_before": "4",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고",
+          "size_before": "40",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmmeo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    },
+    {
+      "table": "T6_Ssub",
+      "field_count": 13,
+      "fields": [
+        {
+          "field": "id",
+          "description": "auto",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "hcode",
+          "description": "출판사코드",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gdate",
+          "description": "거래일자",
+          "size_before": "10",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gcode",
+          "description": "",
+          "size_before": "5",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gname",
+          "description": "거래처명",
+          "size_before": "24",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name1",
+          "description": "지역명",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "name2",
+          "description": "화물명",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gnumb",
+          "description": "운송장번호",
+          "size_before": "30",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gbigo",
+          "description": "비고",
+          "size_before": "50",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gqut1",
+          "description": "시내",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "gqut2",
+          "description": "지방",
+          "size_before": "",
+          "size_after": "",
+          "char_or_num": "n"
+        },
+        {
+          "field": "check",
+          "description": "",
+          "size_before": "1",
+          "size_after": "",
+          "char_or_num": ""
+        },
+        {
+          "field": "gmemo",
+          "description": "timestamp",
+          "size_before": "14",
+          "size_after": "",
+          "char_or_num": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5645 @@
+{
+  "source_catalog": "analysis/welove_chul_builds.json",
+  "secrets_policy": "Per docs/secrets-policy.md (G3): DFM/PAS 본문(메뉴 캡션·핸들러 이름)만 추출. Config.Ini 자격증명 미접근.",
+  "builds": [
+    {
+      "build_id": "BLD-DIST-STD",
+      "path": "WeLove_FTP/도서유통-총판",
+      "main_menu_found": true,
+      "top_bar": [
+        {
+          "object_id": "Menu100",
+          "caption": "기초관리",
+          "onclick": null,
+          "children_count": 13
+        },
+        {
+          "object_id": "Menu200",
+          "caption": "거래관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu300",
+          "caption": "원장관리",
+          "onclick": null,
+          "children_count": 10
+        },
+        {
+          "object_id": "Menu400",
+          "caption": "회계관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu500",
+          "caption": "자료관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu600",
+          "caption": "통계관리",
+          "onclick": null,
+          "children_count": 11
+        }
+      ],
+      "tree": [
+        {
+          "object_id": "Menu100",
+          "kind": "TMenuItem",
+          "caption": "기초관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu101",
+              "kind": "TMenuItem",
+              "caption": "거래처관리",
+              "onclick": "Menu101Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu102",
+              "kind": "TMenuItem",
+              "caption": "입고처관리",
+              "onclick": "Menu102Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu105",
+              "kind": "TMenuItem",
+              "caption": "기타거래처",
+              "onclick": "Menu105Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu108",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": "Menu108Click",
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu107",
+              "kind": "TMenuItem",
+              "caption": "출판사관리",
+              "onclick": "Menu107Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu191",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu104",
+              "kind": "TMenuItem",
+              "caption": "도서관리",
+              "onclick": "Menu104Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu103",
+              "kind": "TMenuItem",
+              "caption": "저자관리",
+              "onclick": "Menu103Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu106",
+              "kind": "TMenuItem",
+              "caption": "특별관리",
+              "onclick": "Menu106Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu192",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu110",
+              "kind": "TMenuItem",
+              "caption": "환경설정",
+              "onclick": "Menu110Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu193",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu109",
+              "kind": "TMenuItem",
+              "caption": "E&xit",
+              "onclick": "Menu109Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu200",
+          "kind": "TMenuItem",
+          "caption": "거래관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu201",
+              "kind": "TMenuItem",
+              "caption": "거래명세서",
+              "onclick": "Menu201Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202",
+              "kind": "TMenuItem",
+              "caption": "입고명세서",
+              "onclick": "Menu202Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu203",
+              "kind": "TMenuItem",
+              "caption": "기타명세서",
+              "onclick": "Menu203Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu291",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu204",
+              "kind": "TMenuItem",
+              "caption": "거래현황",
+              "onclick": "Menu204Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu205",
+              "kind": "TMenuItem",
+              "caption": "입고현황",
+              "onclick": "Menu205Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu292",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu206",
+              "kind": "TMenuItem",
+              "caption": "제작명세서",
+              "onclick": "Menu206Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu207",
+              "kind": "TMenuItem",
+              "caption": "제작현황",
+              "onclick": "Menu207Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu208",
+              "kind": "TMenuItem",
+              "caption": "원천징수",
+              "onclick": "Menu208Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu293",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu209",
+              "kind": "TMenuItem",
+              "caption": "신간발행",
+              "onclick": "Menu209Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu300",
+          "kind": "TMenuItem",
+          "caption": "원장관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu301",
+              "kind": "TMenuItem",
+              "caption": "거래처거래원장",
+              "onclick": "Menu301Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu302",
+              "kind": "TMenuItem",
+              "caption": "도서별수불원장",
+              "onclick": "Menu302Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu391",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu303",
+              "kind": "TMenuItem",
+              "caption": "기간별미수원장",
+              "onclick": "Menu303Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu304",
+              "kind": "TMenuItem",
+              "caption": "기간별재고원장",
+              "onclick": "Menu304Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu392",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu305",
+              "kind": "TMenuItem",
+              "caption": "거래처원장총괄",
+              "onclick": "Menu305Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu306",
+              "kind": "TMenuItem",
+              "caption": "도서별원장총괄",
+              "onclick": "Menu306Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu393",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu307",
+              "kind": "TMenuItem",
+              "caption": "담당자판매실적",
+              "onclick": "Menu307Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu400",
+          "kind": "TMenuItem",
+          "caption": "회계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu401",
+              "kind": "TMenuItem",
+              "caption": "입출금전표-거래처",
+              "onclick": "Menu401Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu402",
+              "kind": "TMenuItem",
+              "caption": "입출금전표-사무실",
+              "onclick": "Menu402Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu491",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu403",
+              "kind": "TMenuItem",
+              "caption": "계정원장",
+              "onclick": "Menu403Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu404",
+              "kind": "TMenuItem",
+              "caption": "현금출납장",
+              "onclick": "Menu404Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu405",
+              "kind": "TMenuItem",
+              "caption": "계정집계표",
+              "onclick": "Menu405Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu492",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu406",
+              "kind": "TMenuItem",
+              "caption": "어음관리",
+              "onclick": "Menu406Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu493",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu407",
+              "kind": "TMenuItem",
+              "caption": "계정년월집계",
+              "onclick": "Menu407Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu408",
+              "kind": "TMenuItem",
+              "caption": "계정월별집계",
+              "onclick": "Menu408Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu409",
+              "kind": "TMenuItem",
+              "caption": "계산서발행",
+              "onclick": "Menu409Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu500",
+          "kind": "TMenuItem",
+          "caption": "자료관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu501",
+              "kind": "TMenuItem",
+              "caption": "원장변경",
+              "onclick": "Menu501Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu502",
+              "kind": "TMenuItem",
+              "caption": "재고변경",
+              "onclick": "Menu502Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu591",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu503",
+              "kind": "TMenuItem",
+              "caption": "초기미수",
+              "onclick": "Menu503Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu504",
+              "kind": "TMenuItem",
+              "caption": "초기재고",
+              "onclick": "Menu504Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu505",
+              "kind": "TMenuItem",
+              "caption": "초기계정",
+              "onclick": "Menu505Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu592",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu506",
+              "kind": "TMenuItem",
+              "caption": "코드변경",
+              "onclick": "Menu506Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu507",
+              "kind": "TMenuItem",
+              "caption": "회계정리",
+              "onclick": "Menu507Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu593",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu508",
+              "kind": "TMenuItem",
+              "caption": "자료백업",
+              "onclick": "Menu508Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu509",
+              "kind": "TMenuItem",
+              "caption": "자료삭제",
+              "onclick": "Menu509Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu600",
+          "kind": "TMenuItem",
+          "caption": "통계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu601",
+              "kind": "TMenuItem",
+              "caption": "도서별판매",
+              "onclick": "Menu601Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu602",
+              "kind": "TMenuItem",
+              "caption": "거래처판매",
+              "onclick": "Menu602Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu691",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu603",
+              "kind": "TMenuItem",
+              "caption": "도서별집계",
+              "onclick": "Menu603Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu604",
+              "kind": "TMenuItem",
+              "caption": "거래처집계",
+              "onclick": "Menu604Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu692",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu605",
+              "kind": "TMenuItem",
+              "caption": "도서별출고현황",
+              "onclick": "Menu605Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu606",
+              "kind": "TMenuItem",
+              "caption": "거래처출고현황",
+              "onclick": "Menu606Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu693",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu607",
+              "kind": "TMenuItem",
+              "caption": "도서별년말집계",
+              "onclick": "Menu607Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu608",
+              "kind": "TMenuItem",
+              "caption": "거래처년말집계",
+              "onclick": "Menu608Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-STD",
+      "path": "WeLove_FTP/도서유통-출판",
+      "main_menu_found": true,
+      "top_bar": [
+        {
+          "object_id": "Menu100",
+          "caption": "기초관리",
+          "onclick": null,
+          "children_count": 13
+        },
+        {
+          "object_id": "Menu200",
+          "caption": "거래관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu300",
+          "caption": "원장관리",
+          "onclick": null,
+          "children_count": 10
+        },
+        {
+          "object_id": "Menu400",
+          "caption": "회계관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu500",
+          "caption": "자료관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu600",
+          "caption": "통계관리",
+          "onclick": null,
+          "children_count": 11
+        },
+        {
+          "object_id": "Menu700",
+          "caption": "년/월(통계)",
+          "onclick": null,
+          "children_count": 11
+        }
+      ],
+      "tree": [
+        {
+          "object_id": "Menu100",
+          "kind": "TMenuItem",
+          "caption": "기초관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu101",
+              "kind": "TMenuItem",
+              "caption": "거래처관리",
+              "onclick": "Menu101Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu102",
+              "kind": "TMenuItem",
+              "caption": "입고처관리",
+              "onclick": "Menu102Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu103",
+              "kind": "TMenuItem",
+              "caption": "저자관리",
+              "onclick": "Menu103Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu104",
+              "kind": "TMenuItem",
+              "caption": "도서관리",
+              "onclick": "Menu104Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu105",
+              "kind": "TMenuItem",
+              "caption": "기타거래처",
+              "onclick": "Menu105Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu191",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu106",
+              "kind": "TMenuItem",
+              "caption": "특별관리",
+              "onclick": "Menu106Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu107",
+              "kind": "TMenuItem",
+              "caption": "메뉴보이기",
+              "onclick": "Menu107Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu108",
+              "kind": "TMenuItem",
+              "caption": "메뉴감추기",
+              "onclick": "Menu108Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu193",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu110",
+              "kind": "TMenuItem",
+              "caption": "환경설정",
+              "onclick": "Menu110Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu192",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu109",
+              "kind": "TMenuItem",
+              "caption": "E&xit",
+              "onclick": "Menu109Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu200",
+          "kind": "TMenuItem",
+          "caption": "거래관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu201",
+              "kind": "TMenuItem",
+              "caption": "거래명세서",
+              "onclick": "Menu201Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202",
+              "kind": "TMenuItem",
+              "caption": "입고명세서",
+              "onclick": "Menu202Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu203",
+              "kind": "TMenuItem",
+              "caption": "기타명세서",
+              "onclick": "Menu203Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu291",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu204",
+              "kind": "TMenuItem",
+              "caption": "거래현황",
+              "onclick": "Menu204Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu205",
+              "kind": "TMenuItem",
+              "caption": "입고현황",
+              "onclick": "Menu205Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu292",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu206",
+              "kind": "TMenuItem",
+              "caption": "제작명세서",
+              "onclick": "Menu206Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu207",
+              "kind": "TMenuItem",
+              "caption": "제작현황",
+              "onclick": "Menu207Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu208",
+              "kind": "TMenuItem",
+              "caption": "원천징수",
+              "onclick": "Menu208Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu293",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu209",
+              "kind": "TMenuItem",
+              "caption": "신간발행",
+              "onclick": "Menu209Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu300",
+          "kind": "TMenuItem",
+          "caption": "원장관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu301",
+              "kind": "TMenuItem",
+              "caption": "거래처거래원장",
+              "onclick": "Menu301Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu302",
+              "kind": "TMenuItem",
+              "caption": "도서별수불원장",
+              "onclick": "Menu302Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu391",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu303",
+              "kind": "TMenuItem",
+              "caption": "기간별미수원장",
+              "onclick": "Menu303Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu304",
+              "kind": "TMenuItem",
+              "caption": "기간별재고원장",
+              "onclick": "Menu304Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu392",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu305",
+              "kind": "TMenuItem",
+              "caption": "거래처원장총괄",
+              "onclick": "Menu305Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu306",
+              "kind": "TMenuItem",
+              "caption": "도서별원장총괄",
+              "onclick": "Menu306Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu393",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu307",
+              "kind": "TMenuItem",
+              "caption": "담당자판매실적",
+              "onclick": "Menu307Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu400",
+          "kind": "TMenuItem",
+          "caption": "회계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu401",
+              "kind": "TMenuItem",
+              "caption": "입출금전표-거래처",
+              "onclick": "Menu401Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu402",
+              "kind": "TMenuItem",
+              "caption": "입출금전표-사무실",
+              "onclick": "Menu402Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu491",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu403",
+              "kind": "TMenuItem",
+              "caption": "계정원장",
+              "onclick": "Menu403Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu404",
+              "kind": "TMenuItem",
+              "caption": "현금출납장",
+              "onclick": "Menu404Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu405",
+              "kind": "TMenuItem",
+              "caption": "계정집계표",
+              "onclick": "Menu405Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu492",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu406",
+              "kind": "TMenuItem",
+              "caption": "어음관리",
+              "onclick": "Menu406Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu493",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu407",
+              "kind": "TMenuItem",
+              "caption": "계정년월집계",
+              "onclick": "Menu407Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu408",
+              "kind": "TMenuItem",
+              "caption": "계정월별집계",
+              "onclick": "Menu408Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu409",
+              "kind": "TMenuItem",
+              "caption": "계산서발행",
+              "onclick": "Menu409Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu500",
+          "kind": "TMenuItem",
+          "caption": "자료관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu501",
+              "kind": "TMenuItem",
+              "caption": "원장변경",
+              "onclick": "Menu501Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu502",
+              "kind": "TMenuItem",
+              "caption": "재고변경",
+              "onclick": "Menu502Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu591",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu503",
+              "kind": "TMenuItem",
+              "caption": "초기미수",
+              "onclick": "Menu503Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu504",
+              "kind": "TMenuItem",
+              "caption": "초기재고",
+              "onclick": "Menu504Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu505",
+              "kind": "TMenuItem",
+              "caption": "초기계정",
+              "onclick": "Menu505Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu592",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu506",
+              "kind": "TMenuItem",
+              "caption": "코드변경",
+              "onclick": "Menu506Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu507",
+              "kind": "TMenuItem",
+              "caption": "회계정리",
+              "onclick": "Menu507Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu593",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu508",
+              "kind": "TMenuItem",
+              "caption": "자료백업",
+              "onclick": "Menu508Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu509",
+              "kind": "TMenuItem",
+              "caption": "자료삭제",
+              "onclick": "Menu509Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu600",
+          "kind": "TMenuItem",
+          "caption": "통계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu601",
+              "kind": "TMenuItem",
+              "caption": "도서별판매",
+              "onclick": "Menu601Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu602",
+              "kind": "TMenuItem",
+              "caption": "거래처판매",
+              "onclick": "Menu602Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu691",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu603",
+              "kind": "TMenuItem",
+              "caption": "도서별집계",
+              "onclick": "Menu603Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu604",
+              "kind": "TMenuItem",
+              "caption": "거래처집계",
+              "onclick": "Menu604Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu692",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu605",
+              "kind": "TMenuItem",
+              "caption": "도서별출고현황",
+              "onclick": "Menu605Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu606",
+              "kind": "TMenuItem",
+              "caption": "거래처출고현황",
+              "onclick": "Menu606Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu693",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu607",
+              "kind": "TMenuItem",
+              "caption": "도서별년말집계",
+              "onclick": "Menu607Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu608",
+              "kind": "TMenuItem",
+              "caption": "거래처년말집계",
+              "onclick": "Menu608Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu700",
+          "kind": "TMenuItem",
+          "caption": "년/월(통계)",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu701",
+              "kind": "TMenuItem",
+              "caption": "도서별/분류별판매",
+              "onclick": "Menu701Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu702",
+              "kind": "TMenuItem",
+              "caption": "거래처/구분별판매",
+              "onclick": "Menu702Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu791",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu703",
+              "kind": "TMenuItem",
+              "caption": "도서별판매(년/월)",
+              "onclick": "Menu703Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu704",
+              "kind": "TMenuItem",
+              "caption": "거래처판매(년/월)",
+              "onclick": "Menu704Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu792",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu705",
+              "kind": "TMenuItem",
+              "caption": "년/월판매(도서별)",
+              "onclick": "Menu705Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu706",
+              "kind": "TMenuItem",
+              "caption": "년/월판매(거래처)",
+              "onclick": "Menu706Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu793",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu707",
+              "kind": "TMenuItem",
+              "caption": "거래처수금(년/월)",
+              "onclick": "Menu707Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu708",
+              "kind": "TMenuItem",
+              "caption": "거래처수금(구분별)",
+              "onclick": "Menu708Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "build_id": "BLD-DIST-KBT",
+      "path": "WeLove_FTP/도서유통-New/도서유통/한국도서유통/유통",
+      "main_menu_found": true,
+      "top_bar": [
+        {
+          "object_id": "Menu200",
+          "caption": "출고관리",
+          "onclick": null,
+          "children_count": 14
+        },
+        {
+          "object_id": "Menu900",
+          "caption": "택배관리",
+          "onclick": null,
+          "children_count": 8
+        },
+        {
+          "object_id": "Menu300",
+          "caption": "재고원장",
+          "onclick": null,
+          "children_count": 7
+        },
+        {
+          "object_id": "Menu700",
+          "caption": "재고관리",
+          "onclick": null,
+          "children_count": 13
+        },
+        {
+          "object_id": "Menu400",
+          "caption": "발송비/입금관리",
+          "onclick": null,
+          "children_count": 16
+        },
+        {
+          "object_id": "Menu500",
+          "caption": "내역서관리",
+          "onclick": null,
+          "children_count": 10
+        },
+        {
+          "object_id": "Menu600",
+          "caption": "통계관리",
+          "onclick": null,
+          "children_count": 11
+        },
+        {
+          "object_id": "Menu800",
+          "caption": "반품관리",
+          "onclick": null,
+          "children_count": 7
+        },
+        {
+          "object_id": "Menu100",
+          "caption": "기초관리",
+          "onclick": null,
+          "children_count": 20
+        }
+      ],
+      "tree": [
+        {
+          "object_id": "Menu200",
+          "kind": "TMenuItem",
+          "caption": "출고관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu207",
+              "kind": "TMenuItem",
+              "caption": "출고접수관리",
+              "onclick": "Menu207Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu206",
+              "kind": "TMenuItem",
+              "caption": "출고접수현황",
+              "onclick": "Menu206Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu208",
+              "kind": "TMenuItem",
+              "caption": "출고택배관리",
+              "onclick": "Menu208Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu509_2",
+              "kind": "TMenuItem",
+              "caption": "출고검증관리",
+              "onclick": "Menu509_2Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu509_3",
+              "kind": "TMenuItem",
+              "caption": "출고검증관리(개별)",
+              "onclick": "Menu509_3Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu291",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu201",
+              "kind": "TMenuItem",
+              "caption": "거래명세서",
+              "onclick": "Menu201Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202",
+              "kind": "TMenuItem",
+              "caption": "입고명세서",
+              "onclick": "Menu202Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu203",
+              "kind": "TMenuItem",
+              "caption": "반품명세서",
+              "onclick": "Menu203Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202_0",
+              "kind": "TMenuItem",
+              "caption": "신간가입고 관리",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu202_1",
+                  "kind": "TMenuItem",
+                  "caption": "가입고요청서",
+                  "onclick": "Menu202_1Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu202_2",
+                  "kind": "TMenuItem",
+                  "caption": "가입고현황",
+                  "onclick": "Menu202_2Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "Menu293",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu209",
+              "kind": "TMenuItem",
+              "caption": "신간발행",
+              "onclick": "Menu209Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu292",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu308",
+              "kind": "TMenuItem",
+              "caption": "전송자료받기(FTP)",
+              "onclick": "Menu308Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu900",
+          "kind": "TMenuItem",
+          "caption": "택배관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu907",
+              "kind": "TMenuItem",
+              "caption": "출고접수관리",
+              "onclick": "Menu907Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu906",
+              "kind": "TMenuItem",
+              "caption": "출고접수현황",
+              "onclick": "Menu906Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu908",
+              "kind": "TMenuItem",
+              "caption": "출고택배관리",
+              "onclick": "Menu908Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu991",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu901",
+              "kind": "TMenuItem",
+              "caption": "기타명세서",
+              "onclick": "Menu901Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu992",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu909",
+              "kind": "TMenuItem",
+              "caption": "출고내역서",
+              "onclick": "Menu909Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu903",
+              "kind": "TMenuItem",
+              "caption": "일별 출고내역서",
+              "onclick": "Menu903Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu300",
+          "kind": "TMenuItem",
+          "caption": "재고원장",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu301",
+              "kind": "TMenuItem",
+              "caption": "도서별수불원장",
+              "onclick": "Menu301Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu303",
+              "kind": "TMenuItem",
+              "caption": "기간별재고원장",
+              "onclick": "Menu303Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu304_0",
+              "kind": "TMenuItem",
+              "caption": "기간별재고(세분)",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu304_2",
+                  "kind": "TMenuItem",
+                  "caption": "기간별재고원장(정품)",
+                  "onclick": "Menu304_2Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu304_3",
+                  "kind": "TMenuItem",
+                  "caption": "기간별재고원장(비품)",
+                  "onclick": "Menu304_3Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu304_4",
+                  "kind": "TMenuItem",
+                  "caption": "기간별재고원장(폐기)",
+                  "onclick": "Menu304_4Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "Menu593",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu302",
+              "kind": "TMenuItem",
+              "caption": "기간별평균재고",
+              "onclick": "Menu302Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu302_1",
+              "kind": "TMenuItem",
+              "caption": "출판사재고현황",
+              "onclick": "Menu302_1Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu304_1",
+              "kind": "TMenuItem",
+              "caption": "재고 및 재고금액",
+              "onclick": "Menu304_1Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu700",
+          "kind": "TMenuItem",
+          "caption": "재고관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu502",
+              "kind": "TMenuItem",
+              "caption": "정품재고(변경)",
+              "onclick": "Menu502Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu501",
+              "kind": "TMenuItem",
+              "caption": "반품재고(변경)",
+              "onclick": "Menu501Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu393",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu204",
+              "kind": "TMenuItem",
+              "caption": "반품재고(정품입고)-재생",
+              "onclick": "Menu204Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu205",
+              "kind": "TMenuItem",
+              "caption": "반품재고(반품입고)-해체",
+              "onclick": "Menu205Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu392",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu304",
+              "kind": "TMenuItem",
+              "caption": "정품재고(폐기)",
+              "onclick": "Menu304Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu305",
+              "kind": "TMenuItem",
+              "caption": "반품재고(폐기)",
+              "onclick": "Menu305Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu391",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu359",
+              "kind": "TMenuItem",
+              "caption": "폐기재고(파기)",
+              "onclick": "Menu359Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu394",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu319",
+              "kind": "TMenuItem",
+              "caption": "반품재고입력-자체운영",
+              "onclick": "Menu319Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu329",
+              "kind": "TMenuItem",
+              "caption": "반품재고현황-자체운영",
+              "onclick": "Menu329Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu400",
+          "kind": "TMenuItem",
+          "caption": "발송비/입금관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "N1",
+              "kind": "TMenuItem",
+              "caption": "발송비관리",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu403",
+                  "kind": "TMenuItem",
+                  "caption": "발송비내역",
+                  "onclick": "Menu403Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu404",
+                  "kind": "TMenuItem",
+                  "caption": "발송비현황",
+                  "onclick": "Menu404Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "N2",
+              "kind": "TMenuItem",
+              "caption": "반 품 수 거",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu306",
+                  "kind": "TMenuItem",
+                  "caption": "반품수거내역",
+                  "onclick": "Menu306Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu307",
+                  "kind": "TMenuItem",
+                  "caption": "반품수거현황",
+                  "onclick": "Menu307Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "Menu204_9",
+              "kind": "TMenuItem",
+              "caption": "명세서 발송건수",
+              "onclick": "Menu204_9Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu493",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu405",
+              "kind": "TMenuItem",
+              "caption": "청구서관리",
+              "onclick": "Menu405Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu406",
+              "kind": "TMenuItem",
+              "caption": "청구서출력",
+              "onclick": "Menu406Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu409",
+              "kind": "TMenuItem",
+              "caption": "세금계산서",
+              "onclick": "Menu409Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu494",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu308_1",
+              "kind": "TMenuItem",
+              "caption": "운임관리-택배",
+              "onclick": "Menu308_1Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu405_1",
+              "kind": "TMenuItem",
+              "caption": "청구서관리-택배",
+              "onclick": "Menu405_1Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu491",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu402_0",
+              "kind": "TMenuItem",
+              "caption": "입금관리",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu401",
+                  "kind": "TMenuItem",
+                  "caption": "입금내역",
+                  "onclick": "Menu401Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu402",
+                  "kind": "TMenuItem",
+                  "caption": "입금현황(1)",
+                  "onclick": "Menu402Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu402_1",
+                  "kind": "TMenuItem",
+                  "caption": "입금현황(2)",
+                  "onclick": "Menu402_1Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "Menu407",
+              "kind": "TMenuItem",
+              "caption": "청구금액(년월)",
+              "onclick": "Menu407Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu492",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu309",
+              "kind": "TMenuItem",
+              "caption": "출고내역서",
+              "onclick": "Menu309Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu310",
+              "kind": "TMenuItem",
+              "caption": "메세지(팝업창)",
+              "onclick": "Menu310Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu500",
+          "kind": "TMenuItem",
+          "caption": "내역서관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu503",
+              "kind": "TMenuItem",
+              "caption": "일별 출고내역서",
+              "onclick": "Menu503Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu504",
+              "kind": "TMenuItem",
+              "caption": "일별 입고내역서",
+              "onclick": "Menu504Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu505",
+              "kind": "TMenuItem",
+              "caption": "일별 반품내역서",
+              "onclick": "Menu505Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu509_1",
+              "kind": "TMenuItem",
+              "caption": "일별 내역서(요약)",
+              "onclick": "Menu509_1Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu591",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu506",
+              "kind": "TMenuItem",
+              "caption": "기간별출고내역서",
+              "onclick": "Menu506Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu507",
+              "kind": "TMenuItem",
+              "caption": "기간별입고내역서",
+              "onclick": "Menu507Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu508",
+              "kind": "TMenuItem",
+              "caption": "기간별반품내역서",
+              "onclick": "Menu508Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu592",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu509",
+              "kind": "TMenuItem",
+              "caption": "기간별택배내역서",
+              "onclick": "Menu509Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu600",
+          "kind": "TMenuItem",
+          "caption": "통계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu601",
+              "kind": "TMenuItem",
+              "caption": "도서별판매",
+              "onclick": "Menu601Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu602",
+              "kind": "TMenuItem",
+              "caption": "거래처판매",
+              "onclick": "Menu602Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu691",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu607",
+              "kind": "TMenuItem",
+              "caption": "도서별년말집계",
+              "onclick": "Menu607Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu608",
+              "kind": "TMenuItem",
+              "caption": "거래처년말집계",
+              "onclick": "Menu608Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu692",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu605",
+              "kind": "TMenuItem",
+              "caption": "출판사별판매(1)",
+              "onclick": "Menu605Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu606",
+              "kind": "TMenuItem",
+              "caption": "출판사별판매(2)",
+              "onclick": "Menu606Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu693",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu603",
+              "kind": "TMenuItem",
+              "caption": "출판사월별집계(1)",
+              "onclick": "Menu603Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu604",
+              "kind": "TMenuItem",
+              "caption": "출판사월별집계(2)",
+              "onclick": "Menu604Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu800",
+          "kind": "TMenuItem",
+          "caption": "반품관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu801",
+              "kind": "TMenuItem",
+              "caption": "반품명세서",
+              "onclick": "Menu801Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu891",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu802",
+              "kind": "TMenuItem",
+              "caption": "반품재고원장",
+              "onclick": "Menu802Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu803",
+              "kind": "TMenuItem",
+              "caption": "반품재고현황",
+              "onclick": "Menu803Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu892",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu804",
+              "kind": "TMenuItem",
+              "caption": "일자별 반품내역서",
+              "onclick": "Menu804Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu805",
+              "kind": "TMenuItem",
+              "caption": "기간별 반품내역서",
+              "onclick": "Menu805Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu100",
+          "kind": "TMenuItem",
+          "caption": "기초관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu107",
+              "kind": "TMenuItem",
+              "caption": "출판사관리",
+              "onclick": "Menu107Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu107_1",
+              "kind": "TMenuItem",
+              "caption": "출판사관리-택배",
+              "onclick": "Menu107_1Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu102",
+              "kind": "TMenuItem",
+              "caption": "입고처관리",
+              "onclick": "Menu102Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu408",
+              "kind": "TMenuItem",
+              "caption": "출판사관리(설정)",
+              "onclick": "Menu408Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu195",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu410",
+              "kind": "TMenuItem",
+              "caption": "출판사MMS(설정)",
+              "onclick": "Menu410Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu411",
+              "kind": "TMenuItem",
+              "caption": "출판사MMS(조회)",
+              "onclick": "Menu411Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu194",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu101",
+              "kind": "TMenuItem",
+              "caption": "거래처관리-통합",
+              "onclick": "Menu101Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu105",
+              "kind": "TMenuItem",
+              "caption": "거래처관리-개별",
+              "onclick": "Menu105Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu191",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu104",
+              "kind": "TMenuItem",
+              "caption": "도서관리",
+              "onclick": "Menu104Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu108",
+              "kind": "TMenuItem",
+              "caption": "종당관리(도서)",
+              "onclick": "Menu108Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu106",
+              "kind": "TMenuItem",
+              "caption": "특별관리",
+              "onclick": "Menu106Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu192",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu103",
+              "kind": "TMenuItem",
+              "caption": "지역분류(시내+지방)",
+              "onclick": "Menu103Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu103_1",
+              "kind": "TMenuItem",
+              "caption": "출고증정렬",
+              "onclick": "Menu103_1Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu110",
+              "kind": "TMenuItem",
+              "caption": "환경설정",
+              "onclick": "Menu110Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu193",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu109",
+              "kind": "TMenuItem",
+              "caption": "E&xit",
+              "onclick": "Menu109Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-KBT",
+      "path": "WeLove_FTP/도서유통-New/도서유통/한국도서유통/출판",
+      "main_menu_found": true,
+      "top_bar": [
+        {
+          "object_id": "Menu100",
+          "caption": "기초관리",
+          "onclick": null,
+          "children_count": 13
+        },
+        {
+          "object_id": "Menu200",
+          "caption": "거래관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu300",
+          "caption": "원장관리",
+          "onclick": null,
+          "children_count": 10
+        },
+        {
+          "object_id": "Menu400",
+          "caption": "회계관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu500",
+          "caption": "자료관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu600",
+          "caption": "통계관리",
+          "onclick": null,
+          "children_count": 11
+        },
+        {
+          "object_id": "Menu700",
+          "caption": "년/월(통계)",
+          "onclick": null,
+          "children_count": 11
+        }
+      ],
+      "tree": [
+        {
+          "object_id": "Menu100",
+          "kind": "TMenuItem",
+          "caption": "기초관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu101",
+              "kind": "TMenuItem",
+              "caption": "거래처관리",
+              "onclick": "Menu101Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu102",
+              "kind": "TMenuItem",
+              "caption": "입고처관리",
+              "onclick": "Menu102Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu103",
+              "kind": "TMenuItem",
+              "caption": "저자관리",
+              "onclick": "Menu103Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu104",
+              "kind": "TMenuItem",
+              "caption": "도서관리",
+              "onclick": "Menu104Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu105",
+              "kind": "TMenuItem",
+              "caption": "기타거래처",
+              "onclick": "Menu105Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu191",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu106",
+              "kind": "TMenuItem",
+              "caption": "특별관리",
+              "onclick": "Menu106Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu107",
+              "kind": "TMenuItem",
+              "caption": "메뉴보이기",
+              "onclick": "Menu107Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu108",
+              "kind": "TMenuItem",
+              "caption": "메뉴감추기",
+              "onclick": "Menu108Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu193",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu110",
+              "kind": "TMenuItem",
+              "caption": "환경설정",
+              "onclick": "Menu110Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu192",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu109",
+              "kind": "TMenuItem",
+              "caption": "E&xit",
+              "onclick": "Menu109Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu200",
+          "kind": "TMenuItem",
+          "caption": "거래관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu201",
+              "kind": "TMenuItem",
+              "caption": "거래명세서",
+              "onclick": "Menu201Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202",
+              "kind": "TMenuItem",
+              "caption": "입고명세서",
+              "onclick": "Menu202Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu203",
+              "kind": "TMenuItem",
+              "caption": "기타명세서",
+              "onclick": "Menu203Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu291",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu204",
+              "kind": "TMenuItem",
+              "caption": "거래현황",
+              "onclick": "Menu204Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu205",
+              "kind": "TMenuItem",
+              "caption": "입고현황",
+              "onclick": "Menu205Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu292",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu206",
+              "kind": "TMenuItem",
+              "caption": "제작명세서",
+              "onclick": "Menu206Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu207",
+              "kind": "TMenuItem",
+              "caption": "제작현황",
+              "onclick": "Menu207Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu208",
+              "kind": "TMenuItem",
+              "caption": "원천징수",
+              "onclick": "Menu208Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu293",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu209",
+              "kind": "TMenuItem",
+              "caption": "신간발행",
+              "onclick": "Menu209Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu300",
+          "kind": "TMenuItem",
+          "caption": "원장관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu301",
+              "kind": "TMenuItem",
+              "caption": "거래처거래원장",
+              "onclick": "Menu301Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu302",
+              "kind": "TMenuItem",
+              "caption": "도서별수불원장",
+              "onclick": "Menu302Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu391",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu303",
+              "kind": "TMenuItem",
+              "caption": "기간별미수원장",
+              "onclick": "Menu303Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu304",
+              "kind": "TMenuItem",
+              "caption": "기간별재고원장",
+              "onclick": "Menu304Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu392",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu305",
+              "kind": "TMenuItem",
+              "caption": "거래처원장총괄",
+              "onclick": "Menu305Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu306",
+              "kind": "TMenuItem",
+              "caption": "도서별원장총괄",
+              "onclick": "Menu306Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu393",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu307",
+              "kind": "TMenuItem",
+              "caption": "담당자판매실적",
+              "onclick": "Menu307Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu400",
+          "kind": "TMenuItem",
+          "caption": "회계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu401",
+              "kind": "TMenuItem",
+              "caption": "입출금전표-거래처",
+              "onclick": "Menu401Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu402",
+              "kind": "TMenuItem",
+              "caption": "입출금전표-사무실",
+              "onclick": "Menu402Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu491",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu403",
+              "kind": "TMenuItem",
+              "caption": "계정원장",
+              "onclick": "Menu403Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu404",
+              "kind": "TMenuItem",
+              "caption": "현금출납장",
+              "onclick": "Menu404Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu405",
+              "kind": "TMenuItem",
+              "caption": "계정집계표",
+              "onclick": "Menu405Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu492",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu406",
+              "kind": "TMenuItem",
+              "caption": "어음관리",
+              "onclick": "Menu406Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu493",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu407",
+              "kind": "TMenuItem",
+              "caption": "계정년월집계",
+              "onclick": "Menu407Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu408",
+              "kind": "TMenuItem",
+              "caption": "계정월별집계",
+              "onclick": "Menu408Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu409",
+              "kind": "TMenuItem",
+              "caption": "계산서발행",
+              "onclick": "Menu409Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu500",
+          "kind": "TMenuItem",
+          "caption": "자료관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu501",
+              "kind": "TMenuItem",
+              "caption": "원장변경",
+              "onclick": "Menu501Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu502",
+              "kind": "TMenuItem",
+              "caption": "재고변경",
+              "onclick": "Menu502Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu591",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu503",
+              "kind": "TMenuItem",
+              "caption": "초기미수",
+              "onclick": "Menu503Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu504",
+              "kind": "TMenuItem",
+              "caption": "초기재고",
+              "onclick": "Menu504Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu505",
+              "kind": "TMenuItem",
+              "caption": "초기계정",
+              "onclick": "Menu505Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu592",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu506",
+              "kind": "TMenuItem",
+              "caption": "코드변경",
+              "onclick": "Menu506Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu507",
+              "kind": "TMenuItem",
+              "caption": "회계정리",
+              "onclick": "Menu507Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu593",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu508",
+              "kind": "TMenuItem",
+              "caption": "자료백업",
+              "onclick": "Menu508Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu509",
+              "kind": "TMenuItem",
+              "caption": "자료삭제",
+              "onclick": "Menu509Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu600",
+          "kind": "TMenuItem",
+          "caption": "통계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu601",
+              "kind": "TMenuItem",
+              "caption": "도서별판매",
+              "onclick": "Menu601Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu602",
+              "kind": "TMenuItem",
+              "caption": "거래처판매",
+              "onclick": "Menu602Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu691",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu603",
+              "kind": "TMenuItem",
+              "caption": "도서별집계",
+              "onclick": "Menu603Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu604",
+              "kind": "TMenuItem",
+              "caption": "거래처집계",
+              "onclick": "Menu604Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu692",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu605",
+              "kind": "TMenuItem",
+              "caption": "도서별출고현황",
+              "onclick": "Menu605Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu606",
+              "kind": "TMenuItem",
+              "caption": "거래처출고현황",
+              "onclick": "Menu606Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu693",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu607",
+              "kind": "TMenuItem",
+              "caption": "도서별년말집계",
+              "onclick": "Menu607Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu608",
+              "kind": "TMenuItem",
+              "caption": "거래처년말집계",
+              "onclick": "Menu608Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu700",
+          "kind": "TMenuItem",
+          "caption": "년/월(통계)",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu701",
+              "kind": "TMenuItem",
+              "caption": "도서별/분류별판매",
+              "onclick": "Menu701Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu702",
+              "kind": "TMenuItem",
+              "caption": "거래처/구분별판매",
+              "onclick": "Menu702Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu791",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu703",
+              "kind": "TMenuItem",
+              "caption": "도서별판매(년/월)",
+              "onclick": "Menu703Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu704",
+              "kind": "TMenuItem",
+              "caption": "거래처판매(년/월)",
+              "onclick": "Menu704Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu792",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu705",
+              "kind": "TMenuItem",
+              "caption": "년/월판매(도서별)",
+              "onclick": "Menu705Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu706",
+              "kind": "TMenuItem",
+              "caption": "년/월판매(거래처)",
+              "onclick": "Menu706Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu793",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu707",
+              "kind": "TMenuItem",
+              "caption": "거래처수금(년/월)",
+              "onclick": "Menu707Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu708",
+              "kind": "TMenuItem",
+              "caption": "거래처수금(구분별)",
+              "onclick": "Menu708Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-WAREHOUSE-WELOVE",
+      "path": "WeLove_FTP/도서유통-New/도서유통/chul_09(위러브)",
+      "main_menu_found": true,
+      "top_bar": [
+        {
+          "object_id": "Menu200",
+          "caption": "출고관리",
+          "onclick": null,
+          "children_count": 11
+        },
+        {
+          "object_id": "Menu300",
+          "caption": "재고원장",
+          "onclick": null,
+          "children_count": 2
+        },
+        {
+          "object_id": "Menu700",
+          "caption": "반품재고관리",
+          "onclick": null,
+          "children_count": 9
+        },
+        {
+          "object_id": "Menu400",
+          "caption": "발송비/입금관리",
+          "onclick": null,
+          "children_count": 10
+        },
+        {
+          "object_id": "Menu500",
+          "caption": "내역서관리",
+          "onclick": null,
+          "children_count": 9
+        },
+        {
+          "object_id": "Menu600",
+          "caption": "통계관리",
+          "onclick": null,
+          "children_count": 11
+        },
+        {
+          "object_id": "Menu100",
+          "caption": "기초관리",
+          "onclick": null,
+          "children_count": 13
+        }
+      ],
+      "tree": [
+        {
+          "object_id": "Menu200",
+          "kind": "TMenuItem",
+          "caption": "출고관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu207",
+              "kind": "TMenuItem",
+              "caption": "출고접수관리",
+              "onclick": "Menu207Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu206",
+              "kind": "TMenuItem",
+              "caption": "출고접수현황",
+              "onclick": "Menu206Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu208",
+              "kind": "TMenuItem",
+              "caption": "출고택배관리",
+              "onclick": "Menu208Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu291",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu201",
+              "kind": "TMenuItem",
+              "caption": "거래명세서",
+              "onclick": "Menu201Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202",
+              "kind": "TMenuItem",
+              "caption": "입고명세서",
+              "onclick": "Menu202Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu203",
+              "kind": "TMenuItem",
+              "caption": "반품명세서",
+              "onclick": "Menu203Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu293",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu209",
+              "kind": "TMenuItem",
+              "caption": "신간발행",
+              "onclick": "Menu209Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu292",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu308",
+              "kind": "TMenuItem",
+              "caption": "전송자료받기(FTP)",
+              "onclick": "Menu308Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu300",
+          "kind": "TMenuItem",
+          "caption": "재고원장",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu301",
+              "kind": "TMenuItem",
+              "caption": "도서별수불원장",
+              "onclick": "Menu301Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu303",
+              "kind": "TMenuItem",
+              "caption": "기간별재고원장",
+              "onclick": "Menu303Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu700",
+          "kind": "TMenuItem",
+          "caption": "반품재고관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu502",
+              "kind": "TMenuItem",
+              "caption": "재고변경(정품재고)",
+              "onclick": "Menu502Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu501",
+              "kind": "TMenuItem",
+              "caption": "재고변경(반품재고)",
+              "onclick": "Menu501Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu393",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu204",
+              "kind": "TMenuItem",
+              "caption": "반품재고(입고)",
+              "onclick": "Menu204Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu205",
+              "kind": "TMenuItem",
+              "caption": "반품재고(폐기)",
+              "onclick": "Menu205Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu391",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu302",
+              "kind": "TMenuItem",
+              "caption": "반품재고입력-자체운영",
+              "onclick": "Menu302Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu304",
+              "kind": "TMenuItem",
+              "caption": "반품재고현황-자체운영",
+              "onclick": "Menu304Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu392",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu400",
+          "kind": "TMenuItem",
+          "caption": "발송비/입금관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu403",
+              "kind": "TMenuItem",
+              "caption": "발송비내역",
+              "onclick": "Menu403Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu404",
+              "kind": "TMenuItem",
+              "caption": "발송비현황",
+              "onclick": "Menu404Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu405",
+              "kind": "TMenuItem",
+              "caption": "청구서관리",
+              "onclick": "Menu405Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu491",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu401",
+              "kind": "TMenuItem",
+              "caption": "입금내역",
+              "onclick": "Menu401Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu402",
+              "kind": "TMenuItem",
+              "caption": "입금현황",
+              "onclick": "Menu402Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu492",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu309",
+              "kind": "TMenuItem",
+              "caption": "출고내역서",
+              "onclick": "Menu309Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu307",
+              "kind": "TMenuItem",
+              "caption": "메세지(팝업창)",
+              "onclick": "Menu307Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu493",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu500",
+          "kind": "TMenuItem",
+          "caption": "내역서관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu503",
+              "kind": "TMenuItem",
+              "caption": "일별 출고내역서",
+              "onclick": "Menu503Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu504",
+              "kind": "TMenuItem",
+              "caption": "일별 입고내역서",
+              "onclick": "Menu504Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu505",
+              "kind": "TMenuItem",
+              "caption": "일별 반품내역서",
+              "onclick": "Menu505Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu591",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu506",
+              "kind": "TMenuItem",
+              "caption": "기간별출고내역서",
+              "onclick": "Menu506Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu507",
+              "kind": "TMenuItem",
+              "caption": "기간별입고내역서",
+              "onclick": "Menu507Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu508",
+              "kind": "TMenuItem",
+              "caption": "기간별반품내역서",
+              "onclick": "Menu508Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu592",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu593",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu600",
+          "kind": "TMenuItem",
+          "caption": "통계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu601",
+              "kind": "TMenuItem",
+              "caption": "도서별판매",
+              "onclick": "Menu601Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu602",
+              "kind": "TMenuItem",
+              "caption": "거래처판매",
+              "onclick": "Menu602Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu691",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu607",
+              "kind": "TMenuItem",
+              "caption": "도서별년말집계",
+              "onclick": "Menu607Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu608",
+              "kind": "TMenuItem",
+              "caption": "거래처년말집계",
+              "onclick": "Menu608Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu692",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu605",
+              "kind": "TMenuItem",
+              "caption": "출판사별판매(1)",
+              "onclick": "Menu605Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu606",
+              "kind": "TMenuItem",
+              "caption": "출판사별판매(2)",
+              "onclick": "Menu606Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu693",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu603",
+              "kind": "TMenuItem",
+              "caption": "출판사월별집계(1)",
+              "onclick": "Menu603Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu604",
+              "kind": "TMenuItem",
+              "caption": "출판사월별집계(2)",
+              "onclick": "Menu604Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu100",
+          "kind": "TMenuItem",
+          "caption": "기초관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu107",
+              "kind": "TMenuItem",
+              "caption": "출판사관리",
+              "onclick": "Menu107Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu102",
+              "kind": "TMenuItem",
+              "caption": "입고처관리",
+              "onclick": "Menu102Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu108",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": "Menu108Click",
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu101",
+              "kind": "TMenuItem",
+              "caption": "거래처관리-통합",
+              "onclick": "Menu101Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu105",
+              "kind": "TMenuItem",
+              "caption": "거래처관리-개별",
+              "onclick": "Menu105Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu191",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu104",
+              "kind": "TMenuItem",
+              "caption": "도서관리",
+              "onclick": "Menu104Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu106",
+              "kind": "TMenuItem",
+              "caption": "특별관리",
+              "onclick": "Menu106Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu192",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu103",
+              "kind": "TMenuItem",
+              "caption": "지역분류",
+              "onclick": "Menu103Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu110",
+              "kind": "TMenuItem",
+              "caption": "환경설정",
+              "onclick": "Menu110Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu193",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu109",
+              "kind": "TMenuItem",
+              "caption": "E&xit",
+              "onclick": "Menu109Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-WAREHOUSE-MS",
+      "path": "WeLove_FTP/도서유통-New/도서유통/book_21(MS북스)",
+      "main_menu_found": true,
+      "top_bar": [
+        {
+          "object_id": "Menu200",
+          "caption": "출고관리",
+          "onclick": null,
+          "children_count": 14
+        },
+        {
+          "object_id": "Menu300",
+          "caption": "재고원장",
+          "onclick": null,
+          "children_count": 5
+        },
+        {
+          "object_id": "Menu700",
+          "caption": "재고관리",
+          "onclick": null,
+          "children_count": 11
+        },
+        {
+          "object_id": "Menu400",
+          "caption": "발송비/입금관리",
+          "onclick": null,
+          "children_count": 13
+        },
+        {
+          "object_id": "Menu500",
+          "caption": "내역서관리",
+          "onclick": null,
+          "children_count": 10
+        },
+        {
+          "object_id": "Menu600",
+          "caption": "통계관리",
+          "onclick": null,
+          "children_count": 11
+        },
+        {
+          "object_id": "Menu800",
+          "caption": "반품관리",
+          "onclick": null,
+          "children_count": 7
+        },
+        {
+          "object_id": "Menu100",
+          "caption": "기초관리",
+          "onclick": null,
+          "children_count": 16
+        }
+      ],
+      "tree": [
+        {
+          "object_id": "Menu200",
+          "kind": "TMenuItem",
+          "caption": "출고관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu207",
+              "kind": "TMenuItem",
+              "caption": "출고접수관리",
+              "onclick": "Menu207Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu206",
+              "kind": "TMenuItem",
+              "caption": "출고접수현황",
+              "onclick": "Menu206Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu208",
+              "kind": "TMenuItem",
+              "caption": "출고택배관리",
+              "onclick": "Menu208Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu509_2",
+              "kind": "TMenuItem",
+              "caption": "출고검증관리",
+              "onclick": "Menu509_2Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu509_3",
+              "kind": "TMenuItem",
+              "caption": "출고검증관리(개별)",
+              "onclick": "Menu509_3Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu291",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu201",
+              "kind": "TMenuItem",
+              "caption": "거래명세서",
+              "onclick": "Menu201Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202",
+              "kind": "TMenuItem",
+              "caption": "입고명세서",
+              "onclick": "Menu202Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu203",
+              "kind": "TMenuItem",
+              "caption": "반품명세서",
+              "onclick": "Menu203Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202_0",
+              "kind": "TMenuItem",
+              "caption": "가입고관리",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu202_1",
+                  "kind": "TMenuItem",
+                  "caption": "가입고요청서",
+                  "onclick": "Menu202_1Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu202_2",
+                  "kind": "TMenuItem",
+                  "caption": "가입고현황",
+                  "onclick": "Menu202_2Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "Menu293",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu209",
+              "kind": "TMenuItem",
+              "caption": "신간발행",
+              "onclick": "Menu209Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu292",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu308",
+              "kind": "TMenuItem",
+              "caption": "전송자료받기(FTP)",
+              "onclick": "Menu308Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu300",
+          "kind": "TMenuItem",
+          "caption": "재고원장",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu301",
+              "kind": "TMenuItem",
+              "caption": "도서별수불원장",
+              "onclick": "Menu301Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu303",
+              "kind": "TMenuItem",
+              "caption": "기간별재고원장",
+              "onclick": "Menu303Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu593",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu302",
+              "kind": "TMenuItem",
+              "caption": "기간별평균재고",
+              "onclick": "Menu302Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu302_1",
+              "kind": "TMenuItem",
+              "caption": "출판사재고현황",
+              "onclick": "Menu302_1Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu700",
+          "kind": "TMenuItem",
+          "caption": "재고관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu502",
+              "kind": "TMenuItem",
+              "caption": "정품재고(변경)",
+              "onclick": "Menu502Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu501",
+              "kind": "TMenuItem",
+              "caption": "반품재고(변경)",
+              "onclick": "Menu501Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu393",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu204",
+              "kind": "TMenuItem",
+              "caption": "반품재고(정품입고)-재생",
+              "onclick": "Menu204Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu205",
+              "kind": "TMenuItem",
+              "caption": "반품재고(반품입고)-해체",
+              "onclick": "Menu205Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu392",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu304",
+              "kind": "TMenuItem",
+              "caption": "정품재고(폐기)",
+              "onclick": "Menu304Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu305",
+              "kind": "TMenuItem",
+              "caption": "반품재고(폐기)",
+              "onclick": "Menu305Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu391",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu319",
+              "kind": "TMenuItem",
+              "caption": "반품재고입력-자체운영",
+              "onclick": "Menu319Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu329",
+              "kind": "TMenuItem",
+              "caption": "반품재고현황-자체운영",
+              "onclick": "Menu329Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu400",
+          "kind": "TMenuItem",
+          "caption": "발송비/입금관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "N1",
+              "kind": "TMenuItem",
+              "caption": "발송비관리",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu404",
+                  "kind": "TMenuItem",
+                  "caption": "발송비현황",
+                  "onclick": "Menu404Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu403",
+                  "kind": "TMenuItem",
+                  "caption": "발송비내역",
+                  "onclick": "Menu403Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "N2",
+              "kind": "TMenuItem",
+              "caption": "반 품 수 거",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu306",
+                  "kind": "TMenuItem",
+                  "caption": "반품수거내역",
+                  "onclick": "Menu306Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu307",
+                  "kind": "TMenuItem",
+                  "caption": "반품수거현황",
+                  "onclick": "Menu307Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "Menu204_9",
+              "kind": "TMenuItem",
+              "caption": "명세서 발송건수",
+              "onclick": "Menu204_9Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu491",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu405",
+              "kind": "TMenuItem",
+              "caption": "청구서관리",
+              "onclick": "Menu405Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu406",
+              "kind": "TMenuItem",
+              "caption": "청구서출력",
+              "onclick": "Menu406Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu409",
+              "kind": "TMenuItem",
+              "caption": "세금계산서",
+              "onclick": "Menu409Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu492",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu402_0",
+              "kind": "TMenuItem",
+              "caption": "입금관리",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu401",
+                  "kind": "TMenuItem",
+                  "caption": "입금내역",
+                  "onclick": "Menu401Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu402",
+                  "kind": "TMenuItem",
+                  "caption": "입금현황(1)",
+                  "onclick": "Menu402Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu402_1",
+                  "kind": "TMenuItem",
+                  "caption": "입금현황(2)",
+                  "onclick": "Menu402_1Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "Menu407",
+              "kind": "TMenuItem",
+              "caption": "청구금액(년월)",
+              "onclick": "Menu407Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu493",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu309",
+              "kind": "TMenuItem",
+              "caption": "출고내역서",
+              "onclick": "Menu309Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu310",
+              "kind": "TMenuItem",
+              "caption": "메세지(팝업창)",
+              "onclick": "Menu310Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu500",
+          "kind": "TMenuItem",
+          "caption": "내역서관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu503",
+              "kind": "TMenuItem",
+              "caption": "일별 출고내역서",
+              "onclick": "Menu503Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu504",
+              "kind": "TMenuItem",
+              "caption": "일별 입고내역서",
+              "onclick": "Menu504Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu505",
+              "kind": "TMenuItem",
+              "caption": "일별 반품내역서",
+              "onclick": "Menu505Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu509_1",
+              "kind": "TMenuItem",
+              "caption": "일별 내역서(요약)",
+              "onclick": "Menu509_1Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu591",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu506",
+              "kind": "TMenuItem",
+              "caption": "기간별출고내역서",
+              "onclick": "Menu506Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu507",
+              "kind": "TMenuItem",
+              "caption": "기간별입고내역서",
+              "onclick": "Menu507Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu508",
+              "kind": "TMenuItem",
+              "caption": "기간별반품내역서",
+              "onclick": "Menu508Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu592",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu509",
+              "kind": "TMenuItem",
+              "caption": "기간별택배내역서",
+              "onclick": "Menu509Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu600",
+          "kind": "TMenuItem",
+          "caption": "통계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu601",
+              "kind": "TMenuItem",
+              "caption": "도서별판매",
+              "onclick": "Menu601Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu602",
+              "kind": "TMenuItem",
+              "caption": "거래처판매",
+              "onclick": "Menu602Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu691",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu607",
+              "kind": "TMenuItem",
+              "caption": "도서별년말집계",
+              "onclick": "Menu607Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu608",
+              "kind": "TMenuItem",
+              "caption": "거래처년말집계",
+              "onclick": "Menu608Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu692",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu605",
+              "kind": "TMenuItem",
+              "caption": "출판사별판매(1)",
+              "onclick": "Menu605Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu606",
+              "kind": "TMenuItem",
+              "caption": "출판사별판매(2)",
+              "onclick": "Menu606Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu693",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu603",
+              "kind": "TMenuItem",
+              "caption": "출판사월별집계(1)",
+              "onclick": "Menu603Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu604",
+              "kind": "TMenuItem",
+              "caption": "출판사월별집계(2)",
+              "onclick": "Menu604Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu800",
+          "kind": "TMenuItem",
+          "caption": "반품관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu801",
+              "kind": "TMenuItem",
+              "caption": "반품명세서",
+              "onclick": "Menu801Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu891",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu802",
+              "kind": "TMenuItem",
+              "caption": "반품재고원장",
+              "onclick": "Menu802Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu803",
+              "kind": "TMenuItem",
+              "caption": "반품재고현황",
+              "onclick": "Menu803Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu892",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu804",
+              "kind": "TMenuItem",
+              "caption": "일자별 반품내역서",
+              "onclick": "Menu804Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu805",
+              "kind": "TMenuItem",
+              "caption": "기간별 반품내역서",
+              "onclick": "Menu805Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu100",
+          "kind": "TMenuItem",
+          "caption": "기초관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu107",
+              "kind": "TMenuItem",
+              "caption": "출판사관리",
+              "onclick": "Menu107Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu102",
+              "kind": "TMenuItem",
+              "caption": "입고처관리",
+              "onclick": "Menu102Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu408",
+              "kind": "TMenuItem",
+              "caption": "출판사관리(설정)",
+              "onclick": "Menu408Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu194",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu101",
+              "kind": "TMenuItem",
+              "caption": "거래처관리-통합",
+              "onclick": "Menu101Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu105",
+              "kind": "TMenuItem",
+              "caption": "거래처관리-개별",
+              "onclick": "Menu105Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu191",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu104",
+              "kind": "TMenuItem",
+              "caption": "도서관리",
+              "onclick": "Menu104Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu104_1",
+              "kind": "TMenuItem",
+              "caption": "도서관리(위치)",
+              "onclick": "Menu104_1Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu108",
+              "kind": "TMenuItem",
+              "caption": "종당관리(도서)",
+              "onclick": "Menu108Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu106",
+              "kind": "TMenuItem",
+              "caption": "특별관리",
+              "onclick": "Menu106Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu192",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu103",
+              "kind": "TMenuItem",
+              "caption": "지역분류(시내+지방)",
+              "onclick": "Menu103Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu110",
+              "kind": "TMenuItem",
+              "caption": "환경설정",
+              "onclick": "Menu110Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu193",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu109",
+              "kind": "TMenuItem",
+              "caption": "E&xit",
+              "onclick": "Menu109Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW",
+      "path": "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)",
+      "main_menu_found": true,
+      "top_bar": [
+        {
+          "object_id": "Menu200",
+          "caption": "출고관리",
+          "onclick": null,
+          "children_count": 12
+        },
+        {
+          "object_id": "Menu300",
+          "caption": "재고원장",
+          "onclick": null,
+          "children_count": 2
+        },
+        {
+          "object_id": "Menu700",
+          "caption": "재고관리",
+          "onclick": null,
+          "children_count": 11
+        },
+        {
+          "object_id": "Menu400",
+          "caption": "발송비/입금관리",
+          "onclick": null,
+          "children_count": 14
+        },
+        {
+          "object_id": "Menu500",
+          "caption": "내역서관리",
+          "onclick": null,
+          "children_count": 9
+        },
+        {
+          "object_id": "Menu600",
+          "caption": "통계관리",
+          "onclick": null,
+          "children_count": 11
+        },
+        {
+          "object_id": "Menu800",
+          "caption": "반품관리",
+          "onclick": null,
+          "children_count": 7
+        },
+        {
+          "object_id": "Menu100",
+          "caption": "기초관리",
+          "onclick": null,
+          "children_count": 15
+        }
+      ],
+      "tree": [
+        {
+          "object_id": "Menu200",
+          "kind": "TMenuItem",
+          "caption": "출고관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu207",
+              "kind": "TMenuItem",
+              "caption": "출고접수관리",
+              "onclick": "Menu207Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu206",
+              "kind": "TMenuItem",
+              "caption": "출고접수현황",
+              "onclick": "Menu206Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu208",
+              "kind": "TMenuItem",
+              "caption": "출고택배관리",
+              "onclick": "Menu208Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu291",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu201",
+              "kind": "TMenuItem",
+              "caption": "거래명세서",
+              "onclick": "Menu201Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202",
+              "kind": "TMenuItem",
+              "caption": "입고명세서",
+              "onclick": "Menu202Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu203",
+              "kind": "TMenuItem",
+              "caption": "반품명세서",
+              "onclick": "Menu203Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu202_0",
+              "kind": "TMenuItem",
+              "caption": "신간 가입고 관리",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu202_1",
+                  "kind": "TMenuItem",
+                  "caption": "가입고요청서",
+                  "onclick": "Menu202_1Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu202_2",
+                  "kind": "TMenuItem",
+                  "caption": "가입고현황",
+                  "onclick": "Menu202_2Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "Menu293",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu209",
+              "kind": "TMenuItem",
+              "caption": "신간발행",
+              "onclick": "Menu209Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu292",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu308",
+              "kind": "TMenuItem",
+              "caption": "전송자료받기(FTP)",
+              "onclick": "Menu308Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu300",
+          "kind": "TMenuItem",
+          "caption": "재고원장",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu301",
+              "kind": "TMenuItem",
+              "caption": "도서별수불원장",
+              "onclick": "Menu301Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu303",
+              "kind": "TMenuItem",
+              "caption": "기간별재고원장",
+              "onclick": "Menu303Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu700",
+          "kind": "TMenuItem",
+          "caption": "재고관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu502",
+              "kind": "TMenuItem",
+              "caption": "정품재고(변경)",
+              "onclick": "Menu502Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu501",
+              "kind": "TMenuItem",
+              "caption": "반품재고(변경)",
+              "onclick": "Menu501Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu393",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu204",
+              "kind": "TMenuItem",
+              "caption": "반품재고(입고)",
+              "onclick": "Menu204Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu205",
+              "kind": "TMenuItem",
+              "caption": "반품재고(폐기)",
+              "onclick": "Menu205Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu392",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu304",
+              "kind": "TMenuItem",
+              "caption": "정품재고(폐기)",
+              "onclick": "Menu304Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu305",
+              "kind": "TMenuItem",
+              "caption": "반품재고(폐기)",
+              "onclick": "Menu305Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu391",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu319",
+              "kind": "TMenuItem",
+              "caption": "반품재고입력-자체운영",
+              "onclick": "Menu319Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu329",
+              "kind": "TMenuItem",
+              "caption": "반품재고현황-자체운영",
+              "onclick": "Menu329Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu400",
+          "kind": "TMenuItem",
+          "caption": "발송비/입금관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "N1",
+              "kind": "TMenuItem",
+              "caption": "발송비관리",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu403",
+                  "kind": "TMenuItem",
+                  "caption": "발송비내역",
+                  "onclick": "Menu403Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu404",
+                  "kind": "TMenuItem",
+                  "caption": "발송비현황",
+                  "onclick": "Menu404Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "N2",
+              "kind": "TMenuItem",
+              "caption": "반 품 수 거",
+              "onclick": null,
+              "separator": false,
+              "children": [
+                {
+                  "object_id": "Menu306",
+                  "kind": "TMenuItem",
+                  "caption": "반품수거내역",
+                  "onclick": "Menu306Click",
+                  "separator": false,
+                  "children": []
+                },
+                {
+                  "object_id": "Menu307",
+                  "kind": "TMenuItem",
+                  "caption": "반품수거현황",
+                  "onclick": "Menu307Click",
+                  "separator": false,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "object_id": "Menu493",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu405",
+              "kind": "TMenuItem",
+              "caption": "청구서관리",
+              "onclick": "Menu405Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu406",
+              "kind": "TMenuItem",
+              "caption": "청구서출력",
+              "onclick": "Menu406Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu409",
+              "kind": "TMenuItem",
+              "caption": "세금계산서",
+              "onclick": "Menu409Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu491",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu401",
+              "kind": "TMenuItem",
+              "caption": "입금내역",
+              "onclick": "Menu401Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu402",
+              "kind": "TMenuItem",
+              "caption": "입금현황(1)",
+              "onclick": "Menu402Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu402_1",
+              "kind": "TMenuItem",
+              "caption": "입금현황(2)",
+              "onclick": "Menu402_1Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu407",
+              "kind": "TMenuItem",
+              "caption": "청구금액(년월)",
+              "onclick": "Menu407Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu492",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu309",
+              "kind": "TMenuItem",
+              "caption": "출고내역서",
+              "onclick": "Menu309Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu310",
+              "kind": "TMenuItem",
+              "caption": "메세지(팝업창)",
+              "onclick": "Menu310Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu500",
+          "kind": "TMenuItem",
+          "caption": "내역서관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu503",
+              "kind": "TMenuItem",
+              "caption": "일별 출고내역서",
+              "onclick": "Menu503Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu504",
+              "kind": "TMenuItem",
+              "caption": "일별 입고내역서",
+              "onclick": "Menu504Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu505",
+              "kind": "TMenuItem",
+              "caption": "일별 반품내역서",
+              "onclick": "Menu505Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu591",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu506",
+              "kind": "TMenuItem",
+              "caption": "기간별출고내역서",
+              "onclick": "Menu506Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu507",
+              "kind": "TMenuItem",
+              "caption": "기간별입고내역서",
+              "onclick": "Menu507Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu508",
+              "kind": "TMenuItem",
+              "caption": "기간별반품내역서",
+              "onclick": "Menu508Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu592",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu593",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu600",
+          "kind": "TMenuItem",
+          "caption": "통계관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu601",
+              "kind": "TMenuItem",
+              "caption": "도서별판매",
+              "onclick": "Menu601Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu602",
+              "kind": "TMenuItem",
+              "caption": "거래처판매",
+              "onclick": "Menu602Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu691",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu607",
+              "kind": "TMenuItem",
+              "caption": "도서별년말집계",
+              "onclick": "Menu607Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu608",
+              "kind": "TMenuItem",
+              "caption": "거래처년말집계",
+              "onclick": "Menu608Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu692",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu605",
+              "kind": "TMenuItem",
+              "caption": "출판사별판매(1)",
+              "onclick": "Menu605Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu606",
+              "kind": "TMenuItem",
+              "caption": "출판사별판매(2)",
+              "onclick": "Menu606Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu693",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu603",
+              "kind": "TMenuItem",
+              "caption": "출판사월별집계(1)",
+              "onclick": "Menu603Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu604",
+              "kind": "TMenuItem",
+              "caption": "출판사월별집계(2)",
+              "onclick": "Menu604Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu800",
+          "kind": "TMenuItem",
+          "caption": "반품관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu801",
+              "kind": "TMenuItem",
+              "caption": "반품명세서",
+              "onclick": "Menu801Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu891",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu802",
+              "kind": "TMenuItem",
+              "caption": "반품재고원장",
+              "onclick": "Menu802Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu803",
+              "kind": "TMenuItem",
+              "caption": "반품재고원장",
+              "onclick": "Menu803Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu892",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu804",
+              "kind": "TMenuItem",
+              "caption": "일자별 반품내역서",
+              "onclick": "Menu804Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu805",
+              "kind": "TMenuItem",
+              "caption": "기간별 반품내역서",
+              "onclick": "Menu805Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        },
+        {
+          "object_id": "Menu100",
+          "kind": "TMenuItem",
+          "caption": "기초관리",
+          "onclick": null,
+          "separator": false,
+          "children": [
+            {
+              "object_id": "Menu107",
+              "kind": "TMenuItem",
+              "caption": "출판사관리",
+              "onclick": "Menu107Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu102",
+              "kind": "TMenuItem",
+              "caption": "입고처관리",
+              "onclick": "Menu102Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu408",
+              "kind": "TMenuItem",
+              "caption": "출고정지유무",
+              "onclick": "Menu408Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu194",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu101",
+              "kind": "TMenuItem",
+              "caption": "거래처관리-통합",
+              "onclick": "Menu101Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu105",
+              "kind": "TMenuItem",
+              "caption": "거래처관리-개별",
+              "onclick": "Menu105Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu191",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu104",
+              "kind": "TMenuItem",
+              "caption": "도서관리",
+              "onclick": "Menu104Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu108",
+              "kind": "TMenuItem",
+              "caption": "종당관리(도서)",
+              "onclick": "Menu108Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu106",
+              "kind": "TMenuItem",
+              "caption": "특별관리",
+              "onclick": "Menu106Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu192",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu103",
+              "kind": "TMenuItem",
+              "caption": "지역분류(시내+지방)",
+              "onclick": "Menu103Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu110",
+              "kind": "TMenuItem",
+              "caption": "환경설정",
+              "onclick": "Menu110Click",
+              "separator": false,
+              "children": []
+            },
+            {
+              "object_id": "Menu193",
+              "kind": "TMenuItem",
+              "caption": "-",
+              "onclick": null,
+              "separator": true,
+              "children": []
+            },
+            {
+              "object_id": "Menu109",
+              "kind": "TMenuItem",
+              "caption": "E&xit",
+              "onclick": "Menu109Click",
+              "separator": false,
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

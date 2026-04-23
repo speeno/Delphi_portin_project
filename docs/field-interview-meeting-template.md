@@ -117,7 +117,7 @@
 
 ## 6. 향후 추가 회의(선택)
 
-- 후속 회의가 필요하면 본 템플릿을 복제(`docs/field-interview-YYYY-MM-DD.md`)해 사용합니다.
+- 후속 회의가 필요하면 본 템플릿을 복제(`docs/field-interview-YYYY-MM-DD.md`)해 사용합니다. (예시 누적본: [`field-interview-2026-04-23.md`](field-interview-2026-04-23.md))
 - 회의록 누적은 `legacy-analysis/decisions.md`에 **DEC**로, 미해결은 `open-questions.md`에 **OQ**로 분리합니다.
 
 ---
