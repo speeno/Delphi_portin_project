@@ -29,8 +29,8 @@
 
 id: C4-return-receipt
 name: 반품 처리 (CRUD + 3분기 + 일일/기간/원장 보고 + 패스워드 + 임포트 + 라인 diff + 롤백 + 보안)
-version: 1.1.0
-status: approved        # v1.0.0 → v1.1.0 (Phase 2 보강 — 신화면 2개 + 라인 PUT + 롤백 + bcrypt + audit DB + FOR UPDATE + D_Select 헬퍼)
+version: 1.2.0
+status: approved        # v1.1.0 → v1.2.0 (Sobo34_4 페이저/JOIN 분리 + summary 캐시 + permission inventory.read — PLAN-LDG-INV-DETAIL-2026-04-23)
 scope_phase: phase2
 acceptance_goal: |
   1차 포팅 합격선: "기존 사용자가 반품 명세서를 신규 등록 / 수정 / 취소 / 조회 (CRUD) 할 수 있고,
@@ -1330,10 +1330,20 @@ endpoints:
       "422": { body: { detail: "Rollback not applicable", code: "RT_ROLLBACK_INVALID" } }
 
   # ---------- A1. Sobo34_4 재고원장 폐기 (OQ-RT-8) ----------
+  # v1.2.0 (2026-04-23, PLAN-LDG-INV-DETAIL-2026-04-23 / DEC-033 e/g):
+  #   - 페이저: count_grouped → LIMIT+1 has_more (Sobo54/57 v1.2.2 표준 일반화).
+  #   - 메인 SQL JOIN 분리 → 도서명/출판사명은 in_clause_lookup 청크 룩업.
+  #   - 응답 ``summary`` 키 신설(R4) — offset==0 일 때만 산출, 후속 페이지는 0
+  #     placeholder. 프론트 ``totalsCache`` 가 보존.
+  #   - 응답 ``kpi`` 키는 1 사이클 동안 ``summary`` 와 동일 객체로 중복 송신
+  #     (deprecation 윈도우 — 사용자 룰: 이전 케이스 호환 유지).
+  #   - 권한: ``inventory.read`` (조회 전용 화면 — DEC-046 d_select).
+  #   - page meta 에 ``has_more`` 추가, ``total`` 은 ceiling pagination.
   - method: GET
     path: /api/v1/returns/ledger
-    description: "기간별 재고원장 (폐기/반품/재생/해체/변경) — Sobo34_4. SQL-RT-28~30."
+    description: "기간별 재고원장 (폐기/반품/재생/해체/변경) — Sobo34_4. SQL-RT-28~30 + 페이저 v1.2.0 (LIMIT+1 + summary 캐시)."
     auth: bearer
+    permission: inventory.read    # 조회 전용 — DEC-046 d_select
     request:
       query:
         server_id: string
@@ -1343,15 +1353,16 @@ endpoints:
         bcode?: "string — 도서코드 단일 조회 시"
         detail_for_bcode?: string
         gubun?: "string — 기본값 'all'. enum: all|반품|재생|해체|변경|폐기"
-        limit: integer
+        limit: "integer — 기본 100, 최대 500"
         offset: integer
     responses:
       "200":
         body:
           master:
             - bcode: string
-              book_name: string
-              gname: string
+              scode: "string — Subu34_4.pas:404,406 의 4컬럼 GROUP BY 보존(React key 합성용)"
+              book_name: "string — _fetch_product_names 청크 룩업 결과"
+              gname: "string — _fetch_publisher_names 청크 룩업 결과"
               gubun: string
               pubun: string
               total_qty: integer
@@ -1371,12 +1382,21 @@ endpoints:
               gbsum: integer
               gsqut: integer
               gssum: integer
-          kpi:
+          summary:    # offset==0 일 때만 채움 (R4) — 후속 페이지는 0 placeholder
             book_count: integer
             line_count: integer
             total_qty: integer
             total_amount: integer
-          page: { total, limit, offset }
+          kpi:        # DEPRECATED v1.2.0 — summary 와 동일 (호환 윈도우 1 사이클)
+            book_count: integer
+            line_count: integer
+            total_qty: integer
+            total_amount: integer
+          page:
+            limit: integer
+            offset: integer
+            total: "integer — ceiling: offset + visible + (1 if has_more)"
+            has_more: "boolean — LIMIT+1 페이저 산출"
 
   # ---------- A2. Sobo58 기간별 반품 내역서 (OQ-RT-8) ----------
   - method: GET
@@ -1689,6 +1709,17 @@ customer_variants:
 # 10. 변경 이력
 # ---------------------------------------------------------------
 changelog:
+  - date: 2026-04-23
+    by: porting-team
+    note: |
+      1.2.0 — Sobo34_4 페이저/JOIN 분리 (PLAN-LDG-INV-DETAIL-2026-04-23 / DEC-033 e/g).
+      - endpoints[/returns/ledger]: 응답 ``summary`` 키 신설(R4 — offset==0 일 때만 산출).
+        ``kpi`` 키는 1 사이클 deprecation 윈도우(호환 유지). page meta 에 ``has_more`` 추가.
+      - permission: inventory.read 키 명시 (조회 전용 — DEC-046 d_select).
+      - master row 에 ``scode`` 명시 (Subu34_4.pas:404,406 4컬럼 GROUP BY 보존, React key 합성).
+      - 신규 SQL 0건 (DEC-040). 메인 SQL JOIN 분리 후 도서명/출판사명은
+        inbound_service 의 _fetch_product_names / _fetch_publisher_names 청크 룩업 재사용.
+      - Sobo54/57 v1.2.2 의 7개 회귀 가드(R1~R7) 본 화면에 일반화 적용.
   - date: 2026-04-19
     by: porting-team
     note: |
