@@ -1,9 +1,14 @@
 """
-재고 API
+재고 API (prototype)
 
 Migration Contracts:
 - api.inventory.list (GET /api/inventory)
 - api.inventory.adjust (POST /api/inventory/adjust)
+
+레거시 필드 매핑 (DEC-RBAC-01 / SCH-WELOVE-출판):
+    - item_code     ← G4_Book.gcode (도서코드)
+    - customer_code ← G1_Ggeo.gcode (거래처 코드)
+    - warehouse_code= tenants_directory.primary_server
 """
 
 from fastapi import APIRouter, Query
@@ -13,6 +18,8 @@ router = APIRouter()
 
 
 class InventoryAdjustRequest(BaseModel):
+    """재고 조정 요청. ``item_code`` = ``G4_Book.gcode``, ``customer_code`` = ``G1_Ggeo.gcode``."""
+
     warehouse_code: str
     item_code: str
     adjust_qty: int

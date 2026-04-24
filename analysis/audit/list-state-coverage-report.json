@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-04-23T07:41:59.237677+00:00",
+  "generated_at": "2026-04-23T19:12:01.143405+00:00",
   "summary": {
-    "total_pages": 72,
+    "total_pages": 80,
     "covered": 28,
-    "violations": 0,
+    "violations": 2,
     "allowed": 0,
-    "skipped": 44
+    "skipped": 50
   },
   "covered": [
     {
@@ -121,7 +121,16 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/status/page.tsx"
     }
   ],
-  "violations": [],
+  "violations": [
+    {
+      "route_key": "billing.statements",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/billing/statements/page.tsx"
+    },
+    {
+      "route_key": "year-month-stats",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/page.tsx"
+    }
+  ],
   "allowed": [],
   "skipped": [
     {
@@ -153,8 +162,24 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/settings/page.tsx"
     },
     {
+      "route_key": "admin.signup-requests",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/signup-requests/page.tsx"
+    },
+    {
       "route_key": "admin.user-servers",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/user-servers/page.tsx"
+    },
+    {
+      "route_key": "admin.whitelist",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/whitelist/[hcode]/page.tsx"
+    },
+    {
+      "route_key": "admin.whitelist",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/whitelist/page.tsx"
+    },
+    {
+      "route_key": "admin.whitelist.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/whitelist/new/page.tsx"
     },
     {
       "route_key": "dashboard",
@@ -255,6 +280,14 @@
     {
       "route_key": "settlement.tax-invoice.print",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/[billingKey]/print/page.tsx"
+    },
+    {
+      "route_key": "shipping.courier",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/shipping/courier/page.tsx"
+    },
+    {
+      "route_key": "shipping.returns-inventory",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/shipping/returns-inventory/page.tsx"
     },
     {
       "route_key": "stats.book",

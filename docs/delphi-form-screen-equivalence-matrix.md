@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-04-23T07:41:59Z
+> **생성 시각 (UTC)**: 2026-04-23T19:12:00Z
 
 ## 목적
 
@@ -78,6 +78,10 @@
 | MATCH | `Sobo62` | `Subu62` | 거래처판매 | 거래처판매 | `Sobo62` | `/reports/customer-sales` |  |
 | MULTI_MAP | `Sobo67_status` | `Subu67` | 출고현황 | 도서별년말집계 | `Sobo67` | `/outbound/status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo67_yearbook` | `Subu67` | 도서별년말집계 | 도서별년말집계 | `Sobo67` | `/reports/year-end-book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| WEB_ONLY | `MenuBillingStatements` | `_Matrix` | 내역서관리 | — | `—` | `/billing/statements` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
+| WEB_ONLY | `MenuShippingCourier` | `_Matrix` | 택배관리(자체) | — | `—` | `/shipping/courier` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
+| WEB_ONLY | `MenuShippingReturnsInventory` | `_Matrix` | 반품재고관리(통합) | — | `—` | `/shipping/returns-inventory` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
+| WEB_ONLY | `MenuYearMonthStats` | `_Matrix` | 년/월(통계) | — | `—` | `/year-month-stats` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `Subu10_id_logn` | `_WebAdm` | 사용자·권한 (F11~F89) | — | `—` | `/admin/id-logn` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `WebAdmAudit` | `_WebAdm` | 감사 통합 뷰 | — | `—` | `/admin/audit` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `WebAdmAuditRotate` | `_WebAdm` | 감사 비밀번호 회전 | — | `—` | `/admin/audit-rotate` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |

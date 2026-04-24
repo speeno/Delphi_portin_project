@@ -127,7 +127,9 @@ endpoints:
       content_type: application/json
       schema_ref: backend/app/models/master.py#CustomerListResponse
       shape: "{ items: [...], page: { limit, offset, total, has_more } }  # DEC-024"
-    legacy_sql: "SELECT Gcode,Gname,Hcode,Gtel1,Gtel2,Gpost,Gjuso FROM G1_Ggeo WHERE ... ORDER BY Gcode LIMIT %s OFFSET %s"
+    # DEC-RBAC-01 후속: 권위 사전(SCH-WELOVE-출판-G1_Ggeo) 기준 주소 컬럼은 ``gadd1`` + ``gadd2``.
+    # 레거시 일부 변형 빌드에 ``Gjuso`` 가 보고된 기록이 있어 정정. 한글 주소는 두 컬럼 합성으로 노출.
+    legacy_sql: "SELECT Gcode,Gname,Hcode,Gtel1,Gtel2,Gpost,Gadd1,Gadd2 FROM G1_Ggeo WHERE ... ORDER BY Gcode LIMIT %s OFFSET %s"
   - id: SQL-MAS-2
     method: GET
     path: /api/v1/masters/customer/{gcode}
@@ -225,7 +227,8 @@ equivalence:
       criteria: "Gcode/Gname/Gisbn LIKE 매칭, snake_case 응답"
   write:
     - target: customer.update
-      legacy_form: TSobo11.UPDATE G1_Ggeo SET Gname/Gtel1/Gtel2/Gpost/Gjuso/Gbigo
+      # DEC-RBAC-01: 주소는 권위 사전(SCH-WELOVE-출판-G1_Ggeo) 컬럼 ``Gadd1``/``Gadd2`` 사용.
+      legacy_form: TSobo11.UPDATE G1_Ggeo SET Gname/Gtel1/Gtel2/Gpost/Gadd1/Gadd2/Gbigo
       criteria: "변경된 필드만 SET, audit 1줄 JSON 적재"
     - target: book.update
       legacy_form: TSobo14.UPDATE G4_Book SET Gname/Gjeja/Gisbn/Gdang/Gpost

@@ -1,5 +1,5 @@
 """
-입고 API
+입고 API (prototype)
 
 Migration Contracts:
 - api.inbound.list (GET /api/inbound)
@@ -7,18 +7,25 @@ Migration Contracts:
 - api.inbound.update (PUT /api/inbound/{id})
 - api.inbound.delete (DELETE /api/inbound/{id})
 
+레거시 필드 매핑 (DEC-RBAC-01 / SCH-WELOVE-출판):
+    - item_code     ← G4_Book.gcode (도서코드)
+    - supplier_code ← G1_Ggeo.gcode (거래처 코드, 입고처)
+    - customer_code ← G1_Ggeo.gcode (배본처/주문 거래처)
+    - warehouse_code= tenants_directory.primary_server
+
 권장 포팅 순서: 1차(조회) → 2차(등록) → 3차(수정/삭제)
 """
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter
 from pydantic import BaseModel
-from typing import Optional
 from datetime import datetime
 
 router = APIRouter()
 
 
 class InboundItem(BaseModel):
+    """입고 라인. ``item_code`` = ``G4_Book.gcode`` (도서코드)."""
+
     item_code: str
     item_name: str = ""
     qty: int
@@ -28,6 +35,8 @@ class InboundItem(BaseModel):
 
 
 class InboundCreateRequest(BaseModel):
+    """입고 등록 요청. ``supplier_code`` / ``customer_code`` 모두 ``G1_Ggeo.gcode`` 체계."""
+
     warehouse_code: str
     supplier_code: str = ""
     items: list[InboundItem]

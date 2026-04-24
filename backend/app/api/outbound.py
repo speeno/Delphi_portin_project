@@ -1,22 +1,28 @@
 """
-출고 API
+출고 API (prototype)
 
 Migration Contracts:
 - api.outbound.list (GET /api/outbound)
 - api.outbound.create (POST /api/outbound)
 - api.outbound.update (PUT /api/outbound/{id})
 - api.outbound.delete (DELETE /api/outbound/{id})
+
+레거시 필드 매핑 (DEC-RBAC-01 / SCH-WELOVE-출판):
+    - item_code     ← G4_Book.gcode (도서코드, 운영에서는 ISBN 보조)
+    - customer_code ← G1_Ggeo.gcode (거래처 코드)
+    - warehouse_code= tenants_directory.primary_server (Id_Logn 사전에는 없는 별도 키)
 """
 
 from fastapi import APIRouter, Query
 from pydantic import BaseModel
-from typing import Optional
 from datetime import datetime
 
 router = APIRouter()
 
 
 class OutboundItem(BaseModel):
+    """출고 라인. ``item_code`` = ``G4_Book.gcode`` (도서코드)."""
+
     item_code: str
     item_name: str = ""
     qty: int
@@ -25,6 +31,8 @@ class OutboundItem(BaseModel):
 
 
 class OutboundCreateRequest(BaseModel):
+    """출고 등록 요청. ``customer_code`` = ``G1_Ggeo.gcode``."""
+
     warehouse_code: str
     customer_code: str = ""
     order_no: str = ""

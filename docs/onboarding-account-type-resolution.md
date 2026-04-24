@@ -25,22 +25,31 @@
 
 ## 2. 결정 우선순위 (`ACTR-DEC-01..05`)
 
-### `ACTR-DEC-01` — web_users 명시값 최우선
+> **운영 함수 정합 (DEC-RBAC-03 정합)**: 실제 ``app.services.auth_service._resolve_account_type``
+> 의 분기 순서는 **수퍼유저(DEC-02) → web_users(DEC-01) → whitelist(DEC-03) → tenants(DEC-04) → 폴백(DEC-05)** 이다.
+> DEC-01 이 "명시 우선순위" 라는 의미는 *비-슈퍼* 사용자에 한해 가장 강한 출처가 web_users 라는 뜻이며,
+> 운영자 락아웃 방지를 위해 슈퍼유저(`hcode='0000'` / `BLS_ADMIN_USER_IDS` / role 매핑) 는 모든 출처에 우선한다.
+> 회귀 잠금: ``backend/tests/test_actr_priority.py`` (6 케이스).
 
-관리자가 승인 시 직접 지정한 `web_users.account_type` 이 존재하면 그 값 사용.
+### `ACTR-DEC-02` — 수퍼유저 신호 (런타임 최우선)
 
-```python
-if web_users.account_type:
-    return web_users.account_type  # 정본
-```
-
-### `ACTR-DEC-02` — 수퍼유저 신호
-
-`_has_admin_role_mapping(user_id)` 또는 `hcode == '0000'` 또는 `BLS_ADMIN_USER_IDS` 화이트리스트 → `T1`.
+`_has_admin_role_mapping(user_id)` 또는 `hcode == '0000'` 또는 `BLS_ADMIN_USER_IDS` 화이트리스트 → `T1` + `build_role='super'`.
+**운영자 락아웃 방지를 위해 모든 출처(web_users 포함) 보다 우선 적용된다.**
 
 ```python
 if is_admin(user_id, hcode):
     return "T1"
+```
+
+### `ACTR-DEC-01` — web_users 명시값 (비-슈퍼 사용자 최우선)
+
+관리자가 승인 시 직접 지정한 `web_users.account_type` 이 존재하면 그 값 사용.
+1차 구현: ``member_signup_service.list_requests(status="approved")`` 의
+``login_id == user_id`` 행을 임시 정본으로 사용 (TODO: 정식 ``web_users`` 저장소 도입 시 교체).
+
+```python
+if web_users.account_type:
+    return web_users.account_type  # 정본
 ```
 
 ### `ACTR-DEC-03` — web_publisher_whitelist 매핑
@@ -71,6 +80,17 @@ if tenant:
 ### `ACTR-DEC-05` — 미결정 폴백
 
 매핑 실패 시 `""` (빈 문자열) 반환 → JWT 에 `account_type=""` 포함 → 프론트 헤더에 노란 배지 표시 → 관리자가 `(app)/admin/id-logn` 에서 수동 지정.
+
+### `DEC-RBAC-03` — license_keys 합집합(union)
+
+``account_type`` 결정 결과와 **무관하게**, license_keys 는 다음 3 소스의 합집합으로 산출된다 (정렬·중복 제거).
+JWT 60키 한도(DSN-DEC-07) 는 ``app/routers/auth.py`` 에서 적용한다.
+
+  1. ``tenants_directory(.overlay).features`` 또는 ``.license_keys``
+  2. ``publisher_whitelist[hcode].license_keys``
+  3. ``web_users(=approved signup row).license_keys``
+
+회귀 잠금: ``backend/tests/test_license_keys_union.py`` (7 케이스).
 
 ---
 

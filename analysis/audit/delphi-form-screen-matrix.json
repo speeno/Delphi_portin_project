@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-23T07:41:59.148394+00:00",
+  "generated_at": "2026-04-23T19:12:00.838971+00:00",
   "summary": {
-    "registry_forms": 67,
+    "registry_forms": 71,
     "legacy_dfm_subu_stems": 91,
     "orphan_legacy_stems": 48,
     "subu_caption_diff": 14,
@@ -733,6 +733,50 @@
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu37.dfm",
       "status": "CAPTION_DIFF",
       "note": "DFM「담당자판매원장」↔모던「도서통계(목록)」 (r=0.00)"
+    },
+    {
+      "modern_id": "MenuYearMonthStats",
+      "folder": "_Matrix",
+      "route": "/year-month-stats",
+      "modern_caption": "년/월(통계)",
+      "legacy_form_object": "",
+      "legacy_caption": "",
+      "legacy_dfm": "",
+      "status": "WEB_ONLY",
+      "note": "Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1)"
+    },
+    {
+      "modern_id": "MenuShippingCourier",
+      "folder": "_Matrix",
+      "route": "/shipping/courier",
+      "modern_caption": "택배관리(자체)",
+      "legacy_form_object": "",
+      "legacy_caption": "",
+      "legacy_dfm": "",
+      "status": "WEB_ONLY",
+      "note": "Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1)"
+    },
+    {
+      "modern_id": "MenuShippingReturnsInventory",
+      "folder": "_Matrix",
+      "route": "/shipping/returns-inventory",
+      "modern_caption": "반품재고관리(통합)",
+      "legacy_form_object": "",
+      "legacy_caption": "",
+      "legacy_dfm": "",
+      "status": "WEB_ONLY",
+      "note": "Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1)"
+    },
+    {
+      "modern_id": "MenuBillingStatements",
+      "folder": "_Matrix",
+      "route": "/billing/statements",
+      "modern_caption": "내역서관리",
+      "legacy_form_object": "",
+      "legacy_caption": "",
+      "legacy_dfm": "",
+      "status": "WEB_ONLY",
+      "note": "Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1)"
     },
     {
       "modern_id": "Sobo43_stats_route",

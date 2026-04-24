@@ -682,6 +682,19 @@
 
 필드 15 개. 추적 ID 접두사: `SCH-WELOVE-출판-Id_Logn`.
 
+> **운영 의미 보조 (DEC-RBAC-01 — 계약 정본 기준)**
+>
+> 본 표의 한글 라벨은 원본 사전 그대로다. 실제 운영 계약(`migration/contracts/login.yaml` v1.1.0,
+> `docs/profile-password-ux-spec.md`) 기준 의미는 다음과 같이 **반대로** 매핑된다:
+>
+> - `gcode` → **로그인 ID / 사번 (Logn2)** — Pydantic 모델의 `user_id`. **불변**.
+> - `gname` → **표시명 / 작업자 이름 (Logn1)** — `UserInfo.display_name`. 본인 프로필에서 수정 가능.
+> - `hname` → **조직명 / 출판사명** — `UserInfo.user_name`. 헤더 표시.
+> - `hcode` → 권한·고객사 분기 키 — RBAC 게이트와 ACTR-DEC-02 슈퍼유저 신호(`'0000'`) 의 1차 키.
+>
+> 사전 라벨과 운영 의미 간 불일치는 [`docs/decision-rbac-and-id-logn-truth.md`](decision-rbac-and-id-logn-truth.md)
+> DEC-RBAC-01 에서 영구 결정. 코드/UI 가시 라벨은 본 보조 의미를 따른다.
+
 | 필드 | 설명 | Size(전) | Size(후) | c/n |
 |---|---|---|---|---|
 | `id` | auto |  |  | n |

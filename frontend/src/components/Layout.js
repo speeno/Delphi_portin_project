@@ -5,28 +5,30 @@
  * 기존 델파이 메뉴 구조를 웹으로 재현한다.
  */
 
+// DEC-RBAC-02 — 라벨은 docs/onboarding-rbac-menu-matrix.md (정본 매트릭스) 의
+// NAV 캡션 표기에 맞춘다. 본 prototype 은 사이드바 게이트가 없으므로 라벨만 동기.
 export const menuItems = [
   {
     id: 'inbound',
-    label: '입고',
+    label: '입고관리',
     icon: '📥',
     children: [
-      { id: 'inbound-list', label: '입고 목록', path: '/inbound' },
+      { id: 'inbound-list', label: '입고 조회', path: '/inbound' },
       { id: 'inbound-create', label: '입고 등록', path: '/inbound/create' },
     ],
   },
   {
     id: 'outbound',
-    label: '출고',
+    label: '출고관리',
     icon: '📤',
     children: [
-      { id: 'outbound-list', label: '출고 목록', path: '/outbound' },
+      { id: 'outbound-list', label: '출고 조회', path: '/outbound' },
       { id: 'outbound-create', label: '출고 등록', path: '/outbound/create' },
     ],
   },
   {
     id: 'inventory',
-    label: '재고',
+    label: '재고관리',
     icon: '📦',
     children: [
       { id: 'inventory-list', label: '재고 조회', path: '/inventory' },
@@ -35,7 +37,7 @@ export const menuItems = [
   },
   {
     id: 'admin',
-    label: '관리',
+    label: '웹관리',
     icon: '⚙️',
     children: [
       { id: 'admin-users', label: '사용자 관리', path: '/admin/users' },

@@ -146,6 +146,43 @@
 
 ---
 
+## 6.2 RBAC·필드명 정합 사이클 신규 ID (2026-04-24, 본 사이클)
+
+### 결정 (DEC-RBAC-*)
+
+| ID | 내용 | 출처 |
+|----|------|------|
+| `DEC-RBAC-01` | Id_Logn 정본 — `gcode`=로그인 ID(Logn2/사번), `gname`=표시명(Logn1/작업자명), `hname`=조직명. 사전 라벨과 운영 의미 불일치 영구 결정. | [`docs/decision-rbac-and-id-logn-truth.md`](decision-rbac-and-id-logn-truth.md) |
+| `DEC-RBAC-02` | RBAC 메뉴 매트릭스 단일 원천 = `docs/onboarding-rbac-menu-matrix.md` → `analysis/rbac_menu_matrix.json` (자동 추출). 백엔드/프론트 모두 본 JSON 을 import. | [`tools/extract_rbac_matrix.py`](../tools/extract_rbac_matrix.py), [`migration/contracts/rbac_menu_matrix.yaml`](../migration/contracts/rbac_menu_matrix.yaml) |
+| `DEC-RBAC-03` | 메뉴 가시성 게이트 키 = `(account_type, build_role, license_keys)` 3중 + 슈퍼유저 우회. license_keys 는 tenant ∪ whitelist ∪ web_user 합집합. | [`backend/app/services/auth_service.py`](../도서물류관리프로그램/backend/app/services/auth_service.py) `_collect_license_keys`, [`frontend/src/lib/account-menu-matrix.ts`](../도서물류관리프로그램/frontend/src/lib/account-menu-matrix.ts) |
+
+### 추출/계약 산출
+
+| ID | 내용 | 출처 |
+|----|------|------|
+| `MAN-009` | 위러브 「물류프로그램 메뉴얼.xlsx」 추출 | [`docs/welove-mulryu-program-menu-manual.md`](welove-mulryu-program-menu-manual.md), [`analysis/mulryu_program_menu_manual.json`](../analysis/mulryu_program_menu_manual.json), [`tools/extract_mulryu_menu_manual.py`](../tools/extract_mulryu_menu_manual.py) |
+| `RBAC-EXTRACT-v2026-04-24` | 매트릭스 → JSON/YAML 자동 추출 도구 1차 산출 | [`analysis/rbac_menu_matrix.json`](../analysis/rbac_menu_matrix.json), [`migration/contracts/rbac_menu_matrix.yaml`](../migration/contracts/rbac_menu_matrix.yaml) |
+
+### 신설 placeholder 라우트 (ACC-MENU-NEW-*)
+
+| ID | 내용 | 출처 |
+|----|------|------|
+| `ACC-MENU-NEW-NAV-07` | `/year-month-stats` placeholder + MenuGuard | [`frontend/src/app/(app)/year-month-stats/page.tsx`](../도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/page.tsx) |
+| `ACC-MENU-NEW-NAV-16` | `/shipping/courier` placeholder + MenuGuard | [`frontend/src/app/(app)/shipping/courier/page.tsx`](../도서물류관리프로그램/frontend/src/app/(app)/shipping/courier/page.tsx) |
+| `ACC-MENU-NEW-NAV-12` | `/shipping/returns-inventory` placeholder + MenuGuard | [`frontend/src/app/(app)/shipping/returns-inventory/page.tsx`](../도서물류관리프로그램/frontend/src/app/(app)/shipping/returns-inventory/page.tsx) |
+| `ACC-MENU-NEW-NAV-15` | `/billing/statements` placeholder + MenuGuard | [`frontend/src/app/(app)/billing/statements/page.tsx`](../도서물류관리프로그램/frontend/src/app/(app)/billing/statements/page.tsx) |
+
+### 회귀 잠금 테스트
+
+| ID | 내용 | 파일 |
+|----|------|------|
+| `TEST-ACTR-PRIORITY` | ACTR-DEC-01..05 + DEC-RBAC-03 우선순위 6 케이스 | [`backend/tests/test_actr_priority.py`](../도서물류관리프로그램/backend/tests/test_actr_priority.py) |
+| `TEST-LICENSE-UNION` | tenant ∪ whitelist ∪ web_user 합집합 7 케이스 | [`backend/tests/test_license_keys_union.py`](../도서물류관리프로그램/backend/tests/test_license_keys_union.py) |
+| `TEST-LOGIN-ALIAS` | `user_id`/`userId`/`username` 3 alias 동등 9 케이스 | [`backend/tests/test_login_field_aliases.py`](../도서물류관리프로그램/backend/tests/test_login_field_aliases.py) |
+| `TEST-FE-MATRIX` | account-menu-matrix 4 계정 유형 가시성 회귀 (Python 미러) | [`test/test_account_menu_matrix_visibility.py`](../test/test_account_menu_matrix_visibility.py) + [`frontend/src/lib/__tests__/account-menu-matrix.test.ts`](../도서물류관리프로그램/frontend/src/lib/__tests__/account-menu-matrix.test.ts) |
+
+---
+
 ## 7. `dashboard/data/todos.json` 등 대시보드 합류 (선택)
 
 본 문서 §2~§5 의 ID 들은 다음 사이클에서 대시보드 todo 카드 1장씩 매핑한다 — 본 사이클은 **문서 결정만**, 카드 등록은 별 PR.

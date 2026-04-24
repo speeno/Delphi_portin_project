@@ -51,6 +51,7 @@
 | `MAN-006` | [`저자 전용 모바일 페이지..txt`](../WeLove_FTP/Welove_인수인계/메뉴얼/저자%20전용%20모바일%20페이지..txt) | `MAN-CH-MOBILE-AUTHOR` | `MAN-TPC-OPS` | × | URL 안내 1줄 (`m.websend.kr/author`). |
 | `MAN-007` | [`지이엠코리아 총판측 이용사이트.txt`](../WeLove_FTP/Welove_인수인계/메뉴얼/지이엠코리아%20총판측%20이용사이트.txt) | `MAN-CH-DISTRIBUTOR-WEB` | `MAN-TPC-OPS` | × | URL 안내 1줄 (`m.websend.kr/one/`). |
 | `MAN-008` | [`DB.txt`](../WeLove_FTP/Welove_인수인계/메뉴얼/DB.txt) | `MAN-CH-INFRA` | `MAN-TPC-INFRA` | **○** | **계정·암호·root 비밀번호 포함**. 본 카탈로그에는 「서버 4개·계정 약 30~40 row」 메타만 기록, 원문 인용·재배포 금지. DSN 메타 추출은 [`analysis/welove_db_route_matrix.json`](../analysis/welove_db_route_matrix.json) 가 정본. |
+| `MAN-009` | [`물류프로그램 메뉴얼.xlsx`](../WeLove_FTP/Welove_인수인계/위러브%20인수인계/물류프로그램%20메뉴얼.xlsx) | `MAN-CH-DESKTOP` | `MAN-TPC-OPS` | × | 위러브 물류(총판) 데스크톱 운영 매뉴얼. 시트 단위(출고/재고원장/재고/발송비.입금/내역서/기초/메뉴잠금) 추출 결과는 [`docs/welove-mulryu-program-menu-manual.md`](welove-mulryu-program-menu-manual.md) + [`analysis/mulryu_program_menu_manual.json`](../analysis/mulryu_program_menu_manual.json) 가 정본. RBAC 메뉴 매트릭스 정합 검증의 입력. |
 
 ## 3. 셋팅방법 (`Welove_인수인계/셋팅방법`)
 

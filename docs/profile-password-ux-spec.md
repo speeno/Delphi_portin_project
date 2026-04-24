@@ -5,7 +5,7 @@
 | 작성일 | 2026-04-23 |
 | 추적 ID | `PROF-*` (프로필 필드/액션), `PWD-*` (비밀번호 액션) |
 | 단일 원천 | 본 문서. UI/API/감사 정합은 본 문서를 기준으로 PR 진행. |
-| 정합 | [`docs/onboarding-rbac-menu-matrix.md`](onboarding-rbac-menu-matrix.md) (`ACC-MENU-ADMIN-06`, `ACC-API-06/07`), [`docs/onboarding-governance-spec.md`](onboarding-governance-spec.md), DEC-005 (비번 정책), [`backend/app/services/id_logn_service.py`](../도서물류관리프로그램/backend/app/services/id_logn_service.py) (`reset_password`) |
+| 정합 | [`docs/onboarding-rbac-menu-matrix.md`](onboarding-rbac-menu-matrix.md) (`ACC-MENU-ADMIN-06`, `ACC-API-06/07`), [`docs/onboarding-governance-spec.md`](onboarding-governance-spec.md), DEC-005 (비번 정책), [`backend/app/services/id_logn_service.py`](../도서물류관리프로그램/backend/app/services/id_logn_service.py) (`reset_password`), [`docs/decision-rbac-and-id-logn-truth.md`](decision-rbac-and-id-logn-truth.md) **DEC-RBAC-01** (Id_Logn 정본: `gcode`=로그인 ID, `gname`=표시명, `hname`=조직명) |
 
 ---
 
