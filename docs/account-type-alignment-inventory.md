@@ -44,3 +44,4 @@
 - `python3 tools/check_account_type_consistency.py` — YAML/JSON 내 비정본 `account_type` 문자열 탐지
 - `pytest 도서물류관리프로그램/backend/tests/test_account_type_normalization.py` — 정규화 단위
 - `pytest 도서물류관리프로그램/backend/tests/test_actr_priority.py` — ACTR 우선순위 + 정본화
+- `python3 debug/check_affiliation_integrity.py` — `dist_hcode`/`dist_tenant_id`/`parent_tenant_id` 불일치와 cross-DB 소속 전환 위험 탐지

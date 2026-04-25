@@ -420,6 +420,7 @@ sequenceDiagram
 | `DSN-RISK-08` (신규) | F-key 라이선스 폐지/추가 시 활성 세션의 JWT 가 stale → 폐지된 메뉴 접근 가능 | JWT TTL ≤ 1h + 백엔드 가드 이중 검증 (`tenant_features` 재조회) — `OQ-DSN-3` 에서 정책 확정 |
 | `DSN-RISK-09` (신규) | 동일 `Gcode` 가 다중 테넌트 DB 에 중복 존재 — 보조 식별자 미입력 시 라우팅 해석 모호 | DSN-DEC-08 — `AUTH_AMBIGUOUS_ROUTE` 단일 401 메시지로 통합. UI 는 충돌이 발견된 경우에만 보조 입력 노출 (회사 코드 / 회사 선택). |
 | `DSN-RISK-10` (신규) | 라우팅 해석 결과(`remote_id`) 가 SSH 터널 미가동 / mysql3 프로토콜 미지원 환경에서 401 로 묻힘 | 감사 로그 `resolved_db` / `resolved_via` 로 운영 추적 + 회귀 테스트(`멀티 서버 로그인`) 에서 4 `remote_*` 각 1건 PASS 강제. |
+| `DSN-RISK-11` (신규) | 총판 소속 사후 전환에서 동일 DB 공유 신호를 확정 키로 오인하면 오분류 위험 | `same_db`는 후보(high-candidate)로만 사용하고, 확정은 `dist_hcode + publisher_hcode + 관계키(parent_tenant_id/dist_tenant_id)` 일치 시에만 허용 |
 
 ---
 
@@ -431,6 +432,7 @@ sequenceDiagram
 - ✅ `migration/contracts/login.yaml` D-LOGIN-4 의 `proposed_web_behavior` 가 본 문서를 인용.
 - ✅ admin UI ([`(app)/admin/user-servers/page.tsx`](../도서물류관리프로그램/frontend/src/app/(app)/admin/user-servers/page.tsx)) 의 라디오 1선택 정책(DEC-052)이 본 결정과 정합.
 - ✅ JWT 페이로드 스키마 (`DSN-DEC-07`) 에 `account_family`, `build_id`, `build_role`, `license_keys[]` 4 컬럼 신설.
+- ✅ 총판 소속 사후 전환 API는 `T2_DIST`만 수행 가능하며, 대상 계정이 동일 `db_name_logical` 이 아닐 때는 표준 코드(`AFFILIATION_CROSS_DB_FORBIDDEN`)로 차단.
 
 ---
 
