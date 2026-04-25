@@ -184,6 +184,20 @@ def _write_warning_sheet(wb: openpyxl.Workbook) -> None:
         ("- 원본 2: WeLove_FTP/Welove_인수인계/셋팅방법/DB정보, DB_FTP 엑셀/DB_FTP 엑셀정리.xlsx (MAN-018)", False, None),
         ("- 분류 기준: tools/seed_tenants_directory.py _PRIMARY_DIST_FAMILIES (T2_DIST 정본)", False, None),
         ("", False, None),
+        ("통합 로그인(웹 API) vs DB 접속 계정", True, "BDD7EE"),
+        (
+            "- 시트「총판(T2_DIST) 로그인 ID·PW」에서: 「로그인 ID」= Id_Logn.Gcode, 「로그인 PW」= Id_Logn.Gpass "
+            "(POST /api/v1/auth/login 의 userId / password).",
+            False,
+            None,
+        ),
+        (
+            "- 같은 시트의 「DB 사용자」「DB 비번」은 MySQL 서버 접속용 계정으로, Id_Logn 과 별개입니다.",
+            False,
+            None,
+        ),
+        ("- 상세 매핑 표는 시트「필드_매핑_Id_Logn」을 참고하세요.", False, None),
+        ("", False, None),
         ("위반 시", True, "FFC7CE"),
         ("- git 추적 발견 → 즉시 history rewrite + 모든 자격증명 회전 (정책 §6).", False, None),
     ]
@@ -197,6 +211,38 @@ def _write_warning_sheet(wb: openpyxl.Workbook) -> None:
     sh.column_dimensions["A"].width = 110
 
 
+def _write_field_mapping_sheet(wb: openpyxl.Workbook) -> None:
+    """통합 로그인 필드(Id_Logn) vs DB 접속 계정 구분 — 검증용 문서."""
+    sh = wb.create_sheet("필드_매핑_Id_Logn", 1)
+    rows = [
+        ("구분", "본 엑셀 컬럼명", "레거시 DB / API", "비고"),
+        (
+            "웹 로그인 ID",
+            "로그인 ID (=Id_Logn.Gcode)",
+            "Id_Logn.Gcode",
+            "API: LoginRequest.userId (gcode AS user_id)",
+        ),
+        (
+            "웹 로그인 암호",
+            "로그인 PW (=Id_Logn.Gpass)",
+            "Id_Logn.Gpass",
+            "API: LoginRequest.password (gpass AS password)",
+        ),
+        ("DB 접속 ID", "DB 사용자", "MySQL 사용자명", "프로그램·터널 DB 연결 — Id_Logn 아님"),
+        ("DB 접속 암호", "DB 비번", "MySQL 비밀번호", "위와 쌍"),
+        ("표시명(참고)", "프로그램 사용자", "Id_Logn.Gname 근처", "로그인 ID와 혼동 금지 — 표시/작업자명"),
+        ("회사코드 힌트", "물류사코드", "Id_Logn.Hcode 등", "통합 로그인 옵션 hcode — 동명 ID 분기용"),
+    ]
+    for ri, tup in enumerate(rows, start=1):
+        for ci, val in enumerate(tup, start=1):
+            c = sh.cell(row=ri, column=ci, value=val)
+            if ri == 1:
+                c.font = Font(bold=True)
+                c.fill = PatternFill("solid", fgColor="E2EFDA")
+    for ci in range(1, 5):
+        sh.column_dimensions[get_column_letter(ci)].width = 36
+
+
 def _write_dist_sheet(wb: openpyxl.Workbook, rows: list[dict]) -> None:
     sh = wb.create_sheet("총판(T2_DIST) 로그인 ID·PW")
     headers = [
@@ -208,8 +254,8 @@ def _write_dist_sheet(wb: openpyxl.Workbook, rows: list[dict]) -> None:
         "폴더",
         "물류사코드",
         "프로그램 사용자",
-        "로그인 ID",
-        "로그인 PW",
+        "로그인 ID (=Id_Logn.Gcode)",
+        "로그인 PW (=Id_Logn.Gpass)",
         "DB 사용자",
         "DB 비번",
         "DB 명",
@@ -282,6 +328,7 @@ def main() -> int:
     if "Sheet" in wb.sheetnames:
         del wb["Sheet"]
     _write_warning_sheet(wb)
+    _write_field_mapping_sheet(wb)
     _write_dist_sheet(wb, merged)
     wb.save(str(OUT_PATH))
 
