@@ -175,121 +175,22 @@ base_templates:
       F91: X
       F92: X
     menu_ids_granted_hint: []
-  T3_WAREHOUSE_LITE:
-    summary_ko: 독립+경량 물류(위러브 계열)
-    fxx_defaults:
-      F11: R
-      F12: R
-      F13: R
-      F14: R
-      F15: R
-      F16: R
-      F17: R
-      F18: X
-      F18r: X
-      F19: R
-      F21: R
-      F22: X
-      F23: R
-      F24: R
-      F25: R
-      F26: R
-      F27: R
-      F28: R
-      F29: R
-      F31: R
-      F32: R
-      F33: R
-      F34: R
-      F35: R
-      F36: R
-      F37: R
-      F38: R
-      F39: R
-      F41: R
-      F42: R
-      F43: R
-      F44: R
-      F45: R
-      F46: R
-      F47: R
-      F48: R
-      F49: R
-      F50: X
-      F51: R
-      F51e: X
-      F52: R
-      F52e: X
-      F53: R
-      F53e: X
-      F54: R
-      F55: R
-      F56: R
-      F57: R
-      F58: R
-      F59: R
-      F90: X
-      F91: X
-      F92: X
-    menu_ids_granted_hint: []
-  T3_WAREHOUSE_FULL:
-    summary_ko: 독립+완전 물류(MS/북앤북 계열)
-    fxx_defaults:
-      F11: R
-      F12: R
-      F13: R
-      F14: R
-      F15: R
-      F16: R
-      F17: R
-      F18: X
-      F18r: X
-      F19: R
-      F21: R
-      F22: X
-      F23: R
-      F24: R
-      F25: R
-      F26: R
-      F27: R
-      F28: R
-      F29: R
-      F31: R
-      F32: R
-      F33: R
-      F34: R
-      F35: R
-      F36: R
-      F37: R
-      F38: R
-      F39: R
-      F41: R
-      F42: R
-      F43: R
-      F44: R
-      F45: R
-      F46: R
-      F47: R
-      F48: R
-      F49: R
-      F50: X
-      F51: R
-      F51e: X
-      F52: R
-      F52e: X
-      F53: R
-      F53e: X
-      F54: R
-      F55: R
-      F56: R
-      F57: R
-      F58: R
-      F59: R
-      F90: X
-      F91: X
-      F92: X
-    menu_ids_granted_hint: []
 customer_variants:
+- id: t3-warehouse-publisher-fxx-broad
+  summary_ko: T3 + build_role=warehouse_publisher — 구 T3_WAREHOUSE_* 템플릿과 동일 Fxx 보강
+  match:
+    build_role: warehouse_publisher
+  fxx_patch:
+    F17: R
+    F27: R
+    F28: R
+    F29: R
+    F31: R
+    F32: R
+    F33: R
+    F34: R
+    F35: R
+    F59: R
 - id: example-chul02-extra-read
   summary_ko: 예시 — 한국도서유통 총판 확장 시 F50 열람 추가 (베이스는 X)
   match:

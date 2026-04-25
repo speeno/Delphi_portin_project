@@ -1,0 +1,32 @@
+version: 1
+id: dashboard-role-kpi-matrix
+summary_ko: 역할별 통계 대시보드 KPI/차트/운영테이블 매핑 계약
+
+roles:
+  T1:
+    key: super
+    kpi_cards: [outbound_total, processing_total, returns_total, receivable_total]
+    trend_blocks: [funnel, leadtime, ops_health]
+    ops_tables: [receivables, low_turnover_books]
+    drilldown_routes: [/admin/super, /admin/signup-requests, /admin/id-logn]
+
+  T2_DIST:
+    key: dist
+    kpi_cards: [outbound_total, processing_total, returns_total, receivable_total]
+    trend_blocks: [funnel, leadtime, ops_health]
+    ops_tables: [receivables, low_turnover_books]
+    drilldown_routes: [/outbound/orders, /inventory/ledger, /settlement/cash]
+
+  T2_PUB:
+    key: pub
+    kpi_cards: [outbound_total, processing_total, returns_total, receivable_total]
+    trend_blocks: [funnel, leadtime, ops_health]
+    ops_tables: [receivables, low_turnover_books]
+    drilldown_routes: [/transactions/sales-statement, /ledger/customer, /stats/sales-period]
+
+  T3:
+    key: t3
+    kpi_cards: [outbound_total, processing_total, returns_total, receivable_total]
+    trend_blocks: [funnel, leadtime, ops_health]
+    ops_tables: [receivables, low_turnover_books]
+    drilldown_routes: [/outbound/orders, /inventory/ledger, /settlement/outstanding]

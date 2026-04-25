@@ -72,9 +72,9 @@ OUT_PATH = ROOT / "WeLove_FTP" / "_oneoff_idlogn_dump_DELETE_AFTER_USE.xlsx"
 
 # tools/seed_tenants_directory.py 와 동기 (ACTR / tenants 시드 추론)
 _FAMILY_TYPE_MAP: dict[str, tuple[str, str]] = {
-    "chul_09": ("T3_WAREHOUSE_LITE", "warehouse_publisher"),
-    "book_21": ("T3_WAREHOUSE_FULL", "warehouse_publisher"),
-    "book_07": ("T3_WAREHOUSE_FULL", "warehouse_publisher"),
+    "chul_09": ("T3", "warehouse_publisher"),
+    "book_21": ("T3", "warehouse_publisher"),
+    "book_07": ("T3", "warehouse_publisher"),
     "book_kb": ("T2_DIST", "distributor"),
     "kb_book": ("T2_DIST", "distributor"),
 }

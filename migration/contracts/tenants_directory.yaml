@@ -54,7 +54,7 @@ schema:
   parent_tenant_id: { type: uuid, nullable: true, desc: "상위 총판 tenant_id (T2-PUB 인 경우)" }
   default_account_type:
     type: enum
-    values: [T1, T2_DIST, T2_PUB, T3, T3_WAREHOUSE_LITE, T3_WAREHOUSE_FULL]
+    values: [T1, T2_DIST, T2_PUB, T3]
     desc: "회원가입/로그인 시 자동 매핑될 계정 유형 후보"
   primary_server:  { type: str, desc: "데이터 서버 ID (서버1~4, welove_db_route_matrix::server_id)" }
   db_name_logical: { type: str, desc: "DB 이름 (자격증명 제외 — chul_09_db 등)" }
@@ -66,10 +66,10 @@ schema:
 #
 # 계정 유형 결정 근거:
 #   chul_* (총판 계열)  → T2_DIST (distributor)
-#   book_kb             → T2_DIST / T2_PUB / T3_WAREHOUSE_FULL (한국도서유통 다중빌드)
-#   chul_09 (위러브)    → T3_WAREHOUSE_LITE (warehouse_publisher, 출판사관리 부재)
-#   book_21 (MS북스)    → T3_WAREHOUSE_FULL (warehouse_publisher, 출판사관리 + TSCLIB)
-#   book_07 (북앤북류)  → T3_WAREHOUSE_FULL (warehouse_publisher, 출판사관리 + 신규폼군)
+#   book_kb             → T2_DIST / T2_PUB / T3+warehouse_publisher (한국도서유통 다중빌드)
+#   chul_09 (위러브)    → T3 + warehouse_publisher (메뉴 티어 lite — DEC-RBAC-02)
+#   book_21 (MS북스)    → T3 + warehouse_publisher (메뉴 티어 full)
+#   book_07 (북앤북류)  → T3 + warehouse_publisher (메뉴 티어 full)
 #   book_* (독립출판사) → T3 (publisher)
 # ─────────────────────────────────────────────────────────────────────────────
 tenants:
@@ -92,7 +92,7 @@ tenants:
     active_build_id: BLD-PUB-WAREHOUSE-WELOVE
     build_role: warehouse_publisher
     parent_tenant_id: null
-    default_account_type: T3_WAREHOUSE_LITE
+    default_account_type: T3
     primary_server: 서버3
     db_name_logical: chul_09_db
     is_active: true
@@ -104,7 +104,7 @@ tenants:
     active_build_id: BLD-PUB-WAREHOUSE-WELOVE
     build_role: warehouse_publisher
     parent_tenant_id: null
-    default_account_type: T3_WAREHOUSE_LITE
+    default_account_type: T3
     primary_server: 서버3
     db_name_logical: chul_09_db
     is_active: true
@@ -161,7 +161,7 @@ tenants:
     active_build_id: BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW
     build_role: warehouse_publisher
     parent_tenant_id: null
-    default_account_type: T3_WAREHOUSE_FULL
+    default_account_type: T3
     primary_server: 서버1
     db_name_logical: book_07_db
     is_active: true
@@ -173,7 +173,7 @@ tenants:
     active_build_id: BLD-PUB-WAREHOUSE-WELOVE
     build_role: warehouse_publisher
     parent_tenant_id: null
-    default_account_type: T3_WAREHOUSE_LITE
+    default_account_type: T3
     primary_server: 서버1
     db_name_logical: chul_09_db
     is_active: true
@@ -186,7 +186,7 @@ tenants:
     active_build_id: BLD-PUB-WAREHOUSE-WELOVE
     build_role: warehouse_publisher
     parent_tenant_id: null
-    default_account_type: T3_WAREHOUSE_LITE
+    default_account_type: T3
     primary_server: 서버2
     db_name_logical: chul_09_db
     is_active: true
@@ -199,7 +199,7 @@ tenants:
     active_build_id: BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW
     build_role: warehouse_publisher
     parent_tenant_id: null
-    default_account_type: T3_WAREHOUSE_FULL
+    default_account_type: T3
     primary_server: 서버4
     db_name_logical: book_07_db
     is_active: true
@@ -235,7 +235,7 @@ tenants:
     active_build_id: BLD-PUB-WAREHOUSE-MS
     build_role: warehouse_publisher
     parent_tenant_id: null
-    default_account_type: T3_WAREHOUSE_FULL
+    default_account_type: T3
     primary_server: 서버4
     db_name_logical: book_21_db
     is_active: true

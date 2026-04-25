@@ -3,7 +3,7 @@
 | 항목 | 내용 |
 |------|------|
 | 작성일 | 2026-04-24 |
-| 상태 | DRAFT — 온보딩 사이클 1차 |
+| 상태 | FROZEN — 4대 상위 유형 + `warehouse_menu_tier` 보조 (2026-04-25) |
 | 추적 ID | `ACTR-*` (결정 규칙 단위) |
 | 단일 원천 | 본 문서 + [`migration/contracts/tenants_directory.yaml`](../migration/contracts/tenants_directory.yaml) + [`migration/contracts/web_publisher_whitelist.yaml`](../migration/contracts/web_publisher_whitelist.yaml) |
 | 연관 | [`docs/decision-login-db-routing.md`](decision-login-db-routing.md) DSN-DEC-06/07, [`docs/onboarding-rbac-menu-matrix.md`](onboarding-rbac-menu-matrix.md), [`docs/menu-visibility-runtime-design.md`](menu-visibility-runtime-design.md) MENUVIS-DEC-04 |
@@ -17,9 +17,9 @@
 | `T1` | 수퍼관리자 | 시스템 관리자 | 특수 계정 |
 | `T2_DIST` | 총판(물류사) | 물류센터 운영사 | `BLD-DIST-*`, `chul_*`, `book_kb` |
 | `T2_PUB` | 총판 소속 출판사 | 총판에 등록된 출판사 | `BLD-PUB-*` |
-| `T3` | 독립 출판사 | 단독 운영 출판사 | `book_*` |
-| `T3_WAREHOUSE_LITE` | 독립 출판사 + 자체 물류(경량) | 출판사관리 부재, 7 메뉴 | `chul_09` (위러브) |
-| `T3_WAREHOUSE_FULL` | 독립 출판사 + 자체 물류(완전) | 출판사관리 보유, 8 메뉴 | `book_21` (MS북스), `book_07` (북앤북) |
+| `T3` | 독립 출판사 | 단독 운영 출판사 또는 자체 물류 보유 출판사 | `book_*` / `chul_09` / `book_21` / `book_07` 등 |
+| *(레거시 입력)* `T3_WAREHOUSE_*` | *(접힘)* | JWT·로그인 응답에서는 **`T3`** 만 노출 | 시드·구버전 JWT 호환 입력 → 내부에서 `T3` + `warehouse_menu_tier` 로 복원 |
+| `warehouse_menu_tier` | *(JWT·메뉴 보조)* | `lite` (WH-WL / chul_09) \| `full` (WH-MS·WH-BB / book_21·book_07·book_kb) \| 빈 문자열 | `auth_service` + `account_type_policy` |
 
 ---
 
@@ -27,6 +27,7 @@
 
 > **운영 함수 정합 (DEC-RBAC-03 정합)**: 실제 ``app.services.auth_service._resolve_account_type``
 > 의 분기 순서는 **수퍼유저(DEC-02) → web_users(DEC-01) → whitelist(DEC-03) → tenants(DEC-04) → 폴백(DEC-05)** 이다.
+> 종단에서 상위 ``account_type`` 은 **T1/T2_DIST/T2_PUB/T3** 네 값으로 접으며, 자체 물류 LITE/FULL 구분은 ``warehouse_menu_tier`` 로만 노출한다.
 > DEC-01 이 "명시 우선순위" 라는 의미는 *비-슈퍼* 사용자에 한해 가장 강한 출처가 web_users 라는 뜻이며,
 > 운영자 락아웃 방지를 위해 슈퍼유저(`hcode='0000'` / `BLS_ADMIN_USER_IDS` / role 매핑) 는 모든 출처에 우선한다.
 > 회귀 잠금: ``backend/tests/test_actr_priority.py`` (6 케이스).
@@ -49,7 +50,9 @@ if is_admin(user_id, hcode):
 
 ```python
 if web_users.account_type:
-    return web_users.account_type  # 정본
+    # 구현: auth_service 종단에서 account_type_policy.canonicalize_account_type 로 T3 로 접고
+    # warehouse_menu_tier 를 채운다.
+    return resolved.account_type
 ```
 
 ### `ACTR-DEC-03` — web_publisher_whitelist 매핑

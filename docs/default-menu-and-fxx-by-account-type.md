@@ -2,7 +2,7 @@
 
 | 항목 | 내용 |
 |------|------|
-| 목적 | **총판(T2_DIST)**, **총판 소속 출판사(T2_PUB)**, **독립 출판사(T3)** 및 물류 서브타입에 대해 웹 메뉴·API 권한(Fxx) 기본값을 한곳에서 설명하고, [migration/contracts/default_id_logn_permissions.yaml](../migration/contracts/default_id_logn_permissions.yaml) 과 동기 유지한다. |
+| 목적 | **총판(T2_DIST)**, **총판 소속 출판사(T2_PUB)**, **독립 출판사(T3)** (+ 자체 물류는 `build_role`·`warehouse_menu_tier`) 에 대해 웹 메뉴·API 권한(Fxx) 기본값을 한곳에서 설명하고, [migration/contracts/default_id_logn_permissions.yaml](../migration/contracts/default_id_logn_permissions.yaml) 과 동기 유지한다. |
 | 인덱스 | [docs/inventory-delphi-rbac-sources.md](inventory-delphi-rbac-sources.md) |
 | 메뉴 정본 | [docs/onboarding-rbac-menu-matrix.md](onboarding-rbac-menu-matrix.md) (`ACC-MENU-*`) |
 | Fxx 정본 키 | `legacy-analysis/permission-keys-catalog.md` + [admin_service 시드](../도서물류관리프로그램/backend/app/services/admin_service.py) `legacy_permission_map` |
@@ -14,8 +14,8 @@
 | `T2_DIST` | distributor / 자체 물류 총판 | 기초·거래·원장·회계·자료·통계 + **출고·재고·발송비·내역서** (NAV-09~15), 총판 전용(NAV-16 등) 가능 |
 | `T2_PUB` | publisher (소속) | 기초·거래·원장·회계·자료·통계 + **년/월 통계(NAV-07)** — **출판사관리(MASTERS-04) 비표시** |
 | `T3` | publisher (독립) | T2-PUB 과 동일 셸에 가깝게 운영 (단독 DB) |
-| `T3_WAREHOUSE_LITE` | 위러브형 물류내장 | distributor 셸에서 일부 메뉴 LITE 전용(반품재고 통합 등) — onboarding §2·§4 |
-| `T3_WAREHOUSE_FULL` | MS북스·북앤북형 | distributor 셸 8메뉴·재고/반품 분리 — onboarding §2 |
+| `T3` + `warehouse_publisher` + `warehouse_menu_tier=lite` | 위러브형 자체 물류 | distributor 셸에서 LITE 전용 메뉴(반품재고 통합 등) — onboarding §2·§4 |
+| `T3` + `warehouse_publisher` + `warehouse_menu_tier=full` | MS북스·북앤북형 | distributor 셸 8메뉴·재고/반품 분리 — onboarding §2 |
 
 > **중요**: 위 표는 **가시성(RBAC 메뉴 매트릭스)** 이다. **API 쓰기 허용**은 별도로 `Id_Logn` Fxx `O`/`R`/`X` 로 결정되며, 기본값은 [default_id_logn_permissions.yaml](../migration/contracts/default_id_logn_permissions.yaml) 에서 관리한다.
 

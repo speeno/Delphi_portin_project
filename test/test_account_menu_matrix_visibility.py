@@ -16,8 +16,6 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Iterable
-
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,22 +33,52 @@ def _is_menu_visible(
     *,
     account_type: str | None = None,
     build_role: str | None = None,
+    warehouse_menu_tier: str | None = None,
     license_keys: Iterable[str] | None = None,
     is_super_user: bool = False,
 ) -> bool:
     """`isMenuVisible` 의 Python 미러 (DEC-RBAC-03 게이트 키)."""
+    _ = license_keys  # TS 런타임과 동일 — license_keys 는 웹 메뉴 판정에 미사용
     if is_super_user:
         return True
     if menu.get("account_types") and account_type not in menu["account_types"]:
         return False
     if menu.get("build_roles") and build_role not in menu["build_roles"]:
         return False
-    if menu.get("license_keys"):
-        owned = set(license_keys or [])
-        for k in menu["license_keys"]:
-            if k not in owned:
+    tiers = menu.get("warehouse_menu_tiers") or []
+    if tiers:
+        at = (account_type or "").strip()
+        br = (build_role or "").strip().lower()
+        if at == "T3" and br == "warehouse_publisher":
+            wmt = (warehouse_menu_tier or "").strip().lower()
+            if not wmt or wmt not in tiers:
                 return False
     return True
+
+
+def _pick_build_role_for_account(menu: dict, acct: str) -> str | None:
+    roles: list[str] = list(menu.get("build_roles") or [])
+    if not roles:
+        return None
+    if acct == "T2_DIST" and "distributor" in roles:
+        return "distributor"
+    if acct == "T2_PUB" and "publisher" in roles:
+        return "publisher"
+    if acct == "T3":
+        if "warehouse_publisher" in roles:
+            return "warehouse_publisher"
+        if "publisher" in roles:
+            return "publisher"
+    if acct == "T1":
+        return roles[0]
+    return roles[0]
+
+
+def _pick_warehouse_tier(menu: dict, acct: str, build_role: str | None) -> str:
+    tiers: list[str] = list(menu.get("warehouse_menu_tiers") or [])
+    if acct == "T3" and (build_role or "").lower() == "warehouse_publisher" and tiers:
+        return tiers[0]
+    return ""
 
 
 class TestMatrixDriftGuards:
@@ -84,38 +112,23 @@ class TestAccountTypeAxisRegression:
     def test_per_account_type(self, matrix, acct):
         failures = []
         for m in matrix["menus"]:
-            expected = (
-                not m.get("account_types")
-                or acct in m["account_types"]
-            )
+            br = _pick_build_role_for_account(m, acct)
+            wmt = _pick_warehouse_tier(m, acct, br)
+            roles = m.get("build_roles") or []
+            acc_ok = not m.get("account_types") or acct in m["account_types"]
+            br_ok = not roles or (br and br in roles)
+            expected = acc_ok and br_ok
             actual = _is_menu_visible(
                 m,
                 account_type=acct,
-                build_role=m["build_roles"][0] if m.get("build_roles") else None,
-                license_keys=m.get("license_keys"),
+                build_role=br,
+                warehouse_menu_tier=wmt or None,
             )
             if actual is not expected:
                 failures.append((m["id"], expected, actual))
         assert not failures, (
             f"가시성 불일치 ({acct}): {failures[:5]}"
         )
-
-
-class TestLicenseKeyGate:
-    def test_blank_license_keys_when_required(self, matrix):
-        gated = next(
-            (m for m in matrix["menus"] if m.get("license_keys")),
-            None,
-        )
-        if gated is None:
-            pytest.skip("license_keys 게이트 메뉴가 매트릭스에 없음")
-        out = _is_menu_visible(
-            gated,
-            account_type=(gated["account_types"] or ["T1"])[0],
-            build_role=(gated["build_roles"] or [None])[0],
-            license_keys=[],
-        )
-        assert out is False
 
 
 class TestUndefinedMenuClosed:

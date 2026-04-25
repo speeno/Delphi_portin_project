@@ -33,9 +33,9 @@ OUT = ROOT / "도서물류관리프로그램" / "backend" / "data" / "tenants_di
 
 # account_family → (default_account_type, default_build_role)
 _FAMILY_TYPE_MAP: dict[str, tuple[str, str]] = {
-    "chul_09": ("T3_WAREHOUSE_LITE", "warehouse_publisher"),
-    "book_21": ("T3_WAREHOUSE_FULL", "warehouse_publisher"),
-    "book_07": ("T3_WAREHOUSE_FULL", "warehouse_publisher"),
+    "chul_09": ("T3", "warehouse_publisher"),
+    "book_21": ("T3", "warehouse_publisher"),
+    "book_07": ("T3", "warehouse_publisher"),
     "book_kb": ("T2_DIST", "distributor"),
     # chul_* 계열은 기본 T2_DIST (총판)
 }

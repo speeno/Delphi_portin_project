@@ -45,7 +45,7 @@ schema:
     desc: "소속 총판 hcode — T2-PUB 검증 시 매칭 키"
   expected_account_type:
     type: enum
-    values: [T2_PUB, T3, T3_WAREHOUSE_LITE, T3_WAREHOUSE_FULL]
+    values: [T2_PUB, T3]
     desc: "승인 시 자동 적재될 계정 유형 (ACTR-DEC-03)"
   default_account_family:
     type: str

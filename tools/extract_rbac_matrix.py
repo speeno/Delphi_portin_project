@@ -42,14 +42,17 @@ FRONTEND_OUT = (
 )
 YAML_OUT = ROOT / "migration" / "contracts" / "rbac_menu_matrix.yaml"
 
-# 정규화: 매트릭스 표 헤더의 'T2-DIST' → ACTR 'T2_DIST'.
-ACCOUNT_TYPE_NORMALIZE = {
+# 상위 account_type 은 T1/T2_DIST/T2_PUB/T3 네 가지만 출력한다.
+# T3-LITE / T3-FULL 열은 warehouse_menu_tiers 로만 반영한다.
+BASE_ACCOUNT_TYPE_COLS: dict[str, str] = {
     "T1": "T1",
     "T2-DIST": "T2_DIST",
     "T2-PUB": "T2_PUB",
     "T3": "T3",
-    "T3-LITE": "T3_WAREHOUSE_LITE",
-    "T3-FULL": "T3_WAREHOUSE_FULL",
+}
+WAREHOUSE_TIER_COLS: dict[str, str] = {
+    "T3-LITE": "lite",
+    "T3-FULL": "full",
 }
 
 # source_builds prefix → build_role 매핑 (정합 출처: §1 한 줄 요약)
@@ -203,11 +206,25 @@ def _section_to_menus(rows: list[dict], section_key: str) -> list[dict]:
             if k in r:
                 caption = _caption_from_cell(r[k])
                 break
-        # 계정 유형 ✓ 검사
+        # 계정 유형 ✓ 검사 (4대 유형) + 자체 물류 티어
         acc_types: list[str] = []
-        for label, norm in ACCOUNT_TYPE_NORMALIZE.items():
+        for label, norm in BASE_ACCOUNT_TYPE_COLS.items():
             if label in r and _is_check(r[label]):
                 acc_types.append(norm)
+        has_plain_t3 = "T3" in r and _is_check(r["T3"])
+        wh_tiers: list[str] = []
+        for label, tier in WAREHOUSE_TIER_COLS.items():
+            if label in r and _is_check(r[label]):
+                wh_tiers.append(tier)
+        if wh_tiers and not has_plain_t3 and "T3" not in acc_types:
+            # 자체 물류 전용 행 — 상위 유형은 T3 로 간주
+            acc_types.append("T3")
+        if has_plain_t3:
+            # T3 열이 ✓ 이면 일반 독립 출판 셸과 겸하므로 티어 제한 없음
+            wh_tiers = []
+        # 결정적 정렬
+        acc_types = sorted(set(acc_types))
+        wh_tiers = sorted(set(wh_tiers))
         # source_builds
         src_cell = r.get("source_builds", "")
         sources = _sources_from_cell(src_cell)
@@ -219,6 +236,7 @@ def _section_to_menus(rows: list[dict], section_key: str) -> list[dict]:
             "route": route,
             "caption": caption,
             "account_types": acc_types,
+            "warehouse_menu_tiers": wh_tiers,
             "build_roles": _build_roles_from_sources(sources),
             "license_keys": lic,
             "source_builds": sources,
@@ -252,11 +270,12 @@ def parse_matrix(text: str) -> dict:
     menus += _section_to_menus(admin_rows, "admin")
 
     payload = {
-        "version": "2026-04-24",
+        "version": "2026-04-25",
         "source": "docs/onboarding-rbac-menu-matrix.md",
         "extracted_by": "tools/extract_rbac_matrix.py",
         "decision_refs": ["DEC-RBAC-02", "DEC-RBAC-03"],
-        "account_types": list(ACCOUNT_TYPE_NORMALIZE.values()),
+        "account_types": list(BASE_ACCOUNT_TYPE_COLS.values()),
+        "warehouse_menu_tiers": sorted(set(WAREHOUSE_TIER_COLS.values())),
         "build_roles": sorted(set(BUILD_ROLE_FROM_BUILD.values())),
         "menus": menus,
     }
@@ -277,6 +296,9 @@ def render_yaml(payload: dict) -> str:
     lines.append("account_types:")
     for a in payload["account_types"]:
         lines.append(f"  - {a}")
+    lines.append("warehouse_menu_tiers:")
+    for w in payload.get("warehouse_menu_tiers") or []:
+        lines.append(f"  - {w}")
     lines.append("build_roles:")
     for b in payload["build_roles"]:
         lines.append(f"  - {b}")
@@ -288,6 +310,7 @@ def render_yaml(payload: dict) -> str:
         cap = m["caption"].replace("\"", "'")
         lines.append(f"    caption: \"{cap}\"")
         lines.append(f"    account_types: [{', '.join(m['account_types'])}]")
+        lines.append(f"    warehouse_menu_tiers: [{', '.join(m.get('warehouse_menu_tiers') or [])}]")
         lines.append(f"    build_roles: [{', '.join(m['build_roles'])}]")
         lines.append(f"    license_keys: [{', '.join(m['license_keys'])}]")
         lines.append(f"    source_builds: [{', '.join(m['source_builds'])}]")

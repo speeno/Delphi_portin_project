@@ -392,6 +392,21 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "stats.dashboard.overview",
+            "path": f"/api/v1/stats/dashboard/overview?serverId={sid}&period=today&accountType=T2_DIST",
+            "ok_status": {200},
+        },
+        {
+            "group": "stats.dashboard.funnel",
+            "path": f"/api/v1/stats/dashboard/funnel?serverId={sid}&period=today",
+            "ok_status": {200},
+        },
+        {
+            "group": "stats.dashboard.receivables",
+            "path": f"/api/v1/stats/dashboard/receivables?serverId={sid}&period=month",
+            "ok_status": {200},
+        },
+        {
             "group": "ownership.violation.expected_403",
             "path": f"/api/v1/masters/book?serverId={sid}&limit=1",
             "headers": {

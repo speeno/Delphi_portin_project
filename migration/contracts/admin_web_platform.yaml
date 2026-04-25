@@ -58,7 +58,7 @@ data_model:
       - status                   # pending | active | disabled
       - created_at
       - tenant_id                # FK → tenants_directory.tenant_id (nullable: 승인 전)
-      - account_type             # T1 | T2_DIST | T2_PUB | T3 | T3_WAREHOUSE_LITE | T3_WAREHOUSE_FULL (nullable: 매핑 대기)
+      - account_type             # T1 | T2_DIST | T2_PUB | T3 (nullable: 매핑 대기) — 자체 물류는 build_role+warehouse_menu_tier
       - account_family           # chul_09 | book_07 | book_21 | book_kb | ... (DSN 라우팅 캐시)
       - dist_hcode               # T2-PUB 의 상위 총판 hcode (nullable)
       - approved_at              # 관리자 승인 일시 (nullable)
