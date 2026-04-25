@@ -59,6 +59,7 @@ import sys
 from pathlib import Path
 
 import openpyxl
+import yaml
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
@@ -71,13 +72,27 @@ DB_INFO_XLSX = (
 OUT_PATH = ROOT / "WeLove_FTP" / "_oneoff_idlogn_dump_DELETE_AFTER_USE.xlsx"
 
 # tools/seed_tenants_directory.py 와 동기 (ACTR / tenants 시드 추론)
-_FAMILY_TYPE_MAP: dict[str, tuple[str, str]] = {
-    "chul_09": ("T3", "warehouse_publisher"),
-    "book_21": ("T3", "warehouse_publisher"),
-    "book_07": ("T3", "warehouse_publisher"),
-    "book_kb": ("T2_DIST", "distributor"),
-    "kb_book": ("T2_DIST", "distributor"),
-}
+TIER_CONTRACT = ROOT / "migration" / "contracts" / "account_family_tiers.yaml"
+
+
+def _warehouse_families_from_contract() -> set[str]:
+    if not TIER_CONTRACT.exists():
+        return set()
+    try:
+        doc = yaml.safe_load(TIER_CONTRACT.read_text(encoding="utf-8")) or {}
+        tiers = doc.get("tiers") or {}
+        out: set[str] = set()
+        for grp in ("lite", "full"):
+            for fam in tiers.get(grp) or []:
+                v = (str(fam) or "").strip().lower()
+                if v:
+                    out.add(v)
+        return out
+    except Exception:
+        return set()
+
+
+_WAREHOUSE_FAMILIES = _warehouse_families_from_contract()
 _DIST_FAMILIES = {f"chul_{i:02d}" for i in range(1, 9)} | {"chul_05", "chul_06", "chul_07", "chul_08"}
 _PUB_FAMILIES = {f"book_{i:02d}" for i in range(1, 14)} | {
     "book_10", "book_11", "book_12", "book_13",
@@ -102,8 +117,10 @@ def _norm(value) -> str:
 
 def _infer_account_type(family: str) -> tuple[str, str]:
     """``tools/seed_tenants_directory.py::_infer_account_type`` 와 동기 (+ kb_book)."""
-    if family in _FAMILY_TYPE_MAP:
-        return _FAMILY_TYPE_MAP[family]
+    if family in _WAREHOUSE_FAMILIES:
+        return "T3", "warehouse_publisher"
+    if family in ("book_kb", "kb_book"):
+        return "T2_DIST", "distributor"
     if family in _DIST_FAMILIES or family.startswith("chul_"):
         return "T2_DIST", "distributor"
     if family in _PUB_FAMILIES or family.startswith("book_"):

@@ -1,0 +1,9 @@
+version: 1.0.0
+description: T3 warehouse_menu_tier 분류(account_family 기반)
+tiers:
+  lite:
+    - chul_09
+  full:
+    - book_21
+    - book_07
+    - book_kb

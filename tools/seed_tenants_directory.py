@@ -26,19 +26,34 @@ import re
 import uuid
 from pathlib import Path
 
+import yaml
+
 ROOT = Path(__file__).resolve().parent.parent
 ROUTE_MATRIX = ROOT / "analysis" / "welove_db_route_matrix.json"
 BUILDS = ROOT / "analysis" / "welove_chul_builds.json"
 OUT = ROOT / "도서물류관리프로그램" / "backend" / "data" / "tenants_directory_seed.json"
 
-# account_family → (default_account_type, default_build_role)
-_FAMILY_TYPE_MAP: dict[str, tuple[str, str]] = {
-    "chul_09": ("T3", "warehouse_publisher"),
-    "book_21": ("T3", "warehouse_publisher"),
-    "book_07": ("T3", "warehouse_publisher"),
-    "book_kb": ("T2_DIST", "distributor"),
-    # chul_* 계열은 기본 T2_DIST (총판)
-}
+TIER_CONTRACT = ROOT / "migration" / "contracts" / "account_family_tiers.yaml"
+
+
+def _warehouse_families_from_contract() -> set[str]:
+    if not TIER_CONTRACT.exists():
+        return set()
+    try:
+        doc = yaml.safe_load(TIER_CONTRACT.read_text(encoding="utf-8")) or {}
+        tiers = doc.get("tiers") or {}
+        out: set[str] = set()
+        for grp in ("lite", "full"):
+            for fam in tiers.get(grp) or []:
+                v = (str(fam) or "").strip().lower()
+                if v:
+                    out.add(v)
+        return out
+    except Exception:
+        return set()
+
+
+_WAREHOUSE_FAMILIES = _warehouse_families_from_contract()
 
 _DIST_FAMILIES = {f"chul_{i:02d}" for i in range(1, 9)} | {
     "chul_05", "chul_06", "chul_07", "chul_08"
@@ -51,8 +66,10 @@ _PUB_FAMILIES = {f"book_{i:02d}" for i in range(1, 14)} | {
 
 
 def _infer_account_type(family: str) -> tuple[str, str]:
-    if family in _FAMILY_TYPE_MAP:
-        return _FAMILY_TYPE_MAP[family]
+    if family in _WAREHOUSE_FAMILIES:
+        return "T3", "warehouse_publisher"
+    if family == "book_kb":
+        return "T2_DIST", "distributor"
     if family in _DIST_FAMILIES or family.startswith("chul_"):
         return "T2_DIST", "distributor"
     if family in _PUB_FAMILIES or family.startswith("book_"):
