@@ -368,6 +368,16 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "admin.id_logn_permission_defaults",
+            "path": f"/api/v1/admin/id-logn/permission-defaults?accountType=T2_DIST&server_id={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "me.profile",
+            "path": "/api/v1/me/profile",
+            "ok_status": {200},
+        },
+        {
             "group": "admin.permission_matrix_stale_must_409",
             "method": "PUT",
             "path": f"/api/v1/admin/id-logn/BR01/permissions?server_id={sid}",

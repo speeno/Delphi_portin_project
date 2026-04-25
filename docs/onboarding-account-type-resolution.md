@@ -64,18 +64,22 @@ if whl and whl["status"] == "active":
 
 ### `ACTR-DEC-04` — tenants_directory 매핑
 
-`tenants_directory` 에서 `account_family` 또는 `tenant_label_kor` 로 조회해 `default_account_type` 사용.
+`tenants_directory` 에서 `default_account_type` / `build_role` 을 읽는다. **동일 `hcode` 가 복수 테넌트에 걸쳐 있을 수 있어** `hcode` 단독 역매핑은 신뢰할 수 없다.
+
+운영 구현 (`app.services.auth_service._resolve_account_type`) 은 다음 순서로 테넌트 row 를 해석한다.
+
+1. **DSN-DEC-09** `login_id_index` 조회: `(Gcode, Hcode, 논리 db_name, remote_id)` 힌트로 `tenant_id` / `account_family` 를 복원한다. `ambiguous` 이면 `resolved_db`(인증에 사용한 논리 DB명)로 후보를 좁혀 단일화한다.
+2. `tenant_id` 가 있으면 `tenants_directory_service.lookup_by_tenant_id` 로 시드 row 를 로드한다.
+3. 아니면 `account_family` + `server_id` 로 `lookup_by_account_family` 를 호출한다. (`server_id` 는 `remote_*` 형태이며, 시드의 `primary_server` 한글 라벨과 동등 비교된다.)
+4. 그래도 없으면 `lookup_by_hcode_hint` 로 폴백한다(레거시·테스트 호환).
 
 ```python
-tenant = tenants_directory_service.lookup_by_hcode_hint(hcode, server_id)
+# 의사코드 — 실제는 auth_service._resolve_account_type 참고
+idx = login_id_index_service.lookup(login_id=user_id, hcode=hcode)
+tenant = resolve_tenant_from_index_and_tenants_directory(idx, resolved_db, server_id)
 if tenant:
     return tenant["default_account_type"]
 ```
-
-`hcode_hint` 조회 전략:
-- `hcode` prefix (앞 4~6자) 로 `account_family` 패턴 매칭
-- 또는 `web_users.account_family` (승인 시 적재된 캐시) 직접 사용
-- `(account_family, server_id)` → `tenants_directory` 조회
 
 ### `ACTR-DEC-05` — 미결정 폴백
 
