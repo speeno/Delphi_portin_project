@@ -86,17 +86,31 @@ async def probe_select_one(server_id: str) -> dict[str, Any]:
 # L4 — 라우터 GET 스모크 (TestClient + 의존성 우회)
 # ─────────────────────────────────────────────────────────────────────
 def _build_test_client():
-    """FastAPI 앱을 import 하고 get_current_user 를 우회한다."""
+    """FastAPI 앱을 import 하고 get_user_context 를 우회한다."""
     # 지연 import: PYTHONPATH 가 들어간 뒤에야 app 모듈을 찾을 수 있음.
+    from fastapi import Request  # noqa: PLC0415
     from fastapi.testclient import TestClient  # noqa: PLC0415
 
+    from app.core.deps import get_user_context  # noqa: PLC0415
     from app.main import app  # noqa: PLC0415
-    from app.routers.auth import get_current_user  # noqa: PLC0415
 
-    async def _override() -> dict[str, str]:
-        return {"user_id": "smoke", "server_id": "remote_1"}
+    async def _override_ctx(request: Request) -> dict[str, object]:
+        sid = (
+            request.headers.get("X-Smoke-Ownership-Server")
+            or request.query_params.get("serverId")
+            or "remote_1"
+        )
+        return {
+            "user_id": "smoke",
+            "server_id": sid,
+            "tenant_id": request.query_params.get("tenantId", ""),
+            "role": "operator",
+            "hcode": "S0001",
+            "permissions": [],
+            "account_type": "T2_DIST",
+        }
 
-    app.dependency_overrides[get_current_user] = _override
+    app.dependency_overrides[get_user_context] = _override_ctx
     return TestClient(app)
 
 
@@ -376,6 +390,14 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "group": "me.profile",
             "path": "/api/v1/me/profile",
             "ok_status": {200},
+        },
+        {
+            "group": "ownership.violation.expected_403",
+            "path": f"/api/v1/masters/book?serverId={sid}&limit=1",
+            "headers": {
+                "X-Smoke-Ownership-Server": "remote_154" if sid != "remote_154" else "remote_153"
+            },
+            "ok_status": {403},
         },
         {
             "group": "admin.permission_matrix_stale_must_409",
