@@ -664,5 +664,40 @@ class SettlementPhase2TestCase(TestCase):
         )
 
 
+class StaticSettlementPrintBundleRegistryTests(TestCase):
+    """정산·인쇄 잔여 4폼 + billing 별칭 — form-registry phase1 승격 정합 (T7 고정)."""
+
+    def test_TC_ST_P2_32_form_registry_phase1_promoted(self) -> None:
+        reg = (FRONTEND / "src" / "lib" / "form-registry.ts").read_text(encoding="utf-8")
+        ids = (
+            "Sobo46_billing",
+            "Sobo49_tax",
+            "Sobo46_billing_bill",
+            "Sobo49_tax_bill",
+            "Settle_outstanding",
+            "Sobo41_slip",
+        )
+        for sid in ids:
+            block = re.search(rf"\{{\s*id:\s*\"{re.escape(sid)}\".*?\}}", reg, re.DOTALL)
+            self.assertIsNotNone(block, f"missing FORM_REGISTRY entry: {sid}")
+            self.assertIn(
+                'phase: "phase1"',
+                block.group(0),
+                f"{sid} must be phase1 after settlement/print reclassification",
+            )
+
+    def test_TC_ST_P2_33_outstanding_slip_pages_have_legacy_root(self) -> None:
+        """DEC-028 최소 루트 — 미수현황·입금전표 페이지에 data-legacy-id 존재."""
+        out_p = FRONTEND / "src" / "app" / "(app)" / "settlement" / "outstanding" / "page.tsx"
+        slip_p = FRONTEND / "src" / "app" / "(app)" / "settlement" / "payment-slip" / "page.tsx"
+        out_src = out_p.read_text(encoding="utf-8")
+        slip_src = slip_p.read_text(encoding="utf-8")
+        self.assertIn('data-legacy-id="Settle_outstanding.Page"', out_src)
+        self.assertIn("Settle_outstanding.Filter", out_src)
+        self.assertIn("Settle_outstanding.Grid", out_src)
+        self.assertIn('data-legacy-id="Sobo41_slip.Page"', slip_src)
+        self.assertIn("Sobo41_slip.Card.", slip_src)
+
+
 if __name__ == "__main__":
     main()

@@ -90,7 +90,7 @@ flowchart LR
 | `Report_4_51` | **137** | 청구서 (Sobo46) — 운영 결합 P0 |
 | `Report_2_13` | 123 | 거래명세서 변형 (Tong04 PrinTing00) |
 | `Report_3_91` | 107 | 통계/현황 |
-| `Report_2_11` | 67 | 세금계산서 (Sobo49) — 운영 결합 P0 |
+| `Report_2_11` | 67 | 거래명세서/세금계산서 계열 변형 — C7 Sobo21 1차 결합 |
 | `Report_3_81` | 55 | 통계/현황 변형 |
 | `Report_3_92` | 50 | 통계 변형 |
 | `Report_4_96` | 26 | 정산 변형 (Tong04) |
@@ -116,11 +116,11 @@ flowchart LR
 
 | 상태 | 정본 ID 수 | 비고 |
 |---|---:|---|
-| 운영 결합 (`ir_in_use`) | **1** | `Report_1_21` (라벨 1종, [`print_templates/auto/Report_1_21.ir.json`](../../도서물류관리프로그램/backend/app/services/print_templates/auto/Report_1_21.ir.json)) |
+| 운영 결합 (`ir_in_use`) | **2** | `Report_1_21` (라벨 1종), `Report_2_11` (C7 Sobo21 auto 시도 + manual fallback, [`print_templates/auto/Report_2_11.ir.json`](../../도서물류관리프로그램/backend/app/services/print_templates/auto/Report_2_11.ir.json)) |
 | 운영 사용 (`manual_in_use`) | **5** (중복 ID 포함) | `Report_4_51`(Sobo46), `Report_2_11`/`2_13`/`2_19`(Sobo49), 출고/반품 (수동 HTML 빌더) |
 | 카탈로그만 (`catalogued`) | **72** | 운영 미결합 — DEC-039 정책상 SOP/PR 없이는 결합 0 |
 
-**1744쌍 중 운영 코드에서 직접 참조되는 변환 자산 수**: **1건** (`Report_1_21.ir.json`). 나머지 1743쌍은 **DEC-048 트랙 종결 산출물** 로 카탈로그·R&D 참조용.
+**1744쌍 중 운영 코드에서 직접 참조되는 변환 자산 수**: **2건** (`Report_1_21.ir.json`, `Report_2_11.ir.json`). 나머지 자산은 **DEC-048 트랙 종결 산출물** 로 카탈로그·R&D 참조용.
 
 ---
 

@@ -501,6 +501,21 @@ class C6ServiceUnitTests(TestCase):
             transactions_service._line_status_from_yesno_max(None), "active"
         )
 
+    def test_sales_statement_sql_coalesce_jubun_gjisa_keys(self) -> None:
+        """Sobo21 LIST/DETAIL/MEMO 가 NULL·빈 Jubun/Gjisa 에 동일하게 매칭 (회귀 정적 검사)."""
+        ts = transactions_service
+        for name in (
+            "SQL_DETAIL_LINES",
+            "SQL_MEMO_LOAD",
+            "SQL_MEMO_EXISTS",
+            "SQL_MEMO_UPDATE",
+        ):
+            sql = getattr(ts, name)
+            self.assertIn("COALESCE(Jubun,'')", sql, f"{name}: COALESCE(Jubun) 누락")
+            self.assertIn("COALESCE(Gjisa,'')", sql, f"{name}: COALESCE(Gjisa) 누락")
+        self.assertIn("COALESCE(Jubun,'')", ts._GROUP_BY_STMT_KEYS)
+        self.assertIn("COALESCE(Gjisa,'')", ts._GROUP_BY_STMT_KEYS)
+
 
 if __name__ == "__main__":
     main()

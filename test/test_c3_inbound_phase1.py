@@ -38,9 +38,11 @@ ROOT = Path(__file__).resolve().parents[1]
 BACKEND = ROOT / "도서물류관리프로그램" / "backend"
 sys.path.insert(0, str(BACKEND))
 
+from fastapi import HTTPException  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
 
 from app.main import app  # noqa: E402
+from app.routers import inbound as inbound_router  # noqa: E402
 from app.routers.auth import get_current_user  # noqa: E402
 from app.services import inbound_service  # noqa: E402
 from app.services.inbound_service import (  # noqa: E402
@@ -404,6 +406,24 @@ class InboundServiceUnitTests(TestCase):
         import asyncio
         with self.assertRaises(ValueError):
             asyncio.get_event_loop().run_until_complete(runner())
+
+
+class InboundReceiptKeyParseTests(TestCase):
+    """레거시 NULL Gcode/Jubun → 목록 URL `gdate|hcode||` 파싱 (간헐적 상세 오류 방지)."""
+
+    def test_parse_receipt_key_allows_empty_gcode_and_jubun(self) -> None:
+        g, h, gc, j = inbound_router._parse_receipt_key("2026.04.24|4232||")
+        self.assertEqual((g, h, gc, j), ("2026.04.24", "4232", "", ""))
+
+    def test_parse_receipt_key_rejects_too_few_segments(self) -> None:
+        with self.assertRaises(HTTPException) as ctx:
+            inbound_router._parse_receipt_key("2026.04.24|4232|")
+        self.assertEqual(ctx.exception.status_code, 422)
+
+    def test_parse_receipt_key_rejects_empty_gdate(self) -> None:
+        with self.assertRaises(HTTPException) as ctx:
+            inbound_router._parse_receipt_key("|4232|V0001|1")
+        self.assertEqual(ctx.exception.status_code, 422)
 
 
 if __name__ == "__main__":

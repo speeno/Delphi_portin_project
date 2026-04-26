@@ -42,9 +42,12 @@ ROOT = Path(__file__).resolve().parents[1]
 BACKEND = ROOT / "도서물류관리프로그램" / "backend"
 sys.path.insert(0, str(BACKEND))
 
+from fastapi import HTTPException  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
 
 from app.main import app  # noqa: E402
+from app.models.outbound import OrderDetailResponse  # noqa: E402
+from app.routers import outbound as outbound_router  # noqa: E402
 from app.routers.auth import get_current_user  # noqa: E402
 from app.services import outbound_service  # noqa: E402
 
@@ -429,6 +432,59 @@ class OutboundServiceUnitTests(TestCase):
         # 트랜잭션이 INSERT+UPDATE 2개의 statement 묶음으로 실행됐는지 확인
         self.assertEqual(len(captured_statements), 1)
         self.assertEqual(len(captured_statements[0]), 2)
+
+
+class OutboundOrderDetailResponseModelTests(TestCase):
+    """GET 상세 응답 — 레거시 빈 Gcode/Bcode 라인도 직렬화 가능(500 방지)."""
+
+    def test_order_detail_accepts_empty_gcode_or_bcode_on_line(self) -> None:
+        m = OrderDetailResponse.model_validate(
+            {
+                "order_key": {"gdate": "2026.04.24", "hcode": "5049", "jubun": ""},
+                "customer": {"hcode": "5049", "gname": "테스트"},
+                "status": "active",
+                "lines": [
+                    {
+                        "gcode": "",
+                        "bcode": "1-078",
+                        "pubun": "",
+                        "gsqut": 1,
+                        "gssum": 0,
+                        "product_name": "",
+                        "yesno": "0",
+                    },
+                    {
+                        "gcode": "G01",
+                        "bcode": "",
+                        "pubun": "",
+                        "gsqut": 0,
+                        "gssum": 0,
+                        "product_name": "",
+                        "yesno": "0",
+                    },
+                ],
+            },
+        )
+        self.assertEqual(m.order_key.jubun, "")
+        self.assertEqual(len(m.lines), 2)
+
+
+class OutboundOrderKeyParseTests(TestCase):
+    """Jubun NULL/빈 값 → 목록 URL `gdate|hcode|` 파싱 (출고 상세 오류 방지)."""
+
+    def test_parse_order_key_allows_empty_jubun(self) -> None:
+        g, h, j = outbound_router._parse_order_key("2026.04.24|5010|")
+        self.assertEqual((g, h, j), ("2026.04.24", "5010", ""))
+
+    def test_parse_order_key_rejects_too_few_segments(self) -> None:
+        with self.assertRaises(HTTPException) as ctx:
+            outbound_router._parse_order_key("2026.04.24|5010")
+        self.assertEqual(ctx.exception.status_code, 422)
+
+    def test_parse_order_key_rejects_empty_hcode(self) -> None:
+        with self.assertRaises(HTTPException) as ctx:
+            outbound_router._parse_order_key("2026.04.24||1")
+        self.assertEqual(ctx.exception.status_code, 422)
 
 
 if __name__ == "__main__":

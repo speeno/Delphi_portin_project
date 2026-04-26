@@ -75,14 +75,24 @@ class WhitelistGate(unittest.TestCase):
         self.assertIsNotNone(entry, "DEC-038 인프라 — label_form_1 = Report_1_21.ir.json")
         self.assertEqual(entry["ir"], "Report_1_21.ir.json")
 
-    def test_R03_single_source_truth(self) -> None:
+    def test_R03_auto_directory_single_source_truth(self) -> None:
         ir_files = sorted(p.name for p in _AUTO_DIR.glob("*.ir.json"))
-        size = print_template_registry.whitelist_size()
+        auto_dir_entries = [
+            entry for entry in print_template_registry._WHITELIST.values()  # type: ignore[attr-defined]
+            if "ir" in entry and "ir_path" not in entry
+        ]
         self.assertEqual(
-            size,
+            len(auto_dir_entries),
             len(ir_files),
-            f"DEC-046 단일 원천 위반 — registry={size}, files={ir_files}",
+            f"DEC-046 auto 디렉터리 원천 위반 — registry={auto_dir_entries}, files={ir_files}",
         )
+
+    def test_R03b_external_ir_path_forms_registered(self) -> None:
+        for form_id in ["label_form_2", "label_form_3", "label_form_4", "label_form_5", "return_receipt_base"]:
+            with self.subTest(form_id=form_id):
+                entry = print_template_registry.get_whitelist_entry(form_id)
+                self.assertIsNotNone(entry)
+                self.assertIn("ir_path", entry)
 
     def test_R04_unknown_form_returns_none(self) -> None:
         with _ModeGuard("auto"):
@@ -93,6 +103,20 @@ class WhitelistGate(unittest.TestCase):
                     document_title="t",
                 ),
                 "미등록 form 은 None 폴백 (graceful)",
+            )
+
+    def test_R04b_auto_disabled_form_returns_none(self) -> None:
+        """감사 등록은 유지하되 auto_enabled=False 양식은 실출력 IR 결합을 차단한다."""
+        with _ModeGuard("auto"):
+            entry = print_template_registry.get_whitelist_entry("sales_statement_base")
+            self.assertIsNotNone(entry)
+            self.assertFalse(entry.get("auto_enabled"))
+            self.assertFalse(print_template_registry.is_form_whitelisted("sales_statement_base"))
+            self.assertIsNone(
+                print_template_registry.try_render_with_ir(
+                    "sales_statement_base", {}, document_title="거래명세서",
+                ),
+                "저품질 Sobo21 IR 은 manual 빌더로 폴백해야 함",
             )
 
     def test_R04_missing_ir_file_returns_none(self) -> None:

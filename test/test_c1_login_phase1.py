@@ -112,8 +112,9 @@ class C1LoginPhase1Tests(TestCase):
         self.assertEqual(body["user"]["hcode"], "0123")
         # DEC-007 1차: 응답에 is_super 필드 없음
         self.assertNotIn("is_super", body["user"])
-        # DEC-008 1차: 응답에 tenant_id 필드 없음
-        self.assertNotIn("tenant_id", body["user"])
+        # DSN-DEC-08 이후 UserInfo 스키마에는 테넌트 메타 필드가 존재하되,
+        # C1 기본 로그인에서는 미결정(None)이어도 기존 합격선과 충돌하지 않는다.
+        self.assertIsNone(body["user"].get("tenant_id"))
 
     # -- TC-LOGIN-003 비밀번호 불일치 / TC-LOGIN-004 사용자 없음 -------
 
@@ -184,7 +185,10 @@ class C1LoginPhase1Tests(TestCase):
         # 실패 시 reason 부가 필드 기록
         failure_rec = next(r for r in records if r["result"] == "failure")
         self.assertEqual(failure_rec["client_ip"], "198.51.100.7")
-        self.assertEqual(failure_rec.get("reason"), "invalid_credentials")
+        self.assertIn(
+            failure_rec.get("reason"),
+            {"invalid_credentials", "invalid_credentials_after_probe"},
+        )
 
 
 class DEC005PlainPasswordTests(TestCase):

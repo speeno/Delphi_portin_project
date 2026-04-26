@@ -2,7 +2,7 @@
 
 ## 작성 목적
 
-운영·통계 Phase2 승격 마감 이후 남은 개발 대상을 다음 스프린트 입력으로 분리한다. 이번 승격 대상은 `form-registry.ts`에서 phase1로 전환했으며, 아래 항목은 아직 구현 또는 차단 해소가 필요하다.
+운영·통계 Phase2 승격 마감 이후 남은 개발 대상을 다음 스프린트 입력으로 분리한다. 이번 승격 대상은 `form-registry.ts`에서 phase1로 전환했으며, 아래 항목은 **아직** 구현 또는 차단 해소가 필요하다(§2 정산·인쇄 잔여는 2026-04-26 재분류로 **완료·아카이브**).
 
 ## 1. Sobo16_special 특별관리
 
@@ -24,22 +24,15 @@
 - `migration/contracts/special_master.yaml` 의 blocker 해소 방향이 명확해야 한다.
 - `analysis/layout_mappings/Sobo16.md` 를 먼저 작성해 DEC-028 widget/data-legacy-id 기준을 고정해야 한다.
 
-## 2. 정산·인쇄 잔여 묶음
+## 2. 정산·인쇄 잔여 묶음 — 재분류 완료 (2026-04-26)
 
-우선순위: 중간
+다음 4화면(+ `Sobo46_billing_bill` / `Sobo49_tax_bill` 별칭)은 **구현·회귀 근거**에 맞춰 `form-registry.ts` **phase1** + `dashboard/data/phase2-screen-cards.json` **T7/T8 done** 으로 동기화했다.
 
-대상:
+- **C5(기능·목록·미수 집계)**: `Sobo49_tax` 목록·stub, `Settle_outstanding` `GET /settlement/outstanding`, `Sobo41_slip` 입금 목록 기반 전표 — `test_c5_settlement_phase2.py`(TC-ST-P2_32/33 포함), `test_c5_settlement_optional_filters.py`.
+- **C7(PDF 경로)**: `Sobo46`/`Sobo49` 단건 인쇄 PDF — `test_c7_print_phase1.py` (청구/세무 엔드포인트 흡수, C5와 책임 분리).
+- **DEC-034/035**: 외부 세금계산서 채널 연동은 범위 밖 — HTML/PDF 미리보기·NOT_INTEGRATED stub 유지.
 
-- `Sobo46_billing`: 청구서 인쇄 미리보기
-- `Sobo49_tax`: 세금계산서 발행
-- `Settle_outstanding`: 미수현황
-- `Sobo41_slip`: 입금전표
-
-다음 작업:
-
-- `test/test_c5_settlement_phase1.py`, `test/test_c5_settlement_phase2.py`, `test/test_c5_settlement_optional_filters.py` 를 기준으로 T7/T8 남은 항목을 재분류한다.
-- 인쇄·외부 발행은 DEC-034/035 범위를 유지한다. 외부 세금계산서 채널 연동은 이번 큐에 포함하지 않는다.
-- `phase2-screen-cards.json` 에서 `T7/T8` 상태가 이미 done인 항목과 실제 form-registry phase 상태가 다른 경우 동기화한다.
+추가 후속은 없음(본 절은 아카이브 용도).
 
 ## 3. 보류 항목
 
