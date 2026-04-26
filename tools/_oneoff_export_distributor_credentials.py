@@ -50,6 +50,7 @@ BACKEND = ROOT / "도서물류관리프로그램" / "backend"
 if str(BACKEND) not in sys.path:
     sys.path.insert(0, str(BACKEND))
 
+from app.core.config import get_server_profiles  # noqa: E402
 from app.core.db import close_all_pools, execute_query  # noqa: E402
 from app.services import auth_service  # noqa: E402
 
@@ -75,7 +76,7 @@ _SERVER_LABEL_TO_REMOTE = {
     "서버3": "remote_153",
     "서버4": "remote_138",
 }
-_HCODE_SHEET_HEADERS = [
+_LIVE_SHEET_HEADERS = [
     "서버",
     "DB 명",
     "account_family",
@@ -91,6 +92,7 @@ _HCODE_SHEET_HEADERS = [
     "Gname",
     "source",
 ]
+_EXCLUDED_HCODES = {"0000"}
 
 
 def _norm(value) -> str:
@@ -124,6 +126,13 @@ def _remote_id(server_label: str) -> str:
 def _safe_db_name(db_name: str) -> str:
     dbn = _norm(db_name).rstrip()
     return dbn if _DB_NAME_RE.match(dbn) else ""
+
+
+def _infer_family_from_db_name(db_name: str) -> str:
+    dbn = _norm(db_name)
+    if dbn.endswith("_db"):
+        return dbn[:-3]
+    return dbn
 
 
 def _is_distributor(family: str, tenant_name: str) -> tuple[bool, str]:
@@ -250,6 +259,61 @@ def _build_db_candidate_index(
     return out
 
 
+def _db_info_by_remote_db(db_info_idx: dict[tuple[str, str], dict]) -> dict[tuple[str, str], dict[str, Any]]:
+    out: dict[tuple[str, str], dict[str, Any]] = {}
+    for db in db_info_idx.values():
+        remote_id = _remote_id(db.get("server_id", ""))
+        db_name = _safe_db_name(db.get("db_name", ""))
+        if not remote_id or not db_name:
+            continue
+        out[(remote_id, db_name)] = {
+            "server_id": remote_id,
+            "db_name": db_name,
+            "account_family": _norm(db.get("account_family")) or _infer_family_from_db_name(db_name),
+            "tenant_name_kor": db.get("tenant_name_kor", ""),
+            "db_user": db.get("db_user", ""),
+            "db_password": db.get("db_password", ""),
+        }
+    return out
+
+
+async def _list_server_databases(server_id: str) -> list[str]:
+    try:
+        rows = await execute_query(server_id, "SHOW DATABASES")
+    except Exception:
+        return []
+    out: list[str] = []
+    for r in rows or []:
+        if not isinstance(r, dict) or not r:
+            continue
+        dbn = _safe_db_name(str(next(iter(r.values()))))
+        if dbn:
+            out.append(dbn)
+    return sorted(set(out))
+
+
+async def _build_live_db_candidates(db_info_idx: dict[tuple[str, str], dict]) -> dict[tuple[str, str], dict[str, Any]]:
+    info_by_db = _db_info_by_remote_db(db_info_idx)
+    out: dict[tuple[str, str], dict[str, Any]] = {}
+    for profile in get_server_profiles():
+        server_id = _norm(profile.get("id"))
+        if not server_id:
+            continue
+        for db_name in await _list_server_databases(server_id):
+            key = (server_id, db_name)
+            meta = info_by_db.get(key, {})
+            out[key] = {
+                "server_id": server_id,
+                "server_label": profile.get("label", ""),
+                "db_name": db_name,
+                "account_family": meta.get("account_family") or _infer_family_from_db_name(db_name),
+                "tenant_name_kor": meta.get("tenant_name_kor", ""),
+                "db_user": meta.get("db_user", ""),
+                "db_password": meta.get("db_password", ""),
+            }
+    return out
+
+
 def _row_has_id_logn_table(row: dict[str, Any]) -> bool:
     return any(str(v).strip().lower() == "id_logn" for v in row.values())
 
@@ -285,6 +349,8 @@ async def _load_live_id_logn_rows(candidates: dict[tuple[str, str], dict[str, An
             gcode = _norm(r.get("gcode"))
             hcode = _norm(r.get("hcode"))
             if not gcode and not hcode:
+                continue
+            if hcode in _EXCLUDED_HCODES:
                 continue
             acct_meta = auth_service._resolve_account_type(
                 gcode,
@@ -352,7 +418,7 @@ def _write_warning_sheet(wb: openpyxl.Workbook) -> None:
         ("출처", True, "BDD7EE"),
         ("- 원본 1: WeLove_FTP/Welove_인수인계/셋팅방법/DB정보, DB_FTP 엑셀/DB정보 엑셀정리.xlsx (MAN-017)", False, None),
         ("- 원본 2: WeLove_FTP/Welove_인수인계/셋팅방법/DB정보, DB_FTP 엑셀/DB_FTP 엑셀정리.xlsx (MAN-018)", False, None),
-        ("- 원본 3: 운영 DB 각 스키마의 Id_Logn 라이브 조회 (Hcode별 시트)", False, None),
+        ("- 원본 3: 운영 DB 각 스키마의 Id_Logn 라이브 조회 (서버별 시트, Hcode=0000 제외)", False, None),
         ("- 분류 기준: tools/seed_tenants_directory.py _PRIMARY_DIST_FAMILIES (T2_DIST 정본)", False, None),
         ("", False, None),
         ("통합 로그인(웹 API) vs DB 접속 계정", True, "BDD7EE"),
@@ -368,7 +434,7 @@ def _write_warning_sheet(wb: openpyxl.Workbook) -> None:
             None,
         ),
         ("- 상세 매핑 표는 시트「필드_매핑_Id_Logn」을 참고하세요.", False, None),
-        ("- Hcode별 시트는 운영 DB Id_Logn.Gcode/Gpass를 그대로 담습니다.", False, None),
+        ("- 서버별 시트는 운영 DB Id_Logn.Gcode/Gpass를 그대로 담되, Hcode=0000 계정은 제외합니다.", False, None),
         ("", False, None),
         ("위반 시", True, "FFC7CE"),
         ("- git 추적 발견 → 즉시 history rewrite + 모든 자격증명 회전 (정책 §6).", False, None),
@@ -415,28 +481,28 @@ def _write_field_mapping_sheet(wb: openpyxl.Workbook) -> None:
         sh.column_dimensions[get_column_letter(ci)].width = 36
 
 
-def _write_hcode_summary_sheet(wb: openpyxl.Workbook, rows: list[dict[str, Any]]) -> None:
-    sh = wb.create_sheet("Hcode별_요약")
-    headers = ["Hcode", "Hname 대표", "행 수", "서버/DB 수", "계정 유형", "build_role", "시트명"]
+def _write_live_summary_sheet(wb: openpyxl.Workbook, rows: list[dict[str, Any]]) -> None:
+    sh = wb.create_sheet("서버별_요약")
+    headers = ["서버", "계정 행 수", "DB 수", "Hcode 수", "계정 유형", "build_role", "시트명"]
     for ci, h in enumerate(headers, start=1):
         c = sh.cell(row=1, column=ci, value=h)
         c.font = Font(bold=True)
         c.fill = PatternFill("solid", fgColor="FFF2CC")
 
-    by_hcode: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    by_server: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in rows:
-        by_hcode[_norm(r.get("hcode")) or "(blank)"].append(r)
-    for ri, (hcode, bucket) in enumerate(sorted(by_hcode.items()), start=2):
-        hname = next((_norm(r.get("hname")) for r in bucket if _norm(r.get("hname"))), "")
-        dbs = {(_norm(r.get("server_id")), _norm(r.get("db_name"))) for r in bucket}
+        by_server[_norm(r.get("server_id")) or "(blank)"].append(r)
+    for ri, (server_id, bucket) in enumerate(sorted(by_server.items()), start=2):
+        dbs = {_norm(r.get("db_name")) for r in bucket if _norm(r.get("db_name"))}
+        hcodes = {_norm(r.get("hcode")) for r in bucket if _norm(r.get("hcode"))}
         account_types = sorted({_norm(r.get("account_type")) for r in bucket if _norm(r.get("account_type"))})
         build_roles = sorted({_norm(r.get("build_role")) for r in bucket if _norm(r.get("build_role"))})
         sheet_name = bucket[0].get("_sheet_name", "")
         vals = [
-            hcode,
-            hname,
+            server_id,
             len(bucket),
             len(dbs),
+            len(hcodes),
             ", ".join(account_types),
             ", ".join(build_roles),
             sheet_name,
@@ -447,19 +513,18 @@ def _write_hcode_summary_sheet(wb: openpyxl.Workbook, rows: list[dict[str, Any]]
         sh.column_dimensions[get_column_letter(ci)].width = 22
 
 
-def _write_hcode_live_sheets(wb: openpyxl.Workbook, rows: list[dict[str, Any]]) -> None:
-    by_hcode: dict[str, list[dict[str, Any]]] = defaultdict(list)
+def _write_server_live_sheets(wb: openpyxl.Workbook, rows: list[dict[str, Any]]) -> None:
+    by_server: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in rows:
-        by_hcode[_norm(r.get("hcode")) or "(blank)"].append(r)
+        by_server[_norm(r.get("server_id")) or "(blank)"].append(r)
 
     used = set(wb.sheetnames)
-    for hcode, bucket in sorted(by_hcode.items()):
-        hname = next((_norm(r.get("hname")) for r in bucket if _norm(r.get("hname"))), "")
-        title = _safe_sheet_title(f"{hcode}_{hname}" if hname else hcode, used)
+    for server_id, bucket in sorted(by_server.items()):
+        title = _safe_sheet_title(f"{server_id}_Id_Logn", used)
         for r in bucket:
             r["_sheet_name"] = title
         sh = wb.create_sheet(title)
-        for ci, h in enumerate(_HCODE_SHEET_HEADERS, start=1):
+        for ci, h in enumerate(_LIVE_SHEET_HEADERS, start=1):
             c = sh.cell(row=1, column=ci, value=h)
             c.font = Font(bold=True)
             c.fill = PatternFill("solid", fgColor="E2EFDA")
@@ -482,7 +547,7 @@ def _write_hcode_live_sheets(wb: openpyxl.Workbook, rows: list[dict[str, Any]]) 
         for ri, r in enumerate(bucket, start=2):
             for ci, key in enumerate(keys, start=1):
                 sh.cell(row=ri, column=ci, value=r.get(key, ""))
-        for ci in range(1, len(_HCODE_SHEET_HEADERS) + 1):
+        for ci in range(1, len(_LIVE_SHEET_HEADERS) + 1):
             sh.column_dimensions[get_column_letter(ci)].width = 22
 
 
@@ -544,7 +609,7 @@ async def _build_workbook(*, dry_run: bool = False) -> int:
 
     db_info_idx = _load_db_info()  # (sid, family) → {db_user, db_password, db_name, ...}
     ftp_rows = _load_db_ftp_rows()
-    db_candidates = _build_db_candidate_index(db_info_idx, ftp_rows)
+    db_candidates = await _build_live_db_candidates(db_info_idx)
     live_rows = await _load_live_id_logn_rows(db_candidates)
 
     merged: list[dict] = []
@@ -568,13 +633,15 @@ async def _build_workbook(*, dry_run: bool = False) -> int:
         )
 
     if dry_run:
-        by_hcode: dict[str, int] = {}
+        by_server: dict[str, int] = {}
         by_db = {(r["server_id"], r["db_name"]) for r in live_rows}
         for r in live_rows:
-            key = _norm(r.get("hcode")) or "(blank)"
-            by_hcode[key] = by_hcode.get(key, 0) + 1
+            key = _norm(r.get("server_id")) or "(blank)"
+            by_server[key] = by_server.get(key, 0) + 1
         print("[DRY-RUN] xlsx는 쓰지 않았습니다.")
-        print(f"[DRY-RUN] Id_Logn DB {len(by_db)}개, Hcode {len(by_hcode)}개, 계정 행 {len(live_rows)}건")
+        print(f"[DRY-RUN] Id_Logn DB {len(by_db)}개, 서버 {len(by_server)}개, 계정 행 {len(live_rows)}건 (Hcode=0000 제외)")
+        for sid, cnt in sorted(by_server.items()):
+            print(f"[DRY-RUN]   - {sid}: {cnt}건")
         print(f"[DRY-RUN] 총판 후보 시트 행 {len(merged)}건")
         return 0
 
@@ -586,8 +653,8 @@ async def _build_workbook(*, dry_run: bool = False) -> int:
     _write_warning_sheet(wb)
     _write_field_mapping_sheet(wb)
     _write_dist_sheet(wb, merged)
-    _write_hcode_live_sheets(wb, live_rows)
-    _write_hcode_summary_sheet(wb, live_rows)
+    _write_server_live_sheets(wb, live_rows)
+    _write_live_summary_sheet(wb, live_rows)
     wb.save(str(OUT_PATH))
 
     # === 자격증명을 절대 콘솔에 출력하지 않습니다 (G3) ===
@@ -598,7 +665,7 @@ async def _build_workbook(*, dry_run: bool = False) -> int:
     print(f"[OK] 출력: {OUT_PATH.relative_to(ROOT)}")
     print(f"     (gitignored 위치 — git 추적 0건)")
     print(f"[총계] 총판 후보 {len(merged)} 건")
-    print(f"[총계] 라이브 Id_Logn 계정 {len(live_rows)} 건")
+    print(f"[총계] 라이브 Id_Logn 계정 {len(live_rows)} 건 (Hcode=0000 제외)")
     for cls, cnt in sorted(by_class.items()):
         print(f"        - {cls}: {cnt}")
     print("[중요] 사용 즉시 본 xlsx + 본 스크립트를 영구 삭제하십시오.")
