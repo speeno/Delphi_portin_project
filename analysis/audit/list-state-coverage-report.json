@@ -166,10 +166,6 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/signup-requests/page.tsx"
     },
     {
-      "route_key": "admin.user-servers",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/user-servers/page.tsx"
-    },
-    {
       "route_key": "admin.whitelist",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/whitelist/[hcode]/page.tsx"
     },

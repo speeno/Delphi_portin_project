@@ -424,15 +424,6 @@ menus:
     build_roles: []
     license_keys: []
     source_builds: []
-  - id: ACC-MENU-ADMIN-03
-    section: admin
-    route: "/admin/user-servers"
-    caption: "사용자별 서버 (`/admin/user-servers`)"
-    account_types: [T1]
-    warehouse_menu_tiers: []
-    build_roles: []
-    license_keys: []
-    source_builds: []
   - id: ACC-MENU-ADMIN-04
     section: admin
     route: "/admin/permissions"

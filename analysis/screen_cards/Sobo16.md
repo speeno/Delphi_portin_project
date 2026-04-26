@@ -54,6 +54,7 @@ _생성: 2026-04-18 04:10 UTC — `tools/analysis/screen_card_builder.py`_
 - L311 **SELECT** `G6_Ggeo` — `Select * From G6_Ggeo Where`
 - L335 **SELECT** `G4_Book` — `Select Gname From G4_Book Where`
 - L401 **SELECT** `G1_Ggeo` — `Select Gname From G1_Ggeo Where`
+- **WRITE** `G6_Ggeo` — `INSERT/UPDATE (Hcode,Gcode,Bcode,Grat1,Gssum)` / `WHERE ID+Hcode` ([`도서유통-New/.../Base01.pas`](../../legacy_delphi_source/도서유통-New/도서유통/한국도서유통/출판/Base01.pas) `T1_Sub61BeforePost`)
 
 ## 4. DB 영향
 - 본 폼이 접근하는 테이블: **3**

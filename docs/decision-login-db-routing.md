@@ -96,7 +96,9 @@ def pool_for(request_or_user) -> Pool:
 
 → **DSN/RBAC 라우팅 키 = `(tenant_id, account_family)` 합성**. 단일 라벨로 결정 금지.
 
-**라우팅 키 결정 트리**:
+**라우팅 키 결정 트리** (초기 R1 스케치 — **운영 코드와 1:1이 아닐 수 있음**):
+
+> **구현 단일 원천 (2026-04-26)**: 통합 로그인 실제 플로우는 §「DSN-DEC-08」 및 [login-routing-regression-guard.md](login-routing-regression-guard.md) · `도서물류관리프로그램/backend/app/routers/auth.py` 의 `POST /login`을 따른다. 비밀 검증은 메타가 고른 데이터 서버의 ``<db>.Id_Logn`` (`authenticate_user`)에서 수행된다.
 
 ```
 로그인 (gname/gcode + password)

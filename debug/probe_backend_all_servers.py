@@ -148,6 +148,14 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "masters.special",
+            "path": (
+                f"/api/v1/masters/special?serverId={sid}"
+                f"&mode=publisher&hcode=00000&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
             "group": "outbound.orders",
             "path": (
                 f"/api/v1/outbound/orders?serverId={sid}"

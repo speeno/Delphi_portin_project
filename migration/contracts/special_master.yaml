@@ -1,86 +1,98 @@
-# Migration Contract: 특별관리 (Phase 2)
+# Migration Contract: 특별관리 Sobo16 — G6_Ggeo (Phase 2)
+#
 # 출처(레거시):
-#   - legacy_delphi_source/legacy_source/Subu16.pas (TSobo16 특별관리)
-# 본 contract 는 master_data.yaml 의 phase2 sub-contract.
-# blocker: 레거시 SQL 미확정 (placeholder-t1-t2-index.md §1 #1).
+#   - legacy_delphi_source/legacy_source/Subu16.pas (조회·그리드)
+#   - legacy_delphi_source/도서유통-New/도서유통/한국도서유통/출판/Base01.pas
+#     TBase10.T1_Sub61BeforePost / T1_Sub62BeforePost (INSERT/UPDATE G6_Ggeo)
+#
+# 정정 (2026-04-26): 초안의 「G1_Ggeo Special_flag / 분류」 모델은 Sobo16 코드와 불일치.
+#   레거시 저장 대상은 G6_Ggeo 의 Grat1·Gssum(및 키 Hcode,Gcode,Bcode,ID) 뿐.
+#   거래처 마스터 플래그가 필요하면 별도 화면·계약으로 분리한다.
 
 id: C9-special-master
-name: 특별관리 (거래처 플래그 + 분류 카탈로그)
-version: 0.9.0   # 0.9 = blocker 잔존
+name: 특별관리 (Sobo16 — 출판사·거래처·도서 링크 G6_Ggeo)
+version: 1.0.0
 status: draft
 scope_phase: phase2
 created: 2026-04-21
-updated: 2026-04-21
+updated: 2026-04-26
 owner: 메인개발자
 
 references:
   - analysis/screen_cards/Sobo16.md
+  - analysis/layout_mappings/Sobo16.md
   - migration/contracts/master_data.yaml
-  - migration/coverage/placeholder-t1-t2-index.md   # blocker 출처
+  - docs/welove-publish-schema-dictionary.md  # G6_Ggeo
 
 constraints:
   new_sql_count: 0
   external_integrations: excluded
 
-blockers:
-  - id: BLK-SPC-1
-    description: "레거시 Subu16.pas 의 단일 핵심 SQL 미확정 — 추출 필요"
-    owner: 델파이 담당자
-    eta: 2026-Q2
-  - id: BLK-SPC-2
-    description: "특별관리 분류 카탈로그(special_class_codes) 합의 필요 — 비즈니스 사용자 결정"
-    owner: 비즈니스
-    eta: 2026-Q2
+blockers: []
 
 intent: |
-  운영자가 거래처에 "특별관리" 플래그를 설정하고 분류 코드를 지정.
-  분류는 사전 정의된 카탈로그(BLK-SPC-2 해소 후 확정).
-  특별관리 거래처는 미수 회수 / 영업 모니터링에 사용.
+  출판사(Hcode) 단위로 거래처(Gcode)·도서(Bcode) 간 G6_Ggeo 링크를 조회하고,
+  레거시와 동일하게 Grat1(비율)·Gssum 필드를 수정한다.
+  표시명은 G4_Book·G1_Ggeo 조인(또는 동등 룩업)으로 보강한다.
+
+legacy_write_sql: |
+  INSERT INTO G6_Ggeo (Hcode, Gcode, Bcode, Grat1, Gssum) VALUES (...);
+  UPDATE G6_Ggeo SET Gcode=..., Bcode=..., Grat1=..., Gssum=... WHERE ID=... AND Hcode=...;
+  (소스: 도서유통-New/.../Base01.pas T1_Sub61BeforePost — 모던 1차 PATCH 는 Grat1/Gssum 만)
 
 scope:
-  upsert:
-    path: PUT /api/v1/master/special/{customer_code}
+  list:
+    path: GET /api/v1/masters/special
+    legacy_id: Sobo16
+    permission: master.special.read
+    query_params:
+      serverId: required
+      mode: enum [customer, book, publisher]
+      hcode: required (출판사 코드)
+      gcode: optional — mode=customer 일 때 거래처 코드
+      bcode: optional — mode=book 일 때 도서 코드
+      limit: { default: 100, max: 500 }
+      offset: default 0
+    response:
+      items:
+        - id: int
+          hcode: string
+          gcode: string
+          bcode: string
+          grat1: string
+          gssum: number
+          bname: string
+          gname: string
+      page: { limit, offset, total, has_more }
+
+  patch_row:
+    path: PATCH /api/v1/masters/special/{id}
     legacy_id: Sobo16
     permission: master.special.write
     request_body:
-      special_flag: bool
-      special_class_code: string   # 카탈로그 키 (BLK-SPC-2 해소 후 enum)
-      memo: optional string
-    response:
-      customer_code: string
-      updated_at: ISO datetime
-      audit_id: string
-
-  list:
-    path: GET /api/v1/master/special
-    permission: master.special.read
-    query_params:
-      class_code: optional
-      page: { limit: 100, max_limit: 500 }
-    response:
-      items:
-        - customer_code: string
-          customer_name: string
-          special_class_code: string
-          memo: string | null
-          updated_at: ISO datetime
+      serverId: required
+      hcode: required
+      grat1: optional string
+      gssum: optional number
+    notes: |
+      1차는 Grat1/Gssum 만 변경(DEC-019, 물리 DELETE 미제공).
+      레거시는 Gcode/Bcode 도 갱신하나 웹 1차는 단순화.
 
 acceptance_criteria:
-  - id: AC-SPC-1
-    description: "upsert 후 list 응답에 즉시 반영 (read-after-write 일관성)"
-    test: "test/test_c9_master_special.py::test_upsert_visible_in_list"
-  - id: AC-SPC-2
-    description: "권한 가드 — master.special.write 미보유 시 403 PERMISSION_DENIED"
-    test: "test/test_c9_master_special.py::test_permission_guard"
-  - id: AC-SPC-3
-    description: "audit_master 에 upsert 이벤트 기록 (before/after diff)"
-    test: "test/test_c9_master_special.py::test_audit_diff_recorded"
-  - id: AC-SPC-4   # blocker 해소 후 추가
-    description: "BLK-SPC-2 해소 후 — special_class_code 가 카탈로그에 없을 시 422 BAD_REQUEST"
-    test: "test/test_c9_master_special.py::test_invalid_class_code_rejected"
-    pending_blocker: BLK-SPC-2
+  - id: AC-SPC-G6-1
+    description: "list(customer/book/publisher) 가 G6_Ggeo 행을 페이징 반환"
+    test: "test/test_masters_special_g6.py"
+  - id: AC-SPC-G6-2
+    description: "PATCH 후 동일 키로 조회 시 grat1/gssum 반영"
+    test: "test/test_masters_special_g6.py"
+  - id: AC-SPC-G6-3
+    description: "mysql3 서버에서 LIMIT 바인딩 순서 회귀 없음"
+    test: "test/test_masters_special_g6.py"
 
 decisions:
+  - DEC-019
+  - DEC-023
+  - DEC-033
   - DEC-040
   - DEC-041
   - DEC-046

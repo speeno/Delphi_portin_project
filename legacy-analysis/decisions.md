@@ -698,16 +698,16 @@
 - **참조**: `도서물류관리프로그램/backend/app/core/sql_mysql3.py`, `도서물류관리프로그램/backend/app/services/t5_ssub_adapt.py`, `debug/probe_backend_all_servers.py`, `docs/db-smoke-runbook.md`, `.github/workflows/db-smoke.yml`
 
 ### DEC-051: 인증 서버 단일화 — `BLS_AUTH_SERVER_ID` 게이트
-- **일자**: 2026-04-21
-- **결정 사항**: 모든 사용자 비밀번호 검증은 환경변수 `BLS_AUTH_SERVER_ID` (기본 `remote_138`) 한 곳의 `web_users` 에서만 수행한다. 기타 등록된 데이터 서버(`remote_153`, `remote_154`, `remote_155` 등)는 **데이터 전용**이며 자체 자격증명을 노출하지 않는다.
+- **일자**: 2026-04-21 — **(2026-04-26 DSN-DEC-08 정합)** 본문 (b)(c) 및 비밀 검증 위치 서술 갱신.
+- **결정 사항**: 로그인 **엔드포인트·게이트**는 단일(`POST /api/v1/auth/login`)이며, 사용자가 UI에서 데이터 서버를 고르지 않는다. **비밀번호 검증(DSN-DEC-08)** 은 `tenants_directory_service.resolve_login_route_candidates` 가 만든 `(remote_id, db_name)` 후보를 순서대로 시도할 때, 각 후보에 대해 `authenticate_user(server_id, …, db_name=…)` 가 해당 서버의 ``Id_Logn``(레거시 자격)에서 수행된다. 환경변수 `BLS_AUTH_SERVER_ID`(기본 `remote_138`)는 **감사 로그·폴백 후보** 등 보조 용도이며, “모든 사용자 비밀을 `BLS_AUTH_SERVER_ID` 의 `web_users` 한 곳에서만 검증”한다는 초기 서술은 **폐기**한다(운영 코드·`docs/login-routing-regression-guard.md` 기준).
   - (a) 로그인 화면(`(public)/login/page.tsx`) 의 「DB 서버 선택」 콤보·`useEffect(/api/v1/servers)` 호출은 제거된다.
-  - (b) `POST /api/v1/auth/login` 의 `serverId` 입력값은 **무시**되며(BC 위해 필드는 deprecated 로 유지), 라우터는 항상 `BLS_AUTH_SERVER_ID` 로 `authenticate_user()` 를 호출한다.
-  - (c) JWT `sid` 클레임은 인증 서버가 아니라 **사용자별 primary 데이터 서버**(DEC-052) 로 채워지며, 미설정 시에만 `BLS_AUTH_SERVER_ID` 로 폴백한다.
-- **배경/근거**: 운영상 `web_users` 시드는 `remote_138` 한 곳에 통합되어 있고, 기존 다중 콤보 UI 는 (1) 잘못된 서버 선택 시 401, (2) 인증 서버와 데이터 서버 의미를 사용자에게 떠넘기는 혼란을 일으킨다. 레거시 `Sobo10` 도 부팅 환경 1개 DB 만 본다.
-- **DoD**: `serverId` 미전송 로그인 200 + JWT `sid` = primary 매핑(없으면 auth 서버) + 회귀 `test_auth_login_fixed_server.py` 전건 PASS + 4대 서버 L4 GET 매트릭스(DEC-033) 무회귀.
+  - (b) `POST /api/v1/auth/login` 의 `serverId` 입력값은 **무시**되며(BC 위해 필드는 deprecated 로 유지). 라우터는 메타·인덱스가 고른 **후보별** `authenticate_user(sid, …)` 를 호출한다 — `sid` 를 항상 `BLS_AUTH_SERVER_ID` 로 고정 호출하지 않는다.
+  - (c) JWT `sid` 클레임은 **비밀 검증에 성공한 후보의 데이터 서버**(`remote_id`)로 채워진다. DEC-052 의 Primary(`web_user_servers`)는 admin·소속 정책용이며, 로그인 성공 시점의 `sid` 와 항상 동일하다고 가정하지 않는다.
+- **배경/근거**: 운영상 `web_users` 시드는 `remote_138` 한 곳에 통합되어 있고, 기존 다중 콤보 UI 는 (1) 잘못된 서버 선택 시 401, (2) 인증 서버와 데이터 서버 의미를 사용자에게 떠넘기는 혼란을 일으킨다. 레거시 `Sobo10` 도 부팅 환경 1개 DB 만 본다. 이후 통합 로그인(DSN-DEC-08)으로 멀티 테넌트·`Id_Logn` 검증 경로가 추가되었다.
+- **DoD**: `serverId` 미전송 로그인 200 + JWT `sid` = **검증 성공 데이터 서버** + 회귀 `test_auth_login_fixed_server.py` 전건 PASS + 4대 서버 L4 GET 매트릭스(DEC-033) 무회귀.
 - **운영**: `.env`/실행 안내에 `BLS_AUTH_SERVER_ID=remote_138` 를 명시. 인증 서버를 다른 곳으로 옮길 때는 본 키만 변경. 데이터 서버 추가/삭제는 자격증명 동기화 없이 가능.
 - **결정자**: 메인개발자 + 사용자 (로그인 서버 선택 UI 제거 합의)
-- **참조**: `도서물류관리프로그램/backend/app/routers/auth.py`, `도서물류관리프로그램/backend/app/services/auth_service.py`, `도서물류관리프로그램/frontend/src/app/(public)/login/page.tsx`, `도서물류관리프로그램/frontend/src/contexts/auth-context.tsx`, `test/test_auth_login_fixed_server.py`, DEC-052
+- **참조**: `도서물류관리프로그램/backend/app/routers/auth.py`, `도서물류관리프로그램/backend/app/services/auth_service.py`, `docs/login-routing-regression-guard.md`, `도서물류관리프로그램/frontend/src/app/(public)/login/page.tsx`, `도서물류관리프로그램/frontend/src/contexts/auth-context.tsx`, `test/test_auth_login_fixed_server.py`, DEC-052
 
 ### DEC-052: 사용자별 데이터 서버 1:1 (Primary)
 - **일자**: 2026-04-21
@@ -715,7 +715,7 @@
   - (a) admin UI([(app)/admin/user-servers/page.tsx](../도서물류관리프로그램/frontend/src/app/(app)/admin/user-servers/page.tsx)) 는 다중 토글 → **라디오 1개 선택(Primary)** 으로 교체. `adminApi.setPrimaryServer(userId, serverId|null)` 신설.
   - (b) `admin_service.assign_server(allow=True)` 호출 시 동일 `user_id` 의 기존 row 를 모두 제거 후 1건 INSERT (LSP 보존: 시그니처 유지, 의미만 좁힘). `set_primary_data_server(user_id, server_id, actor)` / `get_primary_data_server(login_id) -> str|None` 신규 함수.
   - (c) `_load_state()` 직후 `_normalize_primary_servers()` 로 **부팅 1회 idempotent 마이그레이션** 실행 — 동일 user_id 가 2건 이상이면 마지막 created 만 유지하고 나머지는 audit `user.server.dedup` 로 기록.
-  - (d) 라우터(`/api/v1/auth/login`) 는 `data_server_id = get_primary_data_server(user_id) or BLS_AUTH_SERVER_ID` 로 JWT `sid` 적재.
+  - (d) **(2026-04-26 DSN-DEC-08 정합)** `/api/v1/auth/login` 성공 시 JWT `sid` 는 `get_primary_data_server(user_id)` 가 아니라 **비밀 검증에 성공한 후보의 `remote_id`** 로 설정된다(`auth.py` — 후보 순회·`hit_candidate`). Primary 매핑은 admin UI·헤더 경고 등 **소속/운영 정책**에 계속 사용된다.
 - **배경/근거**: 다중 매핑은 「로그인 서버 선택 콤보」 와 1:1 대응될 때만 의미 있는데, DEC-051 로 콤보가 사라지면 사용자가 어느 서버로 작업할지 자체적으로 결정할 수 없다. 운영자 1인이 admin 화면에서 명시적으로 1개 서버를 부여하는 정책이 안전하고 단순하다.
 - **DoD**: 동일 user 다중 row → 1건 정리 audit 발생 + admin 라디오 UI 단일 선택 강제 + 회귀 `test_admin_primary_server.py` PASS + 사용자 헤더에 미설정 경고 배지 노출.
 - **운영**: 데이터 모델 컬럼명은 변경하지 않는다(BC). 기존 자동화 스크립트가 동일 사용자에게 다중 row 를 기록해도 다음 부팅 시 1건으로 정리된다.

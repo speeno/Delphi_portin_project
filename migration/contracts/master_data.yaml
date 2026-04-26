@@ -276,7 +276,7 @@ customer_variants:
 out_of_scope:
   - id: OOS-MAS-1
     title: Wave D /admin 4 페이지 retrofit
-    routes: [/admin, /admin/user-servers, /admin/rbac, /admin/settings]
+    routes: [/admin, /admin/rbac, /admin/settings]
     reason: |
       어드민(`/admin/*`)은 델파이 신규 어드민 화면(레거시 대응 폼·DFM 산출물 부재).
       DEC-028 retrofit 의 dfm 위젯 ID 매핑 대상이 아님 — admin_web_platform.yaml 별도 contract.

@@ -1,0 +1,15 @@
+---
+description: DSN-DEC-08 통합 로그인(auth.login, tenants_directory, Id_Logn) 변경 시 회귀 가드
+alwaysApply: false
+---
+
+# 통합 로그인 (DSN-DEC-08) 변경 시
+
+`POST /api/v1/auth/login`, [LoginRequest](도서물류관리프로그램/backend/app/models/auth.py), [auth.py](도서물류관리프로그램/backend/app/routers/auth.py) 후보 루프, `tenants_directory_service.resolve_login_route*`, `login_id_index_service.lazy_refresh`, `auth_service.authenticate_user` 를 수정할 때:
+
+1. **단일 가이드**: [docs/login-routing-regression-guard.md](docs/login-routing-regression-guard.md) PR 체크리스트 준수.
+2. **테스트**: `test/test_auth_login_fixed_server.py`, `test/test_c1_login_phase1.py` 통과.
+3. **요청 본문**: `userId` / `tenantId` / `hcode` 등 **AliasChoices 제거·이름 변경 금지** (프론트 [auth-context.tsx](도서물류관리프로그램/frontend/src/contexts/auth-context.tsx) 와 동시 변경만 허용).
+4. **설계 문서**: [docs/decision-login-db-routing.md](docs/decision-login-db-routing.md) §DSN-DEC-08 과 충돌 시 문서·YAML 먼저 정리.
+
+비밀 검증은 **메타가 고른 데이터 서버의 `Id_Logn`** 에서 이루어진다. `BLS_AUTH_SERVER_ID` 만으로 전 사용자 인증이 이뤄진다고 가정하는 코드·주석을 추가하지 말 것.
