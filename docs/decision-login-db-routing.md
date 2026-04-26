@@ -174,7 +174,9 @@ def resolve_routing(user: User) -> RoutingKey:
 
 **결정**:
 
-- **인덱스 정본화** — `tools/build_login_id_index.py` (배치) + `login_id_index_service.rebuild()` (관리자/lazy hook) 가 4 서버를 in-process `execute_query` 로 스캔해 `(login_id, hcode) → (remote_id, db_name, tenant_id, account_family)` 매핑을 산출.
+- **인덱스 정본화** — `login_id_index_service.rebuild()` 의 운영 기준은 4 서버 전체 `SHOW DATABASES` → `SHOW TABLES FROM <db>` → `Id_Logn` 보유 DB만 스캔하는 라이브 기준이다. `tenants_directory` 는 `tenant_id`/`account_family` 보강용이며, 라이브 스캔 결과가 없을 때만 폴백 라우트로 사용한다.
+- **저장 필드 최소화** — 인덱스에는 `Gcode`/`Hcode`/`remote_id`/`db_name`/`tenant_id`/`account_family` 만 저장한다. `Gpass` 는 SELECT 하지 않는다.
+- **운영 안정화 가드 (2026-04-26)** — pooled MySQL/SSH 연결이 오래된 경우 `OperationalError` 2006/2013 에 한해 풀·터널을 무효화하고 1회만 재시도한다. 로그인 자체는 현재 정상 흐름을 재설계하지 않고, 이 최소 회귀 가드와 대표 계정 스모크로만 고정한다.
 - **저장 위치** — [`도서물류관리프로그램/backend/data/login_id_index.json`](../도서물류관리프로그램/backend/data/login_id_index.json). [`.gitignore`](../.gitignore) `도서물류관리프로그램/` 51행으로 폴더 전체 git 제외 확인됨 (`web_admin.json`/`tenants_directory_seed.json` 과 동일 정책).
 - **비밀 정책** — 인덱스에는 `Gcode`/`Hcode`/`remote_id`/`db_name`/`tenant_id`/`account_family` 만 저장. **비밀번호·평문 자격증명 0건**. 분류 = INTERNAL (RED 아님). [`docs/secrets-policy.md`](secrets-policy.md) G3 준수.
 - **온디맨드 lazy refresh** — 로그인 401 + 라우팅 출처가 `fallback_auth_server` 또는 인덱스 lookup 결과가 None 이었을 때만, 인덱스를 1회 재빌드(서버 4회 SELECT)하고 단 1회만 재해석·재인증을 시도. 동시 trigger 는 `threading.Lock` + `min_interval_secs=300` 가드(러시 방어).

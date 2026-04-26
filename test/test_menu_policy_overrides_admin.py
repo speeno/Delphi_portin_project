@@ -64,6 +64,31 @@ def test_menu_policy_overrides_super_only(tmp_path, monkeypatch):
         _cleanup_client(c)
 
 
+def test_menu_policy_runtime_returns_current_account_type_rows(tmp_path, monkeypatch):
+    monkeypatch.setattr(menu_policy_overrides_service, "OVERRIDES_PATH", tmp_path / "overrides.json")
+    menu_policy_overrides_service.save_overrides(
+        {
+            "schema_version": "1.0.0",
+            "rows": [
+                {"menu_id": "ACC-MENU-ADMIN-01", "account_type": "T2_PUB", "visibility": "allow"},
+                {"menu_id": "ACC-MENU-NAV-01", "account_type": "T2_DIST", "visibility": "deny"},
+            ],
+        },
+        actor="test",
+    )
+    c = _client_with_ctx(_ctx_user)
+    try:
+        res = c.get("/api/v1/admin/menu-policy/runtime")
+        assert res.status_code == 200
+        body = res.json()
+        assert body["schema_version"] == "1.0.0"
+        assert body["rows"] == [
+            {"menu_id": "ACC-MENU-ADMIN-01", "account_type": "T2_PUB", "visibility": "allow"}
+        ]
+    finally:
+        _cleanup_client(c)
+
+
 def test_menu_policy_overrides_roundtrip_and_audit(tmp_path, monkeypatch, caplog):
     monkeypatch.setattr(menu_policy_overrides_service, "OVERRIDES_PATH", tmp_path / "overrides.json")
     c = _client_with_ctx(_ctx_super)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""ONE-OFF — 총판(물류, T2_DIST) 계정 로그인 ID/PW 추출 (1회성, 사용 후 즉시 삭제).
+"""RED — 운영 Id_Logn 로그인 ID/PW 추출 도구.
 
-본 스크립트는 운영자 본인의 자격증명 운반 작업을 위한 1회성 도구입니다.
+본 스크립트는 운영자 본인의 자격증명 운반/재생성 작업을 위한 RED 등급 도구입니다.
 정책 정합:
   * 출력 파일은 `WeLove_FTP/` 하위로만 작성합니다 — 해당 폴더는 `.gitignore` 로
     전체 제외되어 있어 git 추적·원격 푸시 위험이 없습니다.
@@ -10,12 +10,13 @@
     (gitignored) 허용 위치를 사용합니다.
 
 사용:
-    python3 tools/_oneoff_export_distributor_credentials.py
+    python3 tools/export_id_logn_credentials_red.py --dry-run
+    python3 tools/export_id_logn_credentials_red.py --server remote_153 --output WeLove_FTP/_oneoff_distributor_credentials_DELETE_AFTER_USE.xlsx
 
 사용 후:
     1. 운영자가 vault / 1Password 로 옮긴 즉시
        `WeLove_FTP/_oneoff_distributor_credentials_DELETE_AFTER_USE.xlsx`
-       와 본 스크립트 파일을 함께 영구 삭제하십시오.
+       를 영구 삭제하십시오.
     2. 영구 삭제는 finder 휴지통이 아니라 `rm -P` 또는 디스크 zeroize 권장.
 """
 
@@ -92,7 +93,7 @@ _LIVE_SHEET_HEADERS = [
     "Gname",
     "source",
 ]
-_EXCLUDED_HCODES = {"0000"}
+DEFAULT_EXCLUDED_HCODES = {"0000"}
 
 
 def _norm(value) -> str:
@@ -292,12 +293,18 @@ async def _list_server_databases(server_id: str) -> list[str]:
     return sorted(set(out))
 
 
-async def _build_live_db_candidates(db_info_idx: dict[tuple[str, str], dict]) -> dict[tuple[str, str], dict[str, Any]]:
+async def _build_live_db_candidates(
+    db_info_idx: dict[tuple[str, str], dict],
+    *,
+    server_filter: set[str] | None = None,
+) -> dict[tuple[str, str], dict[str, Any]]:
     info_by_db = _db_info_by_remote_db(db_info_idx)
     out: dict[tuple[str, str], dict[str, Any]] = {}
     for profile in get_server_profiles():
         server_id = _norm(profile.get("id"))
         if not server_id:
+            continue
+        if server_filter and server_id not in server_filter:
             continue
         for db_name in await _list_server_databases(server_id):
             key = (server_id, db_name)
@@ -326,7 +333,11 @@ async def _db_has_id_logn(server_id: str, db_name: str) -> bool:
     return any(_row_has_id_logn_table(r) for r in rows or [] if isinstance(r, dict))
 
 
-async def _load_live_id_logn_rows(candidates: dict[tuple[str, str], dict[str, Any]]) -> list[dict[str, Any]]:
+async def _load_live_id_logn_rows(
+    candidates: dict[tuple[str, str], dict[str, Any]],
+    *,
+    excluded_hcodes: set[str],
+) -> list[dict[str, Any]]:
     live_rows: list[dict[str, Any]] = []
     for _, cand in sorted(candidates.items()):
         server_id = cand["server_id"]
@@ -350,7 +361,7 @@ async def _load_live_id_logn_rows(candidates: dict[tuple[str, str], dict[str, An
             hcode = _norm(r.get("hcode"))
             if not gcode and not hcode:
                 continue
-            if hcode in _EXCLUDED_HCODES:
+            if hcode in excluded_hcodes:
                 continue
             acct_meta = auth_service._resolve_account_type(
                 gcode,
@@ -413,7 +424,7 @@ def _write_warning_sheet(wb: openpyxl.Workbook) -> None:
         ("1. vault / 1Password / 사내 secret store 로 즉시 이관.", False, None),
         ("2. 운영 환경의 .env / CI secret 으로 주입.", False, None),
         ("3. 본 xlsx 를 `rm -P` (또는 디스크 zeroize) 로 영구 삭제.", False, None),
-        ("4. tools/_oneoff_export_distributor_credentials.py 도 함께 삭제.", False, None),
+        ("4. tools/export_id_logn_credentials_red.py 는 RED 운영 도구로 유지하되, xlsx 는 남기지 않습니다.", False, None),
         ("", False, None),
         ("출처", True, "BDD7EE"),
         ("- 원본 1: WeLove_FTP/Welove_인수인계/셋팅방법/DB정보, DB_FTP 엑셀/DB정보 엑셀정리.xlsx (MAN-017)", False, None),
@@ -602,15 +613,22 @@ def _write_dist_sheet(wb: openpyxl.Workbook, rows: list[dict]) -> None:
         sh.column_dimensions[get_column_letter(ci)].width = 22
 
 
-async def _build_workbook(*, dry_run: bool = False) -> int:
+async def _build_workbook(
+    *,
+    dry_run: bool = False,
+    server_filter: set[str] | None = None,
+    excluded_hcodes: set[str] | None = None,
+    output_path: Path = OUT_PATH,
+) -> int:
     if not DB_INFO_XLSX.exists() or not DB_FTP_XLSX.exists():
         print("[ERR] 원본 엑셀 누락:", DB_INFO_XLSX, DB_FTP_XLSX)
         return 2
 
     db_info_idx = _load_db_info()  # (sid, family) → {db_user, db_password, db_name, ...}
     ftp_rows = _load_db_ftp_rows()
-    db_candidates = await _build_live_db_candidates(db_info_idx)
-    live_rows = await _load_live_id_logn_rows(db_candidates)
+    excluded_hcodes = excluded_hcodes if excluded_hcodes is not None else set(DEFAULT_EXCLUDED_HCODES)
+    db_candidates = await _build_live_db_candidates(db_info_idx, server_filter=server_filter)
+    live_rows = await _load_live_id_logn_rows(db_candidates, excluded_hcodes=excluded_hcodes)
 
     merged: list[dict] = []
     for ri, fr in enumerate(ftp_rows, start=1):
@@ -639,13 +657,13 @@ async def _build_workbook(*, dry_run: bool = False) -> int:
             key = _norm(r.get("server_id")) or "(blank)"
             by_server[key] = by_server.get(key, 0) + 1
         print("[DRY-RUN] xlsx는 쓰지 않았습니다.")
-        print(f"[DRY-RUN] Id_Logn DB {len(by_db)}개, 서버 {len(by_server)}개, 계정 행 {len(live_rows)}건 (Hcode=0000 제외)")
+        print(f"[DRY-RUN] Id_Logn DB {len(by_db)}개, 서버 {len(by_server)}개, 계정 행 {len(live_rows)}건")
         for sid, cnt in sorted(by_server.items()):
             print(f"[DRY-RUN]   - {sid}: {cnt}건")
         print(f"[DRY-RUN] 총판 후보 시트 행 {len(merged)}건")
         return 0
 
-    OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     wb = openpyxl.Workbook()
     # 기본 빈 시트 제거
     if "Sheet" in wb.sheetnames:
@@ -655,31 +673,56 @@ async def _build_workbook(*, dry_run: bool = False) -> int:
     _write_dist_sheet(wb, merged)
     _write_server_live_sheets(wb, live_rows)
     _write_live_summary_sheet(wb, live_rows)
-    wb.save(str(OUT_PATH))
+    wb.save(str(output_path))
 
     # === 자격증명을 절대 콘솔에 출력하지 않습니다 (G3) ===
     by_class: dict[str, int] = {}
     for r in merged:
         by_class[r["_classification"]] = by_class.get(r["_classification"], 0) + 1
 
-    print(f"[OK] 출력: {OUT_PATH.relative_to(ROOT)}")
+    print(f"[OK] 출력: {output_path.relative_to(ROOT)}")
     print(f"     (gitignored 위치 — git 추적 0건)")
     print(f"[총계] 총판 후보 {len(merged)} 건")
-    print(f"[총계] 라이브 Id_Logn 계정 {len(live_rows)} 건 (Hcode=0000 제외)")
+    print(f"[총계] 라이브 Id_Logn 계정 {len(live_rows)} 건")
     for cls, cnt in sorted(by_class.items()):
         print(f"        - {cls}: {cnt}")
-    print("[중요] 사용 즉시 본 xlsx + 본 스크립트를 영구 삭제하십시오.")
+    print("[중요] vault / 1Password 이관 후 xlsx를 영구 삭제하십시오.")
     return 0
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="RED Id_Logn credential workbook exporter")
     parser.add_argument("--dry-run", action="store_true", help="xlsx를 쓰지 않고 행 수만 확인")
+    parser.add_argument(
+        "--server",
+        action="append",
+        default=[],
+        help="스캔할 server_id. 여러 번 지정 가능. 미지정 시 전체 서버",
+    )
+    parser.add_argument(
+        "--exclude-hcode",
+        action="append",
+        default=["0000"],
+        help="제외할 Hcode. 여러 번 지정 가능. 기본값: 0000",
+    )
+    parser.add_argument(
+        "--output",
+        default=str(OUT_PATH.relative_to(ROOT)),
+        help="출력 xlsx 경로. 기본값: WeLove_FTP/_oneoff_distributor_credentials_DELETE_AFTER_USE.xlsx",
+    )
     args = parser.parse_args()
 
     async def _run() -> int:
         try:
-            return await _build_workbook(dry_run=args.dry_run)
+            output_path = Path(args.output)
+            if not output_path.is_absolute():
+                output_path = ROOT / output_path
+            return await _build_workbook(
+                dry_run=args.dry_run,
+                server_filter={_norm(v) for v in args.server if _norm(v)} or None,
+                excluded_hcodes={_norm(v) for v in args.exclude_hcode if _norm(v)},
+                output_path=output_path,
+            )
         finally:
             await close_all_pools()
 

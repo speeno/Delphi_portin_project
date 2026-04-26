@@ -170,7 +170,8 @@ def effective_menu_visible(
     vo = _visibility_override(menu["id"], ctx.account_type, ovr)
     if vo == "deny":
         return False
-    # allow 는 베이스가 이미 true 일 때만 의미 있음
+    if vo == "allow":
+        return True
     return base
 
 
@@ -194,8 +195,8 @@ def nav_ui_state_for_menu(
     ovr = overrides if overrides is not None else _overrides_doc()
     if is_forced_hidden(menu["id"], ctx.active_build_id):
         return NavUiState(False, False, ["build_forced_hidden"])
-    rbac_ok = effective_menu_visible(menu, ctx, overrides=ovr)
-    if not rbac_ok:
+    base_visible = effective_menu_visible(menu, ctx, overrides=ovr)
+    if not base_visible:
         return NavUiState(False, False, ["rbac"])
     lic = license_keys_satisfied(menu, ctx.license_keys)
     if not lic:

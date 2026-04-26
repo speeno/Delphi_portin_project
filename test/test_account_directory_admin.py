@@ -88,10 +88,12 @@ def test_account_directory_databases_only_lists_schemas_with_id_logn(monkeypatch
         assert body["database_meta"] == [
             {
                 "db_name": "good_db",
+                "server_id": "remote_153",
                 "tenant_labels": ["교문사"],
                 "account_types": ["T3"],
                 "build_roles": ["warehouse_publisher"],
                 "account_families": ["chul_09"],
+                "has_id_logn": True,
             }
         ]
     finally:

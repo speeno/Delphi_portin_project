@@ -73,7 +73,7 @@ if whl and whl["status"] == "active":
 
 운영 구현 (`app.services.auth_service._resolve_account_type`) 은 다음 순서로 테넌트 row 를 해석한다.
 
-1. **DSN-DEC-09** `login_id_index` 조회: `(Gcode, Hcode, 논리 db_name, remote_id)` 힌트로 `tenant_id` / `account_family` 를 복원한다. `ambiguous` 이면 `resolved_db`(인증에 사용한 논리 DB명)로 후보를 좁혀 단일화한다.
+1. **DSN-DEC-09** `login_id_index` 조회: 서버 전체 `SHOW DATABASES` + `Id_Logn` 보유 DB 스캔으로 만든 `(Gcode, Hcode, 논리 db_name, remote_id)` 힌트를 소비해 `tenant_id` / `account_family` 를 복원한다. `ambiguous` 이면 `resolved_db`(인증에 사용한 논리 DB명)로 후보를 좁혀 단일화한다.
 2. `tenant_id` 가 있으면 `tenants_directory_service.lookup_by_tenant_id` 로 시드 row 를 로드한다.
 3. 아니면 `account_family` + `server_id` 로 `lookup_by_account_family` 를 호출한다. (`server_id` 는 `remote_*` 형태이며, 시드의 `primary_server` 한글 라벨과 동등 비교된다.)
 4. 그래도 없으면 `lookup_by_hcode_hint` 로 폴백한다(레거시·테스트 호환).

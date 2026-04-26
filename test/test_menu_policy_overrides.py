@@ -3,22 +3,26 @@
 from __future__ import annotations
 
 import json
+import importlib.util
 import sys
 from pathlib import Path
 
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "backend"))
+MENU_POLICY_PATH = ROOT / "backend" / "app" / "core" / "menu_policy.py"
+spec = importlib.util.spec_from_file_location("prototype_menu_policy", MENU_POLICY_PATH)
+assert spec and spec.loader
+menu_policy = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = menu_policy
+spec.loader.exec_module(menu_policy)
 
-from app.core.menu_policy import (
-    MenuPolicyContext,
-    crud_allowed_for_menu_action,
-    effective_menu_visible,
-    http_crud_allowed,
-    nav_ui_state_for_menu,
-    menu_by_id,
-)
+MenuPolicyContext = menu_policy.MenuPolicyContext
+crud_allowed_for_menu_action = menu_policy.crud_allowed_for_menu_action
+effective_menu_visible = menu_policy.effective_menu_visible
+http_crud_allowed = menu_policy.http_crud_allowed
+nav_ui_state_for_menu = menu_policy.nav_ui_state_for_menu
+menu_by_id = menu_policy.menu_by_id
 
 MATRIX = ROOT / "analysis" / "rbac_menu_matrix.json"
 
@@ -121,6 +125,30 @@ def test_visibility_override_deny():
         is_super_user=False,
     )
     assert not effective_menu_visible(m, ctx, overrides=ovr)
+
+
+def test_visibility_override_allow_expands_rbac_but_preserves_license_state():
+    m = menu_by_id("ACC-MENU-ADMIN-01")
+    ovr = {
+        "rows": [
+            {
+                "account_type": "T2_PUB",
+                "menu_id": "ACC-MENU-ADMIN-01",
+                "visibility": "allow",
+                "crud": {},
+            }
+        ]
+    }
+    ctx = MenuPolicyContext(
+        account_type="T2_PUB",
+        build_role="publisher",
+        license_keys=frozenset(),
+        is_super_user=False,
+    )
+    assert effective_menu_visible(m, ctx, overrides=ovr)
+    ui = nav_ui_state_for_menu(m, ctx, overrides=ovr)
+    assert ui.visible
+    assert not ui.disabled
 
 
 def test_fxx_template_x_denies_t2_pub_special():
