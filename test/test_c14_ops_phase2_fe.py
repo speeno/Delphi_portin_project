@@ -115,11 +115,11 @@ class StaticInfraC14Phase2(TestCase):
             "layout must import GlobalAlertBanner from canonical path",
         )
 
-    def test_S_06_form_registry_routes_phase2(self):
+    def test_S_06_form_registry_routes_phase1_promoted(self):
         src = _read(FORM_REGISTRY)
         for route in ("/admin/ops", "/admin/audit"):
             self.assertIn(route, src, f"form-registry must register {route}")
-        # 두 항목이 모두 phase2 마킹
+        # 두 항목이 모두 phase1 승격 마킹
         ops_block = re.search(
             r'\{\s*id:\s*"WebAdmOps".*?\}', src, re.DOTALL,
         )
@@ -128,8 +128,8 @@ class StaticInfraC14Phase2(TestCase):
         )
         self.assertIsNotNone(ops_block, "WebAdmOps registry entry missing")
         self.assertIsNotNone(audit_block, "WebAdmAudit registry entry missing")
-        self.assertIn('phase: "phase2"', ops_block.group(0))
-        self.assertIn('phase: "phase2"', audit_block.group(0))
+        self.assertIn('phase: "phase1"', ops_block.group(0))
+        self.assertIn('phase: "phase1"', audit_block.group(0))
 
     def test_S_07_ko_json_keys(self):
         with KO_JSON.open(encoding="utf-8") as fh:

@@ -106,14 +106,17 @@ class StaticInfraC13Phase2(TestCase):
             f"recharts must only be imported in components/stats/charts.tsx, found: {bad}",
         )
 
-    def test_S_06_form_registry_4_routes_phase2(self):
-        """form-registry 에 4 stats 라우트가 phase2 로 등록."""
+    def test_S_06_form_registry_4_routes_phase1_promoted(self):
+        """form-registry 에 4 stats 라우트가 phase1 으로 승격."""
         src = _read(FORM_REGISTRY)
         for slug, (_perm, _legacy, _path) in PAGES.items():
             self.assertIn(f"/stats/{slug}", src, f"route /stats/{slug} not registered")
-        # phase2 stats 항목 4건 — Sobo50/51/52/53_stats id 사용
+        # phase1 stats 항목 4건 — Sobo50/51/52/53_stats id 사용
         for sid in ("Sobo50_stats", "Sobo51_stats", "Sobo52_stats", "Sobo53_stats"):
             self.assertIn(sid, src, f"FORM_REGISTRY id missing: {sid}")
+            block = re.search(rf'\{{\s*id:\s*"{sid}".*?\}}', src, re.DOTALL)
+            self.assertIsNotNone(block, f"FORM_REGISTRY block missing: {sid}")
+            self.assertIn('phase: "phase1"', block.group(0))
 
     def test_S_07_ko_json_keys(self):
         """c13.ko.json 의 핵심 키 (partial banner / 에러 / 필터) 존재."""
