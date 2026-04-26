@@ -1,0 +1,65 @@
+# ACC-MENU-* ↔ API prefix ↔ Fxx (DEC-RBAC-02 보조)
+# R 베이스: default_id_logn_permissions.yaml — R 이면 create/read/update/delete 모두 허용(웹 DEC).
+# X 이면 해당 prefix 전 메서드 거부. 수퍼 오버레이로 read-only 등 세분화.
+version: 1.0.0
+method_to_action:
+  GET: read
+  POST: create
+  PUT: update
+  PATCH: update
+  DELETE: delete
+mappings:
+  - menu_id: ACC-MENU-MASTERS-01
+    api_prefix: /api/v1/masters/customers
+    fxx_keys: [F11]
+  - menu_id: ACC-MENU-MASTERS-01a
+    api_prefix: /api/v1/masters/customers/individual
+    fxx_keys: [F11]
+  - menu_id: ACC-MENU-MASTERS-01b
+    api_prefix: /api/v1/masters/customers/integrated
+    fxx_keys: [F11]
+  - menu_id: ACC-MENU-MASTERS-02
+    api_prefix: /api/v1/masters/inbound-vendors
+    fxx_keys: [F12]
+  - menu_id: ACC-MENU-MASTERS-03
+    api_prefix: /api/v1/masters/etc-customers
+    fxx_keys: [F13]
+  - menu_id: ACC-MENU-MASTERS-04
+    api_prefix: /api/v1/masters/publishers
+    fxx_keys: [F17]
+  - menu_id: ACC-MENU-MASTERS-04a
+    api_prefix: /api/v1/masters/publishers/settings
+    fxx_keys: [F17]
+  - menu_id: ACC-MENU-MASTERS-04b
+    api_prefix: /api/v1/masters/publishers/courier
+    fxx_keys: [F17]
+  - menu_id: ACC-MENU-MASTERS-04c
+    api_prefix: /api/v1/masters/publishers/mms
+    fxx_keys: [F17]
+  - menu_id: ACC-MENU-MASTERS-05
+    api_prefix: /api/v1/masters/books
+    fxx_keys: [F14]
+  - menu_id: ACC-MENU-MASTERS-05a
+    api_prefix: /api/v1/masters/books/locations
+    fxx_keys: [F14]
+  - menu_id: ACC-MENU-MASTERS-06
+    api_prefix: /api/v1/masters/authors
+    fxx_keys: [F19]
+  - menu_id: ACC-MENU-MASTERS-07
+    api_prefix: /api/v1/masters/series
+    fxx_keys: []
+  - menu_id: ACC-MENU-MASTERS-08
+    api_prefix: /api/v1/masters/regions
+    fxx_keys: []
+  - menu_id: ACC-MENU-MASTERS-09
+    api_prefix: /api/v1/masters/shipping-sort
+    fxx_keys: []
+  - menu_id: ACC-MENU-MASTERS-10
+    api_prefix: /api/v1/masters/shipping-block
+    fxx_keys: []
+  - menu_id: ACC-MENU-MASTERS-11
+    api_prefix: /api/v1/masters/special
+    fxx_keys: [F18]
+  - menu_id: ACC-MENU-MASTERS-12
+    api_prefix: /api/v1/masters/settings
+    fxx_keys: []

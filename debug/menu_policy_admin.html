@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>메뉴 정책 API (프로토타입)</title>
+</head>
+<body>
+  <h1>메뉴 정책 — curl 예시</h1>
+  <pre>
+# 네비 목록 (헤더로 JWT 클레임 모사)
+curl -s "http://127.0.0.1:8000/api/v1/nav?section=masters" \
+  -H "X-Account-Type: T2_PUB" \
+  -H "X-Build-Role: publisher" \
+  -H "X-License-Keys: F12,F14" | jq .
+
+# 수퍼 오버레이 조회 (T1 + X-BLS-Super-User: 1)
+curl -s "http://127.0.0.1:8000/api/v1/admin/menu-policy/overrides" \
+  -H "X-Account-Type: T1" \
+  -H "X-BLS-Super-User: 1" | jq .
+
+# masters 스텁 — T2_PUB 은 X-User-Hcode 필수 (M4)
+curl -s "http://127.0.0.1:8000/api/v1/masters/inbound-vendors" \
+  -H "X-Account-Type: T2_PUB" \
+  -H "X-Build-Role: publisher" \
+  -H "X-License-Keys: F12" \
+  -H "X-User-Hcode: 0001" | jq .
+  </pre>
+  <p>Next UI: <code>/admin/menu-policy</code></p>
+</body>
+</html>

@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 import time
 import logging
 
-from app.api import auth, inbound, outbound, inventory, health
+from app.api import auth, inbound, outbound, inventory, health, nav, admin_menu_policy, masters
 from app.middleware.harness_middleware import HarnessMiddleware
 
 logging.basicConfig(level=logging.INFO)
@@ -38,6 +38,9 @@ app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(inbound.router, prefix="/api/inbound", tags=["inbound"])
 app.include_router(outbound.router, prefix="/api/outbound", tags=["outbound"])
 app.include_router(inventory.router, prefix="/api/inventory", tags=["inventory"])
+app.include_router(nav.router, prefix="/api/v1", tags=["navigation"])
+app.include_router(admin_menu_policy.router, prefix="/api/v1/admin", tags=["admin-menu-policy"])
+app.include_router(masters.router, prefix="/api/v1/masters", tags=["masters"])
 
 
 @app.exception_handler(Exception)

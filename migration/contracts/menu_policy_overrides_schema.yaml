@@ -1,0 +1,13 @@
+# 수퍼관리자(T1) 런타임 오버레이 스키마 (backend/data/menu_policy_overrides.json)
+# - visibility: inherit | allow | deny — allow 는 베이스 가시가 true 일 때만 효력(베이스 거부를 뚫지 않음)
+# - crud: 각 키 inherit | grant | deny — grant/deny 는 베이스 Fxx R/X 및 라이선스 통과 후 적용
+schema_version: "1.0.0"
+row:
+  account_type: string  # T1 | T2_DIST | T2_PUB | T3
+  menu_id: string       # ACC-MENU-*
+  visibility: string    # inherit | allow | deny
+  crud:
+    create: string      # inherit | grant | deny
+    read: string
+    update: string
+    delete: string

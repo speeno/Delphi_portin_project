@@ -1,0 +1,3 @@
+# Raspberry Pi IoT gateway — MQTT bridge + SQLite offline queue
+aiomqtt>=2.3.0
+python-dotenv>=1.0.0

@@ -1,0 +1,33 @@
+# 빌드별 FormShow 강제 숨김 → 웹 ACC-MENU-* 정합 (MENUVIS-DEC-03)
+# 근거: docs/menu-visibility-runtime-design.md
+# SME: Menu### ↔ ACC-MENU id 매핑은 OQ-BLD-MS-1 등에서 재검증.
+version: 1.0.0
+decision_refs:
+  - MENUVIS-DEC-03
+builds:
+  BLD-DIST-KBT:
+    legacy_menu_hidden:
+      - Menu410
+      - Menu411
+      - Menu195
+    forced_hidden_acc_menu_ids:
+      - ACC-MENU-MASTERS-04b
+      - ACC-MENU-MASTERS-04c
+      - ACC-MENU-MASTERS-09
+  BLD-PUB-WAREHOUSE-MS:
+    legacy_menu_hidden:
+      - Menu300
+      - Menu400
+      - Menu500
+      - Menu600
+      - Menu700
+      - Menu800
+      - Menu208
+      - Menu308
+    forced_hidden_acc_menu_ids:
+      - ACC-MENU-NAV-10
+      - ACC-MENU-NAV-14
+      - ACC-MENU-NAV-15
+      - ACC-MENU-NAV-06
+      - ACC-MENU-NAV-11
+      - ACC-MENU-NAV-13

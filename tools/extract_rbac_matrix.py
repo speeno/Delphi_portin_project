@@ -37,8 +37,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "docs" / "onboarding-rbac-menu-matrix.md"
 ANALYSIS_OUT = ROOT / "analysis" / "rbac_menu_matrix.json"
+_PRIMARY_FE_DATA = ROOT / "도서물류관리프로그램" / "frontend" / "src" / "data"
+_FALLBACK_FE_DATA = ROOT / "frontend" / "src" / "data"
 FRONTEND_OUT = (
-    ROOT / "도서물류관리프로그램" / "frontend" / "src" / "data" / "rbac_menu_matrix.json"
+    _PRIMARY_FE_DATA / "rbac_menu_matrix.json"
+    if _PRIMARY_FE_DATA.is_dir()
+    else _FALLBACK_FE_DATA / "rbac_menu_matrix.json"
 )
 YAML_OUT = ROOT / "migration" / "contracts" / "rbac_menu_matrix.yaml"
 

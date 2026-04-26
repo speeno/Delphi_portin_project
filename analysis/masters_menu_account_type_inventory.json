@@ -1,0 +1,449 @@
+{
+  "schema_version": "1.0.0",
+  "source_matrix": "analysis/rbac_menu_matrix.json",
+  "nav_masters_context": "ACC-MENU-NAV-01 기초관리 하위 — section=masters 만 포함",
+  "rows": [
+    {
+      "menu_id": "ACC-MENU-MASTERS-01",
+      "caption": "거래처관리 (단일)",
+      "route": "/(app)/masters/customers",
+      "license_keys": [
+        "F11"
+      ],
+      "account_types": [
+        "T1",
+        "T2_PUB",
+        "T3"
+      ],
+      "build_roles": [
+        "distributor",
+        "publisher"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "D-STD",
+        "P-STD",
+        "P-KBT"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "publisher_shell_heavy",
+      "notes_ko": "출판 측 위주 — 총판 전용 메뉴와 다름"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-01a",
+      "caption": "거래처관리(개별)",
+      "route": "/(app)/masters/customers/individual",
+      "license_keys": [
+        "F11"
+      ],
+      "account_types": [
+        "T1",
+        "T2_DIST",
+        "T3"
+      ],
+      "build_roles": [
+        "distributor",
+        "warehouse_publisher"
+      ],
+      "warehouse_menu_tiers": [
+        "full",
+        "lite"
+      ],
+      "source_builds": [
+        "D-KBT",
+        "WH-WL",
+        "WH-MS",
+        "WH-BB"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "warehouse_or_build_gated",
+      "notes_ko": "자체물류 lite/full 또는 build_role 로 분기 — 총판·출판 동일 노출 아님"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-01b",
+      "caption": "거래처관리(통합)",
+      "route": "/(app)/masters/customers/integrated",
+      "license_keys": [
+        "F11"
+      ],
+      "account_types": [
+        "T1",
+        "T2_DIST",
+        "T3"
+      ],
+      "build_roles": [
+        "distributor",
+        "warehouse_publisher"
+      ],
+      "warehouse_menu_tiers": [
+        "full",
+        "lite"
+      ],
+      "source_builds": [
+        "D-KBT",
+        "WH-WL",
+        "WH-MS",
+        "WH-BB"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "warehouse_or_build_gated",
+      "notes_ko": "자체물류 lite/full 또는 build_role 로 분기 — 총판·출판 동일 노출 아님"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-02",
+      "caption": "입고처관리",
+      "route": "/(app)/masters/inbound-vendors",
+      "license_keys": [
+        "F12"
+      ],
+      "account_types": [
+        "T1",
+        "T2_DIST",
+        "T2_PUB",
+        "T3"
+      ],
+      "build_roles": [],
+      "warehouse_menu_tiers": [],
+      "source_builds": [],
+      "same_exposure_ok_for_all_publishers_and_distributors": true,
+      "exposure_class": "all_account_types_nav_item",
+      "notes_ko": "4유형 공통·build_role 미제한 — 상위 NAV와 유사"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-03",
+      "caption": "기타거래처",
+      "route": "/(app)/masters/etc-customers",
+      "license_keys": [
+        "F13"
+      ],
+      "account_types": [
+        "T1",
+        "T2_PUB",
+        "T3"
+      ],
+      "build_roles": [
+        "distributor",
+        "publisher"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "D-STD",
+        "P-STD",
+        "P-KBT"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "publisher_shell_heavy",
+      "notes_ko": "출판 측 위주 — 총판 전용 메뉴와 다름"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-04",
+      "caption": "출판사관리",
+      "route": "/(app)/masters/publishers",
+      "license_keys": [
+        "F17"
+      ],
+      "account_types": [
+        "T1",
+        "T2_DIST",
+        "T3"
+      ],
+      "build_roles": [
+        "distributor",
+        "warehouse_publisher"
+      ],
+      "warehouse_menu_tiers": [
+        "full",
+        "lite"
+      ],
+      "source_builds": [
+        "D-STD",
+        "D-KBT",
+        "WH-WL",
+        "WH-MS",
+        "WH-BB"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "warehouse_or_build_gated",
+      "notes_ko": "자체물류 lite/full 또는 build_role 로 분기 — 총판·출판 동일 노출 아님"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-04a",
+      "caption": "출판사관리(설정)",
+      "route": "/(app)/masters/publishers/settings",
+      "license_keys": [],
+      "account_types": [
+        "T1",
+        "T2_DIST"
+      ],
+      "build_roles": [
+        "distributor",
+        "warehouse_publisher"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "D-KBT",
+        "WH-MS"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "warehouse_or_build_gated",
+      "notes_ko": "자체물류 lite/full 또는 build_role 로 분기 — 총판·출판 동일 노출 아님"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-04b",
+      "caption": "출판사관리-택배",
+      "route": "/(app)/masters/publishers/courier",
+      "license_keys": [],
+      "account_types": [
+        "T1",
+        "T2_DIST"
+      ],
+      "build_roles": [
+        "distributor"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "D-KBT"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "distributor_or_warehouse_shell",
+      "notes_ko": "T2_PUB 비포함 — 출판사(publisher) 셸과 노출 불일치"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-04c",
+      "caption": "출판사MMS(설정/조회)",
+      "route": "/(app)/masters/publishers/mms",
+      "license_keys": [],
+      "account_types": [
+        "T1",
+        "T2_DIST"
+      ],
+      "build_roles": [
+        "distributor"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "D-KBT"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "distributor_or_warehouse_shell",
+      "notes_ko": "T2_PUB 비포함 — 출판사(publisher) 셸과 노출 불일치"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-05",
+      "caption": "도서관리",
+      "route": "/(app)/masters/books",
+      "license_keys": [
+        "F14"
+      ],
+      "account_types": [
+        "T1",
+        "T2_DIST",
+        "T2_PUB",
+        "T3"
+      ],
+      "build_roles": [],
+      "warehouse_menu_tiers": [],
+      "source_builds": [],
+      "same_exposure_ok_for_all_publishers_and_distributors": true,
+      "exposure_class": "all_account_types_nav_item",
+      "notes_ko": "4유형 공통·build_role 미제한 — 상위 NAV와 유사"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-05a",
+      "caption": "도서관리(위치)",
+      "route": "/(app)/masters/books/locations",
+      "license_keys": [],
+      "account_types": [
+        "T1",
+        "T2_DIST"
+      ],
+      "build_roles": [
+        "warehouse_publisher"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "WH-MS"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "warehouse_or_build_gated",
+      "notes_ko": "자체물류 lite/full 또는 build_role 로 분기 — 총판·출판 동일 노출 아님"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-06",
+      "caption": "저자관리",
+      "route": "/(app)/masters/authors",
+      "license_keys": [
+        "F19"
+      ],
+      "account_types": [
+        "T1",
+        "T2_PUB",
+        "T3"
+      ],
+      "build_roles": [
+        "distributor",
+        "publisher"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "D-STD",
+        "P-STD",
+        "P-KBT"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "publisher_shell_heavy",
+      "notes_ko": "출판 측 위주 — 총판 전용 메뉴와 다름"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-07",
+      "caption": "종당관리(도서)",
+      "route": "/(app)/masters/series",
+      "license_keys": [],
+      "account_types": [
+        "T1",
+        "T2_DIST",
+        "T3"
+      ],
+      "build_roles": [
+        "distributor",
+        "warehouse_publisher"
+      ],
+      "warehouse_menu_tiers": [
+        "full"
+      ],
+      "source_builds": [
+        "D-KBT",
+        "WH-MS",
+        "WH-BB"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "warehouse_or_build_gated",
+      "notes_ko": "자체물류 lite/full 또는 build_role 로 분기 — 총판·출판 동일 노출 아님"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-08",
+      "caption": "지역분류 / (시내+지방)",
+      "route": "/(app)/masters/regions",
+      "license_keys": [],
+      "account_types": [
+        "T1",
+        "T2_DIST",
+        "T3"
+      ],
+      "build_roles": [
+        "warehouse_publisher",
+        "distributor"
+      ],
+      "warehouse_menu_tiers": [
+        "full",
+        "lite"
+      ],
+      "source_builds": [
+        "WH-WL",
+        "D-KBT",
+        "WH-MS",
+        "WH-BB"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "warehouse_or_build_gated",
+      "notes_ko": "자체물류 lite/full 또는 build_role 로 분기 — 총판·출판 동일 노출 아님"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-09",
+      "caption": "출고증정렬",
+      "route": "/(app)/masters/shipping-sort",
+      "license_keys": [],
+      "account_types": [
+        "T1",
+        "T2_DIST"
+      ],
+      "build_roles": [
+        "distributor"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "D-KBT"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "distributor_or_warehouse_shell",
+      "notes_ko": "T2_PUB 비포함 — 출판사(publisher) 셸과 노출 불일치"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-10",
+      "caption": "출고정지유무",
+      "route": "/(app)/masters/shipping-block",
+      "license_keys": [],
+      "account_types": [
+        "T1"
+      ],
+      "build_roles": [
+        "warehouse_publisher"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "WH-BB"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "warehouse_or_build_gated",
+      "notes_ko": "자체물류 lite/full 또는 build_role 로 분기 — 총판·출판 동일 노출 아님"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-11",
+      "caption": "특별관리",
+      "route": "/(app)/masters/special",
+      "license_keys": [
+        "F18"
+      ],
+      "account_types": [
+        "T1",
+        "T2_DIST",
+        "T2_PUB",
+        "T3"
+      ],
+      "build_roles": [],
+      "warehouse_menu_tiers": [],
+      "source_builds": [],
+      "same_exposure_ok_for_all_publishers_and_distributors": true,
+      "exposure_class": "all_account_types_nav_item",
+      "notes_ko": "4유형 공통·build_role 미제한 — 상위 NAV와 유사"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-12",
+      "caption": "환경설정",
+      "route": "/(app)/masters/settings",
+      "license_keys": [],
+      "account_types": [
+        "T1",
+        "T2_DIST",
+        "T2_PUB",
+        "T3"
+      ],
+      "build_roles": [],
+      "warehouse_menu_tiers": [],
+      "source_builds": [],
+      "same_exposure_ok_for_all_publishers_and_distributors": true,
+      "exposure_class": "all_account_types_nav_item",
+      "notes_ko": "4유형 공통·build_role 미제한 — 상위 NAV와 유사"
+    },
+    {
+      "menu_id": "ACC-MENU-MASTERS-13",
+      "caption": "메뉴보이기 / 메뉴감추기",
+      "route": "(app)/profile/preferences::toolbar_visible",
+      "license_keys": [
+        "F11"
+      ],
+      "account_types": [],
+      "build_roles": [
+        "publisher"
+      ],
+      "warehouse_menu_tiers": [],
+      "source_builds": [
+        "P-STD",
+        "P-KBT"
+      ],
+      "same_exposure_ok_for_all_publishers_and_distributors": false,
+      "exposure_class": "distributor_or_warehouse_shell",
+      "notes_ko": "T2_PUB 비포함 — 출판사(publisher) 셸과 노출 불일치"
+    }
+  ]
+}

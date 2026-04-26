@@ -16,7 +16,7 @@ Migration Contracts:
 권장 포팅 순서: 1차(조회) → 2차(등록) → 3차(수정/삭제)
 """
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from pydantic import BaseModel
 from datetime import datetime
 
