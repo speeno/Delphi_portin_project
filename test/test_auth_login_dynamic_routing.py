@@ -171,7 +171,7 @@ class DynamicLoginRoutingTests(TestCase):
     @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
     @patch("app.services.login_id_index_service.lazy_refresh", new_callable=AsyncMock)
     @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
-    def test_index_ambiguous_without_hint_is_not_probed(
+    def test_index_ambiguous_strict_mode_blocks_without_hint(
         self,
         mock_auth: AsyncMock,
         mock_lazy: AsyncMock,
@@ -179,6 +179,12 @@ class DynamicLoginRoutingTests(TestCase):
         mock_single,
         _mock_bypass,
     ) -> None:
+        """DSN-DEC-09 v2 — ``BLS_LOGIN_AMBIGUOUS_PROBE=block`` opt-in 시 v1 정책(즉시 차단) 보존.
+
+        v2 default 는 password narrowing 이지만, 보안 격리 환경에서는 운영자가
+        명시적으로 strict 모드를 켜 ``index_ambiguous`` 를 hcode/tenantId 없이는
+        시도조차 하지 않게 할 수 있다. 본 테스트는 그 strict 정책의 회귀 가드.
+        """
         ambiguous_single = {
             "remote_id": "",
             "db_name": "",
@@ -206,10 +212,11 @@ class DynamicLoginRoutingTests(TestCase):
         mock_candidates.return_value = routes
         mock_lazy.return_value = {"refreshed": False, "reason": "cooldown", "stats": None}
 
-        res = self.client.post(
-            "/api/v1/auth/login",
-            json={"userId": "shared-user", "password": "pw"},
-        )
+        with patch.dict(os.environ, {"BLS_LOGIN_AMBIGUOUS_PROBE": "block"}):
+            res = self.client.post(
+                "/api/v1/auth/login",
+                json={"userId": "shared-user", "password": "pw"},
+            )
 
         self.assertEqual(res.status_code, 401)
         mock_auth.assert_not_awaited()
@@ -218,6 +225,144 @@ class DynamicLoginRoutingTests(TestCase):
         self.assertEqual(rec["resolved_via"], "index_ambiguous")
         self.assertEqual(rec["candidate_attempts"], 0)
         self.assertEqual(rec["lazy_refresh_reason"], "cooldown")
+        self.assertTrue(rec.get("ambiguous_strict"))
+
+    @patch("app.services.login_id_index_service.add_entry", lambda **_kw: None)
+    @patch("app.routers.auth.should_bypass_login_id_index_ambiguity", return_value=False)
+    @patch("app.services.tenants_directory_service.resolve_login_route")
+    @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
+    @patch("app.services.login_id_index_service.lazy_refresh", new_callable=AsyncMock)
+    @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
+    def test_index_ambiguous_default_password_narrowing_succeeds(
+        self,
+        mock_auth: AsyncMock,
+        mock_lazy: AsyncMock,
+        mock_candidates,
+        mock_single,
+        _mock_bypass,
+    ) -> None:
+        """DSN-DEC-09 v2 default — 미래가치 같은 ambiguous 계정의 비밀번호 기반 narrowing.
+
+        시나리오:
+        - login_id_index 가 ``chul_05_db`` / ``chul_09_db`` 둘 다에 동일 ID 행을 보고
+        - hcode/tenantId 힌트 없음 (사용자가 자기 hcode 를 모름 — 일반적)
+        - 비밀번호는 두 번째 후보(chul_09_db)에서만 일치
+        → 두 번째 후보로 narrowing 되고 200 반환. 감사 로그에 narrow 발생 신호 기록.
+        """
+        ambiguous_single = {
+            "remote_id": "",
+            "db_name": "",
+            "via": "index_ambiguous",
+            "index_status": "ambiguous",
+        }
+        routes = [
+            _route(
+                "remote_153",
+                "chul_05_db",
+                via="index_ambiguous",
+                candidate_via="index_ambiguous",
+                index_status="ambiguous",
+            ),
+            _route(
+                "remote_153",
+                "chul_09_db",
+                via="index_ambiguous",
+                candidate_via="index_ambiguous",
+                index_status="ambiguous",
+                priority=1,
+            ),
+        ]
+        mock_single.return_value = ambiguous_single
+        mock_candidates.return_value = routes
+        mock_lazy.return_value = {"refreshed": False, "reason": "cooldown", "stats": None}
+
+        async def _fake_auth(server_id, user_id, password, *, db_name=None):
+            if db_name == "chul_09_db":
+                return _user(user_id, server_id=server_id, hcode="5088", db_name="chul_09_db")
+            return None
+
+        mock_auth.side_effect = _fake_auth
+
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("BLS_LOGIN_AMBIGUOUS_PROBE", None)
+            res = self.client.post(
+                "/api/v1/auth/login",
+                json={"userId": "미래가치", "password": "secret"},
+            )
+
+        self.assertEqual(res.status_code, 200, res.text)
+        self.assertEqual(mock_auth.await_count, 2, "narrow 위해 양쪽 후보 모두 시도해야 함")
+        payload = decode_token(res.json()["access_token"])
+        self.assertEqual(payload["sid"], "remote_153")
+
+        rec = self.handler.parsed()[-1]
+        self.assertEqual(rec["result"], "success")
+        self.assertEqual(rec["resolved_db"], "chul_09_db")
+        self.assertTrue(rec.get("ambiguous_narrowed"), "ambiguous_narrowed audit 신호 필수")
+        self.assertEqual(rec["candidate_attempts"], 2)
+        self.assertIn("index_ambiguous", rec.get("candidate_sources") or [])
+        self.assertEqual(rec["resolved_via"], "candidate_probe")
+
+    @patch("app.routers.auth.should_bypass_login_id_index_ambiguity", return_value=False)
+    @patch("app.services.tenants_directory_service.resolve_login_route")
+    @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
+    @patch("app.services.login_id_index_service.lazy_refresh", new_callable=AsyncMock)
+    @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
+    def test_index_ambiguous_default_password_narrowing_fails_when_no_match(
+        self,
+        mock_auth: AsyncMock,
+        mock_lazy: AsyncMock,
+        mock_candidates,
+        mock_single,
+        _mock_bypass,
+    ) -> None:
+        """DSN-DEC-09 v2 default — narrowing 시도했으나 어떤 후보도 비밀번호 미일치.
+
+        모든 후보에 대해 ``authenticate_user`` 가 ``None`` 을 반환 → 401 +
+        ``invalid_credentials_after_probe`` 사유. 사용자 ID 자체는 인덱스에 있는데
+        비밀번호가 틀린 흔한 케이스. 감사 로그에 narrow 시도 흔적이 그대로 남는다.
+        """
+        ambiguous_single = {
+            "remote_id": "",
+            "db_name": "",
+            "via": "index_ambiguous",
+            "index_status": "ambiguous",
+        }
+        routes = [
+            _route(
+                "remote_153",
+                "chul_05_db",
+                via="index_ambiguous",
+                candidate_via="index_ambiguous",
+                index_status="ambiguous",
+            ),
+            _route(
+                "remote_153",
+                "chul_09_db",
+                via="index_ambiguous",
+                candidate_via="index_ambiguous",
+                index_status="ambiguous",
+                priority=1,
+            ),
+        ]
+        mock_single.return_value = ambiguous_single
+        mock_candidates.return_value = routes
+        mock_lazy.return_value = {"refreshed": False, "reason": "cooldown", "stats": None}
+        mock_auth.return_value = None
+
+        os.environ.pop("BLS_LOGIN_AMBIGUOUS_PROBE", None)
+        res = self.client.post(
+            "/api/v1/auth/login",
+            json={"userId": "미래가치", "password": "wrong"},
+        )
+
+        self.assertEqual(res.status_code, 401)
+        self.assertGreaterEqual(mock_auth.await_count, 2)
+        rec = self.handler.parsed()[-1]
+        self.assertEqual(rec["result"], "failure")
+        self.assertEqual(rec["reason"], "invalid_credentials_after_probe")
+        self.assertTrue(rec.get("ambiguous_narrowed"))
+        self.assertGreaterEqual(rec["candidate_attempts"], 2)
 
     @patch("app.services.login_id_index_service.add_entry", lambda **_kw: None)
     @patch("app.services.tenants_directory_service.resolve_login_route")

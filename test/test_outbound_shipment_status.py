@@ -104,7 +104,7 @@ class ShipmentStatusMysql3PathTests(TestCase):
         r = client.get(
             "/api/v1/outbound/shipment-status",
             params={
-                "serverId": "remote_any_mysql3",
+                "serverId": "remote_1",
                 "dateFrom": "2026-04-01",
                 "dateTo": "2026-04-30",
                 "limit": 50,
@@ -118,6 +118,31 @@ class ShipmentStatusMysql3PathTests(TestCase):
         self.assertEqual(body["items"][0]["qty"], 8)
         self.assertEqual(body["items"][0]["cancelled_orders"], 1)
         mock_exec.assert_called_once()
+
+
+class ShipmentStatusOrderLevelSqlTests(TestCase):
+    """mysql3 inner SQL — COALESCE 미지원 회귀 (IFNULL 분기)."""
+
+    @patch("app.services.outbound_service.mysql3_protocol", return_value=True)
+    def test_order_level_sql_uses_ifnull_when_mysql3(self, _m: MagicMock) -> None:
+        from app.services.outbound_service import _shipment_status_order_level_sql
+
+        sql = _shipment_status_order_level_sql(
+            "Gdate >= %s AND Gdate <= %s", "", server_id="remote_154"
+        )
+        self.assertIn("IFNULL(Jubun", sql)
+        self.assertIn("IFNULL(SUM(Gsqut)", sql)
+        self.assertNotIn("COALESCE", sql)
+
+    @patch("app.services.outbound_service.mysql3_protocol", return_value=False)
+    def test_order_level_sql_uses_coalesce_when_modern(self, _m: MagicMock) -> None:
+        from app.services.outbound_service import _shipment_status_order_level_sql
+
+        sql = _shipment_status_order_level_sql(
+            "Gdate >= %s AND Gdate <= %s", "", server_id="remote_138"
+        )
+        self.assertIn("COALESCE(Jubun", sql)
+        self.assertNotIn("IFNULL(Jubun", sql)
 
 
 class ShipmentStatusStoreKindTests(TestCase):

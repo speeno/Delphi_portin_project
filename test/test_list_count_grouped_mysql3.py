@@ -103,6 +103,7 @@ def _row_outbound() -> dict[str, Any]:
         "Gdate": "2026.04.01",
         "Hcode": "H001",
         "Jubun": "J1",
+        "stmt_gcode": "GCUST01",
         "line_count": 1,
         "qty": 1,
         "amount": 1000,
@@ -129,6 +130,7 @@ def _row_sales() -> dict[str, Any]:
         "Hcode": "H001",
         "Jubun": "J1",
         "Gjisa": "",
+        "stmt_gcode": "GCUST01",
         "row_count": 1,
         "qty": 1,
         "amount": 1000,
@@ -194,10 +196,10 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
                 "date_to": "2026-04-30",
             },
             rows=[_row_outbound()],
-            names_attr="_fetch_customer_names",
-            names_value={"H001": "거래처A"},
+            names_attr="fetch_g1_customer_gnames",
+            names_value={("H001", "GCUST01"): "거래처A"},
             list_fn_name="list_orders",
-            expected_group_by="Gdate, Hcode, Jubun",
+            expected_group_by="Gdate, Hcode, COALESCE(Jubun,'')",
         )
 
     async def test_inbound_list_receipts(self) -> None:
@@ -214,7 +216,7 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
             names_attr2="_fetch_vendor_names",
             names_value2={"V001": "벤더A"},
             list_fn_name="list_receipts",
-            expected_group_by="Gdate, Hcode, Gcode, Jubun",
+            expected_group_by="Gdate, Hcode, COALESCE(Gcode,''), COALESCE(Jubun,'')",
         )
 
     async def test_transactions_list_sales_statements_no_hcode(self) -> None:
@@ -228,10 +230,10 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
                 "date_to": "2026-04-30",
             },
             rows=[_row_sales()],
-            names_attr="_fetch_customer_names",
-            names_value={"H001": "거래처A"},
+            names_attr="fetch_g1_customer_gnames",
+            names_value={("H001", "GCUST01"): "거래처A", ("", "GCUST01"): "거래처A"},
             list_fn_name="list_sales_statements",
-            expected_group_by="Gdate, Hcode, Jubun, Gjisa",
+            expected_group_by="Gdate, Hcode, COALESCE(Jubun,''), COALESCE(Gjisa,'')",
         )
 
     async def test_returns_list(self) -> None:
@@ -275,7 +277,10 @@ class TransactionsSalesStatementHcodeOptionalTests(IsolatedAsyncioTestCase):
             return [_row_sales()]
 
         with patch("app.services.transactions_service.execute_query", new=fake_exec), \
-             patch("app.services.transactions_service._fetch_customer_names", new=AsyncMock(return_value={})), \
+             patch(
+                 "app.services.transactions_service.fetch_g1_customer_gnames",
+                 new=AsyncMock(return_value={}),
+             ), \
              patch("app.services.transactions_service.count_grouped", new=AsyncMock(return_value=1)) as cg_mock:
             items, total = await ts.list_sales_statements(
                 server_id="srv",
@@ -305,7 +310,10 @@ class TransactionsSalesStatementHcodeOptionalTests(IsolatedAsyncioTestCase):
             return [_row_sales()]
 
         with patch("app.services.transactions_service.execute_query", new=fake_exec), \
-             patch("app.services.transactions_service._fetch_customer_names", new=AsyncMock(return_value={})), \
+             patch(
+                 "app.services.transactions_service.fetch_g1_customer_gnames",
+                 new=AsyncMock(return_value={}),
+             ), \
              patch("app.services.transactions_service.count_grouped", new=AsyncMock(return_value=1)) as cg_mock:
             await ts.list_sales_statements(
                 server_id="srv",
@@ -352,7 +360,7 @@ class HttpRouterRegressionTests(TestCase):
             self.app.dependency_overrides.pop(get_current_user, None)
 
     @patch("app.services.transactions_service.count_grouped", new_callable=AsyncMock)
-    @patch("app.services.transactions_service._fetch_customer_names", new_callable=AsyncMock)
+    @patch("app.services.transactions_service.fetch_g1_customer_gnames", new_callable=AsyncMock)
     @patch("app.services.transactions_service.execute_query", new_callable=AsyncMock)
     def test_sales_statement_without_hcode_returns_200(
         self,
@@ -376,7 +384,7 @@ class HttpRouterRegressionTests(TestCase):
         self.assertEqual(r.status_code, 200, r.text)
 
     @patch("app.services.outbound_service.count_grouped", new_callable=AsyncMock)
-    @patch("app.services.outbound_service._fetch_customer_names", new_callable=AsyncMock)
+    @patch("app.services.outbound_service.fetch_g1_customer_gnames", new_callable=AsyncMock)
     @patch("app.services.outbound_service.execute_query", new_callable=AsyncMock)
     def test_outbound_orders_list_returns_200(
         self,

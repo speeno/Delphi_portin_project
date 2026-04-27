@@ -178,13 +178,15 @@ class LookupCallersUseHelperTests(IsolatedAsyncioTestCase):
         spy.assert_awaited()
         return spy
 
-    async def test_transactions_customer_names_uses_helper(self) -> None:
-        await self._spy_module(
-            "app.services.transactions_service",
-            "_fetch_customer_names",
-            "srv",
-            ["H001", "H002"],
+    async def test_g1_geo_lookup_customer_names_uses_execute_query(self) -> None:
+        from app.services import g1_geo_lookup as g1
+
+        spy = AsyncMock(
+            return_value=[{"Hcode": "H1", "Gcode": "G1", "Gname": "N1"}],
         )
+        with patch.object(g1, "execute_query", new=spy):
+            await g1.fetch_g1_customer_gnames("srv", [("H1", "G1")])
+        spy.assert_awaited()
 
     async def test_transactions_product_names_uses_helper(self) -> None:
         await self._spy_module(
