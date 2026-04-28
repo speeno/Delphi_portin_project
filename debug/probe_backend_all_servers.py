@@ -172,6 +172,14 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "shipping.courier_lines",
+            "path": (
+                f"/api/v1/shipping/courier/lines?serverId={sid}"
+                f"&gdate={df}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
             "group": "inbound.receipts",
             "path": (
                 f"/api/v1/inbound/receipts?serverId={sid}"

@@ -120,7 +120,7 @@
 | 반품재고관리/* (통합) | `/(app)/returns-inventory/*` | — | ✓ | — | **WH-WL 단독** | T3-LITE 전용 통합 화면 |
 | 발송비/입금관리/{발송비·청구서·입금·반품수거} | `/(app)/billing/*` | ✓ | ✓ | ✓ | D-KBT, WH-WL, WH-MS, WH-BB | publisher 셸 부재 — 자체물류 전용 |
 | 내역서관리/{기간별·일별}{입고·출고·반품·택배}내역서 | `/(app)/billing/statements/*` | ✓ | ✓ | ✓ | 동상 | |
-| 택배관리/* | `/(app)/courier/*` | ✓ | — | — | **D-KBT 단독** | 한국도서유통 총판의 직접 택배 모듈 |
+| 택배관리 | `/(app)/shipping/courier` | ✓ | — | — | **D-KBT 단독** | 한국도서유통 총판의 직접 택배 모듈 (Sobo28) |
 
 ### 4.3 publisher ↔ distributor/warehouse 동일 업무 명칭 매핑 표
 

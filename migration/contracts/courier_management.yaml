@@ -1,0 +1,24 @@
+# courier_management — Sobo28 / NAV-16 택배관리 (D-KBT)
+contract_id: courier_management
+version: "1.0.0"
+source_forms:
+  - Subu28.dfm / Subu28.pas (Button101Click, Button301Click)
+endpoints:
+  - id: courier_lines_list
+    method: GET
+    path: /api/v1/shipping/courier/lines
+    description: |
+      S1_Ssub + G1_Ggeo UNION (Y.Gcode<'9' vs >= '9' 조인 분기) — Subu28.pas L376~433.
+      택배명 필터 — `(Y.Gname LIKE '%택배%' OR Y.Gname LIKE '%-택배%')` 기본.
+  - id: courier_memo_get
+    method: GET
+    path: /api/v1/shipping/courier/memo
+    description: S1_Memo 조회 — 합성키에 Gcode(출판상품)=S.Gcode 포함 (Subu28 Button301).
+  - id: courier_memo_patch
+    method: PATCH
+    path: /api/v1/shipping/courier/memo
+    description: S1_Memo UPSERT — 동일 합성키.
+customer_variants:
+  takbae_name_patterns:
+    description: |
+      Subu28.pas L356~366 DB별 LIKE 분기 — 1차는 OR 두 패턴으로 통합. 테넌트 전용 패턴은 후속 YAML 확장.
