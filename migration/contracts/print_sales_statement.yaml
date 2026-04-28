@@ -10,6 +10,8 @@ server_profile_map: {}
 
 profiles:
   default:
+    # layout=default — A4 세로 1장 · 상·하 공급자/공급받는자 블록당 표 행 수 (삼련 table_fixed_rows 와 별도)
+    a4_dual_block_rows_per_page: 16
     table_fixed_rows: 10
     triplicate_labels:
       supplier: "(공급자 보관용)"

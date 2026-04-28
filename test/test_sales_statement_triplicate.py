@@ -40,13 +40,53 @@ class SalesStatementTriplicateTests(unittest.TestCase):
     def test_default_layout_still_renders_two_copy_statement(self) -> None:
         from app.services.transactions_service import render_sales_statement_html
 
-        html = render_sales_statement_html(self._detail(), layout="default")
+        html = render_sales_statement_html(
+            self._detail(),
+            layout="default",
+            server_id="remote_test",
+        )
         self.assertIn("Sobo21.Print.Copy.buyer", html)
         self.assertIn("Sobo21.Print.Copy.seller", html)
         self.assertIn("공급받는자보관용", html)
         self.assertIn("공급자보관용", html)
+        self.assertLess(html.index("공급자보관용"), html.index("공급받는자보관용"))
+        self.assertIn("statement-cut-line", html)
+        self.assertIn("Sobo21.Print.StatementPage", html)
+        self.assertIn("<th>구분</th>", html)
+        self.assertIn("소계부수", html)
+        self.assertIn("소계금액", html)
+        self.assertIn("Sobo21.Header.PageFraction", html)
         self.assertNotIn("Sobo21.Print.Triplicate.receipt", html)
         self.assertNotIn("Sobo21.Triplicate.SealOverlay", html)
+
+    def test_default_layout_pagination_respects_a4_dual_block_rows(self) -> None:
+        """A4 표준은 YAML ``a4_dual_block_rows_per_page``(기본 16)로 청크 분할한다."""
+        from app.services.transactions_service import render_sales_statement_html
+
+        lines = []
+        for i in range(17):
+            lines.append(
+                {
+                    "gcode": f"G{i}",
+                    "bcode": "B",
+                    "product_name": f"도서{i}",
+                    "gsqut": 1,
+                    "gssum": 1000,
+                    "gdang": 1000,
+                    "grat1": 0,
+                    "gbigo": "",
+                },
+            )
+        detail = {**self._detail(), "lines": lines}
+        html = render_sales_statement_html(
+            detail,
+            layout="default",
+            server_id="remote_test",
+        )
+        self.assertEqual(html.count("Sobo21.Print.StatementPage"), 2)
+        self.assertIn("Sobo21.Header.PageFraction", html)
+        self.assertIn("1/2", html)
+        self.assertIn("2/2", html)
 
     def test_legacy_triplicate_contains_three_sections_and_columns(self) -> None:
         from app.services.barcode_svg_service import is_barcode_engine_available

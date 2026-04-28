@@ -799,16 +799,16 @@ class C7PrintStaticTestCase(TestCase):
 
         self.assertNotIn("display: grid", html, "manual builder 는 grid 사용 금지 (WeasyPrint 트랙 폭 회귀 가드)")
         self.assertNotIn("display:grid", html)
-        self.assertNotIn("display: flex", html, "manual builder 헤더는 flex 대신 table 로 폭 제어")
+        self.assertNotIn("display: flex", html, "manual builder 는 flex 대신 table 로 폭 제어")
         self.assertNotIn("display:flex", html)
 
         self.assertIn("table-layout: fixed", html, "table-layout:fixed 로 결정적 폭 강제")
-        self.assertIn("class='header-table'", html)
-        self.assertIn("class='meta-table'", html)
-        self.assertIn("class='lines-table'", html)
+        self.assertIn("class='a4-hdr3'", html)
+        self.assertIn("class='a4-supplier-mini'", html)
+        self.assertIn("class='a4-lines'", html)
         self.assertIn("colgroup", html)
-        self.assertIn("class='header-right-col'", html, "우측 메타 col 폭 가드")
-        self.assertIn("class='meta-label-col'", html, "메타 라벨 col 폭 가드")
+        self.assertIn("class='a4-hdr-right'", html, "우측 공급자 블록 col")
+        self.assertIn("class='a4-hdr-left'", html)
 
         for legacy_id in (
             "Sobo21.Header.BusinessNo",
@@ -822,8 +822,10 @@ class C7PrintStaticTestCase(TestCase):
             self.assertIn(legacy_id, html, f"위젯 ID {legacy_id} 누락")
 
         self.assertIn("나들목꿈틀물류센터", html)
+        self.assertLess(html.index("공급자보관용"), html.index("공급받는자보관용"))
         self.assertIn("공급받는자보관용", html)
         self.assertIn("공급자보관용", html)
+        self.assertIn("statement-cut-line", html)
 
     def test_TC_PR_P1_33_sales_statement_low_quality_ir_falls_back_to_manual(self) -> None:
         """Sobo21 저품질 IR 후보는 auto 모드에서도 실출력에 쓰지 않고 manual 로 폴백한다."""
