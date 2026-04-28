@@ -164,6 +164,14 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "outbound.shipment_status",
+            "path": (
+                f"/api/v1/outbound/shipment-status?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
             "group": "inbound.receipts",
             "path": (
                 f"/api/v1/inbound/receipts?serverId={sid}"
@@ -335,6 +343,11 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200, 404, 422, 503},
         },
         {
+            "group": "print.sales_statement_layouts",
+            "path": f"/api/v1/print/sales-statement/layouts?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
             "group": "print.label_pdf",
             "path": f"/api/v1/print/label/SAMPLE.pdf?serverId={sid}&form=1",
             "ok_status": {200, 404, 422, 503},
@@ -358,6 +371,22 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "group": "print.label_pdf_form2",
             "path": f"/api/v1/print/label/SAMPLE.pdf?serverId={sid}&form=2",
             "ok_status": {200, 404, 422, 503},
+        },
+        {
+            "group": "print.barcode_svg",
+            "path": (
+                f"/api/v1/print/barcode.svg?serverId={sid}"
+                "&payload=9788936434260&w=40&h=12&symbology=code128"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "print.barcode_svg_ean13",
+            "path": (
+                f"/api/v1/print/barcode.svg?serverId={sid}"
+                "&payload=590123412345&symbology=ean13&w=42&h=16"
+            ),
+            "ok_status": {200, 422},
         },
         {
             "group": "settlement.invoice_pdf",

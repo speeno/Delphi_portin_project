@@ -199,9 +199,9 @@
 }
 ```
 
-> `symbology` 허용 enum: `Code39` / `Code128` / `EAN13` / `EAN8` / `QR` / `DataMatrix` / `PostNet`.
-> 본 트랙 PoC v0 = `Code128` + `QR` 만 (M-01 python-qrcode + python-barcode 폴백).
-> 미지원 symbology 는 `unsupported_objects[]` 로 수집.
+> `symbology` IR 값(대소문자 무관)은 ``barcode_svg_service.canonical_symbology`` 로 정규화된다.
+> **모던 엔진 지원(2026-04-27)**: `Code128` / `Code39` / `EAN13` / `EAN8` / `UPCA` / `ITF` / `ISBN13` / `Codabar` / `QR` (1D=python-barcode, QR=segno).
+> **미지원**(예: `DataMatrix` / `PostNet`)은 SVG 생성 실패 시 텍스트 플레이스홀더 유지·422(미리보기 API) — IR 단계 `unsupported_objects[]` 수집과 병행 가능.
 
 ### 2.10. IR.Object.binding (데이터 바인딩 / 표현식)
 

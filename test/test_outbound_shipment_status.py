@@ -40,13 +40,20 @@ class ShipmentStatusRouteTests(TestCase):
                 {
                     "Gdate": "2026.04.01",
                     "Hcode": "H001",
-                    "order_count": 2,
-                    "qty_sum": 10,
-                    "amt_sum": 1000,
-                    "cancelled_cnt": 0,
+                    "Jubun": "J1",
+                    "yesno_max": "1",
+                    "qty": 6,
+                    "amount": 600,
+                },
+                {
+                    "Gdate": "2026.04.01",
+                    "Hcode": "H001",
+                    "Jubun": "J2",
+                    "yesno_max": "1",
+                    "qty": 4,
+                    "amount": 400,
                 }
             ],
-            [{"total": 1}],
         ]
         client = TestClient(app)
         r = client.get(
@@ -64,16 +71,19 @@ class ShipmentStatusRouteTests(TestCase):
         self.assertEqual(len(body["items"]), 1)
         self.assertEqual(body["items"][0]["hcode"], "H001")
         self.assertEqual(body["items"][0]["orders"], 2)
+        self.assertEqual(body["items"][0]["qty"], 10)
+        self.assertEqual(body["items"][0]["amount"], 1000)
         self.assertEqual(body["page"]["total"], 1)
+        mock_exec.assert_called_once()
 
 
 class ShipmentStatusMysql3PathTests(TestCase):
-    """mysql3_protocol=true 일 때 파생 테이블 없이 단일 GROUP BY + 메모리 집계."""
+    """파생 테이블 없이 단일 GROUP BY + 메모리 집계."""
 
-    @patch("app.services.outbound_service.mysql3_protocol", return_value=True)
+    @patch("app.services.outbound_service.mysql3_protocol", return_value=False)
     @patch("app.services.outbound_service._fetch_customer_names", new_callable=AsyncMock)
     @patch("app.services.outbound_service.execute_query", new_callable=AsyncMock)
-    def test_shipment_status_mysql3_in_memory_aggregate(
+    def test_shipment_status_in_memory_aggregate_for_all_servers(
         self,
         mock_exec: AsyncMock,
         mock_names: AsyncMock,
@@ -118,6 +128,10 @@ class ShipmentStatusMysql3PathTests(TestCase):
         self.assertEqual(body["items"][0]["qty"], 8)
         self.assertEqual(body["items"][0]["cancelled_orders"], 1)
         mock_exec.assert_called_once()
+        sql = mock_exec.call_args.args[1]
+        self.assertNotIn("FROM (", sql)
+        self.assertNotIn("CASE WHEN", sql)
+        self.assertNotIn("COUNT(*) AS total FROM", sql)
 
 
 class ShipmentStatusOrderLevelSqlTests(TestCase):

@@ -129,6 +129,7 @@ _SAMPLE_ROW = {
     "Gadds": "서울시 강남구 테헤란로 123",
     "Gpost": "0612345",
     "Gbigo": "메모",
+    "Scode": "SHIP-TEST-001",
 }
 
 _AUTO_ROW = {
@@ -152,6 +153,7 @@ class BehaviorGatesC7AutoTemplate(unittest.TestCase):
         os.environ.pop("PRINT_TEMPLATE_MODE", None)
         html = label_service.render_label_html(_SAMPLE_ROW, form=1)
         self.assertIn("data-legacy-id='Seep13.Label.Gname'", html)
+        self.assertIn("data-legacy-id='Seep13.Label.Scode'", html)
         self.assertIn("홍길동", html)
         self.assertNotIn("frf-obj", html)
         self.assertNotIn("{{ ctx.", html)
@@ -168,8 +170,15 @@ class BehaviorGatesC7AutoTemplate(unittest.TestCase):
         self.assertIn(escape("테헤란로 123"), html)
 
     def test_B_03_auto_fallback_when_ir_missing(self) -> None:
-        os.environ["PRINT_TEMPLATE_MODE"] = "auto"
-        html = label_service.render_label_html(_SAMPLE_ROW, form=4)
+        """IR/자동 경로가 실패할 때 manual 로 떨어지는지 — 자동 IR 파일 유무와 무관하게 고정."""
+        from unittest import mock
+
+        with mock.patch(
+            "app.services.label_service._try_render_label_auto",
+            return_value=None,
+        ):
+            os.environ["PRINT_TEMPLATE_MODE"] = "auto"
+            html = label_service.render_label_html(_SAMPLE_ROW, form=4)
         self.assertIn("data-legacy-id='Seep13.Label.Gname'", html)
         self.assertNotIn("frf-obj", html, msg="manual fallback 실패")
 

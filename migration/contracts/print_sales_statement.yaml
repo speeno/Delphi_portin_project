@@ -1,0 +1,40 @@
+# 거래명세서 인쇄 — 레거시 삼련(P1-E layout=legacy_triplicate) 프로필
+# 코드 분기 금지 — ``sales_statement_print_profile.resolve_profile(server_id)`` 가 본 YAML 만 로드.
+# 회원사별 상호·등록번호·은행 등은 ``profiles.<key>`` 를 복제해 수정하거나 ``server_profile_map`` 으로 매핑.
+
+version: "1.0.0"
+default_profile_key: default
+
+# 예: remote_138: kyobun_style
+server_profile_map: {}
+
+profiles:
+  default:
+    table_fixed_rows: 10
+    triplicate_labels:
+      supplier: "(공급자 보관용)"
+      buyer: "(공급받는자 보관용)"
+      receipt: "(인수증)"
+    section_border_colors:
+      supplier: "#0b4f86"
+      buyer: "#263f34"
+      receipt: "#9c2726"
+    # 공급자 우측 법적 블록 — 라벨:값 행 (값 비우면 인쇄 시 빈 칸)
+    supplier_legal_rows:
+      - { label: "등록번호", value: "102-81-23967" }
+      - { label: "상호", value: "(주)교문사" }
+      - { label: "성명", value: "류제동" }
+      - { label: "사업장주소", value: "경기도 파주시 문발로 116" }
+      - { label: "업태", value: "제조" }
+      - { label: "종목", value: "출판" }
+      - { label: "전화번호", value: "031-955-6111~4" }
+      - { label: "팩스", value: "031-955-0955" }
+    bank_footer_line: "국민은행 009-25-0000-648 예금주:(주)교문사"
+    vertical_return_note: "※반품처 천일화물 파주광탄"
+    # 삼련 우측 공급자 블록 도장 오버레이 — 바이너리는 tenant_print_assets, 표시 여부·위치만 YAML
+    seal_overlay:
+      enabled: true
+      offset_top_mm: 2
+      offset_right_mm: 2
+      width_mm: 22
+      opacity: 0.92

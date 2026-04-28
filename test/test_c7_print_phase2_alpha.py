@@ -283,9 +283,15 @@ class C7Phase2AlphaByteIdenticalTestCase(TestCase):
 # ──────────────────────────────────────────────
 class C7Phase2AlphaStaticChecksTestCase(TestCase):
     def test_TC_P2A_24a_contract_print_invoice_v110_with_pdf_variants(self) -> None:
-        """print_invoice.yaml v1.1.0 + Sobo27.pdf_variants v0..v9 + Sobo23.pdf_variants v1/v2/v3/v5."""
+        """print_invoice.yaml v1.1.x + Sobo27.pdf_variants v0..v9 + Sobo23.pdf_variants v1/v2/v3/v5."""
+        import re
+
         text = (ROOT / "migration" / "contracts" / "print_invoice.yaml").read_text(encoding="utf-8")
-        self.assertIn("version: 1.1.0", text, "print_invoice.yaml 버전 미갱신")
+        self.assertRegex(
+            text,
+            r"(?m)^version:\s*1\.1\.\d+\s*$",
+            "print_invoice.yaml 은 v1.1.x (예: 1.1.0 Phase2-α, 1.1.2 barcode.svg)",
+        )
         for v in ["v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9"]:
             self.assertIn(f"{v}:", text, f"Sobo27.pdf_variants.{v} 누락")
         # Sobo23: v1/v2/v3/v5 만 (v4 결번)

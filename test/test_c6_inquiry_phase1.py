@@ -505,7 +505,6 @@ class C6ServiceUnitTests(TestCase):
         """Sobo21 LIST/DETAIL/MEMO 가 NULL·빈 Jubun/Gjisa 에 동일하게 매칭 (회귀 정적 검사)."""
         ts = transactions_service
         for name in (
-            "SQL_DETAIL_LINES",
             "SQL_MEMO_LOAD",
             "SQL_MEMO_EXISTS",
             "SQL_MEMO_UPDATE",
@@ -513,6 +512,9 @@ class C6ServiceUnitTests(TestCase):
             sql = getattr(ts, name)
             self.assertIn("COALESCE(Jubun,'')", sql, f"{name}: COALESCE(Jubun) 누락")
             self.assertIn("COALESCE(Gjisa,'')", sql, f"{name}: COALESCE(Gjisa) 누락")
+        # 상세 라인 SQL 은 ``s1_ssub_adapt.detail_lines_select_sql`` + 동일 WHERE
+        self.assertIn("COALESCE(Jubun,'')", ts._STMT_LINE_WHERE)
+        self.assertIn("COALESCE(Gjisa,'')", ts._STMT_LINE_WHERE)
         self.assertIn("COALESCE(Jubun,'')", ts._GROUP_BY_STMT_KEYS)
         self.assertIn("COALESCE(Gjisa,'')", ts._GROUP_BY_STMT_KEYS)
 

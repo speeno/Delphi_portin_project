@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-04-23T19:12:00Z
+> **생성 시각 (UTC)**: 2026-04-27T03:44:39Z
 
 ## 목적
 
@@ -86,10 +86,9 @@
 | WEB_ONLY | `WebAdmAudit` | `_WebAdm` | 감사 통합 뷰 | — | `—` | `/admin/audit` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `WebAdmAuditRotate` | `_WebAdm` | 감사 비밀번호 회전 | — | `—` | `/admin/audit-rotate` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `WebAdmEnv` | `_WebAdm` | 환경설정(개정) | — | `—` | `/admin/settings` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
-| WEB_ONLY | `WebAdmHome` | `_WebAdm` | 관리 대시보드 | — | `—` | `/admin` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
+| WEB_ONLY | `WebAdmHome` | `_WebAdm` | 관리자 콘솔(서버/DB·계정·권한) | — | `—` | `/admin` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `WebAdmOps` | `_WebAdm` | 운영 모니터링 | — | `—` | `/admin/ops` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `WebAdmRBAC` | `_WebAdm` | 역할/권한 | — | `—` | `/admin/rbac` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
-| WEB_ONLY | `WebAdmUserSrv` | `_WebAdm` | 사용자·서버 매핑 | — | `—` | `/admin/user-servers` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 
 ## 참고 — 레지스트리 미등록 DFM (주 트리만)
 

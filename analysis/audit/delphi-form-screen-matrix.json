@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-23T19:12:00.838971+00:00",
+  "generated_at": "2026-04-27T03:44:39.280112+00:00",
   "summary": {
-    "registry_forms": 71,
+    "registry_forms": 70,
     "legacy_dfm_subu_stems": 91,
     "orphan_legacy_stems": 48,
     "subu_caption_diff": 14,
@@ -408,18 +408,7 @@
       "modern_id": "WebAdmHome",
       "folder": "_WebAdm",
       "route": "/admin",
-      "modern_caption": "관리 대시보드",
-      "legacy_form_object": "",
-      "legacy_caption": "",
-      "legacy_dfm": "",
-      "status": "WEB_ONLY",
-      "note": "Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1)"
-    },
-    {
-      "modern_id": "WebAdmUserSrv",
-      "folder": "_WebAdm",
-      "route": "/admin/user-servers",
-      "modern_caption": "사용자·서버 매핑",
+      "modern_caption": "관리자 콘솔(서버/DB·계정·권한)",
       "legacy_form_object": "",
       "legacy_caption": "",
       "legacy_dfm": "",

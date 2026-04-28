@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-04-23T19:12:01.143405+00:00",
+  "generated_at": "2026-04-27T03:44:39.611772+00:00",
   "summary": {
-    "total_pages": 80,
-    "covered": 28,
+    "total_pages": 90,
+    "covered": 29,
     "violations": 2,
     "allowed": 0,
-    "skipped": 50
+    "skipped": 59
   },
   "covered": [
     {
@@ -63,6 +63,10 @@
     {
       "route_key": "master.publisher",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/publisher/page.tsx"
+    },
+    {
+      "route_key": "master.special",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/special/page.tsx"
     },
     {
       "route_key": "outbound.orders",
@@ -138,6 +142,10 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/page.tsx"
     },
     {
+      "route_key": "admin.account-directory",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/account-directory/page.tsx"
+    },
+    {
       "route_key": "admin.audit",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/audit/page.tsx"
     },
@@ -146,8 +154,20 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/audit-rotate/page.tsx"
     },
     {
+      "route_key": "admin.distributor",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/distributor/page.tsx"
+    },
+    {
+      "route_key": "admin.distributor-limits",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/distributor-limits/page.tsx"
+    },
+    {
       "route_key": "admin.id-logn",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/id-logn/page.tsx"
+    },
+    {
+      "route_key": "admin.menu-policy",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/menu-policy/page.tsx"
     },
     {
       "route_key": "admin.ops",
@@ -166,6 +186,10 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/signup-requests/page.tsx"
     },
     {
+      "route_key": "admin.super",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/super/page.tsx"
+    },
+    {
       "route_key": "admin.whitelist",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/whitelist/[hcode]/page.tsx"
     },
@@ -178,8 +202,28 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/whitelist/new/page.tsx"
     },
     {
+      "route_key": "admin.whitelist.pending",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/admin/whitelist/pending/page.tsx"
+    },
+    {
       "route_key": "dashboard",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/dashboard/page.tsx"
+    },
+    {
+      "route_key": "dashboard.dist",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/dashboard/dist/page.tsx"
+    },
+    {
+      "route_key": "dashboard.pub",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/dashboard/pub/page.tsx"
+    },
+    {
+      "route_key": "dashboard.super",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/dashboard/super/page.tsx"
+    },
+    {
+      "route_key": "dashboard.t3",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/dashboard/t3/page.tsx"
     },
     {
       "route_key": "delivery.management",
@@ -216,10 +260,6 @@
     {
       "route_key": "master.discount",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/discount/[type]/page.tsx"
-    },
-    {
-      "route_key": "master.special",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/special/page.tsx"
     },
     {
       "route_key": "outbound.orders",
@@ -260,6 +300,10 @@
     {
       "route_key": "returns.reports",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/reports/page.tsx"
+    },
+    {
+      "route_key": "settings.my-profile",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settings/my-profile/page.tsx"
     },
     {
       "route_key": "settlement.billing.print",

@@ -599,6 +599,7 @@ class C7PrintStaticTestCase(TestCase):
             "Seep13.Label.Gposa",
             "Seep13.Label.Gadds",
             "Seep13.Label.Gpost",
+            "Seep13.Label.Scode",
         ):
             self.assertIn(legacy_id, text, f"label_service: {legacy_id} 미포함")
 

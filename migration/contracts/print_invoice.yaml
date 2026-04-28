@@ -14,7 +14,7 @@
 
 id: C7-print-invoice
 name: 인쇄 — 출고/반품/거래명세서 PDF (C7 Phase 1 + Phase 2-α)
-version: 1.1.0
+version: 1.1.2
 status: approved
 scope_phase: c7_phase2_alpha
 acceptance_goal: |
@@ -107,14 +107,15 @@ endpoints:
 
   - method: GET
     path: /api/v1/print/sales-statement/{order_key}.pdf
-    description: "P1-E 거래명세서 PDF (C6 SQL-INQ-2~3 재사용)."
+    description: "P1-E 거래명세서 PDF (C6 SQL-INQ-2~3 재사용). layout=legacy_triplicate 시 삼련 회원사 양식."
     auth: bearer
     in_scope_phase: c7_phase1
     request:
       path:
-        order_key: "string '{gdate}|{gtran}' (기존 C6 키 규약)"
+        order_key: "string '{gdate}|{hcode}|{jubun}|{gjisa}' (C6 키 규약)"
       query:
         server_id: string
+        layout: "string (선택, 기본 default). default | legacy_triplicate (`print_sales_statement.yaml`)"
     responses:
       "200":
         content_type: application/pdf
@@ -123,7 +124,29 @@ endpoints:
           Cache-Control: "private, no-store"
         body: "<binary PDF bytes>"
       "404": { body: { detail: "해당 매출 자료가 없습니다.", code: "PR_NOT_FOUND" } }
+      "422": { body: { detail: "지원하지 않는 인쇄 레이아웃입니다.", code: "PR_LAYOUT_UNSUPPORTED" } }
       "503": { body: { detail: "PDF 엔진이 설치되지 않았습니다.", code: "PR_ENGINE_UNAVAILABLE" } }
+
+  - method: GET
+    path: /api/v1/print/barcode.svg
+    description: "다중 심볼 SVG 미리보기 — ``barcode_svg_service`` (code128|code39|ean13|ean8|upca|itf|isbn13|codabar|qr, DB 조회 없음)."
+    auth: bearer
+    in_scope_phase: c7_phase1
+    request:
+      query:
+        server_id: string
+        payload: "string 1..4096 — 심볼별 규칙은 prepare_barcode_payload"
+        symbology: "string (optional, default code128) — list_supported_symbologies() 정규화"
+        w: "number (optional, default 50, mm)"
+        h: "number (optional, default 15, mm)"
+    responses:
+      "200":
+        content_type: "image/svg+xml; charset=utf-8"
+        body: "<SVG document>"
+      "422":
+        body:
+          code: "PR_BARCODE_UNSUPPORTED"
+          message: "바코드 SVG 생성 불가(페이로드 또는 엔진)."
 
 # ---------------------------------------------------------------
 # 6. 차이점·결정 사항
