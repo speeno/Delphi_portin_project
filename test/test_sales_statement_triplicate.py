@@ -56,15 +56,21 @@ class SalesStatementTriplicateTests(unittest.TestCase):
         self.assertIn("소계부수", html)
         self.assertIn("소계금액", html)
         self.assertIn("Sobo21.Header.PageFraction", html)
+        self.assertIn("@page { size: 210mm 297mm; margin: 6mm 8mm; }", html)
+        self.assertIn("font-size: 7.8pt", html)
+        self.assertIn("border: 1.4px solid #111", html)
+        self.assertNotIn("#0b4f86", html)
+        self.assertNotIn("#263f34", html)
+        self.assertNotIn("#9c2726", html)
         self.assertNotIn("Sobo21.Print.Triplicate.receipt", html)
         self.assertNotIn("Sobo21.Triplicate.SealOverlay", html)
 
     def test_default_layout_pagination_respects_a4_dual_block_rows(self) -> None:
-        """A4 표준은 YAML ``a4_dual_block_rows_per_page``(기본 16)로 청크 분할한다."""
+        """A4 표준은 YAML ``a4_dual_block_rows_per_page``(기본 14)로 청크 분할한다."""
         from app.services.transactions_service import render_sales_statement_html
 
         lines = []
-        for i in range(17):
+        for i in range(15):
             lines.append(
                 {
                     "gcode": f"G{i}",
