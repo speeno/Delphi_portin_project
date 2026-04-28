@@ -444,6 +444,41 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "stats.dashboard.iot_warehouse",
+            "path": f"/api/v1/stats/dashboard/iot-warehouse?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "stats.dashboard.layout",
+            "path": f"/api/v1/stats/dashboard/layout?serverId={sid}&role=dist",
+            "ok_status": {200},
+        },
+        {
+            "group": "stats.dashboard.iot_stream",
+            "path": f"/api/v1/stats/dashboard/iot-warehouse/stream?serverId={sid}&maxEvents=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "dashboard.external.weather_risk",
+            "path": f"/api/v1/dashboard/external/weather-risk?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "dashboard.external.fuel_cost",
+            "path": f"/api/v1/dashboard/external/fuel-cost?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "dashboard.external.traffic_eta",
+            "path": f"/api/v1/dashboard/external/traffic-eta?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "dashboard.external.demand_forecast",
+            "path": f"/api/v1/dashboard/external/demand-forecast?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
             "group": "ownership.violation.expected_403",
             "path": f"/api/v1/masters/book?serverId={sid}&limit=1",
             "headers": {
