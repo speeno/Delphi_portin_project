@@ -7,6 +7,7 @@
 | `BLS_OPINET_CODE` | 오피넷 오픈 API 인증코드. 미설정 시 `BLS_DIESEL_PRICE_KRW`(기본 1580)로만 표시·추정한다. |
 | `BLS_OPINET_API_BASE_URL` | 선택. 기본 `https://www.opinet.co.kr/api` |
 | `BLS_OPINET_DIESEL_PRODCD` | 선택. 경유 제품코드. 기본 `D047` |
+| `BLS_OPINET_GASOLINE_PRODCD` | 선택. 휘발유(보통) 제품코드. 기본 `B027` |
 | `BLS_OPINET_CACHE_TTL_SEC` | 선택. 전국·시도 캐시 TTL(초). 기본 7200 |
 | `BLS_OPINET_REQUEST_TIMEOUT_SEC` | 선택. HTTP 타임아웃. 기본 5 |
 | `BLS_DIESEL_PRICE_KRW` | 오피넷 미조회 시 단가 fallback |
