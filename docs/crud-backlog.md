@@ -30,7 +30,7 @@
 | Sobo38 | 도서코드 | phase1 | R | C/R/U/D | 페이지 주석 *“READ only (단순 조회)”* | RU | p3 |
 | Sobo39 | 할인율 | phase1 | R | C/R/U/D | 페이지 주석 *“1차는 READ only”* | RU | p3 |
 | Sobo45 | 물류비 | phase1 | R | C/R/U/D | 페이지 주석 *“1차 READ only”* | RU | p3 |
-| Sobo16_special | 특별관리 | phase2 | STUB | C/R/U | `ScreenPlaceholder` — 분류 카탈로그 합의 + SQL 미확정 | RU | p2 |
+| Sobo16_special | 특별관리 | phase1 | RU | C/R/U | 신규(C)·삭제(D)·Gcode/Bcode 변경은 후속, Grat1/Gssum 부분 수정 완료 | RU | p2 |
 
 ### 2.2 출고/입고/거래 (`shipment`, `transactions`)
 
@@ -75,7 +75,7 @@
 | Stats_monthly | 월별통계 | phase2 | R | 조회 전용 | R | p2 |
 | Sobo36_stats_route / Sobo37_stats_route | 거래처·도서 통계(목록) | phase2 | R | 조회 전용 | R | p3 |
 | Sobo43_stats_route | 출판사통계 | phase2 | STUB | `ScreenPlaceholder` — Subu43.pas 합계 미포팅 | R | p3 |
-| Sobo28_delivery | 출고택배관리 | phase2 | STUB | `ScreenPlaceholder` — 택배사 API 미합의 | RU | p4 |
+| Sobo28_delivery | 출고택배관리 | phase1 | RU | 내부 라인/메모 완료, 외부 택배사 API는 별도 후속 | RU | p4 |
 | WebAdmHome / WebAdmUserSrv / WebAdmRBAC / WebAdmEnv / Subu10_id_logn | 관리 콘솔 | phase1 | RU/CRUD | admin-api 에 POST/PUT 존재 | CRUD | — |
 | WebAdmAuditRotate | 감사 비밀번호 회전 | phase2 | RU | 회전 동작, 회귀 미통과 | RU | p2 |
 | WebAdmOps / WebAdmAudit | 운영 모니터링·감사 통합 뷰 | phase2 | R | 조회 전용 | R | p2 |
@@ -84,10 +84,8 @@
 
 다음은 `ScreenPlaceholder` 또는 `DEC-035 stub` 배너를 사용 중인 화면 — `crudParity: "STUB"` 으로 단일 분류한다.
 
-- `Sobo16_special` (특별관리)
 - `Sobo29_other` (기타명세서)
 - `Sobo48_compare` (장부대조)
-- `Sobo28_delivery` (출고택배관리)
 - `Sobo43_stats_route` (출판사통계)
 - (할인율 변형) `/master/discount/[type]` 라우트는 메뉴 미노출 — 별도 등록 없음.
 

@@ -1,6 +1,9 @@
 # courier_management — Sobo28 / NAV-16 택배관리 (D-KBT)
 contract_id: courier_management
-version: "1.0.0"
+version: "1.1.0"
+status: active
+scope_phase: phase1
+updated: "2026-04-29"
 source_forms:
   - Subu28.dfm / Subu28.pas (Button101Click, Button301Click)
 endpoints:
@@ -22,3 +25,16 @@ customer_variants:
   takbae_name_patterns:
     description: |
       Subu28.pas L356~366 DB별 LIKE 분기 — 1차는 OR 두 패턴으로 통합. 테넌트 전용 패턴은 후속 YAML 확장.
+
+# 내부 표준 구현 vs 외부 API — 일정·책임 분리 (phase2-next-work-queue §3)
+implementation_schedule:
+  internal_lines_memo:
+    status: done
+    scope: |
+      본 YAML `endpoints` — S1_Ssub·G1_Ggeo 기반 라인 목록 + S1_Memo 조회/갱신.
+      백엔드 `shipping/courier` 라우터와 동일 스코프.
+  external_carrier_integration:
+    scope: 택배사 공개 API(송장 조회·실적 연동)·별도 계약
+    status: pending_vendor_agreement
+    note: |
+      외부 연동은 별 DEC·별 일정. UI/라우트는 내부 코어 완료 후 확장하는 것을 원칙으로 한다.

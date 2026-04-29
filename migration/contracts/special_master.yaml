@@ -1,4 +1,4 @@
-# Migration Contract: 특별관리 Sobo16 — G6_Ggeo (Phase 2)
+# Migration Contract: 특별관리 Sobo16 — G6_Ggeo (Phase 1)
 #
 # 출처(레거시):
 #   - legacy_delphi_source/legacy_source/Subu16.pas (조회·그리드)
@@ -11,11 +11,11 @@
 
 id: C9-special-master
 name: 특별관리 (Sobo16 — 출판사·거래처·도서 링크 G6_Ggeo)
-version: 1.0.0
-status: draft
-scope_phase: phase2
+version: 1.1.0
+status: active
+scope_phase: phase1
 created: 2026-04-21
-updated: 2026-04-26
+updated: 2026-04-29
 owner: 메인개발자
 
 references:
@@ -29,6 +29,11 @@ constraints:
   external_integrations: excluded
 
 blockers: []
+
+out_of_scope:
+  - 신규 G6_Ggeo 행 INSERT
+  - 물리 DELETE
+  - Gcode/Bcode 변경 저장
 
 intent: |
   출판사(Hcode) 단위로 거래처(Gcode)·도서(Bcode) 간 G6_Ggeo 링크를 조회하고,

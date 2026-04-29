@@ -106,7 +106,13 @@ def _build_test_client():
             "tenant_id": request.query_params.get("tenantId", ""),
             "role": "operator",
             "hcode": "S0001",
-            "permissions": [],
+            # C13 stats 라우터 require_permission(admin.stats.*) — L4 매트릭스 200 허용
+            "permissions": [
+                "admin.stats.sales",
+                "admin.stats.customer",
+                "admin.stats.book",
+                "admin.stats.quarterly",
+            ],
             "account_type": "T2_DIST",
         }
 
@@ -303,15 +309,38 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "group": "stats.sales_period",
             "path": (
                 f"/api/v1/stats/sales-period?serverId={sid}"
-                f"&hcode=%25&period=12M"
+                f"&hcode=%25&dateFrom={df}&dateTo={dt}&groupBy=monthly"
             ),
-            # 라우트가 아직 미등록일 수 있음 — 404 도 일시 통과(회귀 러너에서 별도 추적).
-            "ok_status": {200, 404, 503},
+            "ok_status": {200, 422},
         },
         {
             "group": "stats.customer_analysis",
             "path": (
-                f"/api/v1/reports/customer-sales?serverId={sid}"
+                f"/api/v1/stats/customer-analysis?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "stats.book_turnover",
+            "path": (
+                f"/api/v1/stats/book-turnover?serverId={sid}"
+                f"&hcode=%25&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "stats.quarterly_summary",
+            "path": (
+                f"/api/v1/stats/quarterly-summary?serverId={sid}"
+                f"&hcode=%25&year=2026&quarter=1"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "returns.period_report",
+            "path": (
+                f"/api/v1/returns/period-report?serverId={sid}"
                 f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
             ),
             "ok_status": {200},
@@ -484,6 +513,21 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
         {
             "group": "dashboard.external.traffic_eta",
             "path": f"/api/v1/dashboard/external/traffic-eta?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "dashboard.external.traffic_forecast",
+            "path": f"/api/v1/dashboard/external/traffic-forecast?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "dashboard.external.traffic_map_summary",
+            "path": f"/api/v1/dashboard/external/traffic-map-summary?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "dashboard.external.delivery_route_risk",
+            "path": f"/api/v1/dashboard/external/delivery-route-risk?serverId={sid}",
             "ok_status": {200},
         },
         {

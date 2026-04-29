@@ -199,11 +199,13 @@ class FormRegistryInventoryBaselineTests(TestCase):
     def test_customer_master_read_update(self) -> None:
         self._assert("Sobo11", wave="p3", crud="RU")
 
-    def test_special_master_stub(self) -> None:
-        self._assert("Sobo16_special", wave="p2", crud="STUB")
+    def test_special_master_g6_read_update(self) -> None:
+        """Sobo16은 G6_Ggeo 목록 + Grat1/Gssum 부분 수정까지 구현."""
+        self._assert("Sobo16_special", wave="p2", crud="RU")
 
-    def test_delivery_management_long_term_stub(self) -> None:
-        self._assert("Sobo28_delivery", wave="p4", crud="STUB")
+    def test_delivery_management_courier_ru(self) -> None:
+        """내부 라인/메모 API 구현 — 외부 택배사 API는 STUB 아님(courier_management.yaml 일정 분리)."""
+        self._assert("Sobo28_delivery", wave="p4", crud="RU")
 
     def test_tax_invoice_external_channel_stub(self) -> None:
         self._assert("Sobo49_tax", wave="p3", crud="RU")

@@ -1,74 +1,56 @@
 {
-  "$schema_note": "Phase2 회귀 팩. migration/contracts/special_master.yaml 1:1.",
+  "$schema_note": "Phase1 회귀 팩. migration/contracts/special_master.yaml v1.1.0 1:1.",
   "id": "C9-special-master",
   "contract": "migration/contracts/special_master.yaml",
-  "version": "0.9.0-phase2",
-  "scope_phase": "phase2",
-  "axes": ["functional", "audit", "permission"],
-  "blockers": ["BLK-SPC-1", "BLK-SPC-2"],
+  "version": "1.1.0-phase1",
+  "scope_phase": "phase1",
+  "axes": ["functional", "audit"],
+  "blockers": [],
   "fixtures": {
     "tables": {
-      "G1_Ggeo": [
-        { "Hcode": "C001", "Gcode": "C001", "Gname": "신화서점", "Special_flag": "N" }
+      "G6_Ggeo": [
+        { "ID": 42, "Hcode": "H01", "Gcode": "G01", "Bcode": "B01", "Grat1": "10", "Gssum": 100 }
       ]
     }
   },
   "cases": [
     {
       "id": "TC-SPC-001",
-      "title": "upsert → list — read-after-write 일관성",
+      "title": "list(customer) — G6_Ggeo 행 + 거래처/도서명 반환",
       "axes": ["functional"],
       "given": { "auth_token": "admin", "permissions": ["master.special.write", "master.special.read"] },
-      "request": {
-        "method": "PUT", "path": "/api/v1/master/special/C001",
-        "body": { "special_flag": true, "special_class_code": "VIP", "memo": "주요 거래처" }
-      },
-      "expected": { "status": 200, "body_contains": { "customer_code": "C001", "audit_id": "*" } },
-      "follow_up_request": { "method": "GET", "path": "/api/v1/master/special" },
-      "follow_up_expected": { "status": 200, "body": { "items_contains": [ { "customer_code": "C001", "special_class_code": "VIP", "memo": "주요 거래처" } ] } },
-      "covers_acceptance": ["AC-SPC-1"]
+      "request": { "method": "GET", "path": "/api/v1/masters/special?serverId=remote_1&mode=customer&hcode=H01&gcode=G01" },
+      "expected": { "status": 200, "body_contains": { "items": [{ "id": 42, "hcode": "H01", "gcode": "G01", "bcode": "B01" }] } },
+      "covers_acceptance": ["AC-SPC-G6-1"]
     },
     {
       "id": "TC-SPC-002",
-      "title": "권한 가드 — master.special.write 미보유 → 403",
-      "axes": ["permission"],
-      "given": { "auth_token": "operator", "permissions": ["master.special.read"] },
+      "title": "PATCH — Grat1/Gssum 부분 수정",
+      "axes": ["functional"],
+      "given": { "auth_token": "operator", "permissions": ["master.special.write"] },
       "request": {
-        "method": "PUT", "path": "/api/v1/master/special/C001",
-        "body": { "special_flag": true, "special_class_code": "VIP" }
+        "method": "PATCH", "path": "/api/v1/masters/special/42",
+        "body": { "serverId": "remote_1", "hcode": "H01", "grat1": "5", "gssum": 20 }
       },
-      "expected": { "status": 403, "body": { "code": "PERMISSION_DENIED" } },
-      "covers_acceptance": ["AC-SPC-2"]
+      "expected": { "status": 200, "body": { "id": 42, "updated_fields": ["grat1", "gssum"] } },
+      "covers_acceptance": ["AC-SPC-G6-2"]
     },
     {
       "id": "TC-SPC-003",
-      "title": "audit_master — upsert 이벤트 before/after diff 기록",
+      "title": "audit_master — PATCH 이벤트 기록",
       "axes": ["audit"],
       "given": { "auth_token": "admin", "permissions": ["master.special.write"] },
       "request": {
-        "method": "PUT", "path": "/api/v1/master/special/C001",
-        "body": { "special_flag": false, "memo": "" }
+        "method": "PATCH", "path": "/api/v1/masters/special/42",
+        "body": { "serverId": "remote_1", "hcode": "H01", "grat1": "5" }
       },
       "expected": { "status": 200 },
       "audit_check": {
         "table": "audit_master",
-        "where": { "entity": "master_special", "entity_id": "C001" },
+        "where": { "entity": "special", "entity_id": "42" },
         "expect_columns": { "actor": "*", "before_json": "*", "after_json": "*" }
       },
-      "covers_acceptance": ["AC-SPC-3"]
-    },
-    {
-      "id": "TC-SPC-004",
-      "title": "[BLK-SPC-2 해소 후] 카탈로그 외 special_class_code → 422",
-      "axes": ["functional"],
-      "pending_blocker": "BLK-SPC-2",
-      "given": { "auth_token": "admin", "permissions": ["master.special.write"] },
-      "request": {
-        "method": "PUT", "path": "/api/v1/master/special/C001",
-        "body": { "special_flag": true, "special_class_code": "INVALID_CODE" }
-      },
-      "expected": { "status": 422, "body": { "code": "BAD_REQUEST" } },
-      "covers_acceptance": ["AC-SPC-4"]
+      "covers_acceptance": ["AC-SPC-G6-2"]
     }
   ]
 }

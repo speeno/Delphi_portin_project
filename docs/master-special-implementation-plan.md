@@ -1,37 +1,36 @@
-# 특별관리(Sobo16_special) 추가 구현 계획 — `/master/special`
+# 특별관리(Sobo16_special) 구현 완료 기록 — `/master/special`
 
-> **목적**: `/master/special` (form-registry `Sobo16_special`, phase2) — 사이드바 「기초관리 · 특별관리」 stub 을 정식 화면으로 승격. 본 문서는 T1~T8 단계 · blocker 해소 · 코드 변경 단위 · 회귀 가드 · 5축 PASS 조건을 단일 원천으로 정리한다.
+> **목적**: `/master/special` (form-registry `Sobo16_special`, phase1) — 사이드바 「기초관리 · 특별관리」 stub 을 정식 화면으로 승격한 결과를 기록한다. 본 문서는 T1~T8 단계 · blocker 해소 · 코드 변경 단위 · 회귀 가드 · 5축 PASS 조건을 단일 원천으로 유지한다.
 >
 > **소속**: `legacy-analysis/decisions.md` DEC-019/023(C9 마스터 단일 원천) + DEC-053(phase1 승격 게이트 = 5축 PASS) 적용 대상.
 
 ---
 
-## 0. 현황 (2026-04-26 갱신)
+## 0. 현황 (2026-04-29 갱신)
 
 | 자산 | 위치 | 상태 |
 | --- | --- | --- |
 | 레거시 dfm | `legacy_delphi_source/legacy_source/Subu16.dfm` | 보유 (TFlatPanel×4 / TFlatEdit×4 / TCornerButton×3 / TmyLabel3d×3 / TFlatButton×1 / TDBGrid×1, 17 컴포넌트 / 17 이벤트) |
 | 레거시 pas | `legacy_delphi_source/legacy_source/Subu16.pas` | 보유 (Button001~009 핸들러 9개 + Form 라이프사이클 3개 + Edit/Grid 핸들러 5개) |
 | 화면 카드 | `analysis/screen_cards/Sobo16.md` | done — SQL 3건(SELECT G6_Ggeo / G4_Book / G1_Ggeo), 영향 테이블 G4_Book·G1_Ggeo·G6_Ggeo |
-| 매핑 노트 | `analysis/layout_mappings/Sobo16.md` | **미작성** — T1 산출물 |
-| Contract | `migration/contracts/special_master.yaml` | draft v0.9.0 (2건 blocker 잔존) |
-| Phase2 카드 | `dashboard/data/phase2-screen-cards.json::Sobo16_special` | T1 done · T2 in_progress · T3 blocked · T4~T8 pending |
-| 모던 frontend | `app/(app)/master/special/page.tsx` | `<ScreenPlaceholder>` stub |
-| 모던 backend | (없음) | `/api/v1/masters/special` 미구현 |
+| 매핑 노트 | `analysis/layout_mappings/Sobo16.md` | done — G6_Ggeo 축 기준 |
+| Contract | `migration/contracts/special_master.yaml` | active v1.1.0 (`scope_phase: phase1`, blockers 0) |
+| Phase2 카드 | `dashboard/data/phase2-screen-cards.json::Sobo16_special` | T1~T8 done |
+| 모던 frontend | `app/(app)/master/special/page.tsx` | DataGrid + Grat1/Gssum 편집 패널 구현 |
+| 모던 backend | `routers/masters.py` / `services/masters_service.py` | `GET/PATCH /api/v1/masters/special` 구현 |
 | 모바일웹(m.websend.kr) | 「특별관리」 메뉴 | 1:1 매핑 대상(layout/SQL 동일성 가정 → T1 검증) |
 
 ### Blocker 인벤토리 (단일 원천 = `special_master.yaml` §blockers)
 
-| ID | 내용 | 소유 | ETA | 해소 절차(본 plan §1) |
-| --- | --- | --- | --- | --- |
-| BLK-SPC-1 | 레거시 `Subu16.pas` 핵심 SQL(WRITE 부) 미확정 — SELECT 3건만 추출됨 | 델파이 담당자 | 2026-Q2 | T2.1 query_capture + Button00x 핸들러 분기 정리 |
-| BLK-SPC-2 | `special_class_code` 카탈로그(분류 enum) 비즈니스 합의 미확정 | 비즈니스 사용자 | 2026-Q2 | T2.2 운영 데이터 표본 + 비즈니스 미팅 1회 |
+| ID | 상태 | 해소 내용 |
+| --- | --- | --- |
+| BLK-SPC-1 | closed | 저장 대상이 G1 특수 플래그가 아니라 G6_Ggeo `Grat1`/`Gssum` 임을 계약·구현에 반영 |
+| BLK-SPC-2 | closed / out-of-scope | `special_class_code` enum은 이번 화면 범위가 아님. 필요 시 별도 계약으로 분리 |
 
-### 2026-04-26 후속 스프린트 입력
+### 2026-04-29 완료 범위
 
-- 이번 운영·통계 Phase2 승격 마감에서는 `Sobo16_special` 구현을 진행하지 않고, 차단 해소 범위만 다음 입력으로 분리한다.
-- `BLK-SPC-1`은 `Subu16.pas` Button001~009 핸들러와 SQL 재확인으로 닫는다.
-- `BLK-SPC-2`는 운영 표본 기반 enum 합의를 원칙으로 하되, 합의가 지연되면 1차 구현은 `OTHER` 폴백을 허용한다.
+- `Sobo16_special` 은 `G6_Ggeo` 목록 조회 + `Grat1`/`Gssum` 부분 수정까지 phase1 승격했다.
+- 신규 G6 행 INSERT, 물리 DELETE, Gcode/Bcode 변경 저장은 계약의 `out_of_scope` 에 남긴다.
 - 다음 큐 문서: `docs/phase2-next-work-queue.md`.
 
 ---
