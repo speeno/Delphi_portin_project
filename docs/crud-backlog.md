@@ -24,8 +24,8 @@
 
 | 화면 ID | 캡션 | 현재 phase | 현재 CRUD | 레거시 연산 | 갭 (필요 보강) | 목표 CRUD | 목표 wave |
 |---|---|---|---|---|---|---|---|
-| Sobo11 | 거래처관리 | phase1 | RU | C/R/U/D | 신규(C) + 삭제(D) — 1차 미구현 | CRUD | p3 |
-| Sobo14 | 도서관리 | phase1 | RU | C/R/U/D | 신규(C) + 삭제(D) | CRUD | p3 |
+| Sobo11 | 거래처관리 | phase1 | CRUD(API) | C/R/U/D | 2026-04-29 POST/DELETE API 보강 완료. 목록 UI의 직접 버튼 노출은 후속 UX 선택 | CRUD | p3 |
+| Sobo14 | 도서관리 | phase1 | CRUD(API) | C/R/U/D | 2026-04-29 POST/DELETE API 보강 완료. 목록 UI의 직접 버튼 노출은 후속 UX 선택 | CRUD | p3 |
 | Sobo17 | 출판사 | phase1 | R | C/R/U/D | 신규/수정/삭제 — 페이지 주석 *“1차 READ only · 수정은 후속”* | CRUD | p3 |
 | Sobo38 | 도서코드 | phase1 | R | C/R/U/D | 페이지 주석 *“READ only (단순 조회)”* | RU | p3 |
 | Sobo39 | 할인율 | phase1 | R | C/R/U/D | 페이지 주석 *“1차는 READ only”* | RU | p3 |

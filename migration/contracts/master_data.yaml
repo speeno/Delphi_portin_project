@@ -4,8 +4,8 @@
 # 에서 동등하게 노출하기 위한 1차 계약입니다. Sobo36/37/43 은 통계 화면으로 분리됨.
 #
 # 단일 원천 (DEC-023):
-#   - Sobo11 → 거래처(G1_Ggeo + G1_Gbun)            ✅ Wave A 풀 (READ + PATCH)
-#   - Sobo14 → 도서  (G4_Book + G4_Gbun)             ✅ Wave A 풀 (READ + PATCH)
+#   - Sobo11 → 거래처(G1_Ggeo + G1_Gbun)            ✅ Wave A 풀 (CRUD API)
+#   - Sobo14 → 도서  (G4_Book + G4_Gbun)             ✅ Wave A 풀 (CRUD API)
 #   - Sobo17 → 출판사·G7거래처(G7_Ggeo + G7_Gbun)    ✅ Wave B (READ only)
 #   - Sobo38 → 도서코드 (G4_Book READ)              ✅ Wave B (READ only)
 #   - Sobo39 → 할인율 (G7_Ggeo.Gpper, 대표 1폼)     ✅ Wave C (READ only)
@@ -19,17 +19,20 @@
 #   사용자 룰 — 임시방편 금지·일반화 해결·이전 케이스(Sobo45_billing) 우선 활용.
 #
 # 1차 미접근 (후속):
-#   - 마스터 INSERT/DELETE  (DEC-019: 수정 ON · 삭제 OFF)
+#   - Sobo17/38/39 마스터 INSERT/DELETE  (Sobo11/14 는 2026-04-29 API 보강)
 #   - Sobo15(입고처) — Sobo11 과 동일 G1_Ggeo 분기, Phase 2 통합 후보
 #   - Sobo39 변종(_1/_2/_5) — 대표 1폼 결정 후 통합 검토
 #   - 자동완성(GET /masters/customers, /products) 은 C2 contract 에서 보존, 본 계약은 영향 0
 
 id: C9-master-data
 name: 기초 마스터 단일 원천 (Sobo11/14/17/38/39)
-version: 1.2.0
+version: 1.3.0
 status: draft
 scope_phase: phase1
 # Changelog
+#   v1.3.0 (2026-04-29) — CRUD 갭 축소. Sobo11/Sobo14 에 POST/DELETE API 추가
+#                        (customer/book create/delete), audit.master action=create/delete,
+#                        회귀 test_master_crud_api_contract.py.
 #   v1.2.0 (2026-04-23) — 매핑 추정 오류 정정. 「Sobo45 → 물류비 (G5_Ggeo.Gposa)」
 #                        catalog 행 + endpoints[SQL-MAS-10] + customer_variants[Sobo45]
 #                        제거. 근본 원인: v1.0.0 Wave A/B/C 초기 catalog 작성 시
@@ -49,9 +52,9 @@ scope_phase: phase1
 #   v1.0.0 (2026-04-18) — Wave A/B/C 초기 contract.
 acceptance_goal: |
   웹 사용자가 기초관리 메뉴에서 거래처/도서/출판사/도서코드/할인율을 조회 가능하고,
-  거래처·도서는 부분 수정(PATCH)이 가능해야 한다. 모든 PATCH 는 audit.master 로거에
+  거래처·도서는 생성/수정/삭제 API가 가능해야 한다. 모든 write 는 audit.master 로거에
   actor/entity/target/updated_fields 1줄 JSON 으로 기록된다.
-  삭제(DELETE)·신규(INSERT) 는 DEC-019 로 후속 사이클로 이관.
+  Sobo17/38/39의 삭제(DELETE)·신규(INSERT) 는 DEC-019 로 후속 사이클로 이관.
   「물류비」 화면은 본 계약에서 제외 — 청구서관리(Sobo45_billing, 별도 계약) 내부에서
   G5_Ggeo.Gposa lookup 으로 흡수 (v1.2.0 정정).
 
@@ -145,6 +148,23 @@ endpoints:
     audit:
       logger: audit.master
       record_keys: [timestamp, gcode (actor), entity, target, action, result, client_ip, server_id, extra]
+  - id: SQL-MAS-3C
+    method: POST
+    path: /api/v1/masters/customer
+    request:
+      body_ref: backend/app/models/master.py#CustomerCreateRequest
+    response:
+      schema_ref: backend/app/models/master.py#CustomerCreateResponse
+    errors: [MASTER_DUPLICATE, MASTER_INVALID]
+    audit: { logger: audit.master, action: create }
+  - id: SQL-MAS-3D
+    method: DELETE
+    path: /api/v1/masters/customer/{gcode}
+    query:
+      - { name: serverId, type: string, required: true }
+    response:
+      schema_ref: backend/app/models/master.py#MasterDeleteResponse
+    audit: { logger: audit.master, action: delete }
 
   # 도서 (Sobo14)
   - id: SQL-MAS-4
@@ -172,6 +192,23 @@ endpoints:
       schema_ref: backend/app/models/master.py#BookUpdateResponse
     audit:
       logger: audit.master
+  - id: SQL-MAS-6C
+    method: POST
+    path: /api/v1/masters/book
+    request:
+      body_ref: backend/app/models/master.py#BookCreateRequest
+    response:
+      schema_ref: backend/app/models/master.py#BookCreateResponse
+    errors: [MASTER_DUPLICATE, MASTER_INVALID]
+    audit: { logger: audit.master, action: create }
+  - id: SQL-MAS-6D
+    method: DELETE
+    path: /api/v1/masters/book/{gcode}
+    query:
+      - { name: serverId, type: string, required: true }
+    response:
+      schema_ref: backend/app/models/master.py#MasterDeleteResponse
+    audit: { logger: audit.master, action: delete }
 
   # 출판사·G7거래처 (Sobo17) — READ only 1차
   - id: SQL-MAS-7

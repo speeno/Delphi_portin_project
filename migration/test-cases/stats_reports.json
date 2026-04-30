@@ -2,10 +2,10 @@
   "$schema_note": "본 파일은 stats_reports 회귀 테스트 팩 1차. migration/contracts/stats_reports.yaml 와 1:1 대응 (sales-period 엔드포인트). docs/phase1-promotion-gate.md 5축 (functional/data/ui/audit/performance) 중 functional+data+performance 자동화 대상.",
   "id": "C13-stats-reports",
   "contract": "migration/contracts/stats_reports.yaml",
-  "version": "1.0.0-phase1",
-  "status": "draft",
+  "version": "1.1.0-phase1",
+  "status": "approved",
   "scope_phase": "phase1",
-  "acceptance_goal": "1차 포팅 합격선: '월별/거래처별/도서별 매출 통계가 4대 DB(mysql3/5/8/maria) 모두에서 동일 raw row 를 반환'.",
+  "acceptance_goal": "통계 화면은 필터 미입력 시 전체 데이터를 조회하고, 대량 데이터는 표준 page 메타와 상단 페이저로 순차 탐색한다.",
   "owners": {
     "business": "메인개발자",
     "legacy": "델파이 담당자",
@@ -14,30 +14,88 @@
   "fixtures": {
     "tables": {
       "S1_Ssub_seed": [
-        { "Gdate": "2026.01.15", "Hcode": "C001", "Jubun": "J001", "Gjisa": "", "Bcode": "B001", "Gubun": "출고", "Ocode": "B", "Scode": "X", "Yesno": "0", "Pubun": "신간", "Gsqut": 10, "Gssum": 100000 },
-        { "Gdate": "2026.02.15", "Hcode": "C001", "Jubun": "J002", "Gjisa": "", "Bcode": "B002", "Gubun": "출고", "Ocode": "B", "Scode": "X", "Yesno": "0", "Pubun": "신간", "Gsqut": 5,  "Gssum": 75000  },
-        { "Gdate": "2026.03.15", "Hcode": "C002", "Jubun": "J003", "Gjisa": "", "Bcode": "B003", "Gubun": "출고", "Ocode": "B", "Scode": "X", "Yesno": "0", "Pubun": "구간", "Gsqut": 7,  "Gssum": 84000  }
+        {
+          "Gdate": "2026.01.15",
+          "Hcode": "C001",
+          "Jubun": "J001",
+          "Gjisa": "",
+          "Bcode": "B001",
+          "Gubun": "출고",
+          "Ocode": "B",
+          "Scode": "X",
+          "Yesno": "0",
+          "Pubun": "신간",
+          "Gsqut": 10,
+          "Gssum": 100000
+        },
+        {
+          "Gdate": "2026.02.15",
+          "Hcode": "C001",
+          "Jubun": "J002",
+          "Gjisa": "",
+          "Bcode": "B002",
+          "Gubun": "출고",
+          "Ocode": "B",
+          "Scode": "X",
+          "Yesno": "0",
+          "Pubun": "신간",
+          "Gsqut": 5,
+          "Gssum": 75000
+        },
+        {
+          "Gdate": "2026.03.15",
+          "Hcode": "C002",
+          "Jubun": "J003",
+          "Gjisa": "",
+          "Bcode": "B003",
+          "Gubun": "출고",
+          "Ocode": "B",
+          "Scode": "X",
+          "Yesno": "0",
+          "Pubun": "구간",
+          "Gsqut": 7,
+          "Gssum": 84000
+        }
       ]
     },
     "notes": [
       "테스트 픽스처는 PII 가 아닌 더미 값.",
       "S1_Ssub_seed 는 3개월 분포 3거래처 3도서 — 월별/거래처별/도서별 합계 전 축 검증 가능.",
-      "phase1 에서 audit axis 는 read-only 라 N/A — 회귀 러너에서 SKIP."
+      "phase1 에서 audit axis 는 read-only 라 N/A — 회귀 러너에서 SKIP.",
+      "2026-04-29: hcode/도서/출판사 필터 미입력은 해당 축 전체 조회로 해석한다.",
+      "2026-04-29: 모든 통계 목록은 limit/offset + page 메타를 사용하고 페이저는 그리드 상단에 표시한다."
     ]
   },
-  "axes": ["functional", "data", "ui", "performance"],
+  "axes": [
+    "functional",
+    "data",
+    "ui",
+    "performance"
+  ],
   "cases": [
     {
       "id": "TC-STATS-MONTHLY-001",
       "title": "월별 매출 — 전체 거래처 12개월 (오늘 기준 12개월 룰 동등성)",
       "phase1_in_scope": true,
-      "axes": ["functional", "data"],
-      "given": { "S1_Ssub_seeded": true, "auth_token": "hong01" },
+      "axes": [
+        "functional",
+        "data"
+      ],
+      "given": {
+        "S1_Ssub_seeded": true,
+        "auth_token": "hong01"
+      },
       "request": {
         "method": "GET",
         "path": "/api/v1/stats/sales-period",
-        "headers": { "Authorization": "Bearer <hong01>" },
-        "query": { "server_id": "mysql8", "hcode": "%", "period": "12M" }
+        "headers": {
+          "Authorization": "Bearer <hong01>"
+        },
+        "query": {
+          "server_id": "mysql8",
+          "hcode": "%",
+          "period": "12M"
+        }
       },
       "expect": {
         "status": 200,
@@ -51,12 +109,22 @@
       "id": "TC-STATS-MONTHLY-002",
       "title": "월별 매출 — 단일 거래처 3개월 필터",
       "phase1_in_scope": true,
-      "axes": ["functional", "data"],
-      "given": { "S1_Ssub_seeded": true, "auth_token": "hong01" },
+      "axes": [
+        "functional",
+        "data"
+      ],
+      "given": {
+        "S1_Ssub_seeded": true,
+        "auth_token": "hong01"
+      },
       "request": {
         "method": "GET",
         "path": "/api/v1/stats/sales-period",
-        "query": { "server_id": "mysql8", "hcode": "C001", "period": "3M" }
+        "query": {
+          "server_id": "mysql8",
+          "hcode": "C001",
+          "period": "3M"
+        }
       },
       "expect": {
         "status": 200,
@@ -70,31 +138,57 @@
       "id": "TC-STATS-MONTHLY-003",
       "title": "월별 매출 — 빈 결과 기간 (미래 기간)",
       "phase1_in_scope": true,
-      "axes": ["functional"],
-      "given": { "S1_Ssub_seeded": true, "auth_token": "hong01" },
+      "axes": [
+        "functional"
+      ],
+      "given": {
+        "S1_Ssub_seeded": true,
+        "auth_token": "hong01"
+      },
       "request": {
         "method": "GET",
         "path": "/api/v1/stats/sales-period",
-        "query": { "server_id": "mysql8", "hcode": "%", "period": "12M", "date_from": "2030-01-01", "date_to": "2030-12-31" }
+        "query": {
+          "server_id": "mysql8",
+          "hcode": "%",
+          "period": "12M",
+          "date_from": "2030-01-01",
+          "date_to": "2030-12-31"
+        }
       },
       "expect": {
         "status": 200,
-        "body": { "rows": [] }
+        "body": {
+          "rows": []
+        }
       }
     },
     {
       "id": "TC-STATS-MONTHLY-004-DATA-AXIS-MULTI-DB",
       "title": "data axis — mysql3/5/8/maria 4대 DB 동일 합계 (4중 probe)",
       "phase1_in_scope": true,
-      "axes": ["data"],
-      "given": { "S1_Ssub_seeded": true, "auth_token": "hong01" },
+      "axes": [
+        "data"
+      ],
+      "given": {
+        "S1_Ssub_seeded": true,
+        "auth_token": "hong01"
+      },
       "matrix": {
-        "server_id": ["mysql3", "mysql5", "mysql8", "maria"]
+        "server_id": [
+          "mysql3",
+          "mysql5",
+          "mysql8",
+          "maria"
+        ]
       },
       "request": {
         "method": "GET",
         "path": "/api/v1/stats/sales-period",
-        "query": { "hcode": "%", "period": "12M" }
+        "query": {
+          "hcode": "%",
+          "period": "12M"
+        }
       },
       "expect": {
         "status": 200,
@@ -107,23 +201,38 @@
       "id": "TC-STATS-MONTHLY-005-PERFORMANCE",
       "title": "performance axis — 1만 행 기간 P95 < 800ms",
       "phase1_in_scope": true,
-      "axes": ["performance"],
-      "given": { "S1_Ssub_seeded": true, "auth_token": "hong01", "extra_seed_rows": 10000 },
+      "axes": [
+        "performance"
+      ],
+      "given": {
+        "S1_Ssub_seeded": true,
+        "auth_token": "hong01",
+        "extra_seed_rows": 10000
+      },
       "request": {
         "method": "GET",
         "path": "/api/v1/stats/sales-period",
-        "query": { "server_id": "mysql8", "hcode": "%", "period": "12M" }
+        "query": {
+          "server_id": "mysql8",
+          "hcode": "%",
+          "period": "12M"
+        }
       },
       "expect": {
         "status": 200,
-        "timing": { "p95_max_ms": 800 }
+        "timing": {
+          "p95_max_ms": 800
+        }
       }
     },
     {
       "id": "TC-STATS-CUSTOMER-001",
       "title": "거래처별 매출 — sales_inquiry contract 의 customer-sales 와 1:1 동일",
       "phase1_in_scope": true,
-      "axes": ["functional", "data"],
+      "axes": [
+        "functional",
+        "data"
+      ],
       "alias_for": "TC-INQ-CUST-001",
       "note": "stats/customer 페이지는 reports/customer-sales 라우트를 그대로 호출 — 본 케이스는 재참조."
     },
@@ -131,9 +240,104 @@
       "id": "TC-STATS-BOOK-001",
       "title": "도서별 매출 — sales_inquiry contract 의 book-sales 와 1:1 동일",
       "phase1_in_scope": true,
-      "axes": ["functional", "data"],
+      "axes": [
+        "functional",
+        "data"
+      ],
       "alias_for": "TC-INQ-BOOK-001",
       "note": "stats/book 페이지는 reports/book-sales 라우트를 그대로 호출 — 본 케이스는 재참조."
+    },
+    {
+      "id": "TC-STATS-OPTIONAL-HCODE-001",
+      "title": "공통 통계 — hcode 미입력 시 전체 거래처 대상 조회",
+      "phase1_in_scope": true,
+      "axes": [
+        "functional",
+        "data"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/stats/customer-analysis",
+        "query": {
+          "server_id": "mysql8",
+          "dateFrom": "2026-01-01",
+          "dateTo": "2026-01-31",
+          "limit": 100,
+          "offset": 0
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body": {
+          "metadata.scope": "all",
+          "page.limit": 100,
+          "page.offset": 0
+        }
+      }
+    },
+    {
+      "id": "TC-STATS-PAGING-001",
+      "title": "공통 통계 — 대량 결과 표준 page 메타와 다음 페이지 신호",
+      "phase1_in_scope": true,
+      "axes": [
+        "functional",
+        "performance"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/stats/book-turnover",
+        "query": {
+          "server_id": "mysql8",
+          "dateFrom": "2026-01-01",
+          "dateTo": "2026-01-31",
+          "limit": 50,
+          "offset": 50
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body": {
+          "page": "{limit,offset,total,has_more}",
+          "rows_max_length": 50
+        }
+      }
+    },
+    {
+      "id": "TC-STATS-PUBLISHER-001",
+      "title": "출판사통계 — placeholder 제거 및 book-sales 재사용 집계",
+      "phase1_in_scope": true,
+      "axes": [
+        "functional",
+        "data"
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/stats/publisher",
+        "query": {
+          "server_id": "mysql8",
+          "dateFrom": "2026-01-01",
+          "dateTo": "2026-01-31",
+          "limit": 100,
+          "offset": 0
+        }
+      },
+      "expect": {
+        "status": 200,
+        "body": {
+          "items": "publisher rows",
+          "page": "standard PageMeta",
+          "metadata.reuse_service": "reports_service.get_book_sales"
+        }
+      }
+    },
+    {
+      "id": "TC-STATS-PAGER-UI-001",
+      "title": "통계 UI — 페이징 네비게이션바는 리스트 상단에 표시",
+      "phase1_in_scope": true,
+      "axes": [
+        "ui"
+      ],
+      "static_test": "test/test_stats_optional_paging.py::StatsFrontendStaticPaging"
     }
   ]
 }

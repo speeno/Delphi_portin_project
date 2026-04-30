@@ -3,7 +3,7 @@ scenario_id: C13_stats
 title: 통계/리포트 확장 계약 (외부 시스템 연동 제외)
 status: frozen  # v1.0 동결 — 확장 라인 v0.2 §2 (C13) 진입 게이트 충족
 created: 2026-04-20
-updated: 2026-04-20
+updated: 2026-04-29
 owner: 메인개발자
 
 constraints:
@@ -29,7 +29,8 @@ scope:
       guard_permission: admin.stats.sales       # F50
       legacy_key: F50
       reuse_service: reports_service.get_book_sales
-      query: [server_id, dateFrom, dateTo, groupBy(daily|weekly|monthly)]
+      query: [server_id, "hcode?", dateFrom, dateTo, "groupBy(daily|weekly|monthly)", limit, offset]
+      paging: { style: DEC-024, page_meta: true, optional_hcode_means_all: true }
       partial_marker: true                       # 마감 미완 기간 metadata.partial=true
     - id: STAT-2
       method: GET
@@ -37,7 +38,8 @@ scope:
       guard_permission: admin.stats.customer    # F51e
       legacy_key: F51e
       reuse_service: reports_service.get_customer_sales
-      query: [server_id, hcode?, dateFrom, dateTo]
+      query: [server_id, "hcode?", dateFrom, dateTo, limit, offset]
+      paging: { style: DEC-024, page_meta: true, optional_hcode_means_all: true }
       partial_marker: true
     - id: STAT-3
       method: GET
@@ -45,7 +47,8 @@ scope:
       guard_permission: admin.stats.book        # F52e
       legacy_key: F52e
       reuse_service: reports_service.get_book_sales  # 응답 후처리 — 회전율 계산
-      query: [server_id, hcode, dateFrom, dateTo]
+      query: [server_id, "hcode?", dateFrom, dateTo, limit, offset]
+      paging: { style: DEC-024, page_meta: true, optional_hcode_means_all: true }
       partial_marker: true
     - id: STAT-4
       method: GET
@@ -53,7 +56,17 @@ scope:
       guard_permission: admin.stats.quarterly   # F53e
       legacy_key: F53e
       reuse_service: settlement_service.list_billing_period
-      query: [server_id, year, quarter]
+      query: [server_id, "hcode?", year, quarter, limit, offset]
+      paging: { style: DEC-024, page_meta: true, optional_hcode_means_all: true }
+      partial_marker: true
+    - id: STAT-PUB
+      method: GET
+      path: /api/v1/stats/publisher
+      guard_permission: admin.stats.customer
+      legacy_key: Sobo43
+      reuse_service: reports_service.get_book_sales
+      query: [server_id, "hcode?", dateFrom, dateTo, limit, offset]
+      paging: { style: DEC-024, page_meta: true, optional_hcode_means_all: true }
       partial_marker: true
 
   permission_keys_new:
@@ -106,6 +119,9 @@ acceptance_criteria:
   - id: AC-STAT-5
     description: "수치 동등성 — 동일 입력 → 동일 출력 + 기존 reports endpoint 와 합계 일치"
     test: "test/test_c13_stats_phase1.py::test_R_04_numeric_equivalence_with_reports"
+  - id: AC-STAT-6
+    description: "통계 필터 hcode 미입력 시 전체 대상 조회 + 표준 page 메타 반환"
+    test: "test/test_stats_optional_paging.py"
 
 decisions:
   - DEC-STAT-1   # 4 통계 endpoint v1.0 동결 (DEC-STAT-EXP)
@@ -146,12 +162,12 @@ phase2_addendum:
     base_legacy: Sobo43
     endpoint: GET /api/v1/stats/publisher
     legacy_id: Sobo43_stats_route
-    permission: admin.stats.publisher
-    note: "출판사통계 — Sobo43.dfm 의 출판사 GROUP BY variant. 신규 SQL 0건 (기존 S1_Ssub + G4_Book JOIN)."
+    permission: admin.stats.customer
+    note: "출판사통계 — 기존 book-sales 결과 재사용 기반 GROUP variant. 신규 SQL 0건."
     query_params:
       from_date: required ISO date
       to_date: required ISO date
-      publisher_code: optional
+      hcode: optional
       page: { limit: 100, max_limit: 500 }
     response:
       items:
