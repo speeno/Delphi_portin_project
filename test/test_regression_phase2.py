@@ -125,13 +125,14 @@ _FRONTEND_TO_BACKEND_PATH = {
     "/ledger/comparison":          "/api/v1/ledger/comparison",
     "/master/special":             "/api/v1/master/special",
     "/transactions/status":        "/api/v1/transactions/status",
-    "/transactions/other":         "/api/v1/transactions/misc",
+    "/transactions/other":         "/api/v1/transactions/other",
     "/settlement/outstanding":     "/api/v1/settlement/outstanding",
     "/settlement/payment-slip":    "/api/v1/settlement/payment-slip",
     "/delivery/management":        "/api/v1/delivery/dispatch",
-    "/stats/monthly":              "/api/v1/stats/monthly",
-    "/stats/customer":             "/api/v1/stats/customer-list",
-    "/stats/book":                 "/api/v1/stats/book-list",
+    # 실제 프론트 호출과 동일 백엔드 경로 (회귀 프로브가 404/미구현으로 깨지지 않게)
+    "/stats/monthly":              "/api/v1/stats/sales-period",
+    "/stats/customer":             "/api/v1/stats/customer-analysis",
+    "/stats/book":                 "/api/v1/reports/book-sales",
     "/stats/publisher":            "/api/v1/stats/publisher",
 }
 
@@ -149,6 +150,8 @@ _ROUTE_REQUIRED_QUERY: dict[str, Callable[[str, str], str]] = {
     # Sobo54 일별 입고 리포트는 단일 일자(`gdate`) 가 필수 (FastAPI Query(...) 검증).
     # `dateFrom` 만 보내면 422.
     "/inbound/reports/daily": lambda df, dt: f"gdate={df}",
+    # 월별통계 페이지는 sales-period + groupBy=monthly (별도 /stats/monthly 라우터 없음).
+    "/stats/monthly": lambda df, dt: f"dateFrom={df}&dateTo={dt}&groupBy=monthly",
 }
 
 

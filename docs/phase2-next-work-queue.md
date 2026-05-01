@@ -37,6 +37,9 @@
 
 아래 항목은 외부 합의 또는 SQL 미확정이 있어 후순위로 둔다. 상세·다음 단계는 [`migration/contracts/phase2_screen_blockers.yaml`](../migration/contracts/phase2_screen_blockers.yaml) 및 [`migration/contracts/courier_management.yaml`](../migration/contracts/courier_management.yaml) 의 `implementation_schedule` 를 단일 원천으로 한다.
 
-- `Sobo48_compare`: 장부대조, 레거시 단일 SQL 미확정
 - `Sobo28_delivery`: 출고택배관리 — **내부** 라인/메모 구현은 완료, **외부** 택배사 API는 계약서상 별도 후속 (`courier_management.yaml`)
-- `Sobo29_other`: 기타명세서, 비정형 출력 흐름 확정 필요
+
+### 3.1 해소 완료 (2026-05-01)
+
+- `Sobo48_compare`: 레거시 정본을 장부대조가 아닌 `Subu48` 출판사관리(설정)으로 정정하고 `G7_Ggeo` 조회 + `Chek3`/`Scode` 부분 저장으로 phase1 포팅. 계약: `migration/contracts/sobo48_publisher_settings.yaml`.
+- `Sobo29_other`: `Subu29` 신간/기타 명세를 `S1_Ssub` 조회 + `S1_Memo` 전체메모 저장으로 phase1 포팅. 비정형 인쇄 PDF는 C7 인쇄 후속으로 분리. 계약: `migration/contracts/transactions_other.yaml`.

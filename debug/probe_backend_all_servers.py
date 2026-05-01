@@ -342,6 +342,14 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200, 422},
         },
         {
+            "group": "stats.publisher",
+            "path": (
+                f"/api/v1/stats/publisher?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
             "group": "returns.period_report",
             "path": (
                 f"/api/v1/returns/period-report?serverId={sid}"
@@ -354,6 +362,22 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "path": (
                 f"/api/v1/reports/book-sales?serverId={sid}"
                 f"&dateFrom={df}&dateTo={dt}&hcode=%25&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "ledger.publisher_settings",
+            "path": (
+                f"/api/v1/ledger/comparison?serverId={sid}"
+                "&keyword=&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.other",
+            "path": (
+                f"/api/v1/transactions/other?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&jubun=%EC%8B%A0%EA%B0%84&limit=1&offset=0"
             ),
             "ok_status": {200},
         },

@@ -1,0 +1,39 @@
+id: SOBO48-PUBLISHER-SETTINGS-v1
+name: Sobo48 출판사관리(설정)
+version: 1.0.0
+status: approved
+scope_phase: phase1
+legacy:
+  form: Sobo48
+  unit: Subu48.pas
+  caption: 출판사관리(설정)
+  generated_inputs:
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu48/Sobo48.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu48/Sobo48.form.json
+modern:
+  route: /ledger/comparison
+  menu_id: Sobo48_compare
+  note: 기존 route/id는 메뉴 호환을 위해 유지하고, 동작은 G7_Ggeo 출판사 설정으로 정정한다.
+data_access:
+  tables:
+    - G7_Ggeo
+  sql:
+    - id: SQL-S48-1
+      type: SELECT
+      statement: "SELECT Gcode,Gname,Chek3,Scode AS Yesno FROM G7_Ggeo"
+    - id: SQL-S48-2
+      type: UPDATE
+      statement: "UPDATE G7_Ggeo SET Scode=? WHERE Gcode=?"
+    - id: SQL-S48-3
+      type: UPDATE
+      statement: "UPDATE G7_Ggeo SET Chek3=? WHERE Gcode=?"
+endpoints:
+  - method: GET
+    path: /api/v1/ledger/comparison
+  - method: PATCH
+    path: /api/v1/ledger/comparison/{gcode}
+equivalence:
+  ui: DBGrid101 4컬럼(GCODE/GNAME/CHEK3/YESNO) 노출
+  data: G7_Ggeo Chek3/Scode 부분 저장
+  audit: 기존 공통 API 인증 경로 사용
+customer_variants: []

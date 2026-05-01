@@ -1,0 +1,46 @@
+id: TRANSACTIONS-OTHER-v1
+name: Sobo29 기타명세서 / 신간명세서
+version: 1.0.0
+status: approved
+scope_phase: phase1
+legacy:
+  form: Sobo29
+  unit: Subu29.pas
+  caption: 신간명세서
+  generated_inputs:
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu29/Sobo29.html
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu29/Sobo29.form.json
+modern:
+  route: /transactions/other
+  menu_id: Sobo29_other
+data_access:
+  tables:
+    - S1_Ssub
+    - S1_Memo
+    - G4_Book
+    - G1_Ggeo
+  sql:
+    - id: SQL-S29-1
+      type: SELECT
+      statement: "SELECT ... FROM S1_Ssub WHERE Gdate/Hcode/Bcode/Jubun filters"
+    - id: SQL-S29-2
+      type: SELECT
+      statement: "SELECT ... FROM S1_Memo WHERE Gdate/Hcode/Jubun/Gjisa"
+    - id: SQL-S29-3
+      type: UPDATE
+      statement: "UPDATE S1_Memo SET Gbigo=?, Sbigo=? WHERE key"
+    - id: SQL-S29-4
+      type: INSERT
+      statement: "INSERT INTO S1_Memo (Gdate,Hcode,Jubun,Gjisa,Gbigo,Sbigo)"
+endpoints:
+  - method: GET
+    path: /api/v1/transactions/other
+  - method: PATCH
+    path: /api/v1/transactions/other/memo
+equivalence:
+  ui: DBGrid101 주요 컬럼과 전체메모(Edit203/Edit204)를 노출
+  data: S1_Ssub 조회, S1_Memo 전체메모 UPSERT
+  out_of_scope:
+    - 도서/거래처 팝업 lookup 자동완성은 후속 UI 개선으로 분리
+    - 비정형 인쇄 PDF는 C7 인쇄 계약으로 분리
+customer_variants: []

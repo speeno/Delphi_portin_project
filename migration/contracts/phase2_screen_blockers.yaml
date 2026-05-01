@@ -1,21 +1,25 @@
 # 차단·후순위 Phase2 화면 — 단일 참조 (docs/phase2-next-work-queue.md §3 연계)
 id: phase2_screen_blockers
-version: "1.0.0"
-updated: "2026-04-29"
+version: "1.1.0"
+updated: "2026-05-01"
 
 screens:
   Sobo48_compare:
     route: /ledger/comparison
-    blockers:
-      - 레거시 장부대조 단일 SQL 미확정
-      - DEC-040 신규 SQL 0건 정책과 충돌 시 재설계 필요
-    next_steps:
-      - 레거시 Subu48.pas / Tong04 스택에서 확정 SQL 추출
-      - 동결 후 customer_book_ledger_phase2.yaml 패턴과 equivalence 검토
+    status: resolved
+    resolution:
+      - 레거시 정본은 장부대조가 아니라 Subu48 출판사관리(설정)임을 확인
+      - G7_Ggeo SELECT + Chek3/Scode UPDATE 로 phase1 포팅
+    artifacts:
+      - migration/contracts/sobo48_publisher_settings.yaml
+      - analysis/layout_mappings/Sobo48.md
 
   Sobo29_other:
     legacy_form: Subu29 / 기타명세서 흐름
-    blockers:
-      - 비정형 출력·리포트 분기 미확정
-    next_steps:
-      - Tong04 Print_XX 매핑 및 FRF 변형 인벤토리 후 계약 초안
+    status: resolved
+    resolution:
+      - Subu29 신간명세서 SQL을 S1_Ssub 조회 + S1_Memo 전체메모 UPSERT 범위로 phase1 포팅
+      - 비정형 인쇄 PDF는 C7 인쇄 계약 후속으로 분리
+    artifacts:
+      - migration/contracts/transactions_other.yaml
+      - analysis/layout_mappings/Sobo29.md
