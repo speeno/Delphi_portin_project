@@ -54,8 +54,10 @@ class WeLovePortingCoverageTests(TestCase):
     def test_completed_screen_mappings_have_build_variant_sources(self) -> None:
         coverage = _json("analysis/welove_screen_contract_coverage.json")
         by_form = {row["form_id"]: row for row in coverage["forms"]}
+        totals = coverage["totals"]
 
-        self.assertGreaterEqual(coverage["totals"]["covered_mapping_note_count"], 38)
+        self.assertEqual(totals["uncovered_mapping_note_count"], 0)
+        self.assertEqual(totals["covered_mapping_note_count"], totals["mapping_note_count"])
         for form_id in ("Sobo11", "Sobo14", "Sobo39", "Sobo45_billing"):
             with self.subTest(form_id=form_id):
                 row = by_form[form_id]
@@ -65,6 +67,22 @@ class WeLovePortingCoverageTests(TestCase):
                 self.assertTrue(variant["dpr_closure_hash"])
                 self.assertTrue(variant["source_pas_path"])
                 self.assertTrue(variant["source_dfm_path"])
+
+        for form_id in ("Id_Logn", "c8_scan_match"):
+            with self.subTest(form_id=form_id):
+                row = by_form[form_id]
+                self.assertGreater(row["variant_count"], 0, msg=f"{form_id} uses LAYOUT_NOTE_EXTRA_UNIT_ALIASES for closure match")
+                variant = row["customer_variants"][0]
+                self.assertTrue(variant["source_pas_path"])
+                self.assertTrue(variant["source_dfm_path"])
+
+    def test_build_forced_hidden_menu_keys_match_seeded_tenant_builds(self) -> None:
+        tenants = _json("도서물류관리프로그램/backend/data/tenants_directory_seed.json")
+        active_ids = {str(t["active_build_id"]).strip() for t in tenants.get("tenants") or [] if t.get("active_build_id")}
+        forced = yaml.safe_load((ROOT / "migration/contracts/build_forced_hidden_menus.yaml").read_text(encoding="utf-8"))
+        for build_id in (forced.get("builds") or {}).keys():
+            with self.subTest(build_id=build_id):
+                self.assertIn(str(build_id), active_ids)
 
     def test_rbac_source_build_aliases_match_known_welove_builds(self) -> None:
         contract = yaml.safe_load((ROOT / "migration/contracts/welove_build_coverage.yaml").read_text(encoding="utf-8"))
