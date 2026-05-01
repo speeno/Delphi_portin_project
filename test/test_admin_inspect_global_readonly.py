@@ -27,7 +27,7 @@ def _request(method: str = "GET", path: str = "/api/v1/reports/book-sales", quer
     )
 
 
-class AdminInspectReadonlyTests(IsolatedAsyncioTestCase):
+class AdminInspectContextTests(IsolatedAsyncioTestCase):
     async def asyncSetUp(self) -> None:
         from app.core import deps
         from app.core.inspect_context import clear_inspect_context
@@ -65,7 +65,9 @@ class AdminInspectReadonlyTests(IsolatedAsyncioTestCase):
         dep = self.deps.require_server_ownership("serverId")
         await dep(_request("GET"), ctx)
 
-    async def test_inspect_mode_rejects_write_and_non_super_user(self) -> None:
+    async def test_super_admin_write_sets_inspect_context_and_ownership_bypass(self) -> None:
+        from app.core.inspect_context import get_inspect_context
+
         header = json.dumps(
             {
                 "inspect_mode": True,
@@ -74,14 +76,26 @@ class AdminInspectReadonlyTests(IsolatedAsyncioTestCase):
                 "inspect_reason": "장애 점검",
             }
         )
-        with self.assertRaises(HTTPException) as write_err:
-            await self.deps.get_user_context(
-                _request("POST"),
-                current={"user_id": "admin", "server_id": "remote_138", "role": "admin", "permissions": ["*"]},
-                x_auth_context=header,
-            )
-        self.assertEqual(write_err.exception.status_code, 403)
+        ctx = await self.deps.get_user_context(
+            _request("PATCH", "/api/v1/masters/book/0014", query=b"serverId=remote_153"),
+            current={"user_id": "admin", "server_id": "remote_138", "role": "admin", "permissions": ["*"]},
+            x_auth_context=header,
+        )
+        inspect = get_inspect_context()
+        self.assertIsNotNone(inspect)
+        self.assertEqual(inspect.server_id, "remote_153")
+        dep = self.deps.require_server_ownership("serverId")
+        await dep(_request("PATCH", "/api/v1/masters/book/0014", query=b"serverId=remote_153"), ctx)
 
+    async def test_inspect_mode_rejects_non_super_user(self) -> None:
+        header = json.dumps(
+            {
+                "inspect_mode": True,
+                "inspect_server_id": "remote_153",
+                "inspect_db_name": "chul_05_db",
+                "inspect_reason": "장애 점검",
+            }
+        )
         with self.assertRaises(HTTPException) as user_err:
             await self.deps.get_user_context(
                 _request("GET"),
@@ -195,9 +209,10 @@ class AdminInspectStaticTests(TestCase):
         self.assertIn("_effective_database", db_src)
         self.assertIn("get_inspect_context", db_src)
         self.assertIn("shouldAttachInspectContext", api_src)
-        self.assertIn('url.pathname === "/api/v1/auth/me"', api_src)
-        self.assertIn('url.pathname.startsWith("/api/v1/admin/")', api_src)
+        self.assertIn('p.startsWith("/api/v1/auth/")', api_src)
+        self.assertIn('p.startsWith("/api/v1/admin/")', api_src)
         self.assertIn("rewriteServerIdForInspect", api_src)
+        self.assertIn("rewriteBodyServerIdsForInspect", api_src)
         self.assertIn("adminInspectHeaders", print_src)
         self.assertIn("rewriteServerIdForInspect", print_src)
         self.assertIn("adminInspectHeaders", dashboard_src)
