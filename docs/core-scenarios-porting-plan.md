@@ -14,6 +14,10 @@
 2. **품질 게이트**: `python3 tools/delphi_form_screen_matrix.py --check` — 등록된 `Subu*` 폴더에 대응 `*.dfm` 없으면 실패. 제목 문자열까지 엄격히 맞추려면 `--strict`(초기 코드베이스는 차이 행 다수 가능).
 3. **회귀**: `pytest test/test_delphi_form_screen_matrix.py`.
 
+### WeLove · 신규·미완료 시나리오 입력 규칙
+
+저장소 내 `legacy_delphi_source/legacy_source`는 **부분 스냅샷**이다. 고객별 실제 실행 트리·468개 `.dpr` 클로저·PAS/DFM 경로의 정본은 gitignored `WeLove_FTP`(로컬)와 생성 산출물 `analysis/welove_dpr_closures.json`, `welove_build_catalog_extended.json`, `welove_tenant_build_routing_matrix.json`, `welove_screen_contract_coverage.json`을 우선한다. 신규 화면·시나리오를 올릴 때는 **코드 분기 금지**, 차이는 `migration/contracts/<flow>.yaml`의 `customer_variants`와 `migration/contracts/welove_build_coverage.yaml`에만 반영한다. C1 로그인·테넌트 라우팅은 `welove_build_coverage.yaml`의 `login_safety_contract`, `docs/login-routing-regression-guard.md`, `migration/contracts/login.yaml`·`tenants_directory.yaml`을 따르고 핵심 검증 흐름(DSN-DEC-08)은 변경하지 않는다.
+
 ---
 
 ## 1. 시나리오 → 포팅 화면 매핑표 (델파이 → 웹)

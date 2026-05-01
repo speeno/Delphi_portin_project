@@ -14,6 +14,8 @@
 # -------------
 # - analysis/welove_db_route_matrix.json   (40 routes — server_id, db_name_logical, account_family)
 # - analysis/welove_chul_builds.json       (7 builds — build_id, build_role, account_type_inferred)
+# - analysis/welove_build_catalog_extended.json / welove_tenant_build_routing_matrix.json
+#                                           (WeLove_FTP 전체 DPR 클로저 + active_build_id 추적)
 # - docs/decision-login-db-routing.md      (DSN-DEC-06 설계)
 # - tools/seed_tenants_directory.py        (자동 시드 스크립트)
 #
@@ -40,9 +42,10 @@
 
 id: TENDIR-v1
 name: 테넌트 디렉토리 (DSN 라우팅 정본)
-version: 1.0.0
+version: 1.0.1
 status: draft
 revision_history:
+  - { version: 1.0.1, date: 2026-05-01, summary: "WeLove_FTP 468 DPR 클로저 기반 active_build_id 추적 산출물 연결 — WELOVE-BUILD-COVERAGE-v1 참조" }
   - { version: 1.0.0, date: 2026-04-24, summary: "DSN-DEC-06 초안 — welove_db_route_matrix.json + welove_chul_builds.json 결합 1차 시드" }
 
 schema:

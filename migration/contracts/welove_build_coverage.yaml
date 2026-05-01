@@ -1,0 +1,115 @@
+# Migration Contract: WeLove 전체 계정 빌드 커버리지
+#
+# 본 계약은 gitignored `WeLove_FTP`의 고객/계정별 Delphi 실행 파일 구조를
+# 포팅 입력으로 고정한다. 개별 화면 계약은 이 파일의 artifact를 참조해
+# `customer_variants`를 확장하고, 모던 코드는 build_id별 if/else가 아니라
+# 데이터 주도 분기만 허용한다.
+#
+# 비밀 정책 (secrets-policy.md G3)
+# ----------------------------------
+# - Config.Ini / DB정보 엑셀 / 사용자명 / 비밀번호 / root 토큰은 읽거나 저장하지 않는다.
+# - 산출물에는 DPR/PAS/DFM 경로, program name, build/account 키, 해시, boolean flag만 기록한다.
+
+id: WELOVE-BUILD-COVERAGE-v1
+name: WeLove 전체 계정 빌드 커버리지
+version: 1.1.0
+status: draft
+revision_history:
+  - version: 1.1.0
+    date: 2026-05-01
+    summary: "login_safety_contract 추가 — 기존 로그인·DSN 라우팅 로직 변경 금지, JWT/메타 보존만 허용; 필수 회귀 테스트 명시"
+  - version: 1.0.0
+    date: 2026-05-01
+    summary: "WeLove_FTP 468개 DPR 클로저와 40개 활성 테넌트 라우팅 키를 포팅 계약 공통 입력으로 등록"
+
+decision_refs:
+  - DSN-DEC-06
+  - DSN-DEC-08
+  - DEC-RBAC-02
+  - DEC-RBAC-03
+  - DEC-028
+
+artifacts:
+  dpr_closures: analysis/welove_dpr_closures.json
+  extended_build_catalog: analysis/welove_build_catalog_extended.json
+  tenant_build_routing: analysis/welove_tenant_build_routing_matrix.json
+  screen_contract_coverage: analysis/welove_screen_contract_coverage.json
+  human_summary: docs/welove-dpr-closure-coverage.md
+
+schema_extensions:
+  customer_variants:
+    required_fields:
+      - build_id
+      - account_family
+      - dpr_closure_hash
+      - source_pas_path
+      - source_dfm_path
+      - pas_sha1
+      - dfm_md5
+    merge_rule: "동일 build_id/account_family/pas_sha1/dfm_md5 는 대표 1건으로 병합"
+    branch_rule: "서비스/프론트 코드 분기 금지; 계약/데이터 기반 차이만 허용"
+
+login_safety_contract:
+  principle: "C1 로그인 검증·테넌트 라우팅 핵심 경로는 변경하지 않는다. WeLove 메타데이터 확장은 부가 claim·디렉터리 필드 보존 수준만 허용한다."
+  must_not_change:
+    - "DSN-DEC-08 통합 로그인 흐름(auth.login, tenants_directory, Id_Logn 비밀번호 검증, login_id_index 해석)의 의미적 동작"
+    - "활성 테넌트 선택 후 DB 서버 연결 및 JWT 발급 순서"
+  allowed_additions:
+    - "active_build_id, account_family, build_role, warehouse_menu_tier 등 계약에 정의된 메타를 응답·클레임에 유지·전달"
+    - "welove_build_coverage · rbac_menu_matrix와 정합하는 읽기 전용 메타"
+  checklist_docs:
+    - docs/login-routing-regression-guard.md
+    - migration/contracts/login.yaml
+    - migration/contracts/tenants_directory.yaml
+  required_tests:
+    - test/test_auth_login_dynamic_routing.py
+    - test/test_auth_login_500_safety_net.py
+    - test/test_auth_login_fixed_server.py
+    - test/test_welove_porting_coverage.py
+  invariant: "로그인 관련 코드 수정 PR에는 위 체크리스트 확인과 필수 테스트 통과(또는 CI 동등)를 증빙한다."
+
+tenant_routing_contract:
+  key_order:
+    - tenant_id
+    - account_family
+    - active_build_id
+    - primary_server
+    - db_name_logical
+  source_of_truth:
+    tenants: 도서물류관리프로그램/backend/data/tenants_directory_seed.json
+    runtime_service: 도서물류관리프로그램/backend/app/services/tenants_directory_service.py
+    auth_claims:
+      - account_type
+      - tenant_id
+      - account_family
+      - active_build_id
+      - build_role
+      - warehouse_menu_tier
+  invariant: "활성 tenant는 active_build_id 누락 0건이어야 하며, JWT와 /auth/me 응답에 active_build_id가 보존되어야 한다."
+
+menu_permission_contract:
+  menu_matrix: migration/contracts/rbac_menu_matrix.yaml
+  forced_hidden_by_build: migration/contracts/build_forced_hidden_menus.yaml
+  runtime_gate:
+    frontend: 도서물류관리프로그램/frontend/src/lib/account-menu-matrix.ts
+    user_hook: 도서물류관리프로그램/frontend/src/lib/use-permissions.ts
+  invariant: "메뉴 노출은 tenant active_build_id + build_role/account_type/warehouse_menu_tier + Id_Logn Fxx license_keys를 모두 반영한다."
+
+screen_contract_retrofit:
+  source: analysis/welove_screen_contract_coverage.json
+  covered_mapping_notes: 38
+  uncovered_mapping_notes:
+    - Id_Logn
+    - c8_scan_match
+  note: "미커버 2건은 DPR 화면 단위가 아닌 로그인/스캔 매칭 계약 산출물이라 별도 서비스 계약으로 추적한다."
+
+regression_gates:
+  - test/test_welove_porting_coverage.py
+  - test/test_auth_login_dynamic_routing.py::DynamicLoginRoutingTests::test_active_build_id_survives_login_token_and_response
+  - debug/probe_backend_all_servers.py
+
+acceptance_goal: |
+  모든 활성 테넌트가 tenant_id -> account_family -> active_build_id -> dpr_closure 로
+  추적되고, 완료/진행 화면은 build_id별 PAS/DFM 원본과 customer_variants를
+  재현 가능하게 참조한다. 4대 서버 smoke는 기존 멀티 DB 정책에 따라 dry-run/live
+  양쪽에서 같은 매트릭스 키를 사용한다.

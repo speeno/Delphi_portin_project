@@ -46,7 +46,14 @@ def _route(
     }
 
 
-def _user(user_id: str, *, server_id: str, hcode: str = "1001", db_name: str = "tenant_db") -> dict:
+def _user(
+    user_id: str,
+    *,
+    server_id: str,
+    hcode: str = "1001",
+    db_name: str = "tenant_db",
+    active_build_id: str | None = None,
+) -> dict:
     return {
         "user_id": user_id,
         "user_name": "테스트 사용자",
@@ -58,6 +65,7 @@ def _user(user_id: str, *, server_id: str, hcode: str = "1001", db_name: str = "
         "role": "",
         "permissions": [],
         "resolved_db": db_name,
+        "active_build_id": active_build_id,
     }
 
 
@@ -127,6 +135,36 @@ class DynamicLoginRoutingTests(TestCase):
         rec = self.handler.parsed()[-1]
         self.assertEqual(rec["resolved_via"], "index_single")
         self.assertEqual(rec["candidate_sources"], ["index_single"])
+
+    @patch("app.services.login_id_index_service.add_entry", lambda **_kw: None)
+    @patch("app.services.tenants_directory_service.resolve_login_route")
+    @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
+    @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
+    def test_active_build_id_survives_login_token_and_response(
+        self,
+        mock_auth: AsyncMock,
+        mock_candidates,
+        mock_single,
+    ) -> None:
+        route = _route("remote_153", "chul_09_db", via="index", candidate_via="index_single")
+        mock_single.return_value = route
+        mock_candidates.return_value = [route]
+        mock_auth.return_value = _user(
+            "warehouse-user",
+            server_id="remote_153",
+            db_name="chul_09_db",
+            active_build_id="BLD-PUB-WAREHOUSE-WELOVE",
+        )
+
+        res = self.client.post(
+            "/api/v1/auth/login",
+            json={"userId": "warehouse-user", "password": "pw"},
+        )
+
+        self.assertEqual(res.status_code, 200, res.text)
+        payload = decode_token(res.json()["access_token"])
+        self.assertEqual(payload["active_build_id"], "BLD-PUB-WAREHOUSE-WELOVE")
+        self.assertEqual(res.json()["user"]["active_build_id"], "BLD-PUB-WAREHOUSE-WELOVE")
 
     @patch("app.services.login_id_index_service.add_entry", lambda **_kw: None)
     @patch("app.services.tenants_directory_service.resolve_login_route")

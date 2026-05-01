@@ -24,6 +24,7 @@ from __future__ import annotations
 import json
 import re
 import uuid
+from datetime import UTC, datetime
 from pathlib import Path
 
 import yaml
@@ -31,6 +32,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 ROUTE_MATRIX = ROOT / "analysis" / "welove_db_route_matrix.json"
 BUILDS = ROOT / "analysis" / "welove_chul_builds.json"
+EXTENDED_BUILDS = ROOT / "analysis" / "welove_build_catalog_extended.json"
 OUT = ROOT / "도서물류관리프로그램" / "backend" / "data" / "tenants_directory_seed.json"
 
 TIER_CONTRACT = ROOT / "migration" / "contracts" / "account_family_tiers.yaml"
@@ -66,15 +68,65 @@ _PUB_FAMILIES = {f"book_{i:02d}" for i in range(1, 14)} | {
 
 
 def _infer_account_type(family: str) -> tuple[str, str]:
-    if family in _WAREHOUSE_FAMILIES:
-        return "T3", "warehouse_publisher"
+    # 한국도서유통(book_kb)은 동일 family 안에 출판/물류 흔적이 섞여 있지만,
+    # DB 라우팅 행의 기본 계정은 총판 빌드가 정본이다. 출판 계정은 별도 whitelist/
+    # tenant_id 힌트로 분리한다.
     if family == "book_kb":
         return "T2_DIST", "distributor"
+    if family in _WAREHOUSE_FAMILIES:
+        return "T3", "warehouse_publisher"
     if family in _DIST_FAMILIES or family.startswith("chul_"):
         return "T2_DIST", "distributor"
     if family in _PUB_FAMILIES or family.startswith("book_"):
         return "T3", "publisher"
     return "T3", "publisher"
+
+
+def _build_lookup_rows() -> list[dict]:
+    """Load build catalog rows without reading any credential-bearing source."""
+    if not BUILDS.exists():
+        return []
+    data = json.loads(BUILDS.read_text(encoding="utf-8"))
+    return list(data.get("builds", []))
+
+
+def _build_id_by_family_role(builds: list[dict]) -> dict[tuple[str, str], str]:
+    """Map concrete customer families to their active build IDs."""
+    out: dict[tuple[str, str], str] = {}
+    for b in builds:
+        family = (b.get("account_family_inferred") or b.get("account_family") or "").strip().lower()
+        role = (b.get("build_role") or "").strip()
+        bid = (b.get("build_id") or "").strip()
+        if family and role and bid:
+            out[(family, role)] = bid
+    return out
+
+
+def _default_build_id(family: str, build_role: str) -> str | None:
+    """Fallback build binding for account families that use the standard executable."""
+    if family == "book_kb" and build_role == "distributor":
+        return "BLD-DIST-KBT"
+    if build_role == "distributor":
+        return "BLD-DIST-STD"
+    if build_role == "publisher":
+        return "BLD-PUB-STD"
+    return None
+
+
+def _active_build_id(
+    family: str,
+    build_role: str,
+    build_by_family_role: dict[tuple[str, str], str],
+) -> tuple[str | None, str]:
+    """Resolve the single routing key that connects tenant, menu and DPR closure."""
+    normalized = family.strip().lower()
+    concrete = build_by_family_role.get((normalized, build_role))
+    if concrete:
+        return concrete, "welove_chul_builds.account_family_inferred"
+    fallback = _default_build_id(normalized, build_role)
+    if fallback:
+        return fallback, "standard_role_fallback"
+    return None, "unmapped"
 
 
 def _make_tenant_id(label: str, family: str) -> str:
@@ -87,17 +139,8 @@ def main() -> None:
     route_data = json.loads(ROUTE_MATRIX.read_text(encoding="utf-8"))
     routes: list[dict] = route_data.get("routes", [])
 
-    build_data = json.loads(BUILDS.read_text(encoding="utf-8"))
-    builds: list[dict] = build_data.get("builds", [])
-
-    # build_id lookup by account_family + build_role
-    build_by_family_role: dict[tuple[str, str], str] = {}
-    for b in builds:
-        family = b.get("account_family") or ""
-        role = b.get("build_role") or ""
-        bid = b.get("build_id") or ""
-        if family and role and bid:
-            build_by_family_role[(family, role)] = bid
+    builds = _build_lookup_rows()
+    build_by_family_role = _build_id_by_family_role(builds)
 
     tenants: list[dict] = []
     seen: set[tuple[str, str]] = set()  # (label, family) 중복 방지
@@ -118,7 +161,7 @@ def main() -> None:
         seen.add(key)
 
         acc_type, build_role = _infer_account_type(family)
-        build_id = build_by_family_role.get((family, build_role))
+        build_id, build_source = _active_build_id(family, build_role, build_by_family_role)
         tid = _make_tenant_id(label, family)
 
         tenants.append({
@@ -134,12 +177,17 @@ def main() -> None:
             "is_active": True,
             "notes": None,
             "_seed_source": "welove_db_route_matrix.json",
+            "_active_build_source": build_source,
         })
 
     out = {
         "schema_version": "1.0.0",
-        "generated_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+        "generated_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "note": "자격증명 0건 — secrets-policy.md G3 준수. DB 연결 자격증명은 vault/환경변수에만 존재.",
+        "build_catalog_sources": [
+            "analysis/welove_chul_builds.json",
+            "analysis/welove_build_catalog_extended.json",
+        ] if EXTENDED_BUILDS.exists() else ["analysis/welove_chul_builds.json"],
         "tenants": tenants,
     }
 

@@ -104,6 +104,8 @@ def _build_test_client():
             "user_id": "smoke",
             "server_id": sid,
             "tenant_id": request.query_params.get("tenantId", ""),
+            "account_family": "chul_05",
+            "active_build_id": "BLD-DIST-STD",
             "role": "operator",
             "hcode": "S0001",
             # C13 stats 라우터 require_permission(admin.stats.*) — L4 매트릭스 200 허용
@@ -114,6 +116,8 @@ def _build_test_client():
                 "admin.stats.quarterly",
             ],
             "account_type": "T2_DIST",
+            "build_role": "distributor",
+            "warehouse_menu_tier": "",
         }
 
     app.dependency_overrides[get_user_context] = _override_ctx

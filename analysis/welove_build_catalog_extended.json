@@ -1,0 +1,2739 @@
+{
+  "source": "analysis/welove_dpr_closures.json",
+  "secrets_policy": "Credential-bearing files are not read. This catalog stores source paths, hashes, program names, build/account identifiers, and boolean secret-adjacent flags only.",
+  "totals": {
+    "dpr_count": 468,
+    "closure_hash_count": 337,
+    "identical_closure_group_count": 50,
+    "execution_type_counts": {
+      "autoupdate": 128,
+      "other": 6,
+      "data-transfer-or-utility": 172,
+      "main-chulpan": 158,
+      "alternate-chulpan": 4
+    },
+    "existing_build_match_counts": {
+      "UNMAPPED": 346,
+      "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW": 22,
+      "BLD-PUB-WAREHOUSE-MS": 1,
+      "BLD-PUB-WAREHOUSE-WELOVE": 1,
+      "BLD-DIST-KBT": 2,
+      "BLD-PUB-KBT": 5,
+      "BLD-DIST-STD": 5,
+      "BLD-PUB-STD": 86
+    }
+  },
+  "builds": [
+    {
+      "build_id": "BLD-DIST-KBT",
+      "dpr_count": 2,
+      "execution_types": {
+        "main-chulpan": 2
+      },
+      "account_families": [
+        "book_kb"
+      ],
+      "closure_hash_count": 2,
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/유통/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/유통/도서유통/book_kb(반품과)/Chulpan.dpr"
+      ]
+    },
+    {
+      "build_id": "BLD-DIST-STD",
+      "dpr_count": 5,
+      "execution_types": {
+        "main-chulpan": 2,
+        "other": 3
+      },
+      "account_families": [],
+      "closure_hash_count": 5,
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-총판/Chulpan.dpr",
+        "WeLove_FTP/도서유통-총판/Excel/XLSDemo.dpr",
+        "WeLove_FTP/도서유통-총판/Login/Interbase/WebCFG.dpr",
+        "WeLove_FTP/도서유통-총판/Login/MySQL/WebCFG.dpr",
+        "WeLove_FTP/도서유통-총판/MySQL/Chulpan.dpr"
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-KBT",
+      "dpr_count": 5,
+      "execution_types": {
+        "main-chulpan": 4,
+        "alternate-chulpan": 1
+      },
+      "account_families": [
+        "book_a_kb",
+        "chul_09"
+      ],
+      "closure_hash_count": 5,
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/출판/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/출판/MySQL/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/출판/MySQL/도서유통/book_A_kb/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/출판/MySQL/도서유통/chul_09(위러브)/Chul001.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/출판/MySQL/도서유통/chul_09(위러브)/Chulpan.dpr"
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-STD",
+      "dpr_count": 86,
+      "execution_types": {
+        "main-chulpan": 76,
+        "data-transfer-or-utility": 6,
+        "other": 1,
+        "alternate-chulpan": 3
+      },
+      "account_families": [
+        "book_00",
+        "book_01",
+        "book_02",
+        "book_03",
+        "book_04",
+        "book_05",
+        "book_06",
+        "book_07",
+        "book_10",
+        "book_11",
+        "book_12",
+        "book_13",
+        "book_14",
+        "book_16",
+        "book_17",
+        "book_19",
+        "book_21",
+        "book_a_01",
+        "book_a_02",
+        "book_a_03",
+        "book_a_04",
+        "book_a_05",
+        "book_a_06",
+        "book_a_07",
+        "book_a_09",
+        "book_a_11",
+        "book_a_12",
+        "book_a_13",
+        "book_a_14",
+        "book_a_16",
+        "book_a_17",
+        "book_a_kb",
+        "book_kb",
+        "chul_01",
+        "chul_02",
+        "chul_03",
+        "chul_04",
+        "chul_05",
+        "chul_06",
+        "chul_07",
+        "chul_08",
+        "chul_09",
+        "chul_a_01",
+        "chul_a_02",
+        "chul_a_03",
+        "chul_a_04",
+        "chul_a_05",
+        "chul_a_06",
+        "chul_a_07",
+        "chul_a_08"
+      ],
+      "closure_hash_count": 86,
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/ChulpanKey/NewKey/Project1.dpr",
+        "WeLove_FTP/도서유통-출판/ChulpanKey/Project1.dpr",
+        "WeLove_FTP/도서유통-출판/MsSQL/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/Excel/XLSDemo.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_00(위러브)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_01(진성사1)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_02(진성사2)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_02(진성사gs)/Chulpan.dpr"
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW",
+      "dpr_count": 22,
+      "execution_types": {
+        "main-chulpan": 21,
+        "data-transfer-or-utility": 1
+      },
+      "account_families": [
+        "book_07"
+      ],
+      "closure_hash_count": 22,
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/Interbase/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_00(위러브)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_01(진성사1)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_02(진성사2)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_03(수레사)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_04(협진도서)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_05(손수레)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_06(해피데이)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_07(북앤북)/Chulpan.dpr"
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-WAREHOUSE-MS",
+      "dpr_count": 1,
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "account_families": [
+        "book_21"
+      ],
+      "closure_hash_count": 1,
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/book_21(MS북스)/Chulpan.dpr"
+      ]
+    },
+    {
+      "build_id": "BLD-PUB-WAREHOUSE-WELOVE",
+      "dpr_count": 1,
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "account_families": [
+        "chul_09"
+      ],
+      "closure_hash_count": 1,
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/chul_09(위러브)/Chulpan.dpr"
+      ]
+    },
+    {
+      "build_id": "UNMAPPED",
+      "dpr_count": 346,
+      "execution_types": {
+        "autoupdate": 128,
+        "other": 2,
+        "data-transfer-or-utility": 165,
+        "main-chulpan": 51
+      },
+      "account_families": [
+        "book_00",
+        "book_01",
+        "book_02",
+        "book_03",
+        "book_04",
+        "book_05",
+        "book_06",
+        "book_07",
+        "book_10",
+        "book_11",
+        "book_12",
+        "book_13",
+        "book_14",
+        "book_16",
+        "book_17",
+        "book_19",
+        "book_as",
+        "book_kb",
+        "chul_01",
+        "chul_02",
+        "chul_03",
+        "chul_04",
+        "chul_05",
+        "chul_06",
+        "chul_07",
+        "chul_08",
+        "chul_09",
+        "chul_91"
+      ],
+      "closure_hash_count": 221,
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_01(진성사1)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_01(진성사1)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_01(진성사1)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_02(진성사2)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_02(진성사2)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_02(진성사2)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_03(수레사)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_03(수레사)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_03(수레사)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_04(협진도서)/UpdateA/AutoUpdateX.dpr"
+      ]
+    }
+  ],
+  "account_families": [
+    {
+      "account_family": "unknown",
+      "dpr_count": 197,
+      "build_ids": [
+        "BLD-DIST-STD",
+        "BLD-PUB-KBT",
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 5,
+        "other": 6,
+        "data-transfer-or-utility": 170,
+        "main-chulpan": 16
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/한국도서유통/Update(에러체크)/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/한국도서유통/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/한국도서유통/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/한국도서유통/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/한국도서유통/UpdateZ/AutoUpdateZ.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/Login/MySQL(출판)-모바일/WebCFG.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/Login/MySQL/WebCFG.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/G1230FC/Project1.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/ILA교육(글로벌문화원)/Project1.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/담당(북스로드)/Project1.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_09",
+      "dpr_count": 64,
+      "build_ids": [
+        "BLD-PUB-KBT",
+        "BLD-PUB-STD",
+        "BLD-PUB-WAREHOUSE-WELOVE",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 43,
+        "main-chulpan": 17,
+        "alternate-chulpan": 4
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(Sky)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(Sky)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(Sky)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(위러브)서버1/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(위러브)서버1/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(위러브)서버1/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(위러브)서버2/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(위러브)서버2/UpdateB(예수전도단)/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(위러브)서버2/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(위러브)서버2/UpdateY/AutoUpdateY.dpr"
+      ]
+    },
+    {
+      "account_family": "book_07",
+      "dpr_count": 29,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 4,
+        "main-chulpan": 24,
+        "data-transfer-or-utility": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_07(북앤북)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_07(북앤북)/UpdateB/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_07(북앤북)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_07(북앤북)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/Interbase/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_00(위러브)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_01(진성사1)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/도서유통/book_02(진성사2)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_08",
+      "dpr_count": 10,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 6,
+        "main-chulpan": 4
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_08(북앤더)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_08(북앤더)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_08(북앤더)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_08(위러브)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_08(위러브)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_08(위러브)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_08(북앤더)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_08(Sky)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_08(북앤더)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_08(임프린트)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_12",
+      "dpr_count": 9,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 6
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_12(원일사)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_12(원일사)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_12(원일사)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_12(원일사)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_12(플러스비)/도서유통-New/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_12(플러스비)/도서유통-New/도서유통/book_04(협진도서)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_12(플러스비)/도서유통-New/도서유통/book_kb(반품과)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_12(원일사)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_12(플러스비)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_kb",
+      "dpr_count": 9,
+      "build_ids": [
+        "BLD-DIST-KBT",
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 6
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_kb(북112)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_kb(북112)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_kb(북112)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_kb(반품과)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_kb(북112)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_kb(북112)_OLD_kb_db/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/유통/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/유통/도서유통/book_kb(반품과)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/한국도서유통출판/유통/도서유통/book_kb(반품과)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_02",
+      "dpr_count": 9,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 5,
+        "main-chulpan": 4
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_02(신영북스)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_02(신영북스)/UpdateB/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_02(신영북스)/UpdateS/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_02(신영북스)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_02(신영북스)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_02(신영북스)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_02(신영북스)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_02(신영북스-북새통)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_02(신영북스-총판)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_04",
+      "dpr_count": 7,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 4
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_04(협진도서)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_04(협진도서)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_04(협진도서)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_04(협진도서)/도서유통-New/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_04(협진도서)/도서유통-New/도서유통/book_04(협진도서)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_04(협진도서)/도서유통-New/도서유통/book_kb(반품과)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_04(협진도서)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_11",
+      "dpr_count": 7,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 4
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_11(고려물류)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_11(고려물류)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_11(고려물류)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_11(고려출판물류)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_11(정진물류)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_11(고려출판물류)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_11(정진물류)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_13",
+      "dpr_count": 7,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 4
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_13(런닝북)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_13(런닝북)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_13(런닝북)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_13(런닝북)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_13(지필미디어)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_13(런닝북)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_13(지필미디어)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_03",
+      "dpr_count": 7,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 4,
+        "main-chulpan": 3
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_03(한강도서)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_03(한강도서)/UpdateT/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_03(한강도서)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_03(한강도서)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_03(한강도서)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_03(한강도서)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_03(한강도서-저자)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_02",
+      "dpr_count": 6,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 3
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_02(진성사2)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_02(진성사2)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_02(진성사2)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_02(진성사2)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_02(진성사2)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_02(진성사gs)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_05",
+      "dpr_count": 6,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 4,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_05(손수레)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_05(손수레)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_05(손수레)/UpdateY - 복사본/AutoUpdateY.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_05(손수레)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_05(손수레)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_05(손수레)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_01",
+      "dpr_count": 6,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2,
+        "data-transfer-or-utility": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_01(한강물류)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_01(한강물류)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_01(한강물류)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_01(한강물류)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_01(한강물류)/Project1.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_01(한강물류)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_05",
+      "dpr_count": 6,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 3
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_05(중앙라인)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_05(중앙라인)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_05(중앙라인)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_05(중앙라인)_XX/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_05(한강북-중앙라인)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_05(중앙라인)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_01",
+      "dpr_count": 5,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_01(진성사1)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_01(진성사1)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_01(진성사1)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_01(진성사1)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_01(진성사1)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_03",
+      "dpr_count": 5,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_03(수레사)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_03(수레사)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_03(수레사)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_03(수레사)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_03(수레사)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_06",
+      "dpr_count": 5,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_06(해피데이)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_06(해피데이)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_06(해피데이)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_06(해피데이)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_06(해피데이)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_14",
+      "dpr_count": 5,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_14(출마로직스(런닝북))/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_14(출마로직스(런닝북))/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_14(출마로직스(런닝북))/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_14(출마로직스)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_14(출마로직스)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_16",
+      "dpr_count": 5,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_16(타밈북스)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_16(타밈북스)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_16(타밈북스)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_16(타밈북스)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_16(타밈북스)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_17",
+      "dpr_count": 5,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_17(유앤북)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_17(유앤북)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_17(유앤북)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_17(유앤북)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_17(유앤북)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_04",
+      "dpr_count": 5,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_04(도서물류)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_04(도서물류)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_04(도서물류)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_04(도서물류)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_04(도서물류)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_06",
+      "dpr_count": 5,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_06(북씨티)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_06(북씨티)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_06(북씨티)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_06(북씨티)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_06(북씨티)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_07",
+      "dpr_count": 5,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 3,
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_07(북스로드)/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_07(북스로드)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_07(북스로드)/UpdateY/AutoUpdateY.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/chul_07(북스로드)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_07(북스로드)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_19",
+      "dpr_count": 4,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "main-chulpan": 4
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/book_19(창해물류)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-New/도서유통/book_19(천리마)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_19(창해물류)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_19(천리마)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_91",
+      "dpr_count": 4,
+      "build_ids": [
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 4
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_91(위러브)서버3/UpdateA/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_91(위러브)서버3/UpdateB(x예수전도단x)/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_91(위러브)서버3/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_91(위러브)서버3/UpdateY/AutoUpdateY.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_kb",
+      "dpr_count": 3,
+      "build_ids": [
+        "BLD-PUB-KBT",
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 3
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/한국도서유통/출판/MySQL/도서유통/book_A_kb/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_kb/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/한국도서유통출판/출판/MySQL/도서유통/book_A_kb/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_00",
+      "dpr_count": 2,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/book_00(위러브)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_00(위러브)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_10",
+      "dpr_count": 2,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/book_10(아셈)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_10(아샘)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_21",
+      "dpr_count": 2,
+      "build_ids": [
+        "BLD-PUB-STD",
+        "BLD-PUB-WAREHOUSE-MS"
+      ],
+      "execution_types": {
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-New/도서유통/book_21(MS북스)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_21(MS북스)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_07",
+      "dpr_count": 2,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_07(B)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_07/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_09",
+      "dpr_count": 2,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_09(위러브)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_09(창고)/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_as",
+      "dpr_count": 2,
+      "build_ids": [
+        "UNMAPPED"
+      ],
+      "execution_types": {
+        "autoupdate": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_as(아샘)/UpdateX/AutoUpdateX.dpr",
+        "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_as(아샘)/UpdateY/AutoUpdateY.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_a_02",
+      "dpr_count": 2,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 2
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_A_02(창해)/Chulpan.dpr",
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_A_02/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_01",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_01/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_02",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_02/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_03",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_03/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_04",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_04/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_05",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_05/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_06",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_06/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_11",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_11/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_12",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_12/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_13",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_13/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_14",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_14/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_16",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_16/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "book_a_17",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/book_A_17/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_a_01",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_A_01/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_a_03",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_A_03/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_a_04",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_A_04/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_a_05",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_A_05/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_a_06",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_A_06/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_a_07",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_A_07/Chulpan.dpr"
+      ]
+    },
+    {
+      "account_family": "chul_a_08",
+      "dpr_count": 1,
+      "build_ids": [
+        "BLD-PUB-STD"
+      ],
+      "execution_types": {
+        "main-chulpan": 1
+      },
+      "sample_dpr_paths": [
+        "WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_A_08/Chulpan.dpr"
+      ]
+    }
+  ],
+  "identical_closure_groups": [
+    {
+      "dpr_closure_hash": "249e53a75d3e5d095c97cd632bb9289eed9d7783",
+      "count": 5,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(창고)/28.창고(북앤더)/UpdateY/AutoUpdateY.dpr",
+          "program_name": "AutoUpdateY",
+          "execution_type": "autoupdate",
+          "account_family": "chul_09",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(창고)/28.창고(종합물류)/UpdateY/AutoUpdateY.dpr",
+          "program_name": "AutoUpdateY",
+          "execution_type": "autoupdate",
+          "account_family": "chul_09",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(창고)/28.창고(책과일터)-나라원/UpdateY/AutoUpdateY.dpr",
+          "program_name": "AutoUpdateY",
+          "execution_type": "autoupdate",
+          "account_family": "chul_09",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(창고)/28.창고(책이있는마을)/UpdateY/AutoUpdateY.dpr",
+          "program_name": "AutoUpdateY",
+          "execution_type": "autoupdate",
+          "account_family": "chul_09",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/chul_09(창고)/28.창고(최강물류)/UpdateY/AutoUpdateY.dpr",
+          "program_name": "AutoUpdateY",
+          "execution_type": "autoupdate",
+          "account_family": "chul_09",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "ae6d37ae73d64d0d742a6c330d5aaeecb37a4c57",
+      "count": 5,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/미래와사람/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/미래와사람/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/미래와사람/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/미래와사람/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/도서유통-출판/자료전송/미래와사람/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": "BLD-PUB-STD"
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "4b8b8e5e9cfe8697d9e50b701cd4ce4df5b0cd0d",
+      "count": 5,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/에_듀_힐/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/에_듀_힐/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/에_듀_힐/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/에_듀_힐/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/도서유통-출판/자료전송/에_듀_힐/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": "BLD-PUB-STD"
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "a1d528b33ee9e273741ffd27b141e8b90cf7d777",
+      "count": 5,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/흐름출판/새 폴더/Chulpan.dpr",
+          "program_name": "Chulpan",
+          "execution_type": "main-chulpan",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/흐름출판/새 폴더/Chulpan.dpr",
+          "program_name": "Chulpan",
+          "execution_type": "main-chulpan",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/흐름출판/새 폴더/Chulpan.dpr",
+          "program_name": "Chulpan",
+          "execution_type": "main-chulpan",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/흐름출판/새 폴더/Chulpan.dpr",
+          "program_name": "Chulpan",
+          "execution_type": "main-chulpan",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/도서유통-출판/자료전송/흐름출판/새 폴더/Chulpan.dpr",
+          "program_name": "Chulpan",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": "BLD-PUB-STD"
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "e768d822c4f0054cd7d715a238c8e26886406e3d",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/G1230FC/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/G1230FC/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/G1230FC/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/G1230FC/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "56289bcaa7e8bba50f4453b93766c5f2ec148f6a",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/ILA교육(글로벌문화원)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/ILA교육(글로벌문화원)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/ILA교육(글로벌문화원)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/ILA교육(글로벌문화원)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "cdb23436e610b4bceb83f1b7130731da7caec81d",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/담당(북스로드)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/담당(북스로드)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/담당(북스로드)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/담당(북스로드)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "8ed8891f90fe0aaad1be37ea74fd0e1db131e8c9",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/대교출판/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/대교출판/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/대교출판/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/대교출판/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "6ada692c2dc85b1f6fff81e4e8ca9ae530d659a9",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/도도출판사/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/도도출판사/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/도도출판사/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/도도출판사/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "b4dc68579a5bc4417e6e08ac55158c6d26bcac6f",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/동양물산/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/동양물산/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/동양물산/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/동양물산/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "e3f321d31f5b27683e4daeb6e54363555f26c3e5",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/배울학(고려물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/배울학(고려물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/배울학(고려물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/배울학(고려물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "2c549605a2e012c51f95e2ddbef35880dfe07858",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/베스트교육/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/베스트교육/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/베스트교육/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/베스트교육/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "dfa8424f52f6fd452a1c86b21c83987714c89445",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/북포유/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/북포유/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/북포유/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/북포유/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "225be7298fef2d9a590d55413831b4bc90906022",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/빛과소금/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/빛과소금/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/빛과소금/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/빛과소금/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "d93ec16f90d442bc81ae484552860c33eff9ee74",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/상상에듀/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/상상에듀/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/상상에듀/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/상상에듀/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "c15f5e29062e12d340d774ac5d7c53862316c40b",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/새롬에듀(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/새롬에듀(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/새롬에듀(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/새롬에듀(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "6e47e9151471c9d88b950ba0e59708b0a79541de",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/싼타북스(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/싼타북스(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/싼타북스(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/싼타북스(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "52af0df092d5b921b7182b92c21b059d22433d0c",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/에듀플라자(도서물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/에듀플라자(도서물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/에듀플라자(도서물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/에듀플라자(도서물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "44d822004e4c0c398b3bd9f726a776532b60b6e0",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/에듀플라자/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/에듀플라자/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/에듀플라자/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/에듀플라자/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "d8a6c2415226c9258937ff45e8bef0758e603481",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/윈글리쉬/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/윈글리쉬/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/윈글리쉬/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/윈글리쉬/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "9f195093cc95947787f22aa9b6b8699d8d34bfe1",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/제알씨(샘플)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/제알씨(샘플)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/제알씨(샘플)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/제알씨(샘플)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "dadb8b5a91e68d32b77c34cc3980bdd6dca918d0",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/제알씨/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/제알씨/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/제알씨/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/제알씨/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "c7cb1aecea7903403285255b3d6e35e0c570b1c5",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/조선일보(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/조선일보(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/조선일보(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/조선일보(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "25842743c7ca3ad7025db27bf8e1f249b1c55716",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/조선일보/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/조선일보/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/조선일보/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/조선일보/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "c2ee488cd50d4e5422bd875d5af64b55f667d4e1",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/지북스(한국도서유통)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/지북스(한국도서유통)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/지북스(한국도서유통)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/지북스(한국도서유통)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "af291c7d7bbb330c84fa3b82de445954a719f3c9",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/지식과미래(우체국택배)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/지식과미래(우체국택배)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/지식과미래(우체국택배)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/지식과미래(우체국택배)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "7a61e7e9d4710c80755186249c35acce41ec2527",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/지식과미래/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/지식과미래/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/지식과미래/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/지식과미래/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "56cded32ee3677a0f4847511f787f9488c264d83",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/처음사/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/처음사/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/처음사/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/처음사/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "982d055c770e6f2222be8f6e9dce7076ada944bd",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/캐럿하우스/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/캐럿하우스/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/캐럿하우스/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/캐럿하우스/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "f9f0de22bb2109cb570346617227a74c7dca56a8",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/커뮤니케이션(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/커뮤니케이션(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/커뮤니케이션(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/커뮤니케이션(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "eb9d7c5cbc60dcc405adb4f79515aab1beb51f59",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/커뮤니케이션(2) - 손수레/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/커뮤니케이션(2) - 손수레/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/커뮤니케이션(2) - 손수레/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/커뮤니케이션(2) - 손수레/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "724217861816932ae98e61ec48bf978b3b88ac54",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/커뮤니케이션(2)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/커뮤니케이션(2)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/커뮤니케이션(2)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/커뮤니케이션(2)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "61c13e4fe56db2ae3a53265fd8338cd2b062e073",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/커뮤니케이션/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/커뮤니케이션/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/커뮤니케이션/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/커뮤니케이션/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "1ade06dc9cf9bd5f84bd090addacc0ae852e9b98",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/타임교육(매스티안)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/타임교육(매스티안)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/타임교육(매스티안)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/타임교육(매스티안)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "a528d2474aff6ab68134308aaa552fb001245a8e",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/타임교육/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/타임교육/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/타임교육/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/타임교육/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "73ff27e5785f260a09421f3bef22e69c13fcbf12",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/흐름출판(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/흐름출판(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/흐름출판(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/흐름출판(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "baf86e9ce9f51a77b959ef00fcbf5733e26b20ea",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/히즈쇼(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/히즈쇼(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/히즈쇼(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/히즈쇼(1)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "2a1f183815bb8760ed8564eed479fcc42fec60f0",
+      "count": 4,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/히즈쇼/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/히즈쇼/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/히즈쇼/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/히즈쇼/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "e4ed1ee8fb62192bc586e8a263045865844e8ddb",
+      "count": 3,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송/흐름출판/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송/흐름출판/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/도서유통-출판/자료전송/흐름출판/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": "BLD-PUB-STD"
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "3c4e394af62d0bf427478733f487488c94a6fcfe",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_05(손수레)/UpdateY - 복사본/AutoUpdateY.dpr",
+          "program_name": "AutoUpdateY",
+          "execution_type": "autoupdate",
+          "account_family": "book_05",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/AutoUpdate/도서유통/book_05(손수레)/UpdateY/AutoUpdateY.dpr",
+          "program_name": "AutoUpdateY",
+          "execution_type": "autoupdate",
+          "account_family": "book_05",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "762719596d1222730074739b0bcb49f4031f3e8d",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/Login/MySQL/WebCFG.dpr",
+          "program_name": "WebCFG",
+          "execution_type": "other",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/도서유통-총판/Login/MySQL/WebCFG.dpr",
+          "program_name": "WebCFG",
+          "execution_type": "other",
+          "account_family": "",
+          "existing_build_id": "BLD-DIST-STD"
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "204a248c5ef9291e7ce1a17fc7701b47f30c6c66",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/가나출판사(협진물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/가나출판사(협진물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "dc4bdf7be66df44143eafef02a28f0e4a96a09eb",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/글로벌.필통(고려물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/글로벌.필통(고려물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "4f919fbb950f907cd516612d349844aee80c2827",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/글로벌문화원(한강도서)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/글로벌문화원(한강도서)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "441cb9ebd1de99e57313ed6d0ee0cac646080a73",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/글로벌이러닝(한강도서)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/글로벌이러닝(한강도서)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "d1a7096be008ac1f3ab1226c381dc5f341457b05",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/수레사(자료전송)-파랑새/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/수레사(자료전송)-파랑새/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "77eca318d63483142bea58f742f1df52312779db",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/수레사(자료전송)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/수레사(자료전송)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "bce3995e1515b70d895975235b96abe7706d2db2",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/잉글리쉬 무무(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/잉글리쉬 무무(한강물류)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "f8830f4a41c3b3d4670b450751b71c4a5901476d",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/새 폴더/자료전송2/흐름출판/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        },
+        {
+          "dpr_path": "WeLove_FTP/Welove_인수인계/출판setting/weelove/자료전송2/흐름출판/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    },
+    {
+      "dpr_closure_hash": "fab9e681d243e67612e8f5f459b367f1b8a8c314",
+      "count": 2,
+      "items": [
+        {
+          "dpr_path": "WeLove_FTP/도서유통-New/도서유통/book_07(북앤북NEW)/속도체크(샘플)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "book_07",
+          "existing_build_id": "BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW"
+        },
+        {
+          "dpr_path": "WeLove_FTP/도서유통-New/속도체크(샘플)/Project1.dpr",
+          "program_name": "Project1",
+          "execution_type": "data-transfer-or-utility",
+          "account_family": "",
+          "existing_build_id": ""
+        }
+      ]
+    }
+  ]
+}
