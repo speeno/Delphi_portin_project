@@ -529,6 +529,11 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "dashboard.external.weather_daily",
+            "path": f"/api/v1/dashboard/external/weather-daily?serverId={sid}&nx=60&ny=127&location=서울",
+            "ok_status": {200},
+        },
+        {
             "group": "dashboard.external.weather_warning",
             "path": f"/api/v1/dashboard/external/weather-warning?serverId={sid}",
             "ok_status": {200},
