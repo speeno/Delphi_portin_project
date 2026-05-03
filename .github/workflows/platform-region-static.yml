@@ -1,0 +1,41 @@
+# 플랫폼 지역·헤더 날씨·대시보드 외부 API 문자열 회귀 가드 (의존성 없음·빠름)
+name: Platform region static regression
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - "도서물류관리프로그램/frontend/src/lib/stores/platform-region-store.ts"
+      - "도서물류관리프로그램/frontend/src/lib/platform-region-merge.ts"
+      - "도서물류관리프로그램/frontend/src/components/app-shell/header-clock-weather.tsx"
+      - "도서물류관리프로그램/frontend/src/lib/dashboard-api.ts"
+      - "도서물류관리프로그램/backend/app/services/dashboard_external_service.py"
+      - "debug/probe_backend_all_servers.py"
+      - "test/test_platform_region_sync_static.py"
+      - ".github/workflows/platform-region-static.yml"
+  push:
+    branches: [main, master]
+    paths:
+      - "도서물류관리프로그램/frontend/src/lib/stores/platform-region-store.ts"
+      - "도서물류관리프로그램/frontend/src/lib/platform-region-merge.ts"
+      - "도서물류관리프로그램/frontend/src/components/app-shell/header-clock-weather.tsx"
+      - "도서물류관리프로그램/frontend/src/lib/dashboard-api.ts"
+      - "도서물류관리프로그램/backend/app/services/dashboard_external_service.py"
+      - "debug/probe_backend_all_servers.py"
+      - "test/test_platform_region_sync_static.py"
+      - ".github/workflows/platform-region-static.yml"
+
+jobs:
+  pytest-platform-region-static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pytest
+        run: python -m pip install -U pip pytest
+      - name: pytest (platform region static)
+        run: |
+          python -m pytest test/test_platform_region_sync_static.py -q --tb=short

@@ -36,7 +36,7 @@ import asyncio
 import json
 import os
 import sys
-from contextlib import suppress
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -45,9 +45,9 @@ ROOT = Path(__file__).resolve().parents[1]
 BACKEND = ROOT / "도서물류관리프로그램" / "backend"
 sys.path.insert(0, str(BACKEND))
 
-from app.core.config import get_server_profiles  # noqa: E402
-from app.core.db import execute_query  # noqa: E402
-from app.core.sql_mysql3 import mysql3_protocol  # noqa: E402
+# app.core.db / config 를 모듈 최상단에서 import 하면 `app.main` 이전에 부수효과가 먹고,
+# TestClient + lifespan 내 Request 주입(require_server_ownership)이 422 로 깨질 수 있음
+# (get_user_context override 는 등록돼 있으나 `request: Request` 가 쿼리로 오인됨).
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -72,6 +72,9 @@ def summarize_profile(prof: dict[str, Any]) -> dict[str, Any]:
 # L2 — SELECT 1
 # ─────────────────────────────────────────────────────────────────────
 async def probe_select_one(server_id: str) -> dict[str, Any]:
+    from app.core.db import execute_query  # noqa: PLC0415
+    from app.core.sql_mysql3 import mysql3_protocol  # noqa: PLC0415
+
     out: dict[str, Any] = {"layer": "L2", "ok": False, "detail": ""}
     try:
         rows = await execute_query(server_id, "SELECT 1 AS one", ())
@@ -85,25 +88,26 @@ async def probe_select_one(server_id: str) -> dict[str, Any]:
 # ─────────────────────────────────────────────────────────────────────
 # L4 — 라우터 GET 스모크 (TestClient + 의존성 우회)
 # ─────────────────────────────────────────────────────────────────────
-def _build_test_client():
-    """FastAPI 앱을 import 하고 get_user_context 를 우회한다."""
+@contextmanager
+def _smoke_test_client():
+    """FastAPI TestClient + get_user_context 우회 (lifespan 기동 + override 정리)."""
     # 지연 import: PYTHONPATH 가 들어간 뒤에야 app 모듈을 찾을 수 있음.
-    from fastapi import Request  # noqa: PLC0415
+    from fastapi import Header, Query  # noqa: PLC0415
     from fastapi.testclient import TestClient  # noqa: PLC0415
 
     from app.core.deps import get_user_context  # noqa: PLC0415
     from app.main import app  # noqa: PLC0415
 
-    async def _override_ctx(request: Request) -> dict[str, object]:
-        sid = (
-            request.headers.get("X-Smoke-Ownership-Server")
-            or request.query_params.get("serverId")
-            or "remote_1"
-        )
+    async def _override_ctx(
+        server_id_q: str | None = Query(None, alias="serverId"),
+        tenant_id_q: str | None = Query(None, alias="tenantId"),
+        x_smoke_ownership: str | None = Header(None, alias="X-Smoke-Ownership-Server"),
+    ) -> dict[str, object]:
+        sid = (x_smoke_ownership or server_id_q or "remote_1").strip()
         return {
             "user_id": "smoke",
             "server_id": sid,
-            "tenant_id": request.query_params.get("tenantId", ""),
+            "tenant_id": (tenant_id_q or "").strip(),
             "account_family": "chul_05",
             "active_build_id": "BLD-DIST-STD",
             "role": "operator",
@@ -120,8 +124,10 @@ def _build_test_client():
             "warehouse_menu_tier": "",
         }
 
+    app.dependency_overrides.clear()
     app.dependency_overrides[get_user_context] = _override_ctx
-    return TestClient(app)
+    with TestClient(app) as client:
+        yield client
 
 
 # 라우터 그룹별 최소 GET 매트릭스
@@ -653,12 +659,17 @@ def probe_routes(client, server_id: str, args: argparse.Namespace) -> list[dict[
 # ─────────────────────────────────────────────────────────────────────
 # 메인
 # ─────────────────────────────────────────────────────────────────────
-async def run(args: argparse.Namespace) -> int:
+def _server_rows() -> list[dict[str, Any]]:
+    from app.core.config import get_server_profiles  # noqa: PLC0415
+
     profiles = get_server_profiles()
     rows = [summarize_profile(p) for p in profiles if p.get("id")]
     rows = [r for r in rows if r["id"]]
     rows.sort(key=lambda r: r["id"])
+    return rows
 
+
+def _print_l0(rows: list[dict[str, Any]]) -> None:
     print(f"=== L0 설정 요약 ({len(rows)}대) ===")
     for r in rows:
         ssh_marker = "ssh" if r["ssh"] else "direct"
@@ -668,28 +679,35 @@ async def run(args: argparse.Namespace) -> int:
             f"label={r['label']!r}"
         )
 
-    dry_run = os.environ.get("RUN_DB_SMOKE", "").strip() not in {"1", "true", "True"}
-    if dry_run:
-        print("\n[dry-run] RUN_DB_SMOKE=1 미설정 — 네트워크 검증 생략 (계획만 출력)")
-        plan: list[dict[str, Any]] = []
-        for r in rows:
-            for spec in _routes_for(r["id"], args):
-                plan.append({"server": r["id"], "group": spec["group"], "path": spec["path"]})
-        for p in plan:
-            print(f"  · {p['server']} {p['group']:34s} {p['path']}")
-        if args.write_json:
-            _write_json(
-                args.write_json,
-                {
-                    "checkedAt": _utc_iso(),
-                    "mode": "dry-run",
-                    "servers": rows,
-                    "planned_calls": plan,
-                },
-            )
-        return 0
 
-    # 실제 검증
+async def run_dry(args: argparse.Namespace) -> int:
+    rows = _server_rows()
+    _print_l0(rows)
+    print("\n[dry-run] RUN_DB_SMOKE=1 미설정 — 네트워크 검증 생략 (계획만 출력)")
+    plan: list[dict[str, Any]] = []
+    for r in rows:
+        for spec in _routes_for(r["id"], args):
+            plan.append({"server": r["id"], "group": spec["group"], "path": spec["path"]})
+    for p in plan:
+        print(f"  · {p['server']} {p['group']:34s} {p['path']}")
+    if args.write_json:
+        _write_json(
+            args.write_json,
+            {
+                "checkedAt": _utc_iso(),
+                "mode": "dry-run",
+                "servers": rows,
+                "planned_calls": plan,
+            },
+        )
+    return 0
+
+
+def run_live(args: argparse.Namespace) -> int:
+    """L2 는 asyncio.run 으로, L4(TestClient)는 동기 컨텍스트에서만 실행 (이벤트 루프 충돌 방지)."""
+    rows = _server_rows()
+    _print_l0(rows)
+
     layers = args.layer
     results: dict[str, Any] = {
         "checkedAt": _utc_iso(),
@@ -702,16 +720,22 @@ async def run(args: argparse.Namespace) -> int:
 
     if layers in {"l2", "all"}:
         print("\n=== L2 SELECT 1 ===")
+
+        async def _l2_all() -> dict[str, dict[str, Any]]:
+            out: dict[str, dict[str, Any]] = {}
+            for r in rows:
+                out[r["id"]] = await probe_select_one(r["id"])
+            return out
+
+        results["l2"] = asyncio.run(_l2_all())
         for r in rows:
-            res = await probe_select_one(r["id"])
-            results["l2"][r["id"]] = res
+            res = results["l2"][r["id"]]
             mark = "OK" if res["ok"] else "FAIL"
             print(f"  {mark:4s} {r['id']:14s} {res['detail']}")
 
     if layers in {"l4", "all"}:
         print("\n=== L4 라우터 GET 스모크 ===")
-        client = _build_test_client()
-        try:
+        with _smoke_test_client() as client:
             for r in rows:
                 if layers == "l4" or results["l2"].get(r["id"], {}).get("ok", True):
                     rs = probe_routes(client, r["id"], args)
@@ -727,11 +751,7 @@ async def run(args: argparse.Namespace) -> int:
                 for x in rs:
                     mark = "OK" if x["ok"] else "FAIL"
                     print(f"    {mark:4s} {x['group']:34s} {x['detail']}")
-        finally:
-            with suppress(Exception):
-                client.close()
 
-    # DoD 요약
     l2_ok = all(v.get("ok") for v in results["l2"].values()) if results["l2"] else True
     l4_total = sum(len(v) for v in results["l4"].values())
     l4_ok = sum(1 for v in results["l4"].values() for x in v if x["ok"])
@@ -771,7 +791,10 @@ def main() -> int:
     if args.include_cancelled:
         # 매트릭스에서 직접 사용하지 않고 향후 확장 자리. 현재는 기본 false 로 충분.
         pass
-    return asyncio.run(run(args))
+    dry_run = os.environ.get("RUN_DB_SMOKE", "").strip() not in {"1", "true", "True"}
+    if dry_run:
+        return asyncio.run(run_dry(args))
+    return run_live(args)
 
 
 if __name__ == "__main__":
