@@ -19,6 +19,19 @@
 
 `porting-screens.json` 의 `lines` / 시나리오별 화면 객체에서 **`done` 이 아닌 항목**을 우선한다. 동일 우선순위가 여러 개면 `core-scenarios-porting-plan.md` 의 웨이브·게이트 순서를 따른다.
 
+## 미완 인벤토리 자동 산출
+
+큐를 좁힐 때는 다음 산출물을 함께 본다 (CI 가드 포함):
+
+```bash
+python3 debug/generate_incomplete_features_inventory.py            # 갱신
+python3 debug/generate_incomplete_features_inventory.py --check    # 미갱신 차단
+```
+
+- `analysis/audit/incomplete-features-inventory.md` — 사람용
+- `analysis/audit/incomplete-features-inventory.json` — 도구·CI 용
+- 회귀 가드: `test/test_incomplete_features_inventory.py`
+
 ## 관련
 
 - DEC-062: 스모크 probe  
