@@ -383,6 +383,7 @@
 - **결정 사항**: `POST /api/v1/settlement/tax-invoice/{key}/issue` 는 외부 채널(홈택스/이메일/EDI 등) 을 호출하지 **않는다**. 항상 `200 + external.code='NOT_INTEGRATED'` 를 반환하며 내부적으로 `T2_Ssub.Chek3='1'` 만 갱신하고 audit 액션 `tax_issued_stub` 을 영속화한다.
   - 모던 UI 는 응답 banner 로 사용자에게 "외부 채널 미연결" 을 가시화한다 (DEC-028 `data-legacy-id="Sobo49.Banner.NotIntegrated"`).
   - 외부 채널 정식 연동은 후속 마이그레이션 (별도 시나리오) 으로 분리한다.
+  - **(d) 보관본 출력 경로 분리 (2026-05-04 보강)**: 레거시와 동등한 **보관용 HTML·PDF 미리보기** (`GET …/tax-invoice/{key}/print`, `…/print.pdf`) 는 동일 `T2_Ssub` 행을 **목록 API 과 같은 컬럼 어댑터**(`SHOW COLUMNS` 기반 동적 SELECT, DEC-058)로 읽으며, **DEC-035 stub 와 무관하게 완결된 사용자 가치**를 제공한다. Stub 은 `/issue` 의 외부 채널 호출 부재만 의미한다.
 - **배경/근거**: 레거시 `Sobo49` 는 외부 발행을 별도 모듈에 위임 — 본 시스템은 출판물 물류이며 세무 채널은 비핵심. 채널별 인증·승인·롤백 정책은 본 DEC 범위 밖. Stub 응답으로 흐름은 정합 유지.
 - **DoD**: `/issue` 호출이 `409 ALREADY_ISSUED` (이미 Chek3='1') · `423 ST_PERIOD_CLOSED` (마감) 두 상태만 정상 차단; 그 외에는 200 + NOT_INTEGRATED 로 통과한다.
 - **영향**: `tax_invoice_service.issue_external_stub` 단일 함수로 흡수, audit 액션 `tax_issued_stub` 등록.

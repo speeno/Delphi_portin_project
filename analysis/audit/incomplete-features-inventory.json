@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-04T09:21:22.702140+00:00",
+  "generatedAt": "2026-05-04T10:30:47.140004+00:00",
   "criteria": "본 인벤토리는 계획서 「구현되지 못한 기능 목록」에 따라 **원천별 합집합** 을 기록한다. 단일 정의가 아니라 (A) UI placeholder (B) T-파이프라인 비완료 (C) form-registry preview/STUB (D) phase1 이지만 R/RU/STUB 인 부분 동등 (E) 백엔드 stub grep (F) crud-backlog §2.6 참조 를 모두 포함한다.",
   "sources": {
     "ui_placeholder_pages": [
@@ -41,7 +41,8 @@
         },
         "blockers": [
           "레거시 단일 SQL 미확정",
-          "신규 SQL 0 정책(DEC-040)"
+          "신규 SQL 0 정책(DEC-040)",
+          "라우트 드리프트: /ledger/comparison 는 현재 Sobo48 본판(출판사 설정)이 임시 점유 중 — 장부대조 진입 시 별도 라우트 또는 view 모드 분리 필요 (analysis/audit/wave-b-placeholder-scoping.md §2)"
         ]
       },
       {
@@ -59,7 +60,7 @@
           "T8": "pending"
         },
         "blockers": [
-          "레거시 폼 단순 출력기 — SQL 미확정"
+          "레거시 폼 단순 출력기 — 인쇄 양식(T7) 미확정 (조회·메모 저장은 구현 완료, Sobo29.* data-legacy-id 부착 — analysis/audit/wave-b-placeholder-scoping.md §2)"
         ]
       }
     ],

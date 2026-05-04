@@ -91,3 +91,11 @@ DEC-028 — `Subu17/Sobo17.*` 단일 원천. 11 섹션 구조.
 - 화면 카드: `analysis/screen_cards/Sobo17.md`
 - 계약: `master_data.yaml` v1.1.0
 - 선례: `Sobo27.md`, `Sobo21.md`
+
+## 12. Wave C — 레거시 버튼 → API → 테스트 ID 한 줄 표
+
+| 레거시 버튼 (Subu17.pas) | 의미 | 모던 API | UI 노출 (현 phase1 — R) | 테스트 ID |
+| --- | --- | --- | --- | --- |
+| `dxButton1.OnClick` (조회) | SELECT G7_Ggeo (출판사) | `GET /api/v1/masters/publisher` | 검색 입력 → 목록 | `test_pagination_contracts::C9MastersListPageContract::test_publisher` |
+| `Button101.OnClick` (등록/저장) | INSERT/UPDATE | `POST/PATCH /api/v1/masters/publisher` (Wave C 후속) | 상세 라우트 (미노출) | Wave C 후속 — 추가 시 `test_master_publisher_patch` |
+| `Button103.OnClick` (삭제) | DELETE | DEC-019 OFF | **OFF** | (부정 회귀 후속) |

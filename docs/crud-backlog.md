@@ -89,6 +89,21 @@
 - `Sobo43_stats_route` (출판사통계)
 - (할인율 변형) `/master/discount/[type]` 라우트는 메뉴 미노출 — 별도 등록 없음.
 
+### 2.7 Wave C — RU 행 후속 (레거시 버튼 ↔ API ↔ 테스트)
+
+포팅 고도화 계획 웨이브 C 용 체크리스트. API 가 이미 있어도 **UI 버튼·삭제·audit** 이 레거시와 1:1 인지 G0 로 검증한다.
+
+| 화면 | 레거시 | 모던 후속 | 검증 힌트 |
+|------|--------|-----------|-----------|
+| Sobo11 | `Subu11.pas` — 거래처 저장/삭제·코드 변경 가드 | 목록 행 액션·삭제 확인 모달·audit | `test` 마스터 CRUD·audit 스모크 |
+| Sobo14 | `Subu14.pas` — 도서 신규/삭제·바코드 | 동일 | 위와 유사 |
+| Sobo17 | `Subu17.pas` | 출판사 쓰기 폼 노출 | `master_data.yaml` POST/PATCH |
+| Sobo38 | `Subu38.pas` | 도서코드 편집 다이얼로그 | contract RU |
+| Sobo39 | `Subu39.pas` | 할인율 저장 (변형은 `Subu39_*`) | variant 는 `customer_variants` 만 |
+| Sobo45 | `Subu45.pas` | 청구 라인 쓰기·마감 | DEC-031 |
+
+산출: 화면별 `analysis/layout_mappings/<Sobo*>.md` 에 **레거시 버튼명 → API 메서드 → pytest 이름** 한 줄 추가.
+
 ---
 
 ## 3. CRUD 보강 절차 (G0 ~ G4)

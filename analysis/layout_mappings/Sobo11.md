@@ -125,3 +125,14 @@ Sobo11 은 메모 영역이 없다. (S1_Memo 흐름은 Sobo21/Sobo27 만 해당.
 - 계약: `migration/contracts/master_data.yaml` v1.1.0
 - 테스트: `test/test_pagination_contracts.py::C9MastersListPageContract`, `test/test_masters_q_search.py`
 - 동일 패턴 선례: `analysis/layout_mappings/Sobo27.md` (C2), `analysis/layout_mappings/Sobo21.md` (C6)
+
+## 12. Wave C — 레거시 버튼 → API → 테스트 ID 한 줄 표 (CRUD 잔여 추적)
+
+DEC-019 정책(마스터 = PATCH only / Delete OFF) 하에서 **UI 버튼·가드·audit** 의 레거시 1:1 매핑을 행 단위로 고정한다 (`docs/crud-backlog.md` Wave C).
+
+| 레거시 버튼 (Subu11.pas) | 의미 | 모던 API (master_data.yaml) | UI 노출 (현 phase1) | 테스트 ID (회귀 PASS 시 표기) |
+| --- | --- | --- | --- | --- |
+| `Button101.OnClick` (등록/저장) | INSERT/UPDATE G7_Ggeo | `POST /api/v1/masters/customer` · `PATCH .../{gcode}` | 상세 라우트 폼 액션 | `test_pagination_contracts::C9MastersListPageContract::test_customer` (목록), Wave C 후속에 `test_master_customer_audit` 추가 예정 |
+| `Button102.OnClick` (수정/취소) | 폼 모드 토글 (DB 호출 없음) | (UI 전용) | 상세 라우트 폼 헤더 | (UI 전용 — 회귀 미적용) |
+| `Button103.OnClick` (삭제) | DELETE | (DEC-019 — UI 미노출) | **OFF** | (Wave C 추가 시 `test_master_customer_delete_blocked` 부정 회귀) |
+| `Button104.OnClick` (조회/검색) | 키워드 fetch | `GET /api/v1/masters/customer?q=…` | 목록 검색 입력 | `test_masters_q_search::test_customer` |

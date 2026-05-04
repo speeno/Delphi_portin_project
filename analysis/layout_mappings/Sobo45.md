@@ -96,3 +96,13 @@ DEC-028 — `Subu45/Sobo45.*` 단일 원천. 11 섹션 구조.
 - 화면 카드: `analysis/screen_cards/Sobo45.md`
 - 계약: `master_data.yaml` v1.1.0
 - 선례: `Sobo27.md`, `Sobo21.md`
+
+## 12. Wave C — 레거시 버튼 → API → 테스트 ID 한 줄 표 (마스터 물류비)
+
+> 본 노트는 **마스터 물류비** (`/master/logistics-cost`, Subu45 마스터 파생). C5 정산 청구의 `Subu45.pas` (Sobo45_billing) 와는 다른 흐름. 정산용은 `Sobo45_billing.md` 참조.
+
+| 레거시 버튼 (Subu45.pas — 마스터 부분) | 의미 | 모던 API | UI 노출 (현 phase1 — R) | 테스트 ID |
+| --- | --- | --- | --- | --- |
+| `Button101.OnClick` (조회) | SELECT 물류비 마스터 | `GET /api/v1/masters/logistics-cost` | 목록 페이저 | `test_pagination_contracts::C9MastersListPageContract::test_logistics_cost` |
+| `Button701.OnClick` (등록/저장) | INSERT/UPDATE | `POST/PATCH /api/v1/masters/logistics-cost` (Wave C 후속) | 미노출 | Wave C 후속 — `test_master_logistics_cost_patch` |
+| `Button702.OnClick` (삭제) | DELETE | DEC-019 OFF | **OFF** | (후속) |

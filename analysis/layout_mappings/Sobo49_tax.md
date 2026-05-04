@@ -16,11 +16,11 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
   - `DBGrid101Columns7UpdateData` (L695~715 — 단건 Chek3 토글: `Code1='1' → Chek3='0'`, 그 외 `'1'`)
   - `RadioButton4Click` (L717~744 — 일괄 Chek3 토글 `'1'`) / `RadioButton5Click` (L746~773 — 일괄 `'0'`)
   - `T4_Sub91BeforePost` (L657~677 — Sdate 변경 시 `UPDATE T2_Ssub SET Sdate=:sdate WHERE Gdate=LEFT(:nGdate,7) AND Hcode=:hcode`)
-- 모던 라우트(예정 — T6 신설):
+- 모던 라우트(구현):
   - 목록: [`도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/page.tsx`](../../도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/page.tsx)
   - 미리보기: [`도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/[billingKey]/print/page.tsx`](../../도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/[billingKey]/print/page.tsx)
-- 백엔드: `GET /api/v1/settlement/tax-invoice` / `POST /api/v1/settlement/tax-invoice/{key}/chek3` / `POST .../issue` / `GET .../print` (T5b 신설)
-- 계약: [`migration/contracts/settlement_billing.yaml`](../../migration/contracts/settlement_billing.yaml) v1.1.0
+- 백엔드 (DEC-036 단일 엔드포인트): `GET /api/v1/settlement/tax-invoice` · `POST /api/v1/settlement/tax-invoice/chek3` (본문에 `gdate`/`hcode`/`new_value`/일괄 시 `hcode` 생략) · `POST /api/v1/settlement/tax-invoice/sdate` · `POST /api/v1/settlement/tax-invoice/{billing_key}/issue` (DEC-035 stub) · `GET /api/v1/settlement/tax-invoice/{billing_key}/print` · `GET …/print.pdf` (C7)
+- 계약: [`migration/contracts/settlement_billing.yaml`](../../migration/contracts/settlement_billing.yaml) v1.3.1
 
 ## 1. 의미적 분기 — dfm 1:1 복제가 아닌 이유
 
@@ -28,8 +28,8 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 
 모던:
 - (a)(b) → `/settlement/tax-invoice` 목록 페이지 (DataGrid 8컬럼 + Phase 1 페이지네이션)
-- (c) Col7 체크박스 → 단건 토글 호출 `POST /tax-invoice/{key}/chek3` (`bulk:false`)
-- (c) RadioButton4/5 → 일괄 토글 호출 (`bulk:true, toggle:'1'|'0'`) — 단일 트랜잭션
+- (c) Col7 체크박스 → 단건 토글 호출 `POST /api/v1/settlement/tax-invoice/chek3` (`bulk:false`, 본문에 `billing_key` 등)
+- (c) RadioButton4/5 → 일괄 토글 호출 (`POST …/chek3`, `bulk:true`, `toggle:'1'|'0'`) — 단일 트랜잭션
 - (d) Button200 (단건 인쇄) → 행 우측 "인쇄" 링크 → `/tax-invoice/{key}/print`
 - (d) Button016/017 (일괄 인쇄) → Phase 2 미구현 (C7 후속)
 - 세금계산서 외부 발행 → `Button{X}Issue` 액션 → `POST .../issue` stub
@@ -174,7 +174,7 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 | FE 트리거 | 기존 미리보기 페이지 우상단 "PDF 다운로드" `<a download>` 추가 | T6a |
 | 회귀 | `pytest -k test_tax_invoice_pdf_signature/text/issued_badge` 3 케이스 | T4 |
 
-> **DEC-035 잔존**: PDF 는 단순 시각 표현. 외부 발행 통신은 본 산출물의 책임 아님 (별도 stub 엔드포인트).
+> **DEC-035 분리**: ``POST …/issue`` 만 외부 채널 stub. 보관본 ``GET …/print`` · ``…/print.pdf`` 는 ``T2_Ssub`` 동적 SELECT 로 완결 (DEC-035 (d), DEC-058).
 
 ## 11. 참조
 
@@ -188,7 +188,30 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 - **DEC-036** (T8 신설): Chek3 토글 단일 SQL 헬퍼 흡수
 - **DEC-037/038/039** (C7 T8): WeasyPrint / 라벨 1종 / .frf 참조용
 - 화면 카드: [`analysis/screen_cards/c5_settlement.md`](../screen_cards/c5_settlement.md)
-- contract: [`migration/contracts/settlement_billing.yaml`](../../migration/contracts/settlement_billing.yaml) v1.2.0 (C7 PDF 절 포함)
+- contract: [`migration/contracts/settlement_billing.yaml`](../../migration/contracts/settlement_billing.yaml) v1.3.1 (C7 PDF 절 + Sobo49 인쇄 동적 컬럼)
 - 인쇄 사양: [`analysis/print_specs/c7_phase1.md`](../print_specs/c7_phase1.md) §P1-B
 - 핸들러 인덱스: [`analysis/handlers/c5_phase2.md`](../handlers/c5_phase2.md), [`analysis/handlers/c7_phase1.md`](../handlers/c7_phase1.md)
 - 선례: [`Sobo46_billing.md`](Sobo46_billing.md) (동일 Phase 2 인쇄 패턴), [`Sobo45_billing.md`](Sobo45_billing.md)
+
+## 12. Sobo49 갭 분석 (A1) — `Subu49.pas` 이벤트 ↔ 모던 라우트
+
+> 본 표는 **계획 §웨이브 A → A1 산출** 이다. §8 이벤트 매핑은 1:1 SQL 단위, 본 §12 는 **사용자 가시 동작 단위 갭** 으로 DEC-035 stub 분리 정책의 가시화 표가 된다.
+
+| Subu49 동작 | pas 라인 | 레거시 동작 | 모던 라우트 / API | 갭 (현 사이클) | DEC 분리 (stub vs 완성) |
+| --- | --- | --- | --- | --- | --- |
+| `Button101Click` (조회) | L327~420 | 월 SELECT + 그리드 갱신 | `GET /api/v1/settlement/tax-invoice` (목록) | 없음 | **완성** (DEC-058 동적 컬럼) |
+| `T4_Sub91BeforePost` (Sdate) | L657~677 | 발행일자 UPDATE | `POST /api/v1/settlement/tax-invoice/sdate` | 없음 (마감 가드 통과) | **완성** (DEC-031) |
+| `DBGrid101Columns7UpdateData` (단건 Chek3) | L695~715 | UPDATE Chek3 (반전) | `POST /api/v1/settlement/tax-invoice/chek3` (`bulk:false`) | 없음 | **완성** (DEC-036 단일 헬퍼) |
+| `RadioButton4Click` / `RadioButton5Click` (일괄) | L717~773 | UPDATE Chek3 일괄 | 동일 엔드포인트 (`bulk:true`, `toggle:'1'/'0'`) | 없음 | **완성** (DEC-036) |
+| `Button200Click` (단건 인쇄) | L601~613 | `Tong40.PrinTing00('49',…)` Canvas 인쇄 | `GET …/tax-invoice/{billing_key}/print` (HTML) + `…/print.pdf` (C7) | 픽셀 layout 미보장 (DEC-028 정책) | **완성** (DEC-034 HTML preview, DEC-037 PDF) — Chek3/Sdate/Yesno 부재 변형 DB 까지 동적 컬럼으로 완결 (DEC-035 (d)) |
+| `Button016Click` / `Button017Click` (일괄 인쇄) | L282/L287 | `Tong40.print_49_41/42(Self)` | (미구현) | C7 Phase 2 이연 | 비범위 (out_of_scope) |
+| (모던 신설) `POST …/issue` 외부 발행 | n/a | (레거시는 별도 솔루션) | `POST /api/v1/settlement/tax-invoice/{billing_key}/issue` | 외부 채널 미연결 (홈택스/EDI) | **stub** (DEC-035 — 200 + `NOT_INTEGRATED`, 내부 `Chek3='1'` + audit `tax_issued_stub`) |
+
+### A1 계약 equivalence 초안 (이미 v1.3.1 에 반영)
+
+- "Sobo49 외부 발행: /issue 는 항상 200 + status='NOT_INTEGRATED' + audit_settlement INSERT + 내부 Chek3='1' 갱신 (DEC-035)."
+- "Sobo49 보관본 HTML·PDF: GET print(/print.pdf) 의 T2_Ssub 단건 SELECT 는 목록과 동일 동적 컬럼 빌드 (DEC-058) — Chek3/Sdate/Yesno 부재 변형 DB 에서도 인쇄 경로 500 방지."
+
+### 참고 — 인벤토리 드리프트 (사용자 룰 일반화)
+
+본 갭 표를 일반화해, **다른 화면에서도 stub vs 완성 분리** 가 필요한 경우 동일 패턴(§12 같은 표 + DEC 하위 항목 (d)) 을 재사용한다. C5 외 영역에서 외부 채널이 stub 인 화면이 추가될 때 본 표가 1차 templates.

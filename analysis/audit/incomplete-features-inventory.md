@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-05-04T09:21:22.702140+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-05-04T10:30:47.140004+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -18,9 +18,9 @@
 > **드리프트 주의:** 카드의 레거시 ID·캡션과 해당 `route` 의 `page.tsx` 실구현 범위가 다를 수 있다. 판단은 API·화면 코드 우선.
 
 - **Sobo48_compare** (장부대조) `/ledger/comparison` — {'T2': 'in_progress', 'T3': 'blocked', 'T4': 'pending', 'T5': 'pending', 'T6': 'in_progress', 'T7': 'pending', 'T8': 'pending'}
-  - blockers: ['레거시 단일 SQL 미확정', '신규 SQL 0 정책(DEC-040)']
+  - blockers: ['레거시 단일 SQL 미확정', '신규 SQL 0 정책(DEC-040)', '라우트 드리프트: /ledger/comparison 는 현재 Sobo48 본판(출판사 설정)이 임시 점유 중 — 장부대조 진입 시 별도 라우트 또는 view 모드 분리 필요 (analysis/audit/wave-b-placeholder-scoping.md §2)']
 - **Sobo29_other** (기타명세서) `/transactions/other` — {'T2': 'in_progress', 'T3': 'blocked', 'T4': 'pending', 'T5': 'pending', 'T6': 'in_progress', 'T7': 'pending', 'T8': 'pending'}
-  - blockers: ['레거시 폼 단순 출력기 — SQL 미확정']
+  - blockers: ['레거시 폼 단순 출력기 — 인쇄 양식(T7) 미확정 (조회·메모 저장은 구현 완료, Sobo29.* data-legacy-id 부착 — analysis/audit/wave-b-placeholder-scoping.md §2)']
 
 ## 3. `form-registry` — preview 또는 STUB
 

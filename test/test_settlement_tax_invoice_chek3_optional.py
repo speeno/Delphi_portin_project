@@ -26,6 +26,7 @@ sys.path.insert(0, str(_BACKEND_ROOT))
 from app.services.tax_invoice_service import (  # noqa: E402
     _build_sql_count_tax,
     _build_sql_list_tax,
+    _build_sql_print_row,
     clear_t2_column_cache_for_tests,
 )
 
@@ -85,6 +86,22 @@ class TaxInvoiceChek3OptionalTest(TestCase):
                 missing, sql,
                 f"{missing} 가 SQL 에 잔존 — 1054 (Unknown column) 회귀 위험",
             )
+
+    def test_print_row_sql_matches_list_adapter(self) -> None:
+        """인쇄 1행 SELECT 도 목록과 동일하게 선택 컬럼 부재 시 리터럴만 사용."""
+        cols_full = {
+            "hcode", "sum26", "sum27", "sum28", "chek3", "sdate", "yesno", "gdate",
+        }
+        sql_f = _build_sql_print_row(cols_full)
+        self.assertIn("COALESCE(t.Chek3,'0') AS Chek3", sql_f)
+        self.assertIn("FROM T2_Ssub t WHERE t.Gdate=%s", sql_f)
+
+        cols_min = {"hcode", "sum26", "sum27", "sum28", "gdate"}
+        sql_m = _build_sql_print_row(cols_min)
+        self.assertIn("'0' AS Chek3", sql_m)
+        self.assertNotIn("t.Chek3", sql_m)
+        self.assertNotIn("t.Sdate", sql_m)
+        self.assertNotIn("t.Yesno", sql_m)
 
 
 if __name__ == "__main__":

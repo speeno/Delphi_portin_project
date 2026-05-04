@@ -121,3 +121,12 @@ Sobo14_1
 - 계약: `migration/contracts/master_data.yaml` v1.1.0
 - 테스트: 위 §10
 - 선례: `Sobo27.md` (C2), `Sobo21.md` (C6)
+
+## 12. Wave C — 레거시 버튼 → API → 테스트 ID 한 줄 표
+
+| 레거시 버튼 (Subu14.pas) | 의미 | 모던 API (master_data.yaml) | UI 노출 (현 phase1) | 테스트 ID |
+| --- | --- | --- | --- | --- |
+| `Button101.OnClick` (등록/저장) | INSERT/UPDATE T1_Sub11 (도서) | `POST /api/v1/masters/book` · `PATCH .../{bcode}` | 상세 라우트 폼 액션 | `test_pagination_contracts::C9MastersListPageContract::test_book` |
+| `Button102.OnClick` (수정/취소) | 폼 모드 토글 | (UI 전용) | 상세 라우트 헤더 | — |
+| `Button103.OnClick` (삭제) | DELETE | (DEC-019 — UI 미노출) | **OFF** | Wave C 후속 `test_master_book_delete_blocked` |
+| `Button104.OnClick` (검색) | 키워드 fetch | `GET /api/v1/masters/book?q=…` | 목록 검색 | `test_masters_q_search::test_book` |

@@ -94,3 +94,11 @@ DEC-028 — `Subu39/Sobo39.*` 단일 원천. DEC-023 (단일 원천 6폼 — Sob
 - 화면 카드: `analysis/screen_cards/Sobo39.md`
 - 계약: `master_data.yaml` v1.1.0
 - 선례: `Sobo27.md`, `Sobo21.md`
+
+## 12. Wave C — 레거시 버튼 → API → 테스트 ID 한 줄 표
+
+| 레거시 버튼 (Subu39.pas + 변형 _1/_2/_5) | 의미 | 모던 API | UI 노출 (현 phase1 — R) | 테스트 ID |
+| --- | --- | --- | --- | --- |
+| `dxButton1.OnClick` (조회) | SELECT G7_Ggeo.Gpper* | `GET /api/v1/masters/discount?variant=…` | `/master/discount`, `/master/discount/[type]` | `test_pagination_contracts::C9MastersListPageContract::test_discount` |
+| `Button101.OnClick` (등록/저장) | UPDATE Gpper1/2/3/5 | `PATCH /api/v1/masters/discount/{hcode}?variant=…` (Wave C 후속) | 미노출 | Wave C 후속 — `test_master_discount_patch_variant` |
+| `Button103.OnClick` (삭제) | DELETE | DEC-019 OFF | **OFF** | (후속) |
