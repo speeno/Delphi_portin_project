@@ -1,0 +1,111 @@
+{
+  "generatedAt": "2026-05-04T09:14:55.754099+00:00",
+  "criteria": "본 인벤토리는 계획서 「구현되지 못한 기능 목록」에 따라 **원천별 합집합** 을 기록한다. 단일 정의가 아니라 (A) UI placeholder (B) T-파이프라인 비완료 (C) form-registry preview/STUB (D) 백엔드 범용 stub (E) crud-backlog §2.6 참조 를 모두 포함한다.",
+  "sources": {
+    "ui_placeholder_pages": [
+      {
+        "kind": "ui_placeholder",
+        "path": "도서물류관리프로그램/frontend/src/app/(app)/billing/statements/page.tsx",
+        "route_hint": "/billing/statements"
+      },
+      {
+        "kind": "ui_placeholder",
+        "path": "도서물류관리프로그램/frontend/src/app/(app)/master/discount/[type]/page.tsx",
+        "route_hint": "/master/discount/[type]"
+      },
+      {
+        "kind": "ui_placeholder",
+        "path": "도서물류관리프로그램/frontend/src/app/(app)/shipping/returns-inventory/page.tsx",
+        "route_hint": "/shipping/returns-inventory"
+      },
+      {
+        "kind": "ui_placeholder",
+        "path": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/page.tsx",
+        "route_hint": "/year-month-stats"
+      }
+    ],
+    "phase2_screen_cards_tasks": [
+      {
+        "kind": "t_pipeline_gap",
+        "id": "Sobo48_compare",
+        "caption": "장부대조",
+        "route": "/ledger/comparison",
+        "tasks_non_done": {
+          "T2": "in_progress",
+          "T3": "blocked",
+          "T4": "pending",
+          "T5": "pending",
+          "T6": "in_progress",
+          "T7": "pending",
+          "T8": "pending"
+        },
+        "blockers": [
+          "레거시 단일 SQL 미확정",
+          "신규 SQL 0 정책(DEC-040)"
+        ]
+      },
+      {
+        "kind": "t_pipeline_gap",
+        "id": "Sobo29_other",
+        "caption": "기타명세서",
+        "route": "/transactions/other",
+        "tasks_non_done": {
+          "T2": "in_progress",
+          "T3": "blocked",
+          "T4": "pending",
+          "T5": "pending",
+          "T6": "in_progress",
+          "T7": "pending",
+          "T8": "pending"
+        },
+        "blockers": [
+          "레거시 폼 단순 출력기 — SQL 미확정"
+        ]
+      }
+    ],
+    "form_registry_preview_or_stub": [
+      {
+        "kind": "form_registry_placeholder",
+        "id": "MenuBillingStatements",
+        "route": "/billing/statements",
+        "reasons": [
+          "STUB",
+          "preview"
+        ],
+        "registry_line": 1100
+      },
+      {
+        "kind": "form_registry_placeholder",
+        "id": "MenuShippingReturnsInventory",
+        "route": "/shipping/returns-inventory",
+        "reasons": [
+          "STUB",
+          "preview"
+        ],
+        "registry_line": 1081
+      },
+      {
+        "kind": "form_registry_placeholder",
+        "id": "MenuYearMonthStats",
+        "route": "/year-month-stats",
+        "reasons": [
+          "STUB",
+          "preview"
+        ],
+        "registry_line": 1062
+      }
+    ],
+    "backend_generic_stub": {
+      "kind": "backend_stub",
+      "router_file": "도서물류관리프로그램/backend/app/routers/_stub.py",
+      "pattern": "GET /api/v1/_stub/{name} -> 503 NOT_IMPLEMENTED",
+      "notes": "정산 세금 외부 발행 등 DEC-035 stub 은 settlement 라우터 주석 참고"
+    },
+    "crud_backlog_section_2_6": [
+      "`Sobo29_other` (기타명세서)",
+      "`Sobo48_compare` (장부대조)",
+      "`Sobo43_stats_route` (출판사통계)",
+      "(할인율 변형) `/master/discount/[type]` 라우트는 메뉴 미노출 — 별도 등록 없음."
+    ]
+  }
+}
