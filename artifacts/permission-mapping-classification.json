@@ -1,0 +1,1780 @@
+[
+  {
+    "group": "common.servers",
+    "method": "GET",
+    "path": "/api/v1/servers",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "servers.py",
+    "func": "list_servers",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "200 bytes=251"
+  },
+  {
+    "group": "common.health",
+    "method": "GET",
+    "path": "/api/v1/health",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "200 bytes=15"
+  },
+  {
+    "group": "masters.customer",
+    "method": "GET",
+    "path": "/api/v1/masters/customer",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "masters.py",
+    "func": "list_customer_master",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "masters.book",
+    "method": "GET",
+    "path": "/api/v1/masters/book",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "masters.py",
+    "func": "list_books",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "masters.publisher",
+    "method": "GET",
+    "path": "/api/v1/masters/publisher",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "masters.py",
+    "func": "list_publishers",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "masters.special",
+    "method": "GET",
+    "path": "/api/v1/masters/special",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "masters.py",
+    "func": "list_special_master",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "outbound.orders",
+    "method": "GET",
+    "path": "/api/v1/outbound/orders",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "outbound.py",
+    "func": "list_orders",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "outbound.shipment_status",
+    "method": "GET",
+    "path": "/api/v1/outbound/shipment-status",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "outbound.py",
+    "func": "list_shipment_status",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "shipping.courier_lines",
+    "method": "GET",
+    "path": "/api/v1/shipping/courier/lines",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "courier.py",
+    "func": "list_courier_lines",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "inbound.receipts",
+    "method": "GET",
+    "path": "/api/v1/inbound/receipts",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "inbound.py",
+    "func": "list_receipts",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "returns.list",
+    "method": "GET",
+    "path": "/api/v1/returns",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/unknown(direct=False,ctx=False)",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "settlement.cash",
+    "method": "GET",
+    "path": "/api/v1/settlement/cash",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/unknown(direct=False,ctx=False)",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "settlement.cash_status_hcode",
+    "method": "GET",
+    "path": "/api/v1/settlement/cash-status",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/unknown(direct=False,ctx=False)",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "settlement.cash_status_sdate",
+    "method": "GET",
+    "path": "/api/v1/settlement/cash-status",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/unknown(direct=False,ctx=False)",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "settlement.billing",
+    "method": "GET",
+    "path": "/api/v1/settlement/billing",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/unknown(direct=False,ctx=False)",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "settlement.tax_invoice",
+    "method": "GET",
+    "path": "/api/v1/settlement/tax-invoice",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/unknown(direct=False,ctx=False)",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "settlement.outstanding",
+    "method": "GET",
+    "path": "/api/v1/settlement/outstanding",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/unknown(direct=False,ctx=False)",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "settlement.audit_settlement",
+    "method": "GET",
+    "path": "/api/v1/audit/settlement",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "returns.py",
+    "func": "get_return_detail",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "transactions.statement",
+    "method": "GET",
+    "path": "/api/v1/transactions/sales-statement",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "transactions.py",
+    "func": "list_sales_statements",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "transactions.status.list",
+    "method": "GET",
+    "path": "/api/v1/transactions/status",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "transactions.py",
+    "func": "get_transactions_status",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "transactions.status.summary",
+    "method": "GET",
+    "path": "/api/v1/transactions/status",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "transactions.py",
+    "func": "get_transactions_status",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "transactions.status.memo",
+    "method": "GET",
+    "path": "/api/v1/transactions/status",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "transactions.py",
+    "func": "get_transactions_status",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "inventory.ledger",
+    "method": "GET",
+    "path": "/api/v1/inventory/ledger",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "inventory.py",
+    "func": "get_inventory_ledger",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "stats.sales_period",
+    "method": "GET",
+    "path": "/api/v1/stats/sales-period",
+    "ok_status": [
+      200,
+      422
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_sales_period",
+    "required_permission_codes": [
+      "admin.stats.sales"
+    ],
+    "route_deps": [
+      "require_permission"
+    ],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=273"
+  },
+  {
+    "group": "stats.customer_analysis",
+    "method": "GET",
+    "path": "/api/v1/stats/customer-analysis",
+    "ok_status": [
+      200,
+      422
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_customer_analysis",
+    "required_permission_codes": [
+      "admin.stats.customer"
+    ],
+    "route_deps": [
+      "require_permission"
+    ],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=216"
+  },
+  {
+    "group": "stats.book_turnover",
+    "method": "GET",
+    "path": "/api/v1/stats/book-turnover",
+    "ok_status": [
+      200,
+      422
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_book_turnover",
+    "required_permission_codes": [
+      "admin.stats.book"
+    ],
+    "route_deps": [
+      "require_permission"
+    ],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=241"
+  },
+  {
+    "group": "stats.quarterly_summary",
+    "method": "GET",
+    "path": "/api/v1/stats/quarterly-summary",
+    "ok_status": [
+      200,
+      422
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_quarterly_summary",
+    "required_permission_codes": [
+      "admin.stats.quarterly"
+    ],
+    "route_deps": [
+      "require_permission"
+    ],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=307"
+  },
+  {
+    "group": "stats.publisher",
+    "method": "GET",
+    "path": "/api/v1/stats/publisher",
+    "ok_status": [
+      200,
+      422
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_publisher_stats",
+    "required_permission_codes": [
+      "admin.stats.customer"
+    ],
+    "route_deps": [
+      "require_permission"
+    ],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=319"
+  },
+  {
+    "group": "returns.period_report",
+    "method": "GET",
+    "path": "/api/v1/returns/period-report",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/unknown(direct=False,ctx=False)",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "reports.book_sales",
+    "method": "GET",
+    "path": "/api/v1/reports/book-sales",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "reports.py",
+    "func": "get_book_sales",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "ledger.publisher_settings",
+    "method": "GET",
+    "path": "/api/v1/ledger/comparison",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "ledger.py",
+    "func": "list_publisher_settings",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "transactions.other",
+    "method": "GET",
+    "path": "/api/v1/transactions/other",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "transactions.py",
+    "func": "list_other_statements",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.outbound_statement_pdf",
+    "method": "GET",
+    "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf",
+    "ok_status": [
+      200,
+      404,
+      422,
+      503
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "print.py",
+    "func": "print_outbound_statement_pdf",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.return_receipt_pdf",
+    "method": "GET",
+    "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf",
+    "ok_status": [
+      200,
+      404,
+      422,
+      503
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "print.py",
+    "func": "print_return_receipt_pdf",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.sales_statement_pdf",
+    "method": "GET",
+    "path": "/api/v1/print/sales-statement/2026.04.01%7CH0001%7CJ00001%7C.pdf",
+    "ok_status": [
+      200,
+      404,
+      422,
+      503
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "print.py",
+    "func": "print_sales_statement_pdf",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.sales_statement_layouts",
+    "method": "GET",
+    "path": "/api/v1/print/sales-statement/layouts",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "print.py",
+    "func": "list_sales_statement_layouts",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.label_pdf",
+    "method": "GET",
+    "path": "/api/v1/print/label/SAMPLE.pdf",
+    "ok_status": [
+      200,
+      404,
+      422,
+      503
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "print.py",
+    "func": "print_label_pdf",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.outbound_statement_pdf_variant",
+    "method": "GET",
+    "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf",
+    "ok_status": [
+      200,
+      404,
+      422,
+      503
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "print.py",
+    "func": "print_outbound_statement_pdf",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.return_receipt_pdf_variant_v4_must_422",
+    "method": "GET",
+    "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf",
+    "ok_status": [
+      422
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "EXPECTED-FAIL/401",
+    "router_file": "print.py",
+    "func": "print_return_receipt_pdf",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.label_pdf_form2",
+    "method": "GET",
+    "path": "/api/v1/print/label/SAMPLE.pdf",
+    "ok_status": [
+      200,
+      404,
+      422,
+      503
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "print.py",
+    "func": "print_label_pdf",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.barcode_svg",
+    "method": "GET",
+    "path": "/api/v1/print/barcode.svg",
+    "ok_status": [
+      200,
+      422
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "print.py",
+    "func": "print_barcode_svg",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "print.barcode_svg_ean13",
+    "method": "GET",
+    "path": "/api/v1/print/barcode.svg",
+    "ok_status": [
+      200,
+      422
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "print.py",
+    "func": "print_barcode_svg",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "settlement.invoice_pdf",
+    "method": "GET",
+    "path": "/api/v1/settlement/billing/202604%7CH0001/print.pdf",
+    "ok_status": [
+      200,
+      404,
+      422,
+      503
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/unknown(direct=False,ctx=False)",
+    "router_file": null,
+    "func": null,
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "scan.match",
+    "method": "POST",
+    "path": "/api/v1/scan/match",
+    "ok_status": [
+      200,
+      400,
+      422,
+      503
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "scan.py",
+    "func": "scan_match",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "admin.id_logn_list",
+    "method": "GET",
+    "path": "/api/v1/admin/id-logn",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 403,
+      "remote_153": 403,
+      "remote_154": 403,
+      "remote_155": 403
+    },
+    "all_same": true,
+    "class": "PERMISSION/admin.user.read",
+    "router_file": "admin.py",
+    "func": "list_id_logn",
+    "required_permission_codes": [
+      "admin.user.read"
+    ],
+    "route_deps": [
+      "require_permission"
+    ],
+    "router_deps": [],
+    "sig_deps": [
+      "get_user_context"
+    ],
+    "body_head": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":"
+  },
+  {
+    "group": "admin.id_logn_permission_defaults",
+    "method": "GET",
+    "path": "/api/v1/admin/id-logn/permission-defaults",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 403,
+      "remote_153": 403,
+      "remote_154": 403,
+      "remote_155": 403
+    },
+    "all_same": true,
+    "class": "PERMISSION/admin.user.read",
+    "router_file": "admin.py",
+    "func": "get_id_logn_permission_defaults",
+    "required_permission_codes": [
+      "admin.user.read"
+    ],
+    "route_deps": [
+      "require_permission"
+    ],
+    "router_deps": [],
+    "sig_deps": [],
+    "body_head": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":"
+  },
+  {
+    "group": "me.profile",
+    "method": "GET",
+    "path": "/api/v1/me/profile",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "AUTH/direct-get_current_user",
+    "router_file": "me.py",
+    "func": "get_my_profile",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+  },
+  {
+    "group": "stats.dashboard.overview",
+    "method": "GET",
+    "path": "/api/v1/stats/dashboard/overview",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_dashboard_overview",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=264"
+  },
+  {
+    "group": "stats.dashboard.funnel",
+    "method": "GET",
+    "path": "/api/v1/stats/dashboard/funnel",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_dashboard_funnel",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=248"
+  },
+  {
+    "group": "stats.dashboard.receivables",
+    "method": "GET",
+    "path": "/api/v1/stats/dashboard/receivables",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_dashboard_receivables",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=81"
+  },
+  {
+    "group": "stats.dashboard.iot_warehouse",
+    "method": "GET",
+    "path": "/api/v1/stats/dashboard/iot-warehouse",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_dashboard_iot_warehouse",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=1400"
+  },
+  {
+    "group": "stats.dashboard.layout",
+    "method": "GET",
+    "path": "/api/v1/stats/dashboard/layout",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "get_dashboard_layout",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_user_context"
+    ],
+    "body_head": "200 bytes=131"
+  },
+  {
+    "group": "stats.dashboard.iot_stream",
+    "method": "GET",
+    "path": "/api/v1/stats/dashboard/iot-warehouse/stream",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "stats.py",
+    "func": "stream_dashboard_iot_warehouse",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=248"
+  },
+  {
+    "group": "dashboard.external.weather_risk",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/weather-risk",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_weather_risk",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=531"
+  },
+  {
+    "group": "dashboard.external.weather_daily",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/weather-daily",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_weather_daily",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=1004"
+  },
+  {
+    "group": "dashboard.external.weather_grid_from_point",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/weather-grid-from-point",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_weather_grid_from_point",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=130"
+  },
+  {
+    "group": "dashboard.external.weather_warning",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/weather-warning",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_weather_warning",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=369"
+  },
+  {
+    "group": "dashboard.external.fuel_cost",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/fuel-cost",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_fuel_cost",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=733"
+  },
+  {
+    "group": "dashboard.external.traffic_eta",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/traffic-eta",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_traffic_eta",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=421"
+  },
+  {
+    "group": "dashboard.external.traffic_forecast",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/traffic-forecast",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_traffic_forecast",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=440"
+  },
+  {
+    "group": "dashboard.external.traffic_map_summary",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/traffic-map-summary",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_traffic_map_summary",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=461"
+  },
+  {
+    "group": "dashboard.external.delivery_route_risk",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/delivery-route-risk",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_delivery_route_risk",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=419"
+  },
+  {
+    "group": "dashboard.external.demand_forecast",
+    "method": "GET",
+    "path": "/api/v1/dashboard/external/demand-forecast",
+    "ok_status": [
+      200
+    ],
+    "actual": {
+      "remote_138": 200,
+      "remote_153": 200,
+      "remote_154": 200,
+      "remote_155": 200
+    },
+    "all_same": true,
+    "class": "PASS",
+    "router_file": "dashboard_external.py",
+    "func": "get_demand_forecast",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [],
+    "body_head": "200 bytes=276"
+  },
+  {
+    "group": "ownership.violation.expected_403",
+    "method": "GET",
+    "path": "/api/v1/masters/book",
+    "ok_status": [
+      403
+    ],
+    "actual": {
+      "remote_138": 403,
+      "remote_153": 403,
+      "remote_154": 403,
+      "remote_155": 403
+    },
+    "all_same": true,
+    "class": "EXPECTED-OK",
+    "router_file": "masters.py",
+    "func": "list_books",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [
+      "require_server_ownership"
+    ],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "403 bytes=205"
+  },
+  {
+    "group": "admin.permission_matrix_stale_must_409",
+    "method": "PUT",
+    "path": "/api/v1/admin/id-logn/BR01/permissions",
+    "ok_status": [
+      409
+    ],
+    "actual": {
+      "remote_138": 403,
+      "remote_153": 403,
+      "remote_154": 403,
+      "remote_155": 403
+    },
+    "all_same": true,
+    "class": "EXPECTED-FAIL/PERM-PRE-EMPTS-IFMATCH",
+    "router_file": "admin.py",
+    "func": "update_id_logn_permissions",
+    "required_permission_codes": [
+      "admin.user.write"
+    ],
+    "route_deps": [
+      "require_permission"
+    ],
+    "router_deps": [],
+    "sig_deps": [
+      "require_if_match",
+      "get_user_context"
+    ],
+    "body_head": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":"
+  },
+  {
+    "group": "auth.expired_must_401",
+    "method": "GET",
+    "path": "/api/v1/auth/me",
+    "ok_status": [
+      401
+    ],
+    "actual": {
+      "remote_138": 401,
+      "remote_153": 401,
+      "remote_154": 401,
+      "remote_155": 401
+    },
+    "all_same": true,
+    "class": "EXPECTED-OK",
+    "router_file": "auth.py",
+    "func": "me",
+    "required_permission_codes": [],
+    "route_deps": [],
+    "router_deps": [],
+    "sig_deps": [
+      "get_current_user"
+    ],
+    "body_head": "401 bytes=30"
+  },
+  {
+    "group": "concurrency.precondition_required_must_428",
+    "method": "PUT",
+    "path": "/api/v1/admin/id-logn/BR01",
+    "ok_status": [
+      428
+    ],
+    "actual": {
+      "remote_138": 403,
+      "remote_153": 403,
+      "remote_154": 403,
+      "remote_155": 403
+    },
+    "all_same": true,
+    "class": "EXPECTED-FAIL/PERM-PRE-EMPTS-CONCURRENCY",
+    "router_file": "admin.py",
+    "func": "update_id_logn",
+    "required_permission_codes": [
+      "admin.user.write"
+    ],
+    "route_deps": [
+      "require_permission"
+    ],
+    "router_deps": [],
+    "sig_deps": [
+      "require_if_match",
+      "get_user_context"
+    ],
+    "body_head": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":"
+  }
+]

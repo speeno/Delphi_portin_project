@@ -1,0 +1,8 @@
+# 브라우저 위치(Geolocation) UX — 목적 고지 (DEC-063)
+contract_id: portal_location_ux
+version: "1.0.0"
+intent:
+  location_data_purpose_ko: >
+    헤더 날씨·대시보드 위치 기반 위젯(기상청 격자 nx/ny 변환)에만 사용한다.
+    좌표는 기존 weather-grid API 경로로만 전달하며, 위치 안내 승인/거부·나중에 상태는
+    브라우저 localStorage(사용자·서버별 키)에만 보관한다.

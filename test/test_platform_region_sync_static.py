@@ -37,6 +37,23 @@ class PlatformRegionSyncStaticTests(TestCase):
         self.assertIn("weather_icon", api)
         self.assertIn('"weather_icon": weather_icon', backend)
 
+    def test_location_permission_bootstrap_wired(self) -> None:
+        storage = _read(FE_SRC / "lib" / "location-permission-storage.ts")
+        bootstrap = _read(FE_SRC / "components" / "app-shell" / "location-permission-bootstrap.tsx")
+        layout = _read(FE_SRC / "app" / "(app)" / "layout.tsx")
+        header = _read(FE_SRC / "components" / "app-shell" / "header-clock-weather.tsx")
+        profile = _read(FE_SRC / "app" / "(app)" / "settings" / "my-profile" / "page.tsx")
+        self.assertIn("portal_location_permission_v1", storage)
+        self.assertIn("clearLocationPermissionFlag", storage)
+        self.assertIn("readLocationPermissionFlag", bootstrap)
+        self.assertIn("navigator.geolocation.getCurrentPosition", bootstrap)
+        self.assertIn("weatherGridFromPoint", bootstrap)
+        self.assertIn("setGeolocationRegion", bootstrap)
+        self.assertIn("LocationPermissionBootstrap", layout)
+        self.assertIn("clearLocationPermissionFlag", profile)
+        self.assertIn("my-profile-location-permission-reset", profile)
+        self.assertNotIn("navigator.geolocation.getCurrentPosition", header)
+
 
 if __name__ == "__main__":
     main()

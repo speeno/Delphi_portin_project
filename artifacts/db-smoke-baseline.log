@@ -1,0 +1,564 @@
+2026-05-04 09:36:50,616 INFO app.main: Starting 도서물류관리프로그램 API server
+2026-05-04 09:36:50,617 INFO httpx: HTTP Request: GET http://testserver/api/v1/servers "HTTP/1.1 200 OK"
+2026-05-04 09:36:50,618 INFO httpx: HTTP Request: GET http://testserver/api/v1/health "HTTP/1.1 200 OK"
+2026-05-04 09:36:50,619 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/customer?serverId=remote_138&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,620 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/book?serverId=remote_138&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,621 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/publisher?serverId=remote_138&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,622 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/special?serverId=remote_138&mode=publisher&hcode=00000&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,623 INFO httpx: HTTP Request: GET http://testserver/api/v1/outbound/orders?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,624 INFO httpx: HTTP Request: GET http://testserver/api/v1/outbound/shipment-status?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,625 INFO httpx: HTTP Request: GET http://testserver/api/v1/shipping/courier/lines?serverId=remote_138&gdate=2026.04.01&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,627 INFO httpx: HTTP Request: GET http://testserver/api/v1/inbound/receipts?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,628 INFO httpx: HTTP Request: GET http://testserver/api/v1/returns?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,629 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,630 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash-status?serverId=remote_138&variant=hcode&month=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,631 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash-status?serverId=remote_138&variant=sdate&month=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,631 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/billing?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,632 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/tax-invoice?serverId=remote_138&gdate=202604 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,633 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/outstanding?serverId=remote_138&monthFrom=202604&monthTo=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,634 INFO httpx: HTTP Request: GET http://testserver/api/v1/audit/settlement?serverId=remote_138&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,635 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/sales-statement?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,636 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_138&view=list&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,636 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_138&view=summary&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,637 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_138&view=memo&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:50,638 INFO httpx: HTTP Request: GET http://testserver/api/v1/inventory/ledger?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&bcode=%25 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:53,283 INFO app.core.db: Created pool for server remote_138 (115.68.7.138:3306)
+2026-05-04 09:36:53,803 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/sales-period?serverId=remote_138&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30&groupBy=monthly "HTTP/1.1 200 OK"
+2026-05-04 09:36:54,053 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/customer-analysis?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30 "HTTP/1.1 200 OK"
+2026-05-04 09:36:54,573 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/book-turnover?serverId=remote_138&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30 "HTTP/1.1 200 OK"
+2026-05-04 09:36:55,097 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/quarterly-summary?serverId=remote_138&hcode=%25&year=2026&quarter=1 "HTTP/1.1 200 OK"
+2026-05-04 09:36:55,629 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/publisher?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 200 OK"
+2026-05-04 09:36:55,633 INFO httpx: HTTP Request: GET http://testserver/api/v1/returns/period-report?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,639 INFO httpx: HTTP Request: GET http://testserver/api/v1/reports/book-sales?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,642 INFO httpx: HTTP Request: GET http://testserver/api/v1/ledger/comparison?serverId=remote_138&keyword=&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,644 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/other?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&jubun=%EC%8B%A0%EA%B0%84&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,648 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_138 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,651 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_138 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,653 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/sales-statement/2026.04.01%7CH0001%7CJ00001%7C.pdf?serverId=remote_138 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,655 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/sales-statement/layouts?serverId=remote_138 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,658 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/label/SAMPLE.pdf?serverId=remote_138&form=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,659 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_138&variant=v0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,661 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_138&variant=v4 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,662 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/label/SAMPLE.pdf?serverId=remote_138&form=2 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,664 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/barcode.svg?serverId=remote_138&payload=9788936434260&w=40&h=12&symbology=code128 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,665 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/barcode.svg?serverId=remote_138&payload=590123412345&symbology=ean13&w=42&h=16 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,666 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/billing/202604%7CH0001/print.pdf?serverId=remote_138 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,668 INFO httpx: HTTP Request: POST http://testserver/api/v1/scan/match "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:55,670 INFO httpx: HTTP Request: GET http://testserver/api/v1/admin/id-logn?page=1&pageSize=10&server_id=remote_138 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:36:55,671 INFO httpx: HTTP Request: GET http://testserver/api/v1/admin/id-logn/permission-defaults?accountType=T2_DIST&server_id=remote_138 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:36:55,672 INFO httpx: HTTP Request: GET http://testserver/api/v1/me/profile "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:36:57,998 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/overview?serverId=remote_138&period=today&accountType=T2_DIST "HTTP/1.1 200 OK"
+2026-05-04 09:36:59,571 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/funnel?serverId=remote_138&period=today "HTTP/1.1 200 OK"
+2026-05-04 09:37:00,094 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/receivables?serverId=remote_138&period=month "HTTP/1.1 200 OK"
+2026-05-04 09:37:00,099 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/iot-warehouse?serverId=remote_138 "HTTP/1.1 200 OK"
+2026-05-04 09:37:00,107 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/layout?serverId=remote_138&role=dist "HTTP/1.1 200 OK"
+2026-05-04 09:37:00,109 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/iot-warehouse/stream?serverId=remote_138&maxEvents=1 "HTTP/1.1 200 OK"
+2026-05-04 09:37:05,116 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-risk?serverId=remote_138 "HTTP/1.1 200 OK"
+2026-05-04 09:37:11,269 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-daily?serverId=remote_138&nx=60&ny=127&location=%EC%84%9C%EC%9A%B8 "HTTP/1.1 200 OK"
+2026-05-04 09:37:11,276 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-grid-from-point?serverId=remote_138&lat=37.5665&lon=126.978 "HTTP/1.1 200 OK"
+2026-05-04 09:37:14,313 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-warning?serverId=remote_138 "HTTP/1.1 200 OK"
+2026-05-04 09:37:15,982 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/fuel-cost?serverId=remote_138 "HTTP/1.1 200 OK"
+2026-05-04 09:37:15,987 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-eta?serverId=remote_138 "HTTP/1.1 200 OK"
+2026-05-04 09:37:15,990 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-forecast?serverId=remote_138 "HTTP/1.1 200 OK"
+2026-05-04 09:37:15,993 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-map-summary?serverId=remote_138 "HTTP/1.1 200 OK"
+2026-05-04 09:37:15,996 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/delivery-route-risk?serverId=remote_138 "HTTP/1.1 200 OK"
+2026-05-04 09:37:17,935 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/demand-forecast?serverId=remote_138 "HTTP/1.1 200 OK"
+2026-05-04 09:37:17,939 WARNING audit.auth: auth.ownership.violation {"timestamp": "2026-05-04T08:37:17.939181+00:00", "user_id": "smoke", "ownership_server": "remote_154", "requested_server": "remote_138", "operation": "GET /api/v1/masters/book", "ownership_violation": true}
+2026-05-04 09:37:17,939 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/book?serverId=remote_138&limit=1 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:37:17,942 INFO httpx: HTTP Request: PUT http://testserver/api/v1/admin/id-logn/BR01/permissions?server_id=remote_138 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:37:17,944 INFO httpx: HTTP Request: GET http://testserver/api/v1/auth/me?server_id=remote_138 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,946 INFO httpx: HTTP Request: PUT http://testserver/api/v1/admin/id-logn/BR01?server_id=remote_138 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:37:17,947 INFO httpx: HTTP Request: GET http://testserver/api/v1/servers "HTTP/1.1 200 OK"
+2026-05-04 09:37:17,948 INFO httpx: HTTP Request: GET http://testserver/api/v1/health "HTTP/1.1 200 OK"
+2026-05-04 09:37:17,950 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/customer?serverId=remote_153&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,952 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/book?serverId=remote_153&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,954 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/publisher?serverId=remote_153&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,957 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/special?serverId=remote_153&mode=publisher&hcode=00000&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,959 INFO httpx: HTTP Request: GET http://testserver/api/v1/outbound/orders?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,961 INFO httpx: HTTP Request: GET http://testserver/api/v1/outbound/shipment-status?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,963 INFO httpx: HTTP Request: GET http://testserver/api/v1/shipping/courier/lines?serverId=remote_153&gdate=2026.04.01&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,964 INFO httpx: HTTP Request: GET http://testserver/api/v1/inbound/receipts?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,966 INFO httpx: HTTP Request: GET http://testserver/api/v1/returns?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,968 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,969 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash-status?serverId=remote_153&variant=hcode&month=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,971 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash-status?serverId=remote_153&variant=sdate&month=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,973 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/billing?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,974 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/tax-invoice?serverId=remote_153&gdate=202604 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,975 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/outstanding?serverId=remote_153&monthFrom=202604&monthTo=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,976 INFO httpx: HTTP Request: GET http://testserver/api/v1/audit/settlement?serverId=remote_153&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,977 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/sales-statement?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,978 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_153&view=list&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,979 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_153&view=summary&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,980 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_153&view=memo&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:17,982 INFO httpx: HTTP Request: GET http://testserver/api/v1/inventory/ledger?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&bcode=%25 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:18,695 INFO paramiko.transport: Connected (version 2.0, client OpenSSH_7.4)
+2026-05-04 09:37:21,260 INFO paramiko.transport: Authentication (publickey) failed.
+2026-05-04 09:37:21,698 INFO paramiko.transport: Connected (version 2.0, client OpenSSH_7.4)
+2026-05-04 09:37:24,041 INFO paramiko.transport: Authentication (publickey) failed.
+2026-05-04 09:37:24,482 INFO paramiko.transport: Connected (version 2.0, client OpenSSH_7.4)
+2026-05-04 09:37:26,616 INFO paramiko.transport: Authentication (password) successful!
+2026-05-04 09:37:27,909 INFO app.core.db: Created pool for server remote_153 (127.0.0.1:55725)
+2026-05-04 09:37:33,653 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/sales-period?serverId=remote_153&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30&groupBy=monthly "HTTP/1.1 200 OK"
+2026-05-04 09:37:34,961 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/customer-analysis?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30 "HTTP/1.1 200 OK"
+2026-05-04 09:37:38,900 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/book-turnover?serverId=remote_153&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30 "HTTP/1.1 200 OK"
+2026-05-04 09:37:39,417 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/quarterly-summary?serverId=remote_153&hcode=%25&year=2026&quarter=1 "HTTP/1.1 200 OK"
+2026-05-04 09:37:43,850 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/publisher?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 200 OK"
+2026-05-04 09:37:43,856 INFO httpx: HTTP Request: GET http://testserver/api/v1/returns/period-report?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,859 INFO httpx: HTTP Request: GET http://testserver/api/v1/reports/book-sales?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,862 INFO httpx: HTTP Request: GET http://testserver/api/v1/ledger/comparison?serverId=remote_153&keyword=&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,864 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/other?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&jubun=%EC%8B%A0%EA%B0%84&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,866 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_153 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,868 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_153 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,870 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/sales-statement/2026.04.01%7CH0001%7CJ00001%7C.pdf?serverId=remote_153 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,872 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/sales-statement/layouts?serverId=remote_153 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,873 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/label/SAMPLE.pdf?serverId=remote_153&form=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,875 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_153&variant=v0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,876 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_153&variant=v4 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,877 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/label/SAMPLE.pdf?serverId=remote_153&form=2 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,879 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/barcode.svg?serverId=remote_153&payload=9788936434260&w=40&h=12&symbology=code128 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,880 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/barcode.svg?serverId=remote_153&payload=590123412345&symbology=ean13&w=42&h=16 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,881 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/billing/202604%7CH0001/print.pdf?serverId=remote_153 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,882 INFO httpx: HTTP Request: POST http://testserver/api/v1/scan/match "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:43,883 INFO httpx: HTTP Request: GET http://testserver/api/v1/admin/id-logn?page=1&pageSize=10&server_id=remote_153 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:37:43,884 INFO httpx: HTTP Request: GET http://testserver/api/v1/admin/id-logn/permission-defaults?accountType=T2_DIST&server_id=remote_153 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:37:43,885 INFO httpx: HTTP Request: GET http://testserver/api/v1/me/profile "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:37:47,489 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/overview?serverId=remote_153&period=today&accountType=T2_DIST "HTTP/1.1 200 OK"
+2026-05-04 09:37:50,115 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/funnel?serverId=remote_153&period=today "HTTP/1.1 200 OK"
+2026-05-04 09:37:50,547 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/receivables?serverId=remote_153&period=month "HTTP/1.1 200 OK"
+2026-05-04 09:37:50,551 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/iot-warehouse?serverId=remote_153 "HTTP/1.1 200 OK"
+2026-05-04 09:37:50,557 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/layout?serverId=remote_153&role=dist "HTTP/1.1 200 OK"
+2026-05-04 09:37:50,559 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/iot-warehouse/stream?serverId=remote_153&maxEvents=1 "HTTP/1.1 200 OK"
+2026-05-04 09:37:50,561 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-risk?serverId=remote_153 "HTTP/1.1 200 OK"
+2026-05-04 09:37:57,413 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-daily?serverId=remote_153&nx=60&ny=127&location=%EC%84%9C%EC%9A%B8 "HTTP/1.1 200 OK"
+2026-05-04 09:37:57,417 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-grid-from-point?serverId=remote_153&lat=37.5665&lon=126.978 "HTTP/1.1 200 OK"
+2026-05-04 09:37:57,419 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-warning?serverId=remote_153 "HTTP/1.1 200 OK"
+2026-05-04 09:37:57,421 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/fuel-cost?serverId=remote_153 "HTTP/1.1 200 OK"
+2026-05-04 09:37:57,423 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-eta?serverId=remote_153 "HTTP/1.1 200 OK"
+2026-05-04 09:37:57,425 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-forecast?serverId=remote_153 "HTTP/1.1 200 OK"
+2026-05-04 09:37:57,427 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-map-summary?serverId=remote_153 "HTTP/1.1 200 OK"
+2026-05-04 09:37:57,430 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/delivery-route-risk?serverId=remote_153 "HTTP/1.1 200 OK"
+2026-05-04 09:38:00,605 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/demand-forecast?serverId=remote_153 "HTTP/1.1 200 OK"
+2026-05-04 09:38:00,608 WARNING audit.auth: auth.ownership.violation {"timestamp": "2026-05-04T08:38:00.608481+00:00", "user_id": "smoke", "ownership_server": "remote_154", "requested_server": "remote_153", "operation": "GET /api/v1/masters/book", "ownership_violation": true}
+2026-05-04 09:38:00,608 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/book?serverId=remote_153&limit=1 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:38:00,611 INFO httpx: HTTP Request: PUT http://testserver/api/v1/admin/id-logn/BR01/permissions?server_id=remote_153 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:38:00,611 INFO httpx: HTTP Request: GET http://testserver/api/v1/auth/me?server_id=remote_153 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,613 INFO httpx: HTTP Request: PUT http://testserver/api/v1/admin/id-logn/BR01?server_id=remote_153 "HTTP/1.1 403 Forbidden"
+=== L0 설정 요약 (4대) ===
+  - remote_138     db=chul_09_db ssh mysql>=4 label='115.68.7.138 (MySQL direct, 5.1)'
+  - remote_153     db=chul_09_db ssh mysql>=4 label='115.68.3.153 (SSH+MySQL)'
+  - remote_154     db=chul_09_db ssh mysql3 label='115.68.3.154 (SSH legacy+MySQL 3.x)'
+  - remote_155     db=chul_09_db ssh mysql3 label='115.68.3.155 (SSH legacy+MySQL 3.x)'
+
+=== L4 라우터 GET 스모크 ===
+  remote_138     25/67 OK
+    OK   common.servers                     200 bytes=251
+    OK   common.health                      200 bytes=15
+    FAIL masters.customer                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.book                       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.publisher                  401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.special                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL outbound.orders                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL outbound.shipment_status           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL shipping.courier_lines             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL inbound.receipts                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL returns.list                       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash_status_hcode       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash_status_sdate       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.billing                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.tax_invoice             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.outstanding             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.audit_settlement        401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.statement             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.list           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.summary        401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.memo           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL inventory.ledger                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    OK   stats.sales_period                 200 bytes=273
+    OK   stats.customer_analysis            200 bytes=216
+    OK   stats.book_turnover                200 bytes=241
+    OK   stats.quarterly_summary            200 bytes=307
+    OK   stats.publisher                    200 bytes=319
+    FAIL returns.period_report              401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL reports.book_sales                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL ledger.publisher_settings          401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.other                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.outbound_statement_pdf       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.return_receipt_pdf           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.sales_statement_pdf          401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.sales_statement_layouts      401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.label_pdf                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.outbound_statement_pdf_variant 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.return_receipt_pdf_variant_v4_must_422 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.label_pdf_form2              401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.barcode_svg                  401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.barcode_svg_ean13            401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.invoice_pdf             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL scan.match                         401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL admin.id_logn_list                 403 bytes=139 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.read"}}}'
+    FAIL admin.id_logn_permission_defaults  403 bytes=139 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.read"}}}'
+    FAIL me.profile                         401 bytes=30 body~='{"detail":"Not authenticated"}'
+    OK   stats.dashboard.overview           200 bytes=264
+    OK   stats.dashboard.funnel             200 bytes=248
+    OK   stats.dashboard.receivables        200 bytes=81
+    OK   stats.dashboard.iot_warehouse      200 bytes=1400
+    OK   stats.dashboard.layout             200 bytes=131
+    OK   stats.dashboard.iot_stream         200 bytes=248
+    OK   dashboard.external.weather_risk    200 bytes=531
+    OK   dashboard.external.weather_daily   200 bytes=1004
+    OK   dashboard.external.weather_grid_from_point 200 bytes=130
+    OK   dashboard.external.weather_warning 200 bytes=369
+    OK   dashboard.external.fuel_cost       200 bytes=733
+    OK   dashboard.external.traffic_eta     200 bytes=421
+    OK   dashboard.external.traffic_forecast 200 bytes=440
+    OK   dashboard.external.traffic_map_summary 200 bytes=461
+    OK   dashboard.external.delivery_route_risk 200 bytes=419
+    OK   dashboard.external.demand_forecast 200 bytes=276
+    OK   ownership.violation.expected_403   403 bytes=205
+    FAIL admin.permission_matrix_stale_must_409 403 bytes=140 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.write"}}}'
+    OK   auth.expired_must_401              401 bytes=30
+    FAIL concurrency.precondition_required_must_428 403 bytes=140 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.write"}}}'
+  remote_153     25/67 OK
+    OK   common.servers                     200 bytes=251
+    OK   common.health                      200 bytes=15
+    FAIL masters.customer                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.book                       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.publisher                  401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.special                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL outbound.orders                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL outbound.shipment_status           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL shipping.courier_lines             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL inbound.receipts                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL returns.list                       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash_status_hcode       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash_status_sdate       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.billing                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.tax_invoice             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.outstanding             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.audit_settlement        401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.statement             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.list           401 bytes=30 body~='{"detail":"Not authenticated"}'2026-05-04 09:38:00,614 INFO httpx: HTTP Request: GET http://testserver/api/v1/servers "HTTP/1.1 200 OK"
+2026-05-04 09:38:00,615 INFO httpx: HTTP Request: GET http://testserver/api/v1/health "HTTP/1.1 200 OK"
+2026-05-04 09:38:00,617 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/customer?serverId=remote_154&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,619 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/book?serverId=remote_154&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,621 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/publisher?serverId=remote_154&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,624 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/special?serverId=remote_154&mode=publisher&hcode=00000&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,626 INFO httpx: HTTP Request: GET http://testserver/api/v1/outbound/orders?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,628 INFO httpx: HTTP Request: GET http://testserver/api/v1/outbound/shipment-status?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,630 INFO httpx: HTTP Request: GET http://testserver/api/v1/shipping/courier/lines?serverId=remote_154&gdate=2026.04.01&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,632 INFO httpx: HTTP Request: GET http://testserver/api/v1/inbound/receipts?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,633 INFO httpx: HTTP Request: GET http://testserver/api/v1/returns?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,635 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,637 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash-status?serverId=remote_154&variant=hcode&month=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,639 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash-status?serverId=remote_154&variant=sdate&month=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,640 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/billing?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,642 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/tax-invoice?serverId=remote_154&gdate=202604 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,643 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/outstanding?serverId=remote_154&monthFrom=202604&monthTo=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,643 INFO httpx: HTTP Request: GET http://testserver/api/v1/audit/settlement?serverId=remote_154&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,645 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/sales-statement?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,646 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_154&view=list&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,647 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_154&view=summary&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,648 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_154&view=memo&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:00,649 INFO httpx: HTTP Request: GET http://testserver/api/v1/inventory/ledger?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&bcode=%25 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:38:21,395 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/sales-period?serverId=remote_154&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30&groupBy=monthly "HTTP/1.1 200 OK"
+2026-05-04 09:38:29,534 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/customer-analysis?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30 "HTTP/1.1 200 OK"
+2026-05-04 09:38:47,083 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/book-turnover?serverId=remote_154&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30 "HTTP/1.1 200 OK"
+2026-05-04 09:38:49,155 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/quarterly-summary?serverId=remote_154&hcode=%25&year=2026&quarter=1 "HTTP/1.1 200 OK"
+2026-05-04 09:39:05,713 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/publisher?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 200 OK"
+2026-05-04 09:39:05,721 INFO httpx: HTTP Request: GET http://testserver/api/v1/returns/period-report?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,723 INFO httpx: HTTP Request: GET http://testserver/api/v1/reports/book-sales?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,725 INFO httpx: HTTP Request: GET http://testserver/api/v1/ledger/comparison?serverId=remote_154&keyword=&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,727 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/other?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&jubun=%EC%8B%A0%EA%B0%84&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,729 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_154 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,731 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_154 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,732 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/sales-statement/2026.04.01%7CH0001%7CJ00001%7C.pdf?serverId=remote_154 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,734 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/sales-statement/layouts?serverId=remote_154 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,735 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/label/SAMPLE.pdf?serverId=remote_154&form=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,737 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_154&variant=v0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,738 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_154&variant=v4 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,739 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/label/SAMPLE.pdf?serverId=remote_154&form=2 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,741 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/barcode.svg?serverId=remote_154&payload=9788936434260&w=40&h=12&symbology=code128 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,742 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/barcode.svg?serverId=remote_154&payload=590123412345&symbology=ean13&w=42&h=16 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,743 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/billing/202604%7CH0001/print.pdf?serverId=remote_154 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,744 INFO httpx: HTTP Request: POST http://testserver/api/v1/scan/match "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:05,745 INFO httpx: HTTP Request: GET http://testserver/api/v1/admin/id-logn?page=1&pageSize=10&server_id=remote_154 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:39:05,746 INFO httpx: HTTP Request: GET http://testserver/api/v1/admin/id-logn/permission-defaults?accountType=T2_DIST&server_id=remote_154 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:39:05,746 INFO httpx: HTTP Request: GET http://testserver/api/v1/me/profile "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:18,226 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/overview?serverId=remote_154&period=today&accountType=T2_DIST "HTTP/1.1 200 OK"
+2026-05-04 09:39:27,670 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/funnel?serverId=remote_154&period=today "HTTP/1.1 200 OK"
+2026-05-04 09:39:29,762 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/receivables?serverId=remote_154&period=month "HTTP/1.1 200 OK"
+2026-05-04 09:39:29,767 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/iot-warehouse?serverId=remote_154 "HTTP/1.1 200 OK"
+2026-05-04 09:39:29,773 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/layout?serverId=remote_154&role=dist "HTTP/1.1 200 OK"
+2026-05-04 09:39:29,776 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/iot-warehouse/stream?serverId=remote_154&maxEvents=1 "HTTP/1.1 200 OK"
+2026-05-04 09:39:29,778 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-risk?serverId=remote_154 "HTTP/1.1 200 OK"
+2026-05-04 09:39:36,103 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-daily?serverId=remote_154&nx=60&ny=127&location=%EC%84%9C%EC%9A%B8 "HTTP/1.1 200 OK"
+2026-05-04 09:39:36,108 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-grid-from-point?serverId=remote_154&lat=37.5665&lon=126.978 "HTTP/1.1 200 OK"
+2026-05-04 09:39:36,111 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-warning?serverId=remote_154 "HTTP/1.1 200 OK"
+2026-05-04 09:39:36,113 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/fuel-cost?serverId=remote_154 "HTTP/1.1 200 OK"
+2026-05-04 09:39:36,116 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-eta?serverId=remote_154 "HTTP/1.1 200 OK"
+2026-05-04 09:39:36,119 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-forecast?serverId=remote_154 "HTTP/1.1 200 OK"
+2026-05-04 09:39:36,121 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-map-summary?serverId=remote_154 "HTTP/1.1 200 OK"
+2026-05-04 09:39:36,125 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/delivery-route-risk?serverId=remote_154 "HTTP/1.1 200 OK"
+2026-05-04 09:39:48,635 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/demand-forecast?serverId=remote_154 "HTTP/1.1 200 OK"
+2026-05-04 09:39:48,639 WARNING audit.auth: auth.ownership.violation {"timestamp": "2026-05-04T08:39:48.639876+00:00", "user_id": "smoke", "ownership_server": "remote_153", "requested_server": "remote_154", "operation": "GET /api/v1/masters/book", "ownership_violation": true}
+2026-05-04 09:39:48,640 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/book?serverId=remote_154&limit=1 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:39:48,642 INFO httpx: HTTP Request: PUT http://testserver/api/v1/admin/id-logn/BR01/permissions?server_id=remote_154 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:39:48,643 INFO httpx: HTTP Request: GET http://testserver/api/v1/auth/me?server_id=remote_154 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,645 INFO httpx: HTTP Request: PUT http://testserver/api/v1/admin/id-logn/BR01?server_id=remote_154 "HTTP/1.1 403 Forbidden"
+
+    FAIL transactions.status.summary        401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.memo           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL inventory.ledger                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    OK   stats.sales_period                 200 bytes=297
+    OK   stats.customer_analysis            200 bytes=16768
+    OK   stats.book_turnover                200 bytes=11474
+    OK   stats.quarterly_summary            200 bytes=307
+    OK   stats.publisher                    200 bytes=502
+    FAIL returns.period_report              401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL reports.book_sales                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL ledger.publisher_settings          401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.other                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.outbound_statement_pdf       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.return_receipt_pdf           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.sales_statement_pdf          401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.sales_statement_layouts      401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.label_pdf                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.outbound_statement_pdf_variant 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.return_receipt_pdf_variant_v4_must_422 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.label_pdf_form2              401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.barcode_svg                  401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.barcode_svg_ean13            401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.invoice_pdf             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL scan.match                         401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL admin.id_logn_list                 403 bytes=139 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.read"}}}'
+    FAIL admin.id_logn_permission_defaults  403 bytes=139 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.read"}}}'
+    FAIL me.profile                         401 bytes=30 body~='{"detail":"Not authenticated"}'
+    OK   stats.dashboard.overview           200 bytes=267
+    OK   stats.dashboard.funnel             200 bytes=252
+    OK   stats.dashboard.receivables        200 bytes=81
+    OK   stats.dashboard.iot_warehouse      200 bytes=1172
+    OK   stats.dashboard.layout             200 bytes=131
+    OK   stats.dashboard.iot_stream         200 bytes=190
+    OK   dashboard.external.weather_risk    200 bytes=531
+    OK   dashboard.external.weather_daily   200 bytes=1004
+    OK   dashboard.external.weather_grid_from_point 200 bytes=130
+    OK   dashboard.external.weather_warning 200 bytes=369
+    OK   dashboard.external.fuel_cost       200 bytes=733
+    OK   dashboard.external.traffic_eta     200 bytes=421
+    OK   dashboard.external.traffic_forecast 200 bytes=440
+    OK   dashboard.external.traffic_map_summary 200 bytes=475
+    OK   dashboard.external.delivery_route_risk 200 bytes=419
+    OK   dashboard.external.demand_forecast 200 bytes=279
+    OK   ownership.violation.expected_403   403 bytes=205
+    FAIL admin.permission_matrix_stale_must_409 403 bytes=140 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.write"}}}'
+    OK   auth.expired_must_401              401 bytes=30
+    FAIL concurrency.precondition_required_must_428 403 bytes=140 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.write"}}}'
+  remote_154     25/67 OK
+    OK   common.servers                     200 bytes=251
+    OK   common.health                      200 bytes=15
+    FAIL masters.customer                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.book                       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.publisher                  401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.special                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL outbound.orders                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL outbound.shipment_status           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL shipping.courier_lines             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL inbound.receipts                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL returns.list                       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash_status_hcode       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash_status_sdate       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.billing                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.tax_invoice             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.outstanding             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.audit_settlement        401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.statement             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.list           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.summary        401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.memo           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL inventory.ledger                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    OK   stats.sales_period                 200 bytes=297
+    OK   stats.customer_analysis            200 bytes=16701
+    OK   stats.book_turnover                200 bytes=11136
+    OK   stats.quarterly_summary            200 bytes=307
+    OK   stats.publisher                    200 bytes=500
+    FAIL returns.period_report              401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL reports.book_sales                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL ledger.publisher_settings          401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.other                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.outbound_statement_pdf       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.return_receipt_pdf           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.sales_statement_pdf          401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.sales_statement_layouts      401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.label_pdf                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.outbound_statement_pdf_variant 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.return_receipt_pdf_variant_v4_must_422 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.label_pdf_form2              401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.barcode_svg                  401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.barcode_svg_ean13            401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.invoice_pdf             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL scan.match                         401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL admin.id_logn_list                 403 bytes=139 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.read"}}}'2026-05-04 09:39:48,646 INFO httpx: HTTP Request: GET http://testserver/api/v1/servers "HTTP/1.1 200 OK"
+2026-05-04 09:39:48,647 INFO httpx: HTTP Request: GET http://testserver/api/v1/health "HTTP/1.1 200 OK"
+2026-05-04 09:39:48,649 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/customer?serverId=remote_155&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,651 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/book?serverId=remote_155&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,652 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/publisher?serverId=remote_155&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,655 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/special?serverId=remote_155&mode=publisher&hcode=00000&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,657 INFO httpx: HTTP Request: GET http://testserver/api/v1/outbound/orders?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,660 INFO httpx: HTTP Request: GET http://testserver/api/v1/outbound/shipment-status?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,661 INFO httpx: HTTP Request: GET http://testserver/api/v1/shipping/courier/lines?serverId=remote_155&gdate=2026.04.01&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,663 INFO httpx: HTTP Request: GET http://testserver/api/v1/inbound/receipts?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,665 INFO httpx: HTTP Request: GET http://testserver/api/v1/returns?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,667 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,668 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash-status?serverId=remote_155&variant=hcode&month=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,670 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/cash-status?serverId=remote_155&variant=sdate&month=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,671 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/billing?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,673 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/tax-invoice?serverId=remote_155&gdate=202604 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,674 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/outstanding?serverId=remote_155&monthFrom=202604&monthTo=202604&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,675 INFO httpx: HTTP Request: GET http://testserver/api/v1/audit/settlement?serverId=remote_155&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,676 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/sales-statement?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,677 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_155&view=list&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,678 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_155&view=summary&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,679 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/status?serverId=remote_155&view=memo&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:39:48,681 INFO httpx: HTTP Request: GET http://testserver/api/v1/inventory/ledger?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&bcode=%25 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:06,575 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/sales-period?serverId=remote_155&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30&groupBy=monthly "HTTP/1.1 200 OK"
+2026-05-04 09:40:13,142 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/customer-analysis?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30 "HTTP/1.1 200 OK"
+2026-05-04 09:40:25,169 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/book-turnover?serverId=remote_155&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30 "HTTP/1.1 200 OK"
+2026-05-04 09:40:27,192 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/quarterly-summary?serverId=remote_155&hcode=%25&year=2026&quarter=1 "HTTP/1.1 200 OK"
+2026-05-04 09:40:40,657 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/publisher?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 200 OK"
+2026-05-04 09:40:40,662 INFO httpx: HTTP Request: GET http://testserver/api/v1/returns/period-report?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,666 INFO httpx: HTTP Request: GET http://testserver/api/v1/reports/book-sales?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,668 INFO httpx: HTTP Request: GET http://testserver/api/v1/ledger/comparison?serverId=remote_155&keyword=&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,669 INFO httpx: HTTP Request: GET http://testserver/api/v1/transactions/other?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&jubun=%EC%8B%A0%EA%B0%84&limit=1&offset=0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,671 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_155 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,673 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_155 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,674 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/sales-statement/2026.04.01%7CH0001%7CJ00001%7C.pdf?serverId=remote_155 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,676 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/sales-statement/layouts?serverId=remote_155 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,677 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/label/SAMPLE.pdf?serverId=remote_155&form=1 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,678 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_155&variant=v0 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,679 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_155&variant=v4 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,681 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/label/SAMPLE.pdf?serverId=remote_155&form=2 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,682 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/barcode.svg?serverId=remote_155&payload=9788936434260&w=40&h=12&symbology=code128 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,684 INFO httpx: HTTP Request: GET http://testserver/api/v1/print/barcode.svg?serverId=remote_155&payload=590123412345&symbology=ean13&w=42&h=16 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,685 INFO httpx: HTTP Request: GET http://testserver/api/v1/settlement/billing/202604%7CH0001/print.pdf?serverId=remote_155 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,685 INFO httpx: HTTP Request: POST http://testserver/api/v1/scan/match "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:40,686 INFO httpx: HTTP Request: GET http://testserver/api/v1/admin/id-logn?page=1&pageSize=10&server_id=remote_155 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:40:40,687 INFO httpx: HTTP Request: GET http://testserver/api/v1/admin/id-logn/permission-defaults?accountType=T2_DIST&server_id=remote_155 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:40:40,688 INFO httpx: HTTP Request: GET http://testserver/api/v1/me/profile "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:40:54,172 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/overview?serverId=remote_155&period=today&accountType=T2_DIST "HTTP/1.1 200 OK"
+2026-05-04 09:41:04,653 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/funnel?serverId=remote_155&period=today "HTTP/1.1 200 OK"
+2026-05-04 09:41:06,750 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/receivables?serverId=remote_155&period=month "HTTP/1.1 200 OK"
+2026-05-04 09:41:06,756 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/iot-warehouse?serverId=remote_155 "HTTP/1.1 200 OK"
+2026-05-04 09:41:06,763 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/layout?serverId=remote_155&role=dist "HTTP/1.1 200 OK"
+2026-05-04 09:41:06,765 INFO httpx: HTTP Request: GET http://testserver/api/v1/stats/dashboard/iot-warehouse/stream?serverId=remote_155&maxEvents=1 "HTTP/1.1 200 OK"
+2026-05-04 09:41:06,768 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-risk?serverId=remote_155 "HTTP/1.1 200 OK"
+2026-05-04 09:41:12,278 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-daily?serverId=remote_155&nx=60&ny=127&location=%EC%84%9C%EC%9A%B8 "HTTP/1.1 200 OK"
+2026-05-04 09:41:12,282 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-grid-from-point?serverId=remote_155&lat=37.5665&lon=126.978 "HTTP/1.1 200 OK"
+2026-05-04 09:41:12,285 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/weather-warning?serverId=remote_155 "HTTP/1.1 200 OK"
+2026-05-04 09:41:12,287 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/fuel-cost?serverId=remote_155 "HTTP/1.1 200 OK"
+2026-05-04 09:41:12,289 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-eta?serverId=remote_155 "HTTP/1.1 200 OK"
+2026-05-04 09:41:12,291 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-forecast?serverId=remote_155 "HTTP/1.1 200 OK"
+2026-05-04 09:41:12,293 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/traffic-map-summary?serverId=remote_155 "HTTP/1.1 200 OK"
+2026-05-04 09:41:12,296 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/delivery-route-risk?serverId=remote_155 "HTTP/1.1 200 OK"
+2026-05-04 09:41:24,858 INFO httpx: HTTP Request: GET http://testserver/api/v1/dashboard/external/demand-forecast?serverId=remote_155 "HTTP/1.1 200 OK"
+2026-05-04 09:41:24,862 WARNING audit.auth: auth.ownership.violation {"timestamp": "2026-05-04T08:41:24.862836+00:00", "user_id": "smoke", "ownership_server": "remote_154", "requested_server": "remote_155", "operation": "GET /api/v1/masters/book", "ownership_violation": true}
+2026-05-04 09:41:24,863 INFO httpx: HTTP Request: GET http://testserver/api/v1/masters/book?serverId=remote_155&limit=1 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:41:24,866 INFO httpx: HTTP Request: PUT http://testserver/api/v1/admin/id-logn/BR01/permissions?server_id=remote_155 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:41:24,867 INFO httpx: HTTP Request: GET http://testserver/api/v1/auth/me?server_id=remote_155 "HTTP/1.1 401 Unauthorized"
+2026-05-04 09:41:24,869 INFO httpx: HTTP Request: PUT http://testserver/api/v1/admin/id-logn/BR01?server_id=remote_155 "HTTP/1.1 403 Forbidden"
+2026-05-04 09:41:24,940 INFO app.main: Shutdown complete
+
+    FAIL admin.id_logn_permission_defaults  403 bytes=139 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.read"}}}'
+    FAIL me.profile                         401 bytes=30 body~='{"detail":"Not authenticated"}'
+    OK   stats.dashboard.overview           200 bytes=264
+    OK   stats.dashboard.funnel             200 bytes=248
+    OK   stats.dashboard.receivables        200 bytes=81
+    OK   stats.dashboard.iot_warehouse      200 bytes=1172
+    OK   stats.dashboard.layout             200 bytes=131
+    OK   stats.dashboard.iot_stream         200 bytes=190
+    OK   dashboard.external.weather_risk    200 bytes=531
+    OK   dashboard.external.weather_daily   200 bytes=1004
+    OK   dashboard.external.weather_grid_from_point 200 bytes=130
+    OK   dashboard.external.weather_warning 200 bytes=369
+    OK   dashboard.external.fuel_cost       200 bytes=733
+    OK   dashboard.external.traffic_eta     200 bytes=421
+    OK   dashboard.external.traffic_forecast 200 bytes=440
+    OK   dashboard.external.traffic_map_summary 200 bytes=475
+    OK   dashboard.external.delivery_route_risk 200 bytes=419
+    OK   dashboard.external.demand_forecast 200 bytes=276
+    OK   ownership.violation.expected_403   403 bytes=205
+    FAIL admin.permission_matrix_stale_must_409 403 bytes=140 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.write"}}}'
+    OK   auth.expired_must_401              401 bytes=30
+    FAIL concurrency.precondition_required_must_428 403 bytes=140 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.write"}}}'
+  remote_155     25/67 OK
+    OK   common.servers                     200 bytes=251
+    OK   common.health                      200 bytes=15
+    FAIL masters.customer                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.book                       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.publisher                  401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL masters.special                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL outbound.orders                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL outbound.shipment_status           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL shipping.courier_lines             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL inbound.receipts                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL returns.list                       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash_status_hcode       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.cash_status_sdate       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.billing                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.tax_invoice             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.outstanding             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.audit_settlement        401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.statement             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.list           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.summary        401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.status.memo           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL inventory.ledger                   401 bytes=30 body~='{"detail":"Not authenticated"}'
+    OK   stats.sales_period                 200 bytes=299
+    OK   stats.customer_analysis            200 bytes=17109
+    OK   stats.book_turnover                200 bytes=11847
+    OK   stats.quarterly_summary            200 bytes=307
+    OK   stats.publisher                    200 bytes=504
+    FAIL returns.period_report              401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL reports.book_sales                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL ledger.publisher_settings          401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL transactions.other                 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.outbound_statement_pdf       401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.return_receipt_pdf           401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.sales_statement_pdf          401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.sales_statement_layouts      401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.label_pdf                    401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.outbound_statement_pdf_variant 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.return_receipt_pdf_variant_v4_must_422 401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.label_pdf_form2              401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.barcode_svg                  401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL print.barcode_svg_ean13            401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL settlement.invoice_pdf             401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL scan.match                         401 bytes=30 body~='{"detail":"Not authenticated"}'
+    FAIL admin.id_logn_list                 403 bytes=139 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.read"}}}'
+    FAIL admin.id_logn_permission_defaults  403 bytes=139 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.read"}}}'
+    FAIL me.profile                         401 bytes=30 body~='{"detail":"Not authenticated"}'
+    OK   stats.dashboard.overview           200 bytes=267
+    OK   stats.dashboard.funnel             200 bytes=252
+    OK   stats.dashboard.receivables        200 bytes=81
+    OK   stats.dashboard.iot_warehouse      200 bytes=1172
+    OK   stats.dashboard.layout             200 bytes=131
+    OK   stats.dashboard.iot_stream         200 bytes=190
+    OK   dashboard.external.weather_risk    200 bytes=531
+    OK   dashboard.external.weather_daily   200 bytes=1004
+    OK   dashboard.external.weather_grid_from_point 200 bytes=130
+    OK   dashboard.external.weather_warning 200 bytes=369
+    OK   dashboard.external.fuel_cost       200 bytes=733
+    OK   dashboard.external.traffic_eta     200 bytes=421
+    OK   dashboard.external.traffic_forecast 200 bytes=440
+    OK   dashboard.external.traffic_map_summary 200 bytes=461
+    OK   dashboard.external.delivery_route_risk 200 bytes=419
+    OK   dashboard.external.demand_forecast 200 bytes=276
+    OK   ownership.violation.expected_403   403 bytes=205
+    FAIL admin.permission_matrix_stale_must_409 403 bytes=140 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.write"}}}'
+    OK   auth.expired_must_401              401 bytes=30
+    FAIL concurrency.precondition_required_must_428 403 bytes=140 body~='{"detail":{"code":"PERMISSION_DENIED","message":"이 작업을 수행할 권한이 없습니다.","detail":{"required":"admin.user.write"}}}'
+
+=== 요약 === L2 모두성공=True  L4 OK=100/268
+  → JSON 저장: artifacts/db-smoke-baseline.json

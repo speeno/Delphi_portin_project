@@ -21,8 +21,10 @@
 성공 기준 (DoD)
 ---------------
 - L2: 모든 서버 SELECT 1 성공.
-- L4: 라우터 그룹별 최소 1 GET 이 모든 서버에서 200 (빈 목록 허용) 또는
-      알려진 스키마 차이로 인한 500 의 경우 reason 분류.
+- L4: 라우터 그룹별 매트릭스 호출이 모든 서버에서 허용 status 집합에 들어감
+      (200·일부 404/422/503 등 매트릭스 별 정의). 인증은 TestClient
+      dependency_overrides 로 슈퍼유저 클레임 통과(DEC-062).
+      알려진 스키마 차이로 인한 500 은 reason 분류 후 예외 승인.
 
 CI 옵트인
 ---------
@@ -40,6 +42,8 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from starlette.requests import Request
 
 ROOT = Path(__file__).resolve().parents[1]
 BACKEND = ROOT / "도서물류관리프로그램" / "backend"
@@ -88,43 +92,89 @@ async def probe_select_one(server_id: str) -> dict[str, Any]:
 # ─────────────────────────────────────────────────────────────────────
 # L4 — 라우터 GET 스모크 (TestClient + 의존성 우회)
 # ─────────────────────────────────────────────────────────────────────
+def _smoke_resolve_server_id(request: Request) -> str:
+    """쿼리·헤더·path 에서 server id 추출 (require_server_ownership 과 동일 우선순위 성격)."""
+    h = request.headers
+    q = request.query_params
+    p = request.path_params
+    return (
+        (h.get("X-Smoke-Ownership-Server") or "").strip()
+        or (q.get("serverId") or "").strip()
+        or (q.get("server_id") or "").strip()
+        or (p.get("serverId") or "").strip()
+        or (p.get("server_id") or "").strip()
+        or "remote_1"
+    )
+
+
+def _smoke_jwt_user(server_id: str, tenant_id: str = "") -> dict[str, Any]:
+    """get_current_user 반환 형태 — DEC-062 슈퍼유저 (`permissions=['*']` + role=admin)."""
+    tid = (tenant_id or "").strip()
+    return {
+        "user_id": "smoke",
+        "server_id": server_id,
+        "hcode": "S0001",
+        "role": "admin",
+        "permissions": ["*"],
+        "primary_data_server_set": True,
+        "account_type": "T2_DIST",
+        "tenant_id": tid or None,
+        "account_family": "chul_05",
+        "active_build_id": "BLD-DIST-STD",
+        "build_role": "distributor",
+        "dist_hcode": None,
+        "warehouse_menu_tier": "",
+        "license_keys": [],
+    }
+
+
+def _smoke_full_user_context(server_id: str, tenant_id: str = "") -> dict[str, Any]:
+    """get_user_context 합성 결과와 동일 키 세트 (inspect 모드 제외)."""
+    tid = (tenant_id or "").strip()
+    return {
+        "user_id": "smoke",
+        "server_id": server_id,
+        "role": "admin",
+        "hcode": "S0001",
+        "branch_id": "",
+        "permissions": ["*"],
+        "tenant_id": tid,
+        "account_family": "chul_05",
+        "active_build_id": "BLD-DIST-STD",
+        "build_role": "distributor",
+        "account_type": "T2_DIST",
+        "dist_hcode": "",
+    }
+
+
 @contextmanager
 def _smoke_test_client():
-    """FastAPI TestClient + get_user_context 우회 (lifespan 기동 + override 정리)."""
+    """FastAPI TestClient + JWT 의존성 우회 (get_current_user + get_user_context, DEC-062)."""
     # 지연 import: PYTHONPATH 가 들어간 뒤에야 app 모듈을 찾을 수 있음.
     from fastapi import Header, Query  # noqa: PLC0415
     from fastapi.testclient import TestClient  # noqa: PLC0415
 
     from app.core.deps import get_user_context  # noqa: PLC0415
     from app.main import app  # noqa: PLC0415
+    from app.routers.auth import get_current_user  # noqa: PLC0415
+
+    async def _override_get_current_user(request: Request) -> dict[str, Any]:
+        sid = _smoke_resolve_server_id(request)
+        q = request.query_params
+        tid = (q.get("tenantId") or q.get("tenant_id") or "").strip()
+        return _smoke_jwt_user(sid, tid)
 
     async def _override_ctx(
         server_id_q: str | None = Query(None, alias="serverId"),
+        server_id_legacy: str | None = Query(None, alias="server_id"),
         tenant_id_q: str | None = Query(None, alias="tenantId"),
         x_smoke_ownership: str | None = Header(None, alias="X-Smoke-Ownership-Server"),
-    ) -> dict[str, object]:
-        sid = (x_smoke_ownership or server_id_q or "remote_1").strip()
-        return {
-            "user_id": "smoke",
-            "server_id": sid,
-            "tenant_id": (tenant_id_q or "").strip(),
-            "account_family": "chul_05",
-            "active_build_id": "BLD-DIST-STD",
-            "role": "operator",
-            "hcode": "S0001",
-            # C13 stats 라우터 require_permission(admin.stats.*) — L4 매트릭스 200 허용
-            "permissions": [
-                "admin.stats.sales",
-                "admin.stats.customer",
-                "admin.stats.book",
-                "admin.stats.quarterly",
-            ],
-            "account_type": "T2_DIST",
-            "build_role": "distributor",
-            "warehouse_menu_tier": "",
-        }
+    ) -> dict[str, Any]:
+        sid = (x_smoke_ownership or server_id_q or server_id_legacy or "remote_1").strip()
+        return _smoke_full_user_context(sid, (tenant_id_q or "").strip())
 
     app.dependency_overrides.clear()
+    app.dependency_overrides[get_current_user] = _override_get_current_user
     app.dependency_overrides[get_user_context] = _override_ctx
     with TestClient(app) as client:
         yield client
@@ -239,7 +289,7 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "group": "settlement.billing",
             "path": (
                 f"/api/v1/settlement/billing?serverId={sid}"
-                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+                f"&monthFrom={month}&monthTo={month}&limit=1&offset=0"
             ),
             "ok_status": {200},
         },
@@ -612,14 +662,23 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
 
 
 def probe_routes(client, server_id: str, args: argparse.Namespace) -> list[dict[str, Any]]:
+    from app.core.deps import get_user_context  # noqa: PLC0415
+    from app.main import app  # noqa: PLC0415
+    from app.routers.auth import get_current_user  # noqa: PLC0415
+
     out: list[dict[str, Any]] = []
     for spec in _routes_for(server_id, args):
         path = spec["path"]
         method = spec.get("method", "GET").upper()
         json_body = spec.get("json_body")
         extra_headers = dict(spec.get("headers") or {})
-        # C10 — auth.expired_must_401 등 무인증 강제 시 dependency override 일시 해제 필요
-        # (TestClient 가 직접 무토큰 호출하므로 실제 효과는 라우터 측 401 → override 이전 상태)
+        headers_no_auth = bool(spec.get("headers_no_auth"))
+        # C10 — auth.expired_must_401: 무인증으로 실제 get_current_user(HTTPBearer) 경로 검증
+        saved_overrides: dict[Any, Any] = {}
+        if headers_no_auth:
+            for dep in (get_user_context, get_current_user):
+                if dep in app.dependency_overrides:
+                    saved_overrides[dep] = app.dependency_overrides.pop(dep)
         try:
             if method == "POST":
                 res = client.post(path, json=json_body, headers=extra_headers or None)
@@ -653,6 +712,9 @@ def probe_routes(client, server_id: str, args: argparse.Namespace) -> list[dict[
                 "status": 0,
                 "detail": f"{type(exc).__name__}: {exc}",
             })
+        finally:
+            for dep, fn in saved_overrides.items():
+                app.dependency_overrides[dep] = fn
     return out
 
 

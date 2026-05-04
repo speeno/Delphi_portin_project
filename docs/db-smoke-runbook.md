@@ -71,8 +71,9 @@ PYTHONPATH=도서물류관리프로그램/backend \
 DoD (Definition of Done):
 
 - L2: 모든 서버 SELECT 1 = `ok:true`.
-- L4: `ok:false` 가 0건. 빈 결과(예: 해당 기간 거래 없음)는 200 으로 처리되므로 OK.
-- 알려진 스키마 차이로 200 이 아닌 경우(예: T5_Ssub `Sdate` 누락 → 어댑터 적용 후에도 일부 테이블 누락) → reason 분류 후 `analysis/decisions.md` 또는 `customer_variants` 에 기록.
+- L4: `ok:false` 가 0건. 각 그룹은 매트릭스에 정의된 허용 status 집합(대부분 200; PDF·외부 엔진 등은 404/422/503 등 병합) 안에 있어야 한다. 빈 결과(해당 기간 거래 없음 등)는 보통 200 으로 OK.
+- L4 인증: FastAPI `TestClient` 에서 `get_current_user` + `get_user_context` 를 슈퍼유저 클레임으로 override (DEC-062). 실운영 JWT 재현이 아니라 SQL·라우팅 회귀 검증이 목적이다.
+- 알려진 스키마 차이로 허용 집합 밖인 경우 → reason 분류 후 `legacy-analysis/decisions.md` 또는 `migration/contracts` 의 `customer_variants` 에 기록.
 
 ## 정기 점검 / opt-in CI
 
@@ -105,7 +106,20 @@ DoD (Definition of Done):
 
 ## 관련 결정/문서
 
+- **DEC-062** (`legacy-analysis/decisions.md`): L4 스모크 probe 의 슈퍼유저 dependency_overrides 정책 (`get_current_user` + `get_user_context`).
 - **DEC-033** (`legacy-analysis/decisions.md`): 멀티 DB 호환 의무 — `sql_mysql3` 페이지네이션, `<table>_adapt.py` 스키마 어댑터, `probe_backend_all_servers.py` 매트릭스 등록 (`.cursor/rules/multi-db-compat.mdc` alwaysApply).
+
+## L4 기준선 산출물 (실패 그룹·런북 대조)
+
+live 실행 시 결과를 저장하고 `docs/db-smoke-runbook.md` DoD(위 §JSON 예시)와 비교한다.
+
+| 산출물 | 설명 |
+|--------|------|
+| `artifacts/db-smoke-baseline.json` | 예시 기준선(JSON); 최신은 동일 옵션으로 `--write-json` 재생성 |
+| `artifacts/db-smoke-baseline.log` | 같은 실행의 콘솔 로그(선택) |
+| `analysis/audit/db-smoke-permission-mapping.md` | 라우터·권한 매트릭스·DEC-062 정합 메모 |
+
+`ok:false` 가 나오면 그룹·`status`·`detail` 로 **AUTH / PERMISSION / SCHEMA / STATE** 를 구분해, 스키마·미배포 테이블은 `customer_variants` 또는 DEC에 사유+서버를 남긴다.
 - DEC-031, DEC-032 (`legacy-analysis/decisions.md`): 정산 close 정책, Gpass 회전 정책.
 - `docs/mysql-3.23-legacy-connection-notes.md`: 154/155 핸드셰이크 호환 메모.
 - `docs/core-scenarios-porting-plan.md` 룰 7: `dfm→html` 산출물 입력화.

@@ -1,0 +1,2202 @@
+{
+  "checkedAt": "2026-05-04T09:36:49+01:00",
+  "mode": "live",
+  "layer": "l4",
+  "servers": [
+    {
+      "id": "remote_138",
+      "label": "115.68.7.138 (MySQL direct, 5.1)",
+      "host": "115.68.7.138",
+      "port": 3306,
+      "db": "chul_09_db",
+      "mysql3": false,
+      "ssh": true,
+      "ssh_host": ""
+    },
+    {
+      "id": "remote_153",
+      "label": "115.68.3.153 (SSH+MySQL)",
+      "host": "115.68.3.153",
+      "port": 3306,
+      "db": "chul_09_db",
+      "mysql3": false,
+      "ssh": true,
+      "ssh_host": ""
+    },
+    {
+      "id": "remote_154",
+      "label": "115.68.3.154 (SSH legacy+MySQL 3.x)",
+      "host": "115.68.3.154",
+      "port": 3306,
+      "db": "chul_09_db",
+      "mysql3": true,
+      "ssh": true,
+      "ssh_host": ""
+    },
+    {
+      "id": "remote_155",
+      "label": "115.68.3.155 (SSH legacy+MySQL 3.x)",
+      "host": "115.68.3.155",
+      "port": 3306,
+      "db": "chul_09_db",
+      "mysql3": true,
+      "ssh": true,
+      "ssh_host": ""
+    }
+  ],
+  "l2": {},
+  "l4": {
+    "remote_138": [
+      {
+        "layer": "L4",
+        "group": "common.servers",
+        "path": "/api/v1/servers",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=251"
+      },
+      {
+        "layer": "L4",
+        "group": "common.health",
+        "path": "/api/v1/health",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=15"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.customer",
+        "path": "/api/v1/masters/customer?serverId=remote_138&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.book",
+        "path": "/api/v1/masters/book?serverId=remote_138&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.publisher",
+        "path": "/api/v1/masters/publisher?serverId=remote_138&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.special",
+        "path": "/api/v1/masters/special?serverId=remote_138&mode=publisher&hcode=00000&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "outbound.orders",
+        "path": "/api/v1/outbound/orders?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "outbound.shipment_status",
+        "path": "/api/v1/outbound/shipment-status?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "shipping.courier_lines",
+        "path": "/api/v1/shipping/courier/lines?serverId=remote_138&gdate=2026.04.01&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "inbound.receipts",
+        "path": "/api/v1/inbound/receipts?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "returns.list",
+        "path": "/api/v1/returns?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash",
+        "path": "/api/v1/settlement/cash?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash_status_hcode",
+        "path": "/api/v1/settlement/cash-status?serverId=remote_138&variant=hcode&month=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash_status_sdate",
+        "path": "/api/v1/settlement/cash-status?serverId=remote_138&variant=sdate&month=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.billing",
+        "path": "/api/v1/settlement/billing?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.tax_invoice",
+        "path": "/api/v1/settlement/tax-invoice?serverId=remote_138&gdate=202604",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.outstanding",
+        "path": "/api/v1/settlement/outstanding?serverId=remote_138&monthFrom=202604&monthTo=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.audit_settlement",
+        "path": "/api/v1/audit/settlement?serverId=remote_138&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.statement",
+        "path": "/api/v1/transactions/sales-statement?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.list",
+        "path": "/api/v1/transactions/status?serverId=remote_138&view=list&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.summary",
+        "path": "/api/v1/transactions/status?serverId=remote_138&view=summary&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.memo",
+        "path": "/api/v1/transactions/status?serverId=remote_138&view=memo&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "inventory.ledger",
+        "path": "/api/v1/inventory/ledger?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&bcode=%25",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.sales_period",
+        "path": "/api/v1/stats/sales-period?serverId=remote_138&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30&groupBy=monthly",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=273"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.customer_analysis",
+        "path": "/api/v1/stats/customer-analysis?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=216"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.book_turnover",
+        "path": "/api/v1/stats/book-turnover?serverId=remote_138&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=241"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.quarterly_summary",
+        "path": "/api/v1/stats/quarterly-summary?serverId=remote_138&hcode=%25&year=2026&quarter=1",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=307"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.publisher",
+        "path": "/api/v1/stats/publisher?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=319"
+      },
+      {
+        "layer": "L4",
+        "group": "returns.period_report",
+        "path": "/api/v1/returns/period-report?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "reports.book_sales",
+        "path": "/api/v1/reports/book-sales?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "ledger.publisher_settings",
+        "path": "/api/v1/ledger/comparison?serverId=remote_138&keyword=&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.other",
+        "path": "/api/v1/transactions/other?serverId=remote_138&dateFrom=2026.04.01&dateTo=2026.04.30&jubun=%EC%8B%A0%EA%B0%84&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.outbound_statement_pdf",
+        "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_138",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.return_receipt_pdf",
+        "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_138",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.sales_statement_pdf",
+        "path": "/api/v1/print/sales-statement/2026.04.01%7CH0001%7CJ00001%7C.pdf?serverId=remote_138",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.sales_statement_layouts",
+        "path": "/api/v1/print/sales-statement/layouts?serverId=remote_138",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.label_pdf",
+        "path": "/api/v1/print/label/SAMPLE.pdf?serverId=remote_138&form=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.outbound_statement_pdf_variant",
+        "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_138&variant=v0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.return_receipt_pdf_variant_v4_must_422",
+        "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_138&variant=v4",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.label_pdf_form2",
+        "path": "/api/v1/print/label/SAMPLE.pdf?serverId=remote_138&form=2",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.barcode_svg",
+        "path": "/api/v1/print/barcode.svg?serverId=remote_138&payload=9788936434260&w=40&h=12&symbology=code128",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.barcode_svg_ean13",
+        "path": "/api/v1/print/barcode.svg?serverId=remote_138&payload=590123412345&symbology=ean13&w=42&h=16",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.invoice_pdf",
+        "path": "/api/v1/settlement/billing/202604%7CH0001/print.pdf?serverId=remote_138",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "scan.match",
+        "path": "/api/v1/scan/match",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.id_logn_list",
+        "path": "/api/v1/admin/id-logn?page=1&pageSize=10&server_id=remote_138",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.read\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.id_logn_permission_defaults",
+        "path": "/api/v1/admin/id-logn/permission-defaults?accountType=T2_DIST&server_id=remote_138",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.read\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "me.profile",
+        "path": "/api/v1/me/profile",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.overview",
+        "path": "/api/v1/stats/dashboard/overview?serverId=remote_138&period=today&accountType=T2_DIST",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=264"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.funnel",
+        "path": "/api/v1/stats/dashboard/funnel?serverId=remote_138&period=today",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=248"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.receivables",
+        "path": "/api/v1/stats/dashboard/receivables?serverId=remote_138&period=month",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=81"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.iot_warehouse",
+        "path": "/api/v1/stats/dashboard/iot-warehouse?serverId=remote_138",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=1400"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.layout",
+        "path": "/api/v1/stats/dashboard/layout?serverId=remote_138&role=dist",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=131"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.iot_stream",
+        "path": "/api/v1/stats/dashboard/iot-warehouse/stream?serverId=remote_138&maxEvents=1",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=248"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_risk",
+        "path": "/api/v1/dashboard/external/weather-risk?serverId=remote_138",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=531"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_daily",
+        "path": "/api/v1/dashboard/external/weather-daily?serverId=remote_138&nx=60&ny=127&location=서울",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=1004"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_grid_from_point",
+        "path": "/api/v1/dashboard/external/weather-grid-from-point?serverId=remote_138&lat=37.5665&lon=126.978",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=130"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_warning",
+        "path": "/api/v1/dashboard/external/weather-warning?serverId=remote_138",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=369"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.fuel_cost",
+        "path": "/api/v1/dashboard/external/fuel-cost?serverId=remote_138",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=733"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_eta",
+        "path": "/api/v1/dashboard/external/traffic-eta?serverId=remote_138",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=421"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_forecast",
+        "path": "/api/v1/dashboard/external/traffic-forecast?serverId=remote_138",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=440"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_map_summary",
+        "path": "/api/v1/dashboard/external/traffic-map-summary?serverId=remote_138",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=461"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.delivery_route_risk",
+        "path": "/api/v1/dashboard/external/delivery-route-risk?serverId=remote_138",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=419"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.demand_forecast",
+        "path": "/api/v1/dashboard/external/demand-forecast?serverId=remote_138",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=276"
+      },
+      {
+        "layer": "L4",
+        "group": "ownership.violation.expected_403",
+        "path": "/api/v1/masters/book?serverId=remote_138&limit=1",
+        "ok": true,
+        "status": 403,
+        "detail": "403 bytes=205"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.permission_matrix_stale_must_409",
+        "path": "/api/v1/admin/id-logn/BR01/permissions?server_id=remote_138",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.write\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "auth.expired_must_401",
+        "path": "/api/v1/auth/me?server_id=remote_138",
+        "ok": true,
+        "status": 401,
+        "detail": "401 bytes=30"
+      },
+      {
+        "layer": "L4",
+        "group": "concurrency.precondition_required_must_428",
+        "path": "/api/v1/admin/id-logn/BR01?server_id=remote_138",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.write\"}}}'"
+      }
+    ],
+    "remote_153": [
+      {
+        "layer": "L4",
+        "group": "common.servers",
+        "path": "/api/v1/servers",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=251"
+      },
+      {
+        "layer": "L4",
+        "group": "common.health",
+        "path": "/api/v1/health",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=15"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.customer",
+        "path": "/api/v1/masters/customer?serverId=remote_153&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.book",
+        "path": "/api/v1/masters/book?serverId=remote_153&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.publisher",
+        "path": "/api/v1/masters/publisher?serverId=remote_153&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.special",
+        "path": "/api/v1/masters/special?serverId=remote_153&mode=publisher&hcode=00000&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "outbound.orders",
+        "path": "/api/v1/outbound/orders?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "outbound.shipment_status",
+        "path": "/api/v1/outbound/shipment-status?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "shipping.courier_lines",
+        "path": "/api/v1/shipping/courier/lines?serverId=remote_153&gdate=2026.04.01&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "inbound.receipts",
+        "path": "/api/v1/inbound/receipts?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "returns.list",
+        "path": "/api/v1/returns?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash",
+        "path": "/api/v1/settlement/cash?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash_status_hcode",
+        "path": "/api/v1/settlement/cash-status?serverId=remote_153&variant=hcode&month=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash_status_sdate",
+        "path": "/api/v1/settlement/cash-status?serverId=remote_153&variant=sdate&month=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.billing",
+        "path": "/api/v1/settlement/billing?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.tax_invoice",
+        "path": "/api/v1/settlement/tax-invoice?serverId=remote_153&gdate=202604",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.outstanding",
+        "path": "/api/v1/settlement/outstanding?serverId=remote_153&monthFrom=202604&monthTo=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.audit_settlement",
+        "path": "/api/v1/audit/settlement?serverId=remote_153&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.statement",
+        "path": "/api/v1/transactions/sales-statement?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.list",
+        "path": "/api/v1/transactions/status?serverId=remote_153&view=list&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.summary",
+        "path": "/api/v1/transactions/status?serverId=remote_153&view=summary&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.memo",
+        "path": "/api/v1/transactions/status?serverId=remote_153&view=memo&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "inventory.ledger",
+        "path": "/api/v1/inventory/ledger?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&bcode=%25",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.sales_period",
+        "path": "/api/v1/stats/sales-period?serverId=remote_153&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30&groupBy=monthly",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=297"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.customer_analysis",
+        "path": "/api/v1/stats/customer-analysis?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=16768"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.book_turnover",
+        "path": "/api/v1/stats/book-turnover?serverId=remote_153&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=11474"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.quarterly_summary",
+        "path": "/api/v1/stats/quarterly-summary?serverId=remote_153&hcode=%25&year=2026&quarter=1",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=307"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.publisher",
+        "path": "/api/v1/stats/publisher?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=502"
+      },
+      {
+        "layer": "L4",
+        "group": "returns.period_report",
+        "path": "/api/v1/returns/period-report?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "reports.book_sales",
+        "path": "/api/v1/reports/book-sales?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "ledger.publisher_settings",
+        "path": "/api/v1/ledger/comparison?serverId=remote_153&keyword=&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.other",
+        "path": "/api/v1/transactions/other?serverId=remote_153&dateFrom=2026.04.01&dateTo=2026.04.30&jubun=%EC%8B%A0%EA%B0%84&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.outbound_statement_pdf",
+        "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_153",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.return_receipt_pdf",
+        "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_153",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.sales_statement_pdf",
+        "path": "/api/v1/print/sales-statement/2026.04.01%7CH0001%7CJ00001%7C.pdf?serverId=remote_153",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.sales_statement_layouts",
+        "path": "/api/v1/print/sales-statement/layouts?serverId=remote_153",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.label_pdf",
+        "path": "/api/v1/print/label/SAMPLE.pdf?serverId=remote_153&form=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.outbound_statement_pdf_variant",
+        "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_153&variant=v0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.return_receipt_pdf_variant_v4_must_422",
+        "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_153&variant=v4",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.label_pdf_form2",
+        "path": "/api/v1/print/label/SAMPLE.pdf?serverId=remote_153&form=2",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.barcode_svg",
+        "path": "/api/v1/print/barcode.svg?serverId=remote_153&payload=9788936434260&w=40&h=12&symbology=code128",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.barcode_svg_ean13",
+        "path": "/api/v1/print/barcode.svg?serverId=remote_153&payload=590123412345&symbology=ean13&w=42&h=16",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.invoice_pdf",
+        "path": "/api/v1/settlement/billing/202604%7CH0001/print.pdf?serverId=remote_153",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "scan.match",
+        "path": "/api/v1/scan/match",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.id_logn_list",
+        "path": "/api/v1/admin/id-logn?page=1&pageSize=10&server_id=remote_153",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.read\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.id_logn_permission_defaults",
+        "path": "/api/v1/admin/id-logn/permission-defaults?accountType=T2_DIST&server_id=remote_153",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.read\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "me.profile",
+        "path": "/api/v1/me/profile",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.overview",
+        "path": "/api/v1/stats/dashboard/overview?serverId=remote_153&period=today&accountType=T2_DIST",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=267"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.funnel",
+        "path": "/api/v1/stats/dashboard/funnel?serverId=remote_153&period=today",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=252"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.receivables",
+        "path": "/api/v1/stats/dashboard/receivables?serverId=remote_153&period=month",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=81"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.iot_warehouse",
+        "path": "/api/v1/stats/dashboard/iot-warehouse?serverId=remote_153",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=1172"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.layout",
+        "path": "/api/v1/stats/dashboard/layout?serverId=remote_153&role=dist",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=131"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.iot_stream",
+        "path": "/api/v1/stats/dashboard/iot-warehouse/stream?serverId=remote_153&maxEvents=1",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=190"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_risk",
+        "path": "/api/v1/dashboard/external/weather-risk?serverId=remote_153",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=531"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_daily",
+        "path": "/api/v1/dashboard/external/weather-daily?serverId=remote_153&nx=60&ny=127&location=서울",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=1004"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_grid_from_point",
+        "path": "/api/v1/dashboard/external/weather-grid-from-point?serverId=remote_153&lat=37.5665&lon=126.978",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=130"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_warning",
+        "path": "/api/v1/dashboard/external/weather-warning?serverId=remote_153",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=369"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.fuel_cost",
+        "path": "/api/v1/dashboard/external/fuel-cost?serverId=remote_153",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=733"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_eta",
+        "path": "/api/v1/dashboard/external/traffic-eta?serverId=remote_153",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=421"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_forecast",
+        "path": "/api/v1/dashboard/external/traffic-forecast?serverId=remote_153",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=440"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_map_summary",
+        "path": "/api/v1/dashboard/external/traffic-map-summary?serverId=remote_153",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=475"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.delivery_route_risk",
+        "path": "/api/v1/dashboard/external/delivery-route-risk?serverId=remote_153",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=419"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.demand_forecast",
+        "path": "/api/v1/dashboard/external/demand-forecast?serverId=remote_153",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=279"
+      },
+      {
+        "layer": "L4",
+        "group": "ownership.violation.expected_403",
+        "path": "/api/v1/masters/book?serverId=remote_153&limit=1",
+        "ok": true,
+        "status": 403,
+        "detail": "403 bytes=205"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.permission_matrix_stale_must_409",
+        "path": "/api/v1/admin/id-logn/BR01/permissions?server_id=remote_153",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.write\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "auth.expired_must_401",
+        "path": "/api/v1/auth/me?server_id=remote_153",
+        "ok": true,
+        "status": 401,
+        "detail": "401 bytes=30"
+      },
+      {
+        "layer": "L4",
+        "group": "concurrency.precondition_required_must_428",
+        "path": "/api/v1/admin/id-logn/BR01?server_id=remote_153",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.write\"}}}'"
+      }
+    ],
+    "remote_154": [
+      {
+        "layer": "L4",
+        "group": "common.servers",
+        "path": "/api/v1/servers",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=251"
+      },
+      {
+        "layer": "L4",
+        "group": "common.health",
+        "path": "/api/v1/health",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=15"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.customer",
+        "path": "/api/v1/masters/customer?serverId=remote_154&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.book",
+        "path": "/api/v1/masters/book?serverId=remote_154&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.publisher",
+        "path": "/api/v1/masters/publisher?serverId=remote_154&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.special",
+        "path": "/api/v1/masters/special?serverId=remote_154&mode=publisher&hcode=00000&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "outbound.orders",
+        "path": "/api/v1/outbound/orders?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "outbound.shipment_status",
+        "path": "/api/v1/outbound/shipment-status?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "shipping.courier_lines",
+        "path": "/api/v1/shipping/courier/lines?serverId=remote_154&gdate=2026.04.01&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "inbound.receipts",
+        "path": "/api/v1/inbound/receipts?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "returns.list",
+        "path": "/api/v1/returns?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash",
+        "path": "/api/v1/settlement/cash?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash_status_hcode",
+        "path": "/api/v1/settlement/cash-status?serverId=remote_154&variant=hcode&month=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash_status_sdate",
+        "path": "/api/v1/settlement/cash-status?serverId=remote_154&variant=sdate&month=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.billing",
+        "path": "/api/v1/settlement/billing?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.tax_invoice",
+        "path": "/api/v1/settlement/tax-invoice?serverId=remote_154&gdate=202604",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.outstanding",
+        "path": "/api/v1/settlement/outstanding?serverId=remote_154&monthFrom=202604&monthTo=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.audit_settlement",
+        "path": "/api/v1/audit/settlement?serverId=remote_154&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.statement",
+        "path": "/api/v1/transactions/sales-statement?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.list",
+        "path": "/api/v1/transactions/status?serverId=remote_154&view=list&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.summary",
+        "path": "/api/v1/transactions/status?serverId=remote_154&view=summary&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.memo",
+        "path": "/api/v1/transactions/status?serverId=remote_154&view=memo&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "inventory.ledger",
+        "path": "/api/v1/inventory/ledger?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&bcode=%25",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.sales_period",
+        "path": "/api/v1/stats/sales-period?serverId=remote_154&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30&groupBy=monthly",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=297"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.customer_analysis",
+        "path": "/api/v1/stats/customer-analysis?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=16701"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.book_turnover",
+        "path": "/api/v1/stats/book-turnover?serverId=remote_154&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=11136"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.quarterly_summary",
+        "path": "/api/v1/stats/quarterly-summary?serverId=remote_154&hcode=%25&year=2026&quarter=1",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=307"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.publisher",
+        "path": "/api/v1/stats/publisher?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=500"
+      },
+      {
+        "layer": "L4",
+        "group": "returns.period_report",
+        "path": "/api/v1/returns/period-report?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "reports.book_sales",
+        "path": "/api/v1/reports/book-sales?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "ledger.publisher_settings",
+        "path": "/api/v1/ledger/comparison?serverId=remote_154&keyword=&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.other",
+        "path": "/api/v1/transactions/other?serverId=remote_154&dateFrom=2026.04.01&dateTo=2026.04.30&jubun=%EC%8B%A0%EA%B0%84&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.outbound_statement_pdf",
+        "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_154",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.return_receipt_pdf",
+        "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_154",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.sales_statement_pdf",
+        "path": "/api/v1/print/sales-statement/2026.04.01%7CH0001%7CJ00001%7C.pdf?serverId=remote_154",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.sales_statement_layouts",
+        "path": "/api/v1/print/sales-statement/layouts?serverId=remote_154",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.label_pdf",
+        "path": "/api/v1/print/label/SAMPLE.pdf?serverId=remote_154&form=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.outbound_statement_pdf_variant",
+        "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_154&variant=v0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.return_receipt_pdf_variant_v4_must_422",
+        "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_154&variant=v4",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.label_pdf_form2",
+        "path": "/api/v1/print/label/SAMPLE.pdf?serverId=remote_154&form=2",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.barcode_svg",
+        "path": "/api/v1/print/barcode.svg?serverId=remote_154&payload=9788936434260&w=40&h=12&symbology=code128",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.barcode_svg_ean13",
+        "path": "/api/v1/print/barcode.svg?serverId=remote_154&payload=590123412345&symbology=ean13&w=42&h=16",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.invoice_pdf",
+        "path": "/api/v1/settlement/billing/202604%7CH0001/print.pdf?serverId=remote_154",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "scan.match",
+        "path": "/api/v1/scan/match",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.id_logn_list",
+        "path": "/api/v1/admin/id-logn?page=1&pageSize=10&server_id=remote_154",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.read\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.id_logn_permission_defaults",
+        "path": "/api/v1/admin/id-logn/permission-defaults?accountType=T2_DIST&server_id=remote_154",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.read\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "me.profile",
+        "path": "/api/v1/me/profile",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.overview",
+        "path": "/api/v1/stats/dashboard/overview?serverId=remote_154&period=today&accountType=T2_DIST",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=264"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.funnel",
+        "path": "/api/v1/stats/dashboard/funnel?serverId=remote_154&period=today",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=248"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.receivables",
+        "path": "/api/v1/stats/dashboard/receivables?serverId=remote_154&period=month",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=81"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.iot_warehouse",
+        "path": "/api/v1/stats/dashboard/iot-warehouse?serverId=remote_154",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=1172"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.layout",
+        "path": "/api/v1/stats/dashboard/layout?serverId=remote_154&role=dist",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=131"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.iot_stream",
+        "path": "/api/v1/stats/dashboard/iot-warehouse/stream?serverId=remote_154&maxEvents=1",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=190"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_risk",
+        "path": "/api/v1/dashboard/external/weather-risk?serverId=remote_154",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=531"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_daily",
+        "path": "/api/v1/dashboard/external/weather-daily?serverId=remote_154&nx=60&ny=127&location=서울",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=1004"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_grid_from_point",
+        "path": "/api/v1/dashboard/external/weather-grid-from-point?serverId=remote_154&lat=37.5665&lon=126.978",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=130"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_warning",
+        "path": "/api/v1/dashboard/external/weather-warning?serverId=remote_154",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=369"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.fuel_cost",
+        "path": "/api/v1/dashboard/external/fuel-cost?serverId=remote_154",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=733"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_eta",
+        "path": "/api/v1/dashboard/external/traffic-eta?serverId=remote_154",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=421"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_forecast",
+        "path": "/api/v1/dashboard/external/traffic-forecast?serverId=remote_154",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=440"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_map_summary",
+        "path": "/api/v1/dashboard/external/traffic-map-summary?serverId=remote_154",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=475"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.delivery_route_risk",
+        "path": "/api/v1/dashboard/external/delivery-route-risk?serverId=remote_154",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=419"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.demand_forecast",
+        "path": "/api/v1/dashboard/external/demand-forecast?serverId=remote_154",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=276"
+      },
+      {
+        "layer": "L4",
+        "group": "ownership.violation.expected_403",
+        "path": "/api/v1/masters/book?serverId=remote_154&limit=1",
+        "ok": true,
+        "status": 403,
+        "detail": "403 bytes=205"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.permission_matrix_stale_must_409",
+        "path": "/api/v1/admin/id-logn/BR01/permissions?server_id=remote_154",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.write\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "auth.expired_must_401",
+        "path": "/api/v1/auth/me?server_id=remote_154",
+        "ok": true,
+        "status": 401,
+        "detail": "401 bytes=30"
+      },
+      {
+        "layer": "L4",
+        "group": "concurrency.precondition_required_must_428",
+        "path": "/api/v1/admin/id-logn/BR01?server_id=remote_154",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.write\"}}}'"
+      }
+    ],
+    "remote_155": [
+      {
+        "layer": "L4",
+        "group": "common.servers",
+        "path": "/api/v1/servers",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=251"
+      },
+      {
+        "layer": "L4",
+        "group": "common.health",
+        "path": "/api/v1/health",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=15"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.customer",
+        "path": "/api/v1/masters/customer?serverId=remote_155&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.book",
+        "path": "/api/v1/masters/book?serverId=remote_155&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.publisher",
+        "path": "/api/v1/masters/publisher?serverId=remote_155&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "masters.special",
+        "path": "/api/v1/masters/special?serverId=remote_155&mode=publisher&hcode=00000&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "outbound.orders",
+        "path": "/api/v1/outbound/orders?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "outbound.shipment_status",
+        "path": "/api/v1/outbound/shipment-status?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "shipping.courier_lines",
+        "path": "/api/v1/shipping/courier/lines?serverId=remote_155&gdate=2026.04.01&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "inbound.receipts",
+        "path": "/api/v1/inbound/receipts?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "returns.list",
+        "path": "/api/v1/returns?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash",
+        "path": "/api/v1/settlement/cash?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash_status_hcode",
+        "path": "/api/v1/settlement/cash-status?serverId=remote_155&variant=hcode&month=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.cash_status_sdate",
+        "path": "/api/v1/settlement/cash-status?serverId=remote_155&variant=sdate&month=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.billing",
+        "path": "/api/v1/settlement/billing?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.tax_invoice",
+        "path": "/api/v1/settlement/tax-invoice?serverId=remote_155&gdate=202604",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.outstanding",
+        "path": "/api/v1/settlement/outstanding?serverId=remote_155&monthFrom=202604&monthTo=202604&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.audit_settlement",
+        "path": "/api/v1/audit/settlement?serverId=remote_155&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.statement",
+        "path": "/api/v1/transactions/sales-statement?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.list",
+        "path": "/api/v1/transactions/status?serverId=remote_155&view=list&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.summary",
+        "path": "/api/v1/transactions/status?serverId=remote_155&view=summary&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.status.memo",
+        "path": "/api/v1/transactions/status?serverId=remote_155&view=memo&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "inventory.ledger",
+        "path": "/api/v1/inventory/ledger?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&bcode=%25",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.sales_period",
+        "path": "/api/v1/stats/sales-period?serverId=remote_155&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30&groupBy=monthly",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=299"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.customer_analysis",
+        "path": "/api/v1/stats/customer-analysis?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=17109"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.book_turnover",
+        "path": "/api/v1/stats/book-turnover?serverId=remote_155&hcode=%25&dateFrom=2026.04.01&dateTo=2026.04.30",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=11847"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.quarterly_summary",
+        "path": "/api/v1/stats/quarterly-summary?serverId=remote_155&hcode=%25&year=2026&quarter=1",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=307"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.publisher",
+        "path": "/api/v1/stats/publisher?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=504"
+      },
+      {
+        "layer": "L4",
+        "group": "returns.period_report",
+        "path": "/api/v1/returns/period-report?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "reports.book_sales",
+        "path": "/api/v1/reports/book-sales?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&hcode=%25&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "ledger.publisher_settings",
+        "path": "/api/v1/ledger/comparison?serverId=remote_155&keyword=&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "transactions.other",
+        "path": "/api/v1/transactions/other?serverId=remote_155&dateFrom=2026.04.01&dateTo=2026.04.30&jubun=%EC%8B%A0%EA%B0%84&limit=1&offset=0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.outbound_statement_pdf",
+        "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_155",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.return_receipt_pdf",
+        "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_155",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.sales_statement_pdf",
+        "path": "/api/v1/print/sales-statement/2026.04.01%7CH0001%7CJ00001%7C.pdf?serverId=remote_155",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.sales_statement_layouts",
+        "path": "/api/v1/print/sales-statement/layouts?serverId=remote_155",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.label_pdf",
+        "path": "/api/v1/print/label/SAMPLE.pdf?serverId=remote_155&form=1",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.outbound_statement_pdf_variant",
+        "path": "/api/v1/print/outbound-statement/2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_155&variant=v0",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.return_receipt_pdf_variant_v4_must_422",
+        "path": "/api/v1/print/return-receipt/G%7C2026.04.01%7CH0001%7CJ00001.pdf?serverId=remote_155&variant=v4",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.label_pdf_form2",
+        "path": "/api/v1/print/label/SAMPLE.pdf?serverId=remote_155&form=2",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.barcode_svg",
+        "path": "/api/v1/print/barcode.svg?serverId=remote_155&payload=9788936434260&w=40&h=12&symbology=code128",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "print.barcode_svg_ean13",
+        "path": "/api/v1/print/barcode.svg?serverId=remote_155&payload=590123412345&symbology=ean13&w=42&h=16",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "settlement.invoice_pdf",
+        "path": "/api/v1/settlement/billing/202604%7CH0001/print.pdf?serverId=remote_155",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "scan.match",
+        "path": "/api/v1/scan/match",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.id_logn_list",
+        "path": "/api/v1/admin/id-logn?page=1&pageSize=10&server_id=remote_155",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.read\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.id_logn_permission_defaults",
+        "path": "/api/v1/admin/id-logn/permission-defaults?accountType=T2_DIST&server_id=remote_155",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=139 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.read\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "me.profile",
+        "path": "/api/v1/me/profile",
+        "ok": false,
+        "status": 401,
+        "detail": "401 bytes=30 body~='{\"detail\":\"Not authenticated\"}'"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.overview",
+        "path": "/api/v1/stats/dashboard/overview?serverId=remote_155&period=today&accountType=T2_DIST",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=267"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.funnel",
+        "path": "/api/v1/stats/dashboard/funnel?serverId=remote_155&period=today",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=252"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.receivables",
+        "path": "/api/v1/stats/dashboard/receivables?serverId=remote_155&period=month",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=81"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.iot_warehouse",
+        "path": "/api/v1/stats/dashboard/iot-warehouse?serverId=remote_155",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=1172"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.layout",
+        "path": "/api/v1/stats/dashboard/layout?serverId=remote_155&role=dist",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=131"
+      },
+      {
+        "layer": "L4",
+        "group": "stats.dashboard.iot_stream",
+        "path": "/api/v1/stats/dashboard/iot-warehouse/stream?serverId=remote_155&maxEvents=1",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=190"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_risk",
+        "path": "/api/v1/dashboard/external/weather-risk?serverId=remote_155",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=531"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_daily",
+        "path": "/api/v1/dashboard/external/weather-daily?serverId=remote_155&nx=60&ny=127&location=서울",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=1004"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_grid_from_point",
+        "path": "/api/v1/dashboard/external/weather-grid-from-point?serverId=remote_155&lat=37.5665&lon=126.978",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=130"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.weather_warning",
+        "path": "/api/v1/dashboard/external/weather-warning?serverId=remote_155",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=369"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.fuel_cost",
+        "path": "/api/v1/dashboard/external/fuel-cost?serverId=remote_155",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=733"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_eta",
+        "path": "/api/v1/dashboard/external/traffic-eta?serverId=remote_155",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=421"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_forecast",
+        "path": "/api/v1/dashboard/external/traffic-forecast?serverId=remote_155",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=440"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.traffic_map_summary",
+        "path": "/api/v1/dashboard/external/traffic-map-summary?serverId=remote_155",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=461"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.delivery_route_risk",
+        "path": "/api/v1/dashboard/external/delivery-route-risk?serverId=remote_155",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=419"
+      },
+      {
+        "layer": "L4",
+        "group": "dashboard.external.demand_forecast",
+        "path": "/api/v1/dashboard/external/demand-forecast?serverId=remote_155",
+        "ok": true,
+        "status": 200,
+        "detail": "200 bytes=276"
+      },
+      {
+        "layer": "L4",
+        "group": "ownership.violation.expected_403",
+        "path": "/api/v1/masters/book?serverId=remote_155&limit=1",
+        "ok": true,
+        "status": 403,
+        "detail": "403 bytes=205"
+      },
+      {
+        "layer": "L4",
+        "group": "admin.permission_matrix_stale_must_409",
+        "path": "/api/v1/admin/id-logn/BR01/permissions?server_id=remote_155",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.write\"}}}'"
+      },
+      {
+        "layer": "L4",
+        "group": "auth.expired_must_401",
+        "path": "/api/v1/auth/me?server_id=remote_155",
+        "ok": true,
+        "status": 401,
+        "detail": "401 bytes=30"
+      },
+      {
+        "layer": "L4",
+        "group": "concurrency.precondition_required_must_428",
+        "path": "/api/v1/admin/id-logn/BR01?server_id=remote_155",
+        "ok": false,
+        "status": 403,
+        "detail": "403 bytes=140 body~='{\"detail\":{\"code\":\"PERMISSION_DENIED\",\"message\":\"이 작업을 수행할 권한이 없습니다.\",\"detail\":{\"required\":\"admin.user.write\"}}}'"
+      }
+    ]
+  }
+}

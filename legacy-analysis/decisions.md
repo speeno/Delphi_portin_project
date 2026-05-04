@@ -938,6 +938,23 @@
 - **결정자**: 메인개발자 + 사용자 (DEC-056·DEC-058 즉시 적용 명시 합의 2026-04-22)
 - **참조**: `도서물류관리프로그램/frontend/src/lib/use-permissions.ts`(신규), `도서물류관리프로그램/frontend/src/lib/form-registry.ts`(`FormMeta.requiredPermission` 추가 + 52 매핑), `도서물류관리프로그램/frontend/src/components/app-shell/sidebar.tsx`(`isVisibleForm` 게이팅 + 빈 그룹 hidden), `legacy-analysis/permission-keys-catalog.md` §1+§4, `docs/user-permission-management-plan.md` §5 M2, `test/test_sidebar_permission_gating.py`, DEC-041(RBAC 401·403 인터셉터 — 라우터 게이트 무변동), DEC-046(권한 d_select), DEC-056(Id_Logn Fxx 어댑터 — 본 결정의 백엔드 짝)
 
+### DEC-062: DB 스모크 probe — L4 TestClient 슈퍼유저 dependency_overrides
+
+- **일자**: 2026-05-04
+- **결정 사항**: `debug/probe_backend_all_servers.py` 의 L4 점검은 실제 JWT 없이 **슈퍼유저 클레임**으로 `app.routers.auth.get_current_user` 와 `app.core.deps.get_user_context` 를 함께 override 한다. JWT 형태 dict 는 `permissions=['*']`, `role='admin'` (`deps._resolve_permissions` 단일 규칙과 정합). 요청별 데이터 소속 `server_id` 는 쿼리 `serverId`/`server_id`, 헤더 `X-Smoke-Ownership-Server`, path 파라미터에서 해석한다. 음성 검증 그룹 ``auth.expired_must_401`` 등은 해당 호출에서만 override 를 제거해 무토큰 경로를 검증한다.
+- **배경/근거**: 다수 라우트가 핸들러 시그니처에 `Depends(get_current_user)` 만 두어 `get_user_context` 만 우회할 경우 401 로 SQL·스키마 회귀 검증에 도달하지 못함. 멀티 DB 스모크의 1차 목적은 DEC-033 계열 **데이터/SQL 호환** 이지 실운영 RBAC 재현이 아님. 분석: `analysis/audit/db-smoke-permission-mapping.md`.
+- **대안**: (B) L4 매트릭스를 데이터 회귀만 남기고 인증은 별도 단위 테스트로 분리 — DoD·문서 이중화 필요.
+- **영향**: live 스모크에서 도메인 라우트까지 도달 가능. 테넌트별 스키마 차이·미배포 테이블 등으로 인한 5xx 는 기존 정책대로 런북·`customer_variants`/DEC 에 예외 기록.
+- **결정자**: 메인개발자
+- **참조**: `analysis/포팅_완결_우선_계획_672e6c6a.plan.md`, `docs/db-smoke-runbook.md`, DEC-033, DEC-041
+
+### DEC-063: 브라우저 위치 권한 — 목적 고지·로컬 플래그·재요청 UX
+
+- **일자**: 2026-05-04
+- **결정 사항**: (1) **목적** — HTML5 Geolocation 으로 얻은 좌표는 기상청 격자 변환(`weather-grid-from-point` 등 기존 대시보드 API)과 헤더 날씨·위치 연동 위젯에만 사용한다. 원시 좌표를 프로필·감사 로그 등 다른 용도로 저장·전송하지 않는다(배너·플래그는 `localStorage` 키 `portal_location_permission_v1` 만). (2) **재요청** — 내정보 설정에 「위치 안내 다시 요청(저장값 초기화)」으로 `dismissed`/`denied` 등 로컬 플래그를 제거해 배너를 다시 띄울 수 있게 한다. (3) **계약** — 한 줄 요약은 `migration/contracts/portal_location.yaml` 의 `intent.location_data_purpose_ko` 로 고정한다.
+- **배경/근거**: 포팅 완결 계획의 위치 권한 운영 마감; 법무 검토 전이라도 운영·DEC·계약에 목적을 한 줄 명시해 혼선을 줄인다.
+- **참조**: `docs/location-permission-runbook.md`, `도서물류관리프로그램/frontend/src/lib/location-permission-storage.ts`, `.../settings/my-profile/page.tsx`
+
 ---
 *최종 업데이트: 2026-04-23 — DEC-061 신규 추가 (DFM↔form-registry 동등성 매트릭스 자동 생성 + 파이프라인 훅). `tools/delphi_form_screen_matrix.py` · `docs/delphi-form-screen-equivalence-matrix.md` · `test/test_delphi_form_screen_matrix.py` · `core-scenarios-porting-plan.md` §포팅 파이프라인 훅. 직전: DEC-060 — 사용자 보고 "이 화면이 레거시 델파이 프로그램에서는 청구서관리 화면이고 검색 필터를 위한 입력 항목도 다른데?" — `/master/logistics-cost` 화면이 레거시 `Subu45.dfm Caption='청구서관리'` 와 어긋나게 「Sobo45 = 물류비」로 잘못 매핑되어 있던 사례를 일반화 차단. master_data.yaml v1.0.0 (Wave A/B/C, 2026-04-18) 가 G5_Ggeo.Gposa 컬럼만 보고 추정한 결과로, 동일 folder `Subu45` 가 정상 매핑인 `Sobo45_billing` (청구서관리) + 잘못된 매핑 `Sobo45` (물류비) 두 ID 로 중복 등록되어 있었음. 옵션 (B) 채택 — 화면/엔드포인트/모델/계약/테스트 일괄 제거 + 청구서관리(Sobo45_billing) 내부 lookup 으로 흡수 (G5_Ggeo.Gposa 는 Subu45.pas L372 G5_Ggeo.Locate 패턴 그대로). 영향 범위: 백엔드 3 파일 (routers/masters.py + services/masters_service.py + models/master.py) · 프론트 4 파일 (page.tsx 삭제 + form-registry.ts + master-api.ts + master/page.tsx) · 계약 1 파일 (master_data.yaml v1.1.0→v1.2.0 — catalog 행 + endpoints[SQL-MAS-10] + customer_variants[Sobo45] 제거 + DEC-024/025/026 본문 6→5 정정) · 테스트 3 파일 (test_masters_q_search.py LIST_FUNCS 6→5 + LogisticsCostMappingRemovedTests 5축 부재 단언 신규 / test_pagination_contracts.py + test_list_state_persistence_audit.py) · 감사·대시보드 (Sobo45.md DEPRECATED + porting-screens.json + web-porting-progress.json + phase1-component-fidelity.md). 재발 방지: 신규 마스터 화면 추가 시 「DFM Caption 1차 검증 (`iconv` EUC-KR 디코딩)」 의무화 + 동일 folder 다중 FormMeta 매핑 시 의미 파생 명시. 검증: tsc 0 · pytest 신규 5축 부재 단언 PASS · 인접 회귀 0. 사용자 룰("임시방편 금지·일반화 해결·이전 케이스 호환·재귀 오류 차단") 부합.*
 

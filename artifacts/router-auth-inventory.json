@@ -1,0 +1,2730 @@
+{
+  "admin.py": {
+    "prefix": "/api/v1/admin",
+    "router_deps": [],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/users",
+        "func": "list_users",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/users",
+        "func": "upsert_user",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/user-servers",
+        "func": "assign_user_server",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/inspect/targets",
+        "func": "list_inspect_targets",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/account-directory/databases",
+        "func": "list_account_directory_databases",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/inspect/login-candidates",
+        "func": "list_inspect_login_candidates",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/account-directory/users",
+        "func": "list_account_directory_users",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/account-directory/users/{gcode}",
+        "func": "upsert_account_directory_user_override",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/distributor-limits",
+        "func": "list_distributor_limits",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/distributor-limits/{dist_hcode}",
+        "func": "upsert_distributor_limit",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/menu-policy/overrides",
+        "func": "get_menu_policy_overrides",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/menu-policy/runtime",
+        "func": "get_runtime_menu_policy_overrides",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/menu-policy/overrides",
+        "func": "put_menu_policy_overrides",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/inspect/ping",
+        "func": "inspect_ping",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/user-servers/primary",
+        "func": "set_user_primary_server",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/roles",
+        "func": "list_roles",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "func": "upsert_role",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/user-roles",
+        "func": "assign_user_role",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/legacy-permission-map",
+        "func": "legacy_permission_map",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/settings",
+        "func": "list_settings",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/settings",
+        "func": "upsert_setting",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/settings/history",
+        "func": "setting_history",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/settings/rollback",
+        "func": "rollback_setting",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/id-logn",
+        "func": "list_id_logn",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/id-logn/permission-defaults",
+        "func": "get_id_logn_permission_defaults",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "POST",
+        "path": "/id-logn",
+        "func": "create_id_logn",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/id-logn/{hcode}",
+        "func": "update_id_logn",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "if_match",
+            "require_if_match",
+            ""
+          ],
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/id-logn/{hcode}/permissions",
+        "func": "update_id_logn_permissions",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "if_match",
+            "require_if_match",
+            ""
+          ],
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/id-logn/{hcode}/password-reset",
+        "func": "reset_id_logn_password",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/id-logn/{hcode}",
+        "func": "delete_id_logn",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/signup-requests",
+        "func": "list_signup_requests",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/signup-requests/{request_id}/provision-recommendation",
+        "func": "get_signup_provision_recommendation",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "POST",
+        "path": "/signup-requests/{request_id}/approve",
+        "func": "approve_signup_request",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/signup-requests/{request_id}/contract",
+        "func": "upload_signup_contract",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/signup-requests/{request_id}/attachment",
+        "func": "download_signup_publisher_list",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/signup-requests/{request_id}/contract",
+        "func": "download_signup_contract",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/signup-requests/{request_id}/publisher-preview",
+        "func": "preview_signup_publisher_rows",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/signup-requests/{request_id}/reject",
+        "func": "reject_signup_request",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/signup-requests/{request_id}",
+        "func": "delete_signup_request",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.user.write"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "admin_whitelist.py": {
+    "prefix": "/api/v1/admin/whitelist",
+    "router_deps": [],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "",
+        "func": "list_whitelist",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/{publisher_hcode}",
+        "func": "get_whitelist_entry",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "",
+        "func": "create_whitelist_entry",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/{publisher_hcode}",
+        "func": "update_whitelist_entry",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/reaffiliate",
+        "func": "reaffiliate_publisher_account",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/pending",
+        "func": "list_whitelist_pending",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/{publisher_hcode}/approve",
+        "func": "approve_whitelist_entry",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/{publisher_hcode}",
+        "func": "disable_whitelist_entry",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "auth.py": {
+    "prefix": "/api/v1/auth",
+    "router_deps": [],
+    "routes": [
+      {
+        "method": "POST",
+        "path": "/login",
+        "func": "login",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "POST",
+        "path": "/refresh",
+        "func": "refresh",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/me",
+        "func": "me",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "courier.py": {
+    "prefix": "/api/v1/shipping/courier",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/lines",
+        "func": "list_courier_lines",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/memo",
+        "func": "get_courier_memo",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/memo",
+        "func": "patch_courier_memo",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "dashboard_external.py": {
+    "prefix": "/api/v1/dashboard/external",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/weather-grid-from-point",
+        "func": "get_weather_grid_from_point",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/weather-risk",
+        "func": "get_weather_risk",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/weather-daily",
+        "func": "get_weather_daily",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/weather-warning",
+        "func": "get_weather_warning",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/fuel-cost",
+        "func": "get_fuel_cost",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/nl-librarian-picks",
+        "func": "get_nl_librarian_picks",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/traffic-eta",
+        "func": "get_traffic_eta",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/traffic-forecast",
+        "func": "get_traffic_forecast",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/traffic-map-summary",
+        "func": "get_traffic_map_summary",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/delivery-route-risk",
+        "func": "get_delivery_route_risk",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/demand-forecast",
+        "func": "get_demand_forecast",
+        "route_deps": [],
+        "sig_deps": []
+      }
+    ]
+  },
+  "inbound.py": {
+    "prefix": "/api/v1/inbound",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/receipts",
+        "func": "list_receipts",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/receipts/{receipt_key}",
+        "func": "get_receipt",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/receipts",
+        "func": "create_receipt",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/receipts/{receipt_key}",
+        "func": "update_receipt",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/receipts/{receipt_key}/cancel",
+        "func": "cancel_receipt",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/import",
+        "func": "import_receipts",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/reports/daily",
+        "func": "daily_report",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/reports/period",
+        "func": "period_report",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "integrations_nl.py": {
+    "prefix": "/api/v1/integrations/nl",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/isbn",
+        "func": "get_nl_isbn",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/search",
+        "func": "search_nl_books",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/librarian-picks",
+        "func": "get_nl_librarian_picks",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/bibliography-status",
+        "func": "get_nl_bibliography_status",
+        "route_deps": [],
+        "sig_deps": []
+      }
+    ]
+  },
+  "inventory.py": {
+    "prefix": "/api/v1/inventory",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/ledger",
+        "func": "get_inventory_ledger",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "ledger.py": {
+    "prefix": "/api/v1/ledger",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/comparison",
+        "func": "list_publisher_settings",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/comparison/{gcode}",
+        "func": "patch_publisher_setting",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/customer",
+        "func": "get_customer_ledger",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/customer-integrated",
+        "func": "get_integrated_customer_ledger",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "masters.py": {
+    "prefix": "/api/v1/masters",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/customers",
+        "func": "search_customers",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/products",
+        "func": "search_products",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/customer",
+        "func": "list_customer_master",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/customer/{gcode}",
+        "func": "get_customer_master",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/customer",
+        "func": "create_customer_master",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/customer/{gcode}",
+        "func": "update_customer_master",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/customer/{gcode}",
+        "func": "delete_customer_master",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/book",
+        "func": "list_books",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/book/{gcode}",
+        "func": "get_book",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/book",
+        "func": "create_book",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/book/{gcode}",
+        "func": "update_book",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/book/{gcode}",
+        "func": "delete_book",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/publisher",
+        "func": "list_publishers",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/book-code",
+        "func": "list_book_codes",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/discount",
+        "func": "list_discounts",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/special",
+        "func": "list_special_master",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/special/{row_id}",
+        "func": "update_special_master",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "me.py": {
+    "prefix": "/api/v1/me",
+    "router_deps": [],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/profile",
+        "func": "get_my_profile",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/profile",
+        "func": "patch_my_profile",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/logo",
+        "func": "upload_my_logo",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/logo",
+        "func": "delete_my_logo",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/tenant-print/seal-status",
+        "func": "get_tenant_seal_status",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/tenant-print/seal",
+        "func": "get_tenant_seal_image",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/tenant-print/seal",
+        "func": "upload_tenant_seal",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "DELETE",
+        "path": "/tenant-print/seal",
+        "func": "delete_tenant_seal",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "ops.py": {
+    "prefix": "",
+    "router_deps": [],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/api/v1/health/full",
+        "func": "health_full",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.health.read"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/metrics",
+        "func": "metrics",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.metrics.read"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/audit",
+        "func": "list_audit",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.audit.read"
+          ]
+        ],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/admin/audit/test-emit",
+        "func": "audit_test_emit",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.audit.read"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/alerts",
+        "func": "list_alerts",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.audit.read"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/admin/alerts",
+        "func": "create_alert",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.audit.read"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/v1/admin/alerts/{alert_id}",
+        "func": "dismiss_alert",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.audit.read"
+          ]
+        ],
+        "sig_deps": []
+      }
+    ]
+  },
+  "outbound.py": {
+    "prefix": "/api/v1/outbound",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/orders",
+        "func": "list_orders",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/shipment-status",
+        "func": "list_shipment_status",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/orders/{order_key}",
+        "func": "get_order",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/orders",
+        "func": "create_order",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/orders/{order_key}",
+        "func": "update_order",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/orders/{order_key}/cancel",
+        "func": "cancel_order",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "print.py": {
+    "prefix": "/api/v1/print",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/outbound-statement/{order_key}.pdf",
+        "func": "print_outbound_statement_pdf",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/return-receipt/{return_key}.pdf",
+        "func": "print_return_receipt_pdf",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/sales-statement/layouts",
+        "func": "list_sales_statement_layouts",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/sales-statement/{order_key}.pdf",
+        "func": "print_sales_statement_pdf",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/barcode.svg",
+        "func": "print_barcode_svg",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/label/{shipment_key}.pdf",
+        "func": "print_label_pdf",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "public_lookup.py": {
+    "prefix": "/api/v1/public",
+    "router_deps": [],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/dist/list",
+        "func": "list_distributors",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/whitelist/lookup",
+        "func": "whitelist_lookup",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "POST",
+        "path": "/activate/lookup",
+        "func": "activate_lookup",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "POST",
+        "path": "/activate/{token}",
+        "func": "activate_set_password",
+        "route_deps": [],
+        "sig_deps": []
+      }
+    ]
+  },
+  "public_signup.py": {
+    "prefix": "/api/v1/public",
+    "router_deps": [],
+    "routes": [
+      {
+        "method": "POST",
+        "path": "/signup-requests",
+        "func": "submit_signup",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "POST",
+        "path": "/signup-requests/distributor",
+        "func": "submit_distributor_signup",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/signup-templates/distributor-publishers.xlsx",
+        "func": "download_distributor_template",
+        "route_deps": [],
+        "sig_deps": []
+      }
+    ]
+  },
+  "reports.py": {
+    "prefix": "/api/v1/reports",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/book-sales",
+        "func": "get_book_sales",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/customer-sales",
+        "func": "get_customer_sales",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/year-end-book",
+        "func": "get_year_end_book",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "returns.py": {
+    "prefix": "/api/v1/audit",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "",
+        "func": "list_returns",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/reports/daily",
+        "func": "daily_report",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/ledger",
+        "func": "get_returns_ledger",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/period-report",
+        "func": "get_returns_period_report",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/{return_key}",
+        "func": "get_return_detail",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "",
+        "func": "create_return",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/{return_key}/cancel",
+        "func": "cancel_return",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/{return_key}/memo",
+        "func": "upsert_memo",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/dispose/regen",
+        "func": "process_regen",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/dispose/disassemble",
+        "func": "process_disassemble",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/change",
+        "func": "process_change",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/import/preview",
+        "func": "import_preview",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/import/execute",
+        "func": "import_execute",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/password-verify",
+        "func": "verify_audit_password",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/{return_key}",
+        "func": "put_return_lines",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/dispose/regen/partial",
+        "func": "post_partial_regen",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/dispose/disassemble/partial",
+        "func": "post_partial_disassemble",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/{return_key}/rollback",
+        "func": "post_rollback",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/password-rotate",
+        "func": "post_password_rotate",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/returns",
+        "func": "get_audit_returns",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "scan.py": {
+    "prefix": "/api/v1/scan",
+    "router_deps": [],
+    "routes": [
+      {
+        "method": "POST",
+        "path": "/match",
+        "func": "scan_match",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "servers.py": {
+    "prefix": "/api/v1",
+    "router_deps": [],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/servers",
+        "func": "list_servers",
+        "route_deps": [],
+        "sig_deps": []
+      }
+    ]
+  },
+  "settlement.py": {
+    "prefix": "/api/v1/audit",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/billing",
+        "func": "list_billing",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/billing/period",
+        "func": "list_period_summary",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/outstanding",
+        "func": "list_outstanding",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/billing/aggregate",
+        "func": "aggregate_billing",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/billing/confirm",
+        "func": "confirm_billing",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/billing/cancel",
+        "func": "cancel_billing",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/billing/{billing_key}",
+        "func": "get_billing_detail",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/cash",
+        "func": "list_cash",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/cash",
+        "func": "register_cash",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/cash/{cash_key}/cancel",
+        "func": "cancel_cash",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/cash-status",
+        "func": "cash_status",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/gpass-rotate",
+        "func": "rotate_audit_password",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/billing/{billing_key}/print-data",
+        "func": "get_billing_print_data",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/billing/{billing_key}/print",
+        "func": "get_billing_print_html",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/billing/{billing_key}/print.pdf",
+        "func": "get_billing_print_pdf",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/billing/recalc",
+        "func": "recalc_billing",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/tax-invoice",
+        "func": "list_tax_invoices",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/tax-invoice/chek3",
+        "func": "toggle_tax_chek3",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/tax-invoice/sdate",
+        "func": "update_tax_sdate",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "POST",
+        "path": "/tax-invoice/{billing_key}/issue",
+        "func": "issue_tax_invoice",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/tax-invoice/{billing_key}/print",
+        "func": "get_tax_invoice_print_html",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/tax-invoice/{billing_key}/print.pdf",
+        "func": "get_tax_invoice_print_pdf",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/settlement",
+        "func": "list_audit_settlement",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "_user",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "stats.py": {
+    "prefix": "/api/v1/stats",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/sales-period",
+        "func": "get_sales_period",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.stats.sales"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/customer-analysis",
+        "func": "get_customer_analysis",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.stats.customer"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/book-turnover",
+        "func": "get_book_turnover",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.stats.book"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/publisher",
+        "func": "get_publisher_stats",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.stats.customer"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/quarterly-summary",
+        "func": "get_quarterly_summary",
+        "route_deps": [
+          [
+            "require_permission",
+            "admin.stats.quarterly"
+          ]
+        ],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard/overview",
+        "func": "get_dashboard_overview",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard/funnel",
+        "func": "get_dashboard_funnel",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard/leadtime",
+        "func": "get_dashboard_leadtime",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard/receivables",
+        "func": "get_dashboard_receivables",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard/ops-health",
+        "func": "get_dashboard_ops_health",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard/iot-warehouse",
+        "func": "get_dashboard_iot_warehouse",
+        "route_deps": [],
+        "sig_deps": []
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard/layout",
+        "func": "get_dashboard_layout",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PUT",
+        "path": "/dashboard/layout",
+        "func": "put_dashboard_layout",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "ctx",
+            "get_user_context",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/dashboard/iot-warehouse/stream",
+        "func": "stream_dashboard_iot_warehouse",
+        "route_deps": [],
+        "sig_deps": []
+      }
+    ]
+  },
+  "transactions.py": {
+    "prefix": "/api/v1/transactions",
+    "router_deps": [
+      [
+        "require_server_ownership",
+        "serverId"
+      ]
+    ],
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/other",
+        "func": "list_other_statements",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/other/memo",
+        "func": "upsert_other_statement_memo",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/sales-statement",
+        "func": "list_sales_statements",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/status",
+        "func": "get_transactions_status",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "GET",
+        "path": "/sales-statement/{order_key}",
+        "func": "get_sales_statement_detail",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      },
+      {
+        "method": "PATCH",
+        "path": "/sales-statement/{order_key}/memo",
+        "func": "patch_sales_statement_memo",
+        "route_deps": [],
+        "sig_deps": [
+          [
+            "current",
+            "get_current_user",
+            ""
+          ]
+        ]
+      }
+    ]
+  }
+}
