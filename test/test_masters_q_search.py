@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import asyncio
 import sys
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Any
 from unittest import TestCase, main
@@ -46,6 +47,33 @@ LIST_FUNCS = [
     ("book-code", masters_service.list_book_codes),
     ("discount", masters_service.list_discounts),
 ]
+
+# list_discounts 는 SHOW COLUMNS 선행 — 본 테스트는 execute_query 패턴만 검증하므로 컬럼 집합 고정.
+_FAKE_G7_COLS = frozenset(
+    {
+        "id",
+        "chek1",
+        "chek2",
+        "hcode",
+        "gcode",
+        "gname",
+        "ocode",
+        "gpper",
+        "gpper1",
+        "gpper2",
+        "gpper5",
+        "gpost",
+        "gadd1",
+        "gadd2",
+        "gtel1",
+        "gtel2",
+        "gbigo",
+    }
+)
+
+
+async def _fake_g7_cols(_server_id: str) -> frozenset[str]:
+    return _FAKE_G7_COLS
 
 Q_CASES = [
     ("empty", ""),
@@ -77,8 +105,14 @@ class _Capture:
 class MastersQSearchMatrix(TestCase):
     def _run_case(self, fn, q: str | None) -> _Capture:
         cap = _Capture()
-        with patch.object(masters_service, "execute_query", new=cap):
-            asyncio.run(fn(server_id="remote_1", q=q, limit=50, offset=0))
+        ctx = (
+            patch.object(masters_service, "_g7_ggeo_columns_lower", side_effect=_fake_g7_cols)
+            if fn is masters_service.list_discounts
+            else nullcontext()
+        )
+        with ctx:
+            with patch.object(masters_service, "execute_query", new=cap):
+                asyncio.run(fn(server_id="remote_1", q=q, limit=50, offset=0))
         return cap
 
     # --- 빈 q: WHERE 절 없어야 한다 ---
@@ -184,8 +218,14 @@ class MasterPkGuard(TestCase):
         for label, fn in LIST_FUNCS:
             with self.subTest(entity=label):
                 cap = _Capture()
-                with patch.object(masters_service, "execute_query", new=cap):
-                    asyncio.run(fn(server_id="remote_1", q="", limit=50, offset=0))
+                ctx = (
+                    patch.object(masters_service, "_g7_ggeo_columns_lower", side_effect=_fake_g7_cols)
+                    if fn is masters_service.list_discounts
+                    else nullcontext()
+                )
+                with ctx:
+                    with patch.object(masters_service, "execute_query", new=cap):
+                        asyncio.run(fn(server_id="remote_1", q="", limit=50, offset=0))
                 self.assertEqual(len(cap.calls), 2)
                 for sql, _params in cap.calls:
                     self.assertIn("Gcode IS NOT NULL", sql, f"{label}: PK NULL guard")
@@ -195,8 +235,14 @@ class MasterPkGuard(TestCase):
         for label, fn in LIST_FUNCS:
             with self.subTest(entity=label):
                 cap = _Capture()
-                with patch.object(masters_service, "execute_query", new=cap):
-                    asyncio.run(fn(server_id="remote_1", q="A0001", limit=50, offset=0))
+                ctx = (
+                    patch.object(masters_service, "_g7_ggeo_columns_lower", side_effect=_fake_g7_cols)
+                    if fn is masters_service.list_discounts
+                    else nullcontext()
+                )
+                with ctx:
+                    with patch.object(masters_service, "execute_query", new=cap):
+                        asyncio.run(fn(server_id="remote_1", q="A0001", limit=50, offset=0))
                 for sql, _params in cap.calls:
                     self.assertIn("Gcode IS NOT NULL", sql, f"{label}: PK guard with q")
                     self.assertIn("Gcode <> ''", sql, f"{label}: PK empty guard with q")

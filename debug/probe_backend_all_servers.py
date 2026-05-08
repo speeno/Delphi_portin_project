@@ -214,6 +214,76 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "masters.book_code",
+            "path": f"/api/v1/masters/book-code?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.discount",
+            "path": f"/api/v1/masters/discount?serverId={sid}&limit=1&variant=base",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.publisher.post_bad_body",
+            "method": "POST",
+            "path": "/api/v1/masters/publisher",
+            "json_body": {"serverId": sid},
+            "ok_status": {422},
+        },
+        {
+            "group": "masters.publisher.patch_missing",
+            "method": "PATCH",
+            "path": "/api/v1/masters/publisher/ZZZZZ",
+            "json_body": {"serverId": sid, "gname": "x"},
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.publisher.delete_missing",
+            "method": "DELETE",
+            "path": f"/api/v1/masters/publisher/ZZZZZ?serverId={sid}",
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.book_code.post_bad_body",
+            "method": "POST",
+            "path": "/api/v1/masters/book-code",
+            "json_body": {"serverId": sid},
+            "ok_status": {422},
+        },
+        {
+            "group": "masters.book_code.patch_missing",
+            "method": "PATCH",
+            "path": "/api/v1/masters/book-code/ZZZZZ",
+            "json_body": {"serverId": sid, "gname": "x"},
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.book_code.delete_missing",
+            "method": "DELETE",
+            "path": f"/api/v1/masters/book-code/ZZZZZ?serverId={sid}",
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.discount.post_bad_body",
+            "method": "POST",
+            "path": "/api/v1/masters/discount",
+            "json_body": {"serverId": sid},
+            "ok_status": {422},
+        },
+        {
+            "group": "masters.discount.patch_missing",
+            "method": "PATCH",
+            "path": f"/api/v1/masters/discount/ZZZZZ?variant=base",
+            "json_body": {"serverId": sid, "gpper": 0},
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.discount.delete_missing",
+            "method": "DELETE",
+            "path": f"/api/v1/masters/discount/ZZZZZ?serverId={sid}",
+            "ok_status": {404},
+        },
+        {
             "group": "masters.special",
             "path": (
                 f"/api/v1/masters/special?serverId={sid}"
@@ -684,6 +754,10 @@ def probe_routes(client, server_id: str, args: argparse.Namespace) -> list[dict[
                 res = client.post(path, json=json_body, headers=extra_headers or None)
             elif method == "PUT":
                 res = client.put(path, json=json_body, headers=extra_headers or None)
+            elif method == "PATCH":
+                res = client.patch(path, json=json_body, headers=extra_headers or None)
+            elif method == "DELETE":
+                res = client.delete(path, headers=extra_headers or None)
             else:
                 res = client.get(path, headers=extra_headers or None)
             ok = res.status_code in spec["ok_status"]

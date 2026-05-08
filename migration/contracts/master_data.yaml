@@ -6,9 +6,9 @@
 # 단일 원천 (DEC-023):
 #   - Sobo11 → 거래처(G1_Ggeo + G1_Gbun)            ✅ Wave A 풀 (CRUD API)
 #   - Sobo14 → 도서  (G4_Book + G4_Gbun)             ✅ Wave A 풀 (CRUD API)
-#   - Sobo17 → 출판사·G7거래처(G7_Ggeo + G7_Gbun)    ✅ Wave B (READ only)
-#   - Sobo38 → 도서코드 (G4_Book READ)              ✅ Wave B (READ only)
-#   - Sobo39 → 할인율 (G7_Ggeo.Gpper, 대표 1폼)     ✅ Wave C (READ only)
+#   - Sobo17 → 출판사·G7거래처(G7_Ggeo + G7_Gbun)    ✅ v1.4.0 CRUD API (POST/PATCH/DELETE)
+#   - Sobo38 → 도서코드 (G4_Book)                   ✅ v1.4.0 CRUD = /masters/book thin alias
+#   - Sobo39 → 할인율 (G7_Ggeo Gpper 계열)          ✅ v1.4.0 CRUD + variant=base|v1|v2|v5 (컬럼 존재 시)
 #
 # 정정 (2026-04-23, v1.2.0): 「Sobo45 → 물류비 (G5_Ggeo.Gposa)」 매핑 제거.
 #   레거시 Subu45.dfm Caption='청구서관리' (TSobo45) 가 실제 정의이며,
@@ -19,17 +19,19 @@
 #   사용자 룰 — 임시방편 금지·일반화 해결·이전 케이스(Sobo45_billing) 우선 활용.
 #
 # 1차 미접근 (후속):
-#   - Sobo17/38/39 마스터 INSERT/DELETE  (Sobo11/14 는 2026-04-29 API 보강)
 #   - Sobo15(입고처) — Sobo11 과 동일 G1_Ggeo 분기, Phase 2 통합 후보
-#   - Sobo39 변종(_1/_2/_5) — 대표 1폼 결정 후 통합 검토
 #   - 자동완성(GET /masters/customers, /products) 은 C2 contract 에서 보존, 본 계약은 영향 0
 
 id: C9-master-data
 name: 기초 마스터 단일 원천 (Sobo11/14/17/38/39)
-version: 1.3.0
+version: 1.4.0
 status: draft
 scope_phase: phase1
 # Changelog
+#   v1.4.0 (2026-05-08) — Sobo17/38/39 쓰기 풀. 출판사 G7_Ggeo POST/PATCH/DELETE,
+#                        도서코드는 G4_Book 기존 book CRUD thin alias (/masters/book-code/*),
+#                        할인율 G7_Ggeo Gpper·Gpper1/2/5 (SHOW COLUMNS 존재 시) + ?variant=.
+#                        DEC-019: 본 3폼만 INSERT/DELETE 허용 — 그 외 마스터는 기존 정책 유지.
 #   v1.3.0 (2026-04-29) — CRUD 갭 축소. Sobo11/Sobo14 에 POST/DELETE API 추가
 #                        (customer/book create/delete), audit.master action=create/delete,
 #                        회귀 test_master_crud_api_contract.py.
@@ -52,9 +54,10 @@ scope_phase: phase1
 #   v1.0.0 (2026-04-18) — Wave A/B/C 초기 contract.
 acceptance_goal: |
   웹 사용자가 기초관리 메뉴에서 거래처/도서/출판사/도서코드/할인율을 조회 가능하고,
-  거래처·도서는 생성/수정/삭제 API가 가능해야 한다. 모든 write 는 audit.master 로거에
-  actor/entity/target/updated_fields 1줄 JSON 으로 기록된다.
-  Sobo17/38/39의 삭제(DELETE)·신규(INSERT) 는 DEC-019 로 후속 사이클로 이관.
+  거래처·도서·출판사(G7)·도서코드(book-code alias)·할인율에 생성/수정/삭제 API가 가능해야 한다.
+  모든 write 는 audit.master 로거에 actor/entity/target/updated_fields 1줄 JSON 으로 기록된다.
+  DEC-019 보강(v1.4.0): INSERT/DELETE 허용 범위를 Sobo17·Sobo38(=G4_Book)·Sobo39 로 한정.
+  그 외 마스터(Sobo15 등) 및 Wave D 경계는 기존 DEC-019·DEC-023 유지.
   「물류비」 화면은 본 계약에서 제외 — 청구서관리(Sobo45_billing, 별도 계약) 내부에서
   G5_Ggeo.Gposa lookup 으로 흡수 (v1.2.0 정정).
 
@@ -73,7 +76,8 @@ decisions:
     title: 환경설정 경계 (Sobo19 vs Wave D)
     summary: |
       Sobo19 = 레거시 비즈니스 옵션. Wave D 의 application_settings 와 분리.
-      마스터 PATCH 는 «수정 ON, 삭제 OFF» — DELETE 는 후속 사이클.
+      기본 마스터 정책: «수정 ON, 삭제 OFF». v1.4.0 예외 — Sobo17(G7_Ggeo)·Sobo38(G4_Book alias)·
+      Sobo39(G7_Ggeo Gpper 계열) 에 한해 POST/DELETE 허용. 그 외 마스터·Sobo15 등은 예외 없음.
   - id: DEC-024
     title: list 응답 paging 표준 (C2/C6/C9 + 후속 공통)
     summary: |
@@ -210,7 +214,7 @@ endpoints:
       schema_ref: backend/app/models/master.py#MasterDeleteResponse
     audit: { logger: audit.master, action: delete }
 
-  # 출판사·G7거래처 (Sobo17) — READ only 1차
+  # 출판사·G7거래처 (Sobo17) — v1.4.0 CRUD
   - id: SQL-MAS-7
     method: GET
     path: /api/v1/masters/publisher
@@ -222,8 +226,38 @@ endpoints:
     response:
       schema_ref: backend/app/models/master.py#PublisherListResponse
       shape: "{ items: [...], page: { limit, offset, total, has_more } }"
+  - id: SQL-MAS-7G
+    method: GET
+    path: /api/v1/masters/publisher/{gcode}
+    response:
+      schema_ref: backend/app/models/master.py#PublisherDetailResponse
+  - id: SQL-MAS-7C
+    method: POST
+    path: /api/v1/masters/publisher
+    request:
+      body_ref: backend/app/models/master.py#PublisherCreateRequest
+    response:
+      schema_ref: backend/app/models/master.py#PublisherCreateResponse
+    errors: [MASTER_DUPLICATE, MASTER_INVALID]
+    audit: { logger: audit.master, action: create }
+  - id: SQL-MAS-7P
+    method: PATCH
+    path: /api/v1/masters/publisher/{gcode}
+    request:
+      body_ref: backend/app/models/master.py#PublisherUpdateRequest
+    response:
+      schema_ref: backend/app/models/master.py#PublisherUpdateResponse
+    audit: { logger: audit.master, action: update }
+  - id: SQL-MAS-7D
+    method: DELETE
+    path: /api/v1/masters/publisher/{gcode}
+    query:
+      - { name: serverId, type: string, required: true }
+    response:
+      schema_ref: backend/app/models/master.py#MasterDeleteResponse
+    audit: { logger: audit.master, action: delete }
 
-  # 도서코드 (Sobo38) — READ only
+  # 도서코드 (Sobo38) — GET list + v1.4.0 CRUD thin alias → G4_Book (/masters/book/*)
   - id: SQL-MAS-8
     method: GET
     path: /api/v1/masters/book-code
@@ -235,19 +269,59 @@ endpoints:
     response:
       schema_ref: backend/app/models/master.py#BookCodeListResponse
       shape: "{ items: [...], page: { limit, offset, total, has_more } }"
+  - id: SQL-MAS-8G
+    method: GET
+    path: /api/v1/masters/book-code/{gcode}
+    note: "alias GET /api/v1/masters/book/{gcode} — 신규 SQL 0"
+  - id: SQL-MAS-8C
+    method: POST
+    path: /api/v1/masters/book-code
+    note: "alias POST /api/v1/masters/book — BookCreateRequest 동일"
+  - id: SQL-MAS-8P
+    method: PATCH
+    path: /api/v1/masters/book-code/{gcode}
+    note: "alias PATCH /api/v1/masters/book/{gcode}"
+  - id: SQL-MAS-8D
+    method: DELETE
+    path: /api/v1/masters/book-code/{gcode}
+    note: "alias DELETE /api/v1/masters/book/{gcode}"
 
-  # 할인율 대표 (Sobo39) — READ only 1차
+  # 할인율 (Sobo39) — v1.4.0 CRUD + ?variant=base|v1|v2|v5 (G7_Ggeo Gpper/Gpper1/2/5 존재 시)
   - id: SQL-MAS-9
     method: GET
     path: /api/v1/masters/discount
     query:
       - { name: serverId, type: string, required: true }
       - { name: q, type: string, required: false }
+      - { name: variant, type: string, required: false, note: "base|v1|v2|v5 — Gpper 계열 컬럼 선택" }
       - { name: limit, type: int, default: 100, max: 500, note: "DEC-024" }
       - { name: offset, type: int, default: 0 }
     response:
       schema_ref: backend/app/models/master.py#DiscountListResponse
-      shape: "{ items: [...], page: { limit, offset, total, has_more } }"
+      shape: "{ variant, items: [...], page: { limit, offset, total, has_more } }"
+  - id: SQL-MAS-9G
+    method: GET
+    path: /api/v1/masters/discount/{gcode}
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: variant, type: string, required: false }
+  - id: SQL-MAS-9C
+    method: POST
+    path: /api/v1/masters/discount
+    request:
+      body_ref: backend/app/models/master.py#DiscountCreateRequest
+  - id: SQL-MAS-9P
+    method: PATCH
+    path: /api/v1/masters/discount/{gcode}
+    query:
+      - { name: variant, type: string, required: false }
+    request:
+      body_ref: backend/app/models/master.py#DiscountUpdateRequest
+  - id: SQL-MAS-9D
+    method: DELETE
+    path: /api/v1/masters/discount/{gcode}
+    query:
+      - { name: serverId, type: string, required: true }
 
   # SQL-MAS-10 (구 「Sobo45 물류비」 endpoint) — v1.2.0 (2026-04-23) 제거됨.
   # 라우트 /api/v1/masters/logistics-cost · 모델 LogisticsCost* · 서비스
@@ -270,6 +344,12 @@ equivalence:
     - target: book.update
       legacy_form: TSobo14.UPDATE G4_Book SET Gname/Gjeja/Gisbn/Gdang/Gpost
       criteria: "변경된 필드만 SET, audit 1줄 JSON 적재"
+    - target: publisher.update
+      legacy_form: TSobo17.UPDATE G7_Ggeo SET Gname/Hcode/Chek1/Chek2/Ocode
+      criteria: "G7_Ggeo PATCH + audit"
+    - target: discount.update
+      legacy_form: TSobo39.UPDATE G7_Ggeo SET Gpper|Gpper1|Gpper2|Gpper5 (variant)
+      criteria: "SHOW COLUMNS 기반 컬럼 선택, audit"
   audit:
     storage: stdout (audit.master logger)
     fields_required: [timestamp, gcode, entity, target, action, result, client_ip, server_id]
@@ -300,10 +380,14 @@ customer_variants:
       는 Subu38_2.T3_Sub82 의 3컬럼만 1차 노출. layout_mappings/Sobo38.md §9.
   - form: Sobo39
     variant_folders: []
+    discount_variants:
+      base: { sql_column: Gpper, note: "기본 할인율" }
+      v1: { sql_column: Gpper1, fallback: Gpper, note: "Subu39_1 변형 — 컬럼 없으면 Gpper" }
+      v2: { sql_column: Gpper2, fallback: Gpper, note: "Subu39_2 변형" }
+      v5: { sql_column: Gpper5, fallback: Gpper, note: "Subu39_5 변형" }
     note: |
-      Subu39_* 변형 폴더가 accelerator 산출물에 미생성 (OOS-MAS-5).
-      form-registry.ts 메타에는 Subu39_1/_2/_5 가 존재. DEC-023 단일 원천 정책에 따라 phase1
-      은 본 폼 4컬럼만 노출. layout_mappings/Sobo39.md §9.
+      모던 단일 UI + ?variant= 쿼리. accelerator Subu39_* 산출물(OOS-MAS-5)은 별도 백로그이나
+      API/계약으로 4분기 통합. layout_mappings/Sobo39.md §9.
   # 「Sobo45」 항목 (구 customer_variants) v1.2.0 (2026-04-23) 제거됨.
   # 본 계약은 Sobo45 매핑을 더 이상 보유하지 않음. 청구서관리(Subu45/Subu45_1) 의
   # 변형 정보는 settlement/billing 측 계약(Sobo45_billing) 으로 이관.
@@ -323,9 +407,10 @@ out_of_scope:
       DEC-023 단일 원천 정책상 통계 화면으로 분리 — Sobo11/14/17/38/39/45 가 phase1 단일 원천.
       통계는 후속 사이클에서 별도 시나리오로 진입.
   - id: OOS-MAS-3
-    title: 마스터 INSERT / DELETE
+    title: 마스터 INSERT / DELETE (DEC-019 기본)
     reason: |
-      DEC-019 — 1차 PATCH only · 삭제 OFF. INSERT/DELETE 는 deferred D-MAS-1 후속.
+      기본 정책은 «수정 ON, 삭제 OFF». v1.4.0 예외 — Sobo11/14/17/38(=book)/39 만 POST/DELETE.
+      Sobo15 등 나머지는 본 OOS 범위 유지.
   - id: OOS-MAS-4
     title: 자동완성 엔드포인트 (/api/v1/masters/customers, /products)
     reason: |
@@ -341,10 +426,10 @@ out_of_scope:
 
 deferred:
   - id: D-MAS-1
-    description: 마스터 INSERT/DELETE
-    target_scenario: post-C9 (DEC-019 후속)
+    description: 마스터 INSERT/DELETE — Sobo15·기타 비예외 폼
+    target_scenario: post-C9
   - id: D-MAS-2
-    description: Sobo39 4 변종 (Sobo39_1/_2/_5) 통합
+    description: Sobo39 UI 라디오·집계 그리드(T3_Sub91~93) 통합
     target_scenario: post-C9
   - id: D-MAS-3
     description: Sobo15(입고처) 와 Sobo11 통합

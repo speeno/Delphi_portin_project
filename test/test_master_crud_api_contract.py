@@ -74,6 +74,12 @@ class MasterCrudStaticContract(TestCase):
             '@router.delete("/customer/{gcode}"',
             '@router.post("/book"',
             '@router.delete("/book/{gcode}"',
+            "async def create_publisher_master_route",
+            "async def delete_publisher_master_route",
+            "async def create_book_code",
+            "async def delete_book_code",
+            "async def create_discount",
+            "async def delete_discount",
             "MASTER_DUPLICATE",
             "audit.master",
         ):
@@ -86,8 +92,16 @@ class MasterCrudStaticContract(TestCase):
             "customerDelete",
             "bookCreate",
             "bookDelete",
+            "publisherCreate",
+            "publisherDelete",
+            "bookCodeCreate",
+            "bookCodeDelete",
+            "discountCreate",
+            "discountDelete",
             "CustomerCreatePayload",
             "BookCreatePayload",
+            "PublisherCreatePayload",
+            "DiscountCreatePayload",
         ):
             self.assertIn(token, src)
 
