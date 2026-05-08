@@ -43,3 +43,15 @@
 
 - `Sobo48_compare`: 레거시 정본을 장부대조가 아닌 `Subu48` 출판사관리(설정)으로 정정하고 `G7_Ggeo` 조회 + `Chek3`/`Scode` 부분 저장으로 phase1 포팅. 계약: `migration/contracts/sobo48_publisher_settings.yaml`.
 - `Sobo29_other`: `Subu29` 신간/기타 명세를 `S1_Ssub` 조회 + `S1_Memo` 전체메모 저장으로 phase1 포팅. 비정형 인쇄 PDF는 C7 인쇄 후속으로 분리. 계약: `migration/contracts/transactions_other.yaml`.
+
+## 4. C9 마스터 쓰기 잔여 — 스프린트 착수 (2026-05-08)
+
+**배경:** `dashboard/data/porting-screens.json` 시나리오 C9 및 [`migration/contracts/master_data.yaml`](../migration/contracts/master_data.yaml) `deferrals` 에 남은 **출판사(Sobo17)·도서코드(Sobo38)·할인율(Sobo39)** 등은 거래처/도서 CRUD와 달리 **PATCH/변형 통합**이 아직 phase2 큐에 있다. 허브 대시보드 동기화 이후 **권장 다음 단일 스프린트**로 본 절을 1차 입력으로 쓴다.
+
+**권장 순서 (한 PR = 한 축 권장):**
+
+1. **Sobo17 (출판사)** — `analysis/layout_mappings/Sobo17.md` 정본·`GET/PATCH` 계약 분기·`customer_variants` 만으로 테넌트 차이 흡수. 기존 `masters_service`·`masters` 라우터·거래처/도서 PATCH 패턴 재사용. 멀티 DB: `apply_limit_offset_syntax` / `*_adapt.py` 규칙 준수.
+2. **Sobo38 (도서코드)** — READ 외 필드 편집 범위를 계약에 명시 후 PATCH.
+3. **Sobo39 (할인율, 4 변종)** — 단일 UI + `customer_variants` 데이터 주도 분기(C9 단일 원천 패턴과 동일).
+
+**참고:** C7 `.frf`→HTML P0(`M-S1-PORT-C7-FRF-P0`)는 [`docs/phase3-print-gate.md`](phase3-print-gate.md) G1/G2 선행 시 착수한다.
