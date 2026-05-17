@@ -411,5 +411,12 @@
     "title": "C9 마스터 운영 DB 정합 + aiomysql 문자 디코딩 안정화",
     "description": "실 DB(예: remote_138) 검증 중 `/master/customer`·`/master/book` HTTP 500. 근본 원인 (1) 거래처 `G1_Ggeo`: 레거시 스키마는 주소가 `Gadd1`/`Gadd2` — 코드가 존재하지 않는 `Gjuso` 참조로 MySQL 1054. API `gjuso`는 CONCAT_WS로 노출, PATCH는 90+90자 분할 저장. (2) 도서 `G4_Book`: 일부 행 문자열이 EUC-KR 비정규 바이트 → aiomysql/PyMySQL wire 디코드에서 UnicodeDecodeError 후 연결 패킷 오염. `도서물류관리프로그램/backend/app/core/db.py` 풀 `use_unicode=False` + `execute_query`에서 바이트를 `euc-kr`(errors=replace)로 정규화. 대시보드 project.overallProgress·Sprint1 갱신, web-porting-progress·porting-screens HOT-MAS-3 반영.",
     "sprint": 1
+  },
+  {
+    "date": "2026-05-17",
+    "type": "milestone",
+    "title": "대시보드 진행률 현행화 + 플랫폼 공지·미구현 W0~W5",
+    "description": "project.overallProgress 68→73%, Sprint 1 71→76%. 미구현 화면 웨이브 W0~W5 완료(UI placeholder 0). 플랫폼 로그인 전 공지·슬로건(공개/수퍼 API·/login·/notices·/admin/platform-portal). 발송비 shipping_ledger scaffold. incomplete-features-inventory 재생성. web-porting-progress·porting-screens(C1)·unimplemented-screens-tracker·deliverables 동기.",
+    "sprint": 1
   }
 ]

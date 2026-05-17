@@ -1,0 +1,46 @@
+# shipping_ledger — 진짜 발송비 도메인 (Subu43/44) — W2 계약 v0.1 (scaffold)
+#
+# wrong_id: 웹 ``Sobo43_stats_route``(/stats/publisher)·``Sobo44_inv``(/inventory/status) 는
+#   통계·재고 도메인으로 유지. 본 계약은 DEC-049 (e) 신규 ID 만 다룬다.
+#
+# 상위 백로그: migration/coverage/billing-subu43-44-shipping-backlog.md
+# 화면 카드: analysis/screen_cards/Sobo43_shipping.md, Sobo44_shipping.md
+#
+contract_id: shipping_ledger
+version: "0.1.0"
+status: draft
+scope_phase: phase2
+updated: "2026-05-15"
+source_forms:
+  - legacy_delphi_source/legacy_source/Source/Subu43.pas
+  - legacy_delphi_source/legacy_source/Source/Subu44.pas
+
+endpoints:
+  - id: shipping_ledger_list
+    method: GET
+    path: /api/v1/settlement/shipping-ledger
+    description: |
+      발송비내역 목록 (Subu43). v0.1 — scaffold: 빈 items + scaffold=true.
+      T2에서 T3_Ssub NAME1/NAME2/GSSUM 도메인 SQL 확정 후 채움 (DEC-040 신규 SQL 0 검토).
+  - id: shipping_status_list
+    method: GET
+    path: /api/v1/settlement/shipping-status
+    description: |
+      발송비현황 집계 (Subu44). v0.1 — scaffold: 빈 rows + scaffold=true.
+
+customer_variants: {}
+
+implementation_schedule:
+  scaffold_api_ui:
+    status: done
+    scope: |
+      GET 두 엔드포인트 + shipping_ledger_service 빈 목록 + Next.js 페이지 +
+      form-registry 신규 ID + pytest test_shipping_ledger_scaffold.py
+  t2_sql_multidb:
+    status: pending
+    scope: |
+      Subu43/44 PAS SQL 추출, t3_ssub_adapt (또는 기존 헬퍼 재사용), apply_limit_offset_syntax,
+      count_grouped 정책 (DEC-033)
+  crud_writes:
+    status: pending
+    scope: POST/PATCH/DELETE + DEC-031 마감 + settlement.write + audit_settlement

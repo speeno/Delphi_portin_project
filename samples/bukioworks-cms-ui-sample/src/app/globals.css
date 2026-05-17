@@ -1,0 +1,132 @@
+/*
+ * 북이오웍스 CMS 샘플 — 토큰은 저장소 루트 docs/Design.md §7 과 정렬합니다.
+ * 본 샘플은 도서물류관리프로그램 프론트와 독립 실행되며, 시각 언어만 동기화합니다.
+ */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-status-ok: var(--status-ok);
+  --color-status-warn: var(--status-warn);
+  --color-status-info: var(--status-info);
+  --color-vivid-lime: var(--vivid-lime);
+  --color-vivid-lime-hover: var(--vivid-lime-hover);
+  --color-vivid-sky: var(--vivid-sky);
+  --color-accent-red: var(--accent-red);
+  --color-link: var(--link);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-pill: 9999px;
+}
+
+:root {
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.275 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.275 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.275 0 0);
+
+  --primary: oklch(0.275 0 0);
+  --primary-foreground: oklch(0.965 0 0);
+  --secondary: oklch(0.99 0.04 110);
+  --secondary-foreground: oklch(0.275 0 0);
+
+  --muted: oklch(0.965 0.003 264);
+  --muted-foreground: oklch(0.38 0 0);
+
+  --accent: oklch(0.99 0.012 200);
+  --accent-foreground: oklch(0.275 0 0);
+
+  --destructive: oklch(0.81 0.1 22);
+
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.93 0 0);
+  --ring: oklch(0.62 0.08 245);
+  --link: oklch(0.46 0.08 245);
+
+  --radius: 0.625rem;
+
+  --status-ok: oklch(0.43 0.055 200);
+  --status-warn: oklch(0.5 0.12 55);
+  --status-info: oklch(0.42 0.1 245);
+
+  --vivid-lime: oklch(0.95 0.2 122);
+  --vivid-lime-hover: oklch(0.88 0.18 122);
+  --vivid-sky: oklch(0.93 0.1 195);
+  --accent-red: oklch(0.93 0.025 25);
+
+  --sidebar: oklch(0.965 0.003 264);
+  --sidebar-foreground: oklch(0.275 0 0);
+  --sidebar-primary: oklch(0.275 0 0);
+  --sidebar-primary-foreground: oklch(0.965 0 0);
+  --sidebar-accent: oklch(0.99 0.04 110);
+  --sidebar-accent-foreground: oklch(0.275 0 0);
+  --sidebar-border: oklch(0.92 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    text-rendering: optimizeLegibility;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+  small,
+  caption {
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+}

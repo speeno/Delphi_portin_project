@@ -39,7 +39,7 @@
 | Sobo22 / Sobo22_import | 입고접수 / 파일 업로드 | phase1 | CRUD | (정식 포팅) | CRUD | — |
 | Sobo27 / Sobo27_new | 출고접수 (목록 / 신규) | phase1 | CRUD | (정식 포팅) | CRUD | — |
 | Sobo21 / Sobo21_status_* | 거래명세서 / 거래현황 LIST/요약/메모 | phase1 | R | (조회 전용 화면) | R | — |
-| Sobo29_other | 기타명세서 | phase2 | STUB | `ScreenPlaceholder` — 비정형 출력기, 레거시 SQL 미확정 | RU | p3 |
+| Sobo29_other | 기타명세서 | phase1 | RU | 조회·메모 저장 완료 — C7 비정형 PDF 는 phase3-print-gate(W4) 후속 | RU | p3 |
 
 ### 2.3 재고/원장 (`inventory`, `ledger`)
 
@@ -48,7 +48,7 @@
 | Sobo31 / Sobo33_ledger / Sobo33_1_ledger | 도서별수불·도서수불장·통합 | phase1 | R | 조회 전용 | R | — |
 | Sobo44_inv | 재고현황 | phase1 | R | 조회 전용 | R | — |
 | Sobo32_ledger / Sobo32_1_ledger | 거래처원장·통합 | phase1 | R | 조회 전용 (DBGrid301 후속은 P3) | R | p3 |
-| Sobo48_compare | 장부대조 | phase2 | STUB | `ScreenPlaceholder` + DEC-040 신규 SQL 0 정책 | R | p3 |
+| Sobo48_compare | 출판사관리(설정) | phase1 | RU | G7_Ggeo + Chek3/Scode (장부대조 라벨은 레거시 혼동) | RU | p3 |
 | Sobo34_4 | 기간별재고원장(상세) | phase2 | R | 조회 전용 (회귀 미통과) | R | p2 |
 
 ### 2.4 정산/발송 (`settlement`, `billing`)
@@ -74,7 +74,8 @@
 | Sobo50_stats / Sobo51_stats / Sobo52_stats / Sobo53_stats | 매출·거래처·도서회전·분기 손익 | phase2 | R | 차트 조회 | R | p3 |
 | Stats_monthly | 월별통계 | phase2 | R | 조회 전용 | R | p2 |
 | Sobo36_stats_route / Sobo37_stats_route | 거래처·도서 통계(목록) | phase2 | R | 조회 전용 | R | p3 |
-| Sobo43_stats_route | 출판사통계 | phase2 | STUB | `ScreenPlaceholder` — Subu43.pas 합계 미포팅 | R | p3 |
+| Sobo43_stats_route | 출판사통계 | phase1 | R | `/stats/publisher` 그리드 구현 — **레거시 Subu43 발송비와 무관** (`Sobo43_shipping_ledger` 참조) | R | p3 |
+| Sobo43_shipping_ledger / Sobo44_shipping_status | 발송비내역·현황 | phase2 | STUB | API scaffold 빈 목록 — T2 SQL·adapt 후 RU | RU | p2 |
 | Sobo28_delivery | 출고택배관리 | phase1 | RU | 내부 라인/메모 완료, 외부 택배사 API는 별도 후속 | RU | p4 |
 | WebAdmHome / WebAdmUserSrv / WebAdmRBAC / WebAdmEnv / Subu10_id_logn | 관리 콘솔 | phase1 | RU/CRUD | admin-api 에 POST/PUT 존재 | CRUD | — |
 | WebAdmAuditRotate | 감사 비밀번호 회전 | phase2 | RU | 회전 동작, 회귀 미통과 | RU | p2 |
@@ -82,12 +83,12 @@
 
 ### 2.6 placeholder / stub 일람
 
-다음은 `ScreenPlaceholder` 또는 `DEC-035 stub` 배너를 사용 중인 화면 — `crudParity: "STUB"` 으로 단일 분류한다.
+다음은 **여전히** `ScreenPlaceholder`·`DEC-035 stub`·또는 **API scaffold(빈 데이터)** 를 사용하는 화면이다.
 
-- `Sobo29_other` (기타명세서)
-- `Sobo48_compare` (장부대조)
-- `Sobo43_stats_route` (출판사통계)
-- (할인율 변형) `/master/discount/[type]` 라우트는 메뉴 미노출 — 별도 등록 없음.
+- `Sobo49_tax` — DEC-035 외부 발행 stub 배너 (세금계산서)
+- `Sobo43_shipping_ledger` / `Sobo44_shipping_status` — 발송비 진짜 도메인 API scaffold (빈 목록; wrong_id `Sobo43_stats_route`/`Sobo44_inv` 와 분리)
+
+**2026-05-15 해소(placeholder 제거)** — `MenuBillingStatements`·`MenuYearMonthStats`·`MenuShippingReturnsInventory` 허브 MVP, `/master/discount/[type]` → v1/v2/v5 redirect.
 
 ### 2.7 Wave C — RU 행 후속 (레거시 버튼 ↔ API ↔ 테스트)
 
@@ -101,6 +102,8 @@
 | Sobo38 | `Subu38.pas` | 도서코드 편집 다이얼로그 | contract RU |
 | Sobo39 | `Subu39.pas` | 할인율 저장 (변형은 `Subu39_*`) | variant 는 `customer_variants` 만 |
 | Sobo45 | `Subu45.pas` | 청구 라인 쓰기·마감 | DEC-031 |
+| Sobo43_shipping_ledger | `Subu43.pas` | T2 SQL·그리드·쓰기 (scaffold 완) | `shipping_ledger.yaml`, `test_shipping_ledger_scaffold.py` |
+| Sobo44_shipping_status | `Subu44.pas` | T2 SQL·집계 표 (scaffold 완) | 동일 계약 `shipping_status_list` |
 
 산출: 화면별 `analysis/layout_mappings/<Sobo*>.md` 에 **레거시 버튼명 → API 메서드 → pytest 이름** 한 줄 추가.
 

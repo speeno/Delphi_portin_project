@@ -38,3 +38,8 @@ implementation_schedule:
     status: pending_vendor_agreement
     note: |
       외부 연동은 별 DEC·별 일정. UI/라우트는 내부 코어 완료 후 확장하는 것을 원칙으로 한다.
+  phase3_print_gate_alignment:
+    status: tracked
+    note: |
+      W4 (2026-05-15): 택배 외부 API 는 `docs/phase3-print-gate.md` §4(C7 IR 게이트)와 책임 분리 —
+      인쇄 IR 결합 없이 벤더 SLA·인증만 별도 트랙으로 진행한다.

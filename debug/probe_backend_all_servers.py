@@ -199,6 +199,11 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "public.portal",
+            "path": "/api/v1/public/portal",
+            "ok_status": {200},
+        },
+        {
             "group": "masters.customer",
             "path": f"/api/v1/masters/customer?serverId={sid}&limit=1",
             "ok_status": {200},
@@ -380,6 +385,23 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "path": (
                 f"/api/v1/settlement/outstanding?serverId={sid}"
                 f"&monthFrom={month}&monthTo={month}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        # DEC-049 (e) — 진짜 발송비 도메인 (wrong_id 분리). v0.1 scaffold 빈 목록 200.
+        {
+            "group": "settlement.shipping_ledger",
+            "path": (
+                f"/api/v1/settlement/shipping-ledger?serverId={sid}"
+                f"&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "settlement.shipping_status",
+            "path": (
+                f"/api/v1/settlement/shipping-status?serverId={sid}"
+                f"&limit=1&offset=0"
             ),
             "ok_status": {200},
         },

@@ -25,8 +25,8 @@
 
 | 도메인 | 신규 ID | 신규 라우트 | 신규 계약 파일(예정) | T1 카드(예정) |
 |---|---|---|---|---|
-| 발송비내역 (CRUD) | `Sobo43_shipping_ledger` | `/settlement/shipping-ledger` | `migration/contracts/shipping_ledger.yaml` | `analysis/screen_cards/Sobo43_shipping.md` |
-| 발송비현황 (집계) | `Sobo44_shipping_status` | `/settlement/shipping-status` | (`shipping_ledger.yaml` 의 `status` 섹션 재사용 권장) | `analysis/screen_cards/Sobo44_shipping.md` |
+| 발송비내역 (CRUD) | `Sobo43_shipping_ledger` | `/settlement/shipping-ledger` | `migration/contracts/shipping_ledger.yaml` v0.1 (scaffold) | `analysis/screen_cards/Sobo43_shipping.md` |
+| 발송비현황 (집계) | `Sobo44_shipping_status` | `/settlement/shipping-status` | (`shipping_ledger.yaml` `shipping_status_list`) | `analysis/screen_cards/Sobo44_shipping.md` |
 
 신규 ID 는 **반드시** `_shipping_ledger` / `_shipping_status` 접미를 유지하여 접두 `Sobo43_` 와의 통계 라우트(혼동 케이스) 를 정적으로 grep 분리할 수 있게 한다.
 

@@ -1,7 +1,7 @@
 {
   "$comment": "핵심 10 시나리오의 화면 단위 포팅 진행 트래커. docs/core-scenarios-porting-plan.md 와 1:1 동기화. 상태 값: not_started | in_progress | review | done | blocked",
   "title": "핵심 10 시나리오 — 화면 단위 포팅 진행",
-  "updatedAt": "2026-05-08 — C9 Sobo17/38/39 CRUD 풀(master_data v1.4.0) + probe write 매트릭스 + regression/c9_master_writes.md",
+  "updatedAt": "2026-05-17 — C1 로그인 전 플랫폼 공지·슬로건(/notices·/admin/platform-portal)·미구현 W0~W5·발송비 scaffold 반영. 직전: 2026-05-08 C9 CRUD 풀.",
   "planDoc": "docs/core-scenarios-porting-plan.md",
   "stages": [
     {
@@ -147,17 +147,27 @@
       "db_impact": "SELECT (Id_Logn) + UPDATE (Id_Logn.Gcode 비번 변경)",
       "web": {
         "routes": [
-          "/(public)/login"
+          "/(public)/login",
+          "/(public)/notices",
+          "/(public)/notices/[id]",
+          "/(app)/admin/platform-portal"
         ],
         "endpoints": [
-          "POST /api/auth/login"
+          "POST /api/v1/auth/login",
+          "GET /api/v1/public/portal",
+          "GET /api/v1/public/notices",
+          "GET /api/v1/admin/platform-portal"
         ],
         "backend": [
           "도서물류관리프로그램/backend/app/routers/auth.py",
-          "도서물류관리프로그램/backend/app/services/auth_service.py"
+          "도서물류관리프로그램/backend/app/services/auth_service.py",
+          "도서물류관리프로그램/backend/app/routers/public_portal.py",
+          "도서물류관리프로그램/backend/app/services/platform_portal_service.py"
         ],
         "frontend": [
-          "도서물류관리프로그램/frontend/src/app/(public)/login/"
+          "도서물류관리프로그램/frontend/src/app/(public)/login/",
+          "도서물류관리프로그램/frontend/src/app/(public)/notices/",
+          "도서물류관리프로그램/frontend/src/app/(app)/admin/platform-portal/"
         ]
       },
       "contract": "migration/contracts/login.yaml",
@@ -188,7 +198,7 @@
         },
         "T6": {
           "status": "done",
-          "note": "AppShell + 로그인 폼. 1차 구현 갭 해소: UserInfo.hcode 필드 노출 (백엔드+프론트), header.tsx hcode 뱃지 표시 (헤더 hname+hcode 동등성), audit 로그 라우터 통합"
+          "note": "AppShell + 로그인 폼. UserInfo.hcode·header 뱃지·audit 통합. 2026-05-17 플랫폼 공지·슬로건: /login API 슬로건·긴급·최근3, /notices 목록·상세, 수퍼 /admin/platform-portal, 통합 로그인 안내는 고급 옵션으로 이동"
         },
         "T7": {
           "status": "done",

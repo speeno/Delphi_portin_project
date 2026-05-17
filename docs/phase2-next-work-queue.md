@@ -44,6 +44,12 @@
 - `Sobo48_compare`: 레거시 정본을 장부대조가 아닌 `Subu48` 출판사관리(설정)으로 정정하고 `G7_Ggeo` 조회 + `Chek3`/`Scode` 부분 저장으로 phase1 포팅. 계약: `migration/contracts/sobo48_publisher_settings.yaml`.
 - `Sobo29_other`: `Subu29` 신간/기타 명세를 `S1_Ssub` 조회 + `S1_Memo` 전체메모 저장으로 phase1 포팅. 비정형 인쇄 PDF는 C7 인쇄 후속으로 분리. 계약: `migration/contracts/transactions_other.yaml`.
 
+### 3.2 대시보드·IA 동기화 (2026-05-15)
+
+- `dashboard/data/phase2-screen-cards.json` ↔ `form-registry.ts` 드리프트 제거 (`Sobo48_compare` / `Sobo29_other` T1~T8 정합).
+- `ScreenPlaceholder` 4경로: 내역서·년월통계·반품재고 허브 MVP + `/master/discount/[type]` 서버 redirect (`docs/crud-backlog.md` §2.6 참조).
+- 진짜 발송비: `Sobo43_shipping_ledger` / `Sobo44_shipping_status` — API·UI scaffold + `migration/contracts/shipping_ledger.yaml` v0.1 + `analysis/screen_cards/Sobo43_shipping.md` / `Sobo44_shipping.md`.
+
 ## 4. C9 마스터 쓰기 잔여 — **완료 (2026-05-08)**
 
 **결과:** `master_data.yaml` **v1.4.0** — Sobo17(출판사)·Sobo38(도서코드, `/masters/book` thin alias)·Sobo39(할인, `?variant=base|v1|v2|v5`) 전 CRUD + `require_permission('master.write')` + 회귀 문서 `analysis/regression/c9_master_writes.md` + `debug/probe_backend_all_servers.py` 매트릭스 보강.

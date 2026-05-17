@@ -6,14 +6,14 @@
 - 그러므로 ``sidebar.tsx`` 의 가시성 필터링 동작은 *정적 가드* 로 검증한다:
     1. ``form-registry.ts`` 의 모든 ``requiredPermission`` 값이 카탈로그
        (``permission-keys-catalog.md`` §1+§4) 의 정본 ``permission_code`` 부분집합.
-    2. ``sidebar.tsx`` 가 ``usePermissions`` 를 호출하고 게이팅 필터를 사용함.
+    2. ``sidebar.tsx`` 가 ``usePermissions`` 를 호출하고 메뉴 매트릭스 게이트를 사용함.
     3. ``use-permissions.ts`` 가 슈퍼유저 동등 분기 (``hcode === '0000'`` /
        ``role === 'admin'`` / ``permissions.includes('*')``) 를 모두 포함함.
 
 검증 항목
 ---------
 1. ``form-registry.ts::requiredPermission`` 모든 값 ⊆ catalog 의 permission_code 셋.
-2. ``sidebar.tsx`` 가 ``usePermissions()`` 를 import + 호출 + 가시성 필터에 사용.
+2. ``sidebar.tsx`` 가 ``usePermissions()`` 를 import + 호출 + 메뉴 매트릭스 필터에 사용.
 3. ``use-permissions.ts`` 가 isSuperUser 3 분기 모두 포함.
 """
 from __future__ import annotations
@@ -74,7 +74,7 @@ class SidebarPermissionGatingTest(TestCase):
         )
 
     def test_sidebar_uses_usepermissions_hook(self) -> None:
-        """sidebar.tsx 가 usePermissions 를 import + 호출 + 게이팅에 사용."""
+        """sidebar.tsx 가 usePermissions 를 import + 호출 + 매트릭스 게이트에 사용."""
         text = _SIDEBAR.read_text(encoding="utf-8")
         self.assertIn(
             'from "@/lib/use-permissions"', text,
@@ -84,11 +84,17 @@ class SidebarPermissionGatingTest(TestCase):
             "usePermissions()", text,
             "sidebar.tsx 가 usePermissions() 를 호출해야 함",
         )
-        # 가시성 필터: requiredPermission + perms.has 패턴
-        self.assertRegex(
+        # 가시성 필터: hard deny 는 계정 메뉴 매트릭스(canSeeMenu)만 사용.
+        # user.permissions 는 전체 메뉴 허용 목록이 아닐 수 있어 sidebar hard deny 로 쓰지 않는다.
+        self.assertIn(
+            "perms.canSeeMenu(menuId)",
             text,
-            r"(requiredPermission|perms\.has\()",
-            "sidebar.tsx 가 requiredPermission 게이팅 필터를 적용해야 함 (DEC-058)",
+            "sidebar.tsx 가 메뉴 매트릭스 게이트를 적용해야 함 (DEC-RBAC-02/03)",
+        )
+        self.assertNotIn(
+            "!perms.has(form.requiredPermission)",
+            text,
+            "requiredPermission 을 sidebar hard deny 로 쓰면 계정별 기존 접근 메뉴가 과도하게 숨겨짐",
         )
 
     def test_use_permissions_super_user_three_branches(self) -> None:

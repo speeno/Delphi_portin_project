@@ -1915,6 +1915,10 @@ async function init() {
   const app = document.getElementById('app');
   try {
     const data = await loadAll();
+    const sprintBadge = document.getElementById('header-sprint-badge');
+    if (sprintBadge && data.project?.currentSprint != null) {
+      sprintBadge.textContent = `Sprint ${data.project.currentSprint}`;
+    }
     app.innerHTML = [
       renderOverview(data),
       renderHumanActionItems(data),

@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 from unittest import IsolatedAsyncioTestCase, TestCase, main
 
-from fastapi import HTTPException
 from starlette.requests import Request
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -87,7 +86,9 @@ class AdminInspectContextTests(IsolatedAsyncioTestCase):
         dep = self.deps.require_server_ownership("serverId")
         await dep(_request("PATCH", "/api/v1/masters/book/0014", query=b"serverId=remote_153"), ctx)
 
-    async def test_inspect_mode_rejects_non_super_user(self) -> None:
+    async def test_inspect_mode_discarded_for_non_super_user(self) -> None:
+        from app.core.inspect_context import get_inspect_context
+
         header = json.dumps(
             {
                 "inspect_mode": True,
@@ -96,13 +97,14 @@ class AdminInspectContextTests(IsolatedAsyncioTestCase):
                 "inspect_reason": "장애 점검",
             }
         )
-        with self.assertRaises(HTTPException) as user_err:
-            await self.deps.get_user_context(
-                _request("GET"),
-                current={"user_id": "u1", "server_id": "remote_138", "role": "operator", "permissions": []},
-                x_auth_context=header,
-            )
-        self.assertEqual(user_err.exception.status_code, 403)
+        ctx = await self.deps.get_user_context(
+            _request("GET"),
+            current={"user_id": "u1", "server_id": "remote_138", "role": "operator", "permissions": []},
+            x_auth_context=header,
+        )
+        self.assertEqual(ctx["user_id"], "u1")
+        self.assertEqual(ctx["server_id"], "remote_138")
+        self.assertIsNone(get_inspect_context())
 
     async def test_inspect_subject_keeps_subject_scope_but_uses_actor_permission_for_read(self) -> None:
         from app.core import db as core_db

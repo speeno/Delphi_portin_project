@@ -1,11 +1,47 @@
 {
-  "updatedAt": "2026-05-08T12:00:00Z",
-  "phase": "2026-05-08 진행 허브 동기화 — porting-screens.json·todos.json(M-S1-PORT-C10)·docs/core-scenarios-porting-plan.md §4를 단일 스냅샷으로 정합. 제품 변경 없음. 직전: 2026-05-04 세금·레거시 출력·CRUD(Sobo49·DEC-058·settlement_billing v1.3.1)·Wave B/C 정리.",
-  "productNote": "실행 UI는 저장소 `도서물류관리프로그램/` (제품 웹). 본 섹션은 개발 진행용 허브 대시보드 전용. 최근: 2026-05-08 메타·할일·§4 드리프트 제거. 그 직전: C5 Sobo49·DEC-058·미완 인벤토리 동기·고급 티어는 docs/PR 템플릿 표 참조.",
+  "updatedAt": "2026-05-17T12:00:00Z",
+  "phase": "2026-05-17 대시보드·진행률 현행화 — **전체 73%** (Sprint 1 **76%**). 미구현 화면 웨이브 **W0~W5 완료**: UI `ScreenPlaceholder` 0건·placeholder 4경로 허브 MVP·`unimplemented-screens-tracker.json` 동기. **플랫폼 로그인 전 공지·슬로건** — `platform_portal.json`·`GET /api/v1/public/portal`·수퍼 `/admin/platform-portal`·`/login` API 연동·`/notices` 목록·상세 (`migration/contracts/platform_portal.yaml`, pytest 5 PASS). **발송비 W2 scaffold** — `shipping_ledger` 계약·빈 목록 API·`/settlement/shipping-ledger` STUB (T2 SQL·CRUD 후속). 잔여 gap: 발송비 Subu43/44 T2~T8·billing P3(Sobo24_9/Sobo38_1/Seok30). C5 별칭 8건·wrong_id 정책은 2026-05-15와 동일.",
+  "productNote": "실행 UI는 저장소 `도서물류관리프로그램/` (제품 웹). 본 섹션은 개발 진행용 허브 대시보드 전용. 최근: 2026-05-17 `project.overallProgress` 68→73·Sprint1 71→76·`incomplete-features-inventory` 재생성·플랫폼 공지·W0~W5. 직전: 2026-05-15 발송비/입금 IA·C5 별칭. form-registry **phase1 69** / **phase2 2**(발송비 STUB). phase2-screen-cards **T8 done 29/31**.",
   "docLinks": [
     {
       "label": "Phase2 후속 작업 큐",
       "path": "docs/phase2-next-work-queue.md"
+    },
+    {
+      "label": "북이오웍스 디자인 단일 원천 (Design.md v1.0)",
+      "path": "docs/Design.md"
+    },
+    {
+      "label": "디자인 갭 분석 (globals.css·앱 셸·로그인)",
+      "path": "docs/design-gap-analysis.md"
+    },
+    {
+      "label": "디자인 롤아웃 플랜 (Phase A/B/C·자산 경로)",
+      "path": "docs/design-rollout-plan.md"
+    },
+    {
+      "label": "디자인 자산 요청서 (브랜드 담당 발송용)",
+      "path": "docs/design-asset-request.md"
+    },
+    {
+      "label": "디자인 PR 템플릿 (Phase A/B/C 공용)",
+      "path": ".github/PULL_REQUEST_TEMPLATE/design-bookioworks.md"
+    },
+    {
+      "label": "Phase A 회귀 매트릭스 (토큰 회전)",
+      "path": "analysis/regression/design-phase-a-rotation.md"
+    },
+    {
+      "label": "Phase B 선스캐폴드 매트릭스 (Logo·button·metadata)",
+      "path": "analysis/regression/design-phase-b-prescaffold.md"
+    },
+    {
+      "label": "Phase C 매트릭스 (차트·지도 토큰화)",
+      "path": "analysis/regression/design-phase-c-tokenize.md"
+    },
+    {
+      "label": "디자인 가독성 보정 매트릭스 (primary/vivid 분리)",
+      "path": "analysis/regression/design-readability-remap.md"
     },
     {
       "label": "운영 계정 RED 자격증명 처리 메모",
@@ -30,6 +66,14 @@
     {
       "label": "포팅 진행 트래커 (머신리더블)",
       "path": "dashboard/data/porting-screens.json"
+    },
+    {
+      "label": "발송비/입금관리 레거시↔웹 매핑 (gap·alias·moved·wrong_id)",
+      "path": "migration/coverage/billing-deposit-menu-legacy-to-web-map.md"
+    },
+    {
+      "label": "billing 메뉴 C5 별칭 카드 (settlement 라우트 8건)",
+      "path": "dashboard/data/billing-c5-menu-porting.json"
     },
     {
       "label": "계정 유형 자동 결정 (ACTR) — 소속 판정 보강",
@@ -90,6 +134,14 @@
     {
       "label": "미완 기능 인벤토리 재생성·검증 (`--check`)",
       "path": "debug/generate_incomplete_features_inventory.py"
+    },
+    {
+      "label": "플랫폼 로그인 전 공지·슬로건 계약 (platform_portal.yaml)",
+      "path": "migration/contracts/platform_portal.yaml"
+    },
+    {
+      "label": "미구현 화면 추적 (W0~W5)",
+      "path": "dashboard/data/unimplemented-screens-tracker.json"
     }
   ],
   "blocks": [
@@ -97,6 +149,9 @@
       "id": "backend",
       "title": "백엔드 · 데이터 연동",
       "items": [
+        "플랫폼 로그인 전 공지·슬로건 (2026-05-17) — `platform_portal_service` + `backend/data/platform_portal.json` (멀티 DB 무관). 공개 `GET /api/v1/public/{portal,notices,notices/{id}}` (Cache-Control 60s). 수퍼 `GET/PUT/POST/PATCH/DELETE /api/v1/admin/platform-portal/*` (`_require_super_admin`, critical 1건 규칙). 계약 `platform_portal.yaml`. 회귀 `test_platform_portal_public.py`·`test_platform_portal_admin_super.py` 5 PASS. probe `public.portal`.",
+        "미구현 화면 W0~W5 (2026-05-15~17) — `incomplete-features-inventory` 재생성: UI placeholder **0건**. W1 placeholder 4경로 허브. W2 `shipping_ledger` scaffold API. W3~W5 crud-backlog·phase3-print-gate·billing P3 로드맵. 추적 `dashboard/data/unimplemented-screens-tracker.json`.",
+        "발송비/입금관리 백엔드 (2026-05-15 정리) — 입금·청구·세금·미수·전표 등은 `settlement` 라우터·`settlement_service` 로 C5 구현 완료. **레거시 Subu43·44(발송비내역·현황) 전용 REST는 scaffold만**(빈 목록, T2 SQL 후속 — `billing-subu43-44-shipping-backlog.md`).",
         "C5 Sobo49 세금계산서 보관본 인쇄 멀티 DB (2026-05-04) — `tax_invoice_service.render_tax_invoice_html` / PDF 워터마크용 Yesno 조회를 목록과 동일 `_t2_columns` + `_build_sql_print_row` 로 통일 (변형사 DB Chek3/Sdate/Yesno 부재 시 1054→500 방지, DEC-058). HTML 배너로 DEC-035 stub 와 보관본 출력 분리(DEC-035 (d)). 계약 `settlement_billing.yaml` v1.3.1 + `legacy-analysis/decisions.md` DEC-035 보강. 회귀 `test/test_settlement_tax_invoice_chek3_optional.py` 확장 + `test_c5_settlement_phase2.py` 무회귀.",
         "WeLove 전체 계정 대응 (2026-05-01, 데이터 주도) — gitignored `WeLove_FTP` 468개 `.dpr` 스캔: `tools/extract_welove_dpr_closures.py` → `analysis/welove_dpr_closures.json`, 확장 빌드 요약 `analysis/welove_build_catalog_extended.json`. 테넌트 라우팅 매트릭스 `analysis/welove_tenant_build_routing_matrix.json` (tenant_id → account_family → active_build_id → dpr_closure_hash). 화면 매핑 노트 대비 소스 변형 `analysis/welove_screen_contract_coverage.json`. 계약 `migration/contracts/welove_build_coverage.yaml`. 회귀 `test/test_welove_porting_coverage.py`. 로그인 핵심 경로(DSN-DEC-08·Id_Logn 검증·login_id_index·tenants_directory)는 변경 금지 — 부가 메타만 추가 시 `docs/login-routing-regression-guard.md`·`login.yaml`·아래 C1 회귀 테스트 필수.",
         "국립중앙도서관 Open API (2026-05-01) — 환경 `BLS_NL_API_KEY`(단일)·`BLS_NL_BASE_URL`(기본 https://www.nl.go.kr)·TTL·타임아웃(`config.py`). 클라이언트 `nl_library_client`: 서지 `.../seoji/SearchApi.do` 에 `cert_key`, 검색·사서추천 `.../NL/search/openApi/{search.do,saseoApi.do}` 에 `key` 동일 값·TTL 메모리 캐시. 라우터 `GET /api/v1/integrations/nl/{isbn,search,librarian-picks,bibliography-status}` (`integrations_nl.py`, `main.py` 등록). 대시보드 프록시 `GET /api/v1/dashboard/external/nl-librarian-picks` + `dashboard_external_service.nl_librarian_picks`. 회귀 `test/test_nl_library_client.py`·`test/test_nl_integration_router.py`(레포 `test/`).",
@@ -146,6 +201,8 @@
       "id": "frontend",
       "title": "프론트엔드 · UX (제품)",
       "items": [
+        "플랫폼 공지·슬로건 UI (2026-05-17) — `/login` `GET /public/portal` 연동(슬로건·긴급 ColorNotice warn·최근 3·통합 로그인 안내는 고급 옵션). `/notices`·`/notices/[id]` 공개 목록·상세. 수퍼 `/admin/platform-portal` CRUD + `/admin/super` 카드. `public-portal-api.ts`·`admin-api` platformPortalApi. tsc PASS.",
+        "발송비/입금관리 사이드바 (2026-05-15 정리) — `form-registry.ts` 의 `billing` 그룹은 C5 정산·입금·청구·세금·전표 등 **settlement 라우트 별칭 8건**만 노출(`billing-c5-menu-porting.json`). 레거시 **발송비내역·발송비현황**(Subu43/44)은 `/settlement/shipping-ledger|shipping-status` **STUB**(W2); 웹 `Sobo43_stats_route`·`Sobo44_inv`는 통계·재고(**wrong_id**).",
         "Wave B placeholder DOM 회귀 훅 (2026-05-04) — `/year-month-stats`·`/billing/statements`·`/shipping/returns-inventory`·`/master/discount/[type]` 루트에 `data-legacy-id` (Menu*.Placeholder / Sobo39Variant.Placeholder.*) + 스코핑 노트 링크. `/transactions/other`·`/ledger/comparison` 루트 ID (Sobo29_other / Sobo48) — `analysis/audit/wave-b-placeholder-scoping.md` 정합.",
         "국립중앙도서관 UI 연동 (2026-05-01) — `lib/nl-library-api.ts` 만 백엔드 통합 API 호출(키 비노출). 도서 상세 `/master/book/[gcode]` ISBN 옆 `NL 조회`·결과 카드 `이 서지 반영`(저장은 기존 `masterApi.bookUpdate`). 목록 `/master/book` `NL 서지` 열·행별 확인 패널. 역할 대시보드 `external.nl_librarian_picks` 위젯 + `ExternalWidgetCard` → `nl-librarian-picks`. 저회전(opsHealth) 행 NL 대조 배지(`bibliography-status`). 도서코드 `/master/book-code` `NL에서 검색` 읽기 전용 패널. 타입 검사 `npm run typecheck` 통과.",
         "UX 핫픽스 HOT-APP-3 (2026-04-29) — 역할 대시보드 편집 모드 위젯 설정: `dashboard-widget-config-dialog`(Sheet)·`dashboard-region-presets`(ITS bbox·기상 lat/lon/nx/ny 프리셋)·`role-dashboard-view`에서 JSON `window.prompt` 제거·고급 JSON 접기 유지. 회귀 `test/test_dashboard_widget_config_ux.py`.",
@@ -201,6 +258,7 @@
       "id": "legacy",
       "title": "레거시 UI · 도구",
       "items": [
+        "발송비/입금관리 메뉴 하위 (2026-05-15 허브 동기) — `legacy_delphi_source/.../11-screen-business-flows.md` §발송비/입금관리 대비 `billing-deposit-menu-legacy-to-web-map.md`: **미포팅** 진짜 발송비 Subu43·44(Sobo43/44, P2 백로그 `billing-subu43-44-shipping-backlog.md`), Sobo24_9·Sobo38_1·Seok30(P3). **C5로 포팅 완료(alias)** 입금·청구·세금·청구서출력 등 8건은 `settlement`+`billing` 별칭(`billing-c5-menu-porting.json`). **moved** 반품수거·출고내역서 등은 통계/출고 트랙. **wrong_id** 웹 `Sobo43_stats_route`/`Sobo44_inv`는 레거시 발송비와 다른 도메인.",
         "layout_mappings Wave C 추적 (2026-05-04) — Sobo11/14/17/38/39/45 매핑 노트에 §12 '레거시 버튼 → API → pytest' 한 줄 표 (DEC-019 Delete OFF + 후속 audit 회귀 슬롯). Sobo49_tax.md §12 Subu49.pas 이벤트 ↔ 모던 갭(A1) + DEC-035 stub/완성 분리.",
         "WeLove 공식 입력 — `legacy_delphi_source/legacy_source`는 부분 스냅샷; 고객별 실행 파일·전체 클로저는 `WeLove_FTP`(gitignored, 로컬 존재 가정). 포팅 시나리오별로 해당 `build_id`의 PAS/DFM 경로를 `welove_screen_contract_coverage.json`·계약 `customer_variants`와 정합.",
         "`delphi_porting_accelerator` DFM→웹 폼 JSON",

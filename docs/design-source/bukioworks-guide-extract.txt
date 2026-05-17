@@ -1,0 +1,170 @@
+================================================================================
+ 북이오웍스 (Bukioworks) Design System for CMS — 원문 추출
+ 출처: docs/북이오웍스_디자인_가이드.pdf  (전체 8 page)
+ 추출일: 2026-05-11  (pdf → text, 사람 보정 없음. 표는 줄바꿈 형태로 보관)
+ 용도: docs/Design.md 단일 원천 작성 시 원문 대조용. 외부 유포 금지.
+================================================================================
+
+[ Cover · 1 / 8 ]
+
+WORKS — design System for CMS
+
+북이오의 홈페이지가 하이라이트의 시각 언어를 중심으로 설계되었다면, CMS는 장시간
+작업 환경에 적합한 안정적인 컬러 체계를 기준으로 재규정하였습니다.
+
+독자가 마주하는 서비스 화면에서는 라임과 스카이 컬러를 통해 북이오만의 선명한 브랜드
+인상을 전달하고, 운영자가 사용하는 CMS에서는 눈의 피로를 줄이고 정보 식별과 작업
+효율을 높일 수 있는 차분한 색감을 중심으로 구성하였습니다.
+
+이를 통해 북이오의 브랜드 정체성은 유지하되, 사용 목적과 환경에 따라 보다 실용적인
+시각 시스템으로 확장하였습니다.
+
+
+[ Logo · 2 / 8 ]
+
+Symbol
+  심볼은 북이오의 핵심 경험을 간결한 형태로 상징합니다. 책, 기록, 하이라이트, 저장의
+  개념을 직관적으로 전달할 수 있도록 단순한 구조를 유지하며, 앱 아이콘, 파비콘,
+  버튼, 메뉴, 프로필 영역 등 제한된 공간에서도 브랜드를 식별할 수 있는 요소로
+  사용합니다.
+
+Wordmark
+  워드마크는 ‘북이오’라는 이름의 인지성을 높이는 기본 브랜드 표기입니다. 서비스
+  소개, 로그인 화면, CMS 상단 영역, 브랜드 안내 페이지 등 명확한 브랜드 노출이
+  필요한 곳에 사용하며, 심볼보다 더 공식적이고 직접적인 커뮤니케이션 수단으로
+  기능합니다.
+
+
+[ Color System · 3 / 8 ]
+
+Primary Identity
+  Pale Lime          HEX #FCFFE9   RGB 252 / 255 / 233 / 100
+  Pale Sky           HEX #F4FFFF   RGB 244 / 255 / 255 / 100
+
+Neutral
+  Bukio Black        HEX #282828   RGB  40 /  40 /  40 / 100
+  Bukio Gray         HEX #E6E6E6   RGB 230 / 230 / 230 / 100
+
+Surface & Background
+  White              HEX #FFFFFF   Primary Page Canvas
+  Neutral Gray       HEX #F5F5F7   Subtle Gray
+  Neutral Gray_02    HEX #F5F5F5   Zone separator
+
+Text
+  Primary Text       HEX #282828   Body + Heading on Light
+  Secondary Text     HEX #555555   Metadata + Secondary Text
+  Inverse Text       HEX #F5F5F5   Heading on Dark
+
+Sub Color Palette
+  Info Blue          HEX #B6D3F5   Info / Links
+  Positive Green     HEX #8EC8CD   Success
+  Warning Orange     HEX #FFC1A0   Warning
+  Error Red          HEX #FFA8A8   Error
+  Accent Red         HEX #FFE3DF   Accent
+  Neutral Gray       HEX #CCCCCC   Neutral
+
+Vivid Section  (only for Warning, Urgent Notice, Important alerts)
+  Vivid Lime         HEX #E0FF00   Warning / Strong Emphasis
+  Vivid Sky          HEX #5EFFFF   Important / Notice
+
+운영 원칙
+  - Primary Color 는 브랜드 인상과 핵심 액션에 사용한다.
+  - Neutral / Surface / Text 는 웹 UI 의 기본 구조와 가독성을 형성한다.
+  - Sub Color 는 정보의 성격과 상태를 구분하는 목적에만 한정해 사용한다.
+  - 밝은 Primary 와 충돌하지 않도록 가독성·시인성 높은 페일 톤 계열로 구성한다.
+
+
+[ Typography · 4 / 8 ]
+
+영문 = Outfit, 국문 = Pretendard.
+두 서체 모두 정원에 가까운 곡선과 직선을 공유해 한 페이지에 혼용해도 자연스럽다.
+
+EN
+  Display     Outfit Semibold
+  Headline    Outfit Semibold
+  Body        Outfit Regular
+  Detail      Outfit Regular   (가이드 표는 Light 로 명시)
+  Body SM     Outfit Light
+
+KOR
+  Display     Pretendard Bold
+  Headline    프리텐다드 볼드
+  Body        Pretendard Medium     · 프리텐다드 미디엄
+  Detail      Pretendard Regular    · 프리텐다드 레귤러
+  Caption     Pretendard Regular
+
+
+[ Hierarchy · 5 / 8 ]
+
+Token         Family       Weight    Size   자간   행간   사용
+------------  -----------  --------  -----  -----  -----  -----------------------------
+Display       Outfit       Semibold  48px     0    1.5    영문 히어로 디스플레이
+Headline_en   Outfit       Semibold  32px     0    1.5    영문 두 줄 이하 타이틀
+Body_en       Outfit       Regular   16px     0    1.5    영문 한 줄 이상 본문
+Detail_en     Outfit       Light     14px     0    1.5    영문 디테일 텍스트
+Headline_kor  Pretendard   Bold      28px    -2    1.5    국문 두 줄 이하 타이틀
+Body_kor      Pretendard   Medium    16px    -2    1.5    국문 한 줄 이상 본문
+Detail_kor    Pretendard   Regular   14px    -2    1.5    국문 디테일 / 캡션
+
+
+[ Button Design · 6 / 8 ]
+
+기본 원칙
+  · Full Pill 형태 (radius 999px) — 모든 버튼이 일관된 풀 필 형태로 명확한 인지·조작감.
+  · 아이콘 + 텍스트 조합 — 의미 전달을 강화.
+  · 높은 대비 / 명확한 색상 — 가독성·접근성·상황 인지.
+
+치수
+  · 높이 50px
+  · 아이콘 20px + 아이콘↔텍스트 간격 12px
+  · 좌우 패딩 24px
+  · 코너 radius 999px
+  · 텍스트: Pretendard / Semibold / 18px
+
+구성 요소
+  Primary Filled   #E0FF00 / Black Text  ("+ 책장 추가하기")  — 권장 / 화면당 1개
+  Dark Filled      #282828 / White Text                      — 보조 액션 / 강조 필요
+  Outline Button   Border #282828 / Text #282828             — 대안 액션 / 가벼운 시선 유도
+
+상태
+  Default   기본 표시 상태
+  Hover     클릭 시 밝기 감소 → HEX #C9E500 (Primary 의 Lime hover)
+  Disable   비활성화 상태로 낮은 대비 적용 → HEX #CCCCCC
+
+Button Hierarchy
+  · Filled 는 화면에서 가장 중요한 주요 액션. 생성·추가·저장·확인 등 긍정적 행동은 Lime,
+    관리·삭제·설정처럼 기능 실행 성격이 강한 액션은 Dark 로 구분.
+  · Outline 은 Filled 보다 낮은 위계의 보조 액션 (상세보기·취소·옵션 확인 등).
+  · 한 화면에서는 Filled 를 핵심 행동에 우선 배치하고 Outline 은 이를 보조한다.
+
+운용 원칙
+  · 가장 중요한 액션 강조 — Primary Filled 로 핵심 행동을 명확히 유도.
+  · 일관된 사용 유지 — 같은 맥락에서는 동일한 버튼 스타일 유지 (학습 비용 ↓).
+  · 대비와 접근성 보장 — 텍스트와 배경의 대비를 충분히 확보.
+  · 간결한 라벨 사용 — 행동을 명확히 설명하는 짧고 구체적인 라벨.
+  · 반응형 환경 고려 — 다양한 화면 크기·터치 환경에서 최적의 UX.
+
+
+[ Icon · 7 / 8 ]
+
+기준 그리드     24 × 24 px
+기본            Line Icon (기본 기능·보조 요소)
+선택·강조       Solid Icon (선택 상태·강조 필요한 기능)
+색상            다크 컬러를 기본으로 하며, 버튼/메뉴 안에서도 동일 크기·간격 규칙 유지.
+
+
+[ Color Block · 8 / 8 ]
+
+용도에 따라 두 종류의 컬러 블록으로 구분.
+
+1) Light Section — 정보 전달, 안내, 일반 컨텐츠
+   · Primary Identity 컬러 색상과 높은 가독성.
+   · "확장 가능한 시스템, 자주 묻는 질문, 문의 폼을 통해 필요한 정보를 쉽고 빠르게 찾는다."
+
+2) Vivid Section — 경고, 공지, 강조 메시지
+   · 즉각적인 주목과 명확한 메시지 전달.
+   · NOTICE / IMPORTANT 한정.
+
+운용 원칙
+  · 코너 반경은 블록 가로 길이의 약 15% 를 기준으로 한다.
+  · 모든 컬러 블록에 넉넉한 여백 / 라운드 코너 / 높은 가독성 유지.

@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-05-04T10:30:47.140004+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-05-17T08:21:19.390834+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -8,38 +8,37 @@
 
 ## 1. UI — `ScreenPlaceholder` 가 붙은 라우트
 
-- `도서물류관리프로그램/frontend/src/app/(app)/billing/statements/page.tsx` → 라우트 추정 `/billing/statements`
-- `도서물류관리프로그램/frontend/src/app/(app)/master/discount/[type]/page.tsx` → 라우트 추정 `/master/discount/[type]`
-- `도서물류관리프로그램/frontend/src/app/(app)/shipping/returns-inventory/page.tsx` → 라우트 추정 `/shipping/returns-inventory`
-- `도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/page.tsx` → 라우트 추정 `/year-month-stats`
+- (없음)
 
 ## 2. T1–T8 — `phase2-screen-cards.json` 에서 아직 done 아닌 task
 
 > **드리프트 주의:** 카드의 레거시 ID·캡션과 해당 `route` 의 `page.tsx` 실구현 범위가 다를 수 있다. 판단은 API·화면 코드 우선.
 
-- **Sobo48_compare** (장부대조) `/ledger/comparison` — {'T2': 'in_progress', 'T3': 'blocked', 'T4': 'pending', 'T5': 'pending', 'T6': 'in_progress', 'T7': 'pending', 'T8': 'pending'}
-  - blockers: ['레거시 단일 SQL 미확정', '신규 SQL 0 정책(DEC-040)', '라우트 드리프트: /ledger/comparison 는 현재 Sobo48 본판(출판사 설정)이 임시 점유 중 — 장부대조 진입 시 별도 라우트 또는 view 모드 분리 필요 (analysis/audit/wave-b-placeholder-scoping.md §2)']
-- **Sobo29_other** (기타명세서) `/transactions/other` — {'T2': 'in_progress', 'T3': 'blocked', 'T4': 'pending', 'T5': 'pending', 'T6': 'in_progress', 'T7': 'pending', 'T8': 'pending'}
-  - blockers: ['레거시 폼 단순 출력기 — 인쇄 양식(T7) 미확정 (조회·메모 저장은 구현 완료, Sobo29.* data-legacy-id 부착 — analysis/audit/wave-b-placeholder-scoping.md §2)']
+- **Sobo43_shipping_ledger** (발송비내역) `/settlement/shipping-ledger` — {'T2': 'pending', 'T4': 'pending', 'T7': 'pending', 'T8': 'pending'}
+  - blockers: ['DEC-040 재사용 검토', 't3_ssub_adapt', 'T4 test-cases·T7 회귀']
+- **Sobo44_shipping_status** (발송비현황) `/settlement/shipping-status` — {'T2': 'pending', 'T4': 'pending', 'T7': 'pending', 'T8': 'pending'}
+  - blockers: ['T2 SQL·t3_ssub_adapt', 'T4 test-cases·T7 회귀 — yaml v0.1 초안 반영됨']
 
 ## 3. `form-registry` — preview 또는 STUB
 
-- `MenuBillingStatements` (내역서관리) route `/billing/statements` — ['STUB', 'preview'] (line 1100)
-  - notes: ACC-MENU-NAV-15 (T1·T2-DIST·T3-LITE·T3-FULL)
-- `MenuShippingReturnsInventory` (반품재고관리(통합)) route `/shipping/returns-inventory` — ['STUB', 'preview'] (line 1081)
-  - notes: ACC-MENU-NAV-12 (T1·T3_WAREHOUSE_LITE) — WH-WL 단독
-- `MenuYearMonthStats` (년/월(통계)) route `/year-month-stats` — ['STUB', 'preview'] (line 1062)
-  - notes: ACC-MENU-NAV-07 (T1·T2-PUB·T3) — 8 하위 화면 후속
+- `Sobo43_shipping_ledger` (발송비내역) route `/settlement/shipping-ledger` — ['STUB'] (line 1123)
+  - notes: W2 scaffold — GET /settlement/shipping-ledger 빈 목록. T2 SQL·t3_ssub_adapt 후 CRUD 상향
+- `Sobo44_shipping_status` (발송비현황) route `/settlement/shipping-status` — ['STUB'] (line 1143)
+  - notes: W2 scaffold — GET /settlement/shipping-status 빈 목록. 재고현황 Sobo44_inv 와 별개
 
 ## 4. `form-registry` — phase1 이지만 부분 동등 (R / RU / STUB)
 
 > 레거시 화면은 풀 CRUD 였지만 모던 화면이 조회·부분쓰기에 머문 항목.
 
 ### R (21건)
+- `MenuBillingStatements` (내역서관리) `/billing/statements`
+  - 허브 MVP (2026-05-15) — 입고·반품·거래·출고·택배·판매 리포트로 링크. 8종 단일 SQL은 후속
+- `MenuShippingReturnsInventory` (반품재고관리(통합)) `/shipping/returns-inventory`
+  - 허브 MVP (2026-05-15) — 정본 /returns/inventory 로 안내. 통합 전용 SQL 그리드는 후속
+- `MenuYearMonthStats` (년/월(통계)) `/year-month-stats`
+  - 허브 MVP (2026-05-15) — 기존 /stats/* 화면으로 링크. 8개 전용 하위 라우트·SQL은 후속
 - `Settle_outstanding` (미수현황) `/settlement/outstanding`
   - 조회 전용 — 미수 합계
-- `Sobo17` (출판사·출고거래처(마스터)) `/master/publisher`
-  - 1차 READ only — 신규/수정/삭제 후속 (page.tsx 주석)
 - `Sobo32_1_ledger` (통합 거래처원장) `/ledger/customer-integrated`
   - 조회 전용 — DBGrid301 분해는 P3 (customer-ledger-implementation-plan §8)
 - `Sobo32_ledger` (거래처원장) `/ledger/customer`
@@ -50,10 +49,6 @@
   - 조회 전용 — statsApi.customerAnalysis → GET /api/v1/stats/customer-analysis (reports 재사용)
 - `Sobo37_stats_route` (도서통계(목록)) `/stats/book`
   - 조회 전용 — reportsApi.bookSales → GET /api/v1/reports/book-sales (Sobo61 동등 경로)
-- `Sobo38` (도서코드(마스터)) `/master/book-code`
-  - READ only (단순 조회) — 수정 후속
-- `Sobo39` (할인율(대표)) `/master/discount`
-  - 1차 READ only — 수정 후속
 - `Sobo41_slip` (입금전표) `/settlement/payment-slip`
   - 기존 입금 라인(settlementCashApi.list) 조회 + 전표 카드 인쇄(window.print) — 신규/수정 입금은 /settlement/cash
 - `Sobo43_stats_route` (출판사통계) `/stats/publisher`
@@ -107,14 +102,12 @@
 - `도서물류관리프로그램/backend/app/routers/_stub.py:29` — `status_code=status.HTTP_503_SERVICE_UNAVAILABLE,`
 - `도서물류관리프로그램/backend/app/routers/_stub.py:31` — `"code": "NOT_IMPLEMENTED",`
 - `도서물류관리프로그램/backend/app/routers/returns.py:510` — `status_code=status.HTTP_501_NOT_IMPLEMENTED,`
-- `도서물류관리프로그램/backend/app/routers/settlement.py:828` — `result = await tax_invoice_service.issue_external_stub(`
+- `도서물류관리프로그램/backend/app/routers/settlement.py:837` — `result = await tax_invoice_service.issue_external_stub(`
 
 ## 6. `docs/crud-backlog.md` §2.6 참조 (문서 불릿)
 
-- `Sobo29_other` (기타명세서)
-- `Sobo48_compare` (장부대조)
-- `Sobo43_stats_route` (출판사통계)
-- (할인율 변형) `/master/discount/[type]` 라우트는 메뉴 미노출 — 별도 등록 없음.
+- `Sobo49_tax` — DEC-035 외부 발행 stub 배너 (세금계산서)
+- `Sobo43_shipping_ledger` / `Sobo44_shipping_status` — 발송비 진짜 도메인 API scaffold (빈 목록; wrong_id `Sobo43_stats_route`/`Sobo44_inv` 와 분리)
 
 ## 갱신·CI
 

@@ -58,8 +58,17 @@ flowchart LR
 
 ---
 
-## 4. 변경 이력
+## 4. W4 외부·비정형 인쇄 연계 (플랜 추적)
+
+- **DEC-035 세금 외부**: 운영 채널 연동 전까지 `NOT_INTEGRATED` stub 유지 — 게이트 G1 통과 전 per-form IR 결합과 혼동하지 않는다.
+- **C7 비정형 (`Sobo29_other` 등)**: `docs/crud-backlog.md` placeholder 일람과 같이 HTML·데이터 경로와 PDF 양식 경로를 분리하고, PDF 쪽만 본 문서 §1~§2 조건을 적용한다.
+- **택배 외부 API**: `migration/contracts/courier_management.yaml` 의 `external_carrier_integration` 일정을 따르며, 인쇄 IR 자산과는 독립된 DEC·벤더 계약이 필요하다.
+
+---
+
+## 5. 변경 이력
 
 | 일자 | 변경 |
 |---|---|
 | 2026-04-21 | 1차 작성. 3 조건 (SME / ROI / R&D 가용성) 동결 + 통과 후 절차 6 단계 + DEC-039 회귀 가드. |
+| 2026-05-15 | §4 W4 요약 추가(DEC-035·C7·택배 외부와 phase3-print-gate 경계). |

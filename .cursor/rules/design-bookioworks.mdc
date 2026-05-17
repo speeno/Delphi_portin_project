@@ -1,0 +1,61 @@
+---
+description: 도서물류관리프로그램 UI 변경 시 북이오웍스 디자인 가이드 (docs/Design.md) 준수
+alwaysApply: false
+globs:
+  - "도서물류관리프로그램/frontend/src/app/globals.css"
+  - "도서물류관리프로그램/frontend/src/app/(public)/**/*.tsx"
+  - "도서물류관리프로그램/frontend/src/app/(app)/**/*.tsx"
+  - "도서물류관리프로그램/frontend/src/components/app-shell/**/*.tsx"
+  - "도서물류관리프로그램/frontend/src/components/brand/**/*"
+  - "도서물류관리프로그램/frontend/public/brand/**/*"
+---
+
+# 디자인 변경 시 북이오웍스 가이드 준수
+
+도서물류관리프로그램은 **북이오웍스 CMS 컨텍스트** 화면이다. 색상·타이포·버튼·로고를 만지는 모든 작업은
+[`docs/Design.md`](docs/Design.md) 를 단일 원천(SSOT)으로 따른다. 본 규칙은 회귀를 결정적으로 막기 위한 **의무 점검표**이다.
+
+## 0. 컨텍스트 의무
+
+- 본 프로그램은 **CMS** — 차분한 색감과 작업 효율 우선. **Vivid Lime/Sky** 는 알림(NOTICE / IMPORTANT) 및 `brand-primary` CTA 버튼에만 사용. `--primary` / `--sidebar-primary` / 링크 토큰에는 Vivid 를 배치하지 않는다.
+- 토큰 진실 우선순위: **PDF → `docs/Design.md` → `globals.css`**.
+
+## 1. 변경 전 준수 의무
+
+1. **읽기**: [`docs/Design.md`](docs/Design.md) 를 먼저 읽는다 (특히 §3 컬러·§6 컴포넌트·§7 globals.css 매핑·§8 금지).
+2. **갭 노트**: 색·토큰·자산이 바뀌면 [`docs/design-gap-analysis.md`](docs/design-gap-analysis.md) 의 표를 확인 후 갱신.
+3. **Phase 분리**: 토큰만 회전 = Phase A, 앱 셸·로그인 = Phase B, 페이지 디테일 = Phase C ([`docs/Design.md` §7 / `design-gap-analysis.md` §5](docs/design-gap-analysis.md#5-phase-분리-가이드-요약)).
+
+## 2. 코드 의무
+
+1. **하드코딩 HEX 금지** — 컴포넌트는 `var(--primary)` 등 토큰만 참조. 예외 (가이드에 명시된 의도된 미리보기) 만 코멘트로 사유 표기.
+   - 회귀 가드 grep: `rg -n '#[0-9a-fA-F]{6}\b' 도서물류관리프로그램/frontend/src --type tsx`
+   - 허용 화이트리스트 (현재): `LegacyFormRenderer.tsx` (Delphi 미리보기 회색). 차트/지도는 `lib/design-tokens.ts` 로 토큰화되어야 한다.
+2. **한 화면에 `brand-primary` 1개 원칙** — 같은 페이지에 Vivid Lime CTA 버튼이 2개 이상이면 PR 차단. `bg-primary` 는 이제 Bukio Black 계열의 다크 필/강조용이므로 Vivid 와 구분한다.
+3. **Vivid Lime/Sky 사용 위치 제한** — `brand-primary` CTA 본색·NOTICE/IMPORTANT 알림·브랜드 심볼 장식 외 사용 금지.
+4. **컴포넌트 구조 변경으로 토큰 회피 금지** — 토큰값만 변경해 OCP 유지 ([DEC-028](legacy-analysis/decisions.md)).
+5. **로고 자산 진입점 단일화** — 자산이 들어오면 `components/brand/Logo.tsx` 한 곳만 import. 헤더/사이드바/로그인은 직접 SVG 인라인 금지 (placeholder 단계는 예외).
+
+## 3. 폰트 의무
+
+- 한글: **Pretendard Variable** ([`globals.css`](도서물류관리프로그램/frontend/src/app/globals.css) `--font-sans` 유지). fallback 외 한글 폰트 추가 금지.
+- 영문 (선택): Outfit 도입은 별도 PR 로 `--font-heading` 진입점에만 연결 — 본문 폰트 일괄 교체 금지.
+
+## 4. 회귀 가드 (DoD)
+
+- [ ] `docs/Design.md` §3·§6·§7 표와 변경 PR 의 토큰값 / 버튼 변형이 1:1 일치.
+- [ ] `--brand-warm*` 등 폐기 검토 토큰을 신규 사용하지 않음 (TSX 사용 0건 유지).
+- [ ] `rg '#[0-9a-fA-F]{6}\b' 도서물류관리프로그램/frontend/src` 결과가 §2 화이트리스트 외 0건.
+- [ ] 로고/파비콘 변경 시 `frontend/public/brand/` + `app/layout.tsx` 메타 동시 갱신.
+
+## 5. 적용 대상
+
+- **의무**: `globals.css`, `app-shell/*`, `(public)/login/*`, `components/brand/*` 변경.
+- **권장**: 대시보드·테이블·폼 등 페이지 단위 변경 (Phase C).
+
+## 6. 참조
+
+- 단일 원천: [`docs/Design.md`](docs/Design.md)
+- 갭 분석: [`docs/design-gap-analysis.md`](docs/design-gap-analysis.md)
+- 추출 원문: [`docs/design-source/`](docs/design-source/)
+- 실행 스킬: [`.cursor/skills/bookioworks-design/SKILL.md`](.cursor/skills/bookioworks-design/SKILL.md)

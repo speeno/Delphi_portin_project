@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "source": "docs/북이오웍스_디자인_가이드.pdf · §Color System (page 3 of 8)",
+    "extracted": "2026-05-11",
+    "context": "CMS — 운영자용. 홈페이지(라임·스카이) 와 분리해 차분한 색감 우선",
+    "notes": [
+      "PDF 가 RGB/HEX 만 명시 → OKLCH 환산은 globals.css 적용 시 보정",
+      "Vivid 는 Warning/Notice/Important 알림에 한정 (운영자 화면 전반에 사용 금지)"
+    ]
+  },
+  "primary_identity": {
+    "pale_lime": {
+      "hex": "#FCFFE9",
+      "rgb": [252, 255, 233],
+      "usage": "브랜드 인상·라이트 섹션 배경"
+    },
+    "pale_sky": {
+      "hex": "#F4FFFF",
+      "rgb": [244, 255, 255],
+      "usage": "보조 라이트 섹션 배경"
+    }
+  },
+  "neutral": {
+    "bukio_black": {
+      "hex": "#282828",
+      "rgb": [40, 40, 40],
+      "usage": "기본 텍스트 / Dark Filled 버튼 / 아이콘 기본색"
+    },
+    "bukio_gray": {
+      "hex": "#E6E6E6",
+      "rgb": [230, 230, 230],
+      "usage": "외곽선·구분선"
+    }
+  },
+  "surface": {
+    "white": {
+      "hex": "#FFFFFF",
+      "usage": "Primary Page Canvas"
+    },
+    "neutral_gray": {
+      "hex": "#F5F5F7",
+      "usage": "Subtle Gray (카드·패널 배경)"
+    },
+    "neutral_gray_02": {
+      "hex": "#F5F5F5",
+      "usage": "Zone separator"
+    }
+  },
+  "text": {
+    "primary": {
+      "hex": "#282828",
+      "usage": "Body + Heading on Light"
+    },
+    "secondary": {
+      "hex": "#555555",
+      "usage": "Metadata + Secondary Text"
+    },
+    "inverse": {
+      "hex": "#F5F5F5",
+      "usage": "Heading on Dark"
+    }
+  },
+  "sub_palette": {
+    "info_blue": {
+      "hex": "#B6D3F5",
+      "usage": "Info / Links"
+    },
+    "positive_green": {
+      "hex": "#8EC8CD",
+      "usage": "Success"
+    },
+    "warning_orange": {
+      "hex": "#FFC1A0",
+      "usage": "Warning"
+    },
+    "error_red": {
+      "hex": "#FFA8A8",
+      "usage": "Error"
+    },
+    "accent_red": {
+      "hex": "#FFE3DF",
+      "usage": "Accent"
+    },
+    "neutral_gray": {
+      "hex": "#CCCCCC",
+      "usage": "Neutral / Disabled"
+    }
+  },
+  "vivid_only": {
+    "vivid_lime": {
+      "hex": "#E0FF00",
+      "usage": "Warning / Strong Emphasis (Primary Filled 버튼 본색)",
+      "hover_hex": "#C9E500"
+    },
+    "vivid_sky": {
+      "hex": "#5EFFFF",
+      "usage": "Important / Notice 알림 한정"
+    }
+  },
+  "button_states": {
+    "primary_filled_default": "#E0FF00",
+    "primary_filled_hover": "#C9E500",
+    "disabled": "#CCCCCC",
+    "dark_filled": "#282828",
+    "outline_border_text": "#282828"
+  }
+}

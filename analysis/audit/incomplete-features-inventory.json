@@ -1,108 +1,95 @@
 {
-  "generatedAt": "2026-05-04T10:30:47.140004+00:00",
+  "generatedAt": "2026-05-17T08:21:19.390834+00:00",
   "criteria": "본 인벤토리는 계획서 「구현되지 못한 기능 목록」에 따라 **원천별 합집합** 을 기록한다. 단일 정의가 아니라 (A) UI placeholder (B) T-파이프라인 비완료 (C) form-registry preview/STUB (D) phase1 이지만 R/RU/STUB 인 부분 동등 (E) 백엔드 stub grep (F) crud-backlog §2.6 참조 를 모두 포함한다.",
   "sources": {
-    "ui_placeholder_pages": [
-      {
-        "kind": "ui_placeholder",
-        "path": "도서물류관리프로그램/frontend/src/app/(app)/billing/statements/page.tsx",
-        "route_hint": "/billing/statements"
-      },
-      {
-        "kind": "ui_placeholder",
-        "path": "도서물류관리프로그램/frontend/src/app/(app)/master/discount/[type]/page.tsx",
-        "route_hint": "/master/discount/[type]"
-      },
-      {
-        "kind": "ui_placeholder",
-        "path": "도서물류관리프로그램/frontend/src/app/(app)/shipping/returns-inventory/page.tsx",
-        "route_hint": "/shipping/returns-inventory"
-      },
-      {
-        "kind": "ui_placeholder",
-        "path": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/page.tsx",
-        "route_hint": "/year-month-stats"
-      }
-    ],
+    "ui_placeholder_pages": [],
     "phase2_screen_cards_tasks": [
       {
         "kind": "t_pipeline_gap",
-        "id": "Sobo48_compare",
-        "caption": "장부대조",
-        "route": "/ledger/comparison",
+        "id": "Sobo43_shipping_ledger",
+        "caption": "발송비내역",
+        "route": "/settlement/shipping-ledger",
         "tasks_non_done": {
-          "T2": "in_progress",
-          "T3": "blocked",
+          "T2": "pending",
           "T4": "pending",
-          "T5": "pending",
-          "T6": "in_progress",
           "T7": "pending",
           "T8": "pending"
         },
         "blockers": [
-          "레거시 단일 SQL 미확정",
-          "신규 SQL 0 정책(DEC-040)",
-          "라우트 드리프트: /ledger/comparison 는 현재 Sobo48 본판(출판사 설정)이 임시 점유 중 — 장부대조 진입 시 별도 라우트 또는 view 모드 분리 필요 (analysis/audit/wave-b-placeholder-scoping.md §2)"
+          "DEC-040 재사용 검토",
+          "t3_ssub_adapt",
+          "T4 test-cases·T7 회귀"
         ]
       },
       {
         "kind": "t_pipeline_gap",
-        "id": "Sobo29_other",
-        "caption": "기타명세서",
-        "route": "/transactions/other",
+        "id": "Sobo44_shipping_status",
+        "caption": "발송비현황",
+        "route": "/settlement/shipping-status",
         "tasks_non_done": {
-          "T2": "in_progress",
-          "T3": "blocked",
+          "T2": "pending",
           "T4": "pending",
-          "T5": "pending",
-          "T6": "in_progress",
           "T7": "pending",
           "T8": "pending"
         },
         "blockers": [
-          "레거시 폼 단순 출력기 — 인쇄 양식(T7) 미확정 (조회·메모 저장은 구현 완료, Sobo29.* data-legacy-id 부착 — analysis/audit/wave-b-placeholder-scoping.md §2)"
+          "T2 SQL·t3_ssub_adapt",
+          "T4 test-cases·T7 회귀 — yaml v0.1 초안 반영됨"
         ]
       }
     ],
     "form_registry_preview_or_stub": [
       {
         "kind": "form_registry_placeholder",
-        "id": "MenuBillingStatements",
-        "caption": "내역서관리",
-        "route": "/billing/statements",
+        "id": "Sobo43_shipping_ledger",
+        "caption": "발송비내역",
+        "route": "/settlement/shipping-ledger",
         "reasons": [
-          "STUB",
-          "preview"
+          "STUB"
         ],
-        "crudNotes": "ACC-MENU-NAV-15 (T1·T2-DIST·T3-LITE·T3-FULL)",
-        "registry_line": 1100
+        "crudNotes": "W2 scaffold — GET /settlement/shipping-ledger 빈 목록. T2 SQL·t3_ssub_adapt 후 CRUD 상향",
+        "registry_line": 1123
       },
       {
         "kind": "form_registry_placeholder",
-        "id": "MenuShippingReturnsInventory",
-        "caption": "반품재고관리(통합)",
-        "route": "/shipping/returns-inventory",
+        "id": "Sobo44_shipping_status",
+        "caption": "발송비현황",
+        "route": "/settlement/shipping-status",
         "reasons": [
-          "STUB",
-          "preview"
+          "STUB"
         ],
-        "crudNotes": "ACC-MENU-NAV-12 (T1·T3_WAREHOUSE_LITE) — WH-WL 단독",
-        "registry_line": 1081
-      },
-      {
-        "kind": "form_registry_placeholder",
-        "id": "MenuYearMonthStats",
-        "caption": "년/월(통계)",
-        "route": "/year-month-stats",
-        "reasons": [
-          "STUB",
-          "preview"
-        ],
-        "crudNotes": "ACC-MENU-NAV-07 (T1·T2-PUB·T3) — 8 하위 화면 후속",
-        "registry_line": 1062
+        "crudNotes": "W2 scaffold — GET /settlement/shipping-status 빈 목록. 재고현황 Sobo44_inv 와 별개",
+        "registry_line": 1143
       }
     ],
     "form_registry_phase1_partial": [
+      {
+        "kind": "crud_phase1_partial",
+        "id": "MenuBillingStatements",
+        "caption": "내역서관리",
+        "route": "/billing/statements",
+        "crudParity": "R",
+        "crudNotes": "허브 MVP (2026-05-15) — 입고·반품·거래·출고·택배·판매 리포트로 링크. 8종 단일 SQL은 후속",
+        "registry_line": 1102
+      },
+      {
+        "kind": "crud_phase1_partial",
+        "id": "MenuShippingReturnsInventory",
+        "caption": "반품재고관리(통합)",
+        "route": "/shipping/returns-inventory",
+        "crudParity": "R",
+        "crudNotes": "허브 MVP (2026-05-15) — 정본 /returns/inventory 로 안내. 통합 전용 SQL 그리드는 후속",
+        "registry_line": 1082
+      },
+      {
+        "kind": "crud_phase1_partial",
+        "id": "MenuYearMonthStats",
+        "caption": "년/월(통계)",
+        "route": "/year-month-stats",
+        "crudParity": "R",
+        "crudNotes": "허브 MVP (2026-05-15) — 기존 /stats/* 화면으로 링크. 8개 전용 하위 라우트·SQL은 후속",
+        "registry_line": 1062
+      },
       {
         "kind": "crud_phase1_partial",
         "id": "Settle_outstanding",
@@ -111,15 +98,6 @@
         "crudParity": "R",
         "crudNotes": "조회 전용 — 미수 합계",
         "registry_line": 963
-      },
-      {
-        "kind": "crud_phase1_partial",
-        "id": "Sobo17",
-        "caption": "출판사·출고거래처(마스터)",
-        "route": "/master/publisher",
-        "crudParity": "R",
-        "crudNotes": "1차 READ only — 신규/수정/삭제 후속 (page.tsx 주석)",
-        "registry_line": 188
       },
       {
         "kind": "crud_phase1_partial",
@@ -168,24 +146,6 @@
       },
       {
         "kind": "crud_phase1_partial",
-        "id": "Sobo38",
-        "caption": "도서코드(마스터)",
-        "route": "/master/book-code",
-        "crudParity": "R",
-        "crudNotes": "READ only (단순 조회) — 수정 후속",
-        "registry_line": 200
-      },
-      {
-        "kind": "crud_phase1_partial",
-        "id": "Sobo39",
-        "caption": "할인율(대표)",
-        "route": "/master/discount",
-        "crudParity": "R",
-        "crudNotes": "1차 READ only — 수정 후속",
-        "registry_line": 212
-      },
-      {
-        "kind": "crud_phase1_partial",
         "id": "Sobo41_slip",
         "caption": "입금전표",
         "route": "/settlement/payment-slip",
@@ -200,7 +160,7 @@
         "route": "/stats/publisher",
         "crudParity": "R",
         "crudNotes": "조회 전용 — GET /api/v1/stats/publisher: book-sales 행을 출판사 축으로 재집계(stats_reports.yaml STAT-PUB, 신규 SQL 0건). 레거시 Subu43 전 지표·출력 1:1 복원은 비목표.",
-        "registry_line": 1119
+        "registry_line": 1163
       },
       {
         "kind": "crud_phase1_partial",
@@ -402,15 +362,13 @@
       },
       {
         "file": "도서물류관리프로그램/backend/app/routers/settlement.py",
-        "line": 828,
+        "line": 837,
         "snippet": "result = await tax_invoice_service.issue_external_stub("
       }
     ],
     "crud_backlog_section_2_6": [
-      "`Sobo29_other` (기타명세서)",
-      "`Sobo48_compare` (장부대조)",
-      "`Sobo43_stats_route` (출판사통계)",
-      "(할인율 변형) `/master/discount/[type]` 라우트는 메뉴 미노출 — 별도 등록 없음."
+      "`Sobo49_tax` — DEC-035 외부 발행 stub 배너 (세금계산서)",
+      "`Sobo43_shipping_ledger` / `Sobo44_shipping_status` — 발송비 진짜 도메인 API scaffold (빈 목록; wrong_id `Sobo43_stats_route`/`Sobo44_inv` 와 분리)"
     ]
   }
 }

@@ -1,0 +1,38 @@
+# platform_portal — 로그인 전 플랫폼 전역 공지·슬로건 v0.1
+contract_id: platform_portal
+version: "0.1.0"
+status: draft
+scope_phase: phase1
+updated: "2026-05-15"
+
+endpoints:
+  - id: public_portal_snapshot
+    method: GET
+    path: /api/v1/public/portal
+    auth: none
+    description: 슬로건 + 긴급 1건 + 최근 공지 3건 (비로그인).
+  - id: public_notices_list
+    method: GET
+    path: /api/v1/public/notices
+    auth: none
+  - id: public_notice_detail
+    method: GET
+    path: /api/v1/public/notices/{id}
+    auth: none
+  - id: admin_platform_portal_get
+    method: GET
+    path: /api/v1/admin/platform-portal
+    auth: super_admin
+  - id: admin_slogan_put
+    method: PUT
+    path: /api/v1/admin/platform-portal/slogan
+    auth: super_admin
+  - id: admin_notice_crud
+    method: POST|PATCH|DELETE
+    path: /api/v1/admin/platform-portal/notices[/{id}]
+    auth: super_admin
+
+business_rules:
+  - published notices only when is_published and published_at <= now and not expired
+  - at most one critical banner (new critical demotes others to info)
+  - storage: backend/data/platform_portal.json (BLS_PLATFORM_PORTAL_PATH)
