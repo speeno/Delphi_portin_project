@@ -2,6 +2,9 @@
 
 이 문서는 `도서물류관리프로그램`을 백엔드와 프론트엔드로 분리해 배포하는 절차를 정리한다.
 
+> **제품 Git (`speeno/books-logistics-web`, Private):** Render Root = `backend`, Vercel Root = `frontend`.  
+> 운영 체크리스트·Blueprint는 제품 레포 [`docs/DEPLOY.md`](../도서물류관리프로그램/docs/DEPLOY.md)·[`render.yaml`](../도서물류관리프로그램/render.yaml) 를 우선 참고한다.
+
 - Backend: FastAPI/Uvicorn을 Render Web Service로 배포
 - Frontend: Next.js를 Vercel Project로 배포
 - Repository: 같은 Git 저장소를 사용하되 각 서비스의 Root Directory를 다르게 지정
@@ -221,7 +224,9 @@ Vercel dashboard 절차:
 | 변수 | 값 |
 | --- | --- |
 | `BLS_API_PROXY_TARGET` | `https://<backend-service>.onrender.com` |
-| `NEXT_PUBLIC_API_URL` | 설정하지 않음 |
+| `NEXT_PUBLIC_API_URL` | **변수를 추가하지 않음** (Vercel은 빈 값 저장 불가 — 목록에 없으면 OK) |
+
+`NEXT_PUBLIC_API_URL`을 “비워서” 등록할 필요가 없습니다. Vercel Environment Variables 목록에 **해당 키가 아예 없으면** 프록시 모드입니다.
 
 이렇게 두면 프론트는 동일 출처 `/api/v1/*`를 호출하고, Vercel이 Render로 rewrite한다.
 
