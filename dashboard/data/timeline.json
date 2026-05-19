@@ -413,6 +413,13 @@
     "sprint": 1
   },
   {
+    "date": "2026-05-19",
+    "type": "milestone",
+    "title": "외부 Production 배포 (Vercel + Render)",
+    "description": "제품 Git speeno/books-logistics-web 기준 Production 배포 완료. Frontend: Vercel https://books-logistics-web.vercel.app/ (Root frontend/, vercel --prod). Backend: Render Web Service (Docker, Root backend/, Health /api/v1/health, Git auto-deploy). API는 Vercel 동일 출처 rewrite → BLS_API_PROXY_TARGET(Render). 레거시 DB 불변·servers.yaml Secret 주입. 대시보드 web-porting-progress deploy 블록·project.assets.productionDeploy·Sprint1 78% 동기. 가이드 docs/deploy-render-vercel.md.",
+    "sprint": 1
+  },
+  {
     "date": "2026-05-17",
     "type": "milestone",
     "title": "대시보드 진행률 현행화 + 플랫폼 공지·미구현 W0~W5",

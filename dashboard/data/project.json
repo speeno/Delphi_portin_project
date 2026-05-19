@@ -4,9 +4,9 @@
   "startDate": "2026-04-11",
   "totalSprints": 7,
   "currentSprint": 1,
-  "overallProgress": 73,
-  "updatedAt": "2026-05-17T12:00:00Z",
-  "progressNote": "2026-05-17 — 미구현 웨이브 W0~W5 완료(UI placeholder 0)·플랫폼 로그인 전 공지·슬로건·발송비 scaffold. form-registry phase1 69건 / phase2 2건(발송비). phase2-screen-cards T8 완료 29/31.",
+  "overallProgress": 75,
+  "updatedAt": "2026-05-19T12:00:00Z",
+  "progressNote": "2026-05-19 — 외부 Production 배포: Vercel https://books-logistics-web.vercel.app/ + Render 백엔드(Git auto-deploy, 동일 출처 API 프록시). 2026-05-17 — W0~W5·플랫폼 공지·발송비 scaffold. form-registry phase1 69 / phase2 2. phase2-screen-cards T8 done 29/31.",
   "status": "진행중",
   "legacySourceRoot": "legacy_delphi_source/legacy_source/",
   "legacySourceNote": "1차 정적 분석(L2) 완료: `run_analysis`/파서 기준 `analysis/sprint1_report.json` — 폼 173·이벤트 흐름 3490·SQL 1325·검증 386·고객 분기 6·소스 기반 DB 영향 테이블 53·Legacy Object Catalog 6236건. WeLove_FTP/ 등 다른 트리는 별도 인자로 재실행 가능.",
@@ -46,6 +46,7 @@
     "dfmFiles": { "status": "완료", "description": "legacy_source — .dfm 173건 파싱·form_inventory/event_flow 반영(텍스트 DFM)" },
     "manuals": { "status": "미확인", "description": "운영 매뉴얼/교육 자료 수집 필요" },
     "deviceInfo": { "status": "미확인", "description": "스캐너/프린터/저울 모델 및 연동 방식 조사 필요" },
-    "engineeringRepo": { "status": "완료", "description": "저장소 3층·브랜치·CI 전략 문서화(docs/repo-and-engineering-strategy.md), README 역할·중복 정책, 제품 폴더 Git 초기화·main·ci.yml, 허브 tools-smoke.yml" }
+    "engineeringRepo": { "status": "완료", "description": "저장소 3층·브랜치·CI 전략 문서화(docs/repo-and-engineering-strategy.md), README 역할·중복 정책, 제품 폴더 Git 초기화·main·ci.yml, 허브 tools-smoke.yml" },
+    "productionDeploy": { "status": "완료", "description": "외부 Production — Frontend Vercel https://books-logistics-web.vercel.app/ (Root frontend/, Git speeno/books-logistics-web). Backend Render Web Service (Root backend/, Docker, /api/v1/health). Vercel rewrite 프록시(BLS_API_PROXY_TARGET). 가이드 docs/deploy-render-vercel.md." }
   }
 }

@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-05-17T12:00:00Z",
-  "phase": "2026-05-17 대시보드·진행률 현행화 — **전체 73%** (Sprint 1 **76%**). 미구현 화면 웨이브 **W0~W5 완료**: UI `ScreenPlaceholder` 0건·placeholder 4경로 허브 MVP·`unimplemented-screens-tracker.json` 동기. **플랫폼 로그인 전 공지·슬로건** — `platform_portal.json`·`GET /api/v1/public/portal`·수퍼 `/admin/platform-portal`·`/login` API 연동·`/notices` 목록·상세 (`migration/contracts/platform_portal.yaml`, pytest 5 PASS). **발송비 W2 scaffold** — `shipping_ledger` 계약·빈 목록 API·`/settlement/shipping-ledger` STUB (T2 SQL·CRUD 후속). 잔여 gap: 발송비 Subu43/44 T2~T8·billing P3(Sobo24_9/Sobo38_1/Seok30). C5 별칭 8건·wrong_id 정책은 2026-05-15와 동일.",
-  "productNote": "실행 UI는 저장소 `도서물류관리프로그램/` (제품 웹). 본 섹션은 개발 진행용 허브 대시보드 전용. 최근: 2026-05-17 `project.overallProgress` 68→73·Sprint1 71→76·`incomplete-features-inventory` 재생성·플랫폼 공지·W0~W5. 직전: 2026-05-15 발송비/입금 IA·C5 별칭. form-registry **phase1 69** / **phase2 2**(발송비 STUB). phase2-screen-cards **T8 done 29/31**.",
+  "updatedAt": "2026-05-19T12:00:00Z",
+  "phase": "2026-05-19 외부 배포 반영 — 프론트 Production https://books-logistics-web.vercel.app/ (Vercel, 제품 Git speeno/books-logistics-web). 백엔드 Production Render Web Service (Docker, Root backend/, Git auto-deploy). 동일 출처 /api/v1 → Vercel rewrite → BLS_API_PROXY_TARGET(Render). 레거시 DB·servers.yaml Secret 주입·스키마 변경 없음. UI: CMS 본문 캔버스·출고접수 하위 패널 정렬. 이전: 2026-05-17 전체 73%·플랫폼 공지·W0~W5.",
+  "productNote": "실행 UI는 제품 Git `books-logistics-web` / 로컬 `도서물류관리프로그램/`. **외부 Production URL:** https://books-logistics-web.vercel.app/ . 본 섹션은 허브 진행 대시보드 전용. form-registry **phase1 69** / **phase2 2**. phase2-screen-cards **T8 done 29/31**. 배포 가이드: `docs/deploy-render-vercel.md`.",
   "docLinks": [
     {
       "label": "Phase2 후속 작업 큐",
@@ -142,13 +142,33 @@
     {
       "label": "미구현 화면 추적 (W0~W5)",
       "path": "dashboard/data/unimplemented-screens-tracker.json"
+    },
+    {
+      "label": "Render/Vercel 외부 배포 가이드",
+      "path": "docs/deploy-render-vercel.md"
+    },
+    {
+      "label": "배포 정합성 검증 메모",
+      "path": "analysis/audit/render-vercel-auto-deploy-verification.md"
     }
   ],
   "blocks": [
     {
+      "id": "deploy",
+      "title": "외부 배포 (Production)",
+      "items": [
+        "프론트엔드 (2026-05-19) — Vercel Project **books-logistics-web**, Production URL **https://books-logistics-web.vercel.app/** . Root Directory `frontend/`, Git 연동 auto deploy. `vercel --prod` 배포 완료.",
+        "백엔드 (2026-05-19) — Render **Web Service** (Runtime Docker, Root `backend/`, Health `/api/v1/health`, Instance 1). Git push 시 auto deploy. `servers.yaml`·JWT·CORS는 Render Secret / Env (Git 미커밋).",
+        "API 연결 — 권장 **동일 출처 프록시**: 브라우저 → `https://books-logistics-web.vercel.app/api/v1/...` → Vercel `next.config.ts` rewrite → Render (`BLS_API_PROXY_TARGET`). `NEXT_PUBLIC_API_URL` 미설정(프록시 모드).",
+        "검증 체크 — `GET https://books-logistics-web.vercel.app/api/v1/health` → `{\"status\":\"ok\"}` (rewrite·백엔드 연결). 스크립트: `debug/` 배포 번들·`docs/deploy-render-vercel.md` §검증.",
+        "운영 원칙 — 레거시 DB 정본·마이그레이션 없음. 쓰기 검증은 운영자 승인 테스트 계정만. 4대 DB live smoke·베타 UAT·커스텀 도메인은 후속."
+      ]
+    },
+    {
       "id": "backend",
       "title": "백엔드 · 데이터 연동",
       "items": [
+        "외부 Production 배포 (2026-05-19) — Render FastAPI + Vercel Next.js. Health·로그인·list API는 Production URL에서 동일 출처 프록시로 접근. `servers.yaml` Secret·방화벽(Render Outbound→레거시 DB/SSH)은 운영 인프라 절차.",
         "플랫폼 로그인 전 공지·슬로건 (2026-05-17) — `platform_portal_service` + `backend/data/platform_portal.json` (멀티 DB 무관). 공개 `GET /api/v1/public/{portal,notices,notices/{id}}` (Cache-Control 60s). 수퍼 `GET/PUT/POST/PATCH/DELETE /api/v1/admin/platform-portal/*` (`_require_super_admin`, critical 1건 규칙). 계약 `platform_portal.yaml`. 회귀 `test_platform_portal_public.py`·`test_platform_portal_admin_super.py` 5 PASS. probe `public.portal`.",
         "미구현 화면 W0~W5 (2026-05-15~17) — `incomplete-features-inventory` 재생성: UI placeholder **0건**. W1 placeholder 4경로 허브. W2 `shipping_ledger` scaffold API. W3~W5 crud-backlog·phase3-print-gate·billing P3 로드맵. 추적 `dashboard/data/unimplemented-screens-tracker.json`.",
         "발송비/입금관리 백엔드 (2026-05-15 정리) — 입금·청구·세금·미수·전표 등은 `settlement` 라우터·`settlement_service` 로 C5 구현 완료. **레거시 Subu43·44(발송비내역·현황) 전용 REST는 scaffold만**(빈 목록, T2 SQL 후속 — `billing-subu43-44-shipping-backlog.md`).",
@@ -201,6 +221,8 @@
       "id": "frontend",
       "title": "프론트엔드 · UX (제품)",
       "items": [
+        "외부 Production UI (2026-05-19) — https://books-logistics-web.vercel.app/ 에 Next.js App Router·AppShell·로그인·phase1 라우트 배포. Vercel env: `BLS_API_PROXY_TARGET` → Render backend.",
+        "CMS 본문 캔버스·서브 패널 (2026-05-19) — `globals.css` `--app-canvas`/`--app-canvas-edge`(color-mix, 라이트·다크). `(app)/layout` `.app-main-canvas`. 마스터·출고·입고·관리 STUB 등 `rounded-2xl`+`shadow-sm` 패널 정렬. 출고 주문 상세/신규 라인 블록 카드화·`OrderLineGrid`·`ScanInput` 톤 통일.",
         "플랫폼 공지·슬로건 UI (2026-05-17) — `/login` `GET /public/portal` 연동(슬로건·긴급 ColorNotice warn·최근 3·통합 로그인 안내는 고급 옵션). `/notices`·`/notices/[id]` 공개 목록·상세. 수퍼 `/admin/platform-portal` CRUD + `/admin/super` 카드. `public-portal-api.ts`·`admin-api` platformPortalApi. tsc PASS.",
         "발송비/입금관리 사이드바 (2026-05-15 정리) — `form-registry.ts` 의 `billing` 그룹은 C5 정산·입금·청구·세금·전표 등 **settlement 라우트 별칭 8건**만 노출(`billing-c5-menu-porting.json`). 레거시 **발송비내역·발송비현황**(Subu43/44)은 `/settlement/shipping-ledger|shipping-status` **STUB**(W2); 웹 `Sobo43_stats_route`·`Sobo44_inv`는 통계·재고(**wrong_id**).",
         "Wave B placeholder DOM 회귀 훅 (2026-05-04) — `/year-month-stats`·`/billing/statements`·`/shipping/returns-inventory`·`/master/discount/[type]` 루트에 `data-legacy-id` (Menu*.Placeholder / Sobo39Variant.Placeholder.*) + 스코핑 노트 링크. `/transactions/other`·`/ledger/comparison` 루트 ID (Sobo29_other / Sobo48) — `analysis/audit/wave-b-placeholder-scoping.md` 정합.",
