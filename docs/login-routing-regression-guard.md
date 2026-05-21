@@ -1,11 +1,18 @@
-# 통합 로그인 회귀 방지 가이드 (DSN-DEC-08)
+# 통합 로그인 회귀 방지 가이드 (DSN-DEC-08 / DSN-DEC-12)
 
 | 항목 | 내용 |
 | ------ | ------ |
-| 추적 | DSN-DEC-08 / DSN-DEC-09 / DEC-051·052 재정의 |
-| 단일 원천(설계) | [docs/decision-login-db-routing.md](decision-login-db-routing.md) §DSN-DEC-08 |
+| 추적 | DSN-DEC-08 / DSN-DEC-09 / **DSN-DEC-12** / DEC-051·052 재정의 |
+| 단일 원천(설계) | [docs/decision-login-db-routing.md](decision-login-db-routing.md) §DSN-DEC-08 / §DSN-DEC-12 |
 | 구현 진입점 | [도서물류관리프로그램/backend/app/routers/auth.py](../도서물류관리프로그램/backend/app/routers/auth.py) `POST /api/v1/auth/login` |
 | 비밀 검증 | [도서물류관리프로그램/backend/app/services/auth_service.py](../도서물류관리프로그램/backend/app/services/auth_service.py) `authenticate_user` → 대상 서버의 ``<db>.Id_Logn`` |
+| 소유성 가드 | [도서물류관리프로그램/backend/app/services/tenants_directory_service.py](../도서물류관리프로그램/backend/app/services/tenants_directory_service.py) `resolve_unique_tenant` (DSN-DEC-12) |
+| 운영 진단 | [docs/welove-cross-tenant-exposure-runbook.md](welove-cross-tenant-exposure-runbook.md), [tools/classify_login_audit_logs.py](../tools/classify_login_audit_logs.py), [tools/audit_welove_routing_consistency.py](../tools/audit_welove_routing_consistency.py) |
+| 격리 키 보강 | [tools/extract_shared_db_hcodes.py](../tools/extract_shared_db_hcodes.py) → SME 매핑 → [tools/apply_hcode_isolation_overlay.py](../tools/apply_hcode_isolation_overlay.py) (P0 운영 todo) |
+| 도메인 SQL 점검 | [tools/audit_domain_api_hcode_filter.py](../tools/audit_domain_api_hcode_filter.py) — 다중 테넌트 테이블에 ``Hcode`` 필터 누락 정적 점검 |
+| Config.Ini 인벤토리 | [tools/inventory_legacy_config_ini.py](../tools/inventory_legacy_config_ini.py) — 라벨 매칭 보조 (P2) |
+| 라우팅 검증 | [debug/verify_login_routing_matrix.py](../debug/verify_login_routing_matrix.py) + [analysis/welove_login_routing_expectations.json](../analysis/welove_login_routing_expectations.json) |
+| CI 게이트 | [.github/workflows/welove-routing-consistency.yml](../.github/workflows/welove-routing-consistency.yml) — 시드 보강 후 ``--strict`` 승격 |
 
 ## 1. 실제 동작 (코드 기준)
 
@@ -58,9 +65,11 @@
 | 후보 쌍 | `authenticate_user`에 넘기는 `(server_id, db_name)`은 **tenants_directory / 라우트 메타**에서만 나와야 한다. 임의 `remote_*` 하드코딩 금지. |
 | 모호 ID (default) | DSN-DEC-09 v2 — `index_ambiguous` 후보를 비밀번호로 narrow 한다. `_try_candidates` 의 첫 성공 반환 시맨틱과 감사 필드(`ambiguous_narrowed`, `candidate_attempts`, `attempted_routes`)는 변경 금지. |
 | 모호 ID (strict opt-in) | `BLS_LOGIN_AMBIGUOUS_PROBE=block` 일 때만 `tenantId`/`hcode` 힌트 없는 시도를 즉시 401 로 차단. 운영자 예외는 `should_bypass_login_id_index_ambiguity()`로만 허용. `ambiguous_strict=true` 신호 보존. |
-| 감사 | `log_login_attempt` 필드 이름·의미 삭제/무명 변경 금지 (운영 추적). 특히 `lazy_refresh_reason`, `candidate_sources`, `attempted_routes`, `directory_sweep`, `ambiguous_narrowed`, `ambiguous_strict`는 장애 분석용이다. |
+| 감사 | `log_login_attempt` 필드 이름·의미 삭제/무명 변경 금지 (운영 추적). 특히 `lazy_refresh_reason`, `candidate_sources`, `attempted_routes`, `directory_sweep`, `ambiguous_narrowed`, `ambiguous_strict`는 장애 분석용이다. **DSN-DEC-12 신설**: `ownership_status` (`unique`/`ambiguous`/`none`), `ownership_candidate_count`, `ownership_violation` 3 필드는 절대 빠뜨리지 않는다 (타사 데이터 노출 추적). |
+| 소유성 가드 (DSN-DEC-12) | 공유 DB(`chul_09_db` 등) 좌표에서 단일화 불가능 시 ``tenant_id``/``account_family``/``active_build_id`` 가 None 으로 떨어진다. 이 동작을 “편의를 위해 첫 매치로 채워넣기” 식으로 약화하지 말 것. ``tenants_directory_service.resolve_unique_tenant`` 시그니처 (`status`, `tenant`, `candidates`) 보존. |
+| 시드 격리 키 | 공유 DB row 는 ``hcode_in`` / ``hcode_pattern`` / ``hcode_prefix`` / ``parent_tenant_id`` / ``dist_tenant_id`` 중 하나 이상을 가져야 하며, ``tools/audit_welove_routing_consistency.py --strict`` 가 통과해야 한다. |
 | 문서·계약 | 설계와 충돌하면 **DEC/YAML 먼저** 고친 뒤 코드. |
-| 테스트 | Auth 터치 PR: `test/test_auth_login_fixed_server.py`, `test/test_c1_login_phase1.py`, `test/test_auth_login_dynamic_routing.py` **필수 통과**. |
+| 테스트 | Auth 터치 PR: `test/test_auth_login_fixed_server.py`, `test/test_c1_login_phase1.py`, `test/test_auth_login_dynamic_routing.py`, **`test/test_auth_login_cross_tenant_isolation.py` (신설 — DSN-DEC-12)**, `test/test_welove_routing_consistency.py`, `test/test_classify_login_audit_logs.py`, `test/test_apply_hcode_isolation_overlay.py`, `test/test_audit_domain_api_hcode_filter.py`, `test/test_inventory_legacy_config_ini.py`, `test/test_verify_login_routing_matrix.py` **필수 통과**. |
 
 ## 4. PR 체크리스트 (복붙용)
 
@@ -69,7 +78,9 @@
 - [ ] `tenants_directory`·인덱스 시드 변경 시 해당 `user_id`로 로그인 스모크 + [debug/diagnose_login_routing.py](../debug/diagnose_login_routing.py) 1건
 - [ ] 실패 시 `log_login_attempt`에 원인 추적 가능한 키(`reason`, `candidate_sources`, `lazy_refresh_reason`, `directory_sweep`, `ambiguous_narrowed`, `ambiguous_strict`)가 남는지 확인
 - [ ] 동일 `Gcode` 복수 DB 케이스: default 모드는 비밀번호 narrow, strict 모드(`BLS_LOGIN_AMBIGUOUS_PROBE=block`)는 즉시 401 — 양쪽 모두 회귀 테스트 통과
-- [ ] 본 문서 §1·[decision-login-db-routing.md](decision-login-db-routing.md) DSN-DEC-08/09과 서술 충돌 없음
+- [ ] **DSN-DEC-12 — 공유 DB 좌표(`chul_09_db` 등)에서 ownership 가드가 동작**: ambiguous 시 `tenant_id`/`account_family`/`active_build_id` 가 None 으로 떨어지고, 감사 `ownership_violation=true` + `ownership_candidate_count` 가 명시 기록되는지 회귀 테스트 통과
+- [ ] `tools/audit_welove_routing_consistency.py` 결과의 `SHARED_DB_NO_HCODE_GUARD`/`PRIMARY_SERVER_MISMATCH` 0 또는 운영 화이트리스트 처리됨
+- [ ] 본 문서 §1·[decision-login-db-routing.md](decision-login-db-routing.md) DSN-DEC-08/09/12과 서술 충돌 없음
 
 ## 5. DB 스모크와 로그인
 

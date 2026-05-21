@@ -2,7 +2,7 @@
 
 | 항목 | 내용 |
 |------|------|
-| 작성일 | 2026-04-23 (2026-04-24 보강: `DSN-DEC-06/07` — `(tenant_id, account_family)` 합성 키 + JWT `license_keys[]`) (2026-04-24 후보 추가: `DSN-DEC-08` — 분산 `Id_Logn` 정합 + 메타 기반 cross-DB 인증 경로 동결) (2026-04-24 후보 추가: `DSN-DEC-09` — login_id 인덱스 + 온디맨드 lazy refresh, `DSN-DEC-10` — 가중치 기반 신규 테넌트 DB 자동 프로비저닝) |
+| 작성일 | 2026-04-23 (2026-04-24 보강: `DSN-DEC-06/07` — `(tenant_id, account_family)` 합성 키 + JWT `license_keys[]`) (2026-04-24 후보 추가: `DSN-DEC-08` — 분산 `Id_Logn` 정합 + 메타 기반 cross-DB 인증 경로 동결) (2026-04-24 후보 추가: `DSN-DEC-09` — login_id 인덱스 + 온디맨드 lazy refresh, `DSN-DEC-10` — 가중치 기반 신규 테넌트 DB 자동 프로비저닝) (2026-05-21 후보 추가: `DSN-DEC-12` — 공유 DB 테넌트 소유성 가드, 타사 데이터 노출 차단) |
 | 상태 | **DRAFT (사용자 승인 전)** — DEC-008(단일 테넌트), DEC-051(인증 서버 단일화), DEC-052(사용자별 1:1 데이터 서버) 와 정합 검토 후 DEC-XXX 로 동결 후보. `DSN-DEC-08` 은 분산 `Id_Logn` 운영 현실에 따라 DEC-051/052 의 의미를 재정의한다. |
 | 추적 ID | `DSN-*` (라우팅 규칙 단위) |
 | 단일 원천 | 본 문서 + 메타 [`analysis/welove_db_route_matrix.json`](../analysis/welove_db_route_matrix.json) + 빌드 카탈로그 [`analysis/welove_chul_builds.json`](../analysis/welove_chul_builds.json) |
@@ -413,6 +413,51 @@ sequenceDiagram
 
 ---
 
+### DSN-DEC-12 — 공유 DB 테넌트 소유성 가드 (2026-05-21 신설 — 타사 데이터 노출 차단)
+
+**배경**: WeLove 운영 시드는 동일 `db_name_logical` 에 2~4 테넌트가 매핑되는 공유 DB 클러스터를 다수 보유한다 — 대표 사례:
+
+| db_name_logical | 공유 라벨 | 동일 server_id 클러스터 |
+|------------------|-----------|--------------------------|
+| `chul_09_db`    | 위러브1·2·3·교문사 (4) | 서버3 = 위러브3 + 교문사 |
+| `book_07_db`    | 북앤북·유앤북 (2) | 서버1·서버4 (server_id 로 narrow OK) |
+| `book_01_db`    | 진성사·book(1)-NEW·고려물류 (3) | 서버1·2·4 |
+
+`tools/audit_welove_routing_consistency.py` 가 본 시드를 감사하면 ``SHARED_DB_NO_HCODE_GUARD`` 19 건이 검출된다(2026-05-21 기준). 이 좌표에서는 `auth_service._resolve_account_type` 의 ``lookup_by_account_family(family, server_id=server_id)`` 가 “첫 매치 테넌트” 를 반환하므로 사용자가 실제 소속과 다른 ``tenant_id``/``hcode`` 컨텍스트로 토큰을 받는 회귀가 발생한다 (DSN-RISK-12).
+
+**결정**:
+
+1. ``tenants_directory_service`` 에 본 사이클 신설 함수 3개 — ``find_owning_tenants(server_id, db_name, ...)`` / ``is_shared_db(server_id, db_name)`` / ``resolve_unique_tenant(server_id, db_name, *, hcode, tenant_id_hint, account_family_hint)`` — 가 **공유 DB 좌표에서 단일 테넌트** 를 결정하는 단일 책임을 갖는다.
+2. 단일화 우선순위 — `tenant_id_hint` > `account_family_hint` > **시드 격리 키** (``hcode_in`` > ``hcode_pattern`` > ``hcode_prefix``) > 후보 1건. 실패 시 ``("ambiguous", None, candidates)`` 반환.
+3. ``auth_service._resolve_account_type`` 는 본 가드를 1차로 호출 — `unique` 면 그 테넌트로 진행, `ambiguous` 면 ``tenant``/``account_family``/``active_build_id`` 를 None 으로 유지(fail-closed). 기존 ``lookup_by_account_family``/``lookup_by_hcode_hint`` 폴백은 `ambiguous` 가 아닐 때만 호출(임시 우회 회피, 사용자 룰 §근본 원인 수정 정합).
+4. 감사 로그 — ``audit.auth`` 의 ``auth.login`` JSON 에 ``ownership_status`` (`unique`|`ambiguous`|`none`), ``ownership_candidate_count`` (0..N), ``ownership_violation`` (Bool) 3 필드를 명시 기록한다. 운영 분류는 [tools/classify_login_audit_logs.py](../tools/classify_login_audit_logs.py) 의 카테고리 ``E_OWNERSHIP_VIOLATION`` 가 캐치(다른 어떤 카테고리보다 우선).
+5. 신규 시드 격리 키 스키마 — 공유 DB row 는 다음 중 하나 이상을 가져야 PR 단계에서 ``audit_welove_routing_consistency.py`` 가 통과한다.
+   - ``hcode_in: ["..."]`` — 정확 일치 화이트리스트 (가장 강함).
+   - ``hcode_pattern: "<regex>"`` — fullmatch.
+   - ``hcode_prefix: "<str>"`` — startswith.
+   - ``parent_tenant_id`` / ``dist_tenant_id`` — 관계 키로 단일화 (T2 소속 출판사).
+6. 슈퍼관리자 호환 — ``hcode='0000'`` 또는 ``BLS_ADMIN_USER_IDS`` 사용자는 ownership 가드 이전에 T1 으로 조기 결정되어 본 가드의 영향을 받지 않는다.
+
+**경계조건 / 비목표**:
+
+- 본 사이클은 **로그인 단계의 컨텍스트 분리** 만 다룬다. 도메인 API 의 행 레벨(hcode) 격리는 ``DSN-RISK-01``/``M4 (보류)`` 의 별 결정.
+- ``BLS_LOGIN_REQUIRE_TENANT_UNIQUE`` (가드 강제 401) 환경 변수는 후속 사이클에서 도입(현재는 토큰은 발급하되 fail-closed 동작에 의존).
+- T1/T2_DIST 처럼 “정의상 다중 테넌트 가시성” 인 row 는 시드의 ``default_account_type`` 이 ``T1``/``T2_DIST`` 이면 ``SHARED_DB_NO_HCODE_GUARD`` 에서 자동 제외 (감사 도구 정책 — `tools/audit_welove_routing_consistency.py`).
+
+**회귀 가드** (PR 필수 PASS):
+
+| 항목 | 위치 |
+|------|------|
+| 단위 — `resolve_unique_tenant` 격리 키 시나리오 | [test/test_auth_login_cross_tenant_isolation.py](../test/test_auth_login_cross_tenant_isolation.py) |
+| e2e — `/auth/login` 응답 + 감사 로그 ownership_* 필드 | 동상 |
+| 매트릭스 ↔ 시드 정합 분류 | [test/test_welove_routing_consistency.py](../test/test_welove_routing_consistency.py) |
+| 감사 로그 분류기 카테고라이즈 | [test/test_classify_login_audit_logs.py](../test/test_classify_login_audit_logs.py) |
+| 운영 진단 (대표 계정) | [debug/diagnose_login_routing.py](../debug/diagnose_login_routing.py) |
+| 운영 런북 | [docs/welove-cross-tenant-exposure-runbook.md](welove-cross-tenant-exposure-runbook.md) |
+| 샘플 매트릭스 정본 | [docs/welove-login-tenant-audit-samples.md](welove-login-tenant-audit-samples.md) |
+
+---
+
 ## 5. 위험 / 미해결
 
 | ID | 항목 | 정합 |
@@ -428,6 +473,7 @@ sequenceDiagram
 | `DSN-RISK-09` (신규) | 동일 `Gcode` 가 다중 테넌트 DB 에 중복 존재 — 보조 식별자 미입력 시 라우팅 해석 모호 | DSN-DEC-08 — `AUTH_AMBIGUOUS_ROUTE` 단일 401 메시지로 통합. UI 는 충돌이 발견된 경우에만 보조 입력 노출 (회사 코드 / 회사 선택). |
 | `DSN-RISK-10` (신규) | 라우팅 해석 결과(`remote_id`) 가 SSH 터널 미가동 / mysql3 프로토콜 미지원 환경에서 401 로 묻힘 | 감사 로그 `resolved_db` / `resolved_via` 로 운영 추적 + 회귀 테스트(`멀티 서버 로그인`) 에서 4 `remote_*` 각 1건 PASS 강제. |
 | `DSN-RISK-11` (신규) | 총판 소속 사후 전환에서 동일 DB 공유 신호를 확정 키로 오인하면 오분류 위험 | `same_db`는 후보(high-candidate)로만 사용하고, 확정은 `dist_hcode + publisher_hcode + 관계키(parent_tenant_id/dist_tenant_id)` 일치 시에만 허용 |
+| `DSN-RISK-12` (2026-05-21) | **타사 데이터 노출** — 동일 `(remote_id, db_name)` 좌표에 활성 테넌트가 2개 이상이고 시드에 격리 키(`hcode_pattern`/`hcode_in`/`parent_tenant_id`) 부재면 `lookup_by_account_family` 가 첫 매치 테넌트로 사용자 컨텍스트를 고정 → 실제 소속과 다른 회사 데이터 노출 | **DSN-DEC-12**: ownership 가드 — `tenants_directory_service.resolve_unique_tenant` 가 `(server, db, hcode, tenant_id)` 로 단일화 실패 시 `tenant_id`/`account_family`/`active_build_id` 를 None 으로 떨어뜨려 fail-closed. 감사 로그 `ownership_violation=true` + 후보 수 명시. 회귀 가드: [test/test_auth_login_cross_tenant_isolation.py](../test/test_auth_login_cross_tenant_isolation.py), 정합 감사: [tools/audit_welove_routing_consistency.py](../tools/audit_welove_routing_consistency.py). |
 
 ---
 

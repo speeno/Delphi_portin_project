@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0.0",
+  "note": "DSN-DEC-08/09/12 — 대표 계정 라우팅 기대값. 본 매트릭스는 docs/welove-login-tenant-audit-samples.md §1 의 정본. 자격증명 0건 (G3).",
+  "samples": [
+    {
+      "case": "A1",
+      "label": "중앙라인(한강북)",
+      "login_id_hint": "<운영자_입력>",
+      "hcode_hint": null,
+      "tenant_id_hint": null,
+      "expected": {
+        "remote_id": "remote_153",
+        "db_name": "chul_05_db",
+        "account_family": "chul_05",
+        "ownership_status": "unique",
+        "tenant_label_kor": "중앙라인(한강북)"
+      },
+      "risk": "low",
+      "category": "single_db"
+    },
+    {
+      "case": "A2",
+      "label": "북앤더",
+      "login_id_hint": "<운영자_입력>",
+      "expected": {
+        "remote_id": "remote_153",
+        "db_name": "chul_08_db",
+        "account_family": "chul_08",
+        "ownership_status": "unique",
+        "tenant_label_kor": "북앤더"
+      },
+      "risk": "low",
+      "category": "single_db"
+    },
+    {
+      "case": "A3",
+      "label": "진성사",
+      "login_id_hint": "<운영자_입력>",
+      "expected": {
+        "remote_id": "remote_154",
+        "db_name": "book_01_db",
+        "account_family": "book_01",
+        "ownership_status": "unique",
+        "tenant_label_kor": "진성사"
+      },
+      "risk": "low",
+      "category": "single_db"
+    },
+    {
+      "case": "A4",
+      "label": "한강물류",
+      "login_id_hint": "<운영자_입력>",
+      "expected": {
+        "remote_id": "remote_155",
+        "db_name": "chul_01_db",
+        "account_family": "chul_01",
+        "ownership_status": "unique",
+        "tenant_label_kor": "한강물류"
+      },
+      "risk": "low",
+      "category": "single_db"
+    },
+    {
+      "case": "A5",
+      "label": "MS북스",
+      "login_id_hint": "<운영자_입력>",
+      "expected": {
+        "remote_id": "remote_138",
+        "db_name": "book_21_db",
+        "account_family": "book_21",
+        "ownership_status": "unique",
+        "tenant_label_kor": "MS북스"
+      },
+      "risk": "low",
+      "category": "single_db"
+    },
+    {
+      "case": "B1",
+      "label": "위러브1",
+      "login_id_hint": "<운영자_입력>",
+      "hcode_hint": "<위러브1_hcode>",
+      "expected": {
+        "remote_id": "remote_154",
+        "db_name": "chul_09_db",
+        "account_family": "chul_09",
+        "ownership_status_with_hcode": "unique",
+        "ownership_status_without_hcode": "ambiguous"
+      },
+      "risk": "high",
+      "category": "shared_db"
+    },
+    {
+      "case": "B2",
+      "label": "위러브2",
+      "hcode_hint": "<위러브2_hcode>",
+      "expected": {
+        "remote_id": "remote_155",
+        "db_name": "chul_09_db",
+        "account_family": "chul_09",
+        "ownership_status_with_hcode": "unique",
+        "ownership_status_without_hcode": "ambiguous"
+      },
+      "risk": "high",
+      "category": "shared_db"
+    },
+    {
+      "case": "B3",
+      "label": "위러브3",
+      "hcode_hint": "<위러브3_hcode>",
+      "expected": {
+        "remote_id": "remote_153",
+        "db_name": "chul_09_db",
+        "account_family": "chul_09",
+        "ownership_status_with_hcode": "unique",
+        "ownership_status_without_hcode": "ambiguous"
+      },
+      "risk": "high",
+      "category": "shared_db"
+    },
+    {
+      "case": "B4",
+      "label": "교문사",
+      "hcode_hint": "<교문사_hcode>",
+      "expected": {
+        "remote_id": "remote_153",
+        "db_name": "chul_09_db",
+        "account_family": "chul_09",
+        "ownership_status_with_hcode": "unique",
+        "ownership_status_without_hcode": "ambiguous"
+      },
+      "risk": "high",
+      "category": "shared_db"
+    },
+    {
+      "case": "B5",
+      "label": "북앤북",
+      "hcode_hint": "<북앤북_hcode>",
+      "expected": {
+        "remote_id": "remote_154",
+        "db_name": "book_07_db",
+        "account_family": "book_07",
+        "ownership_status_with_hcode": "unique",
+        "ownership_status_without_hcode": "ambiguous"
+      },
+      "risk": "high",
+      "category": "shared_db"
+    },
+    {
+      "case": "B6",
+      "label": "유앤북",
+      "hcode_hint": "<유앤북_hcode>",
+      "expected": {
+        "remote_id": "remote_138",
+        "db_name": "book_07_db",
+        "account_family": "book_07",
+        "ownership_status_with_hcode": "unique",
+        "ownership_status_without_hcode": "ambiguous"
+      },
+      "risk": "high",
+      "category": "shared_db"
+    },
+    {
+      "case": "C1",
+      "label": "한국도서유통",
+      "tenant_id_hint": "<C1 tenant_id (book_kb / distributor)>",
+      "expected": {
+        "db_name": "book_kb_db",
+        "account_family": "book_kb",
+        "build_role": "distributor",
+        "active_build_id": "BLD-DIST-KBT"
+      },
+      "risk": "medium",
+      "category": "duplicate_uses"
+    },
+    {
+      "case": "C2",
+      "label": "한국도서유통(출판)",
+      "tenant_id_hint": "<C2 tenant_id (book_kb / publisher)>",
+      "expected": {
+        "db_name": "book_kb_db",
+        "account_family": "book_kb",
+        "build_role": "publisher",
+        "active_build_id": "BLD-PUB-KBT",
+        "parent_tenant_id_hint": "<C1 tenant_id>"
+      },
+      "risk": "medium",
+      "category": "duplicate_uses"
+    }
+  ],
+  "instructions": {
+    "fill_login_id_hint": "운영자가 라이브 환경에서 대표 계정 ID 와 hcode 를 채운 뒤 verify_login_routing_matrix.py 에 입력한다.",
+    "command_template": "PYTHONPATH=도서물류관리프로그램/backend python3 debug/verify_login_routing_matrix.py --matrix analysis/welove_login_routing_expectations.json --out /tmp/welove_routing_verify.json"
+  }
+}

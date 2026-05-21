@@ -1,0 +1,1746 @@
+{
+  "generated_at": "2026-05-21T04:40:42.589720+00:00",
+  "source_index_path": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/data/login_id_index.json",
+  "source_index_built_at": "2026-05-21T04:40:37.166192+00:00",
+  "stats": {
+    "coordinates_total": 43,
+    "shared_db_coordinates": 1,
+    "candidates_emitted": 1
+  },
+  "candidates": [
+    {
+      "remote_id": "remote_153",
+      "db_name": "chul_09_db",
+      "is_shared_db": true,
+      "shared_count": 2,
+      "tenants_in_seed": [
+        {
+          "tenant_id": "fa6758ea-a7e5-5d27-bf87-ccee0a90e72c",
+          "tenant_label_kor": "교문사",
+          "account_family": "chul_09",
+          "build_role": "warehouse_publisher",
+          "default_account_type": "T3",
+          "parent_tenant_id": null
+        },
+        {
+          "tenant_id": "94455c23-78d8-5d9b-8410-3d20bbc9be00",
+          "tenant_label_kor": "서버3(위러브3)",
+          "account_family": "chul_09",
+          "build_role": "warehouse_publisher",
+          "default_account_type": "T3",
+          "parent_tenant_id": null
+        }
+      ],
+      "distinct_hcodes": [
+        {
+          "hcode": "5056",
+          "user_count": 4,
+          "sample_logins": [
+            "동문사",
+            "영업부",
+            "총무부"
+          ]
+        },
+        {
+          "hcode": "5015",
+          "user_count": 3,
+          "sample_logins": [
+            "_(주)백산출판사_",
+            "_경리부(김은선)_",
+            "_박진희_"
+          ]
+        },
+        {
+          "hcode": "5024",
+          "user_count": 3,
+          "sample_logins": [
+            "표준협회미디어",
+            "한국표준협회미디어",
+            "미디어스트리트"
+          ]
+        },
+        {
+          "hcode": "5032",
+          "user_count": 3,
+          "sample_logins": [
+            "_백산출판사_",
+            "_신지혜_",
+            "_박세진_"
+          ]
+        },
+        {
+          "hcode": "5033",
+          "user_count": 3,
+          "sample_logins": [
+            "케이디북스",
+            "윤신애",
+            "경리부(케이디북스)"
+          ]
+        },
+        {
+          "hcode": "5039",
+          "user_count": 3,
+          "sample_logins": [
+            "경리부",
+            "관리부",
+            "물류"
+          ]
+        },
+        {
+          "hcode": "5045",
+          "user_count": 3,
+          "sample_logins": [
+            "관리부",
+            "물류",
+            "예문아카이브"
+          ]
+        },
+        {
+          "hcode": "4224",
+          "user_count": 2,
+          "sample_logins": [
+            "_위드엠_",
+            "_Guest1_"
+          ]
+        },
+        {
+          "hcode": "5008",
+          "user_count": 2,
+          "sample_logins": [
+            "꿈결",
+            "북앤북"
+          ]
+        },
+        {
+          "hcode": "5010",
+          "user_count": 2,
+          "sample_logins": [
+            "(주)꿈을담는틀",
+            "북앤북"
+          ]
+        },
+        {
+          "hcode": "5011",
+          "user_count": 2,
+          "sample_logins": [
+            "주식회사 꿈결",
+            "북앤북"
+          ]
+        },
+        {
+          "hcode": "5019",
+          "user_count": 2,
+          "sample_logins": [
+            "교문사",
+            "경리부"
+          ]
+        },
+        {
+          "hcode": "5040",
+          "user_count": 2,
+          "sample_logins": [
+            "일진사",
+            "_영업부_"
+          ]
+        },
+        {
+          "hcode": "5042",
+          "user_count": 2,
+          "sample_logins": [
+            "_경문사_",
+            "_경문사물류_"
+          ]
+        },
+        {
+          "hcode": "5043",
+          "user_count": 2,
+          "sample_logins": [
+            "_경문북스_",
+            "_경문북스물류_"
+          ]
+        },
+        {
+          "hcode": "5053",
+          "user_count": 2,
+          "sample_logins": [
+            "(주)을유문화사",
+            "총무부"
+          ]
+        },
+        {
+          "hcode": "5076",
+          "user_count": 2,
+          "sample_logins": [
+            "조계종출판사",
+            "서영주"
+          ]
+        },
+        {
+          "hcode": "5078",
+          "user_count": 2,
+          "sample_logins": [
+            "청문각출판(교재)",
+            "경영지원부"
+          ]
+        },
+        {
+          "hcode": "5079",
+          "user_count": 2,
+          "sample_logins": [
+            "청문각출판(단행)",
+            "경영지원부"
+          ]
+        },
+        {
+          "hcode": "x5012",
+          "user_count": 2,
+          "sample_logins": [
+            "_도서출판 TFT_",
+            "_TFT_"
+          ]
+        },
+        {
+          "hcode": "x5014",
+          "user_count": 2,
+          "sample_logins": [
+            "_아이셈_",
+            "_도서출판 아이샘)_"
+          ]
+        },
+        {
+          "hcode": "x5071",
+          "user_count": 2,
+          "sample_logins": [
+            "_글로북스_",
+            "_정진아_"
+          ]
+        },
+        {
+          "hcode": "y5051",
+          "user_count": 2,
+          "sample_logins": [
+            "_흐름출판_",
+            "_넥스트_"
+          ]
+        },
+        {
+          "hcode": "0000",
+          "user_count": 1,
+          "sample_logins": [
+            "위러브"
+          ]
+        },
+        {
+          "hcode": "4100",
+          "user_count": 1,
+          "sample_logins": [
+            "북마당"
+          ]
+        },
+        {
+          "hcode": "4102",
+          "user_count": 1,
+          "sample_logins": [
+            "우진출판물류"
+          ]
+        },
+        {
+          "hcode": "4103",
+          "user_count": 1,
+          "sample_logins": [
+            "종합물류"
+          ]
+        },
+        {
+          "hcode": "4104",
+          "user_count": 1,
+          "sample_logins": [
+            "파발마"
+          ]
+        },
+        {
+          "hcode": "4200",
+          "user_count": 1,
+          "sample_logins": [
+            "더북"
+          ]
+        },
+        {
+          "hcode": "4205",
+          "user_count": 1,
+          "sample_logins": [
+            "행복한숲"
+          ]
+        },
+        {
+          "hcode": "4207",
+          "user_count": 1,
+          "sample_logins": [
+            "_나너우리_"
+          ]
+        },
+        {
+          "hcode": "4212",
+          "user_count": 1,
+          "sample_logins": [
+            "_동화출판사_"
+          ]
+        },
+        {
+          "hcode": "4213",
+          "user_count": 1,
+          "sample_logins": [
+            "_내안에뜰_"
+          ]
+        },
+        {
+          "hcode": "4216",
+          "user_count": 1,
+          "sample_logins": [
+            "_성화출판사_"
+          ]
+        },
+        {
+          "hcode": "4217",
+          "user_count": 1,
+          "sample_logins": [
+            "조은세상"
+          ]
+        },
+        {
+          "hcode": "4219",
+          "user_count": 1,
+          "sample_logins": [
+            "호디북스"
+          ]
+        },
+        {
+          "hcode": "4220",
+          "user_count": 1,
+          "sample_logins": [
+            "(주)경남도민일보사"
+          ]
+        },
+        {
+          "hcode": "4221",
+          "user_count": 1,
+          "sample_logins": [
+            "_고즈넉_"
+          ]
+        },
+        {
+          "hcode": "4223",
+          "user_count": 1,
+          "sample_logins": [
+            "_꽃비_"
+          ]
+        },
+        {
+          "hcode": "4225",
+          "user_count": 1,
+          "sample_logins": [
+            "코리아컨텐츠네트워크"
+          ]
+        },
+        {
+          "hcode": "4228",
+          "user_count": 1,
+          "sample_logins": [
+            "나너우리엔터테인먼트"
+          ]
+        },
+        {
+          "hcode": "4232",
+          "user_count": 1,
+          "sample_logins": [
+            "YNK 미디어"
+          ]
+        },
+        {
+          "hcode": "4234",
+          "user_count": 1,
+          "sample_logins": [
+            "에이블웍스"
+          ]
+        },
+        {
+          "hcode": "4235",
+          "user_count": 1,
+          "sample_logins": [
+            "와이랩"
+          ]
+        },
+        {
+          "hcode": "4236",
+          "user_count": 1,
+          "sample_logins": [
+            "(주)바이프로스트"
+          ]
+        },
+        {
+          "hcode": "4237",
+          "user_count": 1,
+          "sample_logins": [
+            "내로라"
+          ]
+        },
+        {
+          "hcode": "4238",
+          "user_count": 1,
+          "sample_logins": [
+            "_패트릭북스_"
+          ]
+        },
+        {
+          "hcode": "4239",
+          "user_count": 1,
+          "sample_logins": [
+            "와이랩1"
+          ]
+        },
+        {
+          "hcode": "4241",
+          "user_count": 1,
+          "sample_logins": [
+            "_와이랩2_"
+          ]
+        },
+        {
+          "hcode": "4243",
+          "user_count": 1,
+          "sample_logins": [
+            "제이플미디어"
+          ]
+        },
+        {
+          "hcode": "4244",
+          "user_count": 1,
+          "sample_logins": [
+            "에스패밀리"
+          ]
+        },
+        {
+          "hcode": "4249",
+          "user_count": 1,
+          "sample_logins": [
+            "틈많은책장"
+          ]
+        },
+        {
+          "hcode": "4252",
+          "user_count": 1,
+          "sample_logins": [
+            "만세학당"
+          ]
+        },
+        {
+          "hcode": "4301",
+          "user_count": 1,
+          "sample_logins": [
+            "_총무부_"
+          ]
+        },
+        {
+          "hcode": "4302",
+          "user_count": 1,
+          "sample_logins": [
+            "_(주)하양인_"
+          ]
+        },
+        {
+          "hcode": "5000",
+          "user_count": 1,
+          "sample_logins": [
+            "위러브출판사"
+          ]
+        },
+        {
+          "hcode": "5001",
+          "user_count": 1,
+          "sample_logins": [
+            "_지코사이언스_"
+          ]
+        },
+        {
+          "hcode": "5002",
+          "user_count": 1,
+          "sample_logins": [
+            "책과 상상"
+          ]
+        },
+        {
+          "hcode": "5003",
+          "user_count": 1,
+          "sample_logins": [
+            "_(주)아시아_"
+          ]
+        },
+        {
+          "hcode": "5004",
+          "user_count": 1,
+          "sample_logins": [
+            "고시계사"
+          ]
+        },
+        {
+          "hcode": "5005",
+          "user_count": 1,
+          "sample_logins": [
+            "상서각"
+          ]
+        },
+        {
+          "hcode": "5006",
+          "user_count": 1,
+          "sample_logins": [
+            "_키드앤주니어_"
+          ]
+        },
+        {
+          "hcode": "5007",
+          "user_count": 1,
+          "sample_logins": [
+            "진한엠앤비"
+          ]
+        },
+        {
+          "hcode": "5009",
+          "user_count": 1,
+          "sample_logins": [
+            "우리책"
+          ]
+        },
+        {
+          "hcode": "5012",
+          "user_count": 1,
+          "sample_logins": [
+            "명진"
+          ]
+        },
+        {
+          "hcode": "5013",
+          "user_count": 1,
+          "sample_logins": [
+            "_지샘_"
+          ]
+        },
+        {
+          "hcode": "5014",
+          "user_count": 1,
+          "sample_logins": [
+            "_(주)케이앤제이_"
+          ]
+        },
+        {
+          "hcode": "5016",
+          "user_count": 1,
+          "sample_logins": [
+            "교육문화연구회"
+          ]
+        },
+        {
+          "hcode": "5017",
+          "user_count": 1,
+          "sample_logins": [
+            "책동네"
+          ]
+        },
+        {
+          "hcode": "5018",
+          "user_count": 1,
+          "sample_logins": [
+            "_책이있는마을_"
+          ]
+        },
+        {
+          "hcode": "5020",
+          "user_count": 1,
+          "sample_logins": [
+            "_플러스예감_"
+          ]
+        },
+        {
+          "hcode": "5021",
+          "user_count": 1,
+          "sample_logins": [
+            "린쓰"
+          ]
+        },
+        {
+          "hcode": "5022",
+          "user_count": 1,
+          "sample_logins": [
+            "_북포스_"
+          ]
+        },
+        {
+          "hcode": "5023",
+          "user_count": 1,
+          "sample_logins": [
+            "이비컴"
+          ]
+        },
+        {
+          "hcode": "5025",
+          "user_count": 1,
+          "sample_logins": [
+            "_세진북스_"
+          ]
+        },
+        {
+          "hcode": "5026",
+          "user_count": 1,
+          "sample_logins": [
+            "_코드미디어_"
+          ]
+        },
+        {
+          "hcode": "5027",
+          "user_count": 1,
+          "sample_logins": [
+            "도서출판 세시"
+          ]
+        },
+        {
+          "hcode": "5028",
+          "user_count": 1,
+          "sample_logins": [
+            "학고방"
+          ]
+        },
+        {
+          "hcode": "5029",
+          "user_count": 1,
+          "sample_logins": [
+            "밝은누리"
+          ]
+        },
+        {
+          "hcode": "5030",
+          "user_count": 1,
+          "sample_logins": [
+            "꿈틀(단행본)"
+          ]
+        },
+        {
+          "hcode": "5031",
+          "user_count": 1,
+          "sample_logins": [
+            "고시동네"
+          ]
+        },
+        {
+          "hcode": "5031a",
+          "user_count": 1,
+          "sample_logins": [
+            "고시동네(1)"
+          ]
+        },
+        {
+          "hcode": "5034",
+          "user_count": 1,
+          "sample_logins": [
+            "_어깨동무_"
+          ]
+        },
+        {
+          "hcode": "5035",
+          "user_count": 1,
+          "sample_logins": [
+            "남도출판사"
+          ]
+        },
+        {
+          "hcode": "5036",
+          "user_count": 1,
+          "sample_logins": [
+            "미래한국미디어"
+          ]
+        },
+        {
+          "hcode": "5037",
+          "user_count": 1,
+          "sample_logins": [
+            "교학연구사"
+          ]
+        },
+        {
+          "hcode": "5038",
+          "user_count": 1,
+          "sample_logins": [
+            "북피아"
+          ]
+        },
+        {
+          "hcode": "5041",
+          "user_count": 1,
+          "sample_logins": [
+            "예신"
+          ]
+        },
+        {
+          "hcode": "5044",
+          "user_count": 1,
+          "sample_logins": [
+            "헤르메스"
+          ]
+        },
+        {
+          "hcode": "5046",
+          "user_count": 1,
+          "sample_logins": [
+            "한국신학연구소"
+          ]
+        },
+        {
+          "hcode": "5047",
+          "user_count": 1,
+          "sample_logins": [
+            "도서출판 키움"
+          ]
+        },
+        {
+          "hcode": "5048",
+          "user_count": 1,
+          "sample_logins": [
+            "아인북스"
+          ]
+        },
+        {
+          "hcode": "5049",
+          "user_count": 1,
+          "sample_logins": [
+            "한경사"
+          ]
+        },
+        {
+          "hcode": "5050",
+          "user_count": 1,
+          "sample_logins": [
+            "_동해_"
+          ]
+        },
+        {
+          "hcode": "5051",
+          "user_count": 1,
+          "sample_logins": [
+            "현존"
+          ]
+        },
+        {
+          "hcode": "5052",
+          "user_count": 1,
+          "sample_logins": [
+            "_미세기(1)_"
+          ]
+        },
+        {
+          "hcode": "5054",
+          "user_count": 1,
+          "sample_logins": [
+            "_큰나_"
+          ]
+        },
+        {
+          "hcode": "5055",
+          "user_count": 1,
+          "sample_logins": [
+            "도서출판 학영사"
+          ]
+        },
+        {
+          "hcode": "5057",
+          "user_count": 1,
+          "sample_logins": [
+            "유아이북스"
+          ]
+        },
+        {
+          "hcode": "5058",
+          "user_count": 1,
+          "sample_logins": [
+            "맑은소리"
+          ]
+        },
+        {
+          "hcode": "5059",
+          "user_count": 1,
+          "sample_logins": [
+            "(주)아이엠에듀"
+          ]
+        },
+        {
+          "hcode": "5060",
+          "user_count": 1,
+          "sample_logins": [
+            "_고래북스_"
+          ]
+        },
+        {
+          "hcode": "5061",
+          "user_count": 1,
+          "sample_logins": [
+            "북오션"
+          ]
+        },
+        {
+          "hcode": "5062",
+          "user_count": 1,
+          "sample_logins": [
+            "깊은나무"
+          ]
+        },
+        {
+          "hcode": "5063",
+          "user_count": 1,
+          "sample_logins": [
+            "_도서출판 영_"
+          ]
+        },
+        {
+          "hcode": "5064",
+          "user_count": 1,
+          "sample_logins": [
+            "책갈피"
+          ]
+        },
+        {
+          "hcode": "5065",
+          "user_count": 1,
+          "sample_logins": [
+            "_힘찬북스_"
+          ]
+        },
+        {
+          "hcode": "5066",
+          "user_count": 1,
+          "sample_logins": [
+            "동명사"
+          ]
+        },
+        {
+          "hcode": "5067",
+          "user_count": 1,
+          "sample_logins": [
+            "_갈무리_"
+          ]
+        },
+        {
+          "hcode": "5068",
+          "user_count": 1,
+          "sample_logins": [
+            "_삼성비엔씨_"
+          ]
+        },
+        {
+          "hcode": "5069",
+          "user_count": 1,
+          "sample_logins": [
+            "동문선"
+          ]
+        },
+        {
+          "hcode": "5070",
+          "user_count": 1,
+          "sample_logins": [
+            "_도서출판 새로미_"
+          ]
+        },
+        {
+          "hcode": "5071",
+          "user_count": 1,
+          "sample_logins": [
+            "_미세기_"
+          ]
+        },
+        {
+          "hcode": "5072",
+          "user_count": 1,
+          "sample_logins": [
+            "황금열쇠"
+          ]
+        },
+        {
+          "hcode": "5073",
+          "user_count": 1,
+          "sample_logins": [
+            "지문당"
+          ]
+        },
+        {
+          "hcode": "5074",
+          "user_count": 1,
+          "sample_logins": [
+            "기한재"
+          ]
+        },
+        {
+          "hcode": "5075",
+          "user_count": 1,
+          "sample_logins": [
+            "_집문당_"
+          ]
+        },
+        {
+          "hcode": "5077",
+          "user_count": 1,
+          "sample_logins": [
+            "북도드리"
+          ]
+        },
+        {
+          "hcode": "5080",
+          "user_count": 1,
+          "sample_logins": [
+            "피앤피북"
+          ]
+        },
+        {
+          "hcode": "5081",
+          "user_count": 1,
+          "sample_logins": [
+            "부민문화사"
+          ]
+        },
+        {
+          "hcode": "5082",
+          "user_count": 1,
+          "sample_logins": [
+            "도서출판 책연"
+          ]
+        },
+        {
+          "hcode": "5083",
+          "user_count": 1,
+          "sample_logins": [
+            "_DK로드북스_"
+          ]
+        },
+        {
+          "hcode": "5084",
+          "user_count": 1,
+          "sample_logins": [
+            "_스마트북스_"
+          ]
+        },
+        {
+          "hcode": "5085",
+          "user_count": 1,
+          "sample_logins": [
+            "(주)집문당"
+          ]
+        },
+        {
+          "hcode": "5086",
+          "user_count": 1,
+          "sample_logins": [
+            "충북대출판부"
+          ]
+        },
+        {
+          "hcode": "5087",
+          "user_count": 1,
+          "sample_logins": [
+            "_(재)백두문화재연구_"
+          ]
+        },
+        {
+          "hcode": "5088",
+          "user_count": 1,
+          "sample_logins": [
+            "미래가치"
+          ]
+        },
+        {
+          "hcode": "5089",
+          "user_count": 1,
+          "sample_logins": [
+            "_(주)스노우폭스북스_"
+          ]
+        },
+        {
+          "hcode": "5090",
+          "user_count": 1,
+          "sample_logins": [
+            "우현북스"
+          ]
+        },
+        {
+          "hcode": "5092",
+          "user_count": 1,
+          "sample_logins": [
+            "_도서출판CPS_"
+          ]
+        },
+        {
+          "hcode": "5093",
+          "user_count": 1,
+          "sample_logins": [
+            "교학연구사(인터넷)"
+          ]
+        },
+        {
+          "hcode": "5094",
+          "user_count": 1,
+          "sample_logins": [
+            "_이젠미디어_"
+          ]
+        },
+        {
+          "hcode": "5095",
+          "user_count": 1,
+          "sample_logins": [
+            "_도서출판 공동체_"
+          ]
+        },
+        {
+          "hcode": "5096",
+          "user_count": 1,
+          "sample_logins": [
+            "_지식공동체_"
+          ]
+        },
+        {
+          "hcode": "5097",
+          "user_count": 1,
+          "sample_logins": [
+            "교문사 전자책"
+          ]
+        },
+        {
+          "hcode": "5098",
+          "user_count": 1,
+          "sample_logins": [
+            "진북스"
+          ]
+        },
+        {
+          "hcode": "5099",
+          "user_count": 1,
+          "sample_logins": [
+            "책들의정원_"
+          ]
+        },
+        {
+          "hcode": "5101",
+          "user_count": 1,
+          "sample_logins": [
+            "나비스쿨"
+          ]
+        },
+        {
+          "hcode": "5102",
+          "user_count": 1,
+          "sample_logins": [
+            "나비이펙트"
+          ]
+        },
+        {
+          "hcode": "5103",
+          "user_count": 1,
+          "sample_logins": [
+            "(주)아트텔링"
+          ]
+        },
+        {
+          "hcode": "x4101",
+          "user_count": 1,
+          "sample_logins": [
+            "_뱅크북_"
+          ]
+        },
+        {
+          "hcode": "x4201",
+          "user_count": 1,
+          "sample_logins": [
+            "_도모북스_"
+          ]
+        },
+        {
+          "hcode": "x4214",
+          "user_count": 1,
+          "sample_logins": [
+            "_시인생각_"
+          ]
+        },
+        {
+          "hcode": "x4222",
+          "user_count": 1,
+          "sample_logins": [
+            "_거인이앤비_"
+          ]
+        },
+        {
+          "hcode": "x5003",
+          "user_count": 1,
+          "sample_logins": [
+            "_오유아이_"
+          ]
+        },
+        {
+          "hcode": "x5004",
+          "user_count": 1,
+          "sample_logins": [
+            "_e학고재_"
+          ]
+        },
+        {
+          "hcode": "x5008",
+          "user_count": 1,
+          "sample_logins": [
+            "_E-드림미디어(주)_"
+          ]
+        },
+        {
+          "hcode": "x5011",
+          "user_count": 1,
+          "sample_logins": [
+            "_아이엠피미디어_"
+          ]
+        },
+        {
+          "hcode": "x5013",
+          "user_count": 1,
+          "sample_logins": [
+            "_오스틴북스_"
+          ]
+        },
+        {
+          "hcode": "x5015",
+          "user_count": 1,
+          "sample_logins": [
+            "_스쿨케어_"
+          ]
+        },
+        {
+          "hcode": "x5021",
+          "user_count": 1,
+          "sample_logins": [
+            "_예스북_"
+          ]
+        },
+        {
+          "hcode": "x5023",
+          "user_count": 1,
+          "sample_logins": [
+            "_천천문화_"
+          ]
+        },
+        {
+          "hcode": "x5024",
+          "user_count": 1,
+          "sample_logins": [
+            "_문학나무_"
+          ]
+        },
+        {
+          "hcode": "x5028",
+          "user_count": 1,
+          "sample_logins": [
+            "_도서출판 한옥당_"
+          ]
+        },
+        {
+          "hcode": "x5036",
+          "user_count": 1,
+          "sample_logins": [
+            "_돌판출판사_"
+          ]
+        },
+        {
+          "hcode": "x5040",
+          "user_count": 1,
+          "sample_logins": [
+            "_즐겨찾기_"
+          ]
+        },
+        {
+          "hcode": "x5041",
+          "user_count": 1,
+          "sample_logins": [
+            "_(주)리딩영어사_"
+          ]
+        },
+        {
+          "hcode": "x5044",
+          "user_count": 1,
+          "sample_logins": [
+            "_해피교육_"
+          ]
+        },
+        {
+          "hcode": "x5045",
+          "user_count": 1,
+          "sample_logins": [
+            "_한수위_"
+          ]
+        },
+        {
+          "hcode": "x5046",
+          "user_count": 1,
+          "sample_logins": [
+            "_늘푸른아이들_"
+          ]
+        },
+        {
+          "hcode": "x5047",
+          "user_count": 1,
+          "sample_logins": [
+            "_민서출판사_"
+          ]
+        },
+        {
+          "hcode": "x5048",
+          "user_count": 1,
+          "sample_logins": [
+            "_아름다운한국어학교_"
+          ]
+        },
+        {
+          "hcode": "x5051",
+          "user_count": 1,
+          "sample_logins": [
+            "_중앙입시문제연구소_"
+          ]
+        },
+        {
+          "hcode": "x5052",
+          "user_count": 1,
+          "sample_logins": [
+            "_한국크라운재정사역_"
+          ]
+        },
+        {
+          "hcode": "x5053",
+          "user_count": 1,
+          "sample_logins": [
+            "_okbook1234_"
+          ]
+        },
+        {
+          "hcode": "x5055",
+          "user_count": 1,
+          "sample_logins": [
+            "_아시아_"
+          ]
+        },
+        {
+          "hcode": "x5061",
+          "user_count": 1,
+          "sample_logins": [
+            "_나남출판_"
+          ]
+        },
+        {
+          "hcode": "x5062",
+          "user_count": 1,
+          "sample_logins": [
+            "_(주)상지원_"
+          ]
+        },
+        {
+          "hcode": "x5063",
+          "user_count": 1,
+          "sample_logins": [
+            "_예옥_"
+          ]
+        },
+        {
+          "hcode": "x5065",
+          "user_count": 1,
+          "sample_logins": [
+            "_푸르름_"
+          ]
+        },
+        {
+          "hcode": "x5066",
+          "user_count": 1,
+          "sample_logins": [
+            "_다솔교육사_"
+          ]
+        },
+        {
+          "hcode": "x5069",
+          "user_count": 1,
+          "sample_logins": [
+            "_한국의학_"
+          ]
+        },
+        {
+          "hcode": "x5072",
+          "user_count": 1,
+          "sample_logins": [
+            "_한교원_"
+          ]
+        },
+        {
+          "hcode": "x5073",
+          "user_count": 1,
+          "sample_logins": [
+            "_토파즈_"
+          ]
+        },
+        {
+          "hcode": "x5074",
+          "user_count": 1,
+          "sample_logins": [
+            "_동문사(영업부)_"
+          ]
+        },
+        {
+          "hcode": "x5075",
+          "user_count": 1,
+          "sample_logins": [
+            "_(주)리딩북스_"
+          ]
+        },
+        {
+          "hcode": "x5077",
+          "user_count": 1,
+          "sample_logins": [
+            "_앙겔로스_"
+          ]
+        },
+        {
+          "hcode": "y5004",
+          "user_count": 1,
+          "sample_logins": [
+            "_지와이에듀_"
+          ]
+        },
+        {
+          "hcode": "y5023",
+          "user_count": 1,
+          "sample_logins": [
+            "_신수서적_"
+          ]
+        },
+        {
+          "hcode": "y5028",
+          "user_count": 1,
+          "sample_logins": [
+            "_제이앤씨커뮤니티_"
+          ]
+        },
+        {
+          "hcode": "y5046",
+          "user_count": 1,
+          "sample_logins": [
+            "_스텐다드미디어_"
+          ]
+        },
+        {
+          "hcode": "y5052",
+          "user_count": 1,
+          "sample_logins": [
+            "_(주)이스터디뱅크_"
+          ]
+        },
+        {
+          "hcode": "y5069",
+          "user_count": 1,
+          "sample_logins": [
+            "_(주)화학사_"
+          ]
+        },
+        {
+          "hcode": "z5028",
+          "user_count": 1,
+          "sample_logins": [
+            "_HN사이언스_"
+          ]
+        }
+      ],
+      "sme_mapping_template": {
+        "fa6758ea-a7e5-5d27-bf87-ccee0a90e72c": {
+          "tenant_label_kor": "교문사",
+          "isolation_hint": "FILL_ONE_OF: hcode_in / hcode_pattern / hcode_prefix / parent_tenant_id",
+          "hcode_in": [],
+          "hcode_pattern": "",
+          "hcode_prefix": "",
+          "parent_tenant_id": "",
+          "_observed_distinct_hcodes": [
+            "5056",
+            "5015",
+            "5024",
+            "5032",
+            "5033",
+            "5039",
+            "5045",
+            "4224",
+            "5008",
+            "5010",
+            "5011",
+            "5019",
+            "5040",
+            "5042",
+            "5043",
+            "5053",
+            "5076",
+            "5078",
+            "5079",
+            "x5012",
+            "x5014",
+            "x5071",
+            "y5051",
+            "0000",
+            "4100",
+            "4102",
+            "4103",
+            "4104",
+            "4200",
+            "4205",
+            "4207",
+            "4212",
+            "4213",
+            "4216",
+            "4217",
+            "4219",
+            "4220",
+            "4221",
+            "4223",
+            "4225",
+            "4228",
+            "4232",
+            "4234",
+            "4235",
+            "4236",
+            "4237",
+            "4238",
+            "4239",
+            "4241",
+            "4243",
+            "4244",
+            "4249",
+            "4252",
+            "4301",
+            "4302",
+            "5000",
+            "5001",
+            "5002",
+            "5003",
+            "5004",
+            "5005",
+            "5006",
+            "5007",
+            "5009",
+            "5012",
+            "5013",
+            "5014",
+            "5016",
+            "5017",
+            "5018",
+            "5020",
+            "5021",
+            "5022",
+            "5023",
+            "5025",
+            "5026",
+            "5027",
+            "5028",
+            "5029",
+            "5030",
+            "5031",
+            "5031a",
+            "5034",
+            "5035",
+            "5036",
+            "5037",
+            "5038",
+            "5041",
+            "5044",
+            "5046",
+            "5047",
+            "5048",
+            "5049",
+            "5050",
+            "5051",
+            "5052",
+            "5054",
+            "5055",
+            "5057",
+            "5058",
+            "5059",
+            "5060",
+            "5061",
+            "5062",
+            "5063",
+            "5064",
+            "5065",
+            "5066",
+            "5067",
+            "5068",
+            "5069",
+            "5070",
+            "5071",
+            "5072",
+            "5073",
+            "5074",
+            "5075",
+            "5077",
+            "5080",
+            "5081",
+            "5082",
+            "5083",
+            "5084",
+            "5085",
+            "5086",
+            "5087",
+            "5088",
+            "5089",
+            "5090",
+            "5092",
+            "5093",
+            "5094",
+            "5095",
+            "5096",
+            "5097",
+            "5098",
+            "5099",
+            "5101",
+            "5102",
+            "5103",
+            "x4101",
+            "x4201",
+            "x4214",
+            "x4222",
+            "x5003",
+            "x5004",
+            "x5008",
+            "x5011",
+            "x5013",
+            "x5015",
+            "x5021",
+            "x5023",
+            "x5024",
+            "x5028",
+            "x5036",
+            "x5040",
+            "x5041",
+            "x5044",
+            "x5045",
+            "x5046",
+            "x5047",
+            "x5048",
+            "x5051",
+            "x5052",
+            "x5053",
+            "x5055",
+            "x5061",
+            "x5062",
+            "x5063",
+            "x5065",
+            "x5066",
+            "x5069",
+            "x5072",
+            "x5073",
+            "x5074",
+            "x5075",
+            "x5077",
+            "y5004",
+            "y5023",
+            "y5028",
+            "y5046",
+            "y5052",
+            "y5069",
+            "z5028"
+          ]
+        },
+        "94455c23-78d8-5d9b-8410-3d20bbc9be00": {
+          "tenant_label_kor": "서버3(위러브3)",
+          "isolation_hint": "FILL_ONE_OF: hcode_in / hcode_pattern / hcode_prefix / parent_tenant_id",
+          "hcode_in": [],
+          "hcode_pattern": "",
+          "hcode_prefix": "",
+          "parent_tenant_id": "",
+          "_observed_distinct_hcodes": [
+            "5056",
+            "5015",
+            "5024",
+            "5032",
+            "5033",
+            "5039",
+            "5045",
+            "4224",
+            "5008",
+            "5010",
+            "5011",
+            "5019",
+            "5040",
+            "5042",
+            "5043",
+            "5053",
+            "5076",
+            "5078",
+            "5079",
+            "x5012",
+            "x5014",
+            "x5071",
+            "y5051",
+            "0000",
+            "4100",
+            "4102",
+            "4103",
+            "4104",
+            "4200",
+            "4205",
+            "4207",
+            "4212",
+            "4213",
+            "4216",
+            "4217",
+            "4219",
+            "4220",
+            "4221",
+            "4223",
+            "4225",
+            "4228",
+            "4232",
+            "4234",
+            "4235",
+            "4236",
+            "4237",
+            "4238",
+            "4239",
+            "4241",
+            "4243",
+            "4244",
+            "4249",
+            "4252",
+            "4301",
+            "4302",
+            "5000",
+            "5001",
+            "5002",
+            "5003",
+            "5004",
+            "5005",
+            "5006",
+            "5007",
+            "5009",
+            "5012",
+            "5013",
+            "5014",
+            "5016",
+            "5017",
+            "5018",
+            "5020",
+            "5021",
+            "5022",
+            "5023",
+            "5025",
+            "5026",
+            "5027",
+            "5028",
+            "5029",
+            "5030",
+            "5031",
+            "5031a",
+            "5034",
+            "5035",
+            "5036",
+            "5037",
+            "5038",
+            "5041",
+            "5044",
+            "5046",
+            "5047",
+            "5048",
+            "5049",
+            "5050",
+            "5051",
+            "5052",
+            "5054",
+            "5055",
+            "5057",
+            "5058",
+            "5059",
+            "5060",
+            "5061",
+            "5062",
+            "5063",
+            "5064",
+            "5065",
+            "5066",
+            "5067",
+            "5068",
+            "5069",
+            "5070",
+            "5071",
+            "5072",
+            "5073",
+            "5074",
+            "5075",
+            "5077",
+            "5080",
+            "5081",
+            "5082",
+            "5083",
+            "5084",
+            "5085",
+            "5086",
+            "5087",
+            "5088",
+            "5089",
+            "5090",
+            "5092",
+            "5093",
+            "5094",
+            "5095",
+            "5096",
+            "5097",
+            "5098",
+            "5099",
+            "5101",
+            "5102",
+            "5103",
+            "x4101",
+            "x4201",
+            "x4214",
+            "x4222",
+            "x5003",
+            "x5004",
+            "x5008",
+            "x5011",
+            "x5013",
+            "x5015",
+            "x5021",
+            "x5023",
+            "x5024",
+            "x5028",
+            "x5036",
+            "x5040",
+            "x5041",
+            "x5044",
+            "x5045",
+            "x5046",
+            "x5047",
+            "x5048",
+            "x5051",
+            "x5052",
+            "x5053",
+            "x5055",
+            "x5061",
+            "x5062",
+            "x5063",
+            "x5065",
+            "x5066",
+            "x5069",
+            "x5072",
+            "x5073",
+            "x5074",
+            "x5075",
+            "x5077",
+            "y5004",
+            "y5023",
+            "y5028",
+            "y5046",
+            "y5052",
+            "y5069",
+            "z5028"
+          ]
+        }
+      }
+    }
+  ]
+}

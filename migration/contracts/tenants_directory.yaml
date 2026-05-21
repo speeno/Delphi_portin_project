@@ -42,9 +42,10 @@
 
 id: TENDIR-v1
 name: 테넌트 디렉토리 (DSN 라우팅 정본)
-version: 1.0.1
+version: 1.1.0
 status: draft
 revision_history:
+  - { version: 1.1.0, date: 2026-05-21, summary: "DSN-DEC-12 — 공유 DB 격리 키(hcode_in/hcode_pattern/hcode_prefix) 스키마 추가 — 타사 데이터 노출 차단 ownership 가드" }
   - { version: 1.0.1, date: 2026-05-01, summary: "WeLove_FTP 468 DPR 클로저 기반 active_build_id 추적 산출물 연결 — WELOVE-BUILD-COVERAGE-v1 참조" }
   - { version: 1.0.0, date: 2026-04-24, summary: "DSN-DEC-06 초안 — welove_db_route_matrix.json + welove_chul_builds.json 결합 1차 시드" }
 
@@ -63,6 +64,21 @@ schema:
   db_name_logical: { type: str, desc: "DB 이름 (자격증명 제외 — chul_09_db 등)" }
   is_active:       { type: bool, default: true, desc: "테넌트 활성 여부" }
   notes:           { type: str, nullable: true }
+  # DSN-DEC-12 — 공유 DB 좌표(같은 server_id + db_name_logical 에 N>=2 테넌트) 의 격리 키.
+  # 셋 중 하나 이상을 보유해야 ownership 가드가 unique 결정을 할 수 있다.
+  # tools/audit_welove_routing_consistency.py 가 SHARED_DB_NO_HCODE_GUARD 로 누락 검출.
+  hcode_in:
+    type: list[str]
+    nullable: true
+    desc: "정확 일치 hcode 화이트리스트 (가장 강한 격리). 예: ['9001','9002']"
+  hcode_pattern:
+    type: str
+    nullable: true
+    desc: "Python re.fullmatch 정규식. 예: '^9\\d+$'"
+  hcode_prefix:
+    type: str
+    nullable: true
+    desc: "startswith 격리 키. 예: 'W3-'"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1차 시드 데이터 (OQ-SME 검증 전 — DRAFT)

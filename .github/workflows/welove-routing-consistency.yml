@@ -1,0 +1,115 @@
+# DSN-DEC-12 — WeLove 통합 로그인 라우팅 정합 감사 (informational → strict 단계 승격).
+#
+# 목적
+# ----
+# 1. PR 단계: 라우팅 시드/매트릭스/매핑 도구 변경 시 ``audit_welove_routing_consistency``
+#    를 항상 실행해 충돌 분류를 리포트 (현재는 informational — 시드 보강 전).
+# 2. 시드/overlay 에 격리 키가 충분히 채워진 뒤에는 ``BLS_AUDIT_STRICT=1`` 환경변수로
+#    이 워크플로우를 strict 모드로 승격해 ``SHARED_DB_NO_HCODE_GUARD`` 등이 0건일 때만
+#    PR 이 통과하도록 한다 (해당 strict 승격은 별도 PR 에서 환경변수 + 본 파일 ``--strict``
+#    플래그를 활성화).
+#
+# 회귀 가드
+# ---------
+# 본 워크플로우는 다음 도구·테스트와 짝을 이룬다.
+# - ``tools/audit_welove_routing_consistency.py``      — 본 잡의 입력
+# - ``tools/extract_shared_db_hcodes.py``              — 격리 키 입력 보조 (P0)
+# - ``tools/apply_hcode_isolation_overlay.py``         — overlay 적용기 (P0)
+# - ``tools/audit_domain_api_hcode_filter.py``         — 도메인 SQL hcode 누락 정적 점검
+# - ``test/test_auth_login_cross_tenant_isolation.py`` — DSN-DEC-12 회귀
+# - ``test/test_apply_hcode_isolation_overlay.py``
+# - ``test/test_audit_domain_api_hcode_filter.py``
+# - ``test/test_welove_routing_consistency.py``        — 정합 감사 단위 테스트
+# - ``test/test_classify_login_audit_logs.py``         — 운영 audit 분류
+# - ``test/test_inventory_legacy_config_ini.py``       — Config.Ini 인벤토리 보조
+# - ``test/test_verify_login_routing_matrix.py``       — 대표 계정 라우팅 검증
+#
+# DSN-DEC-08/09 와의 연계는 [docs/login-routing-regression-guard.md](../../docs/login-routing-regression-guard.md)
+# 에 단일 정본으로 기재되어 있다.
+
+name: WeLove routing consistency
+
+on:
+  workflow_dispatch:
+    inputs:
+      strict:
+        description: "strict mode (시드 보강 후 활성화)"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+  pull_request:
+    branches: [main]
+    paths:
+      - "도서물류관리프로그램/backend/data/tenants_directory_seed.json"
+      - "도서물류관리프로그램/backend/data/tenants_directory_overlay.json"
+      - "도서물류관리프로그램/backend/app/services/tenants_directory_service.py"
+      - "도서물류관리프로그램/backend/app/services/auth_service.py"
+      - "도서물류관리프로그램/backend/app/routers/auth.py"
+      - "도서물류관리프로그램/backend/app/models/auth.py"
+      - "analysis/welove_db_route_matrix.json"
+      - "analysis/welove_login_routing_expectations.json"
+      - "tools/audit_welove_routing_consistency.py"
+      - "tools/extract_shared_db_hcodes.py"
+      - "tools/apply_hcode_isolation_overlay.py"
+      - "tools/audit_domain_api_hcode_filter.py"
+      - "tools/inventory_legacy_config_ini.py"
+      - "tools/classify_login_audit_logs.py"
+      - "test/test_auth_login_cross_tenant_isolation.py"
+      - "test/test_welove_routing_consistency.py"
+      - "test/test_classify_login_audit_logs.py"
+      - "test/test_apply_hcode_isolation_overlay.py"
+      - "test/test_audit_domain_api_hcode_filter.py"
+      - "test/test_inventory_legacy_config_ini.py"
+      - "test/test_verify_login_routing_matrix.py"
+      - ".github/workflows/welove-routing-consistency.yml"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    env:
+      # 시드 격리 키 보강 완료 후 ``true`` 로 전환하면 critical 충돌 1건이라도
+      # 있을 시 PR 이 차단된다 (P0 todo: seed-hcode-isolation).
+      WELOVE_AUDIT_STRICT: ${{ github.event.inputs.strict || 'false' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pyyaml
+
+      - name: Routing consistency audit (informational | strict)
+        id: routing
+        run: |
+          if [ "$WELOVE_AUDIT_STRICT" = "true" ]; then
+            echo "::group::audit_welove_routing_consistency --strict"
+            python3 tools/audit_welove_routing_consistency.py --strict
+            echo "::endgroup::"
+          else
+            echo "::group::audit_welove_routing_consistency (informational)"
+            # informational 모드에서는 항상 exit 0; 충돌 카운트만 stdout 으로 가시화.
+            python3 tools/audit_welove_routing_consistency.py || true
+            echo "::endgroup::"
+          fi
+
+      - name: Domain API Hcode filter audit (informational)
+        run: |
+          # 본 점검은 잠재 위험을 가시화 — 화이트리스트 정리 전까지 informational.
+          # 격리 키 보강 + 점검 마이그레이션 후 ``--strict`` 로 전환 검토.
+          python3 tools/audit_domain_api_hcode_filter.py || true
+
+      - name: Pytest — DSN-DEC-08/09/12 가드 묶음
+        run: |
+          python -m pytest \
+            test/test_auth_login_cross_tenant_isolation.py \
+            test/test_welove_routing_consistency.py \
+            test/test_classify_login_audit_logs.py \
+            test/test_apply_hcode_isolation_overlay.py \
+            test/test_audit_domain_api_hcode_filter.py \
+            test/test_inventory_legacy_config_ini.py \
+            test/test_verify_login_routing_matrix.py \
+            -q --tb=short

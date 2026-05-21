@@ -1,0 +1,1796 @@
+{
+  "generated_at": "2026-05-21T04:40:43.652807+00:00",
+  "summary": {
+    "files_scanned": 64,
+    "sql_literals": 254,
+    "warn": 44,
+    "info": 117,
+    "skipped_noqa": 0,
+    "multi_tenant_tables_seen": [
+      "G4_Book",
+      "G7_Ggeo",
+      "S1_Ssub"
+    ]
+  },
+  "findings": [
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "_is_locked",
+      "lineno": 89,
+      "tables": [
+        "audit_password_attempts"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT 1 FROM audit_password_attempts WHERE result='locked' AND attempted_at >= %s   AND (gcode = %s OR client_ip = %s) LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "_is_locked",
+      "lineno": 100,
+      "tables": [
+        "audit_password_attempts"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(*) AS cnt FROM audit_password_attempts WHERE result='failure' AND attempted_at >= %s   AND (gcode = %s OR client_ip = %s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "_record_attempt",
+      "lineno": 122,
+      "tables": [
+        "audit_password_attempts"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO audit_password_attempts (gcode, scope, result, client_ip, server_id, reason) VALUES (%s, %s, %s, %s, %s, %s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "verify_password",
+      "lineno": 178,
+      "tables": [
+        "application_settings"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT value FROM application_settings WHERE scope='audit' AND `key`='password_hash' LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "verify_password",
+      "lineno": 195,
+      "tables": [
+        "application_settings"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT value FROM application_settings WHERE scope='audit' AND `key`='password' LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "rotate_password",
+      "lineno": 241,
+      "tables": [
+        "application_settings",
+        "value"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO application_settings (scope, `key`, value, updated_by) VALUES ('audit','password_hash', %s, %s) ON DUPLICATE KEY UPDATE value=VALUES(value), updated_by=VALUES(updated_by)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "rotate_password",
+      "lineno": 248,
+      "tables": [
+        "application_settings",
+        "value"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO application_settings (scope, `key`, value, updated_by) VALUES ('audit','password_algorithm','bcrypt', %s) ON DUPLICATE KEY UPDATE value='bcrypt', updated_by=VALUES(updated_by)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "persist_settlement_audit",
+      "lineno": 289,
+      "tables": [
+        "audit_settlement"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO audit_settlement (gcode, action, result, settlement_key, client_ip, server_id,  audit_token_hash, reason, extra_json) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "list_settlement_audit",
+      "lineno": 323,
+      "tables": [
+        "audit_settlement"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT id, gcode, action, result, settlement_key, client_ip,        server_id, audit_token_hash, reason, extra_json, created_at   FROM audit_settlement WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "list_settlement_audit",
+      "lineno": 328,
+      "tables": [
+        "audit_settlement"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(*) AS cnt FROM audit_settlement WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/audit_password_service.py",
+      "function": "persist_return_audit",
+      "lineno": 382,
+      "tables": [
+        "audit_returns"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO audit_returns (gcode, action, result, return_key, client_ip, server_id,  audit_token_hash, reason, extra_json) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "_build_list_sql",
+      "lineno": 73,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(*) AS cnt FROM T5_Ssub t WHERE t.Gdate BETWEEN %s AND %s AND (%s = '' OR t.Hcode = %s) AND (%s = 1 OR (<<dyn>>) <> '2')"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "_build_select_row_prefix",
+      "lineno": 86,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate, Hcode, <<dyn>> AS Sdate, <<dyn>> AS Jubun, Gssum, Pubun, Gbigo, (<<dyn>>) AS Yesno FROM T5_Ssub WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "_cancel_update_sql",
+      "lineno": 112,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE T5_Ssub SET Yesno='2' WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "_cancel_update_sql",
+      "lineno": 114,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE T5_Ssub SET `check`='2' WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "register_cash",
+      "lineno": 229,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE T5_Ssub SET Sdate=%s, Gssum=%s, Pubun=%s, Gbigo=%s WHERE Gdate=%s AND Hcode=%s AND Jubun=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "register_cash",
+      "lineno": 239,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE T5_Ssub SET Gssum=%s, Pubun=%s, Gbigo=%s WHERE id=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "register_cash",
+      "lineno": 249,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT IFNULL(MAX(CAST(Jubun AS UNSIGNED)),0)+1 AS next_jubun FROM T5_Ssub WHERE Gdate=%s AND Hcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "register_cash",
+      "lineno": 259,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO T5_Ssub <<dyn>> VALUES (%s,%s,%s,%s,%s,%s,%s,'0')"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "register_cash",
+      "lineno": 264,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO T5_Ssub (Hcode, Gdate, Sdate, Gssum, Pubun, Gbigo) VALUES (%s,%s,%s,%s,%s,%s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "register_cash",
+      "lineno": 270,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO T5_Ssub (Hcode, Gdate, Gssum, Pubun, Gbigo) VALUES (%s,%s,%s,%s,%s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/cash_service.py",
+      "function": "register_cash",
+      "lineno": 281,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT IFNULL(MAX(id),0) AS m FROM T5_Ssub WHERE Hcode=%s AND Gdate=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/courier_service.py",
+      "function": "_memo_sqls",
+      "lineno": 197,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost FROM S1_Memo WHERE Gdate=%s AND Gubun=%s AND <<dyn>>=%s AND Gcode=%s AND Scode=%s AND Hcode=%s AND <<dyn>>=%s AND (Ocode IS NULL OR Ocode=%s) LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/courier_service.py",
+      "function": "_memo_sqls",
+      "lineno": 204,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT 1 FROM S1_Memo WHERE Gdate=%s AND Gubun=%s AND <<dyn>>=%s AND Gcode=%s AND Scode=%s AND Hcode=%s AND <<dyn>>=%s AND (Ocode IS NULL OR Ocode=%s) LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/courier_service.py",
+      "function": "_memo_sqls",
+      "lineno": 211,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE S1_Memo SET Gbigo=%s, Sbigo=%s, Gtel1=%s, Gtel2=%s, Gname=%s, Gpost=%s, Time3=NOW() WHERE Gdate=%s AND Gubun=%s AND <<dyn>>=%s AND Gcode=%s AND Scode=%s AND Hcode=%s AND <<dyn>>=%s AND (Ocode I…"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/courier_service.py",
+      "function": "_memo_sqls",
+      "lineno": 217,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO S1_Memo (Gdate, Gubun, Jubun, Gcode, Scode, Gjisa, Hcode, Ocode,  Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost, Time1) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
+      "function": "list_publisher_settings",
+      "lineno": 101,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "SELECT COUNT(*) AS cnt FROM G7_Ggeo"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
+      "function": "list_publisher_settings",
+      "lineno": 107,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "SELECT <<dyn>> AS gcode, <<dyn>> AS gname, <<dyn>> FROM G7_Ggeo"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
+      "function": "update_publisher_setting",
+      "lineno": 155,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "UPDATE G7_Ggeo SET <<dyn>>=%s WHERE <<dyn>>=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
+      "function": "update_publisher_setting",
+      "lineno": 164,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "UPDATE G7_Ggeo SET <<dyn>>=%s WHERE <<dyn>>=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
+      "function": "<module>",
+      "lineno": 213,
+      "tables": [
+        "Sb_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COALESCE(SUM(Gsqut),0) AS qty FROM Sb_Csum WHERE Gcode = %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
+      "function": "<module>",
+      "lineno": 217,
+      "tables": [
+        "Sb_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode AS hcode, COALESCE(SUM(Gsqut),0) AS qty FROM Sb_Csum WHERE Gcode IN ({placeholders}) GROUP BY Gcode"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
+      "function": "_grand_summary_single",
+      "lineno": 498,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Scode, Gubun, Pubun,        COALESCE(SUM(Gsqut),0) AS Gsqut, COALESCE(SUM(Gssum),0) AS Gssum FROM S1_Ssub WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/g1_geo_lookup.py",
+      "function": "fetch_g1_customer_gnames",
+      "lineno": 92,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Hcode, Gcode, Gname FROM G1_Ggeo WHERE <<dyn>>"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "<module>",
+      "lineno": 103,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost FROM S1_Memo WHERE Gdate=%s AND Hcode=%s AND COALESCE(Gcode,'')=%s AND COALESCE(Jubun,'')=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "<module>",
+      "lineno": 107,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE S1_Memo SET Gbigo=%s, Sbigo=%s, Gtel1=%s, Gtel2=%s, Gname=%s, Gpost=%s WHERE Gdate=%s AND Hcode=%s AND COALESCE(Gcode,'')=%s AND COALESCE(Jubun,'')=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "<module>",
+      "lineno": 111,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO S1_Memo (Gdate, Hcode, Gcode, Jubun, Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "<module>",
+      "lineno": 120,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode AS gcode, Gname AS gname FROM G1_Ggeo WHERE Gcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "<module>",
+      "lineno": 123,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode AS bcode, Gname AS gname FROM G4_Book WHERE Gcode IN ({placeholders})"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "_is_period_locked",
+      "lineno": 141,
+      "tables": [
+        "application_settings"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT value FROM application_settings WHERE scope='inbound' AND `key`='close_until' LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "<module>",
+      "lineno": 719,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode AS gcode, Jubun AS idnum, Pubun AS pubun, Bcode AS bcode,        SUM(Gsqut) AS gsqut, AVG(Gdang) AS gdang,        AVG(Grat1) AS grat1, SUM(Gssum) AS gssum FROM S1_Ssub WHERE Gdate=%s AND …"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "<module>",
+      "lineno": 729,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT COALESCE(SUM(Gsqut),0) AS qty, COALESCE(SUM(Gssum),0) AS amount FROM S1_Ssub WHERE Gdate=%s AND Gubun='입고' AND Yesno IN ('0','1')"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "_memo_upsert_statements",
+      "lineno": 994,
+      "tables": [
+        "S1_Memo",
+        "Gbigo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO S1_Memo (Gdate, Hcode, Gcode, Jubun, Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE Gbigo=VALUES(Gbigo), Sbigo=VALUES(Sbi…"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
+      "function": "_fetch_vendor_names",
+      "lineno": 1039,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode AS gcode, Gname AS gname FROM G1_Ggeo WHERE Gcode IN ({placeholders})"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
+      "function": "_opening_sql",
+      "lineno": 92,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT MAX(Gdate) AS opening_date FROM Sv_Ghng WHERE Gdate < %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
+      "function": "_dates_count_sql",
+      "lineno": 131,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT COUNT(DISTINCT Gdate) AS cnt FROM S1_Ssub WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
+      "function": "_dates_page_sql",
+      "lineno": 143,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT DISTINCT Gdate FROM S1_Ssub WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
+      "function": "_ledger_rows_sql",
+      "lineno": 169,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gdate, Scode, Gubun, Pubun, MIN(Bcode) AS Bcode,        COALESCE(SUM(Gsqut),0) AS Gsqut, COALESCE(SUM(Gssum),0) AS Gssum FROM S1_Ssub WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
+      "function": "get_inventory_ledger",
+      "lineno": 364,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode AS bcode, Gname AS gname FROM G4_Book WHERE Gcode IN ({placeholders})"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/label_service.py",
+      "function": "<module>",
+      "lineno": 81,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gname, Gposa, Gjice, Gadds, Gpost, Scode, Gbigo   FROM Sg_Csum WHERE Skey=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "search_products",
+      "lineno": 140,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode AS bcode, Gname AS gname, COALESCE(Gjeja, '') AS gjeja FROM G4_Book WHERE Gcode LIKE %s OR Gname LIKE %s ORDER BY Gcode LIMIT %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "get_customer_master",
+      "lineno": 329,
+      "tables": [
+        "G1_Ggeo",
+        "G1_Gbun"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT g.Gcode AS gcode, g.Gname AS gname, COALESCE(g.Hcode,'') AS hcode, COALESCE(g.Gtel1,'') AS gtel1, COALESCE(g.Gtel2,'') AS gtel2, COALESCE(g.Gpost,'') AS gpost, CONCAT_WS(' ', NULLIF(TRIM(IFNULL…"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "create_customer_master",
+      "lineno": 365,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode FROM G1_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "create_customer_master",
+      "lineno": 373,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO G1_Ggeo (Gcode, Gname, Hcode, Gtel1, Gtel2, Gpost, Gadd1, Gadd2, Gbigo) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_customer_master",
+      "lineno": 432,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE G1_Ggeo SET <<dyn>> WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_customer_master",
+      "lineno": 439,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode FROM G1_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "delete_customer_master",
+      "lineno": 451,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode FROM G1_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "delete_customer_master",
+      "lineno": 454,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "DELETE FROM G1_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "create_book",
+      "lineno": 556,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode FROM G4_Book WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "create_book",
+      "lineno": 563,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "INSERT INTO G4_Book (Gcode, Gname, Gjeja, Gisbn, Gdang, Gpost, Gubun) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_book",
+      "lineno": 610,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "UPDATE G4_Book SET <<dyn>> WHERE Gcode=%s AND Gname=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_book",
+      "lineno": 613,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "UPDATE G4_Book SET <<dyn>> WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_book",
+      "lineno": 627,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT COALESCE(Gname,'') AS gname, COALESCE(Gjeja,'') AS gjeja, COALESCE(Gisbn,'') AS gisbn, COALESCE(Gdang,0) AS gdang, COALESCE(Gpost,'') AS gpost FROM G4_Book WHERE Gcode=%s LIMIT 50"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "delete_book",
+      "lineno": 670,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode FROM G4_Book WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "delete_book",
+      "lineno": 673,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "DELETE FROM G4_Book WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "create_publisher_master",
+      "lineno": 821,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode FROM G7_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_publisher_master",
+      "lineno": 866,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "UPDATE G7_Ggeo SET <<dyn>> WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_publisher_master",
+      "lineno": 870,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode FROM G7_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "delete_publisher_master",
+      "lineno": 877,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode FROM G7_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "delete_publisher_master",
+      "lineno": 880,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "DELETE FROM G7_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "list_book_codes",
+      "lineno": 901,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "SELECT Gcode AS gcode, Gname AS gname, COALESCE(Gjeja,'') AS gjeja FROM G4_Book<<dyn>> ORDER BY Gcode LIMIT %s OFFSET %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "list_book_codes",
+      "lineno": 909,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "SELECT COUNT(*) AS row_count FROM G4_Book<<dyn>>"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "list_discounts",
+      "lineno": 948,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "SELECT Gcode AS gcode, Gname AS gname, COALESCE(<<dyn>>,0) AS gpper, COALESCE(Ocode,'') AS ocode FROM G7_Ggeo<<dyn>> ORDER BY Gcode LIMIT %s OFFSET %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "list_discounts",
+      "lineno": 957,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "SELECT COUNT(*) AS row_count FROM G7_Ggeo<<dyn>>"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "get_discount_master",
+      "lineno": 986,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode AS gcode, Gname AS gname, COALESCE(<<dyn>>,0) AS gpper, COALESCE(Ocode,'') AS ocode FROM G7_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "create_discount_master",
+      "lineno": 1008,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode FROM G7_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "create_discount_master",
+      "lineno": 1020,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "INSERT INTO G7_Ggeo (Gcode, Gname, Ocode, <<dyn>>) VALUES (%s,%s,%s,%s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_discount_master",
+      "lineno": 1035,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "UPDATE G7_Ggeo SET <<dyn>>=%s WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_discount_master",
+      "lineno": 1038,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode FROM G7_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "delete_discount_master",
+      "lineno": 1050,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode FROM G7_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "delete_discount_master",
+      "lineno": 1053,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "DELETE FROM G7_Ggeo WHERE Gcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "list_special_master",
+      "lineno": 1108,
+      "tables": [
+        "G6_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(*) AS row_count FROM G6_Ggeo g WHERE <<dyn>>"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_special_master",
+      "lineno": 1176,
+      "tables": [
+        "G6_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT ID FROM G6_Ggeo WHERE ID=%s AND Hcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_special_master",
+      "lineno": 1183,
+      "tables": [
+        "G6_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE G6_Ggeo SET <<dyn>> WHERE ID=%s AND Hcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
+      "function": "update_special_master",
+      "lineno": 1189,
+      "tables": [
+        "G6_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT ID FROM G6_Ggeo WHERE ID=%s AND Hcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
+      "function": "<module>",
+      "lineno": 145,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode AS bcode, Gname AS gname FROM G4_Book WHERE Gcode IN ({placeholders})"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/pricing_service.py",
+      "function": "<module>",
+      "lineno": 35,
+      "tables": [
+        "G1_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Grat1, Grat2, Grat3, Grat4, Grat5, Grat6 FROM G1_Ggeo WHERE Gcode=%s AND Hcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/pricing_service.py",
+      "function": "<module>",
+      "lineno": 40,
+      "tables": [
+        "G2_Ggwo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Grat1, Grat2, Grat3, Grat4, Grat5, Grat6 FROM G2_Ggwo WHERE Gcode=%s AND Hcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
+      "function": "get_book_sales",
+      "lineno": 113,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Bcode, Scode, Gubun, Pubun,        COALESCE(SUM(Gsqut),0) AS Gsqut, COALESCE(SUM(Gssum),0) AS Gssum FROM S1_Ssub WHERE <<dyn>> GROUP BY Bcode, Scode, Gubun, Pubun"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
+      "function": "get_book_sales",
+      "lineno": 131,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode AS bcode, Gname AS gname FROM G4_Book WHERE Gcode IN ({placeholders})"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
+      "function": "get_book_sales",
+      "lineno": 198,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode, COALESCE(SUM(Gbsum),0) AS Gbsum FROM Sg_Csum WHERE <<dyn>> GROUP BY Gcode"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
+      "function": "get_year_end_book_aggregate",
+      "lineno": 518,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT s.Bcode AS bcode, s.Gdate AS gdate, s.Scode AS scode,        s.Gubun AS gubun, s.Pubun AS pubun,        COALESCE(SUM(s.Gsqut),0) AS gsqut,        COALESCE(SUM(s.Gssum),0) AS gssum FROM S1_Ssub …"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
+      "function": "get_year_end_book_aggregate",
+      "lineno": 537,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode AS bcode, Gname AS gname FROM G4_Book WHERE Gcode IN ({placeholders})"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
+      "function": "get_year_end_book_aggregate",
+      "lineno": 597,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode AS gcode, Gdate AS gdate, COALESCE(SUM(Gbsum),0) AS gbsum FROM Sg_Csum WHERE <<dyn>> GROUP BY Gcode, Gdate"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 148,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost FROM S1_Memo WHERE Gdate=%s AND Hcode=%s AND Jubun=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 154,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE S1_Memo SET Gbigo=%s, Sbigo=%s, Gtel1=%s, Gtel2=%s, Gname=%s, Gpost=%s WHERE Gdate=%s AND Hcode=%s AND Jubun=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 160,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO S1_Memo (Gdate, Hcode, Jubun, Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 171,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode AS bcode, Gname AS gname FROM G4_Book WHERE Gcode IN ({placeholders})"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 181,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "DELETE FROM S1_Ssub WHERE ID=%s AND Gdate=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 184,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "UPDATE S1_Ssub SET Scode='2', Time4=NOW() WHERE ID=%s AND Gdate=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 188,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE Sg_Csum SET Gsqut=Gsqut+%s WHERE Gdate=%s AND Hcode=%s AND Bcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 191,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate, Hcode, Bcode, Gsqut FROM Sg_Csum WHERE Gdate=%s AND Hcode=%s AND Bcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 195,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO Sg_Csum (Gdate, Hcode, Bcode, Gsqut) VALUES (%s, %s, %s, %s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 204,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "DELETE FROM S1_Ssub WHERE ID=%s AND Bdate=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 207,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "UPDATE S1_Ssub SET Scode='3', Time4=NOW() WHERE ID=%s AND Bdate=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 212,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT MAX(Gdate) AS max_gdate FROM Sv_Ghng WHERE Hcode=%s AND Bcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 216,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO Sv_Ghng (Gdate, Hcode, Bcode, Gbsum, Gbigo) VALUES (%s, %s, %s, %s, %s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 219,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE Sv_Ghng SET Gbsum=%s, Gbigo=%s WHERE Gdate=%s AND Hcode=%s AND Bcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 222,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gsqut FROM Sg_Csum WHERE Gdate=%s AND Hcode=%s AND Bcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 225,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE Sg_Csum SET Gsqut=Gsqut+%s WHERE Gdate=%s AND Hcode=%s AND Bcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "_txn",
+      "lineno": 773,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate FROM Sv_Ghng WHERE Gdate=%s AND Hcode=%s AND Bcode=%s LIMIT 1 FOR UPDATE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "process_change",
+      "lineno": 814,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate FROM Sv_Ghng WHERE Gdate=%s AND Hcode=%s AND Bcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "audit_returns_query",
+      "lineno": 1810,
+      "tables": [
+        "audit_returns"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT id, action, result, gcode, return_key, client_ip,   audit_token_hash, reason, extra_json, created_at FROM audit_returns WHERE <<dyn>> ORDER BY created_at DESC LIMIT %s OFFSET %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "audit_returns_query",
+      "lineno": 1823,
+      "tables": [
+        "audit_returns"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(*) AS total FROM audit_returns WHERE <<dyn>>"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/scan_match_service.py",
+      "function": "<module>",
+      "lineno": 37,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode, Gname, Gjeja, Ocode, Gdang FROM G4_Book WHERE Gisbn=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/server_capacity_service.py",
+      "function": "_query_tenant_metrics",
+      "lineno": 77,
+      "tables": [
+        "information_schema",
+        "information_schema"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT s.SCHEMA_NAME AS db_name,        COALESCE(SUM(t.DATA_LENGTH + t.INDEX_LENGTH), 0) AS bytes_total FROM information_schema.SCHEMATA s LEFT JOIN information_schema.TABLES t   ON t.TABLE_SCHEMA = s…"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_print_service.py",
+      "function": "<module>",
+      "lineno": 74,
+      "tables": [
+        "T3_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Idx, Gdate,        IFNULL(Gqut1,0) AS Gqut1, IFNULL(Gqut2,0) AS Gqut2, IFNULL(Gqut3,0) AS Gqut3,        IFNULL(Gqut4,0) AS Gqut4, IFNULL(Gqut5,0) AS Gqut5, IFNULL(Gqut6,0) AS Gqut6,        IFNU…"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_print_service.py",
+      "function": "<module>",
+      "lineno": 87,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT COALESCE(Gname,'') AS Hname, COALESCE(Bname,'') AS Bname,        COALESCE(Gadd1,'') AS Gadd1, COALESCE(Gadd2,'') AS Gadd2,        COALESCE(Gtel1,'') AS Gtel1   FROM G7_Ggeo WHERE Gcode=%s LIMIT…"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 74,
+      "tables": [
+        "T3_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Hcode, LEFT(Gdate, 6) AS Gdm, COUNT(*) AS LineCnt   FROM T3_Ssub WHERE Hcode IN ({placeholders})  GROUP BY Hcode, LEFT(Gdate, 6)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 79,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(*) AS cnt FROM T2_Ssub  WHERE Gdate BETWEEN %s AND %s    AND (%s = '' OR Hcode = %s)    AND (%s = 1 OR COALESCE(Yesno,'0') <> '2')"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 86,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate, Hcode, IFNULL(Sum26,0) AS Sum26, IFNULL(Sum27,0) AS Sum27,        IFNULL(Sum28,0) AS Sum28, COALESCE(Yesno,'0') AS Yesno   FROM T2_Ssub WHERE Gdate=%s AND Hcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 91,
+      "tables": [
+        "T3_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Idx, Gdate,        IFNULL(Gqut1,0) AS Gqut1, IFNULL(Gqut2,0) AS Gqut2, IFNULL(Gqut3,0) AS Gqut3,        IFNULL(Gqut4,0) AS Gqut4, IFNULL(Gqut5,0) AS Gqut5, IFNULL(Gqut6,0) AS Gqut6,        IFNU…"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 101,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gname FROM G7_Ggeo WHERE Gcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 106,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COALESCE(Yesno,'0') AS Yesno FROM T2_Ssub WHERE Gdate=%s AND Hcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 111,
+      "tables": [
+        "T2_Ssub",
+        "Sum26"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO T2_Ssub (Gdate, Hcode, Sum26, Sum27, Sum28, Yesno) VALUES (%s, %s, %s, %s, %s, '0') ON DUPLICATE KEY UPDATE Sum26=VALUES(Sum26), Sum27=VALUES(Sum27), Sum28=VALUES(Sum28)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 116,
+      "tables": [
+        "T3_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "DELETE FROM T3_Ssub WHERE Hcode=%s AND LEFT(Gdate,6)=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 119,
+      "tables": [
+        "T3_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO T3_Ssub        (Gdate, Hcode, Idx, Gqut1, Gqut2, Gqut3, Gqut4, Gqut5, Gqut6, Gqut7,         Name1, Name2, Gname, Gsqut, Gssum, Yesno) VALUES (%s,    %s,    %s,  %s,    %s,    %s,    %s,   …"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 128,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE T2_Ssub SET Yesno='1' WHERE Gdate=%s AND Hcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 131,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE T2_Ssub SET Yesno='2' WHERE Gdate=%s AND Hcode=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 136,
+      "tables": [
+        "Sv_Ghng",
+        "Reason"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO Sv_Ghng (Gdate, Hcode, Reason, Updated_at) VALUES (%s, %s, %s, NOW()) ON DUPLICATE KEY UPDATE Reason=VALUES(Reason), Updated_at=NOW()"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 145,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate,        IFNULL(Sum(Sum26),0) AS GSUMX,        IFNULL(Sum(Sum27),0) AS GSUMY,        IFNULL(Sum(Sum28),0) AS GSSUM   FROM T2_Ssub  WHERE Gdate BETWEEN %s AND %s    AND (%s = '' OR Hcode = …"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 157,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(DISTINCT Gdate) AS cnt FROM T2_Ssub  WHERE Gdate BETWEEN %s AND %s    AND (%s = '' OR Hcode = %s)    AND COALESCE(Yesno,'0') <> '2'"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 177,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(DISTINCT Hcode) AS cnt FROM T2_Ssub  WHERE Gdate = %s AND COALESCE(Yesno,'0') <> '2'"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 185,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Hcode, IFNULL(Sum(Sum28),0) AS PrevGssum   FROM T2_Ssub WHERE Gdate = %s AND COALESCE(Yesno,'0') <> '2'  GROUP BY Hcode"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 193,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate,        IFNULL(Sum(Sum26),0) AS Gosum,        IFNULL(Sum(Sum27),0) AS Gbsum,        IFNULL(Sum(Sum28),0) AS Gssum   FROM T2_Ssub  WHERE Gdate BETWEEN %s AND %s    AND (%s = '' OR Hcode = …"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "cash_status",
+      "lineno": 570,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Hcode, IFNULL(Sum(Gssum),0) AS Gsusu, IFNULL(MAX(Gdate),'') AS Gdate FROM T5_Ssub WHERE <<dyn>> = %s AND (<<dyn>>) <> '2' GROUP BY Hcode"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "cash_status",
+      "lineno": 574,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT <<dyn>> AS Gdate, IFNULL(Sum(Gssum),0) AS Gsusu FROM T5_Ssub WHERE Hcode=%s AND <<dyn>> BETWEEN %s AND %s AND (<<dyn>>) <> '2' GROUP BY <<dyn>>"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "cash_status",
+      "lineno": 648,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT <<dyn>> AS Gdate, IFNULL(Sum(Gssum),0) AS Gsusu FROM T5_Ssub WHERE <<dyn>> BETWEEN %s AND %s AND (<<dyn>>) <> '2' GROUP BY <<dyn>>"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 707,
+      "tables": [
+        "R3_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Hcode, IFNULL(Sum(Gsqut),0) AS RGsqut, IFNULL(Sum(Gssum),0) AS RGssum   FROM R3_Ssub WHERE LEFT(Gdate,6) = %s     AND COALESCE(Yesno,'0') NOT IN ('2','C')   GROUP BY Hcode"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 713,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Hcode, COALESCE(Yesno,'0') AS Yesno FROM T2_Ssub WHERE Gdate = %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 716,
+      "tables": [
+        "T2_Ssub",
+        "Sum26"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO T2_Ssub (Gdate, Hcode, Sum26, Sum27, Sum28, Yesno) VALUES (%s, %s, %s, %s, %s, '0') ON DUPLICATE KEY UPDATE Sum26=VALUES(Sum26), Sum27=VALUES(Sum27), Sum28=VALUES(Sum28)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "compute_outstanding_by_customer",
+      "lineno": 879,
+      "tables": [
+        "T5_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Hcode, IFNULL(Sum(Gssum),0) AS Paid FROM T5_Ssub WHERE <<dyn>> BETWEEN %s AND %s   AND (%s = '' OR Hcode = %s)   AND (<<dyn>>) <> '2' GROUP BY Hcode"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "compute_outstanding_by_customer",
+      "lineno": 924,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT Gcode, COALESCE(Gname,'') AS Hname FROM G7_Ggeo WHERE Gcode IN ("
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/tax_invoice_service.py",
+      "function": "_build_sql_count_tax",
+      "lineno": 133,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(*) AS cnt FROM T2_Ssub  WHERE Gdate = %s AND IFNULL(Sum27,0) <> 0    AND (%s = '' OR Hcode = %s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/tax_invoice_service.py",
+      "function": "_build_sql_print_row",
+      "lineno": 149,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT IFNULL(t.Sum26,0) AS Sum26, IFNULL(t.Sum27,0) AS Sum27, IFNULL(t.Sum28,0) AS Sum28, <<dyn>>, <<dyn>>, <<dyn>> FROM T2_Ssub t WHERE t.Gdate=%s AND t.Hcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/tax_invoice_service.py",
+      "function": "<module>",
+      "lineno": 157,
+      "tables": [
+        "G7_Ggeo"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT COALESCE(Gname,'') AS Hname FROM G7_Ggeo WHERE Gcode = %s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/tax_invoice_service.py",
+      "function": "<module>",
+      "lineno": 162,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE T2_Ssub SET Chek3 = %s WHERE Gdate = %s AND Hcode = %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/tax_invoice_service.py",
+      "function": "<module>",
+      "lineno": 165,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE T2_Ssub SET Chek3 = %s WHERE Gdate = %s AND IFNULL(Sum27,0) <> 0  AND COALESCE(Yesno,'0') <> '2'"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/tax_invoice_service.py",
+      "function": "<module>",
+      "lineno": 171,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE T2_Ssub SET Sdate = %s WHERE Gdate = %s AND Hcode = %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/tax_invoice_service.py",
+      "function": "render_tax_invoice_pdf_html",
+      "lineno": 429,
+      "tables": [
+        "T2_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT <<dyn>> FROM T2_Ssub t WHERE t.Gdate=%s AND t.Hcode=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/tenant_db_provisioner.py",
+      "function": "_db_exists",
+      "lineno": 230,
+      "tables": [
+        "information_schema"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "_fetch_memo_previews",
+      "lineno": 159,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate, Hcode, Jubun, Gjisa, Gbigo, Sbigo FROM S1_Memo WHERE Gdate >= %s AND Gdate <= %s AND COALESCE(Jubun,'') IN ({placeholders})"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "list_other_statements",
+      "lineno": 263,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_table",
+      "sql_excerpt": "SELECT COUNT(*) AS cnt FROM S1_Ssub WHERE"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "upsert_other_statement_memo",
+      "lineno": 331,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT 1 AS found FROM S1_Memo WHERE Gdate=%s AND Hcode=%s AND COALESCE(Jubun,'')=%s AND COALESCE(Gjisa,'')=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "upsert_other_statement_memo",
+      "lineno": 339,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE S1_Memo SET Gbigo=%s, Sbigo=%s WHERE Gdate=%s AND Hcode=%s AND COALESCE(Jubun,'')=%s AND COALESCE(Gjisa,'')=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "upsert_other_statement_memo",
+      "lineno": 350,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO S1_Memo (Gdate,Hcode,Jubun,Gjisa,Gbigo,Sbigo) VALUES (%s,%s,%s,%s,%s,%s)"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "_list_with_memo_filter",
+      "lineno": 595,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate, Hcode, Jubun, Gjisa, Gbigo, Sbigo FROM S1_Memo WHERE Gdate >= %s AND Gdate <= %s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "<module>",
+      "lineno": 779,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost FROM S1_Memo WHERE Gdate=%s AND Hcode=%s AND COALESCE(Jubun,'')=%s AND COALESCE(Gjisa,'')=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "<module>",
+      "lineno": 868,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT 1 FROM S1_Memo WHERE Gdate=%s AND Hcode=%s AND COALESCE(Jubun,'')=%s AND COALESCE(Gjisa,'')=%s LIMIT 1"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "<module>",
+      "lineno": 874,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "UPDATE S1_Memo SET Gbigo=%s, Sbigo=%s, Gtel1=%s, Gtel2=%s, Gname=%s, Gpost=%s, Time3=NOW() WHERE Gdate=%s AND Hcode=%s AND COALESCE(Jubun,'')=%s AND COALESCE(Gjisa,'')=%s"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "<module>",
+      "lineno": 881,
+      "tables": [
+        "S1_Memo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO S1_Memo (Gdate, Gubun, Jubun, Gcode, Scode, Gjisa, Hcode, Ocode,  Gbigo, Sbigo, Gtel1, Gtel2, Gname, Gpost, Time1) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())"
+    }
+  ]
+}
