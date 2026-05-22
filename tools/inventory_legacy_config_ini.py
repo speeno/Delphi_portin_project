@@ -6,7 +6,8 @@
 ``WeLove_FTP/**/Config.Ini`` 의 ``[Client]`` 섹션 (`Uses`, `Name`, `Base`, `PORT`, `PCIP1`)
 을 수집해 다음 두 산출물을 만든다.
 
-1. ``analysis/welove_config_ini_inventory.json`` — 빌드 폴더별 1행 표.
+1. ``analysis/welove_config_ini_inventory.json`` — 빌드 폴더별 1행 표
+   (``account_family_inferred``, ``config_kind``, ``customer_folder``, 선택 ``remote_code``).
 2. ``analysis/welove_config_ini_label_diff.json`` — 시드/매트릭스의 ``tenant_label_kor`` 와
    ``Config.Ini.[Client].Name`` / ``Uses`` 의 1:1 대조 누락 리포트.
 
@@ -86,6 +87,15 @@ def parse_ini(text: str) -> dict[str, dict[str, str]]:
     return sections
 
 
+def _remote_public(remote: dict[str, str]) -> dict[str, str]:
+    """``[Remote]`` 공개 필드만 (G3 — 자격 증명 키 제외)."""
+    return {
+        k: v
+        for k, v in remote.items()
+        if k.lower() not in _OMITTED_KEYS
+    }
+
+
 def _client_row(path: Path, root: Path) -> dict[str, Any]:
     raw = path.read_bytes()
     text = _decode_bytes(raw)
@@ -95,11 +105,23 @@ def _client_row(path: Path, root: Path) -> dict[str, Any]:
         k: v for k, v in client.items()
         if k.lower() not in _OMITTED_KEYS
     }
-    rel = path.relative_to(root) if path.is_absolute() and root in path.parents else path.relative_to(REPO_ROOT)
-    return {
-        "config_path": str(rel),
+    remote = parsed.get("Remote", {}) or parsed.get("remote", {})
+    remote_pub = _remote_public(remote)
+    if path.is_absolute() and root in path.parents:
+        rel = path.relative_to(root)
+    else:
+        rel = path.relative_to(REPO_ROOT)
+    config_path = str(rel)
+    parent_name = rel.parent.name if rel.parent.parts else ""
+    account_family = infer_account_family(config_path)
+    row: dict[str, Any] = {
+        "config_path": config_path,
         "build_folder": rel.parent.parts[0] if rel.parent.parts else "",
         "build_subpath": str(rel.parent),
+        "account_family_inferred": account_family,
+        "config_kind": infer_config_kind(config_path, account_family),
+        "customer_folder": infer_customer_folder(parent_name),
+        "customer_folder_raw": parent_name,
         "name": sanitized.get("Name", ""),
         "uses": sanitized.get("Uses", ""),
         "base": sanitized.get("Base", ""),
@@ -107,6 +129,11 @@ def _client_row(path: Path, root: Path) -> dict[str, Any]:
         "port": sanitized.get("PORT", "") or sanitized.get("Port", ""),
         "_client_keys": sorted(sanitized.keys()),
     }
+    if remote_pub.get("Code"):
+        row["remote_code"] = remote_pub["Code"]
+    if len(remote_pub) > 1 or (remote_pub and "Code" not in remote_pub):
+        row["remote_public"] = remote_pub
+    return row
 
 
 def collect_inventory(root: Path) -> list[dict[str, Any]]:
@@ -162,6 +189,58 @@ def _matrix_labels(matrix_doc: Any) -> set[str]:
 
 
 _PUNCT_RE = re.compile(r"[\s\(\)\[\]\.,/\\\-_·＿\(\)（）「」【】《》'\"\?]+")
+
+# 경로·폴더명에서 SKU family 추론 (chul_03(한강도서) → chul_03)
+_ACCOUNT_FAMILY_RE = re.compile(
+    r"(chul_[A-Za-z0-9_]+|book_[A-Za-z0-9_]+|sky_[A-Za-z0-9_]+)",
+    re.IGNORECASE,
+)
+# chul_03(한강도서) 형태 직상위 폴더 — 괄호 안 한글 라벨
+_SKU_FOLDER_PARENS_RE = re.compile(
+    r"^(?P<prefix>(?:chul|book|sky)_[A-Za-z0-9_]+)\((?P<label>[^)]+)\)$",
+    re.IGNORECASE,
+)
+
+_CONFIG_KIND_INFRA_MYSQL_SEGMENTS = frozenset({"MySQL", "MsSQL"})
+
+
+def infer_account_family(config_path: str) -> str | None:
+    """``config_path`` 전체에서 첫 ``chul_*`` / ``book_*`` / ``sky_*`` 토큰."""
+    m = _ACCOUNT_FAMILY_RE.search(config_path.replace("\\", "/"))
+    return m.group(1).lower() if m else None
+
+
+def infer_customer_folder(parent_dir_name: str) -> str:
+    """``Config.Ini`` 직상위 폴더명 — SKU+괄호 라벨이면 괄호 안 한글명."""
+    name = (parent_dir_name or "").strip()
+    if not name:
+        return ""
+    m = _SKU_FOLDER_PARENS_RE.match(name)
+    if m:
+        return m.group("label").strip()
+    return name
+
+
+def infer_config_kind(config_path: str, account_family: str | None = None) -> str:
+    """경로 세그먼트로 빌드 종류 분류 (카탈로그·overlay 보조)."""
+    norm = config_path.replace("\\", "/")
+    parts = norm.split("/")
+    family = account_family if account_family is not None else infer_account_family(norm)
+
+    if "자료전송" in parts:
+        return "data_transfer"
+    if family:
+        return "customer_build"
+    if "Login" in parts:
+        return "infra_login"
+    if any(
+        p in _CONFIG_KIND_INFRA_MYSQL_SEGMENTS or p.startswith("MySQL-")
+        for p in parts
+    ):
+        return "infra_mysql"
+    if len(parts) <= 2:
+        return "root_other"
+    return "customer_build"
 
 
 def _normalize_label(label: str) -> str:

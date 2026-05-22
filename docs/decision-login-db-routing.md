@@ -423,7 +423,7 @@ sequenceDiagram
 | `book_07_db`    | 북앤북·유앤북 (2) | 서버1·서버4 (server_id 로 narrow OK) |
 | `book_01_db`    | 진성사·book(1)-NEW·고려물류 (3) | 서버1·2·4 |
 
-`tools/audit_welove_routing_consistency.py` 가 본 시드를 감사하면 ``SHARED_DB_NO_HCODE_GUARD`` 19 건이 검출된다(2026-05-21 기준). 이 좌표에서는 `auth_service._resolve_account_type` 의 ``lookup_by_account_family(family, server_id=server_id)`` 가 “첫 매치 테넌트” 를 반환하므로 사용자가 실제 소속과 다른 ``tenant_id``/``hcode`` 컨텍스트로 토큰을 받는 회귀가 발생한다 (DSN-RISK-12).
+`tools/audit_welove_routing_consistency.py` 는 공유 DB를 `(server_id, db_name_logical)` 좌표 기준으로 나누어 실제 P0인 ``SHARED_COORD_NO_HCODE_GUARD`` 와 서버가 달라 런타임상 분리 가능한 ``SHARED_DB_CROSS_SERVER`` 를 구분한다. 같은 좌표에서 격리 키가 없으면 `auth_service._resolve_account_type` 의 ``lookup_by_account_family(family, server_id=server_id)`` 가 “첫 매치 테넌트” 를 반환할 수 있으므로 사용자가 실제 소속과 다른 ``tenant_id``/``hcode`` 컨텍스트로 토큰을 받는 회귀가 발생한다 (DSN-RISK-12).
 
 **결정**:
 
@@ -441,8 +441,8 @@ sequenceDiagram
 **경계조건 / 비목표**:
 
 - 본 사이클은 **로그인 단계의 컨텍스트 분리** 만 다룬다. 도메인 API 의 행 레벨(hcode) 격리는 ``DSN-RISK-01``/``M4 (보류)`` 의 별 결정.
-- ``BLS_LOGIN_REQUIRE_TENANT_UNIQUE`` (가드 강제 401) 환경 변수는 후속 사이클에서 도입(현재는 토큰은 발급하되 fail-closed 동작에 의존).
-- T1/T2_DIST 처럼 “정의상 다중 테넌트 가시성” 인 row 는 시드의 ``default_account_type`` 이 ``T1``/``T2_DIST`` 이면 ``SHARED_DB_NO_HCODE_GUARD`` 에서 자동 제외 (감사 도구 정책 — `tools/audit_welove_routing_consistency.py`).
+- ``BLS_LOGIN_REQUIRE_TENANT_UNIQUE=1`` 은 ambiguous ownership 를 토큰 없이 401(``AUTH_OWNERSHIP_AMBIGUOUS``)로 차단하는 opt-in strict 모드다. 기본값은 토큰을 발급하되 fail-closed 동작에 의존한다.
+- T1/T2_DIST 처럼 “정의상 다중 테넌트 가시성” 인 row 는 시드의 ``default_account_type`` 이 ``T1``/``T2_DIST`` 이면 ``SHARED_COORD_NO_HCODE_GUARD`` 에서 자동 제외 (감사 도구 정책 — `tools/audit_welove_routing_consistency.py`).
 
 **회귀 가드** (PR 필수 PASS):
 
@@ -452,9 +452,39 @@ sequenceDiagram
 | e2e — `/auth/login` 응답 + 감사 로그 ownership_* 필드 | 동상 |
 | 매트릭스 ↔ 시드 정합 분류 | [test/test_welove_routing_consistency.py](../test/test_welove_routing_consistency.py) |
 | 감사 로그 분류기 카테고라이즈 | [test/test_classify_login_audit_logs.py](../test/test_classify_login_audit_logs.py) |
+| 도메인 API Hcode 정적 감사 | [test/test_audit_domain_api_hcode_filter.py](../test/test_audit_domain_api_hcode_filter.py) |
 | 운영 진단 (대표 계정) | [debug/diagnose_login_routing.py](../debug/diagnose_login_routing.py) |
 | 운영 런북 | [docs/welove-cross-tenant-exposure-runbook.md](welove-cross-tenant-exposure-runbook.md) |
 | 샘플 매트릭스 정본 | [docs/welove-login-tenant-audit-samples.md](welove-login-tenant-audit-samples.md) |
+
+---
+
+### DSN-DEC-13 — Config.Ini 카탈로그 = 빌드 배포 단위 보조 정본 (2026-05-23 신설)
+
+레거시 `WeLove_FTP/**/Config.Ini` 591 건은 **사용자 PC 빌드 단위**에서 어느 출판사·총판이 어떤 SKU 를 쓰고 있었는지 알려주는 메타이며, 라우팅 결정의 **보조 정본**으로 사용한다.
+
+**역할 분리 (DSN-DEC-12 와의 관계)**
+
+| 산출물 | 결정 권한 | 설명 |
+|--------|-----------|------|
+| [`analysis/welove_db_route_matrix.json`](../analysis/welove_db_route_matrix.json) + [`tenants_directory_seed.json`](../도서물류관리프로그램/backend/data/tenants_directory_seed.json) | **런타임 정본** | `resolve_login_route` / `resolve_unique_tenant` 가 직접 참조 |
+| [`login_id_index.json`](../도서물류관리프로그램/backend/data/login_id_index.json) | **개별 로그인 ID 단일 원천** | `Id_Logn` 라이브 스캔 결과 |
+| [`analysis/welove_config_account_routing_catalog.json`](../analysis/welove_config_account_routing_catalog.json) | **보조 — 빌드/계정 SKU 카탈로그** | Config.Ini ↔ matrix ↔ seed ↔ Chul.pas 삼각 대조. 591 행, `match.status` ∈ {`matched`, `partial`, `review`, `infra_skip`} |
+| [`analysis/welove_config_routing_review_queue.json`](../analysis/welove_config_routing_review_queue.json) | **SME 입력 큐** | family·라벨 미해석 행 (자료전송·인수인계 변형 폴더 등) |
+
+**원칙**
+
+1. Config.Ini 만으로 `hcode_in` 격리 키를 채우지 않는다 — 운영 DB 의 `Id_Logn` 분포가 정본 ([`tools/extract_shared_db_hcodes.py`](../tools/extract_shared_db_hcodes.py)).
+2. `Uses` / `Name` 단독으로 `tenant_id` 를 결정하지 않는다 (DSN-DEC-06). 카탈로그의 `match.sources=["label_fuzzy"]` 단일은 `review` 로 분류된다.
+3. seed 와 matrix 가 어긋나는 케이스는 카탈로그 도구의 `--emit-overlay` dry-run JSON 으로만 제안되며, 실제 [`tenants_directory_overlay.json`](../도서물류관리프로그램/backend/data/tenants_directory_overlay.json) 반영은 [`tools/apply_hcode_isolation_overlay.py`](../tools/apply_hcode_isolation_overlay.py) 와 동일 패턴의 별도 단계 (운영자 승인) 에서 수행한다.
+4. CI 가드: [`.github/workflows/welove-routing-consistency.yml`](../.github/workflows/welove-routing-consistency.yml) 1차 정책 — `--strict` 로 카탈로그 행수 ≠ inventory 행수 시 차단.
+
+**비밀 정책 (G3) 재확인**
+
+- `UserName` / `Password` / DB 비번을 일체 다루지 않는다.
+- `secrets-policy` 회귀: 카탈로그 산출물에 `password|username|gpass|user_pw|secret` 토큰이 발견되면 `test/test_config_account_routing_catalog.py::test_secrets_policy_no_credentials_in_output` 이 차단.
+
+**운영 절차**: 자세한 단계는 [docs/config-ini-account-routing-runbook.md](config-ini-account-routing-runbook.md) 를 따른다.
 
 ---
 

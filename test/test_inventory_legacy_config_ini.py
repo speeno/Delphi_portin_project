@@ -77,6 +77,77 @@ class SecretsPolicyTests(TestCase):
             cfg.unlink(missing_ok=True)
 
 
+class InventoryClassificationTests(TestCase):
+    def setUp(self) -> None:
+        self.tool = _load_tool()
+
+    def test_infer_account_family_from_sku_folder(self):
+        path = "도서유통-출판/MySQL/도서유통/chul_03(한강도서)/Config.Ini"
+        self.assertEqual(self.tool.infer_account_family(path), "chul_03")
+
+    def test_infer_account_family_book_sky(self):
+        self.assertEqual(
+            self.tool.infer_account_family("x/book_21(MS북스)/Config.Ini"),
+            "book_21",
+        )
+        self.assertEqual(
+            self.tool.infer_account_family("x/sky_01(테스트)/Config.Ini"),
+            "sky_01",
+        )
+
+    def test_infer_account_family_none_without_sku(self):
+        path = "Welove_인수인계/협진/Chulpan.Net/Config.Ini"
+        self.assertIsNone(self.tool.infer_account_family(path))
+
+    def test_infer_customer_folder_parses_sku_parens(self):
+        self.assertEqual(
+            self.tool.infer_customer_folder("chul_03(한강도서)"),
+            "한강도서",
+        )
+
+    def test_infer_customer_folder_plain_parent(self):
+        self.assertEqual(
+            self.tool.infer_customer_folder("(주)교문사"),
+            "(주)교문사",
+        )
+
+    def test_infer_config_kind_matrix(self):
+        t = self.tool.infer_config_kind
+        self.assertEqual(
+            t("도서유통-출판/MySQL/도서유통/chul_03(한강도서)/Config.Ini"),
+            "customer_build",
+        )
+        self.assertEqual(t("도서유통-출판/MySQL/Config.Ini"), "infra_mysql")
+        self.assertEqual(t("도서유통-총판/Login/MySQL/Config.Ini"), "infra_login")
+        self.assertEqual(t("도서유통-출판/MsSQL/Config.Ini"), "infra_mysql")
+        self.assertEqual(
+            t("도서유통-출판/자료전송/미래와사람/Config.Ini"),
+            "data_transfer",
+        )
+        self.assertEqual(t("도서유통-총판/Config.Ini"), "root_other")
+
+    def test_client_row_includes_classification_and_remote(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            cfg_dir = root / "도서유통-출판" / "MySQL" / "도서유통" / "chul_09(위러브)"
+            cfg_dir.mkdir(parents=True)
+            cfg = cfg_dir / "Config.Ini"
+            cfg.write_text(
+                "[Client]\nName=위러브\nUses=위러브\n"
+                "[Remote]\nCode=P58\nUserName=MA==\n",
+                encoding="utf-8",
+            )
+            row = self.tool._client_row(cfg, root)
+            self.assertEqual(row["account_family_inferred"], "chul_09")
+            self.assertEqual(row["config_kind"], "customer_build")
+            self.assertEqual(row["customer_folder"], "위러브")
+            self.assertEqual(row["customer_folder_raw"], "chul_09(위러브)")
+            self.assertEqual(row["remote_code"], "P58")
+            self.assertNotIn("username", str(row.get("remote_public", {})).lower())
+
+
 class LabelMatchTests(TestCase):
     def setUp(self) -> None:
         self.tool = _load_tool()

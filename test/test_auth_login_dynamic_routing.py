@@ -257,6 +257,10 @@ class DynamicLoginRoutingTests(TestCase):
             )
 
         self.assertEqual(res.status_code, 401)
+        detail = res.json()["detail"]
+        self.assertEqual(detail.get("code"), "AUTH_AMBIGUOUS_ROUTE")
+        self.assertEqual(detail.get("reason"), "ambiguous_route")
+        self.assertIn("회사 식별 정보", detail.get("message", ""))
         mock_auth.assert_not_awaited()
         rec = self.handler.parsed()[-1]
         self.assertEqual(rec["reason"], "ambiguous_route")

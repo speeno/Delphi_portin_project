@@ -339,6 +339,48 @@ class CrossTenantAuditTests(TestCase):
     @patch("app.services.tenants_directory_service.resolve_login_route")
     @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
     @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
+    def test_shared_db_ambiguous_strict_returns_retry_code(
+        self, mock_auth: AsyncMock, mock_cands, mock_single
+    ) -> None:
+        """BLS_LOGIN_REQUIRE_TENANT_UNIQUE=1 이면 ambiguous ownership 는 토큰 없이 401."""
+        import os
+
+        route = _route("remote_153", "chul_09_db")
+        mock_single.return_value = route
+        mock_cands.return_value = [route]
+        mock_auth.return_value = _user(
+            "shared-user",
+            server_id="remote_153",
+            db_name="chul_09_db",
+            ownership_status="ambiguous",
+            ownership_candidate_count=2,
+            tenant_id=None,
+            account_family=None,
+            active_build_id=None,
+        )
+
+        with patch.dict(os.environ, {"BLS_LOGIN_REQUIRE_TENANT_UNIQUE": "1"}):
+            res = self.client.post(
+                "/api/v1/auth/login",
+                json={"userId": "shared-user", "password": "pw"},
+            )
+
+        self.assertEqual(res.status_code, 401, res.text)
+        detail = res.json()["detail"]
+        self.assertEqual(detail.get("code"), "AUTH_OWNERSHIP_AMBIGUOUS")
+        self.assertEqual(detail.get("reason"), "ownership_ambiguous")
+        self.assertEqual(detail.get("candidate_count"), 2)
+        self.assertIn("회사 식별 정보", detail.get("message", ""))
+
+        latest = self.handler.parsed()[-1]
+        self.assertEqual(latest.get("result"), "failure")
+        self.assertTrue(latest.get("tenant_unique_strict"), latest)
+        self.assertEqual(latest.get("ownership_status"), "ambiguous")
+
+    @patch("app.services.login_id_index_service.add_entry", lambda **_kw: None)
+    @patch("app.services.tenants_directory_service.resolve_login_route")
+    @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
+    @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
     def test_unique_owner_does_not_set_violation(
         self, mock_auth: AsyncMock, mock_cands, mock_single
     ) -> None:

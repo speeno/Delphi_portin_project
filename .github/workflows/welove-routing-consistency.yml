@@ -4,10 +4,10 @@
 # ----
 # 1. PR 단계: 라우팅 시드/매트릭스/매핑 도구 변경 시 ``audit_welove_routing_consistency``
 #    를 항상 실행해 충돌 분류를 리포트 (현재는 informational — 시드 보강 전).
-# 2. 시드/overlay 에 격리 키가 충분히 채워진 뒤에는 ``BLS_AUDIT_STRICT=1`` 환경변수로
-#    이 워크플로우를 strict 모드로 승격해 ``SHARED_DB_NO_HCODE_GUARD`` 등이 0건일 때만
-#    PR 이 통과하도록 한다 (해당 strict 승격은 별도 PR 에서 환경변수 + 본 파일 ``--strict``
-#    플래그를 활성화).
+# 2. 시드/overlay 에 격리 키가 충분히 채워진 뒤에는 workflow_dispatch strict=true 로
+#    라우팅 감사와 도메인 Hcode 감사를 strict 모드로 승격한다.
+#    - 라우팅: ``SHARED_COORD_NO_HCODE_GUARD`` 등 critical 충돌 0건
+#    - 도메인 SQL: ``critical``/``warn`` 0건
 #
 # 회귀 가드
 # ---------
@@ -22,6 +22,8 @@
 # - ``test/test_welove_routing_consistency.py``        — 정합 감사 단위 테스트
 # - ``test/test_classify_login_audit_logs.py``         — 운영 audit 분류
 # - ``test/test_inventory_legacy_config_ini.py``       — Config.Ini 인벤토리 보조
+# - ``tools/build_config_account_routing_catalog.py``  — Config.Ini → 계정 라우팅 카탈로그 (보조)
+# - ``test/test_config_account_routing_catalog.py``    — 카탈로그 회귀
 # - ``test/test_verify_login_routing_matrix.py``       — 대표 계정 라우팅 검증
 #
 # DSN-DEC-08/09 와의 연계는 [docs/login-routing-regression-guard.md](../../docs/login-routing-regression-guard.md)
@@ -47,6 +49,9 @@ on:
       - "도서물류관리프로그램/backend/app/services/auth_service.py"
       - "도서물류관리프로그램/backend/app/routers/auth.py"
       - "도서물류관리프로그램/backend/app/models/auth.py"
+      - "도서물류관리프로그램/frontend/src/app/(public)/login/page.tsx"
+      - "도서물류관리프로그램/frontend/src/contexts/auth-context.tsx"
+      - "도서물류관리프로그램/frontend/src/lib/api-client.ts"
       - "analysis/welove_db_route_matrix.json"
       - "analysis/welove_login_routing_expectations.json"
       - "tools/audit_welove_routing_consistency.py"
@@ -54,13 +59,17 @@ on:
       - "tools/apply_hcode_isolation_overlay.py"
       - "tools/audit_domain_api_hcode_filter.py"
       - "tools/inventory_legacy_config_ini.py"
+      - "tools/build_config_account_routing_catalog.py"
       - "tools/classify_login_audit_logs.py"
+      - "analysis/welove_config_ini_inventory.json"
+      - "analysis/welove_config_account_routing_catalog.json"
       - "test/test_auth_login_cross_tenant_isolation.py"
       - "test/test_welove_routing_consistency.py"
       - "test/test_classify_login_audit_logs.py"
       - "test/test_apply_hcode_isolation_overlay.py"
       - "test/test_audit_domain_api_hcode_filter.py"
       - "test/test_inventory_legacy_config_ini.py"
+      - "test/test_config_account_routing_catalog.py"
       - "test/test_verify_login_routing_matrix.py"
       - ".github/workflows/welove-routing-consistency.yml"
 
@@ -68,8 +77,8 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     env:
-      # 시드 격리 키 보강 완료 후 ``true`` 로 전환하면 critical 충돌 1건이라도
-      # 있을 시 PR 이 차단된다 (P0 todo: seed-hcode-isolation).
+      # workflow_dispatch strict=true 로 실행하면 라우팅 critical 및 도메인 Hcode
+      # critical/warn 이 1건이라도 있을 시 차단된다.
       WELOVE_AUDIT_STRICT: ${{ github.event.inputs.strict || 'false' }}
     steps:
       - uses: actions/checkout@v4
@@ -96,11 +105,25 @@ jobs:
             echo "::endgroup::"
           fi
 
-      - name: Domain API Hcode filter audit (informational)
+      - name: Domain API Hcode filter audit (informational | strict)
         run: |
-          # 본 점검은 잠재 위험을 가시화 — 화이트리스트 정리 전까지 informational.
-          # 격리 키 보강 + 점검 마이그레이션 후 ``--strict`` 로 전환 검토.
-          python3 tools/audit_domain_api_hcode_filter.py || true
+          if [ "$WELOVE_AUDIT_STRICT" = "true" ]; then
+            echo "::group::audit_domain_api_hcode_filter --strict"
+            python3 tools/audit_domain_api_hcode_filter.py --strict
+            echo "::endgroup::"
+          else
+            echo "::group::audit_domain_api_hcode_filter (informational)"
+            # informational 모드에서는 critical/warn/info/recommended_action 만 가시화.
+            python3 tools/audit_domain_api_hcode_filter.py || true
+            echo "::endgroup::"
+          fi
+
+      - name: Config.Ini routing catalog (행수 일치 가드)
+        run: |
+          # 1) 인벤토리 재생성 (G3 — UserName/Password 미수집)
+          python3 tools/inventory_legacy_config_ini.py
+          # 2) 카탈로그·review_queue 산출 + --strict 로 행수 != inventory.count 시 차단
+          python3 tools/build_config_account_routing_catalog.py --apply --strict
 
       - name: Pytest — DSN-DEC-08/09/12 가드 묶음
         run: |
@@ -110,6 +133,8 @@ jobs:
             test/test_classify_login_audit_logs.py \
             test/test_apply_hcode_isolation_overlay.py \
             test/test_audit_domain_api_hcode_filter.py \
+            test/test_auth_login_dynamic_routing.py \
             test/test_inventory_legacy_config_ini.py \
+            test/test_config_account_routing_catalog.py \
             test/test_verify_login_routing_matrix.py \
             -q --tb=short

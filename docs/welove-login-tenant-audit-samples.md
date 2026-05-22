@@ -109,7 +109,8 @@ PYTHONPATH=도서물류관리프로그램/backend \
 
 | 코드 | 의미 | 운영 정책 |
 |------|------|-----------|
-| `SHARED_DB_NO_HCODE_GUARD` | 공유 DB 케이스인데 시드에 `hcode_pattern` 등 격리 키 부재 | 운영자 보강 PR 필수 (DSN-DEC-12 적용 전제) |
+| `SHARED_COORD_NO_HCODE_GUARD` | 같은 `(server_id, db_name_logical)` 공유 DB 좌표인데 시드에 `hcode_pattern` 등 격리 키 부재 | 운영자 보강 PR 필수 (DSN-DEC-12 적용 전제) |
+| `SHARED_DB_CROSS_SERVER` | DB명은 같지만 서버가 달라 런타임 `server_id` 로 분리 가능 | 정보성. 서버 좌표가 섞이지 않는지 모니터링 |
 | `MATRIX_NOT_IN_SEED` | 레거시 매트릭스에 있으나 시드에 누락 | 시드 추가 PR (T2_DIST/T3 분류 + tenant_id UUIDv5) |
 | `SEED_NOT_IN_MATRIX` | 시드에만 있고 매트릭스에 없음 | 신규 운영 테넌트 — 정상. `notes` 에 출처 명시 권장 |
 | `PRIMARY_SERVER_MISMATCH` | 동일 라벨인데 시드/매트릭스의 `primary_server` 불일치 | 운영 정본 우선 — 매트릭스 갱신 후 시드 검토 |
