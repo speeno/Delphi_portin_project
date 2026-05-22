@@ -8,8 +8,9 @@ DSN-DEC-12 의 ownership 가드는 **로그인 시 JWT/사용자 컨텍스트** 
 여전히 반환될 수 있다 ([docs/decision-login-db-routing.md](../docs/decision-login-db-routing.md) M4 별건).
 
 본 도구는 ``backend/app/services/*.py`` 의 **SQL 리터럴**을 AST 로 추출하고,
-**다중 테넌트 테이블** 에 대해 ``Hcode/hcode`` 필터 참조가 없는 SELECT/UPDATE/DELETE 문을
-WARN 으로 분류한다.
+**다중 테넌트 테이블** 에 대해 ``Hcode/hcode`` 필터 참조가 없는 SQL 을
+``critical``/``warn``/``info`` 로 분류하고 권장 조치(``recommended_action``)를
+함께 출력한다.
 
 테이블 분류
 -----------
@@ -27,7 +28,7 @@ WARN 으로 분류한다.
 사용
 ----
     python3 tools/audit_domain_api_hcode_filter.py
-    python3 tools/audit_domain_api_hcode_filter.py --strict   # WARN > 0 시 exit 2
+    python3 tools/audit_domain_api_hcode_filter.py --strict   # CRITICAL/WARN > 0 시 exit 2
     python3 tools/audit_domain_api_hcode_filter.py --json /tmp/hcode_audit.json
 """
 
@@ -54,7 +55,9 @@ DEFAULT_OUT = REPO_ROOT / "analysis" / "welove_domain_api_hcode_audit.json"
 MULTI_TENANT_TABLES = frozenset(
     {
         # Subu*/Sobo* 거래/원장
-        "S1_Ssub", "S1_Smast", "S2_Csub", "S2_Cmast", "S5_Pay", "Pay",
+        "S1_Ssub", "S1_Smast", "S1_Memo",
+        "S2_Csub", "S2_Cmast", "S5_Pay", "Pay",
+        "T2_Ssub", "T3_Ssub", "T5_Ssub",
         # 마스터
         "G4_Book", "G6_Geo", "G7_Ggeo", "G2_Pub", "G3_Pcust",
         # 정산/세금/현금
@@ -89,7 +92,9 @@ _FROM_TABLE_RE = re.compile(
 _HCODE_REF_RE = re.compile(r"\bHcode\b", re.IGNORECASE)
 _HAS_WHERE_RE = re.compile(r"\bWHERE\b", re.IGNORECASE)
 _DML_HEAD_RE = re.compile(r"^\s*(SELECT|UPDATE|DELETE|INSERT)\b", re.IGNORECASE)
+_WRITE_HEAD_RE = re.compile(r"^\s*(UPDATE|DELETE)\b", re.IGNORECASE)
 _NOQA_RE = re.compile(r"#\s*noqa:\s*hcode-guard", re.IGNORECASE)
+_USER_CONTEXT_NAMES = {"hcode", "user", "current_user"}
 
 
 @dataclass
@@ -98,15 +103,17 @@ class Finding:
     function: str
     lineno: int
     tables: list[str]
-    severity: str  # info | warn
+    severity: str  # critical | warn | info
     reason: str
     sql_excerpt: str
+    recommended_action: str
 
 
 @dataclass
 class Stats:
     files_scanned: int = 0
     sql_literals: int = 0
+    findings_critical: int = 0
     findings_warn: int = 0
     findings_info: int = 0
     skipped_noqa: int = 0
@@ -233,12 +240,52 @@ def _iter_sql_literals(tree: ast.AST, consts: dict[str, str]):
 
 
 def _enclosing_function(tree: ast.AST, lineno: int) -> str:
-    name = "<module>"
+    fn = _enclosing_function_node(tree, lineno)
+    return fn.name if fn is not None else "<module>"
+
+
+def _enclosing_function_node(tree: ast.AST, lineno: int) -> ast.FunctionDef | ast.AsyncFunctionDef | None:
+    found: ast.FunctionDef | ast.AsyncFunctionDef | None = None
     for node in ast.walk(tree):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             if (node.lineno or 0) <= lineno <= (node.end_lineno or node.lineno):
-                name = node.name
-    return name
+                found = node
+    return found
+
+
+def _function_context_names(fn: ast.FunctionDef | ast.AsyncFunctionDef | None) -> set[str]:
+    """함수 시그니처에서 테넌트 단서가 되는 인자명을 수집한다."""
+    if fn is None:
+        return set()
+    args = fn.args
+    names: set[str] = set()
+    all_args = [*args.posonlyargs, *args.args, *args.kwonlyargs]
+    if args.vararg:
+        all_args.append(args.vararg)
+    if args.kwarg:
+        all_args.append(args.kwarg)
+    for a in all_args:
+        names.add(a.arg)
+    return names
+
+
+def _has_user_context(fn: ast.FunctionDef | ast.AsyncFunctionDef | None) -> bool:
+    return bool(_function_context_names(fn) & _USER_CONTEXT_NAMES)
+
+
+def _operation(sql: str) -> str:
+    m = _DML_HEAD_RE.match(sql)
+    return (m.group(1).upper() if m else "UNKNOWN")
+
+
+def _recommended_action(severity: str, *, has_user_context: bool, operation: str) -> str:
+    if severity == "critical":
+        return "add_hcode_filter" if has_user_context else "verify_hcode_from_jwt"
+    if severity == "warn":
+        if operation == "SELECT":
+            return "verify_hcode_from_jwt" if has_user_context else "mark_noqa_with_reason"
+        return "add_hcode_filter"
+    return "mark_noqa_with_reason"
 
 
 def _line_has_noqa(text: str, lineno: int) -> bool:
@@ -270,6 +317,7 @@ def audit_file(path: Path) -> tuple[list[Finding], Stats]:
                 severity="warn",
                 reason=f"SyntaxError: {e.msg}",
                 sql_excerpt="",
+                recommended_action="mark_noqa_with_reason",
             )
         )
         stats.findings_warn += 1
@@ -279,7 +327,10 @@ def audit_file(path: Path) -> tuple[list[Finding], Stats]:
     for node, sql in _iter_sql_literals(tree, consts):
         stats.sql_literals += 1
         lineno = getattr(node, "lineno", 0) or 0
-        fn_name = _enclosing_function(tree, lineno)
+        fn = _enclosing_function_node(tree, lineno)
+        fn_name = fn.name if fn is not None else "<module>"
+        has_user_context = _has_user_context(fn)
+        op = _operation(sql)
         tables = _FROM_TABLE_RE.findall(sql)
         multi, system, unknown = _classify_tables(tables)
         stats.multi_tenant_tables_seen.update(multi)
@@ -302,6 +353,7 @@ def audit_file(path: Path) -> tuple[list[Finding], Stats]:
                         severity="info",
                         reason="unknown_tables_only",
                         sql_excerpt=excerpt,
+                        recommended_action="mark_noqa_with_reason",
                     )
                 )
                 stats.findings_info += 1
@@ -311,11 +363,21 @@ def audit_file(path: Path) -> tuple[list[Finding], Stats]:
         has_hcode = bool(_HCODE_REF_RE.search(sql))
         has_where = bool(_HAS_WHERE_RE.search(sql))
         if not has_hcode:
-            severity = "warn" if has_where else "info"
+            is_write = bool(_WRITE_HEAD_RE.match(sql))
+            if has_where and is_write:
+                severity = "critical"
+            elif has_where:
+                severity = "warn" if has_user_context else "info"
+            else:
+                severity = "info"
             reason = (
-                "missing_hcode_filter_on_multi_tenant_table"
-                if has_where
-                else "multi_tenant_table_no_where_clause"
+                "missing_hcode_filter_on_multi_tenant_write"
+                if has_where and is_write
+                else (
+                    "missing_hcode_filter_on_multi_tenant_select"
+                    if has_where
+                    else "multi_tenant_table_no_where_clause"
+                )
             )
             findings.append(
                 Finding(
@@ -326,9 +388,16 @@ def audit_file(path: Path) -> tuple[list[Finding], Stats]:
                     severity=severity,
                     reason=reason,
                     sql_excerpt=excerpt,
+                    recommended_action=_recommended_action(
+                        severity,
+                        has_user_context=has_user_context,
+                        operation=op,
+                    ),
                 )
             )
-            if severity == "warn":
+            if severity == "critical":
+                stats.findings_critical += 1
+            elif severity == "warn":
                 stats.findings_warn += 1
             else:
                 stats.findings_info += 1
@@ -345,6 +414,7 @@ def audit_dir(root: Path) -> dict[str, Any]:
         all_findings.extend(findings)
         agg.files_scanned += st.files_scanned
         agg.sql_literals += st.sql_literals
+        agg.findings_critical += st.findings_critical
         agg.findings_warn += st.findings_warn
         agg.findings_info += st.findings_info
         agg.skipped_noqa += st.skipped_noqa
@@ -354,6 +424,7 @@ def audit_dir(root: Path) -> dict[str, Any]:
         "summary": {
             "files_scanned": agg.files_scanned,
             "sql_literals": agg.sql_literals,
+            "critical": agg.findings_critical,
             "warn": agg.findings_warn,
             "info": agg.findings_info,
             "skipped_noqa": agg.skipped_noqa,
@@ -370,7 +441,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--strict",
         action="store_true",
-        help="warn > 0 시 exit 2 (PR/CI 가드용)",
+        help="critical/warn > 0 시 exit 2 (PR/CI 가드용)",
     )
     args = parser.parse_args(argv)
 
@@ -387,9 +458,10 @@ def main(argv: list[str] | None = None) -> int:
     s = report["summary"]
     print(
         f"  files={s['files_scanned']}  sql_literals={s['sql_literals']}  "
-        f"warn={s['warn']}  info={s['info']}  skipped_noqa={s['skipped_noqa']}"
+        f"critical={s['critical']}  warn={s['warn']}  info={s['info']}  "
+        f"skipped_noqa={s['skipped_noqa']}"
     )
-    if args.strict and s["warn"] > 0:
+    if args.strict and (s["critical"] > 0 or s["warn"] > 0):
         return 2
     return 0
 

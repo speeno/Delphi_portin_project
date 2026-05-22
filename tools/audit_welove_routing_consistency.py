@@ -9,7 +9,8 @@
 
 | 코드 | 의미 |
 |------|------|
-| `SHARED_DB_NO_HCODE_GUARD` | 공유 DB 인데 시드에 격리 키 부재 (위러브1·2·3·교문사 사례) |
+| `SHARED_COORD_NO_HCODE_GUARD` | 같은 `(server_id, db_name)` 좌표의 공유 DB 인데 시드에 격리 키 부재 (실제 P0) |
+| `SHARED_DB_CROSS_SERVER` | DB명은 같지만 서버가 달라 런타임은 `server_id` 로 단일화 가능한 정보성 항목 |
 | `MATRIX_NOT_IN_SEED` | 매트릭스에 있는데 시드에 누락 |
 | `SEED_NOT_IN_MATRIX` | 시드에만 있고 매트릭스에 없음 (신규 운영 테넌트 후보) |
 | `PRIMARY_SERVER_MISMATCH` | 동일 라벨인데 `primary_server` 가 다름 |
@@ -28,7 +29,7 @@
     python3 tools/audit_welove_routing_consistency.py --strict   # 충돌 1건이라도 있으면 exit 1
 
 회귀 가드: ``test/test_welove_routing_consistency.py`` 가 본 도구의 결과를 import 해
-``SHARED_DB_NO_HCODE_GUARD`` 0 건 정책을 강제할 수 있다 (운영 정착 후 확장).
+``SHARED_COORD_NO_HCODE_GUARD`` 0 건 정책을 강제할 수 있다 (운영 정착 후 확장).
 """
 
 from __future__ import annotations
@@ -71,7 +72,7 @@ class ConsistencyReport:
 
     def has_critical(self) -> bool:
         critical = {
-            "SHARED_DB_NO_HCODE_GUARD",
+            "SHARED_COORD_NO_HCODE_GUARD",
             "PRIMARY_SERVER_MISMATCH",
             "DB_NAME_LOGICAL_MISMATCH",
         }
@@ -96,6 +97,39 @@ def _label_key(label: str) -> str:
     return (label or "").strip()
 
 
+_SERVER_LABEL_TO_REMOTE_ID: dict[str, str] = {
+    "서버1": "remote_154",
+    "서버2": "remote_155",
+    "서버3": "remote_153",
+    "서버4": "remote_138",
+}
+
+
+def _server_key(value: str | None) -> str:
+    """`서버1`/`remote_154` 표기를 같은 좌표 키로 정규화."""
+    raw = (value or "").strip()
+    return _SERVER_LABEL_TO_REMOTE_ID.get(raw, raw)
+
+
+def _has_isolation_key(row: dict[str, Any]) -> bool:
+    """DSN-DEC-12 격리 키가 하나라도 있으면 True."""
+    hcode_in = row.get("hcode_in")
+    if isinstance(hcode_in, list) and any(str(v).strip() for v in hcode_in):
+        return True
+    isolation_keys = [
+        str(row.get("hcode_pattern") or "").strip(),
+        str(row.get("hcode_prefix") or "").strip(),
+        str(row.get("parent_tenant_id") or "").strip(),
+        str(row.get("dist_tenant_id") or "").strip(),
+    ]
+    return any(isolation_keys)
+
+
+def _is_guard_exempt(row: dict[str, Any]) -> bool:
+    """본사/총판처럼 정의상 다중 가시성이 허용되는 계정은 격리 키 감사 제외."""
+    return (row.get("default_account_type") or "") in ("T1", "T2_DIST")
+
+
 def audit(matrix_doc: dict[str, Any], seed_doc: dict[str, Any]) -> ConsistencyReport:
     """단일 책임: matrix vs seed 비교만. 부수 IO 없음 (테스트 친화)."""
     report = ConsistencyReport()
@@ -113,11 +147,15 @@ def audit(matrix_doc: dict[str, Any], seed_doc: dict[str, Any]) -> ConsistencyRe
         matrix_by_label.setdefault(_label_key(r.get("tenant_name_kor")), []).append(r)
 
     db_name_to_seed_rows: dict[str, list[dict[str, Any]]] = {}
+    coord_to_seed_rows: dict[tuple[str, str], list[dict[str, Any]]] = {}
     for t in tenants:
         dbn = (t.get("db_name_logical") or "").strip()
         if not dbn:
             continue
         db_name_to_seed_rows.setdefault(dbn, []).append(t)
+        sid = _server_key(t.get("primary_server"))
+        if sid:
+            coord_to_seed_rows.setdefault((sid, dbn), []).append(t)
 
     # 1) 매트릭스 → 시드 비교
     for r in routes:
@@ -188,30 +226,51 @@ def audit(matrix_doc: dict[str, Any], seed_doc: dict[str, Any]) -> ConsistencyRe
                 )
             )
 
-    # 3) SHARED_DB_NO_HCODE_GUARD — 공유 DB 인데 시드에 hcode/parent 등 격리 키 부재
-    for dbn, seed_rows in db_name_to_seed_rows.items():
+    # 3a) SHARED_COORD_NO_HCODE_GUARD — 같은 server+DB 좌표에서 공유 DB 인데 격리 키 부재.
+    # 런타임 ownership guard 도 server_id + db_name 으로 후보를 잡으므로 이것이 실제 P0.
+    for (sid, dbn), seed_rows in coord_to_seed_rows.items():
         if len(seed_rows) <= 1:
             continue
         for st in seed_rows:
-            # 격리 키 후보: hcode_pattern / hcode_prefix / parent_tenant_id / dist_tenant_id
-            isolation_keys = [
-                str(st.get("hcode_pattern") or "").strip(),
-                str(st.get("hcode_prefix") or "").strip(),
-                str(st.get("parent_tenant_id") or "").strip(),
-                str(st.get("dist_tenant_id") or "").strip(),
-            ]
-            if any(isolation_keys):
+            if _has_isolation_key(st):
                 continue
-            # default_account_type 가 T1/T2_DIST 인 경우는 본사/총판이라 격리 키 없어도 OK.
-            if (st.get("default_account_type") or "") in ("T1", "T2_DIST"):
+            if _is_guard_exempt(st):
                 continue
             report.findings.append(
                 ConsistencyFinding(
-                    code="SHARED_DB_NO_HCODE_GUARD",
+                    code="SHARED_COORD_NO_HCODE_GUARD",
                     label=_label_key(st.get("tenant_label_kor")),
                     detail=(
-                        f"공유 DB ({dbn}) 인데 시드에 hcode_pattern/parent_tenant_id 등 격리 키 부재. "
-                        f"공유 라벨 수={len(seed_rows)}"
+                        f"공유 좌표 ({sid}, {dbn}) 인데 시드에 hcode_in/hcode_pattern/"
+                        f"hcode_prefix/parent_tenant_id 등 격리 키 부재. "
+                        f"좌표 내 공유 라벨 수={len(seed_rows)}"
+                    ),
+                    seed_row=st,
+                )
+            )
+
+    # 3b) SHARED_DB_CROSS_SERVER — DB명은 공유지만 server_id 로 단일화 가능한 정보성 항목.
+    for dbn, seed_rows in db_name_to_seed_rows.items():
+        if len(seed_rows) <= 1:
+            continue
+        coord_sizes = {
+            (_server_key(st.get("primary_server")), dbn): len(
+                coord_to_seed_rows.get((_server_key(st.get("primary_server")), dbn), [])
+            )
+            for st in seed_rows
+        }
+        if any(size >= 2 for size in coord_sizes.values()):
+            continue
+        for st in seed_rows:
+            if _has_isolation_key(st) or _is_guard_exempt(st):
+                continue
+            report.findings.append(
+                ConsistencyFinding(
+                    code="SHARED_DB_CROSS_SERVER",
+                    label=_label_key(st.get("tenant_label_kor")),
+                    detail=(
+                        f"DB명({dbn})은 여러 테넌트가 공유하지만 server_id 좌표가 달라 "
+                        f"런타임은 단일화 가능. 장기적으로 hcode 격리 키 보강 권장."
                     ),
                     seed_row=st,
                 )
@@ -263,7 +322,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--strict",
         action="store_true",
-        help="critical 충돌(SHARED_DB_NO_HCODE_GUARD/PRIMARY_SERVER_MISMATCH/DB_NAME_LOGICAL_MISMATCH) 1건이라도 있으면 exit 1",
+        help="critical 충돌(SHARED_COORD_NO_HCODE_GUARD/PRIMARY_SERVER_MISMATCH/DB_NAME_LOGICAL_MISMATCH) 1건이라도 있으면 exit 1",
     )
     args = parser.parse_args(argv)
 

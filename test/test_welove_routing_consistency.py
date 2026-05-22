@@ -6,7 +6,7 @@
 "공유 DB 케이스가 분류로 잡힌다" 만 확정한다.
 
 운영 정착 후 ``tools/audit_welove_routing_consistency.py --strict`` 로 PR 단계
-회귀 가드(SHARED_DB_NO_HCODE_GUARD = 0) 를 추가할 예정 (DSN-DEC-12 phase2).
+회귀 가드(SHARED_COORD_NO_HCODE_GUARD = 0) 를 추가할 예정 (DSN-DEC-12 phase2).
 """
 
 from __future__ import annotations
@@ -36,8 +36,8 @@ class WeLoveRoutingConsistencyTests(TestCase):
     def setUp(self) -> None:
         self.tool = _load_tool()
 
-    def test_shared_db_without_isolation_key_is_flagged(self):
-        """공유 DB 인데 hcode_pattern/parent_tenant_id 부재 → SHARED_DB_NO_HCODE_GUARD."""
+    def test_shared_coord_without_isolation_key_is_flagged(self):
+        """같은 server+DB 좌표 공유인데 격리 키 부재 → SHARED_COORD_NO_HCODE_GUARD."""
         matrix = {
             "routes": [
                 {
@@ -78,10 +78,10 @@ class WeLoveRoutingConsistencyTests(TestCase):
         }
         report = self.tool.audit(matrix, seed)
         codes = {f.code for f in report.findings}
-        self.assertIn("SHARED_DB_NO_HCODE_GUARD", codes)
+        self.assertIn("SHARED_COORD_NO_HCODE_GUARD", codes)
 
-    def test_shared_db_with_hcode_pattern_is_not_flagged(self):
-        """격리 키(hcode_pattern) 가 있으면 SHARED_DB_NO_HCODE_GUARD 미발생."""
+    def test_shared_coord_with_hcode_pattern_is_not_flagged(self):
+        """격리 키(hcode_pattern) 가 있으면 SHARED_COORD_NO_HCODE_GUARD 미발생."""
         matrix = {
             "routes": [
                 {
@@ -124,7 +124,53 @@ class WeLoveRoutingConsistencyTests(TestCase):
         }
         report = self.tool.audit(matrix, seed)
         codes = {f.code for f in report.findings}
-        self.assertNotIn("SHARED_DB_NO_HCODE_GUARD", codes)
+        self.assertNotIn("SHARED_COORD_NO_HCODE_GUARD", codes)
+
+    def test_same_db_on_different_servers_is_info_not_critical(self):
+        """DB명은 같아도 server_id 가 다르면 런타임은 좌표로 단일화 가능."""
+        matrix = {
+            "routes": [
+                {
+                    "server_id": "서버1",
+                    "tenant_name_kor": "북앤북",
+                    "account_family": "book_07",
+                    "db_name_logical": "book_07_db",
+                },
+                {
+                    "server_id": "서버4",
+                    "tenant_name_kor": "유앤북",
+                    "account_family": "book_07",
+                    "db_name_logical": "book_07_db",
+                },
+            ]
+        }
+        seed = {
+            "tenants": [
+                {
+                    "tenant_id": "T1",
+                    "tenant_label_kor": "북앤북",
+                    "account_family": "book_07",
+                    "primary_server": "서버1",
+                    "db_name_logical": "book_07_db",
+                    "default_account_type": "T3",
+                    "is_active": True,
+                },
+                {
+                    "tenant_id": "T2",
+                    "tenant_label_kor": "유앤북",
+                    "account_family": "book_07",
+                    "primary_server": "서버4",
+                    "db_name_logical": "book_07_db",
+                    "default_account_type": "T3",
+                    "is_active": True,
+                },
+            ]
+        }
+        report = self.tool.audit(matrix, seed)
+        codes = {f.code for f in report.findings}
+        self.assertIn("SHARED_DB_CROSS_SERVER", codes)
+        self.assertNotIn("SHARED_COORD_NO_HCODE_GUARD", codes)
+        self.assertFalse(report.has_critical())
 
     def test_primary_server_mismatch_is_flagged(self):
         matrix = {
@@ -186,7 +232,8 @@ class WeLoveRoutingConsistencyTests(TestCase):
         self.assertTrue(
             codes.issubset(
                 {
-                    "SHARED_DB_NO_HCODE_GUARD",
+                    "SHARED_COORD_NO_HCODE_GUARD",
+                    "SHARED_DB_CROSS_SERVER",
                     "MATRIX_NOT_IN_SEED",
                     "SEED_NOT_IN_MATRIX",
                     "PRIMARY_SERVER_MISMATCH",

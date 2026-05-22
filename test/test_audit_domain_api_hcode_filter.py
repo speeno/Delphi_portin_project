@@ -6,6 +6,8 @@
 - f-string 안에 모듈 상수가 인라인되어 평가될 때 ``Hcode`` 누락이 정확히 잡히는지.
 - ``# noqa: hcode-guard`` 마커가 의도적 예외로 처리되는지.
 - 시스템 테이블(``Id_Logn``)에는 warn 이 발생하지 않는지.
+- 쓰기 DML 누락은 ``critical`` 및 ``add_hcode_filter`` 로 분류되는지.
+- SELECT 누락은 함수 시그니처의 hcode/current_user 단서에 따라 warn/info 로 나뉘는지.
 - JoinedStr 내부 자식 ``Constant`` 가 부분 SQL 로 false positive 를 만들지 않는지.
 """
 
@@ -61,16 +63,45 @@ class HcodeAuditTests(TestCase):
     def test_missing_hcode_in_multi_tenant_select_emits_warn(self):
         path = self._write(
             """
-            SQL_BAD = "SELECT * FROM S1_Ssub WHERE Gdate=%s AND Gubun='출고'"
-            def go():
-                return SQL_BAD
+            def go(hcode):
+                return "SELECT * FROM S1_Ssub WHERE Gdate=%s AND Gubun='출고'"
             """
         )
         findings, _ = self.tool.audit_file(path)
         warns = [f for f in findings if f.severity == "warn"]
         self.assertEqual(len(warns), 1)
-        self.assertEqual(warns[0].reason, "missing_hcode_filter_on_multi_tenant_table")
+        self.assertEqual(warns[0].reason, "missing_hcode_filter_on_multi_tenant_select")
         self.assertIn("S1_Ssub", warns[0].tables)
+        self.assertEqual(warns[0].recommended_action, "verify_hcode_from_jwt")
+
+    def test_missing_hcode_in_multi_tenant_write_emits_critical(self):
+        path = self._write(
+            """
+            def go(hcode):
+                return "DELETE FROM S1_Ssub WHERE Gdate=%s AND Bcode=%s"
+            """
+        )
+        findings, stats = self.tool.audit_file(path)
+        critical = [f for f in findings if f.severity == "critical"]
+        self.assertEqual(len(critical), 1)
+        self.assertEqual(
+            critical[0].reason,
+            "missing_hcode_filter_on_multi_tenant_write",
+        )
+        self.assertEqual(critical[0].recommended_action, "add_hcode_filter")
+        self.assertEqual(stats.findings_critical, 1)
+
+    def test_select_without_hcode_context_is_info(self):
+        path = self._write(
+            """
+            def go(server_id):
+                return "SELECT * FROM S1_Ssub WHERE Gdate=%s"
+            """
+        )
+        findings, _ = self.tool.audit_file(path)
+        infos = [f for f in findings if f.severity == "info"]
+        self.assertEqual(len(infos), 1)
+        self.assertEqual(infos[0].recommended_action, "mark_noqa_with_reason")
 
     def test_noqa_marker_skips_warn(self):
         path = self._write(
