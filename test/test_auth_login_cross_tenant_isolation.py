@@ -339,10 +339,10 @@ class CrossTenantAuditTests(TestCase):
     @patch("app.services.tenants_directory_service.resolve_login_route")
     @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
     @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
-    def test_shared_db_ambiguous_strict_returns_retry_code(
+    def test_shared_db_ambiguous_strict_allows_login_with_warnings(
         self, mock_auth: AsyncMock, mock_cands, mock_single
     ) -> None:
-        """BLS_LOGIN_REQUIRE_TENANT_UNIQUE=1 이면 ambiguous ownership 는 토큰 없이 401."""
+        """BLS_LOGIN_REQUIRE_TENANT_UNIQUE=1 이더도 암호 일치 시 로그인 + warnings (2026-05-23)."""
         import os
 
         route = _route("remote_153", "chul_09_db")
@@ -365,17 +365,17 @@ class CrossTenantAuditTests(TestCase):
                 json={"userId": "shared-user", "password": "pw"},
             )
 
-        self.assertEqual(res.status_code, 401, res.text)
-        detail = res.json()["detail"]
-        self.assertEqual(detail.get("code"), "AUTH_OWNERSHIP_AMBIGUOUS")
-        self.assertEqual(detail.get("reason"), "ownership_ambiguous")
-        self.assertEqual(detail.get("candidate_count"), 2)
-        self.assertIn("회사 식별 정보", detail.get("message", ""))
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        self.assertTrue(body.get("access_token"))
+        self.assertEqual(body["user"].get("ownership_status"), "ambiguous")
+        warnings = body.get("warnings") or []
+        self.assertTrue(any("회사 식별" in w for w in warnings), warnings)
 
         latest = self.handler.parsed()[-1]
-        self.assertEqual(latest.get("result"), "failure")
+        self.assertEqual(latest.get("result"), "success")
+        self.assertTrue(latest.get("ownership_violation"), latest)
         self.assertTrue(latest.get("tenant_unique_strict"), latest)
-        self.assertEqual(latest.get("ownership_status"), "ambiguous")
 
     @patch("app.services.login_id_index_service.add_entry", lambda **_kw: None)
     @patch("app.services.tenants_directory_service.resolve_login_route")

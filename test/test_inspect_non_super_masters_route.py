@@ -1,7 +1,7 @@
 """
 비수퍼 + 점검 Authorization-Context 가 GET /api/v1/masters/customer 를 403으로 막지 않는지 회귀.
 
-실 DB 없이 get_current_user override + list_customer_master monkeypatch.
+실 DB 없이 get_user_context override + list_customer_master monkeypatch.
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ sys.path.insert(0, str(BACKEND))
 from fastapi.testclient import TestClient  # noqa: E402
 
 from app.main import app  # noqa: E402
-from app.routers.auth import get_current_user  # noqa: E402
+from app.core.deps import get_user_context  # noqa: E402
 
 
 def _non_super_user() -> dict:
@@ -38,10 +38,10 @@ def _non_super_user() -> dict:
 
 class InspectNonSuperMastersRouteTests(TestCase):
     def tearDown(self) -> None:
-        app.dependency_overrides.pop(get_current_user, None)
+        app.dependency_overrides.pop(get_user_context, None)
 
     def test_masters_customer_get_not_403_with_stale_inspect_header(self) -> None:
-        app.dependency_overrides[get_current_user] = lambda: _non_super_user()
+        app.dependency_overrides[get_user_context] = lambda: _non_super_user()
         fake = AsyncMock(
             return_value={
                 "items": [],
@@ -73,9 +73,9 @@ class InspectNonSuperMastersRouteTests(TestCase):
         fake.assert_awaited()
 
     def test_masters_customer_get_super_with_inspect_still_ok(self) -> None:
-        app.dependency_overrides[get_current_user] = lambda: {
+        app.dependency_overrides[get_user_context] = lambda: {
             "user_id": "admin",
-            "server_id": "remote_138",
+            "server_id": "remote_153",
             "role": "admin",
             "hcode": "0000",
             "permissions": ["*"],

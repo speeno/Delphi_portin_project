@@ -217,7 +217,7 @@ class DynamicLoginRoutingTests(TestCase):
     @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
     @patch("app.services.login_id_index_service.lazy_refresh", new_callable=AsyncMock)
     @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
-    def test_index_ambiguous_strict_mode_blocks_without_hint(
+    def test_index_ambiguous_strict_mode_probes_with_warnings(
         self,
         mock_auth: AsyncMock,
         mock_lazy: AsyncMock,
@@ -225,12 +225,7 @@ class DynamicLoginRoutingTests(TestCase):
         mock_single,
         _mock_bypass,
     ) -> None:
-        """DSN-DEC-09 v2 — ``BLS_LOGIN_AMBIGUOUS_PROBE=block`` opt-in 시 v1 정책(즉시 차단) 보존.
-
-        v2 default 는 password narrowing 이지만, 보안 격리 환경에서는 운영자가
-        명시적으로 strict 모드를 켜 ``index_ambiguous`` 를 hcode/tenantId 없이는
-        시도조차 하지 않게 할 수 있다. 본 테스트는 그 strict 정책의 회귀 가드.
-        """
+        """DSN-DEC-09 — strict env(`BLS_LOGIN_AMBIGUOUS_PROBE=block`) 에서도 암호 일치 시 로그인 + warnings."""
         ambiguous_single = {
             "remote_id": "",
             "db_name": "",
@@ -257,6 +252,10 @@ class DynamicLoginRoutingTests(TestCase):
         mock_single.return_value = ambiguous_single
         mock_candidates.return_value = routes
         mock_lazy.return_value = {"refreshed": False, "reason": "cooldown", "stats": None}
+        mock_auth.side_effect = [
+            None,
+            _user("shared-user", server_id="remote_154", db_name="chul_09_db"),
+        ]
 
         with patch.dict(os.environ, {"BLS_LOGIN_AMBIGUOUS_PROBE": "block"}):
             res = self.client.post(
@@ -264,18 +263,18 @@ class DynamicLoginRoutingTests(TestCase):
                 json={"userId": "shared-user", "password": "pw"},
             )
 
-        self.assertEqual(res.status_code, 401)
-        detail = res.json()["detail"]
-        self.assertEqual(detail.get("code"), "AUTH_AMBIGUOUS_ROUTE")
-        self.assertEqual(detail.get("reason"), "ambiguous_route")
-        self.assertIn("회사 식별 정보", detail.get("message", ""))
-        mock_auth.assert_not_awaited()
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        self.assertTrue(body.get("access_token"))
+        warnings = body.get("warnings") or []
+        self.assertTrue(
+            any("여러" in w or "회사" in w for w in warnings),
+            warnings,
+        )
+        self.assertGreaterEqual(mock_auth.await_count, 1)
         rec = self.handler.parsed()[-1]
-        self.assertEqual(rec["reason"], "ambiguous_route")
-        self.assertEqual(rec["resolved_via"], "index_ambiguous")
-        self.assertEqual(rec["candidate_attempts"], 0)
+        self.assertEqual(rec["result"], "success")
         self.assertEqual(rec["lazy_refresh_reason"], "cooldown")
-        self.assertTrue(rec.get("ambiguous_strict"))
 
     @patch("app.services.login_id_index_service.add_entry", lambda **_kw: None)
     @patch("app.routers.auth.should_bypass_login_id_index_ambiguity", return_value=False)
