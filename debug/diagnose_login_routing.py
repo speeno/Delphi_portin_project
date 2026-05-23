@@ -135,7 +135,12 @@ def _policy_simulation(
 
 
 async def _probe_candidates(
-    login_id: str, password: str, candidates: list[dict[str, Any]]
+    login_id: str,
+    password: str,
+    candidates: list[dict[str, Any]],
+    *,
+    tenant_id: str | None = None,
+    hcode: str | None = None,
 ) -> list[dict[str, Any]]:
     from app.services.auth_service import authenticate_user  # 지연 임포트
 
@@ -154,7 +159,14 @@ async def _probe_candidates(
             )
             continue
         try:
-            u = await authenticate_user(sid, login_id, password, db_name=dbn or None)
+            u = await authenticate_user(
+                sid,
+                login_id,
+                password,
+                db_name=dbn or None,
+                tenant_id_hint=tenant_id,
+                hcode_hint=hcode,
+            )
         except Exception as exc:  # noqa: BLE001
             results.append(
                 {
@@ -344,7 +356,13 @@ async def _amain() -> int:
     probe_results: list[dict[str, Any]] | None = None
     if args.probe:
         _print_section("5) authenticate_user probe (각 후보에 대해 비밀번호 검증)")
-        probe_results = await _probe_candidates(login_id, args.password or "", candidates)
+        probe_results = await _probe_candidates(
+            login_id,
+            args.password or "",
+            candidates,
+            tenant_id=tenant_id,
+            hcode=hcode,
+        )
         _print_dict_table(
             [
                 {

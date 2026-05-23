@@ -26,6 +26,7 @@ from app.core.auth_provider import (  # noqa: E402
     LegacyIdLognProvider,
     OidcProvider,
     SamlProvider,
+    parse_fxx_row,
     select_provider,
 )
 
@@ -80,6 +81,24 @@ class FetchFxxMatrixTest(IsolatedAsyncioTestCase):
         with patch("app.core.db.execute_query", new=AsyncMock(side_effect=RuntimeError("boom"))):
             with self.assertRaises(RuntimeError):
                 await self.provider.fetch_fxx_matrix("remote_138", "u1")
+
+    async def test_db_name_qualified_query(self) -> None:
+        row = {"f51": "O", "gcode": "경리부"}
+        mock_eq = AsyncMock(return_value=[row])
+        with patch("app.core.db.execute_query", new=mock_eq):
+            result = await self.provider.fetch_fxx_matrix(
+                "remote_153", "경리부", db_name="chul_09_db"
+            )
+        self.assertEqual(result, {"F51": "O"})
+        sql = mock_eq.await_args.args[1]
+        self.assertIn("`chul_09_db`.Id_Logn", sql)
+
+    def test_parse_fxx_row_extended_columns(self) -> None:
+        row = {"f51": "O", "f18r": "R", "F11": "O", "gcode": "x"}
+        self.assertEqual(
+            parse_fxx_row(row),
+            {"F51": "O", "F18r": "R", "F11": "O"},
+        )
 
 
 if __name__ == "__main__":

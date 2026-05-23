@@ -28,11 +28,12 @@ def _route(
     candidate_via: str | None = None,
     index_status: str = "single",
     priority: int = 0,
+    tenant_id: str = "tenant-test",
 ) -> dict:
     return {
         "remote_id": remote_id,
         "db_name": db_name,
-        "tenant_id": "tenant-test",
+        "tenant_id": tenant_id,
         "account_family": db_name.removesuffix("_db"),
         "primary_server_label": "",
         "build_role": "",
@@ -53,6 +54,8 @@ def _user(
     hcode: str = "1001",
     db_name: str = "tenant_db",
     active_build_id: str | None = None,
+    tenant_id: str | None = None,
+    ownership_status: str = "none",
 ) -> dict:
     return {
         "user_id": user_id,
@@ -66,6 +69,9 @@ def _user(
         "permissions": [],
         "resolved_db": db_name,
         "active_build_id": active_build_id,
+        "tenant_id": tenant_id,
+        "ownership_status": ownership_status,
+        "ownership_candidate_count": 0 if ownership_status != "ambiguous" else 2,
     }
 
 
@@ -128,7 +134,8 @@ class DynamicLoginRoutingTests(TestCase):
 
         self.assertEqual(res.status_code, 200, res.text)
         mock_auth.assert_awaited_once_with(
-            "remote_153", "book-user", "pw", db_name="book_07_db"
+            "remote_153", "book-user", "pw", db_name="book_07_db",
+            tenant_id_hint=None, hcode_hint=None,
         )
         payload = decode_token(res.json()["access_token"])
         self.assertEqual(payload["sid"], "remote_153")
@@ -198,7 +205,8 @@ class DynamicLoginRoutingTests(TestCase):
         self.assertEqual(res.status_code, 200, res.text)
         mock_lazy.assert_awaited_once()
         mock_auth.assert_awaited_once_with(
-            "remote_154", "late-user", "pw", db_name="chul_09_db"
+            "remote_154", "late-user", "pw", db_name="chul_09_db",
+            tenant_id_hint=None, hcode_hint=None,
         )
         rec = self.handler.parsed()[-1]
         self.assertTrue(rec["lazy_refreshed"])
@@ -318,7 +326,7 @@ class DynamicLoginRoutingTests(TestCase):
         mock_candidates.return_value = routes
         mock_lazy.return_value = {"refreshed": False, "reason": "cooldown", "stats": None}
 
-        async def _fake_auth(server_id, user_id, password, *, db_name=None):
+        async def _fake_auth(server_id, user_id, password, *, db_name=None, **kwargs):
             if db_name == "chul_09_db":
                 return _user(user_id, server_id=server_id, hcode="5088", db_name="chul_09_db")
             return None
@@ -428,10 +436,51 @@ class DynamicLoginRoutingTests(TestCase):
 
         self.assertEqual(res.status_code, 200, res.text)
         mock_auth.assert_awaited_once_with(
-            "remote_155", "shared-user", "pw", db_name="book_21_db"
+            "remote_155", "shared-user", "pw", db_name="book_21_db",
+            tenant_id_hint=None, hcode_hint="2002",
         )
         payload = decode_token(res.json()["access_token"])
         self.assertEqual(payload["sid"], "remote_155")
+
+    @patch("app.services.login_id_index_service.add_entry", lambda **_kw: None)
+    @patch("app.services.tenants_directory_service.resolve_login_route")
+    @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
+    @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
+    def test_login_forwards_tenant_id_hint_to_authenticate(
+        self,
+        mock_auth: AsyncMock,
+        mock_candidates,
+        mock_single,
+    ) -> None:
+        tid = "fa6758ea-a7e5-5d27-bf87-ccee0a90e72c"
+        route = _route(
+            "remote_153",
+            "chul_09_db",
+            via="tenant_id",
+            candidate_via="tenant_id",
+            tenant_id=tid,
+        )
+        mock_single.return_value = route
+        mock_candidates.return_value = [route]
+        mock_auth.return_value = _user(
+            "경리부",
+            server_id="remote_153",
+            db_name="chul_09_db",
+            tenant_id=tid,
+            ownership_status="unique",
+        )
+
+        res = self.client.post(
+            "/api/v1/auth/login",
+            json={"userId": "경리부", "password": "pw", "tenantId": tid},
+        )
+
+        self.assertEqual(res.status_code, 200, res.text)
+        mock_auth.assert_awaited_once_with(
+            "remote_153", "경리부", "pw", db_name="chul_09_db",
+            tenant_id_hint=tid, hcode_hint=None,
+        )
+        self.assertEqual(res.json()["user"]["ownership_status"], "unique")
 
 
 if __name__ == "__main__":

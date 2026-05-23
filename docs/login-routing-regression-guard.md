@@ -60,6 +60,17 @@
 
 ## 3. 변경 시 준수 규칙 (회귀 방지)
 
+### 3.1 `Id_Logn.Gcode` — ``_이름_`` (만료 잠금, 별칭 아님)
+
+레거시 운영에서 **기존 ``이름`` 회원의 사용이 만료될 때** 접근을 막기 위해 Gcode 를 임시로 ``_이름_`` 형태로 바꾼 사례가 있다. 이는 표시용 별칭이 아니라 **잠금 표기**이다.
+
+| 입력 | 허용 lookup 키 | 금지 |
+| ------ | ---------------- | ------ |
+| ``이름`` | ``이름`` 만 | ``_이름_`` 자동 추가 |
+| ``_이름_`` | ``_이름_`` 만 | 내부 ``이름`` 으로 strip |
+
+구현: `login_id_index_service.login_id_lookup_keys` · `auth_service.authenticate_user` · `LegacyIdLognProvider.fetch_fxx_matrix` 가 동일 규칙을 쓴다. 회귀: `test/test_login_id_gcode_alias.py`.
+
 | 영역 | 규칙 |
 | ------ | ------ |
 | 요청 스키마 | `LoginRequest`의 `userId`/`user_id`/`username`, `tenantId`/`tenant_id`, `hcode` **AliasChoices 유지**. 프론트는 camelCase 단일 경로. |
@@ -78,6 +89,7 @@
 - [ ] `LoginRequest` 별칭·필수 필드 변경 없음 (또는 프론트+문서 동시 갱신)
 - [ ] `resolve_login_route*` / `lazy_refresh` / `authenticate_user` 시그니처 변경 시 위 테스트 갱신 및 실행
 - [ ] `tenants_directory`·인덱스 시드 변경 시 해당 `user_id`로 로그인 스모크 + [debug/diagnose_login_routing.py](../debug/diagnose_login_routing.py) 1건
+- [ ] ``_이름_`` 만료 잠금 Gcode: `login_id_lookup_keys` 가 평문↔래핑 자동 변환하지 않음 (`test/test_login_id_gcode_alias.py`)
 - [ ] 실패 시 `log_login_attempt`에 원인 추적 가능한 키(`reason`, `candidate_sources`, `lazy_refresh_reason`, `directory_sweep`, `ambiguous_narrowed`, `ambiguous_strict`)가 남는지 확인
 - [ ] 동일 `Gcode` 복수 DB 케이스: default 모드는 비밀번호 narrow, strict 모드(`BLS_LOGIN_AMBIGUOUS_PROBE=block`)는 즉시 401 — 양쪽 모두 회귀 테스트 통과
 - [ ] **DSN-DEC-12 — 공유 DB 좌표(`chul_09_db` 등)에서 ownership 가드가 동작**: ambiguous 시 `tenant_id`/`account_family`/`active_build_id` 가 None 으로 떨어지고, 감사 `ownership_violation=true` + `ownership_candidate_count` 가 명시 기록되는지 회귀 테스트 통과

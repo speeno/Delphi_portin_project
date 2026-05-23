@@ -182,6 +182,7 @@ def resolve_routing(user: User) -> RoutingKey:
 - **온디맨드 lazy refresh** — 로그인 401 + 라우팅 출처가 `fallback_auth_server` 또는 인덱스 lookup 결과가 None 이었을 때만, 인덱스를 1회 재빌드(서버 4회 SELECT)하고 단 1회만 재해석·재인증을 시도. 동시 trigger 는 `threading.Lock` + `min_interval_secs=300` 가드(러시 방어).
 - **동명 ID 처리 (DSN-DEC-09 v1)** — 인덱스에 `Gcode` 가 2건 이상이면 `hcode` 보조 입력이 있을 때만 단일 row 로 좁힘. 보조 입력 없으면 라우팅 모호로 간주해 단일 401 (`AUTH_AMBIGUOUS_ROUTE`).
 - **동명 ID 처리 (DSN-DEC-09 v2 — 2026-04-27 완화)** — 운영 인덱스의 ambiguous 비율이 ~27% (예: 829/3084, 일반 ID 인 `미래가치`/`총무부`/`영업부` 등) 에 달해 v1 정책이 일반 사용자를 영구 차단하는 회귀가 보고되었다. **default 동작을 비밀번호 기반 narrowing 으로 변경**: 라우터는 `index_ambiguous` 후보들을 우선순위 순으로 시도하며, **첫 번째 비밀번호 일치 후보** 를 본인 계정으로 결정한다. `_try_candidates` 는 first-success 시맨틱을 그대로 쓰므로 추가 DB 부하는 평균 후보 수의 절반 이하. 보안 격리 환경에서는 환경변수 **`BLS_LOGIN_AMBIGUOUS_PROBE=block`** (또는 `strict`/`0`/`false`/`no`) 으로 v1 의 즉시 401 정책을 그대로 복원한다. 두 모드 모두 `auth_service.should_bypass_login_id_index_ambiguity()` 운영자 예외(admin)를 따른다. 감사 로그는 `ambiguous_narrowed=true` (v2 default 시도) / `ambiguous_strict=true` (v1 차단) 신호를 명시 기록한다.
+- **`_이름_` Gcode (만료 잠금 — 별칭 아님, 2026-05-23)** — 레거시 운영에서 기존 ``이름`` 회원 사용 만료 시 접근 차단을 위해 Gcode 를 임시로 ``_이름_`` 으로 바꾼다. `login_id_lookup_keys` 는 **입력 문자열 그대로만** 인덱스·`Id_Logn` 조회에 쓴다 (평문→래핑·래핑→평문 자동 변환 금지). 회귀: `test/test_login_id_gcode_alias.py`.
 - **incremental 갱신** — `member_signup_service.approve_request` 가 `login_id_index_service.add_entry()` 로 신규 가입 row 를 즉시 인덱스에 반영(전체 재빌드 회피).
 - **DEC-051/052 의미 유지** — 인증 엔드포인트는 1개, 검증 위치는 인덱스가 결정. 관리자 명시 primary(`get_primary_data_server`) 는 인덱스보다 우선(기존 동일).
 
