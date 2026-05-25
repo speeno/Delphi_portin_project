@@ -1,0 +1,373 @@
+{
+  "generated_at": "2026-05-25T07:51:15.149745+00:00",
+  "summary": {
+    "files_scanned": 24,
+    "endpoints_seen": 217,
+    "optional_hcode_endpoints": 36,
+    "critical": 0,
+    "info": 36,
+    "skipped_noqa": 0
+  },
+  "findings": [
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
+      "function": "get_weather_risk",
+      "path": "/weather-risk",
+      "method": "GET",
+      "lineno": 41,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
+      "function": "get_delivery_route_risk",
+      "path": "/delivery-route-risk",
+      "method": "GET",
+      "lineno": 260,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
+      "function": "get_demand_forecast",
+      "path": "/demand-forecast",
+      "method": "GET",
+      "lineno": 301,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
+      "function": "list_receipts",
+      "path": "/receipts",
+      "method": "GET",
+      "lineno": 108,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "function": "get_inventory_ledger",
+      "path": "/ledger",
+      "method": "GET",
+      "lineno": 28,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/masters.py",
+      "function": "list_special_master",
+      "path": "/special",
+      "method": "GET",
+      "lineno": 1012,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
+      "function": "list_orders",
+      "path": "/orders",
+      "method": "GET",
+      "lineno": 95,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
+      "function": "list_shipment_status",
+      "path": "/shipment-status",
+      "method": "GET",
+      "lineno": 146,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "function": "get_book_sales",
+      "path": "/book-sales",
+      "method": "GET",
+      "lineno": 39,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "function": "get_customer_sales",
+      "path": "/customer-sales",
+      "method": "GET",
+      "lineno": 89,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "function": "get_year_end_book",
+      "path": "/year-end-book",
+      "method": "GET",
+      "lineno": 134,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "function": "list_returns",
+      "path": "",
+      "method": "GET",
+      "lineno": 157,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "function": "daily_report",
+      "path": "/reports/daily",
+      "method": "GET",
+      "lineno": 190,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "function": "get_returns_ledger",
+      "path": "/ledger",
+      "method": "GET",
+      "lineno": 215,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "function": "get_returns_period_report",
+      "path": "/period-report",
+      "method": "GET",
+      "lineno": 250,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "function": "list_billing",
+      "path": "/billing",
+      "method": "GET",
+      "lineno": 182,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "function": "list_period_summary",
+      "path": "/billing/period",
+      "method": "GET",
+      "lineno": 210,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "function": "list_outstanding",
+      "path": "/outstanding",
+      "method": "GET",
+      "lineno": 245,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "function": "list_cash",
+      "path": "/cash",
+      "method": "GET",
+      "lineno": 431,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "function": "cash_status",
+      "path": "/cash-status",
+      "method": "GET",
+      "lineno": 537,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "function": "list_tax_invoices",
+      "path": "/tax-invoice",
+      "method": "GET",
+      "lineno": 726,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_sales_period",
+      "path": "/sales-period",
+      "method": "GET",
+      "lineno": 74,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_customer_analysis",
+      "path": "/customer-analysis",
+      "method": "GET",
+      "lineno": 113,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_book_turnover",
+      "path": "/book-turnover",
+      "method": "GET",
+      "lineno": 147,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_publisher_stats",
+      "path": "/publisher",
+      "method": "GET",
+      "lineno": 180,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_quarterly_summary",
+      "path": "/quarterly-summary",
+      "method": "GET",
+      "lineno": 217,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_dashboard_overview",
+      "path": "/dashboard/overview",
+      "method": "GET",
+      "lineno": 250,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_dashboard_funnel",
+      "path": "/dashboard/funnel",
+      "method": "GET",
+      "lineno": 279,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_dashboard_leadtime",
+      "path": "/dashboard/leadtime",
+      "method": "GET",
+      "lineno": 301,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_dashboard_receivables",
+      "path": "/dashboard/receivables",
+      "method": "GET",
+      "lineno": 323,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_dashboard_ops_health",
+      "path": "/dashboard/ops-health",
+      "method": "GET",
+      "lineno": 345,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "get_dashboard_iot_warehouse",
+      "path": "/dashboard/iot-warehouse",
+      "method": "GET",
+      "lineno": 367,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "function": "stream_dashboard_iot_warehouse",
+      "path": "/dashboard/iot-warehouse/stream",
+      "method": "GET",
+      "lineno": 445,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "function": "list_other_statements",
+      "path": "/other",
+      "method": "GET",
+      "lineno": 92,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "function": "list_sales_statements",
+      "path": "/sales-statement",
+      "method": "GET",
+      "lineno": 160,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "function": "get_transactions_status",
+      "path": "/status",
+      "method": "GET",
+      "lineno": 230,
+      "severity": "info",
+      "reason": "optional_hcode_with_helper",
+      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+    }
+  ]
+}

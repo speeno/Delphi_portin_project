@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-04-27T03:44:39.280112+00:00",
+  "generated_at": "2026-05-25T07:45:28.053246+00:00",
   "summary": {
-    "registry_forms": 70,
+    "registry_forms": 71,
     "legacy_dfm_subu_stems": 91,
     "orphan_legacy_stems": 48,
-    "subu_caption_diff": 14,
+    "subu_caption_diff": 12,
     "subu_legacy_missing": 0
   },
   "rows": [
@@ -544,8 +544,8 @@
       "legacy_form_object": "Sobo44",
       "legacy_caption": "발송비현황",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu44.dfm",
-      "status": "CAPTION_DIFF",
-      "note": "DFM「발송비현황」↔모던「재고현황」 (r=0.44)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo32_ledger",
@@ -595,7 +595,7 @@
       "modern_id": "Sobo48_compare",
       "folder": "Subu48",
       "route": "/ledger/comparison",
-      "modern_caption": "장부대조",
+      "modern_caption": "출판사관리(설정)",
       "legacy_form_object": "Sobo48",
       "legacy_caption": "출판사관리(설정)",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu48.dfm",
@@ -682,13 +682,13 @@
     {
       "modern_id": "Sobo28_delivery",
       "folder": "Subu28",
-      "route": "/delivery/management",
-      "modern_caption": "출고택배관리",
+      "route": "/shipping/courier",
+      "modern_caption": "택배관리",
       "legacy_form_object": "Sobo28",
       "legacy_caption": "출고택배관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu28.dfm",
-      "status": "MATCH",
-      "note": ""
+      "status": "NEAR_MATCH",
+      "note": "유사도 0.80 (≥0.78)"
     },
     {
       "modern_id": "Stats_monthly",
@@ -735,17 +735,6 @@
       "note": "Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1)"
     },
     {
-      "modern_id": "MenuShippingCourier",
-      "folder": "_Matrix",
-      "route": "/shipping/courier",
-      "modern_caption": "택배관리(자체)",
-      "legacy_form_object": "",
-      "legacy_caption": "",
-      "legacy_dfm": "",
-      "status": "WEB_ONLY",
-      "note": "Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1)"
-    },
-    {
       "modern_id": "MenuShippingReturnsInventory",
       "folder": "_Matrix",
       "route": "/shipping/returns-inventory",
@@ -768,6 +757,28 @@
       "note": "Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1)"
     },
     {
+      "modern_id": "Sobo43_shipping_ledger",
+      "folder": "Subu43",
+      "route": "/settlement/shipping-ledger",
+      "modern_caption": "발송비내역",
+      "legacy_form_object": "Sobo43",
+      "legacy_caption": "발송비내역",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu43.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo44_shipping_status",
+      "folder": "Subu44",
+      "route": "/settlement/shipping-status",
+      "modern_caption": "발송비현황",
+      "legacy_form_object": "Sobo44",
+      "legacy_caption": "발송비현황",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu44.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
       "modern_id": "Sobo43_stats_route",
       "folder": "Subu43",
       "route": "/stats/publisher",
@@ -775,8 +786,8 @@
       "legacy_form_object": "Sobo43",
       "legacy_caption": "발송비내역",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu43.dfm",
-      "status": "CAPTION_DIFF",
-      "note": "DFM「발송비내역」↔모던「출판사통계」 (r=0.00)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     }
   ],
   "orphans_sample": [

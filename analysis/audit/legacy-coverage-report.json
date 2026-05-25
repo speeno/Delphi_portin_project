@@ -1,15 +1,23 @@
 {
-  "generated_at": "2026-04-27T03:44:39.467948+00:00",
+  "generated_at": "2026-05-25T07:45:31.015262+00:00",
   "summary": {
     "total_dfm_candidates": 118,
-    "registry_entries": 70,
-    "ok": 23,
+    "registry_entries": 71,
+    "ok": 25,
     "missing_forms": 0,
-    "caption_mismatches": 0,
-    "allowed": 108
+    "caption_mismatches": 1,
+    "allowed": 107
   },
   "missing_forms": [],
-  "caption_mismatches": [],
+  "caption_mismatches": [
+    {
+      "form_name": "Sobo28_delivery",
+      "dfm_form_name": "Sobo28",
+      "registry_caption": "택배관리",
+      "dfm_caption": "출고택배관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu28.dfm"
+    }
+  ],
   "allowed": [
     {
       "form_name": "Exls10",
@@ -731,16 +739,6 @@
       "until": "Phase 3 audit"
     },
     {
-      "form_name": "Sobo48_compare",
-      "dfm_form_name": "Sobo48",
-      "registry_caption": "장부대조",
-      "dfm_caption": "출판사관리(설정)",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu48.dfm",
-      "category": "caption_mismatch",
-      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
-      "until": "Phase 3 audit"
-    },
-    {
       "form_name": "Sobo49_tax_bill",
       "dfm_form_name": "Sobo49",
       "registry_caption": "세금계산서",
@@ -1039,11 +1037,6 @@
       "caption": "출고접수관리"
     },
     {
-      "form_name": "Sobo28_delivery",
-      "dfm_form_name": "Sobo28",
-      "caption": "출고택배관리"
-    },
-    {
       "form_name": "Sobo31",
       "dfm_form_name": "Sobo31",
       "caption": "도서별수불원장"
@@ -1057,6 +1050,16 @@
       "form_name": "Sobo41_cash_bill",
       "dfm_form_name": "Sobo41",
       "caption": "입금내역"
+    },
+    {
+      "form_name": "Sobo43_shipping_ledger",
+      "dfm_form_name": "Sobo43",
+      "caption": "발송비내역"
+    },
+    {
+      "form_name": "Sobo44_shipping_status",
+      "dfm_form_name": "Sobo44",
+      "caption": "발송비현황"
     },
     {
       "form_name": "Sobo45_1_billing_bill",
@@ -1087,6 +1090,11 @@
       "form_name": "Sobo47_billing_bill",
       "dfm_form_name": "Sobo47",
       "caption": "청구금액(년월)"
+    },
+    {
+      "form_name": "Sobo48_compare",
+      "dfm_form_name": "Sobo48",
+      "caption": "출판사관리(설정)"
     },
     {
       "form_name": "Sobo49_tax",

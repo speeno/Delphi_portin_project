@@ -512,7 +512,7 @@ class LedgerRouterErrorMessageTests(IsolatedAsyncioTestCase):
                     gubun=None,
                     limit=100,
                     offset=0,
-                    _user=object(),
+                    _user={},
                 )
         exc = cm.exception
         self.assertEqual(exc.status_code, 500)

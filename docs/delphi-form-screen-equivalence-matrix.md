@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-04-27T03:44:39Z
+> **생성 시각 (UTC)**: 2026-05-25T07:45:28Z
 
 ## 목적
 
@@ -32,7 +32,7 @@
 | CAPTION_DIFF | `Sobo24` | `Subu24` | 반품재고(재생) | 반품재고(정품입고)-재생 | `Sobo24` | `/returns/inventory` | DFM「반품재고(정품입고)-재생」↔모던「반품재고(재생)」 (r=0.67) |
 | CAPTION_DIFF | `Sobo25` | `Subu25` | 반품재고(해체) | 반품재고(반품입고)-해체 | `Sobo25` | `/returns/inventory` | DFM「반품재고(반품입고)-해체」↔모던「반품재고(해체)」 (r=0.67) |
 | MATCH | `Sobo27` | `Subu27` | 출고접수관리 | 출고접수관리 | `Sobo27` | `/outbound/orders` |  |
-| MATCH | `Sobo28_delivery` | `Subu28` | 출고택배관리 | 택배관리 | `Sobo28` | `/shipping/courier` | `/delivery/management` 는 리다이렉트 |
+| NEAR_MATCH | `Sobo28_delivery` | `Subu28` | 택배관리 | 출고택배관리 | `Sobo28` | `/shipping/courier` | 유사도 0.80 (≥0.78) |
 | CAPTION_DIFF | `Sobo29_other` | `Subu29` | 기타명세서 | 신간명세서 | `Sobo29` | `/transactions/other` | DFM「신간명세서」↔모던「기타명세서」 (r=0.60) |
 | MATCH | `Sobo31` | `Subu31` | 도서별수불원장 | 도서별수불원장 | `Sobo31` | `/inventory/ledger` |  |
 | CAPTION_DIFF | `Sobo32_ledger` | `Subu32` | 거래처원장 | 기간별평균재고 | `Sobo32` | `/ledger/customer` | DFM「기간별평균재고」↔모던「거래처원장」 (r=0.00) |
@@ -52,8 +52,10 @@
 | MULTI_MAP | `Sobo42_cash` | `Subu42` | 입금현황 | 입금현황(1) | `Sobo42` | `/settlement/cash-status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo42_cash_bill` | `Subu42` | 입금현황(거래처별) | 입금현황(1) | `Sobo42` | `/settlement/cash-status?variant=hcode` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | CAPTION_DIFF | `Sobo42_1_cash_bill` | `Subu42_1` | 입금현황(일자별) | 입금현황(2) | `Sobo42_1` | `/settlement/cash-status?variant=sdate` | DFM「입금현황(2)」↔모던「입금현황(일자별)」 (r=0.75) |
-| CAPTION_DIFF | `Sobo43_stats_route` | `Subu43` | 출판사통계 | 발송비내역 | `Sobo43` | `/stats/publisher` | DFM「발송비내역」↔모던「출판사통계」 (r=0.00) |
-| CAPTION_DIFF | `Sobo44_inv` | `Subu44` | 재고현황 | 발송비현황 | `Sobo44` | `/inventory/status` | DFM「발송비현황」↔모던「재고현황」 (r=0.44) |
+| MULTI_MAP | `Sobo43_shipping_ledger` | `Subu43` | 발송비내역 | 발송비내역 | `Sobo43` | `/settlement/shipping-ledger` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo43_stats_route` | `Subu43` | 출판사통계 | 발송비내역 | `Sobo43` | `/stats/publisher` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo44_inv` | `Subu44` | 재고현황 | 발송비현황 | `Sobo44` | `/inventory/status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo44_shipping_status` | `Subu44` | 발송비현황 | 발송비현황 | `Sobo44` | `/settlement/shipping-status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo45_billing` | `Subu45` | 청구서관리 | 청구서관리 | `Sobo45` | `/settlement/billing` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo45_billing_bill` | `Subu45` | 청구서관리 | 청구서관리 | `Sobo45` | `/settlement/billing` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MATCH | `Sobo45_1_billing_bill` | `Subu45_1` | 청구서관리-택배 | 청구서관리-택배 | `Sobo45_1` | `/settlement/billing?variant=takbae` |  |
@@ -61,7 +63,7 @@
 | MULTI_MAP | `Sobo46_billing_bill` | `Subu46` | 청구서출력 | 청구서출력 | `Sobo46` | `/settlement/billing` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo47_billing` | `Subu47` | 청구금액(년월) | 청구금액(년월) | `Sobo47` | `/settlement/period` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo47_billing_bill` | `Subu47` | 청구금액(년월) | 청구금액(년월) | `Sobo47` | `/settlement/period` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MULTI_MAP | `Sobo48_compare` | `Subu48` | 장부대조 | 출판사관리(설정) | `Sobo48` | `/ledger/comparison` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo48_compare` | `Subu48` | 출판사관리(설정) | 출판사관리(설정) | `Sobo48` | `/ledger/comparison` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Stats_monthly` | `Subu48` | 월별통계 | 출판사관리(설정) | `Sobo48` | `/stats/monthly` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo49_tax` | `Subu49` | 세금계산서 발행 | 세금계산서발행 | `Sobo49` | `/settlement/tax-invoice` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo49_tax_bill` | `Subu49` | 세금계산서 | 세금계산서발행 | `Sobo49` | `/settlement/tax-invoice` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
@@ -79,7 +81,6 @@
 | MULTI_MAP | `Sobo67_status` | `Subu67` | 출고현황 | 도서별년말집계 | `Sobo67` | `/outbound/status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo67_yearbook` | `Subu67` | 도서별년말집계 | 도서별년말집계 | `Sobo67` | `/reports/year-end-book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | WEB_ONLY | `MenuBillingStatements` | `_Matrix` | 내역서관리 | — | `—` | `/billing/statements` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
-| MATCH | `MenuShippingCourier` | `_Matrix` | (병합됨) | — | `—` | `/shipping/courier` | REGISTRY 에서 제거 — **Sobo28_delivery** 한 행으로 흡수 (2026-04-29) |
 | WEB_ONLY | `MenuShippingReturnsInventory` | `_Matrix` | 반품재고관리(통합) | — | `—` | `/shipping/returns-inventory` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `MenuYearMonthStats` | `_Matrix` | 년/월(통계) | — | `—` | `/year-month-stats` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `Subu10_id_logn` | `_WebAdm` | 사용자·권한 (F11~F89) | — | `—` | `/admin/id-logn` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |

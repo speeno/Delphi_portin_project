@@ -159,10 +159,13 @@
 |----|---|---|---|---|---|---|---|
 | `ACC-DATA-01` | 서버(`primary_server`) 가시 범위 | 모두 (admin override) | 본인 총판 1 서버 | 총판과 동일 서버 | 본인 단독 서버 | 본인 SKU 의 공유 서버 (chul_09 그룹) | 본인 SKU 의 단독/공유 서버 (book_07/book_21) |
 | `ACC-DATA-02` | DB 가시 범위 | 모두 | 본인 총판 1 DB | 총판 DB (`hcode` 격리 컬럼 강제) | 본인 단독 DB | `chul_09_db` 공유 + `hcode` 격리 (위러브1·2·3+교문사) | `book_07_db` 또는 `book_21_db` (FULL-NEW=공유 + hcode / FULL-LABEL=단독) |
-| `ACC-DATA-03` | `hcode` 행 격리 (M4 — 후속 결정) | 강제 안 함 | 강제 안 함 | **강제** | 강제 안 함 (1 hcode) | **강제** (chul_09 SKU 다중 테넌트) | (FULL-NEW) **강제** / (FULL-LABEL) 단독 → 강제 안 함 |
+| `ACC-DATA-03` | `hcode` 행 격리 (M4 — 2026-05-25 강제 적용 완료) | 강제 안 함 | 강제 안 함 | **강제** | 강제 안 함 (1 hcode) | **강제** (chul_09 SKU 다중 테넌트) | (FULL-NEW) **강제** / (FULL-LABEL) 단독 → 강제 안 함 |
 | `ACC-DATA-04` | 마스터 쓰기 권한 (출판사·총판 마스터) | ✓ | 본인 총판 + 소속 출판사 등록·승인 | — (본인 정보만) | 본인 정보만 | 본인 정보 + 본인 자체 물류 거래처 | 본인 정보 + 본인 자체 물류 거래처 + (MS) 라벨 프린터 설정 |
 
-> M4 (`hcode` 행 강제) 는 `user-permission-management-plan.md` 의 보류 항목 — 본 매트릭스는 정책을 명시만 하고 강제 시점은 별 DEC. **T3-LITE 는 chul_09_db 공유로 확인되어 hcode 강제 필수** (`analysis/welove_db_route_matrix.json` 의 routes 4 건 = 위러브1·2·3 + 교문사).
+> M4 (`hcode` 행 강제) — 2026-05-25 **백엔드 라우터 단계까지 강제** 완료: 모든 list/집계 GET 이 [`enforce_hcode_isolation`](../도서물류관리프로그램/backend/app/core/deps.py)
+> 으로 (1) 빈 hcode 시 JWT scope 자동 주입, (2) 타인 hcode 명시 시 403 `HCODE_FORBIDDEN` 차단을 수행한다.
+> 정책 분류는 [`analysis/hcode_screen_api_inventory.md`](../analysis/hcode_screen_api_inventory.md) 의 `hcode_query_policy` 태그 (`coalesce_jwt`/`optional_wide`/`implicit_scope`/`key_identity`/`range_filter`) 단일 정본을 따른다.
+> **T3-LITE 는 chul_09_db 공유로 확인되어 hcode 강제 필수** (`analysis/welove_db_route_matrix.json` 의 routes 4 건 = 위러브1·2·3 + 교문사).
 
 ---
 

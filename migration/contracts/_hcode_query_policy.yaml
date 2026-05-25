@@ -1,0 +1,114 @@
+# Hcode Query 처리 정책 — 모든 도메인 contract 의 GET 엔드포인트가 참조해야 하는
+# 단일 정본 (ACC-DATA-03 / DEC-033 f / M4 — 2026-05-25 적용).
+#
+# 본 yaml 자체는 라우터/계약을 정의하지 않는다.
+# `migration/contracts/<domain>.yaml` 에서 ``hcode_query_policy: <tag>`` 키로
+# 본 표의 태그를 인용해 사용한다.
+#
+# 산출물:
+# - 인벤토리: [`analysis/hcode_screen_api_inventory.md`](../../analysis/hcode_screen_api_inventory.md)
+# - 헬퍼:    [`도서물류관리프로그램/backend/app/core/deps.py::enforce_hcode_isolation`](../../도서물류관리프로그램/backend/app/core/deps.py)
+# - 감사:    [`tools/audit_router_hcode_coalesce.py`](../../tools/audit_router_hcode_coalesce.py)
+# - 회귀:    [`test/test_routers_hcode_coalesce.py`](../../test/test_routers_hcode_coalesce.py),
+#            [`test/test_hcode_isolation_enforce.py`](../../test/test_hcode_isolation_enforce.py)
+#
+# 표기 약속: ✓=강제 / —=무필터 / ⚠=명시 hcode 검사 후 통과 또는 403 `HCODE_FORBIDDEN`.
+
+version: "2026-05-25"
+policy_tags:
+  coalesce_jwt:
+    description: |
+      쿼리 ``hcode`` 가 비면 JWT scope hcode 를 자동 주입.
+      T2_PUB / T3 공유 DB(chul_09) 에서는 빈 hcode 도 본인 hcode 로 강제.
+      T2_DIST / T1 / super 는 빈 hcode = 무필터(전체 조회).
+      명시된 hcode 가 본인 scope 와 다르면 403 ``HCODE_FORBIDDEN``.
+    applies_to:
+      - hcode 검색 UI 가 있는 list/집계 GET 엔드포인트
+    backend_helper: app.core.deps.enforce_hcode_isolation
+    account_matrix:
+      T1: "—"
+      T2_DIST: "—"
+      T2_PUB: "✓ (JWT 자동 주입)"
+      T3: "—"
+      T3_LITE: "✓ (chul_09 SKU)"
+      T3_FULL_NEW: "✓"
+      T3_FULL_LABEL: "—"
+    references:
+      - "[DEC-033 (f)](../../legacy-analysis/decisions.md)"
+      - "[ACC-DATA-03](../../docs/onboarding-rbac-menu-matrix.md)"
+
+  optional_wide:
+    description: |
+      ``coalesce_jwt`` 와 동일 코드 경로지만 정책 매트릭스상 격리 강제 안 함.
+      (총판/수퍼 운영 — 빈 hcode = 전체 조회 의도)
+    backend_helper: app.core.deps.enforce_hcode_isolation
+    account_matrix:
+      T1: "—"
+      T2_DIST: "—"
+      T2_PUB: "(미적용)"
+      T3: "—"
+
+  implicit_scope:
+    description: |
+      쿼리 ``hcode`` 자체를 받지 않는 마스터/자동완성류.
+      라우터가 항상 ``resolve_scope_hcode(ctx)`` 적용 — UI 입력 무관.
+    backend_helper: app.core.hcode_isolation.resolve_scope_hcode
+    references:
+      - "[masters_service.py](../../도서물류관리프로그램/backend/app/services/masters_service.py)"
+
+  key_identity:
+    description: |
+      ``hcode`` 가 합성키의 일부(메모/단건 처리 등). 격리 의미 없음 — coalesce 미적용.
+    notes:
+      - "예: order_key/return_key/billing_key 의 PATCH/POST"
+
+  range_filter:
+    description: |
+      ``hcodeFrom`` / ``hcodeTo`` 범위 검색 (총판 운영 화면). coalesce 미적용.
+    notes:
+      - "예: 택배(NAV-16) D-KBT 단독 — `courier.list_courier_lines`"
+
+# 도메인 contract → 정책 매핑 (선언적 색인)
+domain_contract_index:
+  transactions_other.yaml:
+    - {endpoint: "GET /api/v1/transactions/other", policy: coalesce_jwt}
+  sales_inquiry.yaml:
+    - {endpoint: "GET /api/v1/transactions/sales-statement", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/transactions/status", policy: coalesce_jwt}
+  outbound_order.yaml:
+    - {endpoint: "GET /api/v1/outbound/orders", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/outbound/shipment-status", policy: coalesce_jwt}
+  inbound_receipt.yaml:
+    - {endpoint: "GET /api/v1/inbound/receipts", policy: coalesce_jwt}
+  return_receipt.yaml:
+    - {endpoint: "GET /api/v1/returns", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/returns/reports/daily", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/returns/ledger", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/returns/period-report", policy: coalesce_jwt}
+  settlement_billing.yaml:
+    - {endpoint: "GET /api/v1/settlement/billing", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/settlement/billing/period", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/settlement/cash", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/settlement/cash-status", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/settlement/tax-invoice", policy: coalesce_jwt}
+  settlement_outstanding.yaml:
+    - {endpoint: "GET /api/v1/settlement/outstanding", policy: coalesce_jwt}
+  inventory_status.yaml:
+    - {endpoint: "GET /api/v1/inventory/ledger", policy: coalesce_jwt}
+  stats_reports.yaml:
+    - {endpoint: "GET /api/v1/reports/book-sales", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/reports/customer-sales", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/reports/year-end-book", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/stats/sales-period", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/stats/customer-analysis", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/stats/book-turnover", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/stats/publisher", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/stats/quarterly-summary", policy: coalesce_jwt}
+    - {endpoint: "GET /api/v1/stats/dashboard/*", policy: coalesce_jwt}
+  master_data.yaml:
+    - {endpoint: "GET /api/v1/masters/*", policy: implicit_scope}
+  special_master.yaml:
+    - {endpoint: "GET /api/v1/masters/special", policy: coalesce_jwt}
+  courier_management.yaml:
+    - {endpoint: "GET /api/v1/shipping/courier/lines", policy: range_filter}
+    - {endpoint: "GET|PATCH /api/v1/shipping/courier/memo", policy: key_identity}

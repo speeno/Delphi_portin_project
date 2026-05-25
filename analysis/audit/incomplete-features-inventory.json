@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-17T08:21:19.390834+00:00",
+  "generatedAt": "2026-05-25T07:45:29.360340+00:00",
   "criteria": "본 인벤토리는 계획서 「구현되지 못한 기능 목록」에 따라 **원천별 합집합** 을 기록한다. 단일 정의가 아니라 (A) UI placeholder (B) T-파이프라인 비완료 (C) form-registry preview/STUB (D) phase1 이지만 R/RU/STUB 인 부분 동등 (E) 백엔드 stub grep (F) crud-backlog §2.6 참조 를 모두 포함한다.",
   "sources": {
     "ui_placeholder_pages": [],
@@ -357,12 +357,12 @@
       },
       {
         "file": "도서물류관리프로그램/backend/app/routers/returns.py",
-        "line": 510,
+        "line": 512,
         "snippet": "status_code=status.HTTP_501_NOT_IMPLEMENTED,"
       },
       {
         "file": "도서물류관리프로그램/backend/app/routers/settlement.py",
-        "line": 837,
+        "line": 843,
         "snippet": "result = await tax_invoice_service.issue_external_stub("
       }
     ],
