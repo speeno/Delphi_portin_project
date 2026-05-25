@@ -15,6 +15,7 @@ def _parse_ctx(
     x_account_type: str | None,
     x_build_role: str | None,
     x_warehouse_menu_tier: str | None,
+    x_login_profile: str | None,
     x_license_keys: str | None,
     x_super_user: str | None,
 ) -> MenuPolicyContext:
@@ -25,6 +26,7 @@ def _parse_ctx(
         account_type=(x_account_type or "").strip() or None,
         build_role=(x_build_role or "").strip() or None,
         warehouse_menu_tier=(x_warehouse_menu_tier or "").strip() or None,
+        login_profile=(x_login_profile or "").strip() or None,
         license_keys=lic_set,
         is_super_user=(x_super_user or "").strip().lower() in ("1", "true", "yes"),
         active_build_id=None,
@@ -36,6 +38,7 @@ async def list_inbound_vendors(
     x_account_type: Annotated[str | None, Header(alias="X-Account-Type")] = None,
     x_build_role: Annotated[str | None, Header(alias="X-Build-Role")] = None,
     x_warehouse_menu_tier: Annotated[str | None, Header(alias="X-Warehouse-Menu-Tier")] = None,
+    x_login_profile: Annotated[str | None, Header(alias="X-Login-Profile")] = None,
     x_license_keys: Annotated[str | None, Header(alias="X-License-Keys")] = None,
     x_user_hcode: Annotated[str | None, Header(alias="X-User-Hcode")] = None,
     x_super_user: Annotated[str | None, Header(alias="X-Super-User")] = None,
@@ -44,6 +47,7 @@ async def list_inbound_vendors(
         x_account_type,
         x_build_role,
         x_warehouse_menu_tier,
+        x_login_profile,
         x_license_keys,
         x_super_user,
     )

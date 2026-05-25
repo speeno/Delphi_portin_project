@@ -191,6 +191,13 @@ customer_variants:
     F34: R
     F35: R
     F59: R
+- id: department-accounting-shell
+  summary_ko: 경리부(F51~55) 부서 계정 메뉴 셸 힌트 — NAV-04 추가 허용 프로파일
+  match:
+    login_profile: department_accounting
+  menu_ids_granted_hint:
+  - ACC-MENU-NAV-04
+  fxx_patch: {}
 - id: example-chul02-extra-read
   summary_ko: 예시 — 한국도서유통 총판 확장 시 F50 열람 추가 (베이스는 X)
   match:

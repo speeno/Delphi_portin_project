@@ -20,6 +20,7 @@ DEC-RBAC-02 단일 원천:
     "route": "/(app)/year-month-stats",
     "caption": "년/월(통계)",
     "account_types": ["T1", "T2_PUB", "T3"],   # ✓ 인 계정 유형 (T2-DIST → T2_DIST 정규화)
+    "login_profiles": ["department_accounting"], # optional, profile 기반 추가 허용
     "build_roles": ["publisher"],              # source_builds 의 prefix → 추정 매핑
     "license_keys": ["F11"],                    # Fxx 컬럼이 있을 때만
     "source_builds": ["P-STD", "P-KBT"]
@@ -192,6 +193,21 @@ def _build_roles_from_sources(sources: list[str]) -> list[str]:
     return roles
 
 
+def _login_profiles_from_cell(cell: str) -> list[str]:
+    if not cell:
+        return []
+    raw = cell.strip().replace("`", "")
+    if raw in _BLANK_MARKERS:
+        return []
+    parts = [p.strip() for p in re.split(r"[,/]", raw) if p.strip() and p.strip() not in _BLANK_MARKERS]
+    out: list[str] = []
+    for p in parts:
+        token = re.sub(r"\s+", "_", p).lower()
+        if token and token not in out:
+            out.append(token)
+    return out
+
+
 def _section_to_menus(rows: list[dict], section_key: str) -> list[dict]:
     menus: list[dict] = []
     for r in rows:
@@ -232,6 +248,7 @@ def _section_to_menus(rows: list[dict], section_key: str) -> list[dict]:
         # source_builds
         src_cell = r.get("source_builds", "")
         sources = _sources_from_cell(src_cell)
+        login_profiles = _login_profiles_from_cell(r.get("login_profiles", ""))
         # license keys (Fxx 칼럼이 있는 경우만 — MASTERS 표에 존재)
         lic = _license_keys_from_cell(r.get("Fxx", ""))
         menus.append({
@@ -241,6 +258,7 @@ def _section_to_menus(rows: list[dict], section_key: str) -> list[dict]:
             "caption": caption,
             "account_types": acc_types,
             "warehouse_menu_tiers": wh_tiers,
+            "login_profiles": login_profiles,
             "build_roles": _build_roles_from_sources(sources),
             "license_keys": lic,
             "source_builds": sources,
@@ -274,10 +292,10 @@ def parse_matrix(text: str) -> dict:
     menus += _section_to_menus(admin_rows, "admin")
 
     payload = {
-        "version": "2026-04-25",
+        "version": "2026-05-25",
         "source": "docs/onboarding-rbac-menu-matrix.md",
         "extracted_by": "tools/extract_rbac_matrix.py",
-        "decision_refs": ["DEC-RBAC-02", "DEC-RBAC-03"],
+        "decision_refs": ["DEC-RBAC-02", "DEC-RBAC-03", "DEC-RBAC-04"],
         "account_types": list(BASE_ACCOUNT_TYPE_COLS.values()),
         "warehouse_menu_tiers": sorted(set(WAREHOUSE_TIER_COLS.values())),
         "build_roles": sorted(set(BUILD_ROLE_FROM_BUILD.values())),
@@ -315,6 +333,7 @@ def render_yaml(payload: dict) -> str:
         lines.append(f"    caption: \"{cap}\"")
         lines.append(f"    account_types: [{', '.join(m['account_types'])}]")
         lines.append(f"    warehouse_menu_tiers: [{', '.join(m.get('warehouse_menu_tiers') or [])}]")
+        lines.append(f"    login_profiles: [{', '.join(m.get('login_profiles') or [])}]")
         lines.append(f"    build_roles: [{', '.join(m['build_roles'])}]")
         lines.append(f"    license_keys: [{', '.join(m['license_keys'])}]")
         lines.append(f"    source_builds: [{', '.join(m['source_builds'])}]")

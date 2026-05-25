@@ -121,3 +121,71 @@ def test_account_directory_users_maps_1146_to_clear_message(monkeypatch):
         assert "1146" not in msg
     finally:
         _cleanup(c)
+
+
+def test_account_directory_override_accepts_login_profile(monkeypatch):
+    captured: dict[str, object] = {}
+
+    def _fake_upsert_override(**kwargs):
+        captured.update(kwargs)
+        return kwargs
+
+    monkeypatch.setattr(
+        admin_router.account_directory_overlay_service,
+        "upsert_override",
+        _fake_upsert_override,
+    )
+    monkeypatch.setattr(
+        admin_router.publisher_whitelist_service,
+        "count_active_children",
+        lambda *_args, **_kwargs: 0,
+    )
+
+    c = _client()
+    try:
+        res = c.patch(
+            "/api/v1/admin/account-directory/users/%EA%B2%BD%EB%A6%AC%EB%B6%80",
+            json={
+                "serverId": "remote_153",
+                "dbName": "chul_09_db",
+                "hcode": "5039",
+                "accountType": "T3",
+                "buildRole": "warehouse_publisher",
+                "loginProfile": "department_accounting",
+                "notes": "menu profile override",
+            },
+        )
+        assert res.status_code == 200
+        assert captured["login_profile"] == "department_accounting"
+        assert captured["gcode"] == "경리부"
+    finally:
+        _cleanup(c)
+
+
+def test_id_logn_menu_profile_preview_returns_inferred_profile(monkeypatch):
+    monkeypatch.setattr(
+        admin_router.id_logn_service,
+        "get_user",
+        lambda hcode: {"hcode": hcode, "permissions": {"F51": "R", "F11": ""}},
+    )
+    monkeypatch.setattr(
+        admin_router.auth_service,
+        "infer_login_profile",
+        lambda matrix: "department_accounting" if matrix.get("F51") else "publisher_main",
+    )
+    monkeypatch.setattr(
+        admin_router.auth_service,
+        "menu_shell_hint_for_login_profile",
+        lambda profile: "accounting_only" if profile == "department_accounting" else "default",
+    )
+
+    c = _client()
+    try:
+        res = c.get("/api/v1/admin/id-logn/5039/menu-profile-preview")
+        assert res.status_code == 200
+        body = res.json()
+        assert body["inferred_login_profile"] == "department_accounting"
+        assert body["effective_login_profile"] == "department_accounting"
+        assert body["menu_shell_hint"] == "accounting_only"
+    finally:
+        _cleanup(c)

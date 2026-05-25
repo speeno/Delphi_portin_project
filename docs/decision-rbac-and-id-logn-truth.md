@@ -3,8 +3,8 @@
 | 항목 | 내용 |
 |------|------|
 | 작성일 | 2026-04-24 |
-| 상태 | **DRAFT (사용자 승인 전)** — 본 사이클 구현 일괄 정정의 단일 결정문 |
-| 추적 ID | `DEC-RBAC-01` ~ `DEC-RBAC-03` |
+| 상태 | **ACCEPTED (2026-05-25)** — 서브·부서 계정 메뉴 미노출 후속 반영 완료 |
+| 추적 ID | `DEC-RBAC-01` ~ `DEC-RBAC-04` |
 | 단일 원천 | 본 문서 + [`docs/onboarding-rbac-menu-matrix.md`](onboarding-rbac-menu-matrix.md) + [`analysis/rbac_menu_matrix.json`](../analysis/rbac_menu_matrix.json) (본 사이클 신설) |
 | 비밀 정책 | 자격증명 0건 — [`docs/secrets-policy.md`](secrets-policy.md) G3 준수 |
 | 연관 | [`migration/contracts/login.yaml`](../migration/contracts/login.yaml), [`docs/profile-password-ux-spec.md`](profile-password-ux-spec.md), [`docs/welove-publish-schema-dictionary.md`](welove-publish-schema-dictionary.md), [`docs/onboarding-account-type-resolution.md`](onboarding-account-type-resolution.md), [`docs/menu-visibility-runtime-design.md`](menu-visibility-runtime-design.md) |
@@ -90,6 +90,22 @@
 - `license_keys` 출처: `tenants_directory(.overlay).features` ∪ `publisher_whitelist[*].license_keys` (있는 경우) ∪ matrix 기본값. JWT 60키 한도(DSN-DEC-07)는 그대로.
 - 매트릭스에 `account_types`/`build_roles`/`license_keys` 가 비어 있으면 **해당 차원은 통과** (제약 없음) 으로 해석한다.
 
+### `DEC-RBAC-04` — 부서 계정 메뉴 셸은 `login_profile` 로 분리한다
+
+동일 테넌트 내 본계정(`publisher_main`)과 부서 계정(`department_accounting`)이 공존할 때,
+메뉴 셸을 `build_role`만으로 판정하면 부서 계정이 전부 hidden 되는 회귀가 발생한다.
+따라서 메뉴 셸 판정은 다음 순서로 고정한다.
+
+1. `login_profile` 매칭(`menus[].login_profiles`)은 **추가 허용** 축이다.
+2. 기본 RBAC 축(`account_types`/`build_roles`/`warehouse_menu_tiers`)은 기존대로 유지한다.
+3. 최종 노출은 `navUiState` 단계에서 `license_keys`로 `disabled`를 계산한다.
+
+운영 원칙:
+
+- `build_role`은 테넌트 데이터/API 스코프의 정본이며, 부서 메뉴 셸 분리 용도로 덮어쓰지 않는다.
+- `login_profile`은 Id_Logn Fxx 지문(`infer_login_profile`) + 운영자 오버레이(선택)로 산출한다.
+- 본 사이클 최소 규칙은 `ACC-MENU-NAV-04` + `department_accounting` 허용이다.
+
 ---
 
 ## 2. 비파괴 / 안전 원칙
@@ -104,5 +120,5 @@
 
 ## 3. 추적 / 후속
 
-- 본 결정문 등록 후 [`docs/welove-tracking-ids-backlog.md`](welove-tracking-ids-backlog.md) 에 `DEC-RBAC-01~03`, `MAN-009`, `ACC-MENU-NEW-*`, `MENU-MATRIX-EXPORT-*` 신규 ID 등록.
+- 본 결정문 등록 후 [`docs/welove-tracking-ids-backlog.md`](welove-tracking-ids-backlog.md) 에 `DEC-RBAC-01~04`, `MAN-009`, `ACC-MENU-NEW-*`, `MENU-MATRIX-EXPORT-*` 신규 ID 등록.
 - 후속 사이클: 관리자 권한 미리보기 화면, license_keys 의 features.json 정식 매핑, 매트릭스 변경 시 CI 회귀 가드.

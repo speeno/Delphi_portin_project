@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-05-25T10:56:42Z",
+  "mode": "compare",
+  "primary": {
+    "login_request": {
+      "base": "http://localhost:8000",
+      "user_id": "교문사",
+      "tenant_id": "fa6758ea-a7e5-5d27-bf87-ccee0a90e72c",
+      "hcode": null
+    },
+    "status": 401,
+    "error_body": {
+      "detail": "아이디 또는 비밀번호가 올바르지 않습니다."
+    }
+  },
+  "compare": {
+    "login_request": {
+      "base": "http://localhost:8000",
+      "user_id": "경리부",
+      "tenant_id": "fa6758ea-a7e5-5d27-bf87-ccee0a90e72c",
+      "hcode": null
+    },
+    "status": 401,
+    "error_body": {
+      "detail": "아이디 또는 비밀번호가 올바르지 않습니다."
+    }
+  },
+  "diff": {
+    "visible_menu_ids": {
+      "left_only": [],
+      "right_only": [],
+      "both": []
+    },
+    "disabled_menu_ids": {
+      "left_only": [],
+      "right_only": [],
+      "both": []
+    }
+  }
+}

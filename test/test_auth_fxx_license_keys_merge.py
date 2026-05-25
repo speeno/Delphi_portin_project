@@ -46,6 +46,18 @@ class FxxLicenseKeysMergeTest(TestCase):
         self.assertIn("F51", ac_keys)
         self.assertNotIn("F11", ac_keys)
         self.assertTrue(gy_keys.isdisjoint({"F51", "F52", "F53", "F54", "F55"}))
+        self.assertEqual(
+            auth_service.infer_login_profile(gyomunsa),
+            "publisher_main",
+        )
+        self.assertEqual(
+            auth_service.infer_login_profile(accounting),
+            "department_accounting",
+        )
+
+    def test_infer_login_profile_unconfigured_when_empty(self) -> None:
+        self.assertEqual(auth_service.infer_login_profile({}), "unconfigured")
+        self.assertEqual(auth_service.infer_login_profile(None), "unconfigured")
 
 
 if __name__ == "__main__":

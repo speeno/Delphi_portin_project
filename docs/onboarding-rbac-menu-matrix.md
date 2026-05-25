@@ -18,6 +18,7 @@
 | **`ACC-T2-DIST` 총판** | `D-STD` (1차) · `D-KBT` (확장 검증) | publisher 셸 + `출판사관리` | + 출판사관리 / + 소속 출판사 운영 보드 |
 | **`ACC-T2-PUB` 소속 출판사** | `P-STD` ≡ `P-KBT` | `출판관리프로그램` 메뉴 셋 | + **년/월(통계)** / − 출판사관리 / `hcode` 격리 |
 | **`ACC-T3` 독립 출판사** | `P-STD` (메뉴 셸) | publisher 셸 단독 운영 | + 본인 마스터 직접 등록 / 단독 DB |
+| **`ACC-DEPT-ACCT` 부서 경리 계정** | `P-STD` 계열 + Id_Logn F51~55 지문 | publisher 셸 중 회계 NAV 예외 허용 | + `login_profile=department_accounting` 시 `ACC-MENU-NAV-04` 추가 허용 |
 | **`ACC-T3-WAREHOUSE-LITE` (가설)** | `WH-WL` (`chul_09` SKU = 위러브1·2·3 + 교문사) | 자체 물류 + publisher (메뉴 7개, 반품재고 통합) | + 출고/재고원장/반품재고관리/발송비/내역서 / − 거래·원장·회계·자료 (publisher 4 영역) |
 | **`ACC-T3-WAREHOUSE-FULL` (가설)** | `WH-MS` (`book_21`) + `WH-BB` (`book_07` = 북앤북·유앤북) **2 빌드 일치** | 자체 물류 full (메뉴 8개, 재고/반품 분리) | + LITE 기능 + 재고관리·반품관리 분리 + (MS 한정) 라벨 SDK + (BB 한정) 신규 폼군 + 다중 DB 디렉토리 |
 
@@ -29,24 +30,24 @@
 
 ## 2. 최상위 메뉴 노출 (`ACC-MENU-NAV-*`)
 
-| ID | 라우트(웹 대응) | 캡션 | T1 | T2-DIST | T2-PUB | T3 | T3-LITE | T3-FULL | source_builds |
-|----|---|---|:-:|:-:|:-:|:-:|:-:|:-:|---|
-| `ACC-MENU-NAV-01` | `/(app)/masters` | 기초관리 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | D-STD, P-STD, D-KBT, P-KBT, WH-WL, WH-MS, WH-BB (전 빌드) |
-| `ACC-MENU-NAV-02` | `/(app)/transactions` | 거래관리 | ✓ | ✓ | ✓ | ✓ | — | — | D-STD, P-STD, P-KBT |
-| `ACC-MENU-NAV-03` | `/(app)/ledger` | 원장관리 | ✓ | ✓ | ✓ | ✓ | — | — | D-STD, P-STD, P-KBT |
-| `ACC-MENU-NAV-04` | `/(app)/accounting` | 회계관리 | ✓ | ✓ | ✓ | ✓ | — | — | D-STD, P-STD, P-KBT |
-| `ACC-MENU-NAV-05` | `/(app)/data` | 자료관리 | ✓ | ✓ | ✓ | ✓ | — | — | D-STD, P-STD, P-KBT |
-| `ACC-MENU-NAV-06` | `/(app)/stats` | 통계관리 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 전 빌드 |
-| `ACC-MENU-NAV-07` | `/(app)/year-month-stats` | 년/월(통계) | ✓ | — | ✓ | ✓ | — | — | P-STD, P-KBT (출판 전용) |
-| `ACC-MENU-NAV-08` | `/(app)/admin` | 관리자 콘솔 | ✓ | — | — | — | — | — | 웹 신설 |
-| `ACC-MENU-NAV-09` | `/(app)/shipping/orders` | 출고관리 | ✓ | ✓ | — | — | ✓ | ✓ | D-KBT, WH-WL, WH-MS, WH-BB (자체 물류) |
-| `ACC-MENU-NAV-10` | `/(app)/shipping/inventory-ledger` | 재고원장 | ✓ | ✓ | — | — | ✓ | ✓ | D-KBT, WH-WL, WH-MS, WH-BB |
-| `ACC-MENU-NAV-11` | `/(app)/shipping/inventory` | 재고관리 (분리) | ✓ | ✓ | — | — | — | ✓ | D-KBT, WH-MS, WH-BB |
-| `ACC-MENU-NAV-12` | `/(app)/shipping/returns-inventory` | 반품재고관리 (통합) | ✓ | — | — | — | ✓ | — | WH-WL 단독 |
-| `ACC-MENU-NAV-13` | `/(app)/shipping/returns` | 반품관리 (분리) | ✓ | ✓ | — | — | — | ✓ | D-KBT, WH-MS, WH-BB |
-| `ACC-MENU-NAV-14` | `/(app)/billing` | 발송비/입금관리 | ✓ | ✓ | — | — | ✓ | ✓ | D-KBT, WH-WL, WH-MS, WH-BB |
-| `ACC-MENU-NAV-15` | `/(app)/billing/statements` | 내역서관리 | ✓ | ✓ | — | — | ✓ | ✓ | D-KBT, WH-WL, WH-MS, WH-BB |
-| `ACC-MENU-NAV-16` | `/(app)/shipping/courier` | 택배관리 | ✓ | ✓ | — | — | — | — | **D-KBT 단독** (한국도서유통 총판) |
+| ID | 라우트(웹 대응) | 캡션 | T1 | T2-DIST | T2-PUB | T3 | T3-LITE | T3-FULL | login_profiles | source_builds |
+|----|---|---|:-:|:-:|:-:|:-:|:-:|:-:|---|---|
+| `ACC-MENU-NAV-01` | `/(app)/masters` | 기초관리 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | D-STD, P-STD, D-KBT, P-KBT, WH-WL, WH-MS, WH-BB (전 빌드) |
+| `ACC-MENU-NAV-02` | `/(app)/transactions` | 거래관리 | ✓ | ✓ | ✓ | ✓ | — | — | — | D-STD, P-STD, P-KBT |
+| `ACC-MENU-NAV-03` | `/(app)/ledger` | 원장관리 | ✓ | ✓ | ✓ | ✓ | — | — | — | D-STD, P-STD, P-KBT |
+| `ACC-MENU-NAV-04` | `/(app)/accounting` | 회계관리 | ✓ | ✓ | ✓ | ✓ | — | — | `department_accounting` | D-STD, P-STD, P-KBT |
+| `ACC-MENU-NAV-05` | `/(app)/data` | 자료관리 | ✓ | ✓ | ✓ | ✓ | — | — | — | D-STD, P-STD, P-KBT |
+| `ACC-MENU-NAV-06` | `/(app)/stats` | 통계관리 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | 전 빌드 |
+| `ACC-MENU-NAV-07` | `/(app)/year-month-stats` | 년/월(통계) | ✓ | — | ✓ | ✓ | — | — | — | P-STD, P-KBT (출판 전용) |
+| `ACC-MENU-NAV-08` | `/(app)/admin` | 관리자 콘솔 | ✓ | — | — | — | — | — | — | 웹 신설 |
+| `ACC-MENU-NAV-09` | `/(app)/shipping/orders` | 출고관리 | ✓ | ✓ | — | — | ✓ | ✓ | — | D-KBT, WH-WL, WH-MS, WH-BB (자체 물류) |
+| `ACC-MENU-NAV-10` | `/(app)/shipping/inventory-ledger` | 재고원장 | ✓ | ✓ | — | — | ✓ | ✓ | — | D-KBT, WH-WL, WH-MS, WH-BB |
+| `ACC-MENU-NAV-11` | `/(app)/shipping/inventory` | 재고관리 (분리) | ✓ | ✓ | — | — | — | ✓ | — | D-KBT, WH-MS, WH-BB |
+| `ACC-MENU-NAV-12` | `/(app)/shipping/returns-inventory` | 반품재고관리 (통합) | ✓ | — | — | — | ✓ | — | — | WH-WL 단독 |
+| `ACC-MENU-NAV-13` | `/(app)/shipping/returns` | 반품관리 (분리) | ✓ | ✓ | — | — | — | ✓ | — | D-KBT, WH-MS, WH-BB |
+| `ACC-MENU-NAV-14` | `/(app)/billing` | 발송비/입금관리 | ✓ | ✓ | — | — | ✓ | ✓ | — | D-KBT, WH-WL, WH-MS, WH-BB |
+| `ACC-MENU-NAV-15` | `/(app)/billing/statements` | 내역서관리 | ✓ | ✓ | — | — | ✓ | ✓ | — | D-KBT, WH-WL, WH-MS, WH-BB |
+| `ACC-MENU-NAV-16` | `/(app)/shipping/courier` | 택배관리 | ✓ | ✓ | — | — | — | — | — | **D-KBT 단독** (한국도서유통 총판) |
 
 **해석**: NAV-09~15 는 **자체 물류·distributor 셸** 의 메뉴군. publisher 셸 (NAV-02~05/07) 과는 정합되지 않음 — 같은 사용자가 두 셸을 동시에 보지 않는다. T2-DIST/T3-LITE/T3-FULL 는 자체 물류 셸을, T2-PUB/T3 는 publisher 셸을 본다.
 

@@ -188,3 +188,27 @@ def test_crud_override_deny_read():
     )
     assert not ok
     assert "crud_override_deny" in reasons
+
+
+def test_department_accounting_login_profile_allows_nav04():
+    nav04 = menu_by_id("ACC-MENU-NAV-04")
+    assert nav04 is not None
+    denied_ctx = MenuPolicyContext(
+        account_type="T3",
+        build_role="warehouse_publisher",
+        warehouse_menu_tier="lite",
+        login_profile=None,
+        license_keys=frozenset(),
+        is_super_user=False,
+    )
+    assert not effective_menu_visible(nav04, denied_ctx)
+
+    allowed_ctx = MenuPolicyContext(
+        account_type="T3",
+        build_role="warehouse_publisher",
+        warehouse_menu_tier="lite",
+        login_profile="department_accounting",
+        license_keys=frozenset(),
+        is_super_user=False,
+    )
+    assert effective_menu_visible(nav04, allowed_ctx)

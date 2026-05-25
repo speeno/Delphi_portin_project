@@ -56,6 +56,8 @@ def _user(
     active_build_id: str | None = None,
     tenant_id: str | None = None,
     ownership_status: str = "none",
+    login_profile: str = "",
+    menu_shell_hint: str = "",
 ) -> dict:
     return {
         "user_id": user_id,
@@ -70,6 +72,8 @@ def _user(
         "resolved_db": db_name,
         "active_build_id": active_build_id,
         "tenant_id": tenant_id,
+        "login_profile": login_profile,
+        "menu_shell_hint": menu_shell_hint,
         "ownership_status": ownership_status,
         "ownership_candidate_count": 0 if ownership_status != "ambiguous" else 2,
     }
@@ -480,6 +484,39 @@ class DynamicLoginRoutingTests(TestCase):
             tenant_id_hint=tid, hcode_hint=None,
         )
         self.assertEqual(res.json()["user"]["ownership_status"], "unique")
+
+    @patch("app.services.login_id_index_service.add_entry", lambda **_kw: None)
+    @patch("app.services.tenants_directory_service.resolve_login_route")
+    @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
+    @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
+    def test_login_profile_claims_roundtrip_to_token_and_user(
+        self,
+        mock_auth: AsyncMock,
+        mock_candidates,
+        mock_single,
+    ) -> None:
+        route = _route("remote_153", "chul_09_db", via="tenant_id", candidate_via="tenant_id")
+        mock_single.return_value = route
+        mock_candidates.return_value = [route]
+        mock_auth.return_value = _user(
+            "경리부",
+            server_id="remote_153",
+            db_name="chul_09_db",
+            login_profile="department_accounting",
+            menu_shell_hint="accounting_only",
+        )
+
+        res = self.client.post(
+            "/api/v1/auth/login",
+            json={"userId": "경리부", "password": "pw"},
+        )
+
+        self.assertEqual(res.status_code, 200, res.text)
+        payload = decode_token(res.json()["access_token"])
+        self.assertEqual(payload["login_profile"], "department_accounting")
+        self.assertEqual(payload["menu_shell_hint"], "accounting_only")
+        self.assertEqual(res.json()["user"]["login_profile"], "department_accounting")
+        self.assertEqual(res.json()["user"]["menu_shell_hint"], "accounting_only")
 
 
 if __name__ == "__main__":

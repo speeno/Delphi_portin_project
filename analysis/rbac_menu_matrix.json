@@ -1,10 +1,11 @@
 {
-  "version": "2026-04-25",
+  "version": "2026-05-25",
   "source": "docs/onboarding-rbac-menu-matrix.md",
   "extracted_by": "tools/extract_rbac_matrix.py",
   "decision_refs": [
     "DEC-RBAC-02",
-    "DEC-RBAC-03"
+    "DEC-RBAC-03",
+    "DEC-RBAC-04"
   ],
   "account_types": [
     "T1",
@@ -34,6 +35,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "publisher",
@@ -62,6 +64,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "publisher"
@@ -85,6 +88,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "publisher"
@@ -108,6 +112,9 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [
+        "department_accounting"
+      ],
       "build_roles": [
         "distributor",
         "publisher"
@@ -131,6 +138,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "publisher"
@@ -154,6 +162,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -169,6 +178,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "publisher"
       ],
@@ -187,6 +197,7 @@
         "T1"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -205,6 +216,7 @@
         "full",
         "lite"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -231,6 +243,7 @@
         "full",
         "lite"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -256,6 +269,7 @@
       "warehouse_menu_tiers": [
         "full"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -279,6 +293,7 @@
       "warehouse_menu_tiers": [
         "lite"
       ],
+      "login_profiles": [],
       "build_roles": [
         "warehouse_publisher"
       ],
@@ -300,6 +315,7 @@
       "warehouse_menu_tiers": [
         "full"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -325,6 +341,7 @@
         "full",
         "lite"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -351,6 +368,7 @@
         "full",
         "lite"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -373,6 +391,7 @@
         "T2_DIST"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor"
       ],
@@ -392,6 +411,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "publisher"
@@ -419,6 +439,7 @@
         "full",
         "lite"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -447,6 +468,7 @@
         "full",
         "lite"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -473,6 +495,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [
         "F12"
@@ -490,6 +513,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "publisher"
@@ -517,6 +541,7 @@
         "full",
         "lite"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -542,6 +567,7 @@
         "T2_DIST"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -562,6 +588,7 @@
         "T2_DIST"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor"
       ],
@@ -580,6 +607,7 @@
         "T2_DIST"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor"
       ],
@@ -600,6 +628,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [
         "F14"
@@ -616,6 +645,7 @@
         "T2_DIST"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "warehouse_publisher"
       ],
@@ -635,6 +665,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "publisher"
@@ -661,6 +692,7 @@
       "warehouse_menu_tiers": [
         "full"
       ],
+      "login_profiles": [],
       "build_roles": [
         "distributor",
         "warehouse_publisher"
@@ -686,6 +718,7 @@
         "full",
         "lite"
       ],
+      "login_profiles": [],
       "build_roles": [
         "warehouse_publisher",
         "distributor"
@@ -708,6 +741,7 @@
         "T2_DIST"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "distributor"
       ],
@@ -725,6 +759,7 @@
         "T1"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "warehouse_publisher"
       ],
@@ -745,6 +780,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [
         "F18"
@@ -763,6 +799,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -774,6 +811,7 @@
       "caption": "메뉴보이기 / 메뉴감추기",
       "account_types": [],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [
         "publisher"
       ],
@@ -796,6 +834,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -811,6 +850,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -826,6 +866,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -841,6 +882,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -856,6 +898,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -871,6 +914,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -886,6 +930,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -901,6 +946,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -915,6 +961,7 @@
         "T2_DIST"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -929,6 +976,21 @@
         "T2_DIST"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
+      "build_roles": [],
+      "license_keys": [],
+      "source_builds": []
+    },
+    {
+      "id": "ACC-MENU-ADMIN-03",
+      "section": "admin",
+      "route": "/admin/user-servers",
+      "caption": "사용자별 서버 (`/admin/user-servers`)",
+      "account_types": [
+        "T1"
+      ],
+      "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -942,6 +1004,7 @@
         "T1"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -956,6 +1019,7 @@
         "T2_DIST"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []
@@ -972,6 +1036,7 @@
         "T3"
       ],
       "warehouse_menu_tiers": [],
+      "login_profiles": [],
       "build_roles": [],
       "license_keys": [],
       "source_builds": []

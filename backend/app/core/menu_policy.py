@@ -37,6 +37,7 @@ class MenuPolicyContext:
     account_type: str | None = None
     build_role: str | None = None
     warehouse_menu_tier: str | None = None
+    login_profile: str | None = None
     license_keys: frozenset[str] | None = None
     is_super_user: bool = False
     active_build_id: str | None = None
@@ -108,10 +109,15 @@ def is_menu_visible_rbac(
     account_type: str | None = None,
     build_role: str | None = None,
     warehouse_menu_tier: str | None = None,
+    login_profile: str | None = None,
     is_super_user: bool = False,
 ) -> bool:
     """RBAC 축만 (라이선스·forced_hidden·오버레이 제외)."""
     if is_super_user:
+        return True
+    login_profiles = list(menu.get("login_profiles") or [])
+    if login_profile and login_profile in login_profiles:
+        # profile 기반 예외는 기존 RBAC에 대한 "추가 허용"만 담당한다.
         return True
     if menu.get("account_types") and account_type not in menu["account_types"]:
         return False
@@ -163,6 +169,7 @@ def effective_menu_visible(
         account_type=ctx.account_type,
         build_role=ctx.build_role,
         warehouse_menu_tier=ctx.warehouse_menu_tier,
+        login_profile=ctx.login_profile,
         is_super_user=False,
     )
     if is_forced_hidden(menu["id"], ctx.active_build_id):

@@ -12,6 +12,7 @@ DEC-RBAC-02 — account-menu-matrix 가시성 회귀 (Python 1:1 미러).
 from __future__ import annotations
 
 import json
+import importlib.util
 import sys
 from pathlib import Path
 from typing import Iterable
@@ -19,9 +20,14 @@ from typing import Iterable
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "backend"))
+MENU_POLICY_PATH = ROOT / "backend" / "app" / "core" / "menu_policy.py"
+spec = importlib.util.spec_from_file_location("prototype_menu_policy_matrix", MENU_POLICY_PATH)
+assert spec and spec.loader
+menu_policy = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = menu_policy
+spec.loader.exec_module(menu_policy)
 
-from app.core.menu_policy import is_menu_visible_rbac
+is_menu_visible_rbac = menu_policy.is_menu_visible_rbac
 
 MATRIX_JSON = ROOT / "analysis" / "rbac_menu_matrix.json"
 
@@ -38,6 +44,7 @@ def _is_menu_visible(
     account_type: str | None = None,
     build_role: str | None = None,
     warehouse_menu_tier: str | None = None,
+    login_profile: str | None = None,
     license_keys: Iterable[str] | None = None,
     is_super_user: bool = False,
 ) -> bool:
@@ -47,6 +54,7 @@ def _is_menu_visible(
         account_type=account_type,
         build_role=build_role,
         warehouse_menu_tier=warehouse_menu_tier,
+        login_profile=login_profile,
         is_super_user=is_super_user,
     )
 
@@ -84,6 +92,7 @@ class TestMatrixDriftGuards:
     def test_decision_refs_present(self, matrix):
         refs = set(matrix.get("decision_refs", []))
         assert "DEC-RBAC-02" in refs
+        assert "DEC-RBAC-04" in refs
 
     def test_known_account_types_complete(self, matrix):
         types = set(matrix.get("account_types", []))
@@ -129,3 +138,46 @@ class TestUndefinedMenuClosed:
     def test_unknown_menu_id_false(self, matrix):
         ids = {m["id"] for m in matrix["menus"]}
         assert "ACC-MENU-NAV-NONEXISTENT" not in ids
+
+
+class TestLoginProfileAllowance:
+    def test_department_accounting_profile_opens_nav04(self, matrix):
+        nav04 = next(m for m in matrix["menus"] if m["id"] == "ACC-MENU-NAV-04")
+        # 기존 RBAC 축만 보면 warehouse_publisher 는 NAV-04 비허용.
+        assert not _is_menu_visible(
+            nav04,
+            account_type="T3",
+            build_role="warehouse_publisher",
+            warehouse_menu_tier="lite",
+        )
+        # login_profile 예외는 기존 RBAC 대비 "추가 허용"으로 동작해야 한다.
+        assert _is_menu_visible(
+            nav04,
+            account_type="T3",
+            build_role="warehouse_publisher",
+            warehouse_menu_tier="lite",
+            login_profile="department_accounting",
+        )
+
+    def test_pairwise_profile_split_for_same_tenant_shape(self, matrix):
+        nav02 = next(m for m in matrix["menus"] if m["id"] == "ACC-MENU-NAV-02")
+        nav04 = next(m for m in matrix["menus"] if m["id"] == "ACC-MENU-NAV-04")
+        nav09 = next(m for m in matrix["menus"] if m["id"] == "ACC-MENU-NAV-09")
+
+        # same tenant context: T3 + warehouse_publisher + lite
+        ctx = {
+            "account_type": "T3",
+            "build_role": "warehouse_publisher",
+            "warehouse_menu_tier": "lite",
+        }
+
+        # publisher_main/프로파일 미지정: 기존 RBAC 결과 유지
+        assert not _is_menu_visible(nav02, **ctx, login_profile="publisher_main")
+        assert not _is_menu_visible(nav04, **ctx, login_profile="publisher_main")
+        assert _is_menu_visible(nav09, **ctx, login_profile="publisher_main")
+        assert not _is_menu_visible(nav04, **ctx, login_profile=None)
+
+        # department_accounting: NAV-04만 추가 허용
+        assert not _is_menu_visible(nav02, **ctx, login_profile="department_accounting")
+        assert _is_menu_visible(nav04, **ctx, login_profile="department_accounting")
+        assert _is_menu_visible(nav09, **ctx, login_profile="department_accounting")
