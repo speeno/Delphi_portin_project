@@ -61,13 +61,66 @@ CI 환경에서는 4대 서버 직접 접속이 차단되어 본 단계는 운�
 
 | 항목 | 사유 |
 |------|------|
-| `courier.list_courier_lines` (`hcodeFrom`/`hcodeTo`) | 총판 운영 화면의 범위 검색 — `range_filter` 정책 |
-| `courier.get_courier_memo` / `*memo` PATCH | hcode 가 합성키의 일부 — `key_identity` |
-| 단건 처리 `*_key` 라우터 (POST/PUT/PATCH/DELETE) | hcode 는 키 식별자 |
+| 단건 처리 `*_key` 라우터 (order_key/return_key/billing_key 의 POST/PUT/PATCH) | hcode 는 합성키 식별자 — `key_identity` |
 | `inbound.daily_report`, `inbound.period_report` | hcode 파라미터 자체 없음 (`n_a`) |
+| `public_lookup.activate_lookup` | 로그인 이전 공개 계정복구 — 인증 컨텍스트 없음 (`# noqa` 명시) |
+
+> 2026-05-29: `courier.list_courier_lines`(`hcodeFrom`/`hcodeTo`)와
+> `courier.*memo` 는 더 이상 비대상이 아니다 — §8 갭 클로즈로 `scope_identity`
+> 가드가 적용되어 격리 계정의 타사 hcode 접근을 403 으로 차단한다.
 
 ## 7. 후속 작업 (선택)
 
 - [`debug/probe_backend_all_servers.py`](../../debug/probe_backend_all_servers.py) 의 dependency override 를
   T2_PUB 컨텍스트 변종으로 확장하면 4대 DB 라이브 가드를 CI 에 자동 통합 가능.
 - 프론트 `placeholder` 문구 통일은 별도 UX 개선 티켓에서 진행 (백엔드 회귀 0건이라 우선순위 낮음).
+
+## 8. ACC-DATA-03 갭 클로즈 (2026-05-29)
+
+Phase 4 에서 list/집계 GET 의 `hcode` Query 는 막혔으나, **식별자 파라미터로 Hcode 를
+우회**하는 경로가 남아 있었다(도서 마스터 125,861건 노출과 동일 클래스). 본 단계에서
+일반화 가드로 폐쇄했다.
+
+### 8.1 폐쇄한 우회 경로
+
+| 라우터/엔드포인트 | 우회 벡터 | 적용 가드 |
+|---|---|---|
+| `ledger.get_customer_ledger` | `customerCode` → 서비스에서 그대로 `Hcode` | `enforce_hcode_identity` |
+| `ledger.get_integrated_customer_ledger` | `customerPattern` → `Hcode LIKE` | `enforce_hcode_pattern` + 서비스 `scope_hcode` 정확일치 |
+| `ledger.list_publisher_settings` (`/comparison`) | `G7_Ggeo` 전체(hcode 필터 없음) | `resolve_scope_hcode` → 서비스 `Gcode=%s` |
+| `ledger.patch_publisher_setting` | `gcode` 쓰기 | `enforce_hcode_identity` |
+| `courier.list_courier_lines` | `hcodeFrom`/`hcodeTo` 구간 | `enforce_hcode_range` |
+| `courier.get/patch_courier_memo` | `hcode` 단건 | `enforce_hcode_identity` |
+| `scan.scan_match` | body `hcode` | `enforce_hcode_identity` |
+| `transactions.upsert_other_statement_memo` | body `hcode` (PATCH) | `enforce_hcode_identity` |
+
+세 라우터(`ledger`/`courier`/`scan`)는 `get_current_user` → `get_user_context` 로
+전환해 `account_type`/점검 오버레이를 반영한다.
+
+### 8.2 신규 헬퍼·최후 방어선
+
+| 항목 | 위치 |
+|---|---|
+| `enforce_hcode_identity` / `enforce_hcode_range` / `enforce_hcode_pattern` | [`deps.py`](../../도서물류관리프로그램/backend/app/core/deps.py) |
+| `guard_scope_bound` (런타임 회귀 검출) + `append_hcode_clause(guard=True)` | [`hcode_isolation.py`](../../도서물류관리프로그램/backend/app/core/hcode_isolation.py) |
+| 요청 범위 scope ContextVar | [`hcode_scope_context.py`](../../도서물류관리프로그램/backend/app/core/hcode_scope_context.py) |
+
+`BLS_HCODE_SCOPE_GUARD=strict` 면 multi-tenant 테이블 scope 누락 시 `RuntimeError`
+(테스트/CI 권장), 기본 `warn` 은 `audit.hcode_scope` 로그.
+
+### 8.3 검증 결과 (2026-05-29)
+
+| 항목 | 상태 | 결과 |
+|---|---|---|
+| `audit_router_hcode_coalesce --strict` (식별자/POST·PATCH 확장) | ✅ green | `endpoints=218 scope_idents=44 critical=0 info=43 skipped_noqa=1` |
+| `audit_domain_api_hcode_filter --strict` | ✅ green | `critical=0 warn=0` |
+| `test_hcode_identifier_guards` | ✅ 20/20 | identity/range/pattern + guard strict/warn |
+| `test_ledger_courier_scan_hcode_isolation` | ✅ 13/13 | 타사 식별자 403 + 본인/빈값 scope 강제 + 총판 광역 |
+| 기존 hcode 스위트 회귀 | ✅ 32/32 | enforce/masters/coalesce/book-sales/audit |
+
+### 8.4 감사 도구 확장
+
+[`audit_router_hcode_coalesce.py`](../../tools/audit_router_hcode_coalesce.py) 가
+GET 의 optional `hcode` 뿐 아니라 **식별자 파라미터**(`customerCode`/`customerPattern`/
+`hcodeFrom`/`hcodeTo`) 와 **POST/PATCH body `hcode`** 까지 critical 로 탐지한다.
+신규 헬퍼 3종이 `_ALLOWED_HELPERS` 에 등록됐다.

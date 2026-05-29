@@ -1,14 +1,45 @@
 {
-  "generated_at": "2026-05-25T07:51:15.149745+00:00",
+  "generated_at": "2026-05-29T04:34:38.940824+00:00",
   "summary": {
     "files_scanned": 24,
-    "endpoints_seen": 217,
+    "endpoints_seen": 218,
     "optional_hcode_endpoints": 36,
+    "scope_identifier_endpoints": 44,
     "critical": 0,
-    "info": 36,
-    "skipped_noqa": 0
+    "info": 43,
+    "skipped_noqa": 1
   },
   "findings": [
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/courier.py",
+      "function": "list_courier_lines",
+      "path": "/lines",
+      "method": "GET",
+      "lineno": 40,
+      "severity": "info",
+      "reason": "scoped_with_helper (idents=hcodeFrom,hcodeTo)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/courier.py",
+      "function": "get_courier_memo",
+      "path": "/memo",
+      "method": "GET",
+      "lineno": 75,
+      "severity": "info",
+      "reason": "scoped_with_helper (idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/courier.py",
+      "function": "patch_courier_memo",
+      "path": "/memo",
+      "method": "PATCH",
+      "lineno": 105,
+      "severity": "info",
+      "reason": "scoped_with_helper (idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
       "function": "get_weather_risk",
@@ -16,8 +47,8 @@
       "method": "GET",
       "lineno": 41,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
@@ -26,8 +57,8 @@
       "method": "GET",
       "lineno": 260,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
@@ -36,8 +67,8 @@
       "method": "GET",
       "lineno": 301,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
@@ -46,8 +77,8 @@
       "method": "GET",
       "lineno": 108,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
@@ -56,8 +87,28 @@
       "method": "GET",
       "lineno": 28,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "function": "get_customer_ledger",
+      "path": "/customer",
+      "method": "GET",
+      "lineno": 123,
+      "severity": "info",
+      "reason": "scoped_with_helper (idents=customer_code)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "function": "get_integrated_customer_ledger",
+      "path": "/customer-integrated",
+      "method": "GET",
+      "lineno": 198,
+      "severity": "info",
+      "reason": "scoped_with_helper (idents=customer_pattern)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/masters.py",
@@ -66,8 +117,8 @@
       "method": "GET",
       "lineno": 1012,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
@@ -76,8 +127,8 @@
       "method": "GET",
       "lineno": 95,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
@@ -86,8 +137,8 @@
       "method": "GET",
       "lineno": 146,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
@@ -96,8 +147,8 @@
       "method": "GET",
       "lineno": 39,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
@@ -106,8 +157,8 @@
       "method": "GET",
       "lineno": 89,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
@@ -116,8 +167,8 @@
       "method": "GET",
       "lineno": 134,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
@@ -126,8 +177,8 @@
       "method": "GET",
       "lineno": 157,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
@@ -136,8 +187,8 @@
       "method": "GET",
       "lineno": 190,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
@@ -146,8 +197,8 @@
       "method": "GET",
       "lineno": 215,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
@@ -156,8 +207,18 @@
       "method": "GET",
       "lineno": 250,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/scan.py",
+      "function": "scan_match",
+      "path": "/match",
+      "method": "POST",
+      "lineno": 60,
+      "severity": "info",
+      "reason": "scoped_with_helper (body_hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
@@ -166,8 +227,8 @@
       "method": "GET",
       "lineno": 182,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
@@ -176,8 +237,8 @@
       "method": "GET",
       "lineno": 210,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
@@ -186,8 +247,8 @@
       "method": "GET",
       "lineno": 245,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
@@ -196,8 +257,8 @@
       "method": "GET",
       "lineno": 431,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
@@ -206,8 +267,8 @@
       "method": "GET",
       "lineno": 537,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
@@ -216,8 +277,8 @@
       "method": "GET",
       "lineno": 726,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -226,8 +287,8 @@
       "method": "GET",
       "lineno": 74,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -236,8 +297,8 @@
       "method": "GET",
       "lineno": 113,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -246,8 +307,8 @@
       "method": "GET",
       "lineno": 147,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -256,8 +317,8 @@
       "method": "GET",
       "lineno": 180,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -266,8 +327,8 @@
       "method": "GET",
       "lineno": 217,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -276,8 +337,8 @@
       "method": "GET",
       "lineno": 250,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -286,8 +347,8 @@
       "method": "GET",
       "lineno": 279,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -296,8 +357,8 @@
       "method": "GET",
       "lineno": 301,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -306,8 +367,8 @@
       "method": "GET",
       "lineno": 323,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -316,8 +377,8 @@
       "method": "GET",
       "lineno": 345,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -326,8 +387,8 @@
       "method": "GET",
       "lineno": 367,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
@@ -336,38 +397,48 @@
       "method": "GET",
       "lineno": 445,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "list_other_statements",
       "path": "/other",
       "method": "GET",
-      "lineno": 92,
+      "lineno": 97,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "function": "upsert_other_statement_memo",
+      "path": "/other/memo",
+      "method": "PATCH",
+      "lineno": 135,
+      "severity": "info",
+      "reason": "scoped_with_helper (body_hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "list_sales_statements",
       "path": "/sales-statement",
       "method": "GET",
-      "lineno": 160,
+      "lineno": 167,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_transactions_status",
       "path": "/status",
       "method": "GET",
-      "lineno": 230,
+      "lineno": 237,
       "severity": "info",
-      "reason": "optional_hcode_with_helper",
-      "recommended_action": "OK — enforce_hcode_isolation 사용 확인"
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     }
   ]
 }

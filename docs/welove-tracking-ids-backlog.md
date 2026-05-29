@@ -48,7 +48,7 @@
 |---|---|
 | `SCH-RECON-03` (23 미사전 테이블) | "사전 누락" 컬럼 신설 + 신규 화면 포팅 시 SME 회의 의제로 격상. |
 | `SCH-WELOVE-출판-T2_Ssub` 등 우선 5 | 사전 보강 PR 후보로 등록. |
-| `ACC-T2-PUB` `hcode` 격리 (M4 보류) | 데이터 격리 행 강제 미구현 갭 명시. |
+| `ACC-T2-PUB` `hcode` 격리 (M4 APPLIED 2026-05-29) | 행 강제 완료 — list/집계(`enforce_hcode_isolation`) + 식별자 우회(`enforce_hcode_identity/range/pattern`, 타사 403). DoD `analysis/audit/hcode-isolation-dod.md` §8. |
 | `PROF-GAP-01..04` | 프로필/비번 self-service 미구현 4 갭. |
 
 ---
@@ -60,7 +60,7 @@
 | `OQ-LOGIN-2` (`SCH-RECON-01`) | `Id_Logn.gcode/gname` 의 의미가 사전 vs 계약에서 반대 — SME + 운영 DB 1행 조회 후 동결. | DEC ID 발급 + `login.yaml` 정정. |
 | `OQ-DBL-NEW-1` (`SCH-RECON-02`) | `S1_Chek` vs `S1_CheK` 대소문자 — 운영 DB `SHOW TABLES LIKE` 확인. | 사전 정정 PR. |
 | `OQ-SCH-NEW-1` (`SCH-RECON-03`) | 23 미사전 테이블의 사전 보강. | 우선 5 항목 사전 PR. |
-| `OQ-DSN-1` (`DSN-RISK-01`) | 동일 서버·동일 DB 에서 `hcode` 만 다른 출판사의 행 격리 정책 — M4 결정과 묶음. | DEC 발급. |
+| `OQ-DSN-1` (`DSN-RISK-01`) | 동일 서버·동일 DB 에서 `hcode` 만 다른 출판사의 행 격리 정책 — M4 결정과 묶음. | ✅ CLOSED — ACC-DATA-03 (M4) 행격리 적용 (2026-05-29, `decisions.md` 최신 changelog). |
 | `OQ-DSN-2` (`DSN-RISK-02`) | 단일 인증 서버 장애 시 절체 절차 — HA 또는 수동 fallback. | 운영 런북 §3 추가. |
 | `OQ-ONB-1` (`ONB-RISK-02`) | 멀티 총판 소속 출판사 (`ACC-T2-PUB-MULTI`) — 본 사이클 비커버. | 별 사이클 spec. |
 | `OQ-ONB-2` (`ONB-RISK-03`) | T3 가입 시 신규 DSN 부여 자동화 — R1 단계 후. | DEC-052 R1 승격. |

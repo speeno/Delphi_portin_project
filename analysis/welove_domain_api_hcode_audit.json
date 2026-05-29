@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-25T07:51:15.705514+00:00",
+  "generated_at": "2026-05-29T04:34:39.541744+00:00",
   "summary": {
     "files_scanned": 64,
     "sql_literals": 253,
@@ -167,7 +167,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "list_publisher_settings",
-      "lineno": 101,
+      "lineno": 113,
       "tables": [
         "G7_Ggeo"
       ],
@@ -179,7 +179,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "list_publisher_settings",
-      "lineno": 107,
+      "lineno": 119,
       "tables": [
         "G7_Ggeo"
       ],
@@ -191,7 +191,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "<module>",
-      "lineno": 213,
+      "lineno": 225,
       "tables": [
         "Sb_Csum"
       ],
@@ -203,7 +203,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "<module>",
-      "lineno": 217,
+      "lineno": 229,
       "tables": [
         "Sb_Csum"
       ],
@@ -215,7 +215,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "_grand_summary_single",
-      "lineno": 498,
+      "lineno": 510,
       "tables": [
         "S1_Ssub"
       ],

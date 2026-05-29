@@ -87,6 +87,39 @@ ENDPOINTS = [
         "params": {"serverId": SERVER_ID, "monthFrom": DATE_FROM[:7], "monthTo": DATE_TO[:7], "limit": 50},
         "count_key": "page.total",
     },
+    # ── ACC-DATA-03 갭 클로즈 — 식별자/범위/패턴/body hcode tamper 경로 ──
+    {
+        "name": "ledger.customer (customerCode→Hcode)",
+        "path": "/api/v1/ledger/customer",
+        "params": {"serverId": SERVER_ID, "dateFrom": DATE_FROM, "dateTo": DATE_TO, "limit": 50},
+        "count_key": "page.total",
+        "tamper_param": "customerCode",
+        "own_required": True,  # customerCode 는 required — 빈 호출 생략.
+    },
+    {
+        "name": "ledger.customer-integrated (customerPattern)",
+        "path": "/api/v1/ledger/customer-integrated",
+        "params": {"serverId": SERVER_ID, "dateFrom": DATE_FROM, "dateTo": DATE_TO, "limit": 50},
+        "count_key": "page.total",
+        "tamper_param": "customerPattern",
+    },
+    {
+        "name": "courier.lines (hcodeFrom)",
+        "path": "/api/v1/shipping/courier/lines",
+        "params": {"serverId": SERVER_ID, "gdate": DATE_FROM.replace("-", "."), "limit": 50},
+        "count_key": "total",
+        "tamper_param": "hcodeFrom",
+    },
+    {
+        "name": "scan.match (body hcode)",
+        "path": "/api/v1/scan/match",
+        "method": "POST",
+        "body": {"barcode": "0000000000000", "context": "outbound", "server_id": SERVER_ID},
+        "count_key": None,
+        "tamper_param": "hcode",
+        "tamper_in": "body",
+        "own_required": True,
+    },
 ]
 
 
@@ -100,13 +133,21 @@ def _walk(d: Any, path: str) -> Any:
     return cur
 
 
-def _call(token: str, path: str, params: dict[str, Any]) -> tuple[int, dict[str, Any]]:
-    r = requests.get(
-        BASE + path,
-        params=params,
-        headers={"Authorization": f"Bearer {token}"} if token else {},
-        timeout=TIMEOUT,
-    )
+def _call(
+    token: str,
+    path: str,
+    params: dict[str, Any],
+    *,
+    method: str = "GET",
+    json_body: dict[str, Any] | None = None,
+) -> tuple[int, dict[str, Any]]:
+    headers = {"Authorization": f"Bearer {token}"} if token else {}
+    if method.upper() == "POST":
+        r = requests.post(
+            BASE + path, params=params, json=json_body or {}, headers=headers, timeout=TIMEOUT
+        )
+    else:
+        r = requests.get(BASE + path, params=params, headers=headers, timeout=TIMEOUT)
     body: dict[str, Any]
     try:
         body = r.json()
@@ -115,36 +156,60 @@ def _call(token: str, path: str, params: dict[str, Any]) -> tuple[int, dict[str,
     return r.status_code, body
 
 
+def _apply_tamper(
+    ep: dict[str, Any], base_params: dict[str, Any], value: str
+) -> tuple[dict[str, Any], dict[str, Any] | None]:
+    """tamper_param 을 query 또는 body 에 주입한 (params, json_body) 반환."""
+    param = ep.get("tamper_param", "hcode")
+    where = ep.get("tamper_in", "query")
+    body = dict(ep["body"]) if ep.get("body") is not None else None
+    params = dict(base_params)
+    if where == "body" and body is not None:
+        body[param] = value
+    else:
+        params[param] = value
+    return params, body
+
+
 def _check(ep: dict[str, Any]) -> dict[str, Any]:
     name = ep["name"]
     path = ep["path"]
     base_params = dict(ep["params"])
     count_key = ep["count_key"]
+    method = ep.get("method", "GET")
+    base_body = dict(ep["body"]) if ep.get("body") is not None else None
+    own_required = bool(ep.get("own_required"))
 
     if not T2_TOKEN:
         return {"endpoint": name, "skipped": "PROBE_T2_PUB_TOKEN missing"}
 
-    # 1) T2_PUB 빈 hcode
-    s1, b1 = _call(T2_TOKEN, path, base_params)
-    # 2) T2_PUB 명시 hcode = 본인
-    s2, b2 = _call(T2_TOKEN, path, {**base_params, "hcode": HCODE})
-    # 3) T2_PUB 명시 다른 hcode (격리 가드)
-    s3, b3 = _call(T2_TOKEN, path, {**base_params, "hcode": "OTHER"})
-    # 4) Super 빈 hcode (있으면)
+    # 1) T2_PUB 빈 식별자 (required 식별자면 생략).
+    if own_required:
+        s1, b1 = None, None
+    else:
+        s1, b1 = _call(T2_TOKEN, path, base_params, method=method, json_body=base_body)
+    # 2) T2_PUB 명시 식별자 = 본인 hcode
+    own_params, own_body = _apply_tamper(ep, base_params, HCODE)
+    s2, b2 = _call(T2_TOKEN, path, own_params, method=method, json_body=own_body)
+    # 3) T2_PUB 명시 타사 식별자 (격리 가드 → 403)
+    oth_params, oth_body = _apply_tamper(ep, base_params, "OTHER")
+    s3, b3 = _call(T2_TOKEN, path, oth_params, method=method, json_body=oth_body)
+    # 4) Super 빈 식별자 (있으면)
     s4 = b4 = None
-    if SUPER_TOKEN:
-        s4, b4 = _call(SUPER_TOKEN, path, base_params)
+    if SUPER_TOKEN and not own_required:
+        s4, b4 = _call(SUPER_TOKEN, path, base_params, method=method, json_body=base_body)
 
-    n1 = _walk(b1, count_key) if s1 == 200 else None
-    n2 = _walk(b2, count_key) if s2 == 200 else None
-    n4 = _walk(b4, count_key) if (s4 == 200 and b4) else None
+    n1 = _walk(b1, count_key) if (count_key and s1 == 200) else None
+    n2 = _walk(b2, count_key) if (count_key and s2 == 200) else None
+    n4 = _walk(b4, count_key) if (count_key and s4 == 200 and b4) else None
 
     return {
         "endpoint": name,
-        "t2pub_empty": {"status": s1, "count": n1},
+        "tamper_param": ep.get("tamper_param", "hcode"),
+        "t2pub_empty": {"status": s1, "count": n1} if not own_required else "n/a",
         "t2pub_own": {"status": s2, "count": n2},
         "t2pub_other": {"status": s3, "expected": 403},
-        "super_empty": {"status": s4, "count": n4} if SUPER_TOKEN else "n/a",
+        "super_empty": {"status": s4, "count": n4} if (SUPER_TOKEN and not own_required) else "n/a",
         "dod_isolation_match": (n1 == n2) if (n1 is not None and n2 is not None) else None,
         "dod_tamper_403": s3 == 403,
         "dod_super_wider": (n4 is not None and n1 is not None and n4 > n1)

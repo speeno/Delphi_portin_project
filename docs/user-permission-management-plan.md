@@ -1,7 +1,7 @@
 # 사용자 권한관리 동등성 회복 계획 (Legacy ↔ Modern Parity)
 
 - **ID**: PLAN-AUTH-PARITY-2026-04-22
-- **상태**: **부분 적용 (M0+M1+M2+M5 APPLIED 2026-04-22)** — M3·M4·M6·M7 은 사용자 SME 확인 대기 (§8)
+- **상태**: **부분 적용 (M0+M1+M2+M5 APPLIED 2026-04-22, M4 APPLIED 2026-05-29)** — M3·M6·M7 은 사용자 SME 확인 대기 (§8)
 - **owner**: 메인개발자
 - **연관 결정**: DEC-005(비번 평문→해시), DEC-007(슈퍼유저 분기 폐지), DEC-020(legacy_permission_map), DEC-041(RBAC 정공법 / 401·403 인터셉터), DEC-043(IdP/SSO 인터페이스 분리), DEC-046(권한 d_select), DEC-047(시드 폴백 BLS_DEFAULT_ROLE), DEC-051(인증 서버 단일화), DEC-052(사용자별 1:1 데이터 서버), DEC-055(list 화면 상태 보존)
 - **연관 산출물**: `legacy-analysis/permission-keys-catalog.md`(F11~F89 30 정본 카탈로그), `analysis/handlers/c10_phase1.md`, `analysis/screen_cards/Subu10.md`, `analysis/layout_mappings/Id_Logn.md`
@@ -20,7 +20,7 @@
 | 메뉴 가시성 (`X` ⇒ 메뉴 비표시) | 메뉴 클릭 시 `if nUse2='X' then ShowMessage` | ✅ **APPLIED 2026-04-22 (M2)** — 사이드바 `usePermissions()` 게이팅 + 그룹 빈 시 자동 hidden | (완료) |
 | `D_Select` 행 prefix | `WHERE D_Select+...` SQL 접두사 | ⚠️ `build_d_select_clause` 인터페이스만 존재, 실제 SQL 미삽입 | ⏸️ **M3 보류** — SME 확인 필요 |
 | `S_Where0/1/2` 거래처 BL/WL | `Hnnnn` 별 IN/NOT IN 빌드 | ❌ 미포팅 | ⏸️ **M6 보류** — SME 확인 필요 |
-| `Hcode` 멀티테넌트 격리 | `Hnnnn=Hcode` 사용자만 자기 데이터 | ⚠️ JWT 에 `hcode` 있으나 도메인 SQL 비강제 (URL 파라미터 신뢰) | ⏸️ **M4 보류** — SME 확인 필요 |
+| `Hcode` 멀티테넌트 격리 | `Hnnnn=Hcode` 사용자만 자기 데이터 | ✅ list/집계 + 식별자 우회 경로 모두 강제 (`enforce_hcode_isolation` + `enforce_hcode_identity/range/pattern`) | ✅ **M4 APPLIED** (ACC-DATA-03, Phase4 2026-05-25 + 갭 클로즈 2026-05-29) |
 | Id_Logn 권한 변경 | DBA SQL 직수정 (전용 UI 없음) | ✅ **APPLIED 2026-04-22 (M1)** — `LegacyIdLognProvider.fetch_fxx_matrix()` 어댑터 신설 + `_resolve_role_and_permissions_async()` 합류 | (완료) |
 | 시드 미완료 사용자 | (해당 없음 — 모든 사용자가 Id_Logn 한 행) | ✅ **APPLIED 2026-04-22 (M1+M5)** — Id_Logn 어댑터 + 52건 시드로 자동 합성 (web_admin.json 시드 폴백 의존도 제거) | (완료) |
 
@@ -95,7 +95,7 @@ return "", []
 | G2. Id_Logn 실 DB 어댑터 부재 | `auth_provider.py::LegacyIdLognProvider` (메서드 없음) | **P0** | 시드 외 모든 사용자 403 | ✅ **APPLIED 2026-04-22 (M1)** |
 | G3. 사이드바 권한 게이팅 부재 | `frontend/src/components/app-shell/sidebar.tsx` | **P1** | 권한 없는 메뉴 노출 → 클릭 시 403 토스트 | ✅ **APPLIED 2026-04-22 (M2)** |
 | G4. d_select 결과 SQL 미삽입 | 모든 도메인 service (`returns_service.py` L1178 등) 로깅만 | **P1** | 멀티테넌트 격리 미작동 | ⏸️ M3 보류 (SME) |
-| G5. Hcode 격리 라우터 가드 부재 | `routers/ledger.py` 등 | **P1** | URL `customer_code=` 변조 시 타테넌트 노출 | ⏸️ M4 보류 (SME) |
+| G5. Hcode 격리 라우터 가드 부재 | `routers/ledger.py` 등 | **P1** | URL `customer_code=` 변조 시 타테넌트 노출 | ✅ APPLIED 2026-05-29 (`enforce_hcode_identity` — 타사 403) |
 | G6. 'R' read-only 의미 손실 | `core/deps.py::require_permission` | **P2** | DBGrid readonly UX 미회복 | ✅ **부분 APPLIED 2026-04-22 (M5)** — 시드 + 페어 합성 완료, 페이지별 UI 토글은 별도 |
 | G7. `S_Where0/1/2` 미포팅 | (없음) | **P2** | 거래처 BL/WL 운영 시나리오 차단 (SME 확인 필요) | ⏸️ M6 보류 (SME) |
 | G8. 변형사 D_Select 채움 값 미정 | `core/d_select.py` L63 | **P2** | 회원사 트리 소프트삭제 의미 누락 (SME 확인 필요) | ⏸️ M7 보류 (SME) |
@@ -365,7 +365,7 @@ debug/probe_backend_all_servers.py \
 | 4 | M5 (선행) — `legacy_permission_map` 52건 시드 (카탈로그 §1+§4) | 0.5d | `web_admin.json`, `admin_service.py` | `test_legacy_permission_map_full_seed` | ✅ DONE 2026-04-22 |
 | 5 | M2 — `usePermissions` + `Sidebar` 게이팅 + `form-registry.ts` 매핑 | 1d | `use-permissions.ts`, `sidebar.tsx`, `form-registry.ts` | `test_sidebar_permission_gating.py` | ✅ DONE 2026-04-22 |
 | 6 | M3 — d_select SQL 삽입 (도메인별 PR 분리 — ledger / inventory / transactions / returns) | 2d | service 4건 | `test_d_select_injection` | ⏸️ SME 대기 |
-| 7 | M4 — Hcode 격리 가드 | 1d | `core/deps.py` + 라우터 5건 | `test_hcode_isolation` | ⏸️ SME 대기 |
+| 7 | M4 — Hcode 격리 가드 | 1d | `core/deps.py` + 라우터(ledger/courier/scan/transactions) | `test_hcode_identifier_guards` + `test_ledger_courier_scan_hcode_isolation` | ✅ APPLIED 2026-05-29 |
 | 8 | M5 (마무리) — `*.read` / `*.write` 페어 + role-read-only | 0.5d | `web_admin.json` | `test_role_read_only_blocks_write` | ✅ 페어 합성 DONE 2026-04-22, role-read-only 분리는 별도 |
 | 9 | T7-A — 4서버 probe (실 DB 환경) | 0.5d | `reports/probe-auth-parity-2026-MM-DD.json` | 4서버 동등 | ⏸️ 라이브 환경 필요 |
 | 10 | T7-B — `regression_phase2.py` 권한 축 추가 + 5축 체크 | 0.5d | `reports/regression-2026-MM-DD.json` | 5축 PASS | ⏸️ 후속 |

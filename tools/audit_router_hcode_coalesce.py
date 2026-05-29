@@ -40,8 +40,34 @@ DEFAULT_ROUTERS_DIR = (
 )
 DEFAULT_OUT = REPO_ROOT / "analysis" / "welove_router_hcode_audit.json"
 
-_ALLOWED_HELPERS = frozenset({"enforce_hcode_isolation", "coalesce_request_hcode"})
+_ALLOWED_HELPERS = frozenset(
+    {
+        "enforce_hcode_isolation",
+        "coalesce_request_hcode",
+        # ACC-DATA-03 보강 — 식별자/범위/패턴 tamper 가드 (deps.py).
+        "enforce_hcode_identity",
+        "enforce_hcode_range",
+        "enforce_hcode_pattern",
+    }
+)
 _NOQA_MARKER = "noqa: hcode-router-coalesce"
+
+# 테넌트 스코프를 결정하는 식별자 파라미터(인자명 또는 Query alias).
+#   - hcode/hcodeFrom/hcodeTo : courier 등 hcode 직접/구간
+#   - customerCode/customerPattern : ledger — 서비스에서 그대로 Hcode 필터로 사용
+_SCOPE_IDENT_NAMES = frozenset(
+    {
+        "hcode",
+        "hcodeFrom",
+        "hcodeTo",
+        "hcode_from",
+        "hcode_to",
+        "customerCode",
+        "customer_code",
+        "customerPattern",
+        "customer_pattern",
+    }
+)
 
 
 @dataclass
@@ -61,6 +87,7 @@ class Stats:
     files_scanned: int = 0
     endpoints_seen: int = 0
     optional_hcode_endpoints: int = 0
+    scope_identifier_endpoints: int = 0
     findings_critical: int = 0
     findings_info: int = 0
     skipped_noqa: int = 0
@@ -110,6 +137,79 @@ def _has_optional_hcode_query(func: ast.FunctionDef | ast.AsyncFunctionDef) -> b
     return False
 
 
+def _param_defaults(func: ast.FunctionDef | ast.AsyncFunctionDef) -> dict[str, ast.expr | None]:
+    defaults: dict[str, ast.expr | None] = {}
+    pdefs = list(func.args.defaults)
+    if pdefs:
+        for a, d in zip(func.args.args[-len(pdefs):], pdefs):
+            defaults[a.arg] = d
+    for a, d in zip(func.args.kwonlyargs, list(func.args.kw_defaults)):
+        defaults[a.arg] = d
+    return defaults
+
+
+def _query_alias(default: ast.expr | None) -> str | None:
+    """``Query(..., alias="x")`` 의 alias 문자열을 반환(없으면 None)."""
+    if not isinstance(default, ast.Call):
+        return None
+    if not (isinstance(default.func, ast.Name) and default.func.id == "Query"):
+        return None
+    for kw in default.keywords:
+        if kw.arg == "alias" and isinstance(kw.value, ast.Constant):
+            return str(kw.value.value)
+    return None
+
+
+def _tenant_scope_idents(func: ast.FunctionDef | ast.AsyncFunctionDef) -> list[str]:
+    """시그니처에서 테넌트 스코프 식별자 파라미터(인자명/Query alias)를 수집."""
+    defaults = _param_defaults(func)
+    args = list(func.args.args) + list(func.args.kwonlyargs)
+    found: list[str] = []
+    for a in args:
+        d = defaults.get(a.arg)
+        # Query 파라미터만 대상(Depends/Body 모델 제외).
+        if not (isinstance(d, ast.Call) and isinstance(d.func, ast.Name) and d.func.id == "Query"):
+            continue
+        alias = _query_alias(d)
+        if a.arg in _SCOPE_IDENT_NAMES:
+            found.append(a.arg)
+        elif alias and alias in _SCOPE_IDENT_NAMES:
+            found.append(alias)
+    return found
+
+
+def _collect_hcode_body_models(tree: ast.AST) -> set[str]:
+    """``hcode`` 필드를 가진 Pydantic BaseModel 클래스명 집합."""
+    models: set[str] = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ClassDef):
+            continue
+        base_names = {
+            (b.id if isinstance(b, ast.Name) else getattr(b, "attr", ""))
+            for b in node.bases
+        }
+        if "BaseModel" not in base_names:
+            continue
+        for stmt in node.body:
+            if isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
+                if stmt.target.id == "hcode":
+                    models.add(node.name)
+                    break
+    return models
+
+
+def _has_body_hcode_param(
+    func: ast.FunctionDef | ast.AsyncFunctionDef, body_models: set[str]
+) -> bool:
+    """POST/PATCH body 모델 파라미터가 hcode 필드를 갖는지."""
+    for a in list(func.args.args) + list(func.args.kwonlyargs):
+        ann = a.annotation
+        name = ann.id if isinstance(ann, ast.Name) else None
+        if name and name in body_models:
+            return True
+    return False
+
+
 def _body_text(source_lines: list[str], func: ast.AST) -> str:
     start = getattr(func, "lineno", 1) - 1
     end = getattr(func, "end_lineno", start + 1)
@@ -128,6 +228,7 @@ def _scan_file(path: Path, stats: Stats) -> list[Finding]:
         tree = ast.parse(src)
     except SyntaxError:
         return findings
+    body_models = _collect_hcode_body_models(tree)
     for node in ast.walk(tree):
         if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             continue
@@ -140,16 +241,38 @@ def _scan_file(path: Path, stats: Stats) -> list[Finding]:
         if method is None:
             continue
         stats.endpoints_seen += 1
-        # 본 도구는 GET (목록/집계) 위주. POST/PUT/PATCH/DELETE 는 단건 처리/식별자.
-        if method != "GET":
+
+        # 검출 축 1) GET 의 optional ``hcode: Query(None)`` (기존 정책).
+        is_optional_hcode_get = method == "GET" and _has_optional_hcode_query(node)
+        if is_optional_hcode_get:
+            stats.optional_hcode_endpoints += 1
+
+        # 검출 축 2) 메서드 무관 — 테넌트 스코프 식별자 파라미터 / body hcode.
+        idents = _tenant_scope_idents(node)
+        has_body_hcode = (
+            method in ("POST", "PUT", "PATCH")
+            and _has_body_hcode_param(node, body_models)
+        )
+        if idents or has_body_hcode:
+            stats.scope_identifier_endpoints += 1
+
+        if not (is_optional_hcode_get or idents or has_body_hcode):
             continue
-        if not _has_optional_hcode_query(node):
-            continue
-        stats.optional_hcode_endpoints += 1
+
         body = _body_text(src_lines, node)
         if _NOQA_MARKER in body:
             stats.skipped_noqa += 1
             continue
+
+        signal_bits: list[str] = []
+        if is_optional_hcode_get:
+            signal_bits.append("optional_hcode_query")
+        if idents:
+            signal_bits.append("idents=" + ",".join(sorted(set(idents))))
+        if has_body_hcode:
+            signal_bits.append("body_hcode")
+        signal = "; ".join(signal_bits)
+
         if _calls_helper(body):
             findings.append(
                 Finding(
@@ -159,8 +282,8 @@ def _scan_file(path: Path, stats: Stats) -> list[Finding]:
                     method=method,
                     lineno=node.lineno,
                     severity="info",
-                    reason="optional_hcode_with_helper",
-                    recommended_action="OK — enforce_hcode_isolation 사용 확인",
+                    reason=f"scoped_with_helper ({signal})",
+                    recommended_action="OK — enforce_hcode_* 가드 사용 확인",
                 )
             )
             stats.findings_info += 1
@@ -173,10 +296,11 @@ def _scan_file(path: Path, stats: Stats) -> list[Finding]:
                 method=method,
                 lineno=node.lineno,
                 severity="critical",
-                reason="optional_hcode_without_helper",
+                reason=f"scoped_without_helper ({signal})",
                 recommended_action=(
-                    "라우터에서 enforce_hcode_isolation(hcode, ctx) 로 감싸 "
-                    "JWT scope 자동 주입 + tamper 가드 부여"
+                    "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / "
+                    "enforce_hcode_range / enforce_hcode_pattern 로 감싸 "
+                    "JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
                 ),
             )
         )
@@ -215,6 +339,7 @@ def main() -> int:
             "files_scanned": stats.files_scanned,
             "endpoints_seen": stats.endpoints_seen,
             "optional_hcode_endpoints": stats.optional_hcode_endpoints,
+            "scope_identifier_endpoints": stats.scope_identifier_endpoints,
             "critical": stats.findings_critical,
             "info": stats.findings_info,
             "skipped_noqa": stats.skipped_noqa,
@@ -230,6 +355,7 @@ def main() -> int:
         f"[router-hcode-audit] files={stats.files_scanned} "
         f"endpoints={stats.endpoints_seen} "
         f"optional_hcode={stats.optional_hcode_endpoints} "
+        f"scope_idents={stats.scope_identifier_endpoints} "
         f"critical={stats.findings_critical} info={stats.findings_info} "
         f"skipped_noqa={stats.skipped_noqa}"
     )

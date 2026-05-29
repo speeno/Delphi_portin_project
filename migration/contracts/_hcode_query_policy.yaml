@@ -14,7 +14,7 @@
 #
 # 표기 약속: ✓=강제 / —=무필터 / ⚠=명시 hcode 검사 후 통과 또는 403 `HCODE_FORBIDDEN`.
 
-version: "2026-05-25"
+version: "2026-05-29"
 policy_tags:
   coalesce_jwt:
     description: |
@@ -58,15 +58,41 @@ policy_tags:
 
   key_identity:
     description: |
-      ``hcode`` 가 합성키의 일부(메모/단건 처리 등). 격리 의미 없음 — coalesce 미적용.
+      ``hcode`` 가 합성키의 일부(order_key/return_key/billing_key 등 단건 키 처리).
+      coalesce 미적용 — 식별자 자체가 키의 일부라 격리 의미 없음.
     notes:
       - "예: order_key/return_key/billing_key 의 PATCH/POST"
 
-  range_filter:
+  scope_identity:
     description: |
-      ``hcodeFrom`` / ``hcodeTo`` 범위 검색 (총판 운영 화면). coalesce 미적용.
+      ACC-DATA-03 보강(2026-05-29) — ``hcode`` 동등 식별자/범위/패턴을 Query/Body 로
+      받는 우회 경로. 격리 계정은 빈 값=본인 hcode 강제, 타사 값=403 ``HCODE_FORBIDDEN``.
+      T2_DIST/T1/super 는 입력 그대로(광역).
+      단건: ``enforce_hcode_identity`` / 구간: ``enforce_hcode_range`` /
+      패턴: ``enforce_hcode_pattern`` (모두 app.core.deps).
+    applies_to:
+      - 식별자 파라미터(customerCode, hcodeFrom~hcodeTo, body hcode 등)로 Hcode 를
+        직접 필터하는 GET/POST/PATCH 엔드포인트
+    backend_helper: app.core.deps.enforce_hcode_identity
+    account_matrix:
+      T1: "—"
+      T2_DIST: "—"
+      T2_PUB: "✓ (본인 강제, 타사 403)"
+      T3: "—"
+      T3_LITE: "✓ (chul_09)"
+    references:
+      - "[ACC-DATA-03](../../docs/onboarding-rbac-menu-matrix.md)"
+      - "[test/test_hcode_identifier_guards.py](../../test/test_hcode_identifier_guards.py)"
+      - "[test/test_ledger_courier_scan_hcode_isolation.py](../../test/test_ledger_courier_scan_hcode_isolation.py)"
+
+  scope_runtime_guard:
+    description: |
+      최후 방어선(2026-05-29) — multi-tenant 테이블을 scope 없이 조회하는 회귀를
+      요청 범위 ContextVar 로 런타임 검출. ``BLS_HCODE_SCOPE_GUARD=strict`` 면
+      ``RuntimeError``, 기본 warn 이면 ``audit.hcode_scope`` 로그.
+    backend_helper: app.core.hcode_isolation.guard_scope_bound
     notes:
-      - "예: 택배(NAV-16) D-KBT 단독 — `courier.list_courier_lines`"
+      - "append_hcode_clause(guard=True) 에 기본 내장; ledger 통합/출판사설정 직접 호출."
 
 # 도메인 contract → 정책 매핑 (선언적 색인)
 domain_contract_index:
@@ -110,5 +136,14 @@ domain_contract_index:
   special_master.yaml:
     - {endpoint: "GET /api/v1/masters/special", policy: coalesce_jwt}
   courier_management.yaml:
-    - {endpoint: "GET /api/v1/shipping/courier/lines", policy: range_filter}
-    - {endpoint: "GET|PATCH /api/v1/shipping/courier/memo", policy: key_identity}
+    - {endpoint: "GET /api/v1/shipping/courier/lines", policy: scope_identity}
+    - {endpoint: "GET|PATCH /api/v1/shipping/courier/memo", policy: scope_identity}
+  customer_book_ledger_phase2.yaml:
+    - {endpoint: "GET /api/v1/ledger/customer", policy: scope_identity}
+    - {endpoint: "GET /api/v1/ledger/customer-integrated", policy: scope_identity}
+    - {endpoint: "GET /api/v1/ledger/comparison", policy: implicit_scope}
+    - {endpoint: "PATCH /api/v1/ledger/comparison/{gcode}", policy: scope_identity}
+  transactions_other.yaml_memo:
+    - {endpoint: "PATCH /api/v1/transactions/other/memo", policy: scope_identity}
+  barcode_scan.yaml:
+    - {endpoint: "POST /api/v1/scan/match", policy: scope_identity}

@@ -410,7 +410,7 @@ sequenceDiagram
 | **T2 소속 출판사** | 동일 | 총판과 동일 서버, **다른 DB or 같은 DB·hcode 분리** | 본인 출판사 데이터 only (`hcode = self.hcode`) | 본인 데이터 INSERT/UPDATE, 마스터 RU |
 | **T3 독립 출판사** | 동일 | 별도 단독 DB (예: `book_kb`) | 본인 단독 | 본인 단독 |
 
-- `hcode` 격리는 `user-permission-management-plan.md` M4 (보류) 와 묶인다 — 본 DSN 결정은 **서버·DB 격리** 까지만, **행 레벨**(hcode) 강제는 별 결정.
+- `hcode` 격리는 `user-permission-management-plan.md` M4 (✅ APPLIED 2026-05-29, ACC-DATA-03) 와 묶인다 — 본 DSN 결정은 **서버·DB 격리** 까지만, **행 레벨**(hcode) 강제는 ACC-DATA-03 (별 결정, `analysis/audit/hcode-isolation-dod.md`).
 
 ---
 
@@ -441,7 +441,7 @@ sequenceDiagram
 
 **경계조건 / 비목표**:
 
-- 본 사이클은 **로그인 단계의 컨텍스트 분리** 만 다룬다. 도메인 API 의 행 레벨(hcode) 격리는 ``DSN-RISK-01``/``M4 (보류)`` 의 별 결정.
+- 본 사이클은 **로그인 단계의 컨텍스트 분리** 만 다룬다. 도메인 API 의 행 레벨(hcode) 격리는 ``DSN-RISK-01``/``M4 (✅ APPLIED 2026-05-29, ACC-DATA-03)`` 의 별 결정.
 - ``BLS_LOGIN_REQUIRE_TENANT_UNIQUE=1`` 은 ambiguous ownership 를 토큰 없이 401(``AUTH_OWNERSHIP_AMBIGUOUS``)로 차단하는 opt-in strict 모드다. 기본값은 토큰을 발급하되 fail-closed 동작에 의존한다.
 - T1/T2_DIST 처럼 “정의상 다중 테넌트 가시성” 인 row 는 시드의 ``default_account_type`` 이 ``T1``/``T2_DIST`` 이면 ``SHARED_COORD_NO_HCODE_GUARD`` 에서 자동 제외 (감사 도구 정책 — `tools/audit_welove_routing_consistency.py`).
 
@@ -493,13 +493,13 @@ sequenceDiagram
 
 | ID | 항목 | 정합 |
 |----|------|------|
-| `DSN-RISK-01` | 일부 출판사가 동일 서버·동일 DB 에서 `hcode` 만 다른 경우 — 행 레벨 격리 누수 위험 | M4 (보류) DEC 후 닫음 |
+| `DSN-RISK-01` | 일부 출판사가 동일 서버·동일 DB 에서 `hcode` 만 다른 경우 — 행 레벨 격리 누수 위험 | ✅ CLOSED 2026-05-29 — ACC-DATA-03 (M4) 행격리 적용 (`enforce_hcode_isolation` + 식별자 가드) |
 | `DSN-RISK-02` | 단일 인증 서버 장애 시 전 사용자 로그인 불가 | DEC-051 운영 가이드 — auth 서버 HA 또는 BLS_AUTH_SERVER_ID 장애 절체 절차 별도 |
 | `DSN-RISK-03` | `primary_server` 가 비어 있는 사용자(R1 단계) — 운영자 누락 위험 | 헤더 미설정 경고 배지(DEC-052) + 야간 audit 리포트 |
 | `DSN-RISK-04` | 메타(`welove_db_route_matrix.json`)와 운영 vault 의 자격증명 불일치 | secrets-policy 절차 — 신규 테넌트 추가 시 메타·vault 동시 갱신 PR |
 | `DSN-RISK-05` | DEC-008(단일 테넌트) 와의 충돌 — 본 결정은 **데이터 서버는 다중·인증 서버는 단일** 으로 좁혀 충돌 회피 | 명시 — `tenant_id` 컬럼 도입은 별 사이클(OQ-LOGIN-1) |
 | `DSN-RISK-06` (신규) | `Uses` 라벨만으로 라우팅 → `한국도서유통` 3 빌드 충돌 (`BLD-DIST-KBT` / `BLD-PUB-WAREHOUSE-BOOKNBOOK-NEW` / `BLD-PUB-KBT`) | DSN-DEC-06 합성 키로 해소 — `Uses` 단독 라우팅 코드는 `OQ-DSN-1` 에서 grep 후 제거 |
-| `DSN-RISK-07` (신규) | 동일 SKU 다중 테넌트 (`chul_09_db` 4 테넌트, `book_07_db` 2 테넌트) 에서 `hcode` 격리 누수 | DSN-DEC-06 + M4 (보류) 행 레벨 가드 동시 진행 — 별도 OQ-DSN-2 등록 |
+| `DSN-RISK-07` (신규) | 동일 SKU 다중 테넌트 (`chul_09_db` 4 테넌트, `book_07_db` 2 테넌트) 에서 `hcode` 격리 누수 | ✅ 행 레벨 가드 적용 2026-05-29 (ACC-DATA-03 M4 — T3 chul_09 `row_hcode_filter_required`); 서버·DB 격리는 DSN-DEC-06 진행 |
 | `DSN-RISK-08` (신규) | F-key 라이선스 폐지/추가 시 활성 세션의 JWT 가 stale → 폐지된 메뉴 접근 가능 | JWT TTL ≤ 1h + 백엔드 가드 이중 검증 (`tenant_features` 재조회) — `OQ-DSN-3` 에서 정책 확정 |
 | `DSN-RISK-09` (신규) | 동일 `Gcode` 가 다중 테넌트 DB 에 중복 존재 — 보조 식별자 미입력 시 라우팅 해석 모호 | DSN-DEC-08 — `AUTH_AMBIGUOUS_ROUTE` 단일 401 메시지로 통합. UI 는 충돌이 발견된 경우에만 보조 입력 노출 (회사 코드 / 회사 선택). |
 | `DSN-RISK-10` (신규) | 라우팅 해석 결과(`remote_id`) 가 SSH 터널 미가동 / mysql3 프로토콜 미지원 환경에서 401 로 묻힘 | 감사 로그 `resolved_db` / `resolved_via` 로 운영 추적 + 회귀 테스트(`멀티 서버 로그인`) 에서 4 `remote_*` 각 1건 PASS 강제. |
