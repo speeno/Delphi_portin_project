@@ -115,6 +115,19 @@ dfm `OnXxx` 와 모던 컴포넌트 핸들러를 1:1 로 매핑한다. 변형 �
 - [ ] 변형 차이는 `customer_variants` 에만 존재, 컴포넌트 코드에 if/switch 분기 0건.
 - [ ] DEC-028 §3 "버리는 정보" 가 코드에 들어가지 않았는지 (픽셀 left/top/width/height 등) 리뷰.
 
+## 7.1 모던 라우트 분리 (Subu22 → 2개 모던 화면)
+
+레거시 `Subu22` 한 폴더가 셸에 따라 두 업무로 쓰인다. **코드 분기 금지** 원칙에 따라
+모던에서는 논리 id·라우트만 분리하고, dfm 영역/위젯/이벤트 매핑(본 노트 §1~§5)은 공유한다.
+
+| 모던 논리 id | 라우트 | 메뉴 | 성격 | 상태 |
+| --- | --- | --- | --- | --- |
+| `Sobo22` | `/inbound/receipts` | 출고관리(shipment) | 입고 접수 CRUD | phase1 (C3) |
+| `Sobo22_inbound_statement` | `/transactions/inbound-statement` | 거래관리(transactions, Menu202) | 입고 명세 조회·출력 | scaffold (Phase 3) |
+
+> 두 화면의 필드/컬럼 차이는 `migration/contracts/inbound_receipt.yaml` `customer_variants`
+> 에만 기록한다(.cursor/rules/dfm-layout-input.mdc). `data-legacy-id` 는 원본 `Subu22` 유지.
+
 ## 8. 참조
 
 - DEC-028: dfm→html 산출물 영구 입력 동결.

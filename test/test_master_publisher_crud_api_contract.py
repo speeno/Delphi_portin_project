@@ -33,6 +33,8 @@ def _user_write() -> dict:
         "role": "operator",
         "hcode": "BR01",
         "permissions": ["master.write"],
+        # DEC-RBAC-04 — Sobo17 라우터는 require_fxx_write("F17") 로 가드한다 (account-menu-fxx-mapping §2.1).
+        "fxx_caps": {"F17": {"read": True, "write": True, "print": True}},
     }
 
 
@@ -55,12 +57,17 @@ async def _override_ctx() -> dict:
         "build_role": "",
         "account_type": "",
         "dist_hcode": "",
+        "fxx_caps": dict(u["fxx_caps"]),
     }
 
 
 async def _override_user_no_write() -> dict:
     u = _user_write()
-    return {**u, "permissions": ["master.customer.read"]}
+    return {
+        **u,
+        "permissions": ["master.customer.read"],
+        "fxx_caps": {"F17": {"read": True, "write": False, "print": True}},  # R 셀
+    }
 
 
 async def _override_ctx_no_write() -> dict:
@@ -78,6 +85,7 @@ async def _override_ctx_no_write() -> dict:
         "build_role": "",
         "account_type": "",
         "dist_hcode": "",
+        "fxx_caps": dict(u["fxx_caps"]),
     }
 
 
@@ -100,7 +108,7 @@ class PublisherCrudRouterTests(TestCase):
             app.dependency_overrides.pop(get_user_context, None)
 
     def test_post_publisher_calls_service(self) -> None:
-        async def fake_create(*, server_id: str, payload: dict) -> dict:  # noqa: ARG001
+        async def fake_create(*, server_id: str, payload: dict, scope_hcode=None) -> dict:  # noqa: ARG001
             self.assertEqual(server_id, _SID)
             self.assertEqual(payload.get("gcode"), "P999")
             return {"gcode": "P999", "created_at": "2026-05-08T00:00:00Z"}
@@ -143,8 +151,9 @@ class PublisherCrudStatic(TestCase):
             "async def create_publisher_master_route",
             "async def update_publisher_master_route",
             "async def delete_publisher_master_route",
-            "require_permission",
-            "_MASTER_WRITE_PERM",
+            # DEC-RBAC-04 — F26 master.write → F17 require_fxx_write 로 정정.
+            "require_fxx_write",
+            "_GUARD_F17",
         ):
             self.assertIn(token, src)
 

@@ -59,12 +59,22 @@ _갱신: 2026-04-22 — DEC-056 (M5 시드 일괄 적용) — `legacy_permission
 
 ## 2. 셀 값 의미
 
-| 값 | 의미 | 모던 동작 |
+| 값 | 의미 | 모던 동작 (read / write / **print**) |
 |----|------|-----------|
-| `O` | Read-Write (full) | 라우터 200 OK |
-| `R` | Read-Only | GET 200 / POST·PUT·DELETE 403 |
-| `X` | Deny | 메뉴 자체 비표시 + 라우터 403 |
+| `O` | Read-Write (full) | read ✓ · write ✓ · **print ✓** — 라우터 200 OK |
+| `R` | Read-Only | read ✓ · write ✗ · **print ✓** — GET 200 / POST·PUT·DELETE 403, 인쇄 허용 |
+| `X` | Deny | read ✗ · write ✗ · **print ✗** — 메뉴 비표시 + 라우터 403 |
 | ` ` (공백) | 미지정 (= X) | 동일 동작, UI 는 점선 |
+
+### 2.1 `print = read-level` 규정 (account-menu-fxx-rbac Phase B, step 6)
+
+레거시는 **별도 인쇄 권한 플래그(Fxx)가 없다**. 인쇄는 폼이 열린 상태에서 호출되는 폼 메서드이며(예: `Chul.pas`
+`if nForm='12' Then Sobo12.Print;` — 정본 빌드 `Button020Click`), 메뉴 핸들러의 `R` 분기는 입력 패널(`Panel002`/
+`Panel004`)·그리드 편집 이벤트만 비활성화할 뿐 **인쇄 버튼은 비활성화하지 않는다**. 따라서 모던 caps 파생 규약은:
+
+- **`print = read-level`** — `read == true` 면 `print == true` (O·R 모두 인쇄 가능), `X` 면 인쇄 불가.
+- 별도 `*.print` permission_code 는 신설하지 않는다. 인쇄가 read 와 다른 화면이 식별될 때만 예외적으로 파생.
+- 구현 정합: [`debug/probe_account_fxx_caps.py`](../debug/probe_account_fxx_caps.py) `derive_fkey_caps` (O→print:true / R→print:true / X→print:false) 가 본 규정의 단일 정본.
 
 ## 3. C10 신규 가드 매트릭스
 
@@ -89,6 +99,38 @@ _갱신: 2026-04-22 — DEC-056 (M5 시드 일괄 적용) — `legacy_permission
 
 > **명명 규약**: F51/F52/F53 은 §1 의 Sobo51/52/53 (`report.kpi.*` / `report.delivery.read`) 와 의미가 다르므로 카탈로그 키 자체는 `F51e`/`F52e`/`F53e` (extension 접미) 로 표기하고 `permission_code` 만 `admin.stats.*` 단일 정본으로 등록한다 (라우터 grep 가드는 `permission_code` 로 검사).
 
+## 4b. 빌드 변형 — 기초관리 Fxx 정본화 (`OQ-LICENSE-KEY-MAP` / account-menu-fxx-rbac Phase B step 6b)
+
+§1 의 「레거시 메뉴/폼」 칸은 **물류(WH) 빌드 스냅샷**([`legacy_delphi_source/legacy_source/Chul.pas`](../legacy_delphi_source/legacy_source/Chul.pas)) 기준으로 작성됐다. 그러나 동일 `Sobo##` 번호는 **빌드마다 다른 화면**을 가리킨다(빌드 변형). 정본은 **출판/총판/`chul_09(위러브)` 빌드** 의 `Chul.pas` `Menu10xClick` 이 실제로 호출하는 `Seek_Uses` 인자다.
+
+| 모던 메뉴 | 정본 `MenuXxxClick` → 폼 | 정본 `Seek_Uses` | permission_code (§1) | 비고 (빌드 변형) |
+|---|---|---|---|---|
+| `ACC-MENU-MASTERS-02` 입고처관리 | `Menu102Click` → `TSobo12` | **`F12`** | `master.book.read` | WH 빌드에서 Sobo12=도서 → 출판 빌드에서 입고처. permission_code 명은 WH 의미(단일 정본 유지). |
+| `ACC-MENU-MASTERS-03` 기타거래처 | `Menu105Click` → `TSobo15` | **`F15`** | `master.misc.read` | 웹 임시값 `F13` → **`F15` 정정**. |
+| `ACC-MENU-MASTERS-06` 저자관리 | `Menu103Click` → `TSobo13` | **`F13`** | `master.book_code.read` | 웹 임시값 `F19` → **`F13` 정정**. |
+
+근거(3 정본 빌드 일치): [`WeLove_FTP/도서유통-출판/Chul.pas`](../WeLove_FTP/도서유통-출판/Chul.pas) `Menu102`(L1872 `F12`)·`Menu103`(L1909 `F13`)·`Menu105`(L1983 `F15`); 총판·`chul_09(위러브)` 빌드 동일. 전체 매핑·라인 인용은 [`analysis/audit/account-menu-fxx-mapping.md`](../analysis/audit/account-menu-fxx-mapping.md) §3.
+
+> **게이트 키(Fxx) 와 permission_code 명은 분리한다.** 메뉴 가시성·라우터 가드는 **Fxx 라이선스 키**(F12/F13/F15)로 결정한다(빌드 무관). permission_code 명(`master.book.read` 등)은 WH 의미로 남아 있어 출판 화면 의미와 어긋나지만, **단일 정본 1 Fxx = 1 permission_code** 원칙(no build-branch, [`multi-db-compat`](../.cursor/rules/multi-db-compat.mdc)·[`dfm-layout-input`](../.cursor/rules/dfm-layout-input.mdc))을 지키기 위해 그대로 둔다. 3 누락 화면(입고처/기타거래처/저자) 의 새 화면 전용 permission_code 신설 여부는 **Phase F 백엔드** 에서 결정한다. 정합 계약: [`migration/contracts/menu_route_crud_map.yaml`](../migration/contracts/menu_route_crud_map.yaml)·[`rbac_menu_matrix.yaml`](../migration/contracts/rbac_menu_matrix.yaml).
+
+## 4c. F51~F55 vs settlement(F41~F49) 충돌 해소 — 라이브 근거 (account-menu-fxx-rbac Phase B step 5)
+
+**충돌**: §1 은 `F51~F55` 를 `report.*`(통계/KPI), `F41~F49` 를 `settlement.*`(정산/회계) 로 매핑한다. 그러나 [`infer_login_profile`](../도서물류관리프로그램/backend/app/services/auth_service.py) 은 `F51~F55` 만 가진 부서계정을 `department_accounting`("회계") 로 분류 → "회계" 라는 라벨이 정산(`settlement.*`) 을 쓰는 것처럼 오인될 소지.
+
+**라이브 실측 결론** ([`analysis/audit/account-menu-fxx-5019.json`](../analysis/audit/account-menu-fxx-5019.json), `remote_153`/`chul_09_db`):
+
+| 계정 | hcode | 부여된 Fxx (O/R) | settlement(F41~F49) | report(F51~F55) |
+|---|---|---|---|---|
+| `경리부` | 5019 | `F51`~`F55` = `O` | **전부 미부여(X)** | **전부 `O`** |
+| `교문사 전자책` | 5097 | `F51`~`F55` = `O` | **전부 미부여(X)** | **전부 `O`** |
+| `교문사`(본계정) | 5019 | F11/F14/F17/F18/F19/F24/F25 등 | 미부여 | 미부여 |
+
+→ **부서계정("경리부")은 정산(F41~F49)을 전혀 쓰지 않고 통계/KPI(F51~F55)만 쓴다.** 따라서:
+
+1. §1 의 `F51~F55 → report.*`, `F41~F49 → settlement.*` 매핑은 **라이브로 확정**(재매핑 없음).
+2. `infer_login_profile` 의 `department_accounting` 은 **레거시 부서 명칭(경리부)** 라벨일 뿐, 그 권한 풋프린트는 **`report.*`(통계) 계열**이다(정산 아님). `_LOGIN_PROFILE_ACCOUNTING_FXX = {F51..F55}` 의 의미를 본 결론으로 고정(동작 변경 없음 — Phase C 의 임계값 결정 입력).
+3. **시사점(Phase C/D)**: 현재 `ACC-MENU-NAV-04`(회계관리=`settlement.*`) 메뉴가 `login_profiles: [department_accounting]` 로 노출되지만(회귀 가드 [`test_account_menu_matrix_visibility.py`](../test/test_account_menu_matrix_visibility.py)), 부서계정은 `settlement.*` 권한이 0 이라 메뉴 진입 후 전 화면이 비게 된다. 부서계정의 실제 화면(F51~F55=통계/자료)이 보이도록 하는 메뉴 노출 정합은 **Phase C/D 에서 테스트 동반 변경**으로 처리한다(본 Phase B 는 데이터 근거 기록까지).
+
 ## 5. 결정 (DEC) 트레이서
 
 - DEC-028 — 본 카탈로그의 모든 30 정본 키는 `data-legacy-id` 부착 시 출처 폼/메뉴 ID (Chul.MenuItem* 등) 와 1:1 일치
@@ -102,3 +144,4 @@ _갱신: 2026-04-22 — DEC-056 (M5 시드 일괄 적용) — `legacy_permission
 - 2026-04-20 — admin.user.read (F18r) 신규 추가
 - 2026-04-20 — §4 결정 트레이서 추가 (C10 T7)
 - 2026-04-20 — §4 확장 라인 신규 키 7종 등록 (C13/C14 진입 게이트). `admin.stats.{sales,customer,book,quarterly}` + `admin.{audit,metrics,health}.read` + DEC-044 신규.
+- 2026-05-30 — account-menu-fxx-rbac Phase B (`OQ-LICENSE-KEY-MAP` 정본화). §2.1 `print = read-level` 규정 추가, §4b 기초관리 빌드변형 Fxx 정본화(입고처 F12·기타거래처 F13→**F15**·저자 F19→**F13**), §4c F51~F55 vs settlement 충돌 라이브 해소. 단일 매핑 정본: [`analysis/audit/account-menu-fxx-mapping.md`](../analysis/audit/account-menu-fxx-mapping.md).

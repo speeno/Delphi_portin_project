@@ -1,7 +1,10 @@
 # ACC-MENU-* ↔ API prefix ↔ Fxx (DEC-RBAC-02 보조)
-# R 베이스: default_id_logn_permissions.yaml — R 이면 create/read/update/delete 모두 허용(웹 DEC).
-# X 이면 해당 prefix 전 메서드 거부. 수퍼 오버레이로 read-only 등 세분화.
-version: 1.0.0
+# DEC-RBAC-04 정합: O→read+write+print, R→read+print, X→deny.
+# 수퍼 오버레이로 read-only 등 세분화.
+#
+# 매핑은 `menu_id_for_api_path` 가 prefix 최장 매칭으로 해석한다.
+# 따라서 실제 backend 라우트(masters.py)와 같은 단수/복수형을 함께 등록한다.
+version: 1.1.0
 method_to_action:
   GET: read
   POST: create
@@ -9,8 +12,15 @@ method_to_action:
   PATCH: update
   DELETE: delete
 mappings:
+  # ACC-MENU-MASTERS-01 거래처 (Sobo11) — F11
+  - menu_id: ACC-MENU-MASTERS-01
+    api_prefix: /api/v1/masters/customer
+    fxx_keys: [F11]
   - menu_id: ACC-MENU-MASTERS-01
     api_prefix: /api/v1/masters/customers
+    fxx_keys: [F11]
+  - menu_id: ACC-MENU-MASTERS-01
+    api_prefix: /api/v1/masters/customer-categories
     fxx_keys: [F11]
   - menu_id: ACC-MENU-MASTERS-01a
     api_prefix: /api/v1/masters/customers/individual
@@ -18,12 +28,30 @@ mappings:
   - menu_id: ACC-MENU-MASTERS-01b
     api_prefix: /api/v1/masters/customers/integrated
     fxx_keys: [F11]
+  # ACC-MENU-MASTERS-02 입고처 (Sobo12) — F12
+  - menu_id: ACC-MENU-MASTERS-02
+    api_prefix: /api/v1/masters/inbound-vendor
+    fxx_keys: [F12]
   - menu_id: ACC-MENU-MASTERS-02
     api_prefix: /api/v1/masters/inbound-vendors
     fxx_keys: [F12]
+  - menu_id: ACC-MENU-MASTERS-02
+    api_prefix: /api/v1/masters/inbound-vendor-categories
+    fxx_keys: [F12]
+  # ACC-MENU-MASTERS-03 기타거래처 (Sobo15) — F15
+  - menu_id: ACC-MENU-MASTERS-03
+    api_prefix: /api/v1/masters/etc-customer
+    fxx_keys: [F15]
   - menu_id: ACC-MENU-MASTERS-03
     api_prefix: /api/v1/masters/etc-customers
-    fxx_keys: [F13]
+    fxx_keys: [F15]
+  - menu_id: ACC-MENU-MASTERS-03
+    api_prefix: /api/v1/masters/etc-customer-categories
+    fxx_keys: [F15]
+  # ACC-MENU-MASTERS-04 출판사 (Sobo17) — F17
+  - menu_id: ACC-MENU-MASTERS-04
+    api_prefix: /api/v1/masters/publisher
+    fxx_keys: [F17]
   - menu_id: ACC-MENU-MASTERS-04
     api_prefix: /api/v1/masters/publishers
     fxx_keys: [F17]
@@ -36,15 +64,29 @@ mappings:
   - menu_id: ACC-MENU-MASTERS-04c
     api_prefix: /api/v1/masters/publishers/mms
     fxx_keys: [F17]
+  # ACC-MENU-MASTERS-05 도서 (Sobo14) — F14
+  - menu_id: ACC-MENU-MASTERS-05
+    api_prefix: /api/v1/masters/book
+    fxx_keys: [F14]
   - menu_id: ACC-MENU-MASTERS-05
     api_prefix: /api/v1/masters/books
+    fxx_keys: [F14]
+  - menu_id: ACC-MENU-MASTERS-05
+    api_prefix: /api/v1/masters/book-categories
     fxx_keys: [F14]
   - menu_id: ACC-MENU-MASTERS-05a
     api_prefix: /api/v1/masters/books/locations
     fxx_keys: [F14]
+  # ACC-MENU-MASTERS-06 저자 (Sobo13) — F13
+  - menu_id: ACC-MENU-MASTERS-06
+    api_prefix: /api/v1/masters/author
+    fxx_keys: [F13]
   - menu_id: ACC-MENU-MASTERS-06
     api_prefix: /api/v1/masters/authors
-    fxx_keys: [F19]
+    fxx_keys: [F13]
+  - menu_id: ACC-MENU-MASTERS-06
+    api_prefix: /api/v1/masters/author-categories
+    fxx_keys: [F13]
   - menu_id: ACC-MENU-MASTERS-07
     api_prefix: /api/v1/masters/series
     fxx_keys: []
@@ -57,9 +99,19 @@ mappings:
   - menu_id: ACC-MENU-MASTERS-10
     api_prefix: /api/v1/masters/shipping-block
     fxx_keys: []
+  # ACC-MENU-MASTERS-11 잡지/특별관리 (Sobo16) — 매트릭스 license_keys=F18 정합 유지.
+  # NOTE: 모던 폼은 F16(master.magazine.read) 의미를 갖지만 RBAC 매트릭스/사이드바는 F18 라이선스로 정의.
+  # 본 매핑은 매트릭스를 따른다(메뉴 가시성과 라우트 가드의 단일 정본).
   - menu_id: ACC-MENU-MASTERS-11
     api_prefix: /api/v1/masters/special
     fxx_keys: [F18]
   - menu_id: ACC-MENU-MASTERS-12
     api_prefix: /api/v1/masters/settings
     fxx_keys: []
+  # 도서코드(Sobo38)·할인율(Sobo39) 통합 마스터 일괄 — F26 (master.write 정합 유지)
+  - menu_id: ACC-MENU-MASTERS-04
+    api_prefix: /api/v1/masters/book-code
+    fxx_keys: [F26]
+  - menu_id: ACC-MENU-MASTERS-04
+    api_prefix: /api/v1/masters/discount
+    fxx_keys: [F26]

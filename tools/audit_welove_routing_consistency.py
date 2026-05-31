@@ -47,6 +47,9 @@ _DEFAULT_MATRIX_PATH = _REPO_ROOT / "analysis" / "welove_db_route_matrix.json"
 _DEFAULT_SEED_PATH = (
     _REPO_ROOT / "도서물류관리프로그램" / "backend" / "data" / "tenants_directory_seed.json"
 )
+_DEFAULT_OVERLAY_PATH = (
+    _REPO_ROOT / "도서물류관리프로그램" / "backend" / "data" / "tenants_directory_overlay.json"
+)
 
 
 @dataclass
@@ -318,6 +321,16 @@ def main(argv: list[str] | None = None) -> int:
         default=str(_DEFAULT_SEED_PATH),
         help="tenants_directory_seed.json 경로",
     )
+    parser.add_argument(
+        "--overlay",
+        default=str(_DEFAULT_OVERLAY_PATH),
+        help="tenants_directory_overlay.json 경로 (존재 시 시드와 병합 = 런타임 유효 디렉터리)",
+    )
+    parser.add_argument(
+        "--no-overlay",
+        action="store_true",
+        help="overlay 병합 비활성화 (시드 단독 감사)",
+    )
     parser.add_argument("--json", action="store_true", help="JSON 으로 출력")
     parser.add_argument(
         "--strict",
@@ -328,6 +341,24 @@ def main(argv: list[str] | None = None) -> int:
 
     matrix_doc = _load_json(Path(args.matrix))
     seed_doc = _load_json(Path(args.seed))
+
+    # DSN-DEC-12 — 런타임은 시드+overlay 를 (tenant_id, account_family) 키로 병합해
+    # 유효 디렉터리를 만든다(tenants_directory_service._merge_tenants). 감사도 동일
+    # 유효 뷰를 평가해야 overlay 로 채운 hcode_in 격리 키가 반영된다.
+    # (시드 단독 평가는 overlay 메커니즘으로 해소한 격리를 영구 critical 로 오탐.)
+    overlay_path = Path(args.overlay)
+    if not args.no_overlay and overlay_path.exists():
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from apply_hcode_isolation_overlay import _merge_overlay, _read_json
+
+        overlay_doc = _read_json(overlay_path)
+        overlay_rows = list(overlay_doc.get("tenants") or [])
+        if overlay_rows:
+            seed_doc = dict(seed_doc)
+            seed_doc["tenants"] = _merge_overlay(
+                list(seed_doc.get("tenants") or []), overlay_rows
+            )
+
     report = audit(matrix_doc, seed_doc)
 
     if args.json:

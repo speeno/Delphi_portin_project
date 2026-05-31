@@ -1,0 +1,49 @@
+id: TENANT-TRANSACTION-PARITY-v1
+name: 테넌트 업무 화면 패리티 매니페스트
+version: 1.0.0
+status: draft
+revision_history:
+  - version: 1.0.0
+    date: 2026-05-30
+    summary: 교문사(B4) 기준 업무 화면(outbound/settlement/stats) 0건 분류용 초기 매니페스트
+
+# 목적
+# - 동일 JWT(server_id/hcode/tenant_id)로 마스터는 보이는데 업무 화면만 0건인 증상을
+#   기간/권한/스코프로 분류한다.
+# - 계정별 하드코딩 금지: case 데이터만 바꾸고 probe 로직은 공통 유지.
+
+cases:
+  - case: B4
+    label: 교문사
+    expectations_case: B4
+    seed_tenant_id: "fa6758ea-a7e5-5d27-bf87-ccee0a90e72c"
+    expected:
+      remote_id: remote_153
+      db_name: chul_09_db
+      account_family: chul_09
+    canonical_hq_hcode: "5019"
+    date_windows_days: [30, 90, 365]
+    endpoints:
+      master_books:
+        path: /api/v1/masters/book
+        params:
+          limit: 1
+          offset: 0
+      outbound_orders:
+        path: /api/v1/outbound/orders
+        params:
+          includeCancelled: false
+          limit: 5
+          offset: 0
+      settlement_cash:
+        path: /api/v1/settlement/cash
+        params:
+          includeCancelled: false
+          limit: 5
+          offset: 0
+      stats_customer_analysis:
+        path: /api/v1/stats/customer-analysis
+        params:
+          limit: 5
+          offset: 0
+

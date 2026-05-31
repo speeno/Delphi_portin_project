@@ -18,6 +18,10 @@
       "signature": "Sender: TObject; var Action: TCloseAction"
     },
     {
+      "name": "Button000Click",
+      "signature": "Sender: TObject"
+    },
+    {
       "name": "Button001Click",
       "signature": "Sender: TObject"
     },
@@ -230,14 +234,6 @@
       "signature": "Sender: TObject"
     },
     {
-      "name": "DBGrid101TitleClick",
-      "signature": "Column: TColumn"
-    },
-    {
-      "name": "DBGrid201TitleClick",
-      "signature": "Column: TColumn"
-    },
-    {
       "name": "DataSource1DataChange",
       "signature": "Sender: TObject; Field: TField"
     },
@@ -252,19 +248,24 @@
   ],
   "runtime_assignments": [
     {
-      "component": "Label300",
+      "component": "Label003",
       "property": "Caption",
-      "expression": "Sobo19.Edit102.Text"
+      "expression": "'메'+#13+'모'"
     },
     {
-      "component": "Label301",
-      "property": "Caption",
-      "expression": "Sobo19.Edit103.Text"
+      "component": "Panel401",
+      "property": "Visible",
+      "expression": "True"
     },
     {
-      "component": "Edit102",
-      "property": "Text",
-      "expression": "''"
+      "component": "Label003",
+      "property": "Caption",
+      "expression": "'구'+#13+'분'"
+    },
+    {
+      "component": "Panel401",
+      "property": "Visible",
+      "expression": "False"
     },
     {
       "component": "Edit101",
@@ -382,6 +383,11 @@
       "expression": "nSqry.FieldByName('Grat6').AsFloat"
     },
     {
+      "component": "Edit130",
+      "property": "Value",
+      "expression": "nSqry.FieldByName('Grat7').AsFloat"
+    },
+    {
       "component": "Edit124",
       "property": "Value",
       "expression": "nSqry.FieldByName('Gqut1').AsFloat"
@@ -407,6 +413,16 @@
       "expression": "nSqry.FieldByName('Email').AsString"
     },
     {
+      "component": "Edit131",
+      "property": "Value",
+      "expression": "nSqry.FieldByName('Gssum').AsFloat"
+    },
+    {
+      "component": "Edit132",
+      "property": "Text",
+      "expression": "nSqry.FieldByName('Gphon').AsString"
+    },
+    {
       "component": "Edit201",
       "property": "Text",
       "expression": "mSqry.FieldByName('Gcode').AsString"
@@ -422,7 +438,17 @@
       "expression": "True"
     },
     {
+      "component": "Edit105",
+      "property": "Enabled",
+      "expression": "True"
+    },
+    {
       "component": "Edit103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit105",
       "property": "Enabled",
       "expression": "False"
     },
@@ -432,7 +458,7 @@
       "expression": "False"
     },
     {
-      "component": "Edit103",
+      "component": "Edit105",
       "property": "Enabled",
       "expression": "False"
     },
@@ -442,7 +468,37 @@
       "expression": "False"
     },
     {
+      "component": "Edit105",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
       "component": "Edit103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit105",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit105",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit103",
+      "property": "Enabled",
+      "expression": "False"
+    },
+    {
+      "component": "Edit105",
       "property": "Enabled",
       "expression": "False"
     },
@@ -513,9 +569,12 @@
     "Sqlen",
     "Sqlen",
     "Sqlen",
+    "Sqlen",
+    "Sqlen",
     "Sqlen"
   ],
   "messages": [
+    "E_Update",
     "E_Insert",
     "E_Update",
     "E_Delete",
@@ -523,8 +582,11 @@
     "E_Update",
     "E_Delete",
     "'코드를 입력하세요.'",
+    "'코드를 (9)로 시작해 주세요.'",
+    "'코드가 이미 등록되어있습니다. 다시 입력하세요.'",
     "'코드가 이미 등록되어있습니다. 다시 입력하세요.'",
     "E_Update",
+    "E_Open",
     "E_Open",
     "E_Open"
   ]

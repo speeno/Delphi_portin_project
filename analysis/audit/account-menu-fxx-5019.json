@@ -1,0 +1,957 @@
+{
+  "generated_at": "2026-05-29T16:50:54Z",
+  "source": "analysis/audit/account-menu-fxx-all.json",
+  "focus_logins": [
+    "교문사",
+    "경리부",
+    "교문사 전자책"
+  ],
+  "focus_hcodes": [
+    "5019",
+    "5097"
+  ],
+  "accounts": {
+    "교문사": {
+      "server_id": "remote_153",
+      "database": "chul_09_db",
+      "id": 20,
+      "four_key": {
+        "hcode": "5019",
+        "gname": "교문사",
+        "gcode": "교문사",
+        "gpass_fingerprint": "e629fa6598d73276"
+      },
+      "hname": "(주)교문사",
+      "gmemo": "2020-10-08 09:52:03",
+      "fxx": {
+        "F11": "O",
+        "F12": "R",
+        "F13": "R",
+        "F14": "O",
+        "F15": "R",
+        "F16": "X",
+        "F17": "O",
+        "F18": "O",
+        "F19": "O",
+        "F21": "X",
+        "F22": "X",
+        "F23": "X",
+        "F24": "O",
+        "F25": "O",
+        "F26": "X",
+        "F27": "X",
+        "F28": "X",
+        "F29": "X",
+        "F41": "X",
+        "F42": "X",
+        "F43": "X",
+        "F44": "X",
+        "F45": "X",
+        "F46": "X",
+        "F47": "X",
+        "F48": "X",
+        "F49": "X",
+        "F51": "X",
+        "F52": "X",
+        "F53": "X",
+        "F54": "X",
+        "F55": "X",
+        "F56": "X",
+        "F57": "X",
+        "F58": "X",
+        "F59": "X"
+      },
+      "derived": {
+        "role": "operator",
+        "permissions": [
+          "admin.user.write",
+          "master.alt.read",
+          "master.book.read",
+          "master.book_code.read",
+          "master.book_code.write",
+          "master.customer.read",
+          "master.misc.read",
+          "master.misc2.read",
+          "outbound.alt",
+          "outbound.misc"
+        ],
+        "license_keys": [
+          "F11",
+          "F12",
+          "F13",
+          "F14",
+          "F15",
+          "F17",
+          "F18",
+          "F19",
+          "F24",
+          "F25"
+        ],
+        "login_profile": "publisher_main",
+        "menu_shell_hint": "publisher",
+        "caps_by_fkey": {
+          "F11": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F12": {
+            "read": true,
+            "write": false,
+            "print": true
+          },
+          "F13": {
+            "read": true,
+            "write": false,
+            "print": true
+          },
+          "F14": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F15": {
+            "read": true,
+            "write": false,
+            "print": true
+          },
+          "F16": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F17": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F18": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F19": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F21": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F22": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F23": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F24": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F25": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F26": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F27": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F28": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F29": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F41": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F42": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F43": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F44": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F45": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F46": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F47": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F48": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F49": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F51": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F52": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F53": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F54": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F55": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F56": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F57": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F58": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F59": {
+            "read": false,
+            "write": false,
+            "print": false
+          }
+        },
+        "caps_by_permission": {
+          "master.customer.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "master.book.read": {
+            "read": true,
+            "write": false,
+            "print": true
+          },
+          "master.book_code.read": {
+            "read": true,
+            "write": false,
+            "print": true
+          },
+          "master.alt.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "master.misc.read": {
+            "read": true,
+            "write": false,
+            "print": true
+          },
+          "master.magazine.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "master.book_code.write": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "admin.user.write": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "master.misc2.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "outbound.write": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "outbound.cancel": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "return.write": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "outbound.alt": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "outbound.misc": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "master.write": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "outbound.export": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "outbound.adjust": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "outbound.return": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "settlement.deposit": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "settlement.misc": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "settlement.report.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "settlement.bill": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "settlement.write": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "settlement.adj": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "settlement.report.month": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "settlement.tax.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "settlement.misc2": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.kpi.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.kpi.write": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.delivery.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.return.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.book.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.cust.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.month.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.year.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.year.write": {
+            "read": false,
+            "write": false,
+            "print": false
+          }
+        },
+        "unmapped_fkeys": []
+      }
+    },
+    "경리부": {
+      "server_id": "remote_153",
+      "database": "chul_09_db",
+      "id": 47,
+      "four_key": {
+        "hcode": "5019",
+        "gname": "교문사",
+        "gcode": "경리부",
+        "gpass_fingerprint": "ad57366865126e55"
+      },
+      "hname": "(주)교문사",
+      "gmemo": "2024-01-08 15:37:49",
+      "fxx": {
+        "F51": "O",
+        "F52": "O",
+        "F53": "O",
+        "F54": "O",
+        "F55": "O",
+        "F56": "X",
+        "F57": "X",
+        "F58": "X",
+        "F59": "X"
+      },
+      "derived": {
+        "role": "operator",
+        "permissions": [
+          "report.book.read",
+          "report.delivery.read",
+          "report.kpi.read",
+          "report.kpi.write",
+          "report.return.read"
+        ],
+        "license_keys": [
+          "F51",
+          "F52",
+          "F53",
+          "F54",
+          "F55"
+        ],
+        "login_profile": "department_accounting",
+        "menu_shell_hint": "accounting_only",
+        "caps_by_fkey": {
+          "F51": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F52": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F53": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F54": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F55": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F56": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F57": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F58": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F59": {
+            "read": false,
+            "write": false,
+            "print": false
+          }
+        },
+        "caps_by_permission": {
+          "report.kpi.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.kpi.write": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.delivery.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.return.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.book.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.cust.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.month.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.year.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.year.write": {
+            "read": false,
+            "write": false,
+            "print": false
+          }
+        },
+        "unmapped_fkeys": []
+      }
+    },
+    "교문사 전자책": {
+      "server_id": "remote_153",
+      "database": "chul_09_db",
+      "id": 204,
+      "four_key": {
+        "hcode": "5097",
+        "gname": "교문사 전자책",
+        "gcode": "교문사 전자책",
+        "gpass_fingerprint": "ad57366865126e55"
+      },
+      "hname": "교문사 전자책",
+      "gmemo": "2022-03-21 16:06:29",
+      "fxx": {
+        "F51": "O",
+        "F52": "O",
+        "F53": "O",
+        "F54": "O",
+        "F55": "O",
+        "F56": "X",
+        "F57": "X",
+        "F58": "X",
+        "F59": "X"
+      },
+      "derived": {
+        "role": "operator",
+        "permissions": [
+          "report.book.read",
+          "report.delivery.read",
+          "report.kpi.read",
+          "report.kpi.write",
+          "report.return.read"
+        ],
+        "license_keys": [
+          "F51",
+          "F52",
+          "F53",
+          "F54",
+          "F55"
+        ],
+        "login_profile": "department_accounting",
+        "menu_shell_hint": "accounting_only",
+        "caps_by_fkey": {
+          "F51": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F52": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F53": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F54": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F55": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "F56": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F57": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F58": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "F59": {
+            "read": false,
+            "write": false,
+            "print": false
+          }
+        },
+        "caps_by_permission": {
+          "report.kpi.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.kpi.write": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.delivery.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.return.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.book.read": {
+            "read": true,
+            "write": true,
+            "print": true
+          },
+          "report.cust.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.month.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.year.read": {
+            "read": false,
+            "write": false,
+            "print": false
+          },
+          "report.year.write": {
+            "read": false,
+            "write": false,
+            "print": false
+          }
+        },
+        "unmapped_fkeys": []
+      }
+    }
+  },
+  "fxx_diff": {
+    "경리부_vs_교문사": {
+      "only_left": {},
+      "only_right": {
+        "F11": "O",
+        "F12": "R",
+        "F13": "R",
+        "F14": "O",
+        "F15": "R",
+        "F16": "X",
+        "F17": "O",
+        "F18": "O",
+        "F19": "O",
+        "F21": "X",
+        "F22": "X",
+        "F23": "X",
+        "F24": "O",
+        "F25": "O",
+        "F26": "X",
+        "F27": "X",
+        "F28": "X",
+        "F29": "X",
+        "F41": "X",
+        "F42": "X",
+        "F43": "X",
+        "F44": "X",
+        "F45": "X",
+        "F46": "X",
+        "F47": "X",
+        "F48": "X",
+        "F49": "X"
+      },
+      "value_diff": {
+        "F51": {
+          "left": "O",
+          "right": "X"
+        },
+        "F52": {
+          "left": "O",
+          "right": "X"
+        },
+        "F53": {
+          "left": "O",
+          "right": "X"
+        },
+        "F54": {
+          "left": "O",
+          "right": "X"
+        },
+        "F55": {
+          "left": "O",
+          "right": "X"
+        }
+      },
+      "same_count": 4
+    },
+    "경리부_vs_교문사 전자책": {
+      "only_left": {},
+      "only_right": {},
+      "value_diff": {},
+      "same_count": 9
+    },
+    "교문사_vs_교문사 전자책": {
+      "only_left": {
+        "F11": "O",
+        "F12": "R",
+        "F13": "R",
+        "F14": "O",
+        "F15": "R",
+        "F16": "X",
+        "F17": "O",
+        "F18": "O",
+        "F19": "O",
+        "F21": "X",
+        "F22": "X",
+        "F23": "X",
+        "F24": "O",
+        "F25": "O",
+        "F26": "X",
+        "F27": "X",
+        "F28": "X",
+        "F29": "X",
+        "F41": "X",
+        "F42": "X",
+        "F43": "X",
+        "F44": "X",
+        "F45": "X",
+        "F46": "X",
+        "F47": "X",
+        "F48": "X",
+        "F49": "X"
+      },
+      "only_right": {},
+      "value_diff": {
+        "F51": {
+          "left": "X",
+          "right": "O"
+        },
+        "F52": {
+          "left": "X",
+          "right": "O"
+        },
+        "F53": {
+          "left": "X",
+          "right": "O"
+        },
+        "F54": {
+          "left": "X",
+          "right": "O"
+        },
+        "F55": {
+          "left": "X",
+          "right": "O"
+        }
+      },
+      "same_count": 4
+    }
+  },
+  "hcode_5019_gyomunsa_vs_gyeongri": {
+    "only_left": {
+      "F11": "O",
+      "F12": "R",
+      "F13": "R",
+      "F14": "O",
+      "F15": "R",
+      "F16": "X",
+      "F17": "O",
+      "F18": "O",
+      "F19": "O",
+      "F21": "X",
+      "F22": "X",
+      "F23": "X",
+      "F24": "O",
+      "F25": "O",
+      "F26": "X",
+      "F27": "X",
+      "F28": "X",
+      "F29": "X",
+      "F41": "X",
+      "F42": "X",
+      "F43": "X",
+      "F44": "X",
+      "F45": "X",
+      "F46": "X",
+      "F47": "X",
+      "F48": "X",
+      "F49": "X"
+    },
+    "only_right": {},
+    "value_diff": {
+      "F51": {
+        "left": "X",
+        "right": "O"
+      },
+      "F52": {
+        "left": "X",
+        "right": "O"
+      },
+      "F53": {
+        "left": "X",
+        "right": "O"
+      },
+      "F54": {
+        "left": "X",
+        "right": "O"
+      },
+      "F55": {
+        "left": "X",
+        "right": "O"
+      }
+    },
+    "same_count": 4
+  },
+  "tenant_registration_gaps": {
+    "hcode_5097": {
+      "login_id": "교문사 전자책",
+      "hcode": "5097",
+      "hname": "교문사 전자책",
+      "gaps": [
+        {
+          "registry": "tenants_directory_overlay",
+          "status": "missing_hcode_in",
+          "detail": "hcode 5097 가 seed+overlay hcode_in 에 없음"
+        },
+        {
+          "registry": "tenant_master_parity_manifest",
+          "status": "no_case",
+          "detail": "hcode=5097 login='교문사 전자책' 전용 parity case 없음"
+        },
+        {
+          "registry": "account_directory_overlay",
+          "status": "missing",
+          "detail": "gcode='교문사 전자책' hcode=5097 override 없음"
+        },
+        {
+          "registry": "login_id_index",
+          "status": "present",
+          "entry_hcode": "5097",
+          "note": null
+        }
+      ],
+      "has_blocking_gap": true
+    }
+  },
+  "jwt_probe": {
+    "base": "http://localhost:8000",
+    "accounts": {
+      "교문사": {
+        "skipped": true,
+        "reason": "password env 미설정"
+      },
+      "경리부": {
+        "skipped": true,
+        "reason": "password env 미설정"
+      },
+      "교문사 전자책": {
+        "skipped": true,
+        "reason": "password env 미설정"
+      }
+    }
+  }
+}

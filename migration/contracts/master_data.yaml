@@ -24,10 +24,29 @@
 
 id: C9-master-data
 name: 기초 마스터 단일 원천 (Sobo11/14/17/38/39)
-version: 1.4.0
+version: 1.5.5
 status: draft
 scope_phase: phase1
 # Changelog
+#   v1.5.5 (2026-05-31) — Sobo13 목록 검색 필터(minimal): GET /masters/authors 에
+#                        gubun(저자구분 정확일치)·workplace(직장명 LIKE)·q(Gcode/Gposa/Gname).
+#                        AuthorListItem(gposa/gbun_name/직장/전화/등록일/직책), G3_Gbun 조인.
+#                        회귀 test_author_list_filters.py + Sobo13.md §3.1.
+#   v1.5.4 (2026-05-31) — Sobo13 저자구분 Sobo11/Sobo14 패턴 통합: Edit101 MasterGbunSelect(G3_Gbun only),
+#                        dual-join+gbun_orphan, 분류 CRUD 상세/신규 접기(목록 탭 제거).
+#   v1.5.3 (2026-05-31) — Sobo14 목록 검색 필터 확장(minimal): GET /masters/book 에
+#                        gubun(분류 정확일치)·jubun(도서처리 LIKE)·excludeShippingStop(출고정지 제외)
+#                        추가. WHERE/COUNT 동일 합성. 회귀 test_book_list_filters.py + Sobo14.md §3.1.
+#   v1.5.2 (2026-05-31) — Sobo14 도서분류 Sobo11 패턴 통합: Edit101 MasterGbunSelect(G4_Gbun only),
+#                        dual-join+gbun_orphan, 분류 CRUD 상세/신규 접기(목록 탭 제거), sname denorm.
+#   v1.5.1 (2026-05-31) — Sobo11 목록 검색 필터 확장(minimal): GET /masters/customer 에
+#                        gubun(구분 정확일치)·jubun(지역 LIKE)·excludeTerminated(거래종료 제외)
+#                        추가. WHERE/COUNT 동일 합성으로 페이지·total 정합. 회귀
+#                        test_customer_list_filters.py + Sobo11.md §3.1.
+#   v1.5.0 (2026-05-30) — Sobo11 상세 폼 필드 확장(gubun/jubun/ocode/연락처/비율/계산서/
+#                        출고정지 등) + G1_Gbun 거래처구분 CRUD 추가
+#                        (/api/v1/masters/customer-categories). 프론트 분리 라우트(목록/상세/신규).
+#                        Edit101 MasterGbunSelect + 구분 CRUD를 상세/신규에 통합(목록 탭 제거).
 #   v1.4.0 (2026-05-08) — Sobo17/38/39 쓰기 풀. 출판사 G7_Ggeo POST/PATCH/DELETE,
 #                        도서코드는 G4_Book 기존 book CRUD thin alias (/masters/book-code/*),
 #                        할인율 G7_Ggeo Gpper·Gpper1/2/5 (SHOW COLUMNS 존재 시) + ?variant=.
@@ -128,6 +147,9 @@ endpoints:
     query:
       - { name: serverId, type: string, required: true }
       - { name: q, type: string, required: false, note: "Gcode/Gname LIKE %q%" }
+      - { name: gubun, type: string, required: false, note: "거래처구분 정확일치 (G1_Gbun.Gcode) — minimal 필터 2026-05" }
+      - { name: jubun, type: string, required: false, note: "지역 LIKE %jubun% (G1_Ggeo.Jubun)" }
+      - { name: excludeTerminated, type: bool, default: false, note: "거래종료 제외 — Gname NOT LIKE '[X]%' AND IFNULL(Gubun,'')<>'X 거래종료'" }
       - { name: limit, type: int, default: 100, max: 500, note: "DEC-024 표준" }
       - { name: offset, type: int, default: 0 }
     response:
@@ -169,6 +191,41 @@ endpoints:
     response:
       schema_ref: backend/app/models/master.py#MasterDeleteResponse
     audit: { logger: audit.master, action: delete }
+  - id: SQL-MAS-3B
+    method: GET
+    path: /api/v1/masters/customer-categories
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: q, type: string, required: false, note: "Gcode/Gname LIKE %q%" }
+      - { name: limit, type: int, default: 100, max: 500 }
+      - { name: offset, type: int, default: 0 }
+    response:
+      schema_ref: backend/app/models/master.py#CustomerCategoryListResponse
+  - id: SQL-MAS-3B-C
+    method: POST
+    path: /api/v1/masters/customer-categories
+    request:
+      body_ref: backend/app/models/master.py#CustomerCategoryCreateRequest
+    response:
+      schema_ref: backend/app/models/master.py#CustomerCategoryCreateResponse
+    errors: [MASTER_DUPLICATE, MASTER_INVALID]
+    audit: { logger: audit.master, action: create }
+  - id: SQL-MAS-3B-U
+    method: PATCH
+    path: /api/v1/masters/customer-categories/{gcode}
+    request:
+      body_ref: backend/app/models/master.py#CustomerCategoryUpdateRequest
+    response:
+      schema_ref: backend/app/models/master.py#CustomerCategoryUpdateResponse
+    audit: { logger: audit.master, action: update }
+  - id: SQL-MAS-3B-D
+    method: DELETE
+    path: /api/v1/masters/customer-categories/{gcode}
+    query:
+      - { name: serverId, type: string, required: true }
+    response:
+      schema_ref: backend/app/models/master.py#MasterDeleteResponse
+    audit: { logger: audit.master, action: delete }
 
   # 도서 (Sobo14)
   - id: SQL-MAS-4
@@ -177,6 +234,9 @@ endpoints:
     query:
       - { name: serverId, type: string, required: true }
       - { name: q, type: string, required: false, note: "Gcode/Gname/Gisbn LIKE" }
+      - { name: gubun, type: string, required: false, note: "도서분류 정확일치 (G4_Gbun.Gcode) — minimal 필터 2026-05" }
+      - { name: jubun, type: string, required: false, note: "도서처리 LIKE %jubun% (G4_Book.Jubun)" }
+      - { name: excludeShippingStop, type: bool, default: false, note: "출고정지 제외 — IFNULL(Grat9,'') NOT IN ('1','True','true')" }
       - { name: limit, type: int, default: 100, max: 500, note: "DEC-024 표준" }
       - { name: offset, type: int, default: 0 }
     response:
@@ -208,6 +268,46 @@ endpoints:
   - id: SQL-MAS-6D
     method: DELETE
     path: /api/v1/masters/book/{gcode}
+    query:
+      - { name: serverId, type: string, required: true }
+    response:
+      schema_ref: backend/app/models/master.py#MasterDeleteResponse
+    audit: { logger: audit.master, action: delete }
+
+  # 도서 본 폼 전체 복원(2026-05): BookDetail/BookUpdateRequest/BookCreateRequest 가
+  # 위러브 빌드 Panel002 전체 필드(도서분류~체크박스 4종)를 포함한다. 재고(gsqut/jego1~4)는
+  # 읽기전용(PATCH 제외). 컬럼 차이는 backend/app/services/g4_book_adapt.py 어댑터가 흡수.
+  # 도서분류(G4_Gbun) CRUD:
+  - id: SQL-MAS-6E
+    method: GET
+    path: /api/v1/masters/book-categories
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: q, type: string, required: false }
+      - { name: limit, type: int, default: 100, max: 500 }
+      - { name: offset, type: int, default: 0 }
+    response:
+      schema_ref: backend/app/models/master.py#BookCategoryListResponse
+  - id: SQL-MAS-6F
+    method: POST
+    path: /api/v1/masters/book-categories
+    request:
+      body_ref: backend/app/models/master.py#BookCategoryCreateRequest
+    response:
+      schema_ref: backend/app/models/master.py#SimpleMasterCreateResponse
+    errors: [MASTER_DUPLICATE, MASTER_INVALID]
+    audit: { logger: audit.master, action: create }
+  - id: SQL-MAS-6G
+    method: PATCH
+    path: /api/v1/masters/book-categories/{gcode}
+    request:
+      body_ref: backend/app/models/master.py#BookCategoryUpdateRequest
+    response:
+      schema_ref: backend/app/models/master.py#SimpleMasterUpdateResponse
+    audit: { logger: audit.master }
+  - id: SQL-MAS-6H
+    method: DELETE
+    path: /api/v1/masters/book-categories/{gcode}
     query:
       - { name: serverId, type: string, required: true }
     response:
@@ -388,9 +488,96 @@ customer_variants:
     note: |
       모던 단일 UI + ?variant= 쿼리. accelerator Subu39_* 산출물(OOS-MAS-5)은 별도 백로그이나
       API/계약으로 4분기 통합. layout_mappings/Sobo39.md §9.
+  # account-menu-fxx-rbac Phase F-1 (2026-05-30) — 누락 3화면(입고처/기타거래처/저자) 정본화.
+  # 동일 Sobo## 번호가 WH 빌드와 출판/총판 빌드에서 다른 화면을 가리킨다(빌드 변형).
+  # 정본 = 출판/총판 빌드. 차이는 코드 분기 금지 — 본 build_variant 항목 + layout_mappings/Sobo*.md §9 에만.
+  - form: Sobo12
+    variant_folders: []
+    canonical_build: "WeLove_FTP/도서유통-출판/Subu12.dfm"
+    canonical_table: G2_Ggwo + G2_Gbun
+    license_key: F12   # Menu102 → Seek_Uses('F12'), account-menu-fxx-mapping.md §3
+    build_variant:
+      wh:        { meaning: "도서(상이 화면)", table: "-",       menu: "-" }
+      pub_dist:  { meaning: "입고처관리(정본)", table: "G2_Ggwo", menu: "Menu102/F12" }
+    note: |
+      Subu12_* 변형 폴더 0건(출판/총판 단일 폼). WH 빌드 Sobo12=도서 와 혼동 금지 — 모던은
+      출판/총판 입고처(G2_Ggwo) 정본만 구현. 모던 라우트 /master/inbound-vendor
+      (form-registry Sobo12), API /api/v1/masters/inbound-vendors. layout_mappings/Sobo12.md §9.
+  - form: Sobo13
+    variant_folders: [Subu13_1]
+    canonical_build: "WeLove_FTP/도서유통-출판/Subu13.dfm"
+    canonical_table: G3_Gjeo + G3_Gbun
+    license_key: F13   # Menu103 → Seek_Uses('F13') (웹 임시값 F19 정정)
+    build_variant:
+      wh:        { meaning: "지역분류(시내+지방)", table: "G1_Ggeo 참조", menu: "Menu103/F17" }
+      pub_dist:  { meaning: "저자관리(정본)",       table: "G3_Gjeo",      menu: "Menu103/F13" }
+    note: |
+      동일 폼번호·상이 화면(빌드 변형). WH 빌드 Sobo13=지역분류(Menu103=F17) ↔ 출판/총판
+      Sobo13=저자(G3_Gjeo, Menu103=F13). Subu13_1 은 유통 빌드 지역분류 변형(저자 정본과 별개).
+      모던은 출판/총판 저자 정본만 구현. 저자명 컬럼 FieldName=GPOSA(백엔드 Gposa AS gname).
+      모던 라우트 /master/author (form-registry Sobo13) — 목록/상세([gcode])/신규(new) 분리 라우트.
+      API: /api/v1/masters/authors (목록 GET, 단건 GET/POST/PATCH/DELETE — 본 폼 Panel002
+      Edit101~121 전체 필드 AuthorDetail 계약) + /api/v1/masters/author-categories (G3_Gbun CRUD).
+      컬럼 차이는 g3_gjeo_adapt.py(SHOW COLUMNS)로 흡수(코드 분기 0). 2026-05-30 상세/구분 폼
+      전체 복원 + 4서버 "김" 라이브 검증(analysis/audit/sobo13-author-kim-fidelity.md).
+      layout_mappings/Sobo13.md §7/§9.
+  - form: Sobo15
+    variant_folders: []
+    canonical_build: "WeLove_FTP/도서유통-총판/Subu15.dfm"
+    canonical_table: G5_Ggeo + G5_Gbun
+    license_key: F15   # Menu105 → Seek_Uses('F15') (웹 임시값 F13 정정)
+    build_variant:
+      wh:        { meaning: "거래처관리-개별", table: "G1_Ggeo + G1_Gbun", menu: "Menu105/F13(WH)" }
+      pub_dist:  { meaning: "기타거래처관리(정본)", table: "G5_Ggeo + G5_Gbun", menu: "Menu105/F15" }
+    note: |
+      핵심 G1 vs G5 빌드 변형. WH 빌드 Sobo15=거래처-개별(INSERT G1_Ggeo) ↔ 출판/총판
+      Sobo15=기타거래처(G5_Ggeo, Menu105=F15). 위젯 트리·TabOrder 거의 동일, 차이는 테이블
+      prefix(G1↔G5)·캡션뿐 → 데이터/계약 변이로만 흡수(코드 분기 금지). 버튼 캡션 변형
+      (추가/등록/삭제). 모던은 출판/총판 G5 정본만 구현.
+      구현(2026-05-30): 거래처(Sobo11)와 동형 Ggeo 마스터로 상세 복원. 본 폼 Panel002
+      전체 입력(Edit101~127: Gubun/Jubun/Gcode/Ocode/Gname/Gposa/Gnumb/Guper/Gjomo/Gpper/
+      Gpost/Gtel1·2/Gfax1·2/Gadd1·2/Grat1~6/Gqut1/Yesno/Gbigo/Name1·2) + 구분 Panel004
+      (G5_Gbun) 전체 CRUD. 분리 라우트 /master/etc-customer · /[gcode] · /new.
+      API /api/v1/masters/etc-customers(+/{gcode}) · /api/v1/masters/etc-customer-categories
+      (+/{gcode}). 스키마 어댑터 g5_ggeo_adapt.py(SHOW COLUMNS 기반 존재 컬럼만 SELECT/PATCH —
+      테넌트 DDL 차이 흡수, 코드 분기 0). layout_mappings/Sobo15.md §5/§9.
   # 「Sobo45」 항목 (구 customer_variants) v1.2.0 (2026-04-23) 제거됨.
   # 본 계약은 Sobo45 매핑을 더 이상 보유하지 않음. 청구서관리(Subu45/Subu45_1) 의
   # 변형 정보는 settlement/billing 측 계약(Sobo45_billing) 으로 이관.
+
+# DSN-DEC-12 / ACC-DATA-03 — 공유 DB(chul_09_db·book_07_db 등) 테넌트의 마스터 행 스코프.
+# 서비스 코드에 `if 교문사` 같은 분기를 두지 않고, 스코프 결정은 (1) JWT hcode +
+# resolve_scope_hcode, (2) tenants_directory hcode_in 격리 키 — 두 데이터 원천으로만 한다.
+#
+# 미해결 데이터 질문 (라이브 도출 필요 — debug/probe_master_hcode_scope.py)
+# ------------------------------------------------------------------------
+# 창고형(warehouse_publisher, T3 chul_09) 테넌트는 다수 출판사 Hcode 를 소관할 수 있다.
+# 현재 masters list 는 resolve_scope_hcode(ctx) 로 **단일** JWT hcode 만 G4_Book/G1_Ggeo.Hcode
+# 에 필터한다(append_hcode_clause). 레거시 Subu14/Subu11 이 단일 Hcode 로만 보여줬다면 정합이나,
+# 창고가 여러 Hcode 를 한 화면에서 보여줬다면 단일 필터는 건수를 과소(<< baseline)로 만든다.
+# 결정은 다음 수치로만 내린다 (코드 추정 금지 — 사용자 룰):
+#   probe_master_hcode_scope --server remote_153 --family chul_09 --hcode <창고hq>
+#     · scope_ratio ≈ 1.0  → 단일 Hcode 전건  → 현 동작 정합. 추가 작업 0.
+#     · scope_ratio << 1.0 → 창고가 다수 Hcode → tenants_directory hcode_in(집합) 도출 후
+#                            masters scope 를 단일 hcode→hcode_in(set) 으로 확장(별도 DEC).
+# baseline 정합 기대치: 교문사 books=3437, customers=1289 (debug/baselines/gyomunsa_*.json).
+tenant_data_scope:
+  - account_family: chul_09
+    forms: [Sobo11, Sobo14]
+    isolation_source: "tenants_directory.hcode_in (DSN-DEC-12) + JWT hcode (ACC-DATA-03)"
+    status: resolved          # 2026-05-30 라이브 도출/검증 완료 (analysis/audit/tenant-db-parity.md §4)
+    baseline_ref: debug/baselines/gyomunsa_books.json, debug/baselines/gyomunsa_customers.json
+    probe: "debug/probe_master_hcode_scope.py --server remote_153 --family chul_09 --baseline-xref gyomunsa"
+    resolution:
+      # 교문사 = 단일 Hcode 5019 (엑셀·Id_Logn·마스터 행수 3중 일치). 단일-hcode scope 정합.
+      gyomunsa_hcode_in: ["5019"]
+      welove3_hcode_in: ["0000", "5000"]
+      live_parity: { books: 3437, customers: 1289, key_diff: 0 }
+      # 루트 원인 수정: 로그인 hcode 가 JWT 에 누락(servers.yaml auth.query 가 표준 hcode 컬럼 드리프트)
+      # → auth_service._row_hcode 가 auth_flags("<hcode>:<gname>") 폴백으로 복원 + servers.yaml 정합.
+      # 단일 hcode 정합이므로 hcode_in set 확장(다수 hcode)·별도 DEC 불필요.
+      scope_model: single_hcode
+      audit_strict: "SHARED_COORD_NO_HCODE_GUARD 0건 (overlay 적용 후)"
 
 # DEC-028 — phase1 contract 차원에서 명시적 비범위(deferred 와 분리: deferred 는 후속 사이클 약속,
 # out_of_scope 는 본 contract 가 다루지 않는 영역의 사유 기록).

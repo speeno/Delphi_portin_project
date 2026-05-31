@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-05-25T07:45:29.360340+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-05-31T01:22:17.967341+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -21,9 +21,9 @@
 
 ## 3. `form-registry` — preview 또는 STUB
 
-- `Sobo43_shipping_ledger` (발송비내역) route `/settlement/shipping-ledger` — ['STUB'] (line 1123)
+- `Sobo43_shipping_ledger` (발송비내역) route `/settlement/shipping-ledger` — ['STUB'] (line 1280)
   - notes: W2 scaffold — GET /settlement/shipping-ledger 빈 목록. T2 SQL·t3_ssub_adapt 후 CRUD 상향
-- `Sobo44_shipping_status` (발송비현황) route `/settlement/shipping-status` — ['STUB'] (line 1143)
+- `Sobo44_shipping_status` (발송비현황) route `/settlement/shipping-status` — ['STUB'] (line 1300)
   - notes: W2 scaffold — GET /settlement/shipping-status 빈 목록. 재고현황 Sobo44_inv 와 별개
 
 ## 4. `form-registry` — phase1 이지만 부분 동등 (R / RU / STUB)
@@ -75,10 +75,10 @@
   - 조회 전용 — C14 phase2 회귀 통과
 
 ### RU (9건)
-- `Sobo11` (거래처관리(마스터)) `/master/customer`
-  - 조회+수정만 — 신규(C)·삭제(D) 후속
 - `Sobo14` (도서관리(마스터)) `/master/book`
   - 조회+수정만 — 신규(C)·삭제(D) 후속
+- `Sobo16_baebon` (배본처관리) `/master/baebon`
+  - Sobo16 G6_Ggeo를 배본처(거래처/도서/물류코드) 중심으로 재표기
 - `Sobo16_special` (특별관리) `/master/special`
   - G6_Ggeo 목록 + Grat1/Gssum 부분 수정 — 신규/삭제·Gcode/Bcode 변경은 후속
 - `Sobo28_delivery` (택배관리) `/shipping/courier`

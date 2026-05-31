@@ -221,7 +221,7 @@ class DynamicLoginRoutingTests(TestCase):
     @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
     @patch("app.services.login_id_index_service.lazy_refresh", new_callable=AsyncMock)
     @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
-    def test_index_ambiguous_strict_mode_probes_with_warnings(
+    def test_index_ambiguous_strict_mode_probes_allows_login(
         self,
         mock_auth: AsyncMock,
         mock_lazy: AsyncMock,
@@ -229,7 +229,7 @@ class DynamicLoginRoutingTests(TestCase):
         mock_single,
         _mock_bypass,
     ) -> None:
-        """DSN-DEC-09 — strict env(`BLS_LOGIN_AMBIGUOUS_PROBE=block`) 에서도 암호 일치 시 로그인 + warnings."""
+        """DSN-DEC-09 — strict env(`BLS_LOGIN_AMBIGUOUS_PROBE=block`) 에서도 암호 일치 시 로그인 허용."""
         ambiguous_single = {
             "remote_id": "",
             "db_name": "",
@@ -270,11 +270,7 @@ class DynamicLoginRoutingTests(TestCase):
         self.assertEqual(res.status_code, 200, res.text)
         body = res.json()
         self.assertTrue(body.get("access_token"))
-        warnings = body.get("warnings") or []
-        self.assertTrue(
-            any("여러" in w or "회사" in w for w in warnings),
-            warnings,
-        )
+        self.assertEqual(body.get("warnings") or [], [])
         self.assertGreaterEqual(mock_auth.await_count, 1)
         rec = self.handler.parsed()[-1]
         self.assertEqual(rec["result"], "success")

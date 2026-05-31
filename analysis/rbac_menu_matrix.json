@@ -497,9 +497,7 @@
       "warehouse_menu_tiers": [],
       "login_profiles": [],
       "build_roles": [],
-      "license_keys": [
-        "F12"
-      ],
+      "license_keys": [],
       "source_builds": []
     },
     {
@@ -509,23 +507,15 @@
       "caption": "기타거래처",
       "account_types": [
         "T1",
+        "T2_DIST",
         "T2_PUB",
         "T3"
       ],
       "warehouse_menu_tiers": [],
       "login_profiles": [],
-      "build_roles": [
-        "distributor",
-        "publisher"
-      ],
-      "license_keys": [
-        "F13"
-      ],
-      "source_builds": [
-        "D-STD",
-        "P-STD",
-        "P-KBT"
-      ]
+      "build_roles": [],
+      "license_keys": [],
+      "source_builds": []
     },
     {
       "id": "ACC-MENU-MASTERS-04",
@@ -661,23 +651,15 @@
       "caption": "저자관리",
       "account_types": [
         "T1",
+        "T2_DIST",
         "T2_PUB",
         "T3"
       ],
       "warehouse_menu_tiers": [],
       "login_profiles": [],
-      "build_roles": [
-        "distributor",
-        "publisher"
-      ],
-      "license_keys": [
-        "F19"
-      ],
-      "source_builds": [
-        "D-STD",
-        "P-STD",
-        "P-KBT"
-      ]
+      "build_roles": [],
+      "license_keys": [],
+      "source_builds": []
     },
     {
       "id": "ACC-MENU-MASTERS-07",

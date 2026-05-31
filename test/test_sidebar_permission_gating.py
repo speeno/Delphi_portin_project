@@ -84,17 +84,16 @@ class SidebarPermissionGatingTest(TestCase):
             "usePermissions()", text,
             "sidebar.tsx 가 usePermissions() 를 호출해야 함",
         )
-        # 가시성 필터: hard deny 는 계정 메뉴 매트릭스(canSeeMenu)만 사용.
-        # user.permissions 는 전체 메뉴 허용 목록이 아닐 수 있어 sidebar hard deny 로 쓰지 않는다.
+        # 가시성: 매트릭스(getMenuState) — Fxx read 는 화면 caps 로만 게이트(MENUVIS-DEC-06).
         self.assertIn(
-            "perms.canSeeMenu(menuId)",
+            "perms.getMenuState(menuId)",
             text,
             "sidebar.tsx 가 메뉴 매트릭스 게이트를 적용해야 함 (DEC-RBAC-02/03)",
         )
-        self.assertNotIn(
-            "!perms.has(form.requiredPermission)",
+        self.assertIn(
+            "menuState.visible",
             text,
-            "requiredPermission 을 sidebar hard deny 로 쓰면 계정별 기존 접근 메뉴가 과도하게 숨겨짐",
+            "sidebar.tsx 가 매트릭스 visible 로 폼 노출을 결정해야 함 (Phase F)",
         )
 
     def test_use_permissions_super_user_three_branches(self) -> None:

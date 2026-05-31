@@ -339,10 +339,10 @@ class CrossTenantAuditTests(TestCase):
     @patch("app.services.tenants_directory_service.resolve_login_route")
     @patch("app.services.tenants_directory_service.resolve_login_route_candidates")
     @patch("app.routers.auth.authenticate_user", new_callable=AsyncMock)
-    def test_shared_db_ambiguous_strict_allows_login_with_warnings(
+    def test_shared_db_ambiguous_strict_allows_login(
         self, mock_auth: AsyncMock, mock_cands, mock_single
     ) -> None:
-        """BLS_LOGIN_REQUIRE_TENANT_UNIQUE=1 이더도 암호 일치 시 로그인 + warnings (2026-05-23)."""
+        """BLS_LOGIN_REQUIRE_TENANT_UNIQUE=1 이더도 암호 일치 시 로그인 허용 (2026-05-23)."""
         import os
 
         route = _route("remote_153", "chul_09_db")
@@ -369,8 +369,7 @@ class CrossTenantAuditTests(TestCase):
         body = res.json()
         self.assertTrue(body.get("access_token"))
         self.assertEqual(body["user"].get("ownership_status"), "ambiguous")
-        warnings = body.get("warnings") or []
-        self.assertTrue(any("회사 식별" in w for w in warnings), warnings)
+        self.assertEqual(body.get("warnings") or [], [])
 
         latest = self.handler.parsed()[-1]
         self.assertEqual(latest.get("result"), "success")

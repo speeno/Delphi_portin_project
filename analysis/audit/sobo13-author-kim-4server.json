@@ -1,0 +1,109 @@
+{
+  "generated_at": "2026-05-30T13:32:06.730834+00:00",
+  "screen": "Sobo13",
+  "table": "G3_Gjeo",
+  "q": "김",
+  "servers": {
+    "remote_138": {
+      "server_id": "remote_138",
+      "q": "김",
+      "ok": true,
+      "total": 13,
+      "returned": 13,
+      "sorted_by_gcode": true,
+      "all_have_gname": true,
+      "sample": [
+        {
+          "gcode": "00001",
+          "gname": "김혜원",
+          "hcode": "9033"
+        },
+        {
+          "gcode": "00004",
+          "gname": "김나위",
+          "hcode": "9033"
+        },
+        {
+          "gcode": "007",
+          "gname": "김현수",
+          "hcode": "8201"
+        },
+        {
+          "gcode": "1011",
+          "gname": "김병규",
+          "hcode": "9046"
+        },
+        {
+          "gcode": "1015",
+          "gname": "김진우",
+          "hcode": "9046"
+        }
+      ],
+      "detail_ok": true,
+      "detail_gcode": "00001",
+      "detail_missing_fields": [],
+      "detail_gposa": "김혜원",
+      "detail_gbun_name": "번역자"
+    },
+    "remote_153": {
+      "server_id": "remote_153",
+      "q": "김",
+      "ok": true,
+      "total": 473,
+      "returned": 50,
+      "sorted_by_gcode": true,
+      "all_have_gname": true,
+      "sample": [
+        {
+          "gcode": "0",
+          "gname": "김영권",
+          "hcode": "5053"
+        },
+        {
+          "gcode": "0-278",
+          "gname": "김혜원 님",
+          "hcode": "5053"
+        },
+        {
+          "gcode": "0-726",
+          "gname": "김현진 님",
+          "hcode": "5053"
+        },
+        {
+          "gcode": "0-727",
+          "gname": "김현균 님",
+          "hcode": "5053"
+        },
+        {
+          "gcode": "0-728",
+          "gname": "김시준 님",
+          "hcode": "5053"
+        }
+      ],
+      "detail_ok": true,
+      "detail_gcode": "0",
+      "detail_missing_fields": [],
+      "detail_gposa": "김영권",
+      "detail_gbun_name": "번역자"
+    },
+    "remote_154": {
+      "server_id": "remote_154",
+      "q": "김",
+      "ok": false,
+      "error": "OperationalError: (1129, \"Host 'localhost' is blocked because of many connection errors.  Unblock with 'mysqladmin flush-hosts'\")"
+    },
+    "remote_155": {
+      "server_id": "remote_155",
+      "q": "김",
+      "ok": false,
+      "error": "OperationalError: (1129, \"Host 'localhost' is blocked because of many connection errors.  Unblock with 'mysqladmin flush-hosts'\")"
+    }
+  },
+  "summary": {
+    "server_count": 4,
+    "list_ok": 2,
+    "list_failed": 2,
+    "all_sorted": true,
+    "detail_ok": 2
+  }
+}

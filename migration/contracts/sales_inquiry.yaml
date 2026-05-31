@@ -816,7 +816,7 @@ phase2_addendum:
         limit:    optional int (1~500, default 50)
         offset:   optional int (>=0, default 0)
       facade_only:
-        view: required enum[list, summary, memo] (default list — 미지정 = list)
+        view: required enum[list, detail, summary, memo] (default list — 미지정 = list)
         memoLike: optional string (view=memo 한정, 본문 LIKE)
       sales_statement_phase2:    # canonical 직접 호출 시 동등 매핑
         memoPresence: optional enum[has_memo]  # view=memo 와 동등
@@ -827,6 +827,13 @@ phase2_addendum:
         same_shape_as: SalesStatementListResponse
         items_extension:
           memo_preview: optional string (default "")   # 일반 LIST 에서는 빈 문자열
+      detail:                     # view=detail (Sobo21_status_detail = 레거시 Sobo24 거래현황 상세)
+        same_shape_as: SalesStatementListResponse        # 전표 단위 행 — list 와 동일 응답
+        line_drilldown:
+          # 행 펼침 시 프론트가 GET /sales-statement/{order_key} 라인 상세를 지연 조회.
+          # 신규 백엔드 SQL 0 — get_sales_statement_detail 재사용 (DEC-040 정합, DRY).
+          endpoint: GET /api/v1/transactions/sales-statement/{order_key}
+          fields: [bcode, product_name, gsqut, gssum]
       summary:                    # view=summary
         wrapper: TransactionsStatusSummaryResponse
         items:
@@ -861,6 +868,9 @@ phase2_addendum:
       - id: AC-INQ-P2-6
         description: "canonical /sales-statement?memoPresence=has_memo 응답이 facade view=memo 와 동등"
         test: "test/test_c6_inquiry_phase2.py::test_canonical_memo_equivalent"
+      - id: AC-INQ-P2-7
+        description: "view=detail 응답이 view=list 와 동일 형태(전표 단위 행) — 상세 라인은 프론트 지연 조회"
+        test: "test/test_c6_inquiry_phase2.py::test_view_detail_equivalent"
 
   audit_compare:
     base_legacy: Sobo48

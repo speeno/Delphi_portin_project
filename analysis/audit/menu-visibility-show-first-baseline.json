@@ -1,0 +1,583 @@
+{
+  "generated_at": "2026-05-29T19:28:41Z",
+  "mode": "offline_menu_policy_eval",
+  "decision": "MENUVIS-DEC-07 (show-first) baseline",
+  "target_menus": [
+    "ACC-MENU-MASTERS-02",
+    "ACC-MENU-MASTERS-03",
+    "ACC-MENU-MASTERS-06"
+  ],
+  "scenarios": [
+    {
+      "label": "unmapped_empty_account_type",
+      "context": {
+        "account_type": null,
+        "build_role": null
+      },
+      "counts": {
+        "visible": 49,
+        "disabled": 7,
+        "hidden": 0
+      },
+      "target_menus": {
+        "ACC-MENU-MASTERS-02": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-03": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-06": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        }
+      },
+      "visible_menu_ids": [
+        "ACC-MENU-NAV-01",
+        "ACC-MENU-NAV-02",
+        "ACC-MENU-NAV-03",
+        "ACC-MENU-NAV-04",
+        "ACC-MENU-NAV-05",
+        "ACC-MENU-NAV-06",
+        "ACC-MENU-NAV-07",
+        "ACC-MENU-NAV-08",
+        "ACC-MENU-NAV-09",
+        "ACC-MENU-NAV-10",
+        "ACC-MENU-NAV-11",
+        "ACC-MENU-NAV-12",
+        "ACC-MENU-NAV-13",
+        "ACC-MENU-NAV-14",
+        "ACC-MENU-NAV-15",
+        "ACC-MENU-NAV-16",
+        "ACC-MENU-MASTERS-01",
+        "ACC-MENU-MASTERS-01a",
+        "ACC-MENU-MASTERS-01b",
+        "ACC-MENU-MASTERS-02",
+        "ACC-MENU-MASTERS-03",
+        "ACC-MENU-MASTERS-04",
+        "ACC-MENU-MASTERS-04a",
+        "ACC-MENU-MASTERS-04b",
+        "ACC-MENU-MASTERS-04c",
+        "ACC-MENU-MASTERS-05",
+        "ACC-MENU-MASTERS-05a",
+        "ACC-MENU-MASTERS-06",
+        "ACC-MENU-MASTERS-07",
+        "ACC-MENU-MASTERS-08",
+        "ACC-MENU-MASTERS-09",
+        "ACC-MENU-MASTERS-10",
+        "ACC-MENU-MASTERS-11",
+        "ACC-MENU-MASTERS-12",
+        "ACC-MENU-MASTERS-13",
+        "ACC-MENU-YM-01",
+        "ACC-MENU-YM-02",
+        "ACC-MENU-YM-03",
+        "ACC-MENU-YM-04",
+        "ACC-MENU-YM-05",
+        "ACC-MENU-YM-06",
+        "ACC-MENU-YM-07",
+        "ACC-MENU-YM-08",
+        "ACC-MENU-ADMIN-01",
+        "ACC-MENU-ADMIN-02",
+        "ACC-MENU-ADMIN-03",
+        "ACC-MENU-ADMIN-04",
+        "ACC-MENU-ADMIN-05",
+        "ACC-MENU-ADMIN-06"
+      ],
+      "hidden_menu_ids": []
+    },
+    {
+      "label": "T1_admin_scope",
+      "context": {
+        "account_type": "T1",
+        "build_role": "distributor"
+      },
+      "counts": {
+        "visible": 49,
+        "disabled": 7,
+        "hidden": 0
+      },
+      "target_menus": {
+        "ACC-MENU-MASTERS-02": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-03": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-06": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        }
+      },
+      "visible_menu_ids": [
+        "ACC-MENU-NAV-01",
+        "ACC-MENU-NAV-02",
+        "ACC-MENU-NAV-03",
+        "ACC-MENU-NAV-04",
+        "ACC-MENU-NAV-05",
+        "ACC-MENU-NAV-06",
+        "ACC-MENU-NAV-07",
+        "ACC-MENU-NAV-08",
+        "ACC-MENU-NAV-09",
+        "ACC-MENU-NAV-10",
+        "ACC-MENU-NAV-11",
+        "ACC-MENU-NAV-12",
+        "ACC-MENU-NAV-13",
+        "ACC-MENU-NAV-14",
+        "ACC-MENU-NAV-15",
+        "ACC-MENU-NAV-16",
+        "ACC-MENU-MASTERS-01",
+        "ACC-MENU-MASTERS-01a",
+        "ACC-MENU-MASTERS-01b",
+        "ACC-MENU-MASTERS-02",
+        "ACC-MENU-MASTERS-03",
+        "ACC-MENU-MASTERS-04",
+        "ACC-MENU-MASTERS-04a",
+        "ACC-MENU-MASTERS-04b",
+        "ACC-MENU-MASTERS-04c",
+        "ACC-MENU-MASTERS-05",
+        "ACC-MENU-MASTERS-05a",
+        "ACC-MENU-MASTERS-06",
+        "ACC-MENU-MASTERS-07",
+        "ACC-MENU-MASTERS-08",
+        "ACC-MENU-MASTERS-09",
+        "ACC-MENU-MASTERS-10",
+        "ACC-MENU-MASTERS-11",
+        "ACC-MENU-MASTERS-12",
+        "ACC-MENU-MASTERS-13",
+        "ACC-MENU-YM-01",
+        "ACC-MENU-YM-02",
+        "ACC-MENU-YM-03",
+        "ACC-MENU-YM-04",
+        "ACC-MENU-YM-05",
+        "ACC-MENU-YM-06",
+        "ACC-MENU-YM-07",
+        "ACC-MENU-YM-08",
+        "ACC-MENU-ADMIN-01",
+        "ACC-MENU-ADMIN-02",
+        "ACC-MENU-ADMIN-03",
+        "ACC-MENU-ADMIN-04",
+        "ACC-MENU-ADMIN-05",
+        "ACC-MENU-ADMIN-06"
+      ],
+      "hidden_menu_ids": []
+    },
+    {
+      "label": "T2_DIST_distributor",
+      "context": {
+        "account_type": "T2_DIST",
+        "build_role": "distributor"
+      },
+      "counts": {
+        "visible": 49,
+        "disabled": 7,
+        "hidden": 0
+      },
+      "target_menus": {
+        "ACC-MENU-MASTERS-02": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-03": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-06": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        }
+      },
+      "visible_menu_ids": [
+        "ACC-MENU-NAV-01",
+        "ACC-MENU-NAV-02",
+        "ACC-MENU-NAV-03",
+        "ACC-MENU-NAV-04",
+        "ACC-MENU-NAV-05",
+        "ACC-MENU-NAV-06",
+        "ACC-MENU-NAV-07",
+        "ACC-MENU-NAV-08",
+        "ACC-MENU-NAV-09",
+        "ACC-MENU-NAV-10",
+        "ACC-MENU-NAV-11",
+        "ACC-MENU-NAV-12",
+        "ACC-MENU-NAV-13",
+        "ACC-MENU-NAV-14",
+        "ACC-MENU-NAV-15",
+        "ACC-MENU-NAV-16",
+        "ACC-MENU-MASTERS-01",
+        "ACC-MENU-MASTERS-01a",
+        "ACC-MENU-MASTERS-01b",
+        "ACC-MENU-MASTERS-02",
+        "ACC-MENU-MASTERS-03",
+        "ACC-MENU-MASTERS-04",
+        "ACC-MENU-MASTERS-04a",
+        "ACC-MENU-MASTERS-04b",
+        "ACC-MENU-MASTERS-04c",
+        "ACC-MENU-MASTERS-05",
+        "ACC-MENU-MASTERS-05a",
+        "ACC-MENU-MASTERS-06",
+        "ACC-MENU-MASTERS-07",
+        "ACC-MENU-MASTERS-08",
+        "ACC-MENU-MASTERS-09",
+        "ACC-MENU-MASTERS-10",
+        "ACC-MENU-MASTERS-11",
+        "ACC-MENU-MASTERS-12",
+        "ACC-MENU-MASTERS-13",
+        "ACC-MENU-YM-01",
+        "ACC-MENU-YM-02",
+        "ACC-MENU-YM-03",
+        "ACC-MENU-YM-04",
+        "ACC-MENU-YM-05",
+        "ACC-MENU-YM-06",
+        "ACC-MENU-YM-07",
+        "ACC-MENU-YM-08",
+        "ACC-MENU-ADMIN-01",
+        "ACC-MENU-ADMIN-02",
+        "ACC-MENU-ADMIN-03",
+        "ACC-MENU-ADMIN-04",
+        "ACC-MENU-ADMIN-05",
+        "ACC-MENU-ADMIN-06"
+      ],
+      "hidden_menu_ids": []
+    },
+    {
+      "label": "T2_PUB_publisher",
+      "context": {
+        "account_type": "T2_PUB",
+        "build_role": "publisher"
+      },
+      "counts": {
+        "visible": 49,
+        "disabled": 7,
+        "hidden": 0
+      },
+      "target_menus": {
+        "ACC-MENU-MASTERS-02": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-03": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-06": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        }
+      },
+      "visible_menu_ids": [
+        "ACC-MENU-NAV-01",
+        "ACC-MENU-NAV-02",
+        "ACC-MENU-NAV-03",
+        "ACC-MENU-NAV-04",
+        "ACC-MENU-NAV-05",
+        "ACC-MENU-NAV-06",
+        "ACC-MENU-NAV-07",
+        "ACC-MENU-NAV-08",
+        "ACC-MENU-NAV-09",
+        "ACC-MENU-NAV-10",
+        "ACC-MENU-NAV-11",
+        "ACC-MENU-NAV-12",
+        "ACC-MENU-NAV-13",
+        "ACC-MENU-NAV-14",
+        "ACC-MENU-NAV-15",
+        "ACC-MENU-NAV-16",
+        "ACC-MENU-MASTERS-01",
+        "ACC-MENU-MASTERS-01a",
+        "ACC-MENU-MASTERS-01b",
+        "ACC-MENU-MASTERS-02",
+        "ACC-MENU-MASTERS-03",
+        "ACC-MENU-MASTERS-04",
+        "ACC-MENU-MASTERS-04a",
+        "ACC-MENU-MASTERS-04b",
+        "ACC-MENU-MASTERS-04c",
+        "ACC-MENU-MASTERS-05",
+        "ACC-MENU-MASTERS-05a",
+        "ACC-MENU-MASTERS-06",
+        "ACC-MENU-MASTERS-07",
+        "ACC-MENU-MASTERS-08",
+        "ACC-MENU-MASTERS-09",
+        "ACC-MENU-MASTERS-10",
+        "ACC-MENU-MASTERS-11",
+        "ACC-MENU-MASTERS-12",
+        "ACC-MENU-MASTERS-13",
+        "ACC-MENU-YM-01",
+        "ACC-MENU-YM-02",
+        "ACC-MENU-YM-03",
+        "ACC-MENU-YM-04",
+        "ACC-MENU-YM-05",
+        "ACC-MENU-YM-06",
+        "ACC-MENU-YM-07",
+        "ACC-MENU-YM-08",
+        "ACC-MENU-ADMIN-01",
+        "ACC-MENU-ADMIN-02",
+        "ACC-MENU-ADMIN-03",
+        "ACC-MENU-ADMIN-04",
+        "ACC-MENU-ADMIN-05",
+        "ACC-MENU-ADMIN-06"
+      ],
+      "hidden_menu_ids": []
+    },
+    {
+      "label": "T3_warehouse_publisher_lite",
+      "context": {
+        "account_type": "T3",
+        "build_role": "warehouse_publisher",
+        "warehouse_menu_tier": "lite"
+      },
+      "counts": {
+        "visible": 49,
+        "disabled": 7,
+        "hidden": 0
+      },
+      "target_menus": {
+        "ACC-MENU-MASTERS-02": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-03": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-06": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        }
+      },
+      "visible_menu_ids": [
+        "ACC-MENU-NAV-01",
+        "ACC-MENU-NAV-02",
+        "ACC-MENU-NAV-03",
+        "ACC-MENU-NAV-04",
+        "ACC-MENU-NAV-05",
+        "ACC-MENU-NAV-06",
+        "ACC-MENU-NAV-07",
+        "ACC-MENU-NAV-08",
+        "ACC-MENU-NAV-09",
+        "ACC-MENU-NAV-10",
+        "ACC-MENU-NAV-11",
+        "ACC-MENU-NAV-12",
+        "ACC-MENU-NAV-13",
+        "ACC-MENU-NAV-14",
+        "ACC-MENU-NAV-15",
+        "ACC-MENU-NAV-16",
+        "ACC-MENU-MASTERS-01",
+        "ACC-MENU-MASTERS-01a",
+        "ACC-MENU-MASTERS-01b",
+        "ACC-MENU-MASTERS-02",
+        "ACC-MENU-MASTERS-03",
+        "ACC-MENU-MASTERS-04",
+        "ACC-MENU-MASTERS-04a",
+        "ACC-MENU-MASTERS-04b",
+        "ACC-MENU-MASTERS-04c",
+        "ACC-MENU-MASTERS-05",
+        "ACC-MENU-MASTERS-05a",
+        "ACC-MENU-MASTERS-06",
+        "ACC-MENU-MASTERS-07",
+        "ACC-MENU-MASTERS-08",
+        "ACC-MENU-MASTERS-09",
+        "ACC-MENU-MASTERS-10",
+        "ACC-MENU-MASTERS-11",
+        "ACC-MENU-MASTERS-12",
+        "ACC-MENU-MASTERS-13",
+        "ACC-MENU-YM-01",
+        "ACC-MENU-YM-02",
+        "ACC-MENU-YM-03",
+        "ACC-MENU-YM-04",
+        "ACC-MENU-YM-05",
+        "ACC-MENU-YM-06",
+        "ACC-MENU-YM-07",
+        "ACC-MENU-YM-08",
+        "ACC-MENU-ADMIN-01",
+        "ACC-MENU-ADMIN-02",
+        "ACC-MENU-ADMIN-03",
+        "ACC-MENU-ADMIN-04",
+        "ACC-MENU-ADMIN-05",
+        "ACC-MENU-ADMIN-06"
+      ],
+      "hidden_menu_ids": []
+    },
+    {
+      "label": "T3_warehouse_publisher_full",
+      "context": {
+        "account_type": "T3",
+        "build_role": "warehouse_publisher",
+        "warehouse_menu_tier": "full"
+      },
+      "counts": {
+        "visible": 49,
+        "disabled": 7,
+        "hidden": 0
+      },
+      "target_menus": {
+        "ACC-MENU-MASTERS-02": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-03": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-06": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        }
+      },
+      "visible_menu_ids": [
+        "ACC-MENU-NAV-01",
+        "ACC-MENU-NAV-02",
+        "ACC-MENU-NAV-03",
+        "ACC-MENU-NAV-04",
+        "ACC-MENU-NAV-05",
+        "ACC-MENU-NAV-06",
+        "ACC-MENU-NAV-07",
+        "ACC-MENU-NAV-08",
+        "ACC-MENU-NAV-09",
+        "ACC-MENU-NAV-10",
+        "ACC-MENU-NAV-11",
+        "ACC-MENU-NAV-12",
+        "ACC-MENU-NAV-13",
+        "ACC-MENU-NAV-14",
+        "ACC-MENU-NAV-15",
+        "ACC-MENU-NAV-16",
+        "ACC-MENU-MASTERS-01",
+        "ACC-MENU-MASTERS-01a",
+        "ACC-MENU-MASTERS-01b",
+        "ACC-MENU-MASTERS-02",
+        "ACC-MENU-MASTERS-03",
+        "ACC-MENU-MASTERS-04",
+        "ACC-MENU-MASTERS-04a",
+        "ACC-MENU-MASTERS-04b",
+        "ACC-MENU-MASTERS-04c",
+        "ACC-MENU-MASTERS-05",
+        "ACC-MENU-MASTERS-05a",
+        "ACC-MENU-MASTERS-06",
+        "ACC-MENU-MASTERS-07",
+        "ACC-MENU-MASTERS-08",
+        "ACC-MENU-MASTERS-09",
+        "ACC-MENU-MASTERS-10",
+        "ACC-MENU-MASTERS-11",
+        "ACC-MENU-MASTERS-12",
+        "ACC-MENU-MASTERS-13",
+        "ACC-MENU-YM-01",
+        "ACC-MENU-YM-02",
+        "ACC-MENU-YM-03",
+        "ACC-MENU-YM-04",
+        "ACC-MENU-YM-05",
+        "ACC-MENU-YM-06",
+        "ACC-MENU-YM-07",
+        "ACC-MENU-YM-08",
+        "ACC-MENU-ADMIN-01",
+        "ACC-MENU-ADMIN-02",
+        "ACC-MENU-ADMIN-03",
+        "ACC-MENU-ADMIN-04",
+        "ACC-MENU-ADMIN-05",
+        "ACC-MENU-ADMIN-06"
+      ],
+      "hidden_menu_ids": []
+    },
+    {
+      "label": "department_accounting",
+      "context": {
+        "account_type": "T3",
+        "build_role": "warehouse_publisher",
+        "warehouse_menu_tier": "lite",
+        "login_profile": "department_accounting"
+      },
+      "counts": {
+        "visible": 49,
+        "disabled": 7,
+        "hidden": 0
+      },
+      "target_menus": {
+        "ACC-MENU-MASTERS-02": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-03": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        },
+        "ACC-MENU-MASTERS-06": {
+          "visible": true,
+          "disabled": false,
+          "reasons": []
+        }
+      },
+      "visible_menu_ids": [
+        "ACC-MENU-NAV-01",
+        "ACC-MENU-NAV-02",
+        "ACC-MENU-NAV-03",
+        "ACC-MENU-NAV-04",
+        "ACC-MENU-NAV-05",
+        "ACC-MENU-NAV-06",
+        "ACC-MENU-NAV-07",
+        "ACC-MENU-NAV-08",
+        "ACC-MENU-NAV-09",
+        "ACC-MENU-NAV-10",
+        "ACC-MENU-NAV-11",
+        "ACC-MENU-NAV-12",
+        "ACC-MENU-NAV-13",
+        "ACC-MENU-NAV-14",
+        "ACC-MENU-NAV-15",
+        "ACC-MENU-NAV-16",
+        "ACC-MENU-MASTERS-01",
+        "ACC-MENU-MASTERS-01a",
+        "ACC-MENU-MASTERS-01b",
+        "ACC-MENU-MASTERS-02",
+        "ACC-MENU-MASTERS-03",
+        "ACC-MENU-MASTERS-04",
+        "ACC-MENU-MASTERS-04a",
+        "ACC-MENU-MASTERS-04b",
+        "ACC-MENU-MASTERS-04c",
+        "ACC-MENU-MASTERS-05",
+        "ACC-MENU-MASTERS-05a",
+        "ACC-MENU-MASTERS-06",
+        "ACC-MENU-MASTERS-07",
+        "ACC-MENU-MASTERS-08",
+        "ACC-MENU-MASTERS-09",
+        "ACC-MENU-MASTERS-10",
+        "ACC-MENU-MASTERS-11",
+        "ACC-MENU-MASTERS-12",
+        "ACC-MENU-MASTERS-13",
+        "ACC-MENU-YM-01",
+        "ACC-MENU-YM-02",
+        "ACC-MENU-YM-03",
+        "ACC-MENU-YM-04",
+        "ACC-MENU-YM-05",
+        "ACC-MENU-YM-06",
+        "ACC-MENU-YM-07",
+        "ACC-MENU-YM-08",
+        "ACC-MENU-ADMIN-01",
+        "ACC-MENU-ADMIN-02",
+        "ACC-MENU-ADMIN-03",
+        "ACC-MENU-ADMIN-04",
+        "ACC-MENU-ADMIN-05",
+        "ACC-MENU-ADMIN-06"
+      ],
+      "hidden_menu_ids": []
+    }
+  ]
+}

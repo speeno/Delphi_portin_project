@@ -19,6 +19,7 @@
 | `MENUVIS-DEC-04` | 웹 권한 체계 = **2 레이어**. <br>L1) 백엔드 `PermissionGuard` (강제, 변경 불가) — 계정 유형 (`ACC-T*`) + 빌드 forced_hidden + 라이선스 key 매핑. <br>L2) 사용자 환경설정 (소프트, 사용자 변경 가능) — `toolbar_visible`, 사용자별 즐겨찾기/숨김 메뉴. | DEC-02/03 분리 원칙 |
 | `MENUVIS-DEC-05` | 라이선스 키 (`F##`) 는 **테넌트 단위 feature flag**. DB 의 `Id_Logn.Authority` 또는 별도 테이블에서 조회되며, `Seek_Uses` 가 'X' 반환 시 차단. 웹에서는 `tenant_features` 테이블로 이전, JWT 클레임 또는 세션 캐시에 미러. | 핸들러 본문: `nUse2:=Base10.Seek_Uses('F17'); if nUse2<>'X' then ... else ShowMessage(E_Connect);` |
 | `MENUVIS-DEC-06` | `Seek_Uses` 결과로 차단된 사용자가 메뉴를 클릭하면 레거시는 `ShowMessage(E_Connect)` 표시 후 폼을 열지 않음. 웹은 동일 UX 를 위해 메뉴를 **disabled (회색) + tooltip "권한 없음"** 으로 표시 (숨기지 않음 — 라이선스 추가 안내 위해). | UX 일관성 |
+| `MENUVIS-DEC-07` | **show-first** — 메뉴는 기본 전체 노출. RBAC 축(`account_types`/`build_roles`/`warehouse_menu_tiers`)은 더 이상 숨김 축이 아니라 「대상 빌드 힌트」로만 남는다. 숨김은 ① 빌드 `forced_hidden`(DEC-03) ② 사용자별 `hidden_menu_ids`(L2, 관리자 설정) ③ 계정유형 오버레이 `deny` 만 담당하고, 라이선스(Fxx) 미보유는 `disabled`(DEC-06)만 적용한다. `account_type` 미매핑 계정이 사이드바 0건이 되던 회귀를 제거하고, 사용자별 메뉴 감추기를 관리자 화면(`/admin/id-logn` 메뉴 노출)으로 일원화한다. | 미매핑 계정 사이드바 0건·신규 기초관리 3화면(입고처/기타거래처/저자) 미노출 해소 요구. 백엔드 `app.core.menu_policy` + 프론트 `account-menu-matrix.ts` 1:1 미러. 저장: `backend/data/user_menu_visibility.json` 4-key(server_id, hcode, gcode). |
 
 ---
 
@@ -156,14 +157,17 @@ def is_menu_visible(menu_id: str, user: User, tenant: Tenant) -> tuple[bool, str
     if required_key and required_key not in tenant.license_keys:
         return True, "license_disabled"  # 표시는 하되 클릭 시 차단 (UX MENUVIS-DEC-06)
 
-    # L2) 사용자 환경설정
-    if menu_id in user.preferences.hidden_menus:
+    # L2) 사용자 환경설정 — MENUVIS-DEC-07 구현: user_menu_visibility.json 의 hidden_menu_ids
+    #     (관리자 /admin/id-logn 메뉴 노출 체크리스트). license 검사보다 먼저 적용한다.
+    if menu_id in user.hidden_menu_ids:
         return False, "user_hidden"
 
     return True, "ok"
 ```
 
 → `License disabled` 인 메뉴는 **렌더링하되 disabled** (회색 + tooltip "권한 없음 — 관리자 문의"). 그 외는 숨김.
+
+> **MENUVIS-DEC-07 구현 노트:** 실제 런타임 순서는 빌드 `forced_hidden` → 사용자 `hidden_menu_ids` → 계정유형 오버레이 `deny` → 라이선스 `disabled` 이다. RBAC 축은 더 이상 숨기지 않는다(show-first). 단일 원천: `backend/app/core/menu_policy.py::nav_ui_state_for_menu` + 프론트 `account-menu-matrix.ts::navUiState`.
 
 ### 3.3 ToolBar 토글 (publisher only)
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T07:45:29.360340+00:00",
+  "generatedAt": "2026-05-31T01:22:17.967341+00:00",
   "criteria": "본 인벤토리는 계획서 「구현되지 못한 기능 목록」에 따라 **원천별 합집합** 을 기록한다. 단일 정의가 아니라 (A) UI placeholder (B) T-파이프라인 비완료 (C) form-registry preview/STUB (D) phase1 이지만 R/RU/STUB 인 부분 동등 (E) 백엔드 stub grep (F) crud-backlog §2.6 참조 를 모두 포함한다.",
   "sources": {
     "ui_placeholder_pages": [],
@@ -48,7 +48,7 @@
           "STUB"
         ],
         "crudNotes": "W2 scaffold — GET /settlement/shipping-ledger 빈 목록. T2 SQL·t3_ssub_adapt 후 CRUD 상향",
-        "registry_line": 1123
+        "registry_line": 1280
       },
       {
         "kind": "form_registry_placeholder",
@@ -59,7 +59,7 @@
           "STUB"
         ],
         "crudNotes": "W2 scaffold — GET /settlement/shipping-status 빈 목록. 재고현황 Sobo44_inv 와 별개",
-        "registry_line": 1143
+        "registry_line": 1300
       }
     ],
     "form_registry_phase1_partial": [
@@ -70,7 +70,7 @@
         "route": "/billing/statements",
         "crudParity": "R",
         "crudNotes": "허브 MVP (2026-05-15) — 입고·반품·거래·출고·택배·판매 리포트로 링크. 8종 단일 SQL은 후속",
-        "registry_line": 1102
+        "registry_line": 1259
       },
       {
         "kind": "crud_phase1_partial",
@@ -79,7 +79,7 @@
         "route": "/shipping/returns-inventory",
         "crudParity": "R",
         "crudNotes": "허브 MVP (2026-05-15) — 정본 /returns/inventory 로 안내. 통합 전용 SQL 그리드는 후속",
-        "registry_line": 1082
+        "registry_line": 1239
       },
       {
         "kind": "crud_phase1_partial",
@@ -88,7 +88,7 @@
         "route": "/year-month-stats",
         "crudParity": "R",
         "crudNotes": "허브 MVP (2026-05-15) — 기존 /stats/* 화면으로 링크. 8개 전용 하위 라우트·SQL은 후속",
-        "registry_line": 1062
+        "registry_line": 1219
       },
       {
         "kind": "crud_phase1_partial",
@@ -97,7 +97,7 @@
         "route": "/settlement/outstanding",
         "crudParity": "R",
         "crudNotes": "조회 전용 — 미수 합계",
-        "registry_line": 963
+        "registry_line": 1118
       },
       {
         "kind": "crud_phase1_partial",
@@ -106,7 +106,7 @@
         "route": "/ledger/customer-integrated",
         "crudParity": "R",
         "crudNotes": "조회 전용 — DBGrid301 분해는 P3 (customer-ledger-implementation-plan §8)",
-        "registry_line": 851
+        "registry_line": 961
       },
       {
         "kind": "crud_phase1_partial",
@@ -115,7 +115,7 @@
         "route": "/ledger/customer",
         "crudParity": "R",
         "crudNotes": "조회 전용 — DBGrid301 분해는 P3 (customer-ledger-implementation-plan §8)",
-        "registry_line": 839
+        "registry_line": 949
       },
       {
         "kind": "crud_phase1_partial",
@@ -124,7 +124,7 @@
         "route": "/returns/ledger",
         "crudParity": "R",
         "crudNotes": "조회 전용 — 페이저 v1.2.0 (DEC-033 e/g 표준)",
-        "registry_line": 402
+        "registry_line": 506
       },
       {
         "kind": "crud_phase1_partial",
@@ -133,7 +133,7 @@
         "route": "/stats/customer",
         "crudParity": "R",
         "crudNotes": "조회 전용 — statsApi.customerAnalysis → GET /api/v1/stats/customer-analysis (reports 재사용)",
-        "registry_line": 1034
+        "registry_line": 1191
       },
       {
         "kind": "crud_phase1_partial",
@@ -142,7 +142,7 @@
         "route": "/stats/book",
         "crudParity": "R",
         "crudNotes": "조회 전용 — reportsApi.bookSales → GET /api/v1/reports/book-sales (Sobo61 동등 경로)",
-        "registry_line": 1047
+        "registry_line": 1204
       },
       {
         "kind": "crud_phase1_partial",
@@ -151,7 +151,7 @@
         "route": "/settlement/payment-slip",
         "crudParity": "R",
         "crudNotes": "기존 입금 라인(settlementCashApi.list) 조회 + 전표 카드 인쇄(window.print) — 신규/수정 입금은 /settlement/cash",
-        "registry_line": 981
+        "registry_line": 1137
       },
       {
         "kind": "crud_phase1_partial",
@@ -160,7 +160,7 @@
         "route": "/stats/publisher",
         "crudParity": "R",
         "crudNotes": "조회 전용 — GET /api/v1/stats/publisher: book-sales 행을 출판사 축으로 재집계(stats_reports.yaml STAT-PUB, 신규 SQL 0건). 레거시 Subu43 전 지표·출력 1:1 복원은 비목표.",
-        "registry_line": 1163
+        "registry_line": 1320
       },
       {
         "kind": "crud_phase1_partial",
@@ -169,7 +169,7 @@
         "route": "",
         "crudParity": "R",
         "crudNotes": "인쇄 미리보기만 — 쓰기 없음 (DEC-035 외부 채널 후속)",
-        "registry_line": 490
+        "registry_line": 598
       },
       {
         "kind": "crud_phase1_partial",
@@ -178,7 +178,7 @@
         "route": "/settlement/billing",
         "crudParity": "R",
         "crudNotes": "인쇄 미리보기만 — 쓰기 없음 (DEC-035 후속)",
-        "registry_line": 587
+        "registry_line": 697
       },
       {
         "kind": "crud_phase1_partial",
@@ -187,7 +187,7 @@
         "route": "/stats/sales-period",
         "crudParity": "R",
         "crudNotes": "차트 조회 전용",
-        "registry_line": 693
+        "registry_line": 803
       },
       {
         "kind": "crud_phase1_partial",
@@ -196,7 +196,7 @@
         "route": "/stats/customer-analysis",
         "crudParity": "R",
         "crudNotes": "차트 조회 전용",
-        "registry_line": 711
+        "registry_line": 821
       },
       {
         "kind": "crud_phase1_partial",
@@ -205,7 +205,7 @@
         "route": "/stats/book-turnover",
         "crudParity": "R",
         "crudNotes": "차트 조회 전용",
-        "registry_line": 729
+        "registry_line": 839
       },
       {
         "kind": "crud_phase1_partial",
@@ -214,7 +214,7 @@
         "route": "/stats/quarterly-summary",
         "crudParity": "R",
         "crudNotes": "차트 조회 전용",
-        "registry_line": 747
+        "registry_line": 857
       },
       {
         "kind": "crud_phase1_partial",
@@ -223,7 +223,7 @@
         "route": "/returns/period-report",
         "crudParity": "R",
         "crudNotes": "조회 전용 — test_c4_returns_phase2 / test_returns_period_ledger_regression / DEC-028 data-legacy-id",
-        "registry_line": 421
+        "registry_line": 525
       },
       {
         "kind": "crud_phase1_partial",
@@ -232,7 +232,7 @@
         "route": "/stats/monthly",
         "crudParity": "R",
         "crudNotes": "조회 전용 — statsApi.salesPeriod(groupBy=monthly) → GET /api/v1/stats/sales-period (DEC-040 재사용)",
-        "registry_line": 1021
+        "registry_line": 1178
       },
       {
         "kind": "crud_phase1_partial",
@@ -241,7 +241,7 @@
         "route": "/admin/audit",
         "crudParity": "R",
         "crudNotes": "조회 전용 — C14 phase2 회귀 통과",
-        "registry_line": 786
+        "registry_line": 896
       },
       {
         "kind": "crud_phase1_partial",
@@ -250,16 +250,7 @@
         "route": "/admin/ops",
         "crudParity": "R",
         "crudNotes": "조회 전용 — C14 phase2 회귀 통과",
-        "registry_line": 768
-      },
-      {
-        "kind": "crud_phase1_partial",
-        "id": "Sobo11",
-        "caption": "거래처관리(마스터)",
-        "route": "/master/customer",
-        "crudParity": "RU",
-        "crudNotes": "조회+수정만 — 신규(C)·삭제(D) 후속",
-        "registry_line": 164
+        "registry_line": 878
       },
       {
         "kind": "crud_phase1_partial",
@@ -268,7 +259,16 @@
         "route": "/master/book",
         "crudParity": "RU",
         "crudNotes": "조회+수정만 — 신규(C)·삭제(D) 후속",
-        "registry_line": 176
+        "registry_line": 219
+      },
+      {
+        "kind": "crud_phase1_partial",
+        "id": "Sobo16_baebon",
+        "caption": "배본처관리",
+        "route": "/master/baebon",
+        "crudParity": "RU",
+        "crudNotes": "Sobo16 G6_Ggeo를 배본처(거래처/도서/물류코드) 중심으로 재표기",
+        "registry_line": 1056
       },
       {
         "kind": "crud_phase1_partial",
@@ -277,7 +277,7 @@
         "route": "/master/special",
         "crudParity": "RU",
         "crudNotes": "G6_Ggeo 목록 + Grat1/Gssum 부분 수정 — 신규/삭제·Gcode/Bcode 변경은 후속",
-        "registry_line": 896
+        "registry_line": 1006
       },
       {
         "kind": "crud_phase1_partial",
@@ -286,7 +286,7 @@
         "route": "/shipping/courier",
         "crudParity": "RU",
         "crudNotes": "내부 S1_Ssub 라인 조회 + S1_Memo 조회/저장 완료 — 외부 택배사 API는 별도 후속",
-        "registry_line": 1000
+        "registry_line": 1157
       },
       {
         "kind": "crud_phase1_partial",
@@ -295,7 +295,7 @@
         "route": "/transactions/other",
         "crudParity": "RU",
         "crudNotes": "S1_Ssub 신간/기타 명세 조회 + S1_Memo 전체메모 저장",
-        "registry_line": 951
+        "registry_line": 1106
       },
       {
         "kind": "crud_phase1_partial",
@@ -304,7 +304,7 @@
         "route": "/ledger/comparison",
         "crudParity": "RU",
         "crudNotes": "G7_Ggeo 출판사 설정 조회 + Chek3/Scode 부분 저장",
-        "registry_line": 884
+        "registry_line": 994
       },
       {
         "kind": "crud_phase1_partial",
@@ -313,7 +313,7 @@
         "route": "/settlement/tax-invoice",
         "crudParity": "RU",
         "crudNotes": "DEC-035 외부 채널 발행 stub 배너 — 실제 발행은 후속",
-        "registry_line": 508
+        "registry_line": 617
       },
       {
         "kind": "crud_phase1_partial",
@@ -322,7 +322,7 @@
         "route": "/settlement/tax-invoice",
         "crudParity": "RU",
         "crudNotes": "DEC-035 외부 채널 발행 stub 배너 — 실제 발행은 후속",
-        "registry_line": 606
+        "registry_line": 716
       },
       {
         "kind": "crud_phase1_partial",
@@ -331,7 +331,7 @@
         "route": "/admin/audit-rotate",
         "crudParity": "RU",
         "crudNotes": "회전(write) 동작 — C5 phase2 회귀 통과",
-        "registry_line": 661
+        "registry_line": 771
       }
     ],
     "backend_stub_grep": [

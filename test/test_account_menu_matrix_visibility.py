@@ -1,8 +1,9 @@
 """
-DEC-RBAC-02 — account-menu-matrix 가시성 회귀 (Python 1:1 미러).
+MENUVIS-DEC-07 — account-menu-matrix show-first 가시성 회귀 (Python 1:1 미러).
 
 프론트엔드 ``도서물류관리프로그램/frontend/src/lib/account-menu-matrix.ts::isMenuVisible`` (RBAC 전용) 과
-백엔드 ``app.core.menu_policy.is_menu_visible_rbac`` 가 동일 규칙을 쓴다.
+백엔드 ``app.core.menu_policy.is_menu_visible_rbac`` 가 동일 규칙(show-first)을 쓴다.
+RBAC 축은 더 이상 메뉴를 숨기지 않는다 — 알려진 메뉴는 항상 노출, 미정의 menuId 만 비공개.
 
 실행::
 
@@ -108,76 +109,39 @@ class TestSuperuserBypass:
             )
 
 
-class TestAccountTypeAxisRegression:
-    """4 대표 계정 유형 × 모든 menus — account_type 축만 회귀."""
+class TestShowFirstRbac:
+    """MENUVIS-DEC-07 — RBAC 축은 메뉴를 숨기지 않는다 (4 대표 계정 + 미매핑)."""
 
-    @pytest.mark.parametrize("acct", ["T1", "T2_DIST", "T2_PUB", "T3"])
-    def test_per_account_type(self, matrix, acct):
+    @pytest.mark.parametrize("acct", ["T1", "T2_DIST", "T2_PUB", "T3", None])
+    def test_all_known_menus_visible(self, matrix, acct):
         failures = []
         for m in matrix["menus"]:
-            br = _pick_build_role_for_account(m, acct)
-            wmt = _pick_warehouse_tier(m, acct, br)
-            roles = m.get("build_roles") or []
-            acc_ok = not m.get("account_types") or acct in m["account_types"]
-            br_ok = not roles or (br and br in roles)
-            expected = acc_ok and br_ok
+            br = _pick_build_role_for_account(m, acct) if acct else None
+            wmt = _pick_warehouse_tier(m, acct or "", br)
             actual = _is_menu_visible(
                 m,
                 account_type=acct,
                 build_role=br,
                 warehouse_menu_tier=wmt or None,
             )
-            if actual is not expected:
-                failures.append((m["id"], expected, actual))
-        assert not failures, (
-            f"가시성 불일치 ({acct}): {failures[:5]}"
-        )
+            if actual is not True:
+                failures.append((m["id"], actual))
+        assert not failures, f"show-first 위반 ({acct}): {failures[:5]}"
+
+    def test_login_profile_does_not_hide(self, matrix):
+        nav04 = next(m for m in matrix["menus"] if m["id"] == "ACC-MENU-NAV-04")
+        ctx = {
+            "account_type": "T3",
+            "build_role": "warehouse_publisher",
+            "warehouse_menu_tier": "lite",
+        }
+        # 프로파일 유무와 무관하게 show-first 로 노출.
+        assert _is_menu_visible(nav04, **ctx)
+        assert _is_menu_visible(nav04, **ctx, login_profile="publisher_main")
+        assert _is_menu_visible(nav04, **ctx, login_profile="department_accounting")
 
 
 class TestUndefinedMenuClosed:
     def test_unknown_menu_id_false(self, matrix):
         ids = {m["id"] for m in matrix["menus"]}
         assert "ACC-MENU-NAV-NONEXISTENT" not in ids
-
-
-class TestLoginProfileAllowance:
-    def test_department_accounting_profile_opens_nav04(self, matrix):
-        nav04 = next(m for m in matrix["menus"] if m["id"] == "ACC-MENU-NAV-04")
-        # 기존 RBAC 축만 보면 warehouse_publisher 는 NAV-04 비허용.
-        assert not _is_menu_visible(
-            nav04,
-            account_type="T3",
-            build_role="warehouse_publisher",
-            warehouse_menu_tier="lite",
-        )
-        # login_profile 예외는 기존 RBAC 대비 "추가 허용"으로 동작해야 한다.
-        assert _is_menu_visible(
-            nav04,
-            account_type="T3",
-            build_role="warehouse_publisher",
-            warehouse_menu_tier="lite",
-            login_profile="department_accounting",
-        )
-
-    def test_pairwise_profile_split_for_same_tenant_shape(self, matrix):
-        nav02 = next(m for m in matrix["menus"] if m["id"] == "ACC-MENU-NAV-02")
-        nav04 = next(m for m in matrix["menus"] if m["id"] == "ACC-MENU-NAV-04")
-        nav09 = next(m for m in matrix["menus"] if m["id"] == "ACC-MENU-NAV-09")
-
-        # same tenant context: T3 + warehouse_publisher + lite
-        ctx = {
-            "account_type": "T3",
-            "build_role": "warehouse_publisher",
-            "warehouse_menu_tier": "lite",
-        }
-
-        # publisher_main/프로파일 미지정: 기존 RBAC 결과 유지
-        assert not _is_menu_visible(nav02, **ctx, login_profile="publisher_main")
-        assert not _is_menu_visible(nav04, **ctx, login_profile="publisher_main")
-        assert _is_menu_visible(nav09, **ctx, login_profile="publisher_main")
-        assert not _is_menu_visible(nav04, **ctx, login_profile=None)
-
-        # department_accounting: NAV-04만 추가 허용
-        assert not _is_menu_visible(nav02, **ctx, login_profile="department_accounting")
-        assert _is_menu_visible(nav04, **ctx, login_profile="department_accounting")
-        assert _is_menu_visible(nav09, **ctx, login_profile="department_accounting")

@@ -1,0 +1,165 @@
+# Migration Contract: 테넌트 마스터 패리티 매니페스트 (DSN-DEC-12 / ACC-DATA-03)
+#
+# 목적
+# ----
+# "웹이 올바른 DB + 테넌트(hcode 격리) 로 붙었는가" 를 계정 무관(account-agnostic)
+# 으로 검증하기 위한 단일 원천. `debug/probe_tenant_master_parity.py` 가 본 매니페스트를
+# 읽어 케이스별 라우팅(JWT sid/db/tenant_id/ownership) + (baseline 이 있으면) 마스터
+# 건수·키 diff 를 수행한다.
+#
+# 설계 원칙 (사용자 룰 — 일반화·코드분기 금지)
+# --------------------------------------------
+# - 계정마다 달라지는 것은 "데이터"(기대 좌표·격리 hcode·baseline 경로) 뿐.
+#   probe/auth/서비스 로직에 `if 교문사` 같은 분기를 두지 않는다.
+# - 기대 좌표의 단일 원천은 analysis/welove_login_routing_expectations.json 이며,
+#   본 매니페스트는 그 case 와 1:1 로 연결(`expectations_case`)된다.
+# - 격리 hcode 의 단일 원천은 tenants_directory(seed+overlay) 의 hcode_in/pattern/prefix.
+#   본 매니페스트는 검증 편의를 위한 참조만 보유하고 격리 결정을 내리지 않는다.
+#
+# 모드
+# ----
+# - full_parity : baseline(JSON) 이 있어 마스터 건수·키까지 diff. (예: 교문사 — 엑셀 보유)
+# - routing_only: baseline 없음. JWT 라우팅(sid/db/tenant_id/ownership) 만 검증.
+#
+# 비밀 정책 (secrets-policy.md G3)
+# --------------------------------
+# - 본 파일과 probe 는 자격증명을 보유/기록하지 않는다. 운영자가 실행 시
+#   환경변수(BLS_PARITY_<CASE>_USER / _PASSWORD / _TENANT_ID) 로만 주입한다.
+
+id: TENANT-MASTER-PARITY-v1
+name: 테넌트 마스터 패리티 매니페스트
+version: 1.0.0
+status: draft
+revision_history:
+  - { version: 1.0.0, date: 2026-05-29, summary: "교문사(B4) full_parity + B1~B3·B5~B6·A1~A5 routing_only 초기 매니페스트" }
+
+# baseline 디렉터리(슬러그별 <slug>_books.json / <slug>_customers.json)
+baseline_dir: debug/baselines
+
+# 각 케이스 — expectations_case 는 welove_login_routing_expectations.json 의 case 와 동일.
+cases:
+  # ── 공유 DB (B1~B6) — hcode 격리 필수 (DSN-DEC-12 critical) ─────────────────
+  # shared_db = "런타임 (server_id, db_name) 좌표 공유" 여부.
+  #   true  → 같은 좌표에 N>=2 테넌트 → hcode 격리 없이는 ambiguous(fail-closed). (B3,B4)
+  #   false → 같은 논리 DB 라도 server_id 가 달라 좌표 단위로는 unique. (B1,B2,B5,B6)
+  #            이 경우 logical_shared_db: true 로 "교차 서버 공유" 사실만 표기.
+  - case: B1
+    label: 위러브1
+    expectations_case: B1
+    tenant_slug: welove1
+    seed_tenant_id: "991582e7-c2f6-536b-8249-92332e4eb563"
+    expected: { remote_id: remote_154, db_name: chul_09_db, account_family: chul_09 }
+    shared_db: false
+    logical_shared_db: true
+    mode: routing_only
+
+  - case: B2
+    label: 위러브2
+    expectations_case: B2
+    tenant_slug: welove2
+    seed_tenant_id: "b33cf3c2-ea29-5b57-89ab-4e16f250c115"
+    expected: { remote_id: remote_155, db_name: chul_09_db, account_family: chul_09 }
+    shared_db: false
+    logical_shared_db: true
+    mode: routing_only
+
+  - case: B3
+    label: 위러브3
+    expectations_case: B3
+    tenant_slug: welove3
+    seed_tenant_id: "94455c23-78d8-5d9b-8410-3d20bbc9be00"
+    expected: { remote_id: remote_153, db_name: chul_09_db, account_family: chul_09 }
+    shared_db: true   # remote_153/chul_09_db 좌표를 교문사(B4)와 공유 — 격리 필수
+    logical_shared_db: true
+    mode: routing_only
+
+  - case: B4
+    label: 교문사
+    expectations_case: B4
+    tenant_slug: gyomunsa
+    seed_tenant_id: "fa6758ea-a7e5-5d27-bf87-ccee0a90e72c"
+    expected: { remote_id: remote_153, db_name: chul_09_db, account_family: chul_09 }
+    shared_db: true   # remote_153/chul_09_db 좌표를 위러브3(B3)와 공유 — 격리 필수
+    logical_shared_db: true
+    mode: full_parity
+    baseline:
+      books: gyomunsa_books.json
+      customers: gyomunsa_customers.json
+      expected_counts: { books: 3437, customers: 1289 }
+      spot_checks:
+        customers:
+          - { gcode: "0", gname_contains: "창고" }
+          - { gcode: "1", gname_contains: "교보문고" }
+        books:
+          - { gcode: "1", gname_contains: "가정학원론" }
+    # 정본 본사 hcode (analysis/sub-account-department-menu-plan.md L145: 교문사 5056 / 경리부 5039).
+    # 단, 창고형(warehouse) 테넌트는 다수 출판사 hcode 를 포괄하므로 hcode_in 전체 집합은
+    # probe_master_hcode_scope.py 로 라이브 도출 후 overlay 에 기록한다 (아래 isolation_todo).
+    canonical_hq_hcode: "5019"   # 2026-05-30 라이브 도출 확정 (이전 5056 은 오류). hcode_in=["5019"]
+    isolation_status: resolved   # overlay 적용·라이브 parity 3437/1289 통과 (tenant-db-parity.md §4)
+
+  - case: B5
+    label: 북앤북
+    expectations_case: B5
+    tenant_slug: booknbook
+    seed_tenant_id: "b5ca6b50-4aa3-5b6e-b629-ef66239d6526"
+    expected: { remote_id: remote_154, db_name: book_07_db, account_family: book_07 }
+    shared_db: false
+    logical_shared_db: true
+    mode: routing_only
+
+  - case: B6
+    label: 유앤북
+    expectations_case: B6
+    tenant_slug: uanbook
+    seed_tenant_id: "10bb4c12-9c30-5f73-89a7-682312c5cb49"
+    expected: { remote_id: remote_138, db_name: book_07_db, account_family: book_07 }
+    shared_db: false
+    logical_shared_db: true
+    mode: routing_only
+
+  # ── 단독 DB (A1~A5) — ownership=unique, 격리 키 불요 ────────────────────────
+  - case: A1
+    label: 중앙라인(한강북)
+    expectations_case: A1
+    tenant_slug: jungang
+    seed_tenant_id: "64cb4463-358f-54d2-9c16-26264951b88c"
+    expected: { remote_id: remote_153, db_name: chul_05_db, account_family: chul_05 }
+    shared_db: false
+    mode: routing_only
+
+  - case: A2
+    label: 북앤더
+    expectations_case: A2
+    tenant_slug: booknder
+    seed_tenant_id: "cb9b214e-d51f-5609-a253-3ea47b464888"
+    expected: { remote_id: remote_153, db_name: chul_08_db, account_family: chul_08 }
+    shared_db: false
+    mode: routing_only
+
+  - case: A3
+    label: 진성사
+    expectations_case: A3
+    tenant_slug: jinsung
+    seed_tenant_id: "3e34e2fc-b58e-5bce-90e7-b97be38939fa"
+    expected: { remote_id: remote_154, db_name: book_01_db, account_family: book_01 }
+    shared_db: false
+    mode: routing_only
+
+  - case: A4
+    label: 한강물류
+    expectations_case: A4
+    tenant_slug: hangang
+    seed_tenant_id: "69afe301-68c5-5516-bb6f-cbf97626e23f"
+    expected: { remote_id: remote_155, db_name: chul_01_db, account_family: chul_01 }
+    shared_db: false
+    mode: routing_only
+
+  - case: A5
+    label: MS북스
+    expectations_case: A5
+    tenant_slug: msbooks
+    seed_tenant_id: "0b2712b9-684b-5d79-a22a-a53aaa73ff6c"
+    expected: { remote_id: remote_138, db_name: book_21_db, account_family: book_21 }
+    shared_db: false
+    mode: routing_only

@@ -198,14 +198,6 @@
       "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
     },
     {
-      "name": "Edit115KeyPress",
-      "signature": "Sender: TObject; var Key: Char"
-    },
-    {
-      "name": "Edit115KeyDown",
-      "signature": "Sender: TObject; var Key: Word; Shift: TShiftState"
-    },
-    {
       "name": "DBGrid101DblClick",
       "signature": "Sender: TObject"
     },
@@ -251,16 +243,6 @@
     }
   ],
   "runtime_assignments": [
-    {
-      "component": "Label300",
-      "property": "Caption",
-      "expression": "Sobo19.Edit102.Text"
-    },
-    {
-      "component": "Label301",
-      "property": "Caption",
-      "expression": "Sobo19.Edit103.Text"
-    },
     {
       "component": "Edit101",
       "property": "Text",
@@ -397,21 +379,6 @@
       "expression": "nSqry.FieldByName('Name2').AsString"
     },
     {
-      "component": "Edit128",
-      "property": "Text",
-      "expression": "nSqry.FieldByName('Pubun').AsString"
-    },
-    {
-      "component": "Edit129",
-      "property": "Text",
-      "expression": "nSqry.FieldByName('Email').AsString"
-    },
-    {
-      "component": "Edit130",
-      "property": "Text",
-      "expression": "nSqry.FieldByName('Gnum1').AsString"
-    },
-    {
       "component": "Edit201",
       "property": "Text",
       "expression": "mSqry.FieldByName('Gcode').AsString"
@@ -528,9 +495,7 @@
     "E_Update",
     "E_Delete",
     "'코드를 입력하세요.'",
-    "'코드를 (9)로 시작해 주세요.'",
     "'코드가 이미 등록되어있습니다. 다시 입력하세요.'",
-    "'거래처에 코드가 이미 등록되어있습니다. 다시 입력하세요.'",
     "E_Update",
     "E_Open",
     "E_Open"

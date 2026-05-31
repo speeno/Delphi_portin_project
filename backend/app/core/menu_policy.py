@@ -41,6 +41,8 @@ class MenuPolicyContext:
     license_keys: frozenset[str] | None = None
     is_super_user: bool = False
     active_build_id: str | None = None
+    # MENUVIS-DEC-07 — 관리자가 사용자별로 감춘 메뉴 ID 집합 (사이드바 전용 소프트 숨김).
+    hidden_menu_ids: frozenset[str] | None = None
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -112,25 +114,16 @@ def is_menu_visible_rbac(
     login_profile: str | None = None,
     is_super_user: bool = False,
 ) -> bool:
-    """RBAC 축만 (라이선스·forced_hidden·오버레이 제외)."""
-    if is_super_user:
-        return True
-    login_profiles = list(menu.get("login_profiles") or [])
-    if login_profile and login_profile in login_profiles:
-        # profile 기반 예외는 기존 RBAC에 대한 "추가 허용"만 담당한다.
-        return True
-    if menu.get("account_types") and account_type not in menu["account_types"]:
-        return False
-    if menu.get("build_roles") and build_role not in menu["build_roles"]:
-        return False
-    tiers = menu.get("warehouse_menu_tiers") or []
-    if tiers:
-        at = (account_type or "").strip()
-        br = (build_role or "").strip().lower()
-        if at == "T3" and br == "warehouse_publisher":
-            wmt = (warehouse_menu_tier or "").strip().lower()
-            if not wmt or wmt not in tiers:
-                return False
+    """RBAC 축 — MENUVIS-DEC-07 (show-first): 메뉴는 기본 노출.
+
+    `account_types` / `build_roles` / `warehouse_menu_tiers` 는 더 이상 숨김 축이
+    아니라 「대상 빌드 힌트」로만 남는다. 라이선스(Fxx) 미보유 시 disabled 처리는
+    `nav_ui_state_for_menu` 가, 강제 숨김은 forced_hidden / 오버레이 deny /
+    사용자 hidden_menu_ids 가 담당한다.
+
+    인자(account_type/build_role/...)는 시그니처 안정성(LSP)과 향후 데이터 주도
+    예외를 위해 유지한다. 현재 규칙에서는 항상 노출(True)이다.
+    """
     return True
 
 
@@ -196,15 +189,22 @@ def nav_ui_state_for_menu(
     *,
     overrides: dict[str, Any] | None = None,
 ) -> NavUiState:
-    """MENUVIS-DEC-06: RBAC+forced 통과 후 라이선스 없으면 visible+disabled."""
+    """사이드바 항목 UI 상태.
+
+    숨김 순서(MENUVIS-DEC-07): 빌드 forced_hidden → 사용자 hidden_menu_ids →
+    계정유형 오버레이 deny. 그 외에는 show-first 로 노출하되, 라이선스(Fxx)
+    미보유 시 visible+disabled(MENUVIS-DEC-06).
+    """
     if ctx.is_super_user:
         return NavUiState(True, False, [])
     ovr = overrides if overrides is not None else _overrides_doc()
-    if is_forced_hidden(menu["id"], ctx.active_build_id):
+    mid = menu["id"]
+    if is_forced_hidden(mid, ctx.active_build_id):
         return NavUiState(False, False, ["build_forced_hidden"])
-    base_visible = effective_menu_visible(menu, ctx, overrides=ovr)
-    if not base_visible:
-        return NavUiState(False, False, ["rbac"])
+    if ctx.hidden_menu_ids and mid in ctx.hidden_menu_ids:
+        return NavUiState(False, False, ["user_hidden"])
+    if _visibility_override(mid, ctx.account_type, ovr) == "deny":
+        return NavUiState(False, False, ["override_deny"])
     lic = license_keys_satisfied(menu, ctx.license_keys)
     if not lic:
         return NavUiState(True, True, ["license_keys_missing"])
@@ -230,10 +230,34 @@ def _resolved_fxx_map(account_type: str | None, build_role: str | None) -> dict[
     return fxx
 
 
-def fxx_allows_operations(fxx: str, account_type: str | None, build_role: str | None) -> bool:
-    """R 이면 CRUD 전부 허용 베이스, X 이면 전부 거부 (웹 DEC)."""
+def fxx_allows_operations(
+    fxx: str,
+    account_type: str | None,
+    build_role: str | None,
+    action: str | None = None,
+) -> bool:
+    """Fxx 템플릿(O/R/X) 셀이 주어진 ``action`` 을 허용하는지.
+
+    DEC-RBAC-04 / account-menu-fxx-rbac Phase D 정합 (legacy `Seek_Uses` 동등):
+
+    - ``O`` (Read-Write) → read/print/create/update/delete 전부 허용
+    - ``R`` (Read-Only)  → read·print 만 허용 (create/update/delete 거부)
+    - ``X`` (Deny) / 빈 값 → 전부 거부 (메뉴 비표시 + 라우터 403 동등)
+
+    하위 호환: ``action`` 이 ``None`` 이면 (구 시그니처) ``X`` 만 거부하는 베이스
+    동작을 유지한다. 신규 호출자는 항상 ``action`` 을 명시한다.
+    """
     m = _resolved_fxx_map(account_type, build_role)
     val = (m.get(fxx) or "X").strip().upper()
+    if val == "X":
+        return False
+    a = (action or "").strip().lower()
+    if not a:
+        return True
+    if a in ("read", "print"):
+        return True
+    if a in ("create", "update", "delete", "write"):
+        return val == "O"
     return val != "X"
 
 
@@ -286,7 +310,8 @@ def crud_allowed_for_menu_action(
         if not license_keys_satisfied({"license_keys": [fk]}, ctx.license_keys):
             return False, ["fxx_license_keys_missing"]
     fxx_all_r = all(
-        fxx_allows_operations(fk, ctx.account_type, ctx.build_role) for fk in fxx_keys
+        fxx_allows_operations(fk, ctx.account_type, ctx.build_role, action)
+        for fk in fxx_keys
     ) if fxx_keys else True
 
     if not fxx_all_r:

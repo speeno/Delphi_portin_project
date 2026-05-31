@@ -24,12 +24,12 @@ DFM 보유 폼 = **31** (Subu*) + DFM 부재 Wave D = **4** (`WebAdm*`, OOS-MAS-
 
 P0 = 사용자 작업이 막힘 (예: 본사/창고 토글 부재로 데이터가 비어 보임 — 본 사이클 직전 핫픽스). P1 = 데이터 누락 (조회 결과 컬럼/합계 누락). P2 = UX 차이 (미설정 안내·라벨 미세 차이).
 
-## 2. 인벤토리 + 매핑 매트릭스 (36 행)
+## 2. 인벤토리 + 매핑 매트릭스 (39 행)
 
 | # | form | route | menu | mapping | W | B | U | D | O | P0 | P1 | P2 | note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Sobo11 | /master/customer | master | [Sobo11.md](../layout_mappings/Sobo11.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 거래처 마스터 — DEC-019 다중 변형 통합 + DEC-023 단일 원천 |
-| 2 | Sobo14 | /master/book | master | [Sobo14.md](../layout_mappings/Sobo14.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 도서 마스터 — 가격 이력 컬럼 모던 신설 (deltas) |
+| 1 | Sobo11 | /master/customer | master | [Sobo11.md](../layout_mappings/Sobo11.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 거래처 마스터 — Edit101 G1_Gbun-only 콤보·조인 정합, 구분 CRUD 접기(상세 통합, 2026-05) |
+| 2 | Sobo14 | /master/book | master | [Sobo14.md](../layout_mappings/Sobo14.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 도서 마스터 — Edit101 G4_Gbun-only 콤보·이중 조인 정합, 분류 CRUD 접기(상세 통합, 2026-05) |
 | 3 | Sobo17 | /master/publisher | master | [Sobo17.md](../layout_mappings/Sobo17.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 출판사·출고거래처 마스터 |
 | 4 | Sobo38 | /master/book-code | master | [Sobo38.md](../layout_mappings/Sobo38.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 도서코드 마스터 |
 | 5 | Sobo39 | /master/discount | master | [Sobo39.md](../layout_mappings/Sobo39.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 할인율 — 변형 39_1/39_2/39_5 는 `?type=` 통합 |
@@ -37,7 +37,7 @@ P0 = 사용자 작업이 막힘 (예: 본사/창고 토글 부재로 데이터�
 | 7 | Sobo22 | /inbound/receipts | shipment | [Sobo22.md](../layout_mappings/Sobo22.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 입고접수 — Sobo22/22_1/22_2 변형 통합 (DEC-019) |
 | 8 | Sobo22_import | /inbound/import | shipment | [Sobo38_inbound.md](../layout_mappings/Sobo38_inbound.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | Sobo38 의 입고 파일 업로드 분기 — 단일 입력 화면 |
 | 9 | Sobo27 | /outbound/orders | shipment | [Sobo27.md](../layout_mappings/Sobo27.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 출고접수 — Sobo27/27_1 변형 통합, 종료일 deltas |
-| 10 | Sobo21 | /transactions/sales-statement | shipment | [Sobo21.md](../layout_mappings/Sobo21.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 거래명세서 — DEC-017 인쇄 후속 |
+| 10 | Sobo21 | /transactions/sales-statement | transactions | [Sobo21.md](../layout_mappings/Sobo21.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 거래명세서 — 「거래관리」(Menu200) IA 정합으로 shipment→transactions 이동, DEC-017 인쇄 후속 |
 | 11 | Sobo31 | /inventory/ledger | ledger | [Sobo31.md](../layout_mappings/Sobo31.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 도서별수불원장 — DBGrid201 거래처 분배는 C5 후속 |
 | 12 | Sobo61 | /reports/book-sales | statistics | [Sobo61.md](../layout_mappings/Sobo61.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 도서별 판매 — DBGrid201 거래처 분배는 Sobo62 분리 |
 | 13 | Sobo62 | /reports/customer-sales | statistics | [Sobo62.md](../layout_mappings/Sobo62.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 거래처별 판매 — Sobo61 의 분배 그리드 분리 형태 |
@@ -64,16 +64,19 @@ P0 = 사용자 작업이 막힘 (예: 본사/창고 토글 부재로 데이터�
 | 34 | Sobo58 | /returns/period-report | returns | [Sobo58.md](../layout_mappings/Sobo58.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 기간별반품내역서 — C4 phase2 API + DEC-028 회귀 (`test_c4_returns_phase2`, `test_returns_period_ledger_regression`) |
 | 35 | Sobo16_special | /master/special | master | [Sobo16.md](../layout_mappings/Sobo16.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 특별관리 — G6_Ggeo 조회 + Grat1/Gssum 부분 수정 (`test_masters_special_g6`) |
 | 36 | Sobo28_delivery | /shipping/courier | delivery | [Sobo28.md](../layout_mappings/Sobo28.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 택배관리 — 내부 라인/메모 완료, 외부 택배사 API 후속 (`test_sobo28_courier_legacy_ids`) |
+| 37 | Sobo12 | /master/inbound-vendor | master | [Sobo12.md](../layout_mappings/Sobo12.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | **Phase F** 입고처관리(G2_Ggwo/G2_Gbun) — 상세/구분 전체 필드 CRUD(Edit101~132, Edit201~202) + F12 caps + traceability 회귀 가드 |
+| 38 | Sobo15 | /master/etc-customer | master | [Sobo15.md](../layout_mappings/Sobo15.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | **Phase F** 기타거래처(G5_Ggeo 출판/총판 정본) — F15 caps·G1↔G5 빌드변형 customer_variants. 거래처(Sobo11) 동형 패턴으로 본 폼 Panel002(Edit101~127·비율·발행유무) 전체 + G5_Gbun 구분 CRUD 복원, 목록/상세/신규 분리 라우트. g5_ggeo_adapt 멀티 DB |
+| 39 | Sobo13 | /master/author | master | [Sobo13.md](../layout_mappings/Sobo13.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | **Phase F** 저자관리(G3_Gjeo, 표시명 Gposa) — F13 caps. 본 폼 Panel002(Edit101~121) 전체 + G3_Gbun 구분 CRUD 복원, 목록/상세/신규 분리 라우트(거래처 패턴). 4서버 "김" 라이브 검증(138/153 PASS, 154/155 서버측 1129 block) |
 
 ### 2.1 합계 (P0/P1/P2)
 
 | 합계 | 값 |
 | --- | --- |
-| Phase1 폼 | **36** |
+| Phase1 폼 | **39** |
 | GAP-P0 (작업 차단) | **0** ✅ |
 | GAP-P1 (데이터 누락) | **0** ✅ |
-| GAP-P2 (UX 차이 / deltas 의 모던 신설 안내) | **17** (모두 매핑 §7 deltas 에 명시 — 의식적 차이) |
-| OOS (의식적 비포함) | 36 폼 모두 §6 OOS 항목 보유 (Wave D 4 = 폼 전체 OOS) |
+| GAP-P2 (UX 차이 / deltas 의 모던 신설 안내) | **20** (모두 매핑 §7 deltas 에 명시 — 의식적 차이) |
+| OOS (의식적 비포함) | 39 폼 모두 §6 OOS 항목 보유 (Wave D 4 = 폼 전체 OOS) |
 
 > **GAP-P0 = 0 ✅** — 본 사이클의 phase1 승격 게이트 (DEC-053 §결정) 통과.
 
@@ -93,22 +96,44 @@ P0 = 사용자 작업이 막힘 (예: 본사/창고 토글 부재로 데이터�
 
 Sobo67_status 는 기존 승격 근거로 유지한다. 본 사이클에서는 Sobo58, Sobo16_special, Sobo28_delivery 를 §2 매트릭스에 추가 편입했다.
 
+### 2.4 거래관리(Menu200 / ACC-MENU-NAV-02) 메뉴 IA 정합 (2026-05-31)
+
+레거시 2번째 대메뉴 「거래관리」 스크린샷 구조를 모던 사이드바와 1:1 정합. 사이드바
+그룹 라벨 「거래현황」→「거래관리」, `TRANSACTIONS_SIDEBAR_LAYOUT` 로 명세서 3종 →
+거래/입고 현황 서브그룹 → 출고검증 3종 → 제작·원천·저자 → 신간발행 순서·구분선 보존.
+
+| 화면 | route | 상태 | 비고 |
+| --- | --- | --- | --- |
+| 거래명세서 Sobo21 | /transactions/sales-statement | phase1 | shipment→transactions 이동 (중복 노출 제거) |
+| 거래현황(상세) Sobo21_status_detail | /transactions/status?view=detail | phase1 | view=detail facade(=list 형태) + 행 펼침 라인 지연 조회(기존 detail API 재사용, 신규 SQL 0) |
+| 입고명세서 Sobo22_inbound_statement | /transactions/inbound-statement | scaffold | Subu22 publisher Menu202 — 입고접수(C3)와 라우트 분리(layout_mappings/Sobo22.md §7.1) |
+| 입고현황 3뷰 Sobo25_status_* | /transactions/inbound-status?view=* | scaffold | Sobo24 동형 facade 예정 |
+| 출고검증 Sobo59_1/2/3 | /transactions/verification?v=* | scaffold | 물류 확장 Menu509_1/2/3 |
+| 제작명세/현황 Sobo26/27_* | /transactions/production/* | scaffold | book-code·출고접수 id 충돌 회피(논리 id) |
+| 원천징수 Sobo28_withholding | /transactions/withholding | scaffold | 택배관리 id 충돌 회피(논리 id) |
+| 내역조회(저자) Sobo_author_history | /transactions/author-history | preview | 표준 DFM 트리 미추출 — Phase 0 정본 조사 대기 |
+| 신간발행 Sobo29_new_release | /transactions/new-release | scaffold | 기타명세서와 분리 |
+
+> scaffold = 라우트 + 사이드바 진입 + `ScreenPlaceholder`(시나리오·legacy_form 표시). 백엔드 SQL/계약은
+> Phase 3·4 후속(고급 모델 권장 구간). phase1 승격은 화면별 5축 PASS + layout_mappings·`data-legacy-id` 검사 통과 후.
+> 회귀 가드: `test/test_transactions_sidebar_layout.py`(static IA), `test/test_c6_inquiry_phase2.py::test_view_detail_equivalent`(view=detail).
+
 ## 3. 폼별 5축 audit (31 DFM 폼 + 4 Wave D)
 
 각 § 은 **2.5 매트릭스 1행 + 핵심 발견** 만 기록. 위젯 표·이벤트 매핑 등 풀 깊이는 `analysis/layout_mappings/<form>.md` (단일 원천) 가 가진다 — 여기서는 중복 기록 금지.
 
 ### §A. Sobo11 거래처관리 (master)
 
-- **W**: PASS — Sobo11.md §3 부착 대상 17 종(`Edit101~108`/`Panel101~104`/`DBGrid101.HCODE/HNAME/HTEL1/HPOST/HBIGO`/`Button101`/`dxButton1`) 매핑됨. DEC-019 변형(7폴더) 통합으로 `Sobo11_*` variant 분기 0 건.
-- **B**: PASS — `Subu11.pas` Button101Click(L312, S2 조회) → `customers_service.list_customers` 의미 일치. master CRUD UPSERT는 detail 라우트에서.
+- **W**: PASS — Sobo11.md §3·§4 기준 목록(DBGrid101) + 상세/신규(Panel002·Panel004 통합: `Edit101` 드롭다운, `DBGrid201`, `Edit201/202`, `Button201~203`).
+- **B**: PASS — `Subu11.pas`의 G1_Ggeo/G1_Gbun 저장·삭제 흐름을 `/api/v1/masters/customer*` + `/customer-categories*` CRUD로 복원.
 - **U**: PASS — TabOrder hcode → hname → 조회 순(매핑 §3) 보존. 캘린더 OOS.
 - **D**: PASS — `HCODE/HNAME/HTEL/HPOST/HBIGO` 1:1, 신설 `last_login`/`updated_at` 은 deltas.
 - **O**: §6 — Edit107/108 출판사 검색·Panel004 자동알람 라디오·CornerButton Print/Bar 모두 OOS-MAS-2 (마스터는 read-only 인쇄 후속).
 
 ### §B. Sobo14 도서관리
 
-- **W/B/U/D**: PASS — Sobo14.md §3·§4 매핑된 `BCODE/BNAME/BAUTH/BPUBL/BPRIC/BBIGO` + Sobo14_price 가격이력 합본. **deltas (P2)**: `price_history` 그리드 모던 신설.
-- **O**: §6 Edit107/108 검색·Button701~703 라벨인쇄 (DEC-018 후속).
+- **W/B/U/D**: PASS — Sobo14.md §4·§4-1 기준 목록(DBGrid101) + 상세/신규(Panel002·Panel200 통합: `Edit101` 드롭다운, `DBGrid201`, `Edit201/202`, `Button201~203`). 본 폼 전체·재고 RO·체크박스 4종·NL ISBN. `g4_book_adapt` 멀티 DB.
+- **O**: §6 Button103(삭제) UI 미노출(DEC-019)·Button701~703 라벨인쇄 (DEC-018 후속).
 
 ### §C. Sobo17 출판사·출고거래처
 
@@ -269,4 +294,5 @@ Sobo67_status 는 기존 승격 근거로 유지한다. 본 사이클에서는 S
 
 ---
 
-*최종 업데이트: 2026-04-29 — Sobo58(기간별반품내역서), Sobo16_special(특별관리), Sobo28_delivery(택배관리) 매트릭스 편입, phase1 감사 대상 36 폼. GAP-P0 = 0. 직전: 2026-04-21 33 폼 동결.*
+*최종 업데이트: 2026-05-30 — account-menu-fxx-rbac Phase F: Sobo12(입고처)·Sobo15(기타거래처)·Sobo13(저자) 3화면 편입, phase1 감사 대상 39 폼. GAP-P0 = 0. 직전: 2026-04-29 36 폼 (Sobo58/16_special/28_delivery).*
+*메뉴 노출(MENUVIS-DEC-07, 2026-05-30): 위 3화면이 일부 계정에서 사이드바에 보이지 않던 원인은 `account_type` 미매핑 시 RBAC 매트릭스가 사이드바를 0건으로 만들던 것. show-first 전환으로 메뉴는 기본 전체 노출, 라이선스(Fxx) 미보유는 disabled, 감추기는 관리자 `/admin/id-logn` 사용자별 설정으로만 적용. 회귀 가드: `test/test_menu_visibility_show_first.py`, `analysis/audit/menu-visibility-show-first-baseline.json`.*

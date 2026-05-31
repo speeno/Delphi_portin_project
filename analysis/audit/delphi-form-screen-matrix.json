@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-25T07:45:28.053246+00:00",
+  "generated_at": "2026-05-31T01:22:17.328445+00:00",
   "summary": {
-    "registry_forms": 71,
+    "registry_forms": 77,
     "legacy_dfm_subu_stems": 91,
-    "orphan_legacy_stems": 48,
-    "subu_caption_diff": 12,
+    "orphan_legacy_stems": 45,
+    "subu_caption_diff": 15,
     "subu_legacy_missing": 0
   },
   "rows": [
@@ -16,8 +16,8 @@
       "legacy_form_object": "Sobo11",
       "legacy_caption": "거래처관리-통합",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu11.dfm",
-      "status": "OK_EXEMPT",
-      "note": "DEC-023 표기 통일(allowlist)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo14",
@@ -27,8 +27,8 @@
       "legacy_form_object": "Sobo14",
       "legacy_caption": "도서관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu14.dfm",
-      "status": "OK_EXEMPT",
-      "note": "DEC-023 표기 통일(allowlist)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo17",
@@ -62,6 +62,39 @@
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu39.dfm",
       "status": "CAPTION_DIFF",
       "note": "DFM「출고내역서」↔모던「할인율(대표)」 (r=0.00)"
+    },
+    {
+      "modern_id": "Sobo12",
+      "folder": "Subu12",
+      "route": "/master/inbound-vendor",
+      "modern_caption": "입고처관리(마스터)",
+      "legacy_form_object": "Sobo12",
+      "legacy_caption": "입고처관리",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu12.dfm",
+      "status": "CAPTION_DIFF",
+      "note": "포함 관계·수동검토: DFM「입고처관리」↔「입고처관리(마스터)」 (r=0.67)"
+    },
+    {
+      "modern_id": "Sobo15",
+      "folder": "Subu15",
+      "route": "/master/etc-customer",
+      "modern_caption": "기타거래처관리(마스터)",
+      "legacy_form_object": "Sobo15",
+      "legacy_caption": "거래처관리-개별",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu15.dfm",
+      "status": "CAPTION_DIFF",
+      "note": "DFM「거래처관리-개별」↔모던「기타거래처관리(마스터)」 (r=0.50)"
+    },
+    {
+      "modern_id": "Sobo13",
+      "folder": "Subu13",
+      "route": "/master/author",
+      "modern_caption": "저자관리(마스터)",
+      "legacy_form_object": "Sobo13",
+      "legacy_caption": "지역분류(시내+지방)",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu13.dfm",
+      "status": "CAPTION_DIFF",
+      "note": "DFM「지역분류(시내+지방)」↔모던「저자관리(마스터)」 (r=0.20)"
     },
     {
       "modern_id": "Sobo22",
@@ -610,8 +643,41 @@
       "legacy_form_object": "Sobo16",
       "legacy_caption": "특별관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu16.dfm",
-      "status": "MATCH",
-      "note": ""
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo14_gbun",
+      "folder": "Subu14",
+      "route": "/master/book-category",
+      "modern_caption": "도서분류",
+      "legacy_form_object": "Sobo14",
+      "legacy_caption": "도서관리",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu14.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo11_gbun",
+      "folder": "Subu11",
+      "route": "/master/customer-category",
+      "modern_caption": "거래처구분",
+      "legacy_form_object": "Sobo11",
+      "legacy_caption": "거래처관리-통합",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu11.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo16_baebon",
+      "folder": "Subu16",
+      "route": "/master/baebon",
+      "modern_caption": "배본처관리",
+      "legacy_form_object": "Sobo16",
+      "legacy_caption": "특별관리",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu16.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo21_status_list",
@@ -798,18 +864,6 @@
       "caption": "로그인"
     },
     {
-      "folder": "Subu12",
-      "dfm_path": "legacy_delphi_source/legacy_source/Subu12.dfm",
-      "form_object": "Sobo12",
-      "caption": "입고처관리"
-    },
-    {
-      "folder": "Subu13",
-      "dfm_path": "legacy_delphi_source/legacy_source/Subu13.dfm",
-      "form_object": "Sobo13",
-      "caption": "지역분류(시내+지방)"
-    },
-    {
       "folder": "Subu13_1",
       "dfm_path": "legacy_delphi_source/legacy_source/Subu13_1.dfm",
       "form_object": "Sobo13_1",
@@ -820,12 +874,6 @@
       "dfm_path": "legacy_delphi_source/legacy_source/Subu14_1.dfm",
       "form_object": "Sobo14_1",
       "caption": "도서관리(위치)"
-    },
-    {
-      "folder": "Subu15",
-      "dfm_path": "legacy_delphi_source/legacy_source/Subu15.dfm",
-      "form_object": "Sobo15",
-      "caption": "거래처관리-개별"
     },
     {
       "folder": "Subu17_1",

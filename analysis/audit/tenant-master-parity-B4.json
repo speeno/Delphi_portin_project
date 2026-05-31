@@ -1,0 +1,53 @@
+{
+  "generated_at": "2026-05-29T15:41:44.307525+00:00",
+  "summary": {
+    "total": 1,
+    "routing_passed": 1,
+    "routing_failed": 0
+  },
+  "results": [
+    {
+      "case": "B4",
+      "label": "교문사",
+      "mode": "full_parity",
+      "routing": {
+        "checks": [],
+        "mismatches": [],
+        "coordinate_owner_count": 2,
+        "is_shared_db_runtime": true,
+        "ownership_without_hint": {
+          "status": "ambiguous",
+          "candidate_count": 2
+        },
+        "passed": true
+      },
+      "master_diff": {
+        "skipped": false,
+        "jwt": {
+          "server_id": "remote_153",
+          "tenant_id": "fa6758ea-a7e5-5d27-bf87-ccee0a90e72c",
+          "account_family": "chul_09",
+          "hcode": "5019"
+        },
+        "diffs": {
+          "customers": {
+            "expected_count": 1289,
+            "web_total": 1289,
+            "baseline_count": 1289,
+            "only_in_web": 0,
+            "only_in_baseline": 0,
+            "match": true
+          },
+          "books": {
+            "expected_count": 3437,
+            "web_total": 3437,
+            "baseline_count": 3437,
+            "only_in_web": 0,
+            "only_in_baseline": 0,
+            "match": true
+          }
+        }
+      }
+    }
+  ]
+}

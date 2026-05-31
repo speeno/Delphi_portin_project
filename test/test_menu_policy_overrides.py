@@ -28,12 +28,14 @@ MATRIX = ROOT / "analysis" / "rbac_menu_matrix.json"
 
 
 @pytest.fixture(scope="module")
-def masters_02():
+def licensed_menu():
+    """메뉴 자체에 license_keys 가 있는 항목(MASTERS-01=F11) — disabled 회귀용."""
     data = json.loads(MATRIX.read_text(encoding="utf-8"))
     for m in data["menus"]:
-        if m["id"] == "ACC-MENU-MASTERS-02":
+        if m["id"] == "ACC-MENU-MASTERS-01":
+            assert m.get("license_keys"), "MASTERS-01 license_keys 가 비었다 — 매트릭스 드리프트"
             return m
-    raise RuntimeError("ACC-MENU-MASTERS-02 missing")
+    raise RuntimeError("ACC-MENU-MASTERS-01 missing")
 
 
 def test_forced_hidden_hides_nav_item():
@@ -53,7 +55,7 @@ def test_forced_hidden_hides_nav_item():
     assert "build_forced_hidden" in ui.reasons
 
 
-def test_license_missing_disabled_not_hidden(masters_02):
+def test_license_missing_disabled_not_hidden(licensed_menu):
     ctx = MenuPolicyContext(
         account_type="T1",
         build_role="distributor",
@@ -62,7 +64,7 @@ def test_license_missing_disabled_not_hidden(masters_02):
         is_super_user=False,
         active_build_id=None,
     )
-    ui = nav_ui_state_for_menu(masters_02, ctx)
+    ui = nav_ui_state_for_menu(licensed_menu, ctx)
     assert ui.visible
     assert ui.disabled
     assert "license_keys_missing" in ui.reasons
@@ -80,7 +82,8 @@ def test_crud_read_denied_without_f12_license():
         "ACC-MENU-MASTERS-02", "read", ctx
     )
     assert not ok
-    assert "menu_license_keys_missing" in reasons
+    # MASTERS-02 는 메뉴 자체 license_keys 는 없지만 menu_route_crud_map 에서 F12 를 요구한다.
+    assert "fxx_license_keys_missing" in reasons
 
 
 def test_crud_read_ok_with_f12():
@@ -152,7 +155,10 @@ def test_visibility_override_allow_expands_rbac_but_preserves_license_state():
 
 
 def test_fxx_template_x_denies_t2_pub_special():
-    """T2_PUB 베이스에서 F18=X 인 특별관리(MASTERS-11)."""
+    """T2_PUB 베이스에서 F18=X 인 특별관리(MASTERS-11) — DEC-RBAC-04 정합.
+
+    레거시 ``Seek_Uses`` 동등: Fxx 템플릿이 ``X`` 면 read/write/print 모두 거부.
+    """
     ctx = MenuPolicyContext(
         account_type="T2_PUB",
         build_role="publisher",
@@ -190,25 +196,18 @@ def test_crud_override_deny_read():
     assert "crud_override_deny" in reasons
 
 
-def test_department_accounting_login_profile_allows_nav04():
+def test_show_first_nav04_visible_regardless_of_login_profile():
+    """MENUVIS-DEC-07 — NAV-04 는 login_profile 유무와 무관하게 노출(show-first)."""
     nav04 = menu_by_id("ACC-MENU-NAV-04")
     assert nav04 is not None
-    denied_ctx = MenuPolicyContext(
+    base_ctx = dict(
         account_type="T3",
         build_role="warehouse_publisher",
         warehouse_menu_tier="lite",
-        login_profile=None,
         license_keys=frozenset(),
         is_super_user=False,
     )
-    assert not effective_menu_visible(nav04, denied_ctx)
-
-    allowed_ctx = MenuPolicyContext(
-        account_type="T3",
-        build_role="warehouse_publisher",
-        warehouse_menu_tier="lite",
-        login_profile="department_accounting",
-        license_keys=frozenset(),
-        is_super_user=False,
+    assert effective_menu_visible(nav04, MenuPolicyContext(login_profile=None, **base_ctx))
+    assert effective_menu_visible(
+        nav04, MenuPolicyContext(login_profile="department_accounting", **base_ctx)
     )
-    assert effective_menu_visible(nav04, allowed_ctx)

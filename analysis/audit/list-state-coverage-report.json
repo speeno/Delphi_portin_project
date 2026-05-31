@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-25T07:45:31.863111+00:00",
+  "generated_at": "2026-05-31T01:22:18.312395+00:00",
   "summary": {
-    "total_pages": 94,
-    "covered": 29,
+    "total_pages": 108,
+    "covered": 33,
     "violations": 11,
     "allowed": 0,
-    "skipped": 54
+    "skipped": 64
   },
   "covered": [
     {
@@ -45,6 +45,14 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer-integrated/page.tsx"
     },
     {
+      "route_key": "master.author",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/author/page.tsx"
+    },
+    {
+      "route_key": "master.baebon",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/baebon/page.tsx"
+    },
+    {
       "route_key": "master.book",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/book/page.tsx"
     },
@@ -59,6 +67,14 @@
     {
       "route_key": "master.discount",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/discount/page.tsx"
+    },
+    {
+      "route_key": "master.etc-customer",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/etc-customer/page.tsx"
+    },
+    {
+      "route_key": "master.inbound-vendor",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/inbound-vendor/page.tsx"
     },
     {
       "route_key": "master.publisher",
@@ -294,16 +310,56 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/page.tsx"
     },
     {
+      "route_key": "master.author",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/author/[gcode]/page.tsx"
+    },
+    {
+      "route_key": "master.author.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/author/new/page.tsx"
+    },
+    {
       "route_key": "master.book",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/book/[gcode]/page.tsx"
+    },
+    {
+      "route_key": "master.book-category",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/book-category/page.tsx"
+    },
+    {
+      "route_key": "master.book.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/book/new/page.tsx"
     },
     {
       "route_key": "master.customer",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/customer/[gcode]/page.tsx"
     },
     {
+      "route_key": "master.customer-category",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/customer-category/page.tsx"
+    },
+    {
+      "route_key": "master.customer.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/customer/new/page.tsx"
+    },
+    {
       "route_key": "master.discount",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/discount/[type]/page.tsx"
+    },
+    {
+      "route_key": "master.etc-customer",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/etc-customer/[gcode]/page.tsx"
+    },
+    {
+      "route_key": "master.etc-customer.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/etc-customer/new/page.tsx"
+    },
+    {
+      "route_key": "master.inbound-vendor",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/inbound-vendor/[gcode]/page.tsx"
+    },
+    {
+      "route_key": "master.inbound-vendor.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/inbound-vendor/new/page.tsx"
     },
     {
       "route_key": "outbound.orders",

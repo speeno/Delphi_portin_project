@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-05-25T07:45:28Z
+> **생성 시각 (UTC)**: 2026-05-31T01:22:17Z
 
 ## 목적
 
@@ -19,9 +19,15 @@
 
 | 상태 | 모던 ID | 폴더(DFM) | 모던 caption | 레거시 Caption (DFM) | 레거시 폼 객체 | 라우트 | 비고 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| OK_EXEMPT | `Sobo11` | `Subu11` | 거래처관리(마스터) | 거래처관리-통합 | `Sobo11` | `/master/customer` | DEC-023 표기 통일(allowlist) |
-| OK_EXEMPT | `Sobo14` | `Subu14` | 도서관리(마스터) | 도서관리 | `Sobo14` | `/master/book` | DEC-023 표기 통일(allowlist) |
-| MATCH | `Sobo16_special` | `Subu16` | 특별관리 | 특별관리 | `Sobo16` | `/master/special` |  |
+| MULTI_MAP | `Sobo11` | `Subu11` | 거래처관리(마스터) | 거래처관리-통합 | `Sobo11` | `/master/customer` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo11_gbun` | `Subu11` | 거래처구분 | 거래처관리-통합 | `Sobo11` | `/master/customer-category` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| CAPTION_DIFF | `Sobo12` | `Subu12` | 입고처관리(마스터) | 입고처관리 | `Sobo12` | `/master/inbound-vendor` | 포함 관계·수동검토: DFM「입고처관리」↔「입고처관리(마스터)」 (r=0.67) |
+| CAPTION_DIFF | `Sobo13` | `Subu13` | 저자관리(마스터) | 지역분류(시내+지방) | `Sobo13` | `/master/author` | DFM「지역분류(시내+지방)」↔모던「저자관리(마스터)」 (r=0.20) |
+| MULTI_MAP | `Sobo14` | `Subu14` | 도서관리(마스터) | 도서관리 | `Sobo14` | `/master/book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo14_gbun` | `Subu14` | 도서분류 | 도서관리 | `Sobo14` | `/master/book-category` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| CAPTION_DIFF | `Sobo15` | `Subu15` | 기타거래처관리(마스터) | 거래처관리-개별 | `Sobo15` | `/master/etc-customer` | DFM「거래처관리-개별」↔모던「기타거래처관리(마스터)」 (r=0.50) |
+| MULTI_MAP | `Sobo16_baebon` | `Subu16` | 배본처관리 | 특별관리 | `Sobo16` | `/master/baebon` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo16_special` | `Subu16` | 특별관리 | 특별관리 | `Sobo16` | `/master/special` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | OK_EXEMPT | `Sobo17` | `Subu17` | 출판사·출고거래처(마스터) | 출판사관리 | `Sobo17` | `/master/publisher` | DEC-023 표기 통일(allowlist) |
 | MULTI_MAP | `Sobo21` | `Subu21` | 거래명세서 | 거래명세서 | `Sobo21` | `/transactions/sales-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo21_status_list` | `Subu21` | 거래현황(LIST) | 거래명세서 | `Sobo21` | `/transactions/status?view=list` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
@@ -99,11 +105,8 @@
 | DFM 스템 | 레거시 Caption | 경로 |
 | --- | --- | --- |
 | `Subu10` | 로그인 | `legacy_delphi_source/legacy_source/Subu10.dfm` |
-| `Subu12` | 입고처관리 | `legacy_delphi_source/legacy_source/Subu12.dfm` |
-| `Subu13` | 지역분류(시내+지방) | `legacy_delphi_source/legacy_source/Subu13.dfm` |
 | `Subu13_1` | 출고증정렬 | `legacy_delphi_source/legacy_source/Subu13_1.dfm` |
 | `Subu14_1` | 도서관리(위치) | `legacy_delphi_source/legacy_source/Subu14_1.dfm` |
-| `Subu15` | 거래처관리-개별 | `legacy_delphi_source/legacy_source/Subu15.dfm` |
 | `Subu17_1` | 출판사관리-택배 | `legacy_delphi_source/legacy_source/Subu17_1.dfm` |
 | `Subu18` | 종당관리 | `legacy_delphi_source/legacy_source/Subu18.dfm` |
 | `Subu19` | Sobo19 | `legacy_delphi_source/legacy_source/Subu19.dfm` |

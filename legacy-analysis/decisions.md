@@ -585,6 +585,20 @@
 - **결정자**: 메인개발자 + 사용자 (Phase 2 잔여 — C13/C14/C15 T6 실행 계획 마감)
 - **참조**: `scripts/adapters/`, `scripts/cutover_run.py`, `scripts/cutover_validator.py`, `migration/contracts/cutover.yaml`, `test/test_c15_cutover_phase2_adapter.py`, DEC-CUT-1/2/3, DEC-040/044, DEC-033
 
+### MENUVIS-DEC-07: 메뉴 가시성 show-first + 사용자별 메뉴 감추기
+- **일자**: 2026-05-30
+- **결정 사항**: 메뉴 가시성을 **show-first** 로 전환한다.
+  - (a) **RBAC 축은 숨기지 않음**: `account_types`/`build_roles`/`warehouse_menu_tiers` 는 「대상 빌드 힌트」로만 남고 메뉴를 숨기는 데 쓰지 않는다. `is_menu_visible_rbac` / `isMenuVisible` 는 알려진 메뉴면 항상 노출(슈퍼유저 우회 유지, 미정의 menuId 만 비공개).
+  - (b) **숨김 축은 3가지만**: ① 빌드 `forced_hidden`(MENUVIS-DEC-03) ② 사용자별 `hidden_menu_ids`(L2, 관리자 설정) ③ 계정유형 오버레이 `visibility=deny`. 라이선스(Fxx) 미보유는 숨기지 않고 `disabled`(MENUVIS-DEC-06)만 적용.
+  - (c) **사용자별 감추기 저장소**: `backend/data/user_menu_visibility.json` — 키 `(server_id, hcode, gcode)` 4-key(`gname` 은 표시·감사용). 빈 목록이면 행 제거(전체 노출 복귀). GR-DB-005 준수(신규 SQL 0건). 단일 원천: `app/services/user_menu_visibility_service.py`.
+  - (d) **클레임 전달**: `auth._enrich_user_profile` 가 로그인/`/me` 시 `hidden_menu_ids` 를 신선하게 로드 → `UserInfo.hidden_menu_ids` → 프론트 `use-permissions` → `navUiState`. JWT 미적재(크기·신선도 이유).
+  - (e) **관리자 UI**: `/admin/id-logn` 우측에 「메뉴 노출」 체크리스트(기본 전체 체크=보임). 관리 API `GET/PUT /api/v1/admin/users/menu-visibility`(4-key, super-admin 게이트).
+- **배경/근거**: 사용자 요구 — "기본적으로 모든 메뉴가 보이도록 하고, 관리자에서 사용자별·메뉴항목별 보이기/감추기". 또한 `account_type` 미매핑 계정에서 사이드바가 0건이 되고 신규 기초관리 3화면(입고처/기타거래처/저자)이 미노출되던 회귀를 근본 제거. API·라우터 403(권한) 모델은 유지 — URL 직접 입력은 여전히 권한으로 차단(비파괴).
+- **대안**: (1) 매트릭스 기반 hide 유지(미매핑 0건 회귀 지속) (2) account_type 보정만(신규 화면·운영 변경마다 재발).
+- **영향**: `backend/app/core/menu_policy.py`(`is_menu_visible_rbac`/`nav_ui_state_for_menu`/`MenuPolicyContext.hidden_menu_ids`), 프론트 `account-menu-matrix.ts`(`isMenuVisible`/`navUiState`/`hiddenMenuIds`), `use-permissions.ts`, `auth-context.tsx`/`models/auth.py`(`hidden_menu_ids`), `routers/auth.py`·`routers/admin.py`, 신규 `user_menu_visibility_service.py`. 회귀: `test/test_menu_visibility_show_first.py`, `test_account_menu_matrix_visibility.py`(show-first), `test_menu_policy_overrides.py`.
+- **결정자**: 메인개발자 + 사용자 (`show_first` 명시 선택)
+- **참조**: `docs/menu-visibility-runtime-design.md` MENUVIS-DEC-07, `analysis/audit/menu-visibility-show-first-baseline.json`, MENUVIS-DEC-03/06, DEC-RBAC-01/03
+
 ### DEC-046: Phase 2 32화면 운영체계 — 시나리오 단일 원천 + 사이드바·placeholder·dashboard 동조
 - **일자**: 2026-04-21
 - **결정 사항**: phase2(32화면) 의 운영 정보(시나리오·진행 단계·blocker)는 다음 단일 원천 체계로 동결한다.

@@ -219,6 +219,51 @@ class WeLoveRoutingConsistencyTests(TestCase):
         codes = {f.code for f in report.findings}
         self.assertIn("SEED_NOT_IN_MATRIX", codes)
 
+    def test_main_merges_overlay_to_clear_shared_coord_critical(self):
+        """main() 은 시드+overlay 유효 뷰를 평가한다 (DSN-DEC-12 런타임 정합).
+
+        overlay 의 hcode_in 격리 키가 SHARED_COORD_NO_HCODE_GUARD critical 을 해소하고,
+        --no-overlay 면 시드 단독 평가로 critical 이 남는지 확인한다 (CI-safe 픽스처).
+        """
+        import json
+        import tempfile
+
+        matrix = {
+            "routes": [
+                {"server_id": "remote_153", "tenant_name_kor": "위러브3",
+                 "account_family": "chul_09", "db_name_logical": "chul_09_db"},
+                {"server_id": "remote_153", "tenant_name_kor": "교문사",
+                 "account_family": "chul_09", "db_name_logical": "chul_09_db"},
+            ]
+        }
+        seed = {"tenants": [
+            {"tenant_id": "T1", "tenant_label_kor": "위러브3", "account_family": "chul_09",
+             "primary_server": "remote_153", "db_name_logical": "chul_09_db",
+             "default_account_type": "T3", "is_active": True},
+            {"tenant_id": "T2", "tenant_label_kor": "교문사", "account_family": "chul_09",
+             "primary_server": "remote_153", "db_name_logical": "chul_09_db",
+             "default_account_type": "T3", "is_active": True},
+        ]}
+        # overlay 는 (tenant_id, account_family) 키로 격리 키만 주입.
+        overlay = {"tenants": [
+            {"tenant_id": "T1", "account_family": "chul_09", "hcode_in": ["0000", "5000"]},
+            {"tenant_id": "T2", "account_family": "chul_09", "hcode_in": ["5019"]},
+        ]}
+
+        with tempfile.TemporaryDirectory() as d:
+            mp = Path(d) / "matrix.json"
+            sp = Path(d) / "seed.json"
+            op = Path(d) / "overlay.json"
+            mp.write_text(json.dumps(matrix), encoding="utf-8")
+            sp.write_text(json.dumps(seed), encoding="utf-8")
+            op.write_text(json.dumps(overlay), encoding="utf-8")
+
+            base = ["--matrix", str(mp), "--seed", str(sp), "--strict"]
+            # overlay 병합 → critical 0 → exit 0
+            self.assertEqual(self.tool.main([*base, "--overlay", str(op)]), 0)
+            # 시드 단독 → critical 잔존 → exit 1
+            self.assertEqual(self.tool.main([*base, "--no-overlay"]), 1)
+
     def test_real_seed_runs_without_exception(self):
         """실제 시드/매트릭스에 대해서도 도구가 예외 없이 분류 결과를 만든다."""
         report = self.tool.audit(

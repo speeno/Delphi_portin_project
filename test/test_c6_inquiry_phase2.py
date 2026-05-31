@@ -118,6 +118,42 @@ class StatusViewListTests(TestCase):
 
 
 # ---------------------------------------------------------------
+# AC-INQ-P2-7 — view=detail 가 list 와 동일 응답 형태 (전표 단위 행)
+# ---------------------------------------------------------------
+
+class StatusViewDetailTests(TestCase):
+    def setUp(self) -> None:
+        self.client = TestClient(app)
+
+    def test_view_detail_equivalent(self) -> None:
+        """view=detail 이 list 와 동일 서비스(list_sales_statements) 호출 +
+        동일 응답 형태인지 검증. 상세 라인은 프론트가 별도 detail API 로 지연 조회한다."""
+        captured: list[dict] = []
+
+        async def fake_list(**kwargs):
+            captured.append(kwargs)
+            items = [_list_item(KEY_A, customer_name="A상사", qty=7, amount=70_000)]
+            return items, len(items)
+
+        with patch.object(
+            transactions_service, "list_sales_statements", side_effect=fake_list
+        ):
+            res_detail = self.client.get(
+                "/api/v1/transactions/status" + COMMON_QUERY + "&view=detail"
+            )
+            res_list = self.client.get(
+                "/api/v1/transactions/status" + COMMON_QUERY + "&view=list"
+            )
+        self.assertEqual(res_detail.status_code, 200, res_detail.text)
+        self.assertEqual(res_list.status_code, 200, res_list.text)
+        self.assertEqual(res_detail.json()["items"], res_list.json()["items"])
+        # detail 분기도 memo 비활성 (list 와 동일)
+        kw = captured[0]
+        self.assertIsNone(kw.get("memo_presence"))
+        self.assertFalse(kw.get("include_memo_preview"))
+
+
+# ---------------------------------------------------------------
 # AC-INQ-P2-4 / TC-INQ-P2-004 — view 미지정 → 기본 list (하위 호환)
 # ---------------------------------------------------------------
 

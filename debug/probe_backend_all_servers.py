@@ -209,8 +209,18 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "masters.customer_categories",
+            "path": f"/api/v1/masters/customer-categories?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
             "group": "masters.book",
             "path": f"/api/v1/masters/book?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.book_categories",
+            "path": f"/api/v1/masters/book-categories?serverId={sid}&limit=1",
             "ok_status": {200},
         },
         {
@@ -295,6 +305,99 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
                 f"&mode=publisher&hcode=00000&limit=1&offset=0"
             ),
             "ok_status": {200},
+        },
+        # ─── Phase F 누락 3화면 (입고처 G2 / 기타거래처 G5 / 저자 G3) ──────────────
+        # 동형 마스터 GET 목록 + 쓰기 가드(422/404). 일부 테넌트(슬림 138)·빌드는
+        # 테이블 부재 가능 → 알려진 스키마 차이는 customer_variants 에 기록 후 예외 승인.
+        {
+            "group": "masters.inbound_vendors",
+            "path": f"/api/v1/masters/inbound-vendors?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.inbound_vendor_categories",
+            "path": f"/api/v1/masters/inbound-vendor-categories?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.etc_customers",
+            "path": f"/api/v1/masters/etc-customers?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.etc_customer_categories",
+            "path": f"/api/v1/masters/etc-customer-categories?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.authors",
+            "path": f"/api/v1/masters/authors?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.author_categories",
+            "path": f"/api/v1/masters/author-categories?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.inbound_vendors.post_bad_body",
+            "method": "POST",
+            "path": "/api/v1/masters/inbound-vendors",
+            "json_body": {"serverId": sid},
+            "ok_status": {422},
+        },
+        {
+            "group": "masters.inbound_vendors.patch_missing",
+            "method": "PATCH",
+            "path": "/api/v1/masters/inbound-vendors/ZZZZZ",
+            "json_body": {"serverId": sid, "gname": "x"},
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.inbound_vendors.delete_missing",
+            "method": "DELETE",
+            "path": f"/api/v1/masters/inbound-vendors/ZZZZZ?serverId={sid}",
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.etc_customers.post_bad_body",
+            "method": "POST",
+            "path": "/api/v1/masters/etc-customers",
+            "json_body": {"serverId": sid},
+            "ok_status": {422},
+        },
+        {
+            "group": "masters.etc_customers.patch_missing",
+            "method": "PATCH",
+            "path": "/api/v1/masters/etc-customers/ZZZZZ",
+            "json_body": {"serverId": sid, "gname": "x"},
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.etc_customers.delete_missing",
+            "method": "DELETE",
+            "path": f"/api/v1/masters/etc-customers/ZZZZZ?serverId={sid}",
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.authors.post_bad_body",
+            "method": "POST",
+            "path": "/api/v1/masters/authors",
+            "json_body": {"serverId": sid},
+            "ok_status": {422},
+        },
+        {
+            "group": "masters.authors.patch_missing",
+            "method": "PATCH",
+            "path": "/api/v1/masters/authors/ZZZZZ",
+            "json_body": {"serverId": sid, "gname": "x"},
+            "ok_status": {404},
+        },
+        {
+            "group": "masters.authors.delete_missing",
+            "method": "DELETE",
+            "path": f"/api/v1/masters/authors/ZZZZZ?serverId={sid}",
+            "ok_status": {404},
         },
         {
             "group": "outbound.orders",

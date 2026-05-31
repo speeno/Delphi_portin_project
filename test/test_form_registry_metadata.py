@@ -191,13 +191,13 @@ class FormRegistryInventoryBaselineTests(TestCase):
         self.assertEqual(e.get("crudParity"), crud, f"{form_id}.crudParity")
 
     def test_publisher_master_read_only(self) -> None:
-        self._assert("Sobo17", wave="p3", crud="R")
+        self._assert("Sobo17", wave="p3", crud="CRUD")
 
     def test_book_code_master_read_only(self) -> None:
-        self._assert("Sobo38", wave="p3", crud="R")
+        self._assert("Sobo38", wave="p3", crud="CRUD")
 
     def test_customer_master_read_update(self) -> None:
-        self._assert("Sobo11", wave="p3", crud="RU")
+        self._assert("Sobo11", wave="p3", crud="CRUD")
 
     def test_special_master_g6_read_update(self) -> None:
         """Sobo16은 G6_Ggeo 목록 + Grat1/Gssum 부분 수정까지 구현."""

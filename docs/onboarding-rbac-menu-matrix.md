@@ -26,6 +26,10 @@
 
 > 기준: 본 매트릭스는 7 빌드 합집합을 단일 코드베이스에서 RBAC 분기로 운영. `source_builds` 컬럼 = 해당 메뉴가 발견된 빌드 ID 집합.
 
+> **MENUVIS-DEC-07 (show-first) 갱신:** 아래 표의 `✓`/`—` 는 더 이상 사이드바 **숨김** 을 결정하지 않는다. 메뉴는 기본 전체 노출(show-first)이며, 표의 계정유형 열은 「대상 빌드/노출 힌트」 + 라이선스(Fxx) 미보유 시 `disabled` 힌트로만 읽는다. 실제 숨김은 ① 빌드 `forced_hidden` ② 사용자별 `hidden_menu_ids`(관리자 `/admin/id-logn` 메뉴 노출) ③ 계정유형 오버레이 `deny` 만 담당한다. 단일 원천: `backend/app/core/menu_policy.py::nav_ui_state_for_menu` + `account-menu-matrix.ts::navUiState`.
+
+> 2026-05-30 보정: `BLD-PUB-WAREHOUSE-MS` 의 `ACC-MENU-NAV-06`(통계관리) 강제숨김은 해제됐다. 통계 노출은 show-first + 권한(alias 포함)으로 판정하며, 숨김은 사용자 hidden/전역 deny/forced_hidden 잔여 메뉴에만 적용한다.
+
 ---
 
 ## 2. 최상위 메뉴 노출 (`ACC-MENU-NAV-*`)
@@ -57,22 +61,26 @@
 
 ## 3. 기초관리 하위 (`ACC-MENU-MASTERS-*`)
 
-7 빌드 합집합 (정본은 [`analysis/welove_chul_menu_matrix.json`](../analysis/welove_chul_menu_matrix.json)). Fxx 는 [`analysis/welove_chul_menu_handlers.json`](../analysis/welove_chul_menu_handlers.json) 의 `Seek_Uses` 에서 추출 (예시값 — 핸들러별 정확한 키는 후속 사이클 `OQ-LICENSE-KEY-MAP` 에서 정본화).
+7 빌드 합집합 (정본은 [`analysis/welove_chul_menu_matrix.json`](../analysis/welove_chul_menu_matrix.json)). Fxx 는 [`analysis/welove_chul_menu_handlers.json`](../analysis/welove_chul_menu_handlers.json) 의 `Seek_Uses` 에서 추출.
+
+> **`OQ-LICENSE-KEY-MAP` 정본화 (account-menu-fxx-rbac Phase B, 2026-05-30)**: 기초관리 3행(입고처/기타거래처/저자) 의 Fxx 를 정본(출판/총판/`chul_09(위러브)` 빌드) `Chul.pas` `Menu10x Click` 의 실제 `Seek_Uses` 인자로 확정. 입고처(`Menu102`→`TSobo12`)=**F12**, 기타거래처(`Menu105`→`TSobo15`)=**F15**(웹 임시값 F13 → 정정), 저자(`Menu103`→`TSobo13`)=**F13**(웹 임시값 F19 → 정정). `legacy_delphi_source` 스냅샷(물류 WH 빌드)은 동일 Sobo 번호가 다른 화면이라 키가 어긋나므로 정본에서 제외. 근거·라인 인용: [`analysis/audit/account-menu-fxx-mapping.md`](../analysis/audit/account-menu-fxx-mapping.md) §3.
+>
+> **Phase F 사이드바 정책 (2026-05-30)**: 위 3행(`MASTERS-02/03/06`) 의 본 표 `Fxx` 열은 `—`(빈 `license_keys`) — **4대 계정 유형·전 빌드에 메뉴 노출**, Fxx 미보유 시에도 사이드바 `disabled` 로 숨기지 않음(MENUVIS-DEC-06 완화). F12/F13/F15 는 `form-registry.requiredPermission`·`menu_route_crud_map`·화면 `useScreenCaps`·API 쓰기(`master.write`) 에서만 게이트.
 
 | ID | 캡션 | 웹 라우트 | T1 | T2-DIST | T2-PUB | T3 | T3-LITE | T3-FULL | source_builds | Fxx |
 |----|---|---|:-:|:-:|:-:|:-:|:-:|:-:|---|---|
 | `ACC-MENU-MASTERS-01` | 거래처관리 (단일) | `/(app)/masters/customers` | ✓ | — | ✓ | ✓ | — | — | D-STD, P-STD, P-KBT | F11 |
 | `ACC-MENU-MASTERS-01a` | 거래처관리(개별) | `/(app)/masters/customers/individual` | ✓ | ✓ | — | — | ✓ | ✓ | D-KBT, WH-WL, WH-MS, WH-BB | F11 |
 | `ACC-MENU-MASTERS-01b` | 거래처관리(통합) | `/(app)/masters/customers/integrated` | ✓ | ✓ | — | — | ✓ | ✓ | D-KBT, WH-WL, WH-MS, WH-BB | F11 |
-| `ACC-MENU-MASTERS-02` | 입고처관리 | `/(app)/masters/inbound-vendors` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 전 빌드 | F12 |
-| `ACC-MENU-MASTERS-03` | 기타거래처 | `/(app)/masters/etc-customers` | ✓ | — | ✓ | ✓ | — | — | D-STD, P-STD, P-KBT | F13 |
+| `ACC-MENU-MASTERS-02` | 입고처관리 | `/(app)/masters/inbound-vendors` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 전 빌드 | — |
+| `ACC-MENU-MASTERS-03` | 기타거래처 | `/(app)/masters/etc-customers` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 전 빌드 | — |
 | `ACC-MENU-MASTERS-04` | **출판사관리** | `/(app)/masters/publishers` | ✓ | ✓ | — | — | ✓ | ✓ | D-STD, D-KBT, WH-WL, WH-MS, WH-BB (publisher 빌드 부재) | F17 |
 | `ACC-MENU-MASTERS-04a` | 출판사관리(설정) | `/(app)/masters/publishers/settings` | ✓ | ✓ | — | — | — | (MS) | D-KBT, WH-MS | (TBD) |
 | `ACC-MENU-MASTERS-04b` | 출판사관리-택배 | `/(app)/masters/publishers/courier` | ✓ | ✓ | — | — | — | — | **D-KBT 단독** | (TBD) |
 | `ACC-MENU-MASTERS-04c` | 출판사MMS(설정/조회) | `/(app)/masters/publishers/mms` | ✓ | ✓ | — | — | — | — | **D-KBT 단독** (Smms 폼군) | (TBD) |
 | `ACC-MENU-MASTERS-05` | 도서관리 | `/(app)/masters/books` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 전 빌드 | F14 |
 | `ACC-MENU-MASTERS-05a` | 도서관리(위치) | `/(app)/masters/books/locations` | ✓ | ✓ | — | — | — | (MS) | **WH-MS 단독** (창고 위치) | (TBD) |
-| `ACC-MENU-MASTERS-06` | 저자관리 | `/(app)/masters/authors` | ✓ | — | ✓ | ✓ | — | — | D-STD, P-STD, P-KBT | F19 |
+| `ACC-MENU-MASTERS-06` | 저자관리 | `/(app)/masters/authors` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | 전 빌드 | — |
 | `ACC-MENU-MASTERS-07` | 종당관리(도서) | `/(app)/masters/series` | ✓ | ✓ | — | — | — | ✓ | D-KBT, WH-MS, WH-BB | (TBD) |
 | `ACC-MENU-MASTERS-08` | 지역분류 / (시내+지방) | `/(app)/masters/regions` | ✓ | ✓ | — | — | ✓ | ✓ | WH-WL(단순) · D-KBT/WH-MS/WH-BB(확장) | (TBD) |
 | `ACC-MENU-MASTERS-09` | 출고증정렬 | `/(app)/masters/shipping-sort` | ✓ | ✓ | — | — | — | — | **D-KBT 단독** | (TBD) |
