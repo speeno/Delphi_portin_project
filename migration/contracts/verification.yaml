@@ -1,0 +1,56 @@
+# C3~C5 출고검증 — 거래관리(물류 확장), Subu59_1(요약)·Subu59_2(검증)·Subu59_3(개별)
+#
+# 정본: legacy_delphi_source/legacy_source/Subu59_{1,2,3}.pas
+#   LIST: Subu59_2.pas Button101Click L381~437 (S1_Ssub 그룹 + Yesno 상태)
+#   확정: Button102 L565~ (INSERT S1_Chek Yesno='1')
+#   취소: Button103 L627~ (UPDATE S1_Chek `Check`='D', Time2=now())
+# 레이아웃: analysis/layout_mappings/Sobo59_2.md, Sobo59_3.md
+# 서비스: backend/app/services/verification_service.{list_verification,confirm_verification,cancel_verification}
+# 검증 키: (Hcode, Gdate, Scode, Gcode, Ocode='B', Jubun, Gjisa, Bcode)
+# 멀티 DB: apply_limit_offset_syntax / limit_offset_bind + LIMIT+1 has_more (파생 테이블 금지),
+#          쓰기는 execute_in_transaction 단일 트랜잭션.
+
+flow: verification
+legacy_form: Subu59_1, Subu59_2, Subu59_3
+menu: 거래관리 (출고검증 1/2/개별)
+crud_parity: RU   # v=1 요약 R, v=2/individual 검증 RU (인쇄 OOS — DEC-017)
+
+endpoints:
+  - method: GET
+    path: /api/v1/transactions/verification
+    description: "출고검증 그룹 목록 — v=1 요약(Bcode 제외) / v=2·individual 검증(Bcode 포함). S1_Ssub Gubun='출고' Ocode='B' Scode='X'."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        v?: string            # 1 | 2 | individual (기본 2)
+        hcode?: string        # 행 격리 — 미지정 시 scope 자동(출판사). 물류/super 는 범위 사용.
+        hcode_from?: string
+        hcode_to?: string
+        status?: string       # verified(Yesno='1') | pending(Yesno<='0') | (생략=전체)
+        limit?: integer
+        offset?: integer
+    responses:
+      "200":
+        body:
+          items:
+            - { hcode: string, scode: string, gdate: string, gcode: string, bcode: string, idnum: string, gubun: string, jubun: string, gjisa: string, gdang: integer, gsqut: integer, gssum: integer, verified: boolean }
+          page: { limit: integer, offset: integer, total: integer, has_more: boolean }
+
+  - method: PATCH
+    path: /api/v1/transactions/verification
+    description: "검증 확정(confirm: S1_Chek INSERT Yesno='1') / 취소(cancel: UPDATE Check='D'). 다건 단일 트랜잭션."
+    auth: bearer
+    request:
+      body:
+        server_id: string
+        action: string        # confirm | cancel
+        items:
+          - { hcode: string, gdate: string, scode?: string, gcode: string, jubun?: string, gjisa?: string, bcode?: string, gsqut?: integer }
+    responses:
+      "200": { body: { action: string, affected: integer } }
+      "422": { body: { detail: { code: INQ_VALIDATION, message: "action must be confirm or cancel" } } }
+      "403": { body: { detail: { code: HCODE_FORBIDDEN } } }
+      "500": { body: { detail: { code: INQ_TX_FAILED, message: "verification write rolled back" } } }

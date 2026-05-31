@@ -38,6 +38,14 @@ class MasterCategoryPagesTest(TestCase):
         src = _read(FRONT / "app" / "(app)" / "master" / "page.tsx")
         for removed in ("출판사·출고거래처(마스터)", "도서코드(마스터)", "할인율(대표)"):
             self.assertNotIn(removed, src)
-        for shown in ("거래처관리", "입고처관리", "저자관리", "도서관리", "기타거래처", "배본처관리"):
+        for shown in ("거래처관리", "입고처관리", "저자관리", "도서관리", "기타거래처"):
             self.assertIn(shown, src)
+        # 배본처관리(Sobo16_baebon)는 운영 요청으로 허브 카드에서 감춤 (2026-05).
+        # route(/master/baebon)·페이지·API 는 유지하므로 카드 title 만 제거됐는지 검증.
+        self.assertNotIn('title: "배본처관리"', src)
+
+    def test_master_list_keys_are_not_gcode_only(self) -> None:
+        customer_src = _read(FRONT / "app" / "(app)" / "master" / "customer" / "page.tsx")
+        self.assertIn("`${c.hcode || \"\"}:${c.gcode}", customer_src)
+        self.assertIn("`${r.hcode || \"\"}:${r.gcode}", customer_src)
 

@@ -1,0 +1,57 @@
+# C6 제작명세서(Subu26) · C7 제작현황(Subu27) — 거래관리, S2_Ssub (Ycode=출판사)
+#
+# 정본: WeLove_FTP/도서유통-출판/Subu26.pas(L306~), Subu27.pas(L285~).
+# 레이아웃: analysis/layout_mappings/Sobo26_production_stmt.md, Sobo27_production_status.md
+# 서비스: backend/app/services/production_service.{list_production_statement,list_production_status}
+# 어댑터: s2_ssub_adapt.list_select_sql (SHOW COLUMNS 동적 SELECT)
+# 멀티 DB: apply_limit_offset_syntax / limit_offset_bind / in_clause_lookup (파생 테이블·거대 IN 금지).
+
+flow: production
+legacy_form: Subu26, Subu27
+menu: 거래관리 (제작명세서 / 제작현황)
+crud_parity: R   # 조회 전용 (인쇄 OOS — DEC-017)
+
+endpoints:
+  - method: GET
+    path: /api/v1/transactions/production/statement
+    description: "제작명세서 — S2_Ssub 라인 조회(Ycode=출판사). Gubun/Bcode/Gcode 필터."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        hcode?: string        # 미지정 시 JWT scope 자동 주입(=Ycode). super 가 없으면 422.
+        gubun?: string
+        bcode?: string
+        gcode?: string
+        limit?: integer
+        offset?: integer
+    responses:
+      "200":
+        body:
+          items:
+            - { gdate: string, gubun: string, gcode: string, gname: string, bcode: string, bname: string, jubun: string, gsqut: integer, gdang: integer, gssum: integer, gbigo: string }
+          totals: { qty: integer, amount: integer }
+          page: { limit: integer, offset: integer, total: integer, has_more: boolean }
+      "422": { body: { detail: { code: INQ_VALIDATION, message: "hcode is required (per-publisher screen)" } } }
+
+  - method: GET
+    path: /api/v1/transactions/production/status
+    description: "제작현황 — S2_Ssub 라인 조회. Gubun/Gcode/Bcode 범위(bcodeFrom~bcodeTo) 필터."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        hcode?: string
+        gubun?: string
+        gcode?: string
+        bcode_from?: string
+        bcode_to?: string
+        limit?: integer
+        offset?: integer
+    responses:
+      "200": { body: "동일 — production/statement 참조" }
+      "422": { body: { detail: { code: INQ_VALIDATION } } }

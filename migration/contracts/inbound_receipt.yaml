@@ -523,6 +523,59 @@ endpoints:
             has_more: boolean
       "401": { body: { detail: "Invalid or expired token" } }
 
+  # C1 거래관리 facade — Menu202 입고명세서(조회·출력).
+  # Sobo22.md §7.1: 같은 Subu22 dfm 이 셸별로 입고접수(/inbound/receipts)·
+  # 입고명세서(/transactions/inbound-statement) 두 라우트로 쓰인다. 단일 진실은
+  # inbound_service.list_receipts — 본 엔드포인트는 거래관리 IA 진입점인 얇은 facade 로
+  # 신규 SQL 0·멀티DB 분기 0 (sales-statement view=detail 패턴과 동형). 라인 상세는
+  # 프론트가 /api/v1/inbound/receipts/{receipt_key} 로 지연 조회한다.
+  - method: GET
+    path: /api/v1/transactions/inbound-statement
+    description: "입고명세서 목록 facade — /api/v1/inbound/receipts 와 동일 응답 형태(ReceiptListResponse)."
+    auth: bearer
+    facade_of: /api/v1/inbound/receipts
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        hcode?: string
+        gcode?: string
+        include_cancelled?: boolean
+        limit?: integer
+        offset?: integer
+    responses:
+      "200": { body: "ReceiptListResponse (동일 — facade_of 참조)" }
+      "401": { body: { detail: "Invalid or expired token" } }
+
+  # C2 거래관리 facade — Menu205 입고현황(조회 전용, Sobo25 publisher).
+  # Publisher Subu25.pas Button101Click 메인 조회는 'SELECT * FROM S1_Ssub WHERE
+  # Gdate BETWEEN .. AND Gubun=입고 AND Scode=Y ..' 로 입고접수·입고명세서(C1)와
+  # 동일 S1_Ssub 입고 데이터다(publisher_source_root/Subu25 재추출로 P0 해제).
+  # 거래현황(/transactions/status) facade 와 동형으로 view 만 분기 — 신규 SQL 0.
+  #   view=list|detail → inbound_service.list_receipts (ReceiptListResponse)
+  #   view=summary     → inbound_service.period_report (PeriodReportResponse)
+  - method: GET
+    path: /api/v1/transactions/inbound-status
+    description: "입고현황 facade — view=list|detail|summary. list/detail 은 ReceiptListResponse, summary 는 PeriodReportResponse."
+    auth: bearer
+    facade_of: /api/v1/inbound/receipts
+    request:
+      query:
+        server_id: string
+        view: string            # list | detail | summary
+        date_from: string
+        date_to: string
+        hcode?: string
+        gcode?: string
+        include_cancelled?: boolean
+        limit?: integer
+        offset?: integer
+    responses:
+      "200": { body: "ReceiptListResponse(list/detail) | PeriodReportResponse(summary)" }
+      "422": { body: { detail: { code: INQ_VALIDATION, message: "view must be one of: list, detail, summary" } } }
+      "401": { body: { detail: "Invalid or expired token" } }
+
   - method: GET
     path: /api/v1/inbound/receipts/{receipt_key}
     description: "입고 명세서 상세 (한 합성키의 라인 N개 + 메모 + 마스터 채움)."

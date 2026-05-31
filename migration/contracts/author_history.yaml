@@ -1,0 +1,52 @@
+# C10 내역조회(저자) — 거래관리, Publisher MySQL/Subu26_1 (내역조회(저자)-거래현황)
+#
+# 정본: WeLove_FTP/도서유통-출판/MySQL/Subu26_1.pas Button101Click (L362~L418).
+#   라인 단위 S1_Ssub 판매 조회(Scode='X', Ocode='B' 기본), 저자(G4_Book.Gjeja) + Idnum 노출.
+# 레이아웃: analysis/layout_mappings/Sobo_author_history.md
+# 서비스: backend/app/services/author_history_service.list_author_history
+# 멀티 DB: apply_limit_offset_syntax / limit_offset_bind / in_clause_lookup (파생 테이블·거대 IN 금지).
+
+flow: author_history
+legacy_form: Subu26_1
+menu: 거래관리 (내역조회(저자))
+crud_parity: R   # 조회 전용 (인쇄 OOS — DEC-017)
+
+endpoints:
+  - method: GET
+    path: /api/v1/transactions/author-history
+    description: "내역조회(저자) 라인 목록 — S1_Ssub 판매 라인(Scode='X') + 저자(G4_Book.Gjeja). 출판사(hcode) 단위."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        hcode?: string        # 미지정 시 JWT scope 자동 주입(T2_PUB/T3). super 가 hcode 없으면 422.
+        gubun?: string        # 전표구분(출고/반품/폐기 등)
+        gcode?: string        # 거래처코드
+        bcode?: string        # 도서코드
+        pubun?: string
+        limit?: integer
+        offset?: integer
+    responses:
+      "200":
+        body:
+          items:
+            - gdate: string
+              idnum: string      # 저자번호
+              gcode: string
+              bcode: string
+              bname: string
+              author: string     # G4_Book.Gjeja
+              pubun: string
+              gubun: string
+              jubun: string
+              gsqut: integer
+              gssum: integer
+              gdang: integer
+              grat1: integer
+              yesno: string
+          totals: { qty: integer, amount: integer }
+          page: { limit: integer, offset: integer, total: integer, has_more: boolean }
+      "422": { body: { detail: { code: INQ_VALIDATION, message: "hcode is required (per-publisher author history)" } } }
+      "401": { body: { detail: "Invalid or expired token" } }

@@ -42,8 +42,12 @@ class _ExecCapture:
                     "gname": "Gn",
                 }
             ]
-        if "SELECT ID FROM G6_GGEO" in u:
+        if "SELECT ID FROM G6_GGEO WHERE ID=%S AND HCODE=%S" in u:
             return [{"ID": 42}]
+        if "SELECT ID FROM G6_GGEO WHERE HCODE=%S AND GCODE=%S AND BCODE=%S LIMIT 1" in u:
+            return []
+        if "SELECT ID AS ID FROM G6_GGEO WHERE HCODE=%S AND GCODE=%S AND BCODE=%S ORDER BY ID DESC LIMIT 1" in u:
+            return [{"id": 77}]
         return []
 
 
@@ -110,6 +114,60 @@ class MastersSpecialG6Tests(TestCase):
         self.assertIn("grat1", out["updated_fields"])
         self.assertTrue(any("UPDATE G6_Ggeo SET" in c[0] for c in tx.calls))
         self.assertTrue(any("Grat1=%s" in c[0] and "Gssum=%s" in c[0] for c in tx.calls))
+
+    def test_create_inserts_g6_row(self) -> None:
+        q = _ExecCapture()
+        tx = _TxCapture()
+        with (
+            patch.object(masters_service, "execute_query", new=q),
+            patch.object(masters_service, "execute_in_transaction", new=tx),
+        ):
+            out = asyncio.run(
+                masters_service.create_special_master(
+                    server_id="remote_1",
+                    hcode="H01",
+                    payload={
+                        "gcode": "G01",
+                        "bcode": "B01",
+                        "grat1": "7",
+                        "gssum": 11.0,
+                    },
+                )
+            )
+        self.assertEqual(out["id"], 77)
+        self.assertTrue(any("INSERT INTO G6_Ggeo" in sql for sql, _ in tx.calls))
+
+    def test_create_duplicate_raises(self) -> None:
+        async def dup_query(_server_id, sql, params=None):
+            up = sql.upper()
+            if "SELECT ID FROM G6_GGEO WHERE HCODE=%S AND GCODE=%S AND BCODE=%S" in up:
+                return [{"ID": 9}]
+            return []
+
+        with patch.object(masters_service, "execute_query", new=dup_query):
+            with self.assertRaises(ValueError) as cm:
+                asyncio.run(
+                    masters_service.create_special_master(
+                        server_id="remote_1",
+                        hcode="H01",
+                        payload={"gcode": "G01", "bcode": "B01"},
+                    )
+                )
+        self.assertEqual(str(cm.exception), "MASTER_DUPLICATE")
+
+    def test_delete_returns_none_when_missing(self) -> None:
+        async def miss_query(_server_id, _sql, _params=None):
+            return []
+
+        with patch.object(masters_service, "execute_query", new=miss_query):
+            out = asyncio.run(
+                masters_service.delete_special_master(
+                    server_id="remote_1",
+                    row_id=123,
+                    hcode="H01",
+                )
+            )
+        self.assertIsNone(out)
 
 
 if __name__ == "__main__":

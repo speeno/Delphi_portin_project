@@ -1,0 +1,74 @@
+id: NEW-RELEASE-v1
+name: Sobo29 신간발행 (거래관리 Menu209)
+version: 1.0.0
+status: approved
+scope_phase: phase1
+
+# 단일 원천: transactions_other.yaml (TRANSACTIONS-OTHER-v1).
+# 신간발행은 같은 Subu29 dfm 의 IA 변종으로, 전표구분(Jubun)을 「신간」으로 고정한 것 외에는
+# 기타명세서와 위젯/컬럼/이벤트/데이터 접근이 동일하다(코드 분기 금지 — dfm-layout-input.mdc).
+single_source: migration/contracts/transactions_other.yaml
+
+legacy:
+  form: Sobo29
+  unit: Subu29.pas
+  caption: 신간명세서          # Subu29 dfm title
+  menu: Menu209               # BLD-PUB-STD/BLD-DIST-STD 「거래관리 > 신간발행」 (welove_chul_menu_handlers.json)
+  license_key: F29
+  generated_inputs:
+    - tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu29/Sobo29.html
+
+modern:
+  route: /transactions/new-release
+  menu_id: Sobo29_new_release
+  shell_alias: Sobo29_new_release_shipment_alias   # 물류 셸(NAV-09) 동일 route 별칭
+
+variant:
+  # 기타명세서(/transactions/other) 대비 유일한 차이.
+  jubun: 신간                  # 백엔드 facade 에서 강제 고정 (클라이언트 override 무시)
+  notes:
+    - "전표구분 입력은 읽기 전용(신간 고정) — 그 외 검색/그리드/전체메모는 기타명세서와 동일."
+
+endpoints:
+  - method: GET
+    path: /api/v1/transactions/new-release
+    description: "신간발행 목록 facade — transactions_service.list_other_statements(jubun='신간') 재사용."
+    auth: bearer
+    facade_of: /api/v1/transactions/other
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        hcode?: string
+        bcode?: string
+        include_cancelled?: boolean
+        limit?: integer
+        offset?: integer
+    responses:
+      "200": { body: "OtherStatementsResponse (동일 — facade_of 참조)" }
+      "401": { body: { detail: "Invalid or expired token" } }
+  - method: PATCH
+    path: /api/v1/transactions/other/memo
+    description: "전체메모 UPSERT — 기타명세서와 공유(별도 엔드포인트 신설하지 않음)."
+    auth: bearer
+    reuse_of: TRANSACTIONS-OTHER-v1
+
+acceptance_criteria:
+  - id: AC-NR-1
+    text: "GET /transactions/new-release 는 list_other_statements 를 Jubun='신간' 으로 호출한다(신규 SQL 0)."
+  - id: AC-NR-2
+    text: "클라이언트가 다른 jubun 을 전달해도 신간으로 고정된다(신간 전용 IA)."
+  - id: AC-NR-3
+    text: "응답 형태는 /transactions/other(OtherStatementsResponse)와 1:1 동일."
+
+regression_guard:
+  - test/test_new_release_phase1.py
+  - test/test_transactions_sidebar_layout.py
+
+changelog:
+  - date: 2026-05-31
+    by: porting-team
+    note: |
+      1.0.0 — C9 신간발행 phase1. 기타명세서 facade(jubun 고정) + 물류 셸 별칭.
+      단일 원천은 transactions_other.yaml — 본 계약은 variant diff 만 기록한다.

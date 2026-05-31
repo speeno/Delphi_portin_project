@@ -256,7 +256,7 @@ class C2OutboundPhase1Tests(TestCase):
     # -- TC-OUT-008 마스터 자동완성 -------------------------------------------
 
     def test_tc_out_008_master_products_search(self) -> None:
-        async def fake_products(*, server_id, q, limit):  # noqa: ARG001
+        async def fake_products(*, server_id, q, limit, **kwargs):  # noqa: ARG001
             return [{"bcode": "B0001", "gname": "테스트도서", "gjeja": "홍길동"}]
 
         with patch(

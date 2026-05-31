@@ -123,7 +123,13 @@ dfm `OnXxx` 와 모던 컴포넌트 핸들러를 1:1 로 매핑한다. 변형 �
 | 모던 논리 id | 라우트 | 메뉴 | 성격 | 상태 |
 | --- | --- | --- | --- | --- |
 | `Sobo22` | `/inbound/receipts` | 출고관리(shipment) | 입고 접수 CRUD | phase1 (C3) |
-| `Sobo22_inbound_statement` | `/transactions/inbound-statement` | 거래관리(transactions, Menu202) | 입고 명세 조회·출력 | scaffold (Phase 3) |
+| `Sobo22_inbound_statement` | `/transactions/inbound-statement` | 거래관리(transactions, Menu202) | 입고 명세 조회·출력 | **phase1 (C1, 2026-05-31)** |
+
+> C1 phase1: `GET /api/v1/transactions/inbound-statement` 는 `inbound_service.list_receipts`
+> 재사용 facade(신규 SQL 0). 페이지는 검색 패널(Panel001)·전표 목록·행 펼침 DBGrid101(9컬럼+합계)
+> 로 §2·§3 매핑을 보존하며, 라인 상세는 `/inbound/receipts/{key}` 로 지연 조회한다(읽기·출력 화면).
+> 입력/저장 패널(§4 Panel003·Button801)은 입고접수(/inbound/receipts) CRUD 화면의 책임이라 본 조회
+> 화면에는 두지 않는다. 회귀 가드: `test/test_inbound_statement_phase1.py`.
 
 > 두 화면의 필드/컬럼 차이는 `migration/contracts/inbound_receipt.yaml` `customer_variants`
 > 에만 기록한다(.cursor/rules/dfm-layout-input.mdc). `data-legacy-id` 는 원본 `Subu22` 유지.

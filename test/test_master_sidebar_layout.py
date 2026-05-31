@@ -33,11 +33,13 @@ class MasterSidebarLayoutTest(TestCase):
                 "Sobo14",
                 "Sobo15",
                 "Sobo16_special",
+                "Sobo39",
                 "Sobo14_gbun",
                 "Sobo11_gbun",
-                "Sobo16_baebon",
             ],
         )
+        # 배본처관리(Sobo16_baebon)는 운영 요청으로 사이드바에서 감춤 (2026-05).
+        self.assertNotIn("Sobo16_baebon", form_ids)
         self.assertIn('kind: "separator"', body)
         self.assertIn('label: "비율관리"', body)
 
@@ -46,15 +48,19 @@ class MasterSidebarLayoutTest(TestCase):
         for menu_id in (
             "ACC-MENU-HIDDEN-MASTER-PUBLISHER",
             "ACC-MENU-HIDDEN-MASTER-BOOK-CODE",
-            "ACC-MENU-HIDDEN-MASTER-DISCOUNT",
+            "ACC-MENU-HIDDEN-MASTER-BAEBON",
         ):
             self.assertIn(menu_id, src)
+        self.assertNotIn('menuId: "ACC-MENU-HIDDEN-MASTER-DISCOUNT"', src)
 
     def test_baebon_entry_exists(self) -> None:
+        # 배본처관리는 사이드바·허브에서 감추지만 레지스트리 항목·route·API 는 유지한다.
+        # menuId 만 HIDDEN 으로 분리되어 show-first 정책에서 visible=false 처리된다.
         src = _read(REGISTRY)
         self.assertIn('id: "Sobo16_baebon"', src)
         self.assertIn('route: "/master/baebon"', src)
-        self.assertIn('menuId: "ACC-MENU-MASTERS-07"', src)
+        self.assertIn('menuId: "ACC-MENU-HIDDEN-MASTER-BAEBON"', src)
+        self.assertNotIn('menuId: "ACC-MENU-MASTERS-07"', src)
 
     def test_sidebar_uses_layout_and_group(self) -> None:
         # 사이드바는 master 전용 분기 대신 그룹별 SIDEBAR_LAYOUTS 맵으로 일반화됨

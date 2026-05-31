@@ -117,7 +117,7 @@ dfm 의 검색용 `Edit*` 1:1 대응 위젯이 없어 모던 신설(§7 deltas, 
 | `Sobo14.CheckBox2` | 출고정지 | Grat9 | grat9 | '1'/'' 토글 |
 | `Sobo14.Button101` | 등록(새화면) | — | `master/book/new` | DEC-019(신규 폼) |
 | `Sobo14.Button102` | 수정/저장 | — | `PATCH .../book/{gcode}` | |
-| `Sobo14.Button103` | 삭제 | — | — | **UI 미노출**(DEC-019) |
+| `Sobo14.Button103` | 삭제 | — | `DELETE /api/v1/masters/book/{gcode}` | 상세 폼 삭제 버튼 |
 | `Sobo14.FormClose` | 목록 복귀 | — | — | |
 
 ### 4-1. 도서분류 G4_Gbun (상세/신규 접기 통합)
@@ -141,7 +141,7 @@ SELECT(누락 텍스트 `''`, 누락 숫자 `0` fallback)·PATCH 대상에 포�
 ## 6. out-of-scope 위젯 (미부착)
 
 - `CornerButton2/3/4`, 정적 라벨 전체
-- `Sobo14.Button103`(Delete) — DEC-019 (UI 미노출, 백엔드 라우트는 유지)
+- `Sobo14.Button103`(Delete) — 상세 폼에서 활성화(확인 모달 후 `DELETE /masters/book/{gcode}`)
 - 검색 lookup 보조 폼(`Sobo14_1`) — §9
 
 ## 7. deltas (모던 신설)
@@ -200,5 +200,5 @@ Sobo14_1
 | --- | --- | --- | --- | --- |
 | `Button101.OnClick` (등록/저장) | INSERT/UPDATE T1_Sub11 (도서) | `POST /api/v1/masters/book` · `PATCH .../{bcode}` | 상세 라우트 폼 액션 | `test_pagination_contracts::C9MastersListPageContract::test_book` |
 | `Button102.OnClick` (수정/취소) | 폼 모드 토글 | (UI 전용) | 상세 라우트 헤더 | — |
-| `Button103.OnClick` (삭제) | DELETE | (DEC-019 — UI 미노출) | **OFF** | Wave C 후속 `test_master_book_delete_blocked` |
+| `Button103.OnClick` (삭제) | DELETE | `DELETE /api/v1/masters/book/{gcode}` | 상세 삭제 버튼 | `test_master_crud_api_contract`, `test_sobo14_widget_traceability` |
 | `Button104.OnClick` (검색) | 키워드 fetch | `GET /api/v1/masters/book?q=…` | 목록 검색 | `test_masters_q_search::test_book` |

@@ -184,24 +184,27 @@ class FormRegistryInventoryBaselineTests(TestCase):
         entries = _parse_entries(_registry_text())
         cls.by_id = {e["id"]: e for e in entries if e.get("id")}
 
-    def _assert(self, form_id: str, *, wave: str, crud: str) -> None:
+    def _assert(self, form_id: str, *, wave: str | None, crud: str) -> None:
         e = self.by_id.get(form_id)
         self.assertIsNotNone(e, f"{form_id} 가 form-registry 에서 사라졌다")
         self.assertEqual(e.get("roadmapWave"), wave, f"{form_id}.roadmapWave")
         self.assertEqual(e.get("crudParity"), crud, f"{form_id}.crudParity")
 
     def test_publisher_master_read_only(self) -> None:
-        self._assert("Sobo17", wave="p3", crud="CRUD")
+        self._assert("Sobo17", wave=None, crud="CRUD")
 
     def test_book_code_master_read_only(self) -> None:
-        self._assert("Sobo38", wave="p3", crud="CRUD")
+        self._assert("Sobo38", wave=None, crud="CRUD")
 
     def test_customer_master_read_update(self) -> None:
-        self._assert("Sobo11", wave="p3", crud="CRUD")
+        self._assert("Sobo11", wave=None, crud="CRUD")
 
     def test_special_master_g6_read_update(self) -> None:
-        """Sobo16은 G6_Ggeo 목록 + Grat1/Gssum 부분 수정까지 구현."""
-        self._assert("Sobo16_special", wave="p2", crud="RU")
+        """Sobo16은 G6_Ggeo 목록 + 신규/수정/삭제를 모두 지원한다."""
+        self._assert("Sobo16_special", wave="p2", crud="CRUD")
+
+    def test_discount_master_crud(self) -> None:
+        self._assert("Sobo39", wave=None, crud="CRUD")
 
     def test_delivery_management_courier_ru(self) -> None:
         """내부 라인/메모 API 구현 — 외부 택배사 API는 STUB 아님(courier_management.yaml 일정 분리)."""
@@ -209,3 +212,16 @@ class FormRegistryInventoryBaselineTests(TestCase):
 
     def test_tax_invoice_external_channel_stub(self) -> None:
         self._assert("Sobo49_tax", wave="p3", crud="RU")
+
+    def test_master_menu_group_has_no_p3_wave(self) -> None:
+        offenders = []
+        for e in self.by_id.values():
+            if e.get("menuGroup") != "master":
+                continue
+            if e.get("roadmapWave") == "p3":
+                offenders.append(e.get("id"))
+        self.assertEqual(
+            offenders,
+            [],
+            "기초관리(master) 메뉴는 roadmapWave 'p3'(W3) 없이 정리되어야 한다.",
+        )

@@ -75,3 +75,8 @@ class Sobo14WidgetTraceability(TestCase):
             "resetFilters",
         ):
             self.assertIn(kw, list_src, kw)
+
+    def test_detail_delete_wiring(self) -> None:
+        detail_src = _read(FRONT / "app" / "(app)" / "master" / "book" / "[gcode]" / "page.tsx")
+        self.assertIn("onDelete={handleDelete}", detail_src)
+        self.assertIn("masterApi.bookDelete", detail_src)

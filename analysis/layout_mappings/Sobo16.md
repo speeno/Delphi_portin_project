@@ -58,10 +58,13 @@ DEC-028 — `Subu16/TSobo16`. 레거시 WRITE 는 `G6_Ggeo` (`Base01.pas` `T1_Su
 | --- | --- |
 | 검색 패널 래퍼 | `Sobo16.searchPanel` |
 | 모드 라디오 그룹 | `Sobo16.mode` / `Sobo16.mode.publisher` 등 |
+| 검색축(거래처 기준) | `Sobo16.searchAxis.customer` |
+| 검색축(도서 기준) | `Sobo16.searchAxis.book` |
 | 조회 버튼 | `Sobo16.ButtonSearch` |
 | 출판사 코드 입력 | `Sobo16.Edit107` (customer 패널 기준; 공용 시 `Sobo16.EditHcode`) |
 | 거래처 코드 | `Sobo16.Edit101` |
 | 도서 코드 | `Sobo16.Edit201` |
+| 코드 검색 팝업 버튼 | `Sobo16.LookupHcode` / `Sobo16.LookupGcode` / `Sobo16.LookupBcode` |
 | 데이터 그리드 테이블 | `Sobo16.DBGrid101` |
 | 그리드 컬럼 헤더 | `Sobo16.DBGrid101.HCODE`, `.GCODE`, `.BCODE`, `.BNAME`, `.GNAME`, `.GRAT1`, `.GSSUM` |
 | 편집 패널 래퍼 | `Sobo16.editPanel` |
@@ -72,20 +75,23 @@ DEC-028 — `Subu16/TSobo16`. 레거시 WRITE 는 `G6_Ggeo` (`Base01.pas` `T1_Su
 ## 6. out-of-scope (1차)
 
 - `Button001`~`003` 빈 스텁 — 미구현
-- 물리 DELETE (`T1_Sub61AfterDelete`) — DEC-019 1차 미제공
-- INSERT 신규 G6 행 — phase 2
+- `Gcode`/`Bcode` 키 변경 저장 — 후속
 - 인쇄/CSV/진행바 — 미포함
 
 ## 7. deltas
 
 - 서버 페이징 `DataGridPager`, `useListSession` — 레거시 무한 스크롤 아님
+- 모던 UX 유지형 보강: 레거시 상/하 검색축을 `searchAxis.customer`/`searchAxis.book` 2블록으로 재배치
+- 코드/명칭 검색은 공통 `MasterLookupButton`(`publisher/customer/book`) 팝업으로 보강
 
 ## 8. 이벤트 → REST
 
 | 레거시 | REST |
 | --- | --- |
 | `Button101/201/301Click` | `GET /api/v1/masters/special` |
+| 신규 링크 등록 | `POST /api/v1/masters/special` |
 | 그리드에서 행 편집 후 저장 | `PATCH /api/v1/masters/special/{id}` |
+| 선택 행 삭제 | `DELETE /api/v1/masters/special/{id}` |
 
 ## 9. 변형
 

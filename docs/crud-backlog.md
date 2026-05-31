@@ -22,15 +22,14 @@
 
 ### 2.1 마스터 (`master`)
 
-| 화면 ID | 캡션 | 현재 phase | 현재 CRUD | 레거시 연산 | 갭 (필요 보강) | 목표 CRUD | 목표 wave |
-|---|---|---|---|---|---|---|---|
-| Sobo11 | 거래처관리 | phase1 | CRUD(API) | C/R/U/D | 2026-04-29 POST/DELETE API 보강 완료. 목록 UI의 직접 버튼 노출은 후속 UX 선택 | CRUD | p3 |
-| Sobo14 | 도서관리 | phase1 | CRUD(API) | C/R/U/D | 2026-04-29 POST/DELETE API 보강 완료. 목록 UI의 직접 버튼 노출은 후속 UX 선택 | CRUD | p3 |
-| Sobo17 | 출판사 | phase1 | R | C/R/U/D | 신규/수정/삭제 — 페이지 주석 *“1차 READ only · 수정은 후속”* | CRUD | p3 |
-| Sobo38 | 도서코드 | phase1 | R | C/R/U/D | 페이지 주석 *“READ only (단순 조회)”* | RU | p3 |
-| Sobo39 | 할인율 | phase1 | R | C/R/U/D | 페이지 주석 *“1차는 READ only”* | RU | p3 |
-| Sobo45 | 물류비 | phase1 | R | C/R/U/D | 페이지 주석 *“1차 READ only”* | RU | p3 |
-| Sobo16_special | 특별관리 | phase1 | RU | C/R/U | 신규(C)·삭제(D)·Gcode/Bcode 변경은 후속, Grat1/Gssum 부분 수정 완료 | RU | p2 |
+| 화면 ID | 캡션 | 현재 phase | 현재 CRUD | 레거시 연산 | 갭 (필요 보강) | 목표 CRUD |
+|---|---|---|---|---|---|---|
+| Sobo11 | 거래처관리 | phase1 | CRUD | C/R/U/D | CRUD 동등 완료 | CRUD |
+| Sobo14 | 도서관리 | phase1 | CRUD | C/R/U/D | CRUD 동등 완료(신규/삭제 UI 포함) | CRUD |
+| Sobo17 | 출판사 | phase1 | CRUD | C/R/U/D | CRUD 동등 완료 | CRUD |
+| Sobo38 | 도서코드 | phase1 | CRUD | C/R/U/D | CRUD 동등 완료(도서 thin alias) | CRUD |
+| Sobo39 | 할인율 | phase1 | CRUD | C/R/U/D | CRUD 동등 완료(variant 통합) | CRUD |
+| Sobo16_special | 특별관리 | phase1 | CRUD | C/R/U/D | G6_Ggeo 신규/수정/삭제 + 조회 동등 완료 | CRUD |
 
 ### 2.2 출고/입고/거래 (`shipment`, `transactions`)
 
@@ -38,8 +37,13 @@
 |---|---|---|---|---|---|---|
 | Sobo22 / Sobo22_import | 입고접수 / 파일 업로드 | phase1 | CRUD | (정식 포팅) | CRUD | — |
 | Sobo27 / Sobo27_new | 출고접수 (목록 / 신규) | phase1 | CRUD | (정식 포팅) | CRUD | — |
-| Sobo21 / Sobo21_status_* | 거래명세서 / 거래현황 LIST/요약/메모 | phase1 | R | (조회 전용 화면) | R | — |
+| Sobo21 / Sobo21_status_* | 거래명세서 / 거래현황 LIST/요약/메모 | phase1 | R(메모 RU) | (조회 전용 + 메모 RU) | R/RU | — |
 | Sobo29_other | 기타명세서 | phase1 | RU | 조회·메모 저장 완료 — C7 비정형 PDF 는 phase3-print-gate(W4) 후속 | RU | p3 |
+| Sobo25_status_* | 입고현황 LIST/상세/요약 | phase1 | R | **2026-05 완료(C2)** — Publisher Subu25 재추출, list_receipts/period_report facade | R | — |
+| Sobo59_1 / Sobo59_2 / Sobo59_3 | 출고검증 요약/검증/개별 | phase1 | R/RU | **2026-05 완료(C3~C5)** — verification_service: 그룹 LIST + S1_Chek confirm/cancel(Subu59_2 Button102/103) | R/RU | — |
+| Sobo26_production_stmt / Sobo27_production_status | 제작명세서 / 제작현황 | phase1 | R | **2026-05 완료(C6·C7)** — production_service(S2_Ssub, Ycode, s2_ssub_adapt) | R | — |
+| Sobo28_withholding | 원천징수 | phase1 | R | **2026-05 완료(C8)** — withholding_service(S3_Ssub, 저자명 G3_Gjeo.Gposa). 인쇄 OOS(DEC-017) | R | — |
+| Sobo_author_history | 내역조회(저자) | phase1 | R | **2026-05 완료(C10)** — author_history_service(S1_Ssub Scode='X' 라인 + G4_Book.Gjeja) | R | — |
 
 ### 2.3 재고/원장 (`inventory`, `ledger`)
 

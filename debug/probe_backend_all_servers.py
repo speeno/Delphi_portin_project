@@ -306,6 +306,19 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        {
+            "group": "masters.special.post_bad_body",
+            "method": "POST",
+            "path": "/api/v1/masters/special",
+            "json_body": {"serverId": sid},
+            "ok_status": {422},
+        },
+        {
+            "group": "masters.special.delete_missing",
+            "method": "DELETE",
+            "path": f"/api/v1/masters/special/999999?serverId={sid}&hcode=00000",
+            "ok_status": {404},
+        },
         # ─── Phase F 누락 3화면 (입고처 G2 / 기타거래처 G5 / 저자 G3) ──────────────
         # 동형 마스터 GET 목록 + 쓰기 가드(422/404). 일부 테넌트(슬림 138)·빌드는
         # 테이블 부재 가능 → 알려진 스키마 차이는 customer_variants 에 기록 후 예외 승인.
@@ -520,6 +533,95 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "path": (
                 f"/api/v1/transactions/sales-statement?serverId={sid}"
                 f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        # C1 입고명세서 facade (Menu202) — inbound_service.list_receipts 재사용.
+        {
+            "group": "transactions.inbound_statement",
+            "path": (
+                f"/api/v1/transactions/inbound-statement?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        # C9 신간발행 facade (Menu209) — list_other_statements(jubun='신간') 재사용.
+        {
+            "group": "transactions.new_release",
+            "path": (
+                f"/api/v1/transactions/new-release?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        # C2 입고현황 facade (Menu205) — list_receipts / period_report 재사용.
+        {
+            "group": "transactions.inbound_status",
+            "path": (
+                f"/api/v1/transactions/inbound-status?serverId={sid}"
+                f"&view=list&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.inbound_status_summary",
+            "path": (
+                f"/api/v1/transactions/inbound-status?serverId={sid}"
+                f"&view=summary&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        # C10 내역조회(저자) facade (Subu26_1) — author_history_service.
+        # hcode 필수(출판사 단위) — 미지정 시 422 도 허용(super 가 hcode 없이 호출하는 경우).
+        {
+            "group": "transactions.author_history",
+            "path": (
+                f"/api/v1/transactions/author-history?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200, 422},
+        },
+        # C6 제작명세서(Subu26, S2_Ssub) — production_service. hcode 필수.
+        {
+            "group": "transactions.production_statement",
+            "path": (
+                f"/api/v1/transactions/production/statement?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200, 422},
+        },
+        # C7 제작현황(Subu27, S2_Ssub) — production_service.
+        {
+            "group": "transactions.production_status",
+            "path": (
+                f"/api/v1/transactions/production/status?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200, 422},
+        },
+        # C8 원천징수(Subu28, S3_Ssub) — withholding_service.
+        {
+            "group": "transactions.withholding",
+            "path": (
+                f"/api/v1/transactions/withholding?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200, 422},
+        },
+        # C3~C5 출고검증(Subu59_1/2/3, S1_Ssub 그룹) — verification_service. GET only.
+        {
+            "group": "transactions.verification_summary",
+            "path": (
+                f"/api/v1/transactions/verification?serverId={sid}"
+                f"&v=1&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.verification_book",
+            "path": (
+                f"/api/v1/transactions/verification?serverId={sid}"
+                f"&v=2&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
             ),
             "ok_status": {200},
         },

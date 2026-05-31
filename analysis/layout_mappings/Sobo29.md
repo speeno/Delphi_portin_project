@@ -1,5 +1,11 @@
 # Sobo29 layout mapping — 기타명세서 / 신간명세서
 
+> **모던 라우트 분리 (C9, 2026-05-31)**: 한 Subu29 dfm 이 두 IA 로 쓰인다 — 기타명세서
+> (`/transactions/other`, 전표구분 자유)와 신간발행(`/transactions/new-release`, Menu209,
+> 전표구분 「신간」 고정). 코드 분기 금지 — 두 페이지는 동일 위젯/컬럼 매핑을 공유하고 jubun 값만
+> 다르다. 백엔드는 `list_other_statements(jubun='신간')` 재사용 facade(신규 SQL 0).
+> 회귀 가드: `test/test_new_release_phase1.py`.
+
 ## Legacy Inputs
 
 - Generated DFM HTML: `tools/delphi_porting_accelerator/examples/generated/legacy_source_root/Subu29/Sobo29.html`

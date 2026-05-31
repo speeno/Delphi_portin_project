@@ -29,10 +29,10 @@ P0 = 사용자 작업이 막힘 (예: 본사/창고 토글 부재로 데이터�
 | # | form | route | menu | mapping | W | B | U | D | O | P0 | P1 | P2 | note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Sobo11 | /master/customer | master | [Sobo11.md](../layout_mappings/Sobo11.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 거래처 마스터 — Edit101 G1_Gbun-only 콤보·조인 정합, 구분 CRUD 접기(상세 통합, 2026-05) |
-| 2 | Sobo14 | /master/book | master | [Sobo14.md](../layout_mappings/Sobo14.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 도서 마스터 — Edit101 G4_Gbun-only 콤보·이중 조인 정합, 분류 CRUD 접기(상세 통합, 2026-05) |
+| 2 | Sobo14 | /master/book | master | [Sobo14.md](../layout_mappings/Sobo14.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 도서 마스터 — Edit101 G4_Gbun-only 콤보·이중 조인 정합, 분류 CRUD 접기(상세 통합) + 삭제(Button103) 복원 |
 | 3 | Sobo17 | /master/publisher | master | [Sobo17.md](../layout_mappings/Sobo17.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 출판사·출고거래처 마스터 |
 | 4 | Sobo38 | /master/book-code | master | [Sobo38.md](../layout_mappings/Sobo38.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 도서코드 마스터 |
-| 5 | Sobo39 | /master/discount | master | [Sobo39.md](../layout_mappings/Sobo39.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 할인율 — 변형 39_1/39_2/39_5 는 `?type=` 통합 |
+| 5 | Sobo39 | /master/discount | master | [Sobo39.md](../layout_mappings/Sobo39.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 할인율 — variant(base/v1/v2/v5) CRUD + `?type=` 별칭 호환 + 검색진행 상태 보강 |
 | 6 | ~~Sobo45~~ | ~~/master/logistics-cost~~ | ~~master~~ | [Sobo45.md (DEPRECATED)](../layout_mappings/Sobo45.md) | DEP | DEP | DEP | DEP | DEP | 0 | 0 | 0 | **DEPRECATED 2026-04-23 (DEC-060)** — 「Sobo45 = 물류비」 매핑 추정 오류. 레거시 Subu45 = 청구서관리(Sobo45_billing, `/settlement/billing`) 가 정상. G5_Ggeo.Gposa 는 청구서관리 내부 lookup 으로 흡수. master_data.yaml v1.2.0 catalog/endpoint/customer_variants 동시 제거 |
 | 7 | Sobo22 | /inbound/receipts | shipment | [Sobo22.md](../layout_mappings/Sobo22.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 입고접수 — Sobo22/22_1/22_2 변형 통합 (DEC-019) |
 | 8 | Sobo22_import | /inbound/import | shipment | [Sobo38_inbound.md](../layout_mappings/Sobo38_inbound.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | Sobo38 의 입고 파일 업로드 분기 — 단일 입력 화면 |
@@ -62,7 +62,7 @@ P0 = 사용자 작업이 막힘 (예: 본사/창고 토글 부재로 데이터�
 | 32 | WebAdmEnv | /admin/settings | admin | (DFM 부재) | OOS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | 환경설정(개정) — Sobo19 레거시와 분리 (DEC-019) |
 | 33 | Subu10_id_logn | /admin/id-logn | admin | [Id_Logn.md](../layout_mappings/Id_Logn.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | C10 풀 스코프 — F11~F89 메뉴 매트릭스 |
 | 34 | Sobo58 | /returns/period-report | returns | [Sobo58.md](../layout_mappings/Sobo58.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 기간별반품내역서 — C4 phase2 API + DEC-028 회귀 (`test_c4_returns_phase2`, `test_returns_period_ledger_regression`) |
-| 35 | Sobo16_special | /master/special | master | [Sobo16.md](../layout_mappings/Sobo16.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 특별관리 — G6_Ggeo 조회 + Grat1/Gssum 부분 수정 (`test_masters_special_g6`) |
+| 35 | Sobo16_special | /master/special | master | [Sobo16.md](../layout_mappings/Sobo16.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 특별관리 — G6_Ggeo 조회 + 신규/수정/삭제 + 거래처/도서 검색축 lookup 보강 |
 | 36 | Sobo28_delivery | /shipping/courier | delivery | [Sobo28.md](../layout_mappings/Sobo28.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | 택배관리 — 내부 라인/메모 완료, 외부 택배사 API 후속 (`test_sobo28_courier_legacy_ids`) |
 | 37 | Sobo12 | /master/inbound-vendor | master | [Sobo12.md](../layout_mappings/Sobo12.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 1 | **Phase F** 입고처관리(G2_Ggwo/G2_Gbun) — 상세/구분 전체 필드 CRUD(Edit101~132, Edit201~202) + F12 caps + traceability 회귀 가드 |
 | 38 | Sobo15 | /master/etc-customer | master | [Sobo15.md](../layout_mappings/Sobo15.md) | PASS | PASS | PASS | PASS | OOS | 0 | 0 | 0 | **Phase F** 기타거래처(G5_Ggeo 출판/총판 정본) — F15 caps·G1↔G5 빌드변형 customer_variants. 거래처(Sobo11) 동형 패턴으로 본 폼 Panel002(Edit101~127·비율·발행유무) 전체 + G5_Gbun 구분 CRUD 복원, 목록/상세/신규 분리 라우트. g5_ggeo_adapt 멀티 DB |
@@ -106,17 +106,52 @@ Sobo67_status 는 기존 승격 근거로 유지한다. 본 사이클에서는 S
 | --- | --- | --- | --- |
 | 거래명세서 Sobo21 | /transactions/sales-statement | phase1 | shipment→transactions 이동 (중복 노출 제거) |
 | 거래현황(상세) Sobo21_status_detail | /transactions/status?view=detail | phase1 | view=detail facade(=list 형태) + 행 펼침 라인 지연 조회(기존 detail API 재사용, 신규 SQL 0) |
-| 입고명세서 Sobo22_inbound_statement | /transactions/inbound-statement | scaffold | Subu22 publisher Menu202 — 입고접수(C3)와 라우트 분리(layout_mappings/Sobo22.md §7.1) |
-| 입고현황 3뷰 Sobo25_status_* | /transactions/inbound-status?view=* | scaffold | Sobo24 동형 facade 예정 |
-| 출고검증 Sobo59_1/2/3 | /transactions/verification?v=* | scaffold | 물류 확장 Menu509_1/2/3 |
-| 제작명세/현황 Sobo26/27_* | /transactions/production/* | scaffold | book-code·출고접수 id 충돌 회피(논리 id) |
-| 원천징수 Sobo28_withholding | /transactions/withholding | scaffold | 택배관리 id 충돌 회피(논리 id) |
-| 내역조회(저자) Sobo_author_history | /transactions/author-history | preview | 표준 DFM 트리 미추출 — Phase 0 정본 조사 대기 |
-| 신간발행 Sobo29_new_release | /transactions/new-release | scaffold | 기타명세서와 분리 |
+| 입고명세서 Sobo22_inbound_statement | /transactions/inbound-statement | **phase1 (C1)** | Subu22 publisher Menu202 — `list_receipts` 재사용 facade(신규 SQL 0) + DBGrid101 9컬럼 펼침. 입고접수(C3)와 라우트 분리(Sobo22.md §7.1) |
+| 입고현황 3뷰 Sobo25_status_* | /transactions/inbound-status?view=* | **phase1 (C2)** | Publisher 정본 publisher_source_root/Subu25(caption 입고현황) 재추출로 P0 해제. list/detail=list_receipts·summary=period_report 재사용 facade(신규 SQL 0). Sobo25_inbound_status.md |
+| 출고검증 Sobo59_1/2/3 | /transactions/verification?v=* | **phase1 (C3·C4·C5)** | verification_service: GET 그룹 LIST(S1_Ssub Gubun='출고'·Ocode='B'·Scode='X', v=1 요약 R / v=2·individual 검증) + PATCH confirm/cancel(S1_Chek INSERT Yesno='1' / UPDATE Check='D', Subu59_2 Button102/103 동등). 검증 키 7컬럼. Sobo59_2.md |
+| 제작명세/현황 Sobo26/27_* | /transactions/production/* | **phase1 (C6·C7)** | Publisher 정본 publisher_source_root/Subu26(제작명세서)·Subu27(제작현황) 재추출로 P0 해제. production_service(S2_Ssub, Ycode 색인, s2_ssub_adapt). 조회 전용 R. Sobo26/27_*.md |
+| 원천징수 Sobo28_withholding | /transactions/withholding | **phase1 (C8)** | Publisher 정본 publisher_source_root/Subu28(원천징수관리) 재추출로 P0 해제. withholding_service(S3_Ssub, 저자명 G3_Gjeo.Gposa, s3_ssub_adapt). 조회 전용 R, 인쇄 OOS. Sobo28_withholding.md |
+| 내역조회(저자) Sobo_author_history | /transactions/author-history | **phase1 (C10)** | Publisher MySQL/Subu26_1(내역조회(저자)-거래현황) 정본 publisher_source_root 재추출로 P0 해제. author_history_service(S1_Ssub 라인 Scode='X' + G4_Book.Gjeja). Sobo_author_history.md |
+| 신간발행 Sobo29_new_release | /transactions/new-release | **phase1 (C9)** | `list_other_statements(jubun='신간')` 재사용 facade(신규 SQL 0) + 전체메모 재사용. 기타명세서와 전표구분만 다른 단일 폼 |
 
 > scaffold = 라우트 + 사이드바 진입 + `ScreenPlaceholder`(시나리오·legacy_form 표시). 백엔드 SQL/계약은
 > Phase 3·4 후속(고급 모델 권장 구간). phase1 승격은 화면별 5축 PASS + layout_mappings·`data-legacy-id` 검사 통과 후.
-> 회귀 가드: `test/test_transactions_sidebar_layout.py`(static IA), `test/test_c6_inquiry_phase2.py::test_view_detail_equivalent`(view=detail).
+> **블록** 표시는 P0 조사(`analysis/audit/transactions-menu200-p0-form-mapping.md`)에서 Publisher 정본 DFM 부재가
+> 확인된 화면 — `dfm-layout-input.mdc`(정본 DFM=공식 입력)에 따라 정본 확보 전 phase1 승격 금지.
+> 회귀 가드: `test/test_transactions_sidebar_layout.py`(static IA), `test/test_shipment_sidebar_layout.py`(물류 IA),
+> `test/test_c6_inquiry_phase2.py::test_view_detail_equivalent`(view=detail), `test/test_inbound_statement_phase1.py`(C1 facade·위젯),
+> `test/test_new_release_phase1.py`(C9 신간 facade·전표구분 고정·위젯).
+
+### 2.5 배본처관리 Sobo16_baebon — 운영 UI 감춤(2026-05)
+
+운영 요청으로 「배본처관리」(Sobo16_baebon)를 **사이드바(`MASTER_SIDEBAR_LAYOUT`)·기초관리 허브(`master/page.tsx` 카드)** 에서 감췄다.
+
+| 항목 | 처리 |
+| --- | --- |
+| 사이드바 | `MASTER_SIDEBAR_LAYOUT` 에서 항목 제거 |
+| 기초관리 허브 | `MASTER_CARDS` 배본처 카드 제거 |
+| registry menuId | `ACC-MENU-MASTERS-07` → `ACC-MENU-HIDDEN-MASTER-BAEBON` (show-first → `visible=false`, Sobo22_import 와 동일 패턴) |
+| route `/master/baebon` | **유지** (북마크·운영 URL 직접 접근) |
+| API·phase1 구현 | **유지** (기능 삭제·API 제거 아님 — 필요 시 내부/후속 재노출) |
+
+> 기능·API·phase1 정합은 그대로 유지되므로 §2 매트릭스 합계·GAP-P0 영향 없음 (UI 노출 정책 변경만).
+> 회귀 가드: `test/test_master_sidebar_layout.py`(layout 순서·HIDDEN menuId·route 유지).
+
+### 2.6 출고관리(물류 셸 · Menu200/ACC-MENU-NAV-09) 사이드바 IA (2026-05-31)
+
+물류 셸 「출고관리」를 `SHIPMENT_SIDEBAR_LAYOUT` 단일 원천으로 정렬했다. Publisher 「거래관리」
+(transactions·NAV-02)와 동일 업무 화면은 **단일 route/API** 를 공유하되, 물류 셸 노출은
+얇은 별칭(`*_shipment_alias`)으로만 추가한다 (DEC-049 billing 별칭과 동일 정책 — 정본은 transactions).
+
+| 영역 | 폼 | route |
+| --- | --- | --- |
+| 자체 물류 | 출고접수 `Sobo27` / 출고현황 `Sobo67_status` / 입고접수 `Sobo22` | `/outbound/orders`·`/outbound/status`·`/inbound/receipts` |
+| 공유 별칭 | 거래명세서·입고명세서·출고검증·신간발행 | `/transactions/*` (정본 동일) |
+
+> **동시 노출 금지**: 일반 사용자는 RBAC 매트릭스상 NAV-02(publisher) 또는 NAV-09(물류) 중 한쪽만
+> 가시하므로 두 그룹이 동시에 보이지 않는다(슈퍼유저 예외). 별칭은 배열상 정본 뒤에 두어
+> `getFormByRoute` 가 항상 transactions 정본을 반환한다.
+> 회귀 가드: `test/test_shipment_sidebar_layout.py`(layout 순서·별칭 route·NAV-09 게이트).
 
 ## 3. 폼별 5축 audit (31 DFM 폼 + 4 Wave D)
 
@@ -147,7 +182,7 @@ Sobo67_status 는 기존 승격 근거로 유지한다. 본 사이클에서는 S
 
 ### §E. Sobo39 할인율(대표)
 
-- 5축 PASS. variant `Sobo39_1/_2/_5` (할인율 2/기타/물류) 는 사이드바 별 항목 + 모던 `?type=` 단일 라우트로 통합. variant 폴더의 컬럼 차이 0건.
+- 5축 PASS. variant `Sobo39_1/_2/_5` (할인율 2/기타/물류) 는 `variant` 정본 + `type` 별칭 호환으로 통합. 할인율 CRUD(등록/저장/삭제)와 검색진행 상태바를 phase1 운영 기준으로 반영.
 - **O**: §6 — 일자별 할인 캘린더, 거래처 그룹 할인 (Phase 2 OQ-MAS-3).
 
 ### §F. Sobo45 물류비

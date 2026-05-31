@@ -1,0 +1,38 @@
+# C8 원천징수관리(Subu28) — 거래관리, S3_Ssub (Hcode=출판사)
+#
+# 정본: WeLove_FTP/도서유통-출판/Subu28.pas Button101Click (L290~L342).
+#   저자명 Gname = G3_Gjeo.Gposa (L320~L325, ('', Gcode) 폴백).
+# 레이아웃: analysis/layout_mappings/Sobo28_withholding.md
+# 서비스: backend/app/services/withholding_service.list_withholding
+# 어댑터: s3_ssub_adapt.list_select_sql (SHOW COLUMNS 동적 SELECT)
+# 멀티 DB: apply_limit_offset_syntax / limit_offset_bind / in_clause_lookup (파생 테이블·거대 IN 금지).
+
+flow: withholding
+legacy_form: Subu28
+menu: 거래관리 (원천징수)
+crud_parity: R   # 조회 전용 (인쇄 OOS — DEC-017)
+
+endpoints:
+  - method: GET
+    path: /api/v1/transactions/withholding
+    description: "원천징수 명세 — S3_Ssub 저자별 원천징수(지급/세율/소득세/주민세/실지급). 기간 + 저자코드 범위."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        date_from: string
+        date_to: string
+        hcode?: string        # 미지정 시 JWT scope 자동 주입. super 가 없으면 422.
+        gcode_from?: string
+        gcode_to?: string
+        limit?: integer
+        offset?: integer
+    responses:
+      "200":
+        body:
+          items:
+            - { gdate: string, gcode: string, gname: string, bcode: string, gssum: integer, grat1: integer, gisum: integer, gosum: integer, gbsum: integer }
+          totals: { gssum: integer, gisum: integer, gosum: integer, gbsum: integer }
+          page: { limit: integer, offset: integer, total: integer, has_more: boolean }
+      "422": { body: { detail: { code: INQ_VALIDATION, message: "hcode is required (per-publisher screen)" } } }
+      "401": { body: { detail: "Invalid or expired token" } }

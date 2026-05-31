@@ -1,4 +1,4 @@
-# 레이아웃 매핑: Sobo39 (할인율 대표 마스터) → 모던 `/master/discount` (READ only, 1차)
+# 레이아웃 매핑: Sobo39 (할인율 대표 마스터) → 모던 `/master/discount` (CRUD, phase1)
 
 DEC-028 — `Subu39/Sobo39.*` 단일 원천. DEC-023 (단일 원천 6폼 — Sobo39 4 변종 중 대표 1폼만 1차 노출). 11 섹션 구조.
 
@@ -11,9 +11,14 @@ DEC-028 — `Subu39/Sobo39.*` 단일 원천. DEC-023 (단일 원천 6폼 — Sob
 - 모던 라우트: [`도서물류관리프로그램/frontend/src/app/(app)/master/discount/page.tsx`](../../도서물류관리프로그램/frontend/src/app/(app)/master/discount/page.tsx)
 - 계약: `migration/contracts/master_data.yaml` (`/api/v1/masters/discount`)
 
-## 1. 의미 분기 — 복합 조건 폼·서브 그리드 → 1차 단순 4컬럼 그리드
+## 1. 의미 분기 — 복합 조건 폼·서브 그리드 → 모던 단일 variant CRUD
 
-레거시 Sobo39 는 dfm 위젯 수 최대(13개의 RadioButton, 16개의 Edit, 3개의 DataSet T3_Sub91~93). 4 변종(`Sobo39_1/_2/_5`) 의 차이는 검색 조건 조합·집계 단위 차이로 추정. 모던 1차는 DEC-023 단일 원천 정책에 따라 **대표 1폼**만 노출하고, 그 안에서도 `G7_Ggeo.Gpper` 4컬럼(코드/거래처명/할인율/Ocode) READ 만 보여준다(검색 라디오·기간 필터·집계 그리드는 phase2). → 위젯 매핑은 DBGrid101 4컬럼 + wrapper 만 부착.
+레거시 Sobo39 는 RadioButton 13개, Edit 16개, DataSet(T3_Sub91~93) 3종을 사용한다. 모던은 DEC-023 단일 원천 정책에 따라 대표 1폼으로 통합하되, 운영 기능은 phase1에서 **CRUD** 까지 제공한다.
+
+- variant: `base|v1|v2|v5` (`Gpper/Gpper1/Gpper2/Gpper5`)
+- URL 정본: `?variant=...`
+- 호환 입력: `?type=0|1|2|5` 도 동일 variant 로 정규화 처리
+- 상태 영역: 레거시 하단 `검색진행` 의미를 `Sobo39.SearchStatus`로 보강
 
 ## 2. dfm 영역 인벤토리 (tree.json 기준)
 
@@ -30,7 +35,7 @@ DEC-028 — `Subu39/Sobo39.*` 단일 원천. DEC-023 (단일 원천 6폼 — Sob
   - **Panel007** (진행률)
   - DataSource1/2 + **T3_Sub91/92/93** (DataSet 3종 — 일자별/거래처별/도서별 집계)
 
-## 3. 상단 그리드 패널 위젯 매핑 (1차 모던에 노출되는 부분)
+## 3. 상단 그리드 패널 위젯 매핑
 
 | dfm 위젯 | 의미 | 모던 위치 | `data-legacy-id` |
 | --- | --- | --- | --- |
@@ -40,9 +45,24 @@ DEC-028 — `Subu39/Sobo39.*` 단일 원천. DEC-023 (단일 원천 6폼 — Sob
 | `Sobo39.DBGrid101.GPPER` | 할인율(%) | `<th>` (key=gpper, align=right) | `Sobo39.DBGrid101.GPPER` |
 | `Sobo39.DBGrid101.OCODE` | Ocode | `<th>` (key=ocode) | `Sobo39.DBGrid101.OCODE` |
 
+## 3-1. 모던 CRUD 패널(현행 운영)
+
+| 모던 위젯 | 의미 | `data-legacy-id` |
+| --- | --- | --- |
+| 등록·수정 래퍼 | 코드/명칭/할인율/Ocode 편집 | `Sobo39.Panel002` |
+| 코드 입력 | 신규 코드 | `Sobo39.Panel002.Edit101` |
+| 명칭 입력 | 신규/수정 명칭 | `Sobo39.Panel002.Edit102` |
+| 할인율 입력 | variant 컬럼 값 | `Sobo39.DBGrid101.GPPER` |
+| Ocode 입력 | 신규 Ocode | `Sobo39.Panel002.Edit105` |
+| 등록 버튼 | POST | `Sobo39.Button201` |
+| 저장 버튼 | PATCH | `Sobo39.Button101` |
+| 삭제 버튼 | DELETE | `Sobo39.Button103` |
+| 검색 상태 | `0/0`, `1-100/total` | `Sobo39.SearchStatus` |
+
 ## 4. 입력·라디오·집계 패널 (1차 미노출)
 
-`Panel001/004/005/006/011/012` 일체 — 1차 미노출 (§6).
+`Panel004/005/006/011/012` 일체 — phase1 미노출 (§6).  
+`Panel001`의 핵심 검색 동작은 모던 `q + variant + 조회` 조합으로 축약 반영.
 
 ## 5. 메모/기타
 
@@ -51,7 +71,7 @@ DEC-028 — `Subu39/Sobo39.*` 단일 원천. DEC-023 (단일 원천 6폼 — Sob
 ## 6. out-of-scope 위젯 (1차 미부착)
 
 - 정적 라벨, 코너 위젯
-- **Panel001 검색 입력** (Edit101~105, DateEdit1, Button101/201/701/702, dxButton1) — phase2
+- Panel001의 다중 검색 입력(Edit101~105, DateEdit1, 라디오 결합) — phase2
 - **Panel003 (DBGrid201) 서브 그리드** — phase2
 - **Panel004/005/006/011** 라디오버튼 13개 (집계 단위·기간 단위 옵션) — phase2
 - **Panel012** 집계 라벨·합계 입력 (`Edit201~204`, `Edit301~304`, `Edit401~404`) — phase2
@@ -65,7 +85,10 @@ DEC-028 — `Subu39/Sobo39.*` 단일 원천. DEC-023 (단일 원천 6폼 — Sob
 | --- | --- |
 | 검색 입력 `<Input id="q">` (코드/거래처명 LIKE) | 단일 검색박스 — dfm 의 라디오·기간 필터 흡수 (1차) |
 | 조회 버튼 | 페이징 트리거 |
+| `variant` 셀렉터 + `type` 별칭 호환 | 레거시 변형(Sobo39_1/_2/_5) URL/메뉴 통합 |
 | `<DataGridPager>` | 서버 페이징 |
+| CRUD 편집 패널 | 운영 요구(등록/수정/삭제) 반영 |
+| `Sobo39.SearchStatus` | 레거시 하단 상태바(검색진행) 의미 보강 |
 
 ## 8. 이벤트 매핑
 
@@ -73,7 +96,10 @@ DEC-028 — `Subu39/Sobo39.*` 단일 원천. DEC-023 (단일 원천 6폼 — Sob
 | --- | --- |
 | `dxButton1.OnClick` (조회) | `load()` 페이징 트리거 (검색 박스 호출) |
 | `RadioButton*.OnClick` | 미노출 (§6) |
-| `DBGrid101.OnCellClick` | (1차 무동작 — READ only) |
+| `DBGrid101.OnCellClick` | 행 선택 후 편집 패널 draft 채움 |
+| `Button101.OnClick` | `handleSave()` → `PATCH /api/v1/masters/discount/{gcode}` |
+| `Button201.OnClick` | `handleCreate()` → `POST /api/v1/masters/discount` |
+| `Button103.OnClick` | `handleDelete()` → `DELETE /api/v1/masters/discount/{gcode}` |
 
 ## 9. 변형 차이 (`Sobo39` 본 vs `Sobo39_1/_2/_5`)
 
@@ -99,6 +125,7 @@ DEC-028 — `Subu39/Sobo39.*` 단일 원천. DEC-023 (단일 원천 6폼 — Sob
 
 | 레거시 버튼 (Subu39.pas + 변형 _1/_2/_5) | 의미 | 모던 API | UI 노출 (현 phase1 — R) | 테스트 ID |
 | --- | --- | --- | --- | --- |
-| `dxButton1.OnClick` (조회) | SELECT G7_Ggeo.Gpper* | `GET /api/v1/masters/discount?variant=…` | `/master/discount`, `/master/discount/[type]` | `test_pagination_contracts::C9MastersListPageContract::test_discount` |
-| `Button101.OnClick` (등록/저장) | UPDATE Gpper1/2/3/5 | `PATCH /api/v1/masters/discount/{hcode}?variant=…` (Wave C 후속) | 미노출 | Wave C 후속 — `test_master_discount_patch_variant` |
-| `Button103.OnClick` (삭제) | DELETE | DEC-019 OFF | **OFF** | (후속) |
+| `dxButton1.OnClick` (조회) | SELECT G7_Ggeo.Gpper* | `GET /api/v1/masters/discount?variant=…` | `/master/discount` | `test_pagination_contracts::C9MastersListPageContract::test_discount` |
+| `Button101.OnClick` (저장) | UPDATE Gpper* | `PATCH /api/v1/masters/discount/{gcode}?variant=…` | 노출 | `test_master_discount_crud_api_contract.py` |
+| `Button201.OnClick` (등록) | INSERT | `POST /api/v1/masters/discount` | 노출 | `test_master_discount_crud_api_contract.py` |
+| `Button103.OnClick` (삭제) | DELETE | `DELETE /api/v1/masters/discount/{gcode}` | 노출 | `test_master_discount_crud_api_contract.py` |
