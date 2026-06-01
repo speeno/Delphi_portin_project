@@ -17,7 +17,7 @@
 #   - S1_Memo          (Sobo21 — SELECT + UPDATE + INSERT 1차 포함, 사용자 결정 (C))
 #   - Sv_Ghng / Sb_Csum (Sobo31 이월·누적 — SELECT only)
 #   - Sg_Csum          (Sobo31/61 사전 집계 — SELECT only, OQ-OUT-2 기존 트리거 데이터 그대로 사용)
-#   - G1_Ggeo / G7_Ggeo / G4_Book / H2_Gbun  (LOOKUP only)
+#   - G1_Ggeo / G7_Ggeo / G4_Book / H2_Gbun  (지사 LOOKUP + master CRUD → master_data.yaml SQL-MAS-3H)
 #
 # 1차 미접근 (DEC-016/017/018 신설 후속):
 #   - 권한키 (F24/F31/F61/F62) → C10
@@ -105,16 +105,23 @@ inputs:
       required: true
       legacy_field: "S1_Ssub.Gdate <="
 
-  sales_statement_filter:        # /transactions/sales-statement
+  sales_statement_filter:        # /transactions/sales-statement — gcode는 zero-pad variants IN
+  sales_statement_customer_preview:  # GET .../customer-preview
     - name: gcode
       type: string
       required: false
       legacy_field: "S1_Ssub.Gcode"
       note: "Subu21 Edit104 — 거래처 코드. 없으면 본사 전체."
+    - name: gubun
+      type: string
+      required: false
+      legacy_field: "S1_Ssub.Gubun"
+      note: "Subu21 Edit102 — 거래구분(출고/반품/파지 등). 비우면 전체."
     - name: gjisa
       type: string
       required: false
       legacy_field: "S1_Ssub.Gjisa"
+      note: "Subu21 Edit106 — H2 콤보 gjisa_value(Jubun|Gname·Gname). LIST/재고/메모는 gjisa_lookup_variants IN (pipe·dot·공백 정규화)."
     - name: jubun
       type: string
       required: false
@@ -230,7 +237,11 @@ outputs:
   sales_statement_detail:
     fields:
       - { name: order_key,  type: object }
-      - { name: customer,   type: object, schema: { hcode: string, gname: string } }
+      - { name: customer,   type: object, schema: { hcode: string, gname: string, gcode: string } }
+      - { name: gubun,      type: string,  legacy: "S1_Ssub.Gubun" }
+      - { name: slip_no,    type: string,  note: "전표번호 표시 — order_key.jubun 동값" }
+      - { name: customer_profile, type: object, note: "G1_Ggeo 읽기전용 (Gadd1/2,Gtel1/2,Gposa 등)" }
+      - { name: stock_qty,  type: integer, default: 0, note: "재고 Label104 — Phase1 SUM(Gsqut) placeholder; Phase2 PrinJing(Sv_Ghng) — barcode_scan.yaml 참고" }
       - lines:
           - { name: gcode,         type: string,  legacy: "S1_Ssub.Gcode" }
           - { name: bcode,         type: string,  legacy: "S1_Ssub.Bcode" }
@@ -327,7 +338,7 @@ data_access:
         - "Hcode = :hcode"
         - "Ocode = 'B'"
         - "[Gcode = :gcode]"
-        - "[Gjisa = :gjisa]"
+        - "[Gjisa IN gjisa_lookup_variants(:gjisa)]"
         - "[Jubun = :jubun]"
       group_by: ["Gdate", "Hcode", "Jubun", "Gjisa"]
       order_by: ["Gdate DESC", "Hcode"]
@@ -347,7 +358,7 @@ data_access:
         - "Gdate = :gdate"
         - "Hcode = :hcode"
         - "Jubun = :jubun"
-        - "Gjisa = :gjisa"
+        - "COALESCE(Gjisa,'') IN gjisa_lookup_variants(:gjisa)"
       order_by: ["Gcode", "Bcode"]
       bind: parameterized
     notes:
@@ -517,6 +528,29 @@ endpoints:
           limit: integer        # = page.limit
           offset: integer       # = page.offset
       "401": { body: { detail: "Invalid or expired token" } }
+
+  - method: GET
+    path: /api/v1/transactions/sales-statement/customer-preview
+    description: "목록 참조 패널 — G1 프로필 + 당일 S1_Memo(Button301) + S1_Ssub 재고 합 (Sobo21 Panel003)."
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        gcode: string
+        date_from: string
+        date_to: string
+        hcode?: string
+        gubun?: string
+        jubun?: string
+        gjisa?: string
+    responses:
+      "200":
+        body:
+          gcode: string
+          customer_profile: { gname, gadd1, gadd2, address, phone, fax, gposa, gpost, gbigo, name1, remark1, remark2, customer_memo }
+          stock_qty: integer
+          memo_preview: { gbigo, sbigo, gtel1, gtel2, gname, gpost }
+      "422": { body: { code: "INQ_VALIDATION" } }
 
   - method: GET
     path: /api/v1/transactions/sales-statement/{order_key}
@@ -774,6 +808,13 @@ out_of_scope:
 # 10. 변경 이력
 # ---------------------------------------------------------------
 changelog:
+  - date: 2026-06-01
+    version: 1.4.0
+    note: |
+      출고/거래 공통 검색창 rollout 반영.
+      - `/transactions/*` 필터 입력을 `MasterLookupField` 기반으로 통일.
+      - hcode(G7)=publisher, gcode(G1)=customer, bcode=book, 저자코드=author 매핑 고정.
+      - API/SQL/응답 스키마 변경 없음 (equivalence.ux만 보강).
   - date: 2026-04-18
     note: "최초 draft. 4폼 묶음 + S1_Memo UPSERT 1차 포함, DEC-016/017/018 신설 예약."
   - date: 2026-04-19
@@ -797,6 +838,13 @@ changelog:
 # 본 섹션은 Sobo21 + Sobo48 의 phase2 변형(view 모드 / audit 비교)만 추가.
 # 단일 원천: migration/contracts/_phase2_screen_to_contract_map.yaml
 phase2_addendum:
+  sales_statement_stock_prinjing:
+    base_legacy: Sobo21
+    dec: DEC-064
+    label104_legacy: "Tong02.pas PrinJing → Sv_Ghng SUM(GsumX) by Bcode (창고 재고)"
+    phase1_placeholder: "compute_sales_statement_stock_qty — SUM(Gsqut) on S1_Ssub + gjisa_lookup_variants IN"
+    phase2_target: "PrinJing/Sv_Ghng 포팅 — customer-preview·detail stock_qty 수치 동등 (예: Label104 694)"
+    regression_test: "test/test_sales_statement_stock_prinjing.py (Phase 2 예약)"
   transactions_status_view:
     base_legacy: Sobo21
     # 단일 진실: 기존 GET /api/v1/transactions/sales-statement 서비스 함수

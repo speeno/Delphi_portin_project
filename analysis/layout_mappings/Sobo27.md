@@ -197,6 +197,12 @@ DEC-009 (인쇄는 후속) 의 후속이 본 C7. Sobo27 자체는 목록 화면�
 >
 > **base variant byte-identical 보장**: variant 미지정 시 또는 `variant=base` 시 Phase 1 산출물과 byte 동일 (테스트로 검증).
 
+## 11.2 2026-06 공통 검색창 보강
+
+- `/outbound/orders` 필터 `hcode` 와 `/outbound/orders/new` 헤더 `hcode` 를 `MasterLookupField(lookupKind="publisher")` 로 통일했다.
+- 라인 그리드는 `gcode=publisher`, `bcode=book` lookup 버튼을 추가해 코드 직접 입력과 팝업 검색을 동시에 지원한다.
+- `Sobo27.Edit101` 등 기존 레거시 입력 ID는 유지하고 검색 버튼만 `Sobo27.Lookup*` 계열로 확장했다.
+
 ## 12. 참조
 
 - DEC-028: dfm→html 산출물 영구 입력 동결.

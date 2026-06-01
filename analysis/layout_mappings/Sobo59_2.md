@@ -31,6 +31,13 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, TabOrder, DBGrid 
 | `dxButton1` | TdxButton | 검색 | `onSubmit` → 검증 대상 조회 |
 | `RadioButton1`/`RadioButton2` | TFlatRadioButton | 접수중/사용중 | 상태 토글 |
 
+### 2.1 2026-06 공통 검색창 보강
+
+- `Edit103`(출판사 시작), `Edit105`(출판사 끝) 필터에
+  `MasterLookupField(lookupKind="publisher")` 를 연결했다.
+- 기존 입력 필드 ID(`Sobo59_2.Edit103`, `Sobo59_2.Edit105`)를 유지하고
+  검색 버튼 `Sobo59_2.LookupHcodeFrom/To` 를 추가했다.
+
 ## 3. 그리드 (3종, 컬럼은 dfm 직접 비교 후 확정)
 
 | 그리드 | 역할 | 비고 |

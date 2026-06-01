@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-06-01T02:34:07.065039+00:00",
+  "gcode": "00001",
+  "gdate": "2026-05-14",
+  "gubun": "출고",
+  "jubun": "",
+  "servers": {
+    "remote_138": {
+      "server_id": "remote_138",
+      "ok": true,
+      "distinct_gjisa": [],
+      "candidate_counts": [
+        {
+          "gjisa_filter": "01|광화문점",
+          "count": 0,
+          "variants": [
+            "01|광화문점",
+            "01.광화문점",
+            "광화문점"
+          ]
+        },
+        {
+          "gjisa_filter": "광화문점",
+          "count": 0,
+          "variants": [
+            "광화문점"
+          ]
+        },
+        {
+          "gjisa_filter": "2|부곡리(매장)",
+          "count": 0,
+          "variants": [
+            "2|부곡리(매장)",
+            "2.부곡리(매장)",
+            "부곡리(매장)"
+          ]
+        },
+        {
+          "gjisa_filter": "2.부곡리(매장)",
+          "count": 0,
+          "variants": [
+            "2.부곡리(매장)",
+            "2|부곡리(매장)",
+            "부곡리(매장)"
+          ]
+        },
+        {
+          "gjisa_filter": "부곡리(매장)",
+          "count": 0,
+          "variants": [
+            "부곡리(매장)"
+          ]
+        },
+        {
+          "gjisa_filter": "부곡리 (매장)",
+          "count": 0,
+          "variants": [
+            "부곡리 (매장)",
+            "부곡리(매장)"
+          ]
+        }
+      ]
+    },
+    "remote_153": {
+      "server_id": "remote_153",
+      "ok": true,
+      "distinct_gjisa": [],
+      "candidate_counts": [
+        {
+          "gjisa_filter": "01|광화문점",
+          "count": 0,
+          "variants": [
+            "01|광화문점",
+            "01.광화문점",
+            "광화문점"
+          ]
+        },
+        {
+          "gjisa_filter": "광화문점",
+          "count": 0,
+          "variants": [
+            "광화문점"
+          ]
+        },
+        {
+          "gjisa_filter": "2|부곡리(매장)",
+          "count": 0,
+          "variants": [
+            "2|부곡리(매장)",
+            "2.부곡리(매장)",
+            "부곡리(매장)"
+          ]
+        },
+        {
+          "gjisa_filter": "2.부곡리(매장)",
+          "count": 0,
+          "variants": [
+            "2.부곡리(매장)",
+            "2|부곡리(매장)",
+            "부곡리(매장)"
+          ]
+        },
+        {
+          "gjisa_filter": "부곡리(매장)",
+          "count": 0,
+          "variants": [
+            "부곡리(매장)"
+          ]
+        },
+        {
+          "gjisa_filter": "부곡리 (매장)",
+          "count": 0,
+          "variants": [
+            "부곡리 (매장)",
+            "부곡리(매장)"
+          ]
+        }
+      ]
+    },
+    "remote_154": {
+      "server_id": "remote_154",
+      "ok": false,
+      "error": "OperationalError: (1129, \"Host 'localhost' is blocked because of many connection errors.  Unblock with 'mysqladmin flush-hosts'\")"
+    },
+    "remote_155": {
+      "server_id": "remote_155",
+      "ok": false,
+      "error": "OperationalError: (1129, \"Host 'localhost' is blocked because of many connection errors.  Unblock with 'mysqladmin flush-hosts'\")"
+    }
+  }
+}

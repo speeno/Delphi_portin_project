@@ -153,6 +153,24 @@ Sobo67_status 는 기존 승격 근거로 유지한다. 본 사이클에서는 S
 > `getFormByRoute` 가 항상 transactions 정본을 반환한다.
 > 회귀 가드: `test/test_shipment_sidebar_layout.py`(layout 순서·별칭 route·NAV-09 게이트).
 
+### 2.7 입고관리 대메뉴 신설 + 택배 한진 1차 (2026-06-01)
+
+`inbound` 대메뉴를 신규 추가하고, 출고/거래에 흩어진 입고 항목을 `INBOUND_SIDEBAR_LAYOUT`
+정본으로 재배치했다.
+
+| 영역 | 항목 | route |
+| --- | --- | --- |
+| 입고접수 | Sobo22 | /inbound/receipts |
+| 입고명세서 | Sobo22_inbound_statement | /transactions/inbound-statement |
+| 입고현황 | Sobo25_status_list/detail/summary | /transactions/inbound-status?view=* |
+| 입고내역서 | Sobo54 / Sobo57 | /inbound/reports/daily /period |
+| 업로드(숨김) | Sobo22_import | /inbound/import |
+
+추가로 Sobo28 택배관리는 `/api/v1/delivery/dispatch` 계층을 통해
+운송장 저장 + 배송조회(한진 우선, 미설정/오류시 manual fallback)를 지원한다.
+회귀 가드: `test/test_inbound_sidebar_layout.py`, `test/test_c2_delivery_dispatch.py`,
+`test/test_hanjin_client.py`.
+
 ## 3. 폼별 5축 audit (31 DFM 폼 + 4 Wave D)
 
 각 § 은 **2.5 매트릭스 1행 + 핵심 발견** 만 기록. 위젯 표·이벤트 매핑 등 풀 깊이는 `analysis/layout_mappings/<form>.md` (단일 원천) 가 가진다 — 여기서는 중복 기록 금지.
@@ -160,7 +178,7 @@ Sobo67_status 는 기존 승격 근거로 유지한다. 본 사이클에서는 S
 ### §A. Sobo11 거래처관리 (master)
 
 - **W**: PASS — Sobo11.md §3·§4 기준 목록(DBGrid101) + 상세/신규(Panel002·Panel004 통합: `Edit101` 드롭다운, `DBGrid201`, `Edit201/202`, `Button201~203`).
-- **B**: PASS — `Subu11.pas`의 G1_Ggeo/G1_Gbun 저장·삭제 흐름을 `/api/v1/masters/customer*` + `/customer-categories*` CRUD로 복원.
+- **B**: PASS — `Subu11.pas`의 G1_Ggeo/G1_Gbun 저장·삭제 흐름을 `/api/v1/masters/customer*` + `/customer-categories*` CRUD로 복원. **H2_Gbun(지사)** 는 `Seok10` → `/customer/{gcode}/branches` CRUD + 거래명세서 `Edit106` 콤보 연동(2026-06).
 - **U**: PASS — TabOrder hcode → hname → 조회 순(매핑 §3) 보존. 캘린더 OOS.
 - **D**: PASS — `HCODE/HNAME/HTEL/HPOST/HBIGO` 1:1, 신설 `last_login`/`updated_at` 은 deltas.
 - **O**: §6 — Edit107/108 출판사 검색·Panel004 자동알람 라디오·CornerButton Print/Bar 모두 OOS-MAS-2 (마스터는 read-only 인쇄 후속).
@@ -204,12 +222,14 @@ Sobo67_status 는 기존 승격 근거로 유지한다. 본 사이클에서는 S
 ### §I. Sobo27 출고접수
 
 - W/B/U/D PASS — Sobo27.md §3·§4 부착 ~10 종 (`Edit101`,`Panel101`,`Button101`/`dxButton1`,`Button201`,`DBGrid101.GCODE/GOQUT/GSQUT/CODE3`,`StBar101`,`FormClose`).
+- 2026-06: 목록/신규/상세 라인 입력에 `MasterLookupField`(publisher/book) 공통 검색창 적용.
 - **deltas (P2)**: 종료일·거래처 코드·취소 포함·DataGridPager 모두 §7 명시. Subu27 vs Subu27_1 = UI diff 0행, 로직 22행 차이는 `customer_variants` 흡수.
 - **O**: §6 — 자동알람 Panel004, 신간 필터 Panel005, 출고증 인쇄 라디오 Panel011, 진행 ProgressBar Panel007, DBGrid 이미지 컬럼, 출판사 검색 Edit102~105.
 
 ### §J. Sobo21 거래명세서
 
-- 5축 PASS. Sobo21.md §3·§4·§5 — 목록 + 상세 메모 카드. UPSERT(저장) Button801 매핑. 상세 라인 `GDANG`/`GRAT1`/`Yesno`(배송) + `data-legacy-id`·하단 수량/금액 합계. 목록 `jubun`·`gjisa`·`gubun` 검색.
+- 5축 PASS. Sobo21.md §3·§4·§5 — 목록 하단 참조·메모 패널(공통 컴포넌트) + 상세 라인. `stock_qty` S1_Ssub SUM·`customer-preview` API. UPSERT Button801·주소가져오기 802. 목록 `gcode` variants IN·`gjisa`(Edit106)·지사 로드 오류 표시. 조회 가드 `CUSTOMER_SHIPPING_STOP`/`BRANCH_SHIPPING_STOP`.
+- 2026-06: 목록 `gcode` = `MasterLookupField(customer)`; 상세 G1 참조 패널 + Button802 주소 가져오기; 메모 필드 라벨 pas 정본(비고1/2·핸드폰·받는사람·우편번호).
 - **deltas (P2)**: 종료일·페이지네이터·상세 라우트 분리·메모 신규/수정 안내.
 - **O**: §6 — Edit106 전표구분 콤보, 출판사 검색 4종, 인쇄/바코드(DEC-017/018), 재고·전일미수·RTF 툴바.
 

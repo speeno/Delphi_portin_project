@@ -92,6 +92,17 @@ dfm 의 검색용 `Edit*` 1:1 대응 위젯이 없어 모던 신설(§7 deltas, 
 | `Sobo11.Edit201/202` | 거래처구분 코드/명 | 상세/신규 구분 관리 패널 | 동일 ID |
 | `Sobo11.Button201/202/203` | 거래처구분 등록/저장/삭제 | 상세/신규 구분 관리 패널 | 동일 ID |
 
+### 4.1 지사 마스터 (Seok10 / H2_Gbun) — Panel003 과 별개
+
+레거시 `Sobo11.Button007Click` → `Seok10` 모달(`H2_Gbun` CRUD). **Panel003/004 는 G1_Gbun(거래처구분) 전용** — 혼동 금지.
+
+| 레거시 | 의미 | 모던 | `data-legacy-id` |
+| --- | --- | --- | --- |
+| `Button007` | 지사 관리 열기 | 상세/신규 `CustomerBranchCollapsible` | `Seok10.Seok10` |
+| `Seok10.DBGrid101` | 지사 그리드 | `CustomerBranchPanel` DataGrid | `Seok10.DBGrid101` |
+| `Seok10.BitBtn101/102` | 등록/저장 | 지사 패널 버튼 | 동일 ID |
+| API | `H2_Gbun` CRUD | `GET/POST/PATCH/DELETE /api/v1/masters/customer/{gcode}/branches` | `master_data.yaml` SQL-MAS-3H-* |
+
 > 상세 필드 매핑 정본은 `Sobo11.pas_analysis.json runtime_assignments` 기준으로 유지한다.
 
 ## 5. 메모/기타 (해당 없음)

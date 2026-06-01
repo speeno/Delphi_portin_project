@@ -154,7 +154,15 @@ class C6SalesStatementTests(TestCase):
         async def fake_detail(**kwargs):  # noqa: ARG001
             return {
                 "order_key": VALID_KEY,
-                "customer": {"hcode": "A0001", "gname": "테스트거래처"},
+                "customer": {"hcode": "A0001", "gname": "테스트거래처", "gcode": "G01"},
+                "gubun": "출고",
+                "slip_no": "120000000001",
+                "customer_profile": {
+                    "gname": "테스트거래처",
+                    "address": "서울 테스트",
+                    "phone": "02-000-0000",
+                },
+                "stock_qty": 0,
                 "status": "active",
                 "lines": [
                     {

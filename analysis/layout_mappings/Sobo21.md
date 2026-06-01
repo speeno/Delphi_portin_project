@@ -16,10 +16,10 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 
 ## 1. 의미적 분기 — dfm 1:1 복제가 아닌 이유 (필수 선언)
 
-레거시 `Sobo21` 은 **단일 화면(top 검색 + mid 그리드 + bot 상세 입력 패널)** 에서 거래명세서 조회·라인 표시·메모(연락처·비고) 편집을 모달리스로 동시에 수행. 모던 C6 phase1 은 contract 결정에 따라 **목록(list) ↔ 상세(detail+memo)** 두 라우트로 분리:
+레거시 `Sobo21` 은 **단일 화면(top 검색 + mid 그리드 + bot 상세 입력 패널)** 에서 거래명세서 조회·라인 표시·메모(연락처·비고) 편집을 모달리스로 동시에 수행. 모던 C6 는 **목록 + 상세** 두 라우트이며, 2026-06 보강으로 목록 하단에 **참조·메모 패널** 을 복원했다:
 
-- 검색·그리드 → `sales-statement/page.tsx` (DataGridPager 신설, `?include_cancelled` 토글 추가)
-- 행 상세·메모 → `sales-statement/[orderKey]/page.tsx` (PATCH UPSERT, action 응답으로 inserted/updated 노출)
+- 검색·그리드·**하단 참조/메모** → `sales-statement/page.tsx` + `sales-statement-reference-panel.tsx` / `sales-statement-memo-panel.tsx`
+- 행 선택 → 목록에서 메모 UPSERT; **상세 화면 열기** → `[orderKey]/page.tsx` (라인 그리드 + 동일 패널 컴포넌트 재사용)
 
 따라서 본 매핑은:
 
@@ -45,12 +45,14 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 | 0 | `Edit101` | TFlatMaskEdit | 거래일자 (mask `!9999.!99.99;1;`) | `<Input id="from" type="date">` (line 179~184) | input(from) | dfm 단일 일자 → 모던 범위(from) |
 | — | (모던 신규) | — | 종료일 | `<Input id="to" type="date">` (line 188~193) | input(to) | §7 deltas |
 | 8 | `Panel101` | TFlatPanel | "거래일자" 라벨 | `<Label htmlFor="from">시작일</Label>` (line 178) | label(from) | 캡션 의미 매핑 |
-| 13 | `Panel104` | TFlatPanel | "거래처코드" 라벨 | `<Label htmlFor="hcode">거래처 코드 *</Label>` (line 168) | label(hcode) | hcode 필드는 모던 필수 |
-| 12 | `Panel105` | TFlatPanel | "거래처명" 라벨 | (모던: 거래처명은 응답 customer_name 으로 표시 — 별도 입력 없음) | — | 의미 일치 위젯 없음 → §7 deltas |
-| 11 | `Panel102` | TFlatPanel | "출판사코드" 라벨 | **out-of-scope** | — | 1차 hcode 단일 검색 |
-| 10 | `Panel103` | TFlatPanel | "전표구분" 라벨 | **out-of-scope** | — | 전표구분 검색은 후속 |
-| (n/a) | `Edit103/104/105` | TFlatEdit | 거래처코드/거래처명/(보조) | `<Input id="hcode">` (line 169~175) | input(hcode) | dfm 의 코드+명 분리 → 모던은 hcode 단일 (자동완성 후속) |
-| (n/a) | `Edit106` | TFlatComboBox | 전표구분 | **out-of-scope** | — | |
+| 13 | `Panel104` | TFlatPanel | "거래처코드" 라벨 | `<Label htmlFor="gcode">` + `MasterLookupField(customer)` | `Sobo21.Edit104` | Subu21 L512 `@Gcode` = Edit104 |
+| 12 | `Panel105` | TFlatPanel | "거래처명" 라벨 | `<Input id="customerName" readOnly>` | `Sobo21.Edit105` | lookup 선택명 표시 |
+| 11 | `Panel102` | TFlatPanel | "출판사코드" 라벨 | **out-of-scope** | — | Edit107 출판사 |
+| 10 | `Panel103` | TFlatPanel | "거래구분" 라벨 | `<select id="gubun">` 출고/반품/파지 | `Sobo21.Edit102` | Subu21 L510 `@Gubun` |
+| (n/a) | `Edit103` | TFlatEdit | 전표번호 | `<Input id="jubun">` | `Sobo21.Edit103` | |
+| (n/a) | `Edit104` | TFlatEdit | 거래처코드 | `MasterLookupField` value | `Sobo21.Edit104` | |
+| (n/a) | `Edit105` | TFlatEdit | 거래처명 | readOnly 표시 | `Sobo21.Edit105` | |
+| (n/a) | `Edit106` | TFlatComboBox | 지사(Gjisa) | `<select id="gjisa">` — `customerBranchList` 동적 로드, 0건 시 숨김 | `Sobo21.Edit106` | Subu21 L1048–1070 `H2_Gbun` |
 | (n/a) | `Edit107/108` | TFlatEdit | 출판사코드/명 | **out-of-scope** | — | |
 | (n/a) | `Edit109` | TFlatEdit | 보조 | **out-of-scope** | — | |
 | (n/a) | `DateEdit1` | TDateEdit | 캘린더 팝업 | (HTML5 date input 내장) | — | §7 deltas |
@@ -86,43 +88,45 @@ dfm `DBGrid101` 컬럼 9개 (라인 단위 표시):
 
 > 그리드 의미 차이: dfm = "한 거래의 모든 라인 평면 표시", 모던 목록 = "거래 1건당 1행 (group by gdate/hcode/jubun/gjisa) + 상세 라우트로 라인 노출". 라인 수준 컬럼(PUBUN/BCODE/BNAME/GDANG/GRAT1/GBIGO) 은 상세 페이지의 `lineColumns` 로 이전 — `GBIGO` 만 의미가 명확하므로 `data-legacy-id` 부착.
 
-## 5. 하단 입력·메모 패널 매핑 (Panel003 → 상세 페이지) — S1_Memo UPSERT
+## 5. 하단 입력·메모 패널 매핑 (Panel003) — 목록·상세 공통 컴포넌트
 
-dfm Panel003 의 입력 위젯 → 모던 `[orderKey]/page.tsx` 메모 카드 매핑:
+dfm Panel003 → `sales-statement-reference-panel.tsx` (참조) + `sales-statement-memo-panel.tsx` (S1_Memo UPSERT).
 
-| dfm 위젯 ID | 클래스 | dfm 라벨/용도 | S1_Memo 컬럼 | 모던 위젯 (line) | data-legacy-id |
+- **목록** `page.tsx`: 거래처·검색 조건으로 `GET .../customer-preview` (G1·`memo_preview`·재고); 그리드 행 선택 시 `detail` 로 메모 편집.
+- **상세** `[orderKey]/page.tsx`: 동일 컴포넌트 재사용.
+
+| dfm 위젯 ID | 클래스 | dfm 라벨/용도 | S1_Memo 컬럼 | 모던 위젯 | data-legacy-id |
 | --- | --- | --- | --- | --- | --- |
-| `Panel201` | TFlatPanel | "전표번호" 라벨 | (key — `order_key.jubun`) | 헤더 텍스트 (line 126) | header(jubun) — `data-legacy-id="Sobo21.Panel201"` |
-| `Panel202` | TFlatPanel | "전화번호" 라벨 | Gtel1 | `<Label htmlFor="gtel1">전화1</Label>` (line 197) | label(gtel1) |
-| `Panel204` | TFlatPanel | "주소" 라벨 | Gpost (혼용) | `<Label htmlFor="gpost">우편번호 (gpost)</Label>` (line 214) | label(gpost) — 우편번호+주소 의미 통합 |
-| `Panel203` | TFlatPanel | "메모" 라벨 | Gbigo | `<Label htmlFor="gbigo">비고 (gbigo)</Label>` (line 222) | label(gbigo) |
-| `Edit201` | TFlatEdit | (전표번호 표시) | — | 헤더 텍스트 (line 126) | (Panel201 과 통합) |
-| `Edit202` | TFlatEdit | 전화번호 1 | Gtel1 | `<Input id="gtel1">` (line 198~202) | input(gtel1) — `data-legacy-id="Sobo21.Edit202"` |
-| `Edit203` | TFlatEdit | 전화번호 2 | Gtel2 | `<Input id="gtel2">` (line 205~210) | input(gtel2) — `data-legacy-id="Sobo21.Edit203"` |
-| `Edit204` | TFlatEdit | (보조) | — | (out-of-scope — 모던은 gtel1/2 만) | — |
-| `Edit205` | TFlatEdit | 주소 | Gpost | `<Input id="gpost">` (line 215~219) | input(gpost) — `data-legacy-id="Sobo21.Edit205"` |
-| `Edit206` | TFlatEdit | 메모 | Gbigo | `<textarea id="gbigo">` (line 223~228) | textarea(gbigo) — `data-legacy-id="Sobo21.Edit206"` |
-| `Edit207` | TFlatEdit | 소비고 | Sbigo | `<textarea id="sbigo">` (line 232~238) | textarea(sbigo) — `data-legacy-id="Sobo21.Edit207"` |
-| `Edit208` | TFlatEdit | 보조 | — | **out-of-scope** | — |
-| `StaticText1~4` | TStaticText | "코드우편호"/"전화번호"/"휴대상세"/"우편번호" 안내 | — | (label 내부 텍스트로 흡수) | — |
-| `Button801` | TFlatButton (Caption='저장') | 저장 (UPDATE) | — | `<Button onClick=onSaveMemo>메모 저장` (line 239~242) | button(저장) — `data-legacy-id="Sobo21.Button801"` |
-| `Button802` | TFlatButton | 보조 | — | **out-of-scope** | — |
-| `Button803` | TFlatButton | 보조 | — | **out-of-scope** | — |
-
-추가:
-
-- 거래처명 입력 (`gname` field) — dfm 에서는 메모 패널 외 라벨 영역(Panel105)에 노출 → 모던은 메모 카드에 추가됨 (`<Input id="gname">` line 188~193). 의미 매핑 가능 → `data-legacy-id="Sobo21.Panel105"` 부착 (dfm 위젯 의미를 메모 카드로 흡수 표시).
+| `Panel201` | TFlatPanel | "전표번호" 라벨 | `order_key.jubun` | `<Input readOnly Edit201>` | `Sobo21.Edit201` |
+| `Panel202` | TFlatPanel | "전화번호" 라벨 | G1_Ggeo 읽기전용 | `<Input readOnly Edit202>` | `Sobo21.Edit202` |
+| `Panel204` | TFlatPanel | "주소" 라벨 | G1 `Gadd1` | 참조 패널 address | `Sobo21.Panel204` |
+| `Panel203` | TFlatPanel | "추가 내용" | G1 `Memos`(RTF)+S1 `Gbigo` | 참조 패널 textarea | `Sobo21.Edit203` |
+| `Edit203` | TFlatEdit | 비고1 | G1 `Gbigo`/`Email` | 참조 비고1 | `Sobo21.Edit203` (라벨 분리) |
+| `Edit204` | TFlatEdit | 비고2 | G1 `Name1` | 참조 비고2 | `Sobo21.Edit204` |
+| `Edit201` | TFlatEdit | 전표번호 표시 | — | readOnly `slip_no` | `Sobo21.Edit201` |
+| `Edit202` | TFlatEdit | 전화번호(마스터) | G1 | readOnly phone | `Sobo21.Edit202` |
+| `Edit203` | TFlatEdit | 비고1 / 업무 메모 | Gbigo (Button301) | 참조 패널 read-only textarea | `Sobo21.Edit203` |
+| `Edit204` | TFlatEdit | 비고2 | Sbigo | `<textarea sbigo>` | `Sobo21.Edit204` |
+| `Edit205` | TFlatEdit | 핸드폰 | Gtel1 | `<Input gtel1>` | `Sobo21.Edit205` |
+| `Edit206` | TFlatEdit | 전화 | Gtel2 | `<Input gtel2>` | `Sobo21.Edit206` |
+| `Edit207` | TFlatEdit | 받는사람 | Gname | `<Input gname>` | `Sobo21.Edit207` |
+| `Edit208` | TFlatEdit | 우편번호 | Gpost | `<Input gpost>` | `Sobo21.Edit208` |
+| `StaticText1~4` | TStaticText | 핸드폰/전화/받는사람/우편번호 | — | Label htmlFor | `Sobo21.StaticText1` … `4` |
+| `Label103/104` | TmyLabel3d | 재고 | SUM(Gsqut) placeholder | `stock_qty` 표시 | `Sobo21.Label103` / `Label104` — Phase2 PrinJing |
+| `Button801` | TFlatButton | 저장 | UPSERT | 메모 저장 | `Sobo21.Button801` |
+| `Button802` | TFlatButton | 주소가져오기 | G1→메모 프리필 | 주소 가져오기 | `Sobo21.Button802` |
+| `Button803` | TFlatButton | 우편조회 | **out-of-scope** | — | — |
 
 ## 6. out-of-scope 위젯 (1차 미사용)
 
 | 분류 | dfm 위젯 | 사유 |
 | --- | --- | --- |
-| 검색 | Edit102 (TFlatComboBox), Edit106 (combo, 전표구분) | 1차는 hcode/일자 단일 검색 |
+| 검색 | Edit107/108 (출판사) | OOS-INQ-6 |
 | 검색 | Edit107/108 (출판사코드/명) | 모던은 거래처 단위 |
 | 검색 | Edit109 | 보조 |
 | 진행 | Panel007 / ProgressBar0/1 / Panel008~010 | React `loading` boolean 으로 흡수 |
 | 인쇄 | Button701/702/901, Panel401 | DEC-017 — C7 인쇄 후속 |
-| 라인 | Edit204/208, Button802/803 | 1차 메모 핵심 필드만 노출 |
+| 라인 | Button803 (우편 팝업) | C8/우편 후속 |
 
 ## 7. Deltas — 모던에 신설되었거나 dfm 에서 빠진 위젯
 
@@ -133,7 +137,9 @@ dfm Panel003 의 입력 위젯 → 모던 `[orderKey]/page.tsx` 메모 카드 �
 | 모던 신규 | DataGridPager | `sales-statement/page.tsx` line 235~243 | dfm 모달리스 → 모던 페이지네이션 |
 | 모던 신규 | 상세 라우트 분리 | `sales-statement/[orderKey]/page.tsx` 전체 | dfm 은 단일 화면 — 모던은 list/detail 분리 |
 | 모던 신규 | 라인 그리드 (`lineColumns`) | 상세 `[orderKey]/page.tsx` | dfm DBGrid 라인 컬럼 이전 — 단가·비율·배송(yesno)·합계 푸터(`FooterRow`) 포함 |
-| 모던 신규 | 목록 필터 전표·지사 | `sales-statement/page.tsx` | 쿼리 `jubun` / `gjisa` — 백엔드 LIST 기존 지원 |
+| 모던 신규 | 목록 필터 gcode·gubun·지사·전표 | `sales-statement/page.tsx` | `gcode`/`gubun`/`jubun`/`gjisa` + customer lookup |
+| 모던 신규 | 상세 G1 참조 + 주소가져오기 | `[orderKey]/page.tsx` | `customer_profile` + Button802 |
+| 모던 신규 | 당일만 토글 | 목록 | Edit101 단일일자 체감 |
 | 모던 신규 | "메모 신규/수정" 안내 + UPSERT action 메시지 | 상세 line 94~98, 184 | PATCH 응답의 `action` 노출 (계약 추가 동작) |
 | dfm out-of-scope | 출판사 검색 4종 | — | C6 1차 = 거래처 hcode 단일 |
 | dfm out-of-scope | 인쇄/바코드 트리거 | — | DEC-017/018 후속 |
@@ -205,6 +211,12 @@ DEC-017 의 종결 (2번째 — 본 노트가 거래명세서 본진).
 | 인수증 바코드 | 전표번호 Code128 | `Sobo21.Triplicate.SlipBarcode` |
 
 기본 PDF(`layout` 생략·`default`)는 §11 의 2단 수동 빌더 유지 — 본 절은 **옵트인** 삼련만 적용.
+
+## 12.1 2026-06 공통 검색창 보강
+
+- 목록 필터 `hcode` 는 `MasterLookupField(lookupKind="publisher")` + `MasterLookupButton` 으로 보강했다.
+- `data-legacy-id="Sobo21.Edit103"` 입력은 유지하고 버튼은 `Sobo21.LookupHcode` 로 추가했다.
+- 조회 파라미터 계약은 기존 `hcode` 그대로 유지하며 API/SQL 변경은 없다.
 
 ## 13. 참조
 

@@ -891,6 +891,14 @@ customer_variants:
 # 10. 변경 이력
 # ---------------------------------------------------------------
 changelog:
+  - date: 2026-06-01
+    by: porting-team
+    note: |
+      1.3.0 — 출고/거래 공통 검색창 rollout 연동.
+      - `/inbound/receipts`·`/inbound/receipts/new`·`/transactions/inbound-statement`의
+        hcode/gcode/bcode 검색 필드를 `MasterLookupField`로 통일.
+      - 매핑 고정: hcode=publisher(G7), gcode=inboundVendor(G2), bcode=book(G4).
+      - API/SQL 계약 변경 없음 (UI/equivalence.ux만 보강).
   - date: 2026-04-19
     by: porting-team
     note: |

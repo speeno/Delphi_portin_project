@@ -214,6 +214,11 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "masters.customer_branches",
+            "path": f"/api/v1/masters/customer/_/branches?serverId={sid}&limit=1",
+            "ok_status": {200},
+        },
+        {
             "group": "masters.book",
             "path": f"/api/v1/masters/book?serverId={sid}&limit=1",
             "ok_status": {200},
@@ -437,6 +442,14 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "delivery.dispatch",
+            "path": (
+                f"/api/v1/delivery/dispatch?serverId={sid}"
+                f"&ship_date={df}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
             "group": "inbound.receipts",
             "path": (
                 f"/api/v1/inbound/receipts?serverId={sid}"
@@ -535,6 +548,14 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
                 f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
             ),
             "ok_status": {200},
+        },
+        {
+            "group": "transactions.statement_preview",
+            "path": (
+                f"/api/v1/transactions/sales-statement/customer-preview?serverId={sid}"
+                f"&gcode=1&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200, 422},
         },
         # C1 입고명세서 facade (Menu202) — inbound_service.list_receipts 재사용.
         {

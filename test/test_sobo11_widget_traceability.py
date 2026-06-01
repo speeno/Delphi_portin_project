@@ -22,6 +22,8 @@ class Sobo11WidgetTraceability(TestCase):
             FRONT / "app" / "(app)" / "master" / "customer" / "new" / "page.tsx",
             FRONT / "components" / "master" / "customer-detail-form.tsx",
             FRONT / "components" / "master" / "customer-category-panel.tsx",
+            FRONT / "components" / "master" / "customer-branch-panel.tsx",
+            FRONT / "components" / "master" / "customer-branch-collapsible.tsx",
         ]
         merged = "\n".join(_read(p) for p in pages)
         for legacy_id in (
@@ -72,6 +74,8 @@ class Sobo11WidgetTraceability(TestCase):
         new_src = _read(new_page)
         self.assertIn("CustomerCategoryCollapsible", detail_src)
         self.assertIn("CustomerCategoryCollapsible", new_src)
+        self.assertIn("CustomerBranchCollapsible", detail_src)
+        self.assertIn("CustomerBranchCollapsible", new_src)
         self.assertIn("onChanged", detail_src)
         self.assertIn("gbunReloadKey", detail_src)
         self.assertIn("CustomerCategoryCollapsible", detail_src)

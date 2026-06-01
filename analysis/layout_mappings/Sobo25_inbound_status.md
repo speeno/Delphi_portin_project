@@ -36,6 +36,12 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, TabOrder, DBGrid 
 고정 조건: `Scode = 'Y'`(입고), `Hcode = '<로그인 hcode>'`, `Gcode <> ''`.  
 정렬: `ORDER BY Gdate, Gcode, Gubun, Jubun, Gjisa, ID` · `LIMIT 0,3000`.
 
+### 2.1 2026-06 공통 검색창 보강
+
+- LIST/상세 필터의 `hcode`(`Sobo25.Edit106`)는 `lookupKind="publisher"`로,
+  `gcode`(`Sobo25.Edit105`)는 `lookupKind="inboundVendor"`로 보강했다.
+- 검색 입력은 기존 `data-legacy-id` 를 유지하며 보조 버튼(`Sobo25.LookupHcode/Gcode`)만 추가했다.
+
 ## 3. 모던 라우트·facade (구현)
 
 거래현황(`/transactions/status`) facade 와 동형. 입고는 입고접수(`/inbound/receipts`)·입고명세서(C1)와

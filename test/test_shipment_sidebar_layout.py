@@ -41,10 +41,8 @@ class ShipmentSidebarLayoutTest(TestCase):
                 # 자체 물류 화면
                 "Sobo27",
                 "Sobo67_status",
-                "Sobo22",
                 # 거래관리(NAV-02) 공유 화면 별칭
                 "Sobo21_shipment_alias",
-                "Sobo22_inbound_statement_shipment_alias",
                 "Sobo59_verification_shipment_alias",
                 "Sobo29_new_release_shipment_alias",
             ],
@@ -73,7 +71,6 @@ class ShipmentSidebarLayoutTest(TestCase):
         # 별칭은 transactions 정본과 동일 route 를 가리킨다 (단일 API 공유).
         for fid, route in (
             ("Sobo21_shipment_alias", "/transactions/sales-statement"),
-            ("Sobo22_inbound_statement_shipment_alias", "/transactions/inbound-statement"),
             ("Sobo59_verification_shipment_alias", "/transactions/verification?v=1"),
             ("Sobo29_new_release_shipment_alias", "/transactions/new-release"),
         ):
@@ -88,7 +85,6 @@ class ShipmentSidebarLayoutTest(TestCase):
         # 별칭은 물류 NAV-09 로 게이트 — publisher(NAV-02) 사용자에게 동시 노출되지 않도록.
         for fid in (
             "Sobo21_shipment_alias",
-            "Sobo22_inbound_statement_shipment_alias",
             "Sobo59_verification_shipment_alias",
             "Sobo29_new_release_shipment_alias",
         ):

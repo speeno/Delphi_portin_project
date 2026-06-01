@@ -134,6 +134,13 @@ dfm `OnXxx` 와 모던 컴포넌트 핸들러를 1:1 로 매핑한다. 변형 �
 > 두 화면의 필드/컬럼 차이는 `migration/contracts/inbound_receipt.yaml` `customer_variants`
 > 에만 기록한다(.cursor/rules/dfm-layout-input.mdc). `data-legacy-id` 는 원본 `Subu22` 유지.
 
+## 7.2 2026-06 공통 검색창 보강
+
+- `/inbound/receipts`·`/inbound/receipts/new`·`/transactions/inbound-statement`의 `hcode/gcode` 필터를
+  `MasterLookupField` 로 통일했다.
+- 매핑: `hcode -> lookupKind="publisher"`, `gcode -> lookupKind="inboundVendor"`, 라인 `bcode -> lookupKind="book"`.
+- 기존 `Sobo22.Edit103/104` data-legacy-id 는 유지하고 검색 버튼(`Sobo22.LookupHcode/Gcode`)을 추가했다.
+
 ## 8. 참조
 
 - DEC-028: dfm→html 산출물 영구 입력 동결.

@@ -651,6 +651,13 @@ customer_variants:
 # 10. 변경 이력
 # ---------------------------------------------------------------
 changelog:
+  - date: 2026-06-01
+    by: porting-team
+    note: |
+      1.2.0 — 출고/거래 공통 검색창 rollout 동기화.
+      - FE 목록/등록 필터를 `MasterLookupField`로 통일 (`lookupKind=publisher/book`).
+      - C2 신규/상세 라인 입력은 팝업 검색 + 인라인 입력 병행으로 유지.
+      - API/SQL 스키마 변경 없음 (equivalence.ux 보강만 반영).
   - date: 2026-04-25
     by: porting-team
     note: |

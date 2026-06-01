@@ -191,6 +191,46 @@ endpoints:
     response:
       schema_ref: backend/app/models/master.py#MasterDeleteResponse
     audit: { logger: audit.master, action: delete }
+  - id: SQL-MAS-3H
+    method: GET
+    path: /api/v1/masters/customer/{gcode}/branches
+    query:
+      - { name: serverId, type: string, required: true }
+      - { name: q, type: string, required: false, note: "Gname/Jubun/Oname LIKE %q%" }
+      - { name: limit, type: int, default: 100, max: 500 }
+      - { name: offset, type: int, default: 0 }
+    response:
+      schema_ref: backend/app/models/master.py#CustomerBranchListResponse
+    note: |
+      Seok10 H2_Gbun — 거래처별 지사 목록 (Scode=X). Subu21 Edit106 콤보 데이터 원천.
+      path ``gcode`` 는 ``gcode_lookup_variants`` 로 zero-pad/선행0제거 표기를 IN 매칭.
+      1차 Hcode=레거시(비-9 거래처 ''), 0건이면 JWT scope_hcode 와 함께 Hcode IN ('',scope) 재조회.
+  - id: SQL-MAS-3H-C
+    method: POST
+    path: /api/v1/masters/customer/{gcode}/branches
+    request:
+      body_ref: backend/app/models/master.py#CustomerBranchCreateRequest
+    response:
+      schema_ref: backend/app/models/master.py#CustomerBranchCreateResponse
+    errors: [MASTER_INVALID]
+    audit: { logger: audit.master, action: create }
+  - id: SQL-MAS-3H-U
+    method: PATCH
+    path: /api/v1/masters/customer/{gcode}/branches/{branch_id}
+    request:
+      body_ref: backend/app/models/master.py#CustomerBranchUpdateRequest
+    response:
+      schema_ref: backend/app/models/master.py#CustomerBranchUpdateResponse
+    audit: { logger: audit.master, action: update }
+  - id: SQL-MAS-3H-D
+    method: DELETE
+    path: /api/v1/masters/customer/{gcode}/branches/{branch_id}
+    query:
+      - { name: serverId, type: string, required: true }
+    response:
+      schema_ref: backend/app/models/master.py#CustomerBranchDeleteResponse
+    audit: { logger: audit.master, action: delete }
+
   - id: SQL-MAS-3B
     method: GET
     path: /api/v1/masters/customer-categories
@@ -460,6 +500,11 @@ customer_variants:
   - form: Sobo11
     variant_folders: []
     note: "Subu11_* 변형 폴더 0건 — 거래처 마스터는 단일 폼 운영. layout_mappings/Sobo11.md §9."
+  - form: Seok10
+    variant_folders: []
+    note: |
+      H2_Gbun 지사 — Gcode 키 표기(예: G1 ``00001`` vs H2 ``1``)는 서비스 IN variants 로 통합.
+      목록 GET 0건 시 scope JWT hcode 가 있으면 Hcode IN ('', hcode) 2차 조회(Subu21/Seek06 일부 DB).
   - form: Sobo14
     variant_folders: [Subu14_1]
     note: |

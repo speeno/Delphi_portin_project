@@ -1,0 +1,48 @@
+id: C2-hanjin-carrier
+name: 한진택배 배송조회 연동
+version: 1.0.0
+status: active
+scope_phase: phase1
+created: 2026-06-01
+updated: 2026-06-01
+owner: 메인개발자
+
+references:
+  - migration/contracts/delivery_dispatch.yaml
+  - docs/db-smoke-runbook.md
+
+intent: |
+  운송장 기반 배송상태 조회를 한진 API 우선으로 수행한다.
+  API 키/스펙 미확보 또는 호출 실패 시 업무 중단 없이 manual 상태를 유지한다.
+
+runtime_flags:
+  - BLS_HANJIN_API_ENABLED
+  - BLS_HANJIN_API_KEY
+  - BLS_HANJIN_BASE_URL
+  - BLS_HANJIN_TRACKING_PATH
+  - BLS_HANJIN_REQUEST_TIMEOUT_SEC
+
+api:
+  fetch_tracking:
+    request:
+      method: GET
+      path: ${BLS_HANJIN_BASE_URL}${BLS_HANJIN_TRACKING_PATH}?invoiceNo={tracking_no}
+      headers:
+        Authorization: Bearer ${BLS_HANJIN_API_KEY}
+    response_norm:
+      status: delivered|in_transit|returned
+      status_text: string
+      checked_at: ISO datetime
+
+fallback_policy:
+  when_disabled: source=manual, status 유지
+  when_http_error: source=manual, status 유지
+  when_parse_error: source=manual, status 유지
+
+acceptance_criteria:
+  - id: AC-HANJIN-1
+    description: "플래그/키 미설정 시 예외 없이 source=manual fallback"
+    test: "test/test_hanjin_client.py::HanjinClientTest::test_is_enabled_false_without_required_settings"
+  - id: AC-HANJIN-2
+    description: "배송완료 문자열이 delivered 로 정규화"
+    test: "test/test_hanjin_client.py::HanjinClientTest::test_fetch_tracking_maps_delivered_status"

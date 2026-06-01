@@ -46,17 +46,12 @@ class TransactionsSidebarLayoutTest(TestCase):
             [
                 # 명세서 3종
                 "Sobo21",
-                "Sobo22_inbound_statement",
                 "Sobo29_other",
                 # 거래현황 4뷰
                 "Sobo21_status_list",
                 "Sobo21_status_detail",
                 "Sobo21_status_summary",
                 "Sobo21_status_memo",
-                # 입고현황 3뷰
-                "Sobo25_status_list",
-                "Sobo25_status_detail",
-                "Sobo25_status_summary",
                 # 출고검증 3종
                 "Sobo59_1",
                 "Sobo59_2",
@@ -78,8 +73,8 @@ class TransactionsSidebarLayoutTest(TestCase):
         )
         body = block.group("body")
         self.assertIn('label: "거래현황"', body)
-        self.assertIn('label: "입고현황"', body)
-        self.assertGreaterEqual(body.count('kind: "separator"'), 4)
+        self.assertNotIn('label: "입고현황"', body)
+        self.assertGreaterEqual(body.count('kind: "separator"'), 3)
 
     def test_all_layout_forms_registered_in_transactions_group(self) -> None:
         ids = self._layout_form_ids()

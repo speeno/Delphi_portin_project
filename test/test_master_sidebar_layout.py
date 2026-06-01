@@ -34,8 +34,6 @@ class MasterSidebarLayoutTest(TestCase):
                 "Sobo15",
                 "Sobo16_special",
                 "Sobo39",
-                "Sobo14_gbun",
-                "Sobo11_gbun",
             ],
         )
         # 배본처관리(Sobo16_baebon)는 운영 요청으로 사이드바에서 감춤 (2026-05).

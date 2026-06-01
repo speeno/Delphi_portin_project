@@ -970,8 +970,18 @@
 - **배경/근거**: 포팅 완결 계획의 위치 권한 운영 마감; 법무 검토 전이라도 운영·DEC·계약에 목적을 한 줄 명시해 혼선을 줄인다.
 - **참조**: `docs/location-permission-runbook.md`, `도서물류관리프로그램/frontend/src/lib/location-permission-storage.ts`, `.../settings/my-profile/page.tsx`
 
+### DEC-064: C6 거래명세서(Sobo21) 재고 Label104 — Phase 1 placeholder, Phase 2 PrinJing
+
+- **일자**: 2026-06-01
+- **결정 사항**: (1) **Phase 1** — `customer-preview`·`detail` 의 `stock_qty` 는 `compute_sales_statement_stock_qty` placeholder(`SUM(Gsqut)` on S1_Ssub, 동일 검색 맥락 + `gjisa_lookup_variants IN`) 로 유지한다. 레거시 `Label104` 가 표시하는 **694** 는 `Tong02.pas` `PrinJing` → `Sv_Ghng` 창고 재고(`SUM(GsumX)` by `Bcode`) 이므로 Phase 1 DoD 에서 수치 동등을 요구하지 않는다. (2) **Phase 2** — `PrinJing`/`Sv_Ghng` 포팅으로 `stock_qty` 정의를 교체하고, `migration/contracts/sales_inquiry.yaml` `sales_statement_detail.stock_qty`·`barcode_scan.yaml` 교차 참조로 회귀 가드 추가. (3) **동시 완료(본 사이클)** — `Gjisa` `gjisa_lookup_variants IN`(pipe·dot·공백), `customer-preview` `memo_preview`(Subu21 Button301), 참고 패널 G1+메모 read-only — 목록 0건·참고 비표시 P0 해소.
+- **배경/근거**: 레거시 스크린샷(교보문고 00001·2026-05-14) 대비 모던 목록 0건의 1순위 원인은 `Gjisa` 정확 일치; 재고 694 불일치는 별도 비즈니스 정의. `gcode_lookup_variants` 패턴을 `gjisa_lookup_variants` 로 일반화(SOLID-O).
+- **영향**: `h2_gbun_adapt.gjisa_lookup_variants`, `transactions_service._append_gjisa_filter`, `load_sales_statement_memo_preview`, FE `SalesStatementReferencePanel`·`page.tsx` `refError`/`memoPreview`. 진단: `debug/probe_sales_statement_list_gjisa.py`. 회귀: `test/test_sales_statement_gjisa_variants.py`, `test/test_sales_statement_list_reference_panel.py`.
+- **참조**: `analysis/layout_mappings/Sobo21.md`, `migration/contracts/sales_inquiry.yaml`, Subu21.pas Button101/Button301, Tong02.pas PrinJing
+
 ---
-*최종 업데이트: 2026-05-31 — DEC-059 운영 보강(기초관리 W3 종료 + RU/CRUD 정합). `form-registry.ts` master 그룹의 `roadmapWave: "p3"` 라벨 제거(미설정=p2 기본값), Sobo14 `crudParity` RU→CRUD 상향(상세 삭제 Button103 복원), Sobo16_special RU→CRUD 상향(POST/DELETE + UI + 계약·테스트 동기화). `docs/crud-backlog.md` §2.1 최신화, `analysis/layout_mappings/Sobo14.md`/`Sobo16.md` 이벤트 표 갱신, `analysis/audit/phase1-component-fidelity.md` note 동기화, `test_form_registry_metadata`·`test_masters_special_g6`·`test_master_crud_api_contract` 회귀 가드 확장.*
+*최종 업데이트: 2026-06-01 — DEC-064 신규 (C6 Sobo21 Gjisa variants + 참고 패널 memo_preview Phase 1; Label104 재고는 Phase 2 PrinJing).*
+
+*과거: 2026-05-31 — DEC-059 운영 보강(기초관리 W3 종료 + RU/CRUD 정합). `form-registry.ts` master 그룹의 `roadmapWave: "p3"` 라벨 제거(미설정=p2 기본값), Sobo14 `crudParity` RU→CRUD 상향(상세 삭제 Button103 복원), Sobo16_special RU→CRUD 상향(POST/DELETE + UI + 계약·테스트 동기화). `docs/crud-backlog.md` §2.1 최신화, `analysis/layout_mappings/Sobo14.md`/`Sobo16.md` 이벤트 표 갱신, `analysis/audit/phase1-component-fidelity.md` note 동기화, `test_form_registry_metadata`·`test_masters_special_g6`·`test_master_crud_api_contract` 회귀 가드 확장.*
 
 *과거: 2026-04-23 — DEC-059 신규 추가 (메뉴 메타 3축 분리 — `phase`/`roadmapWave`/`crudParity` 직교 분리). 사용자 요청 "P3/P4 단계로 진행해야할 부분이 있으면 표기하고자 한다" + "CRUD 동등성도 같이 보고싶다". 결과: ① `docs/menu-roadmap-waves.md` 신규(정책 단일 원천 — 3축 정의 + 사이드바 배지 규칙 + tooltip 템플릿 + 정적 가드 §5). ② `docs/crud-backlog.md` 신규(CRUD gap matrix 1차 인벤토리 + G0~G4 보강 절차 + P2/P3/P4 우선순위 권고). ③ `FormMeta` 에 `roadmapWave`/`crudParity`/`crudNotes` 3 필드 추가, 식별된 R/RU/STUB 행 일괄 채움(마스터 6 + 정산 5 + 통계 6 + 반품/원장/감사/택배/특별 등). ④ 사이드바에 보조 배지 2개(`R`/`RU`/`STUB` 회색 outline + `W3`/`W4` sky outline) + tooltip 한 줄 자막. ⑤ `dashboard/data/phase2-screen-cards.json` `$comment` 에 `form-registry` 단일 원천 + 동기화 의무 명시(다음 사이클 일괄 채움 예정). ⑥ 정적 회귀 가드 `test/test_form_registry_metadata.py` 신규 — 허용값 검증 + `phase1` + R/RU/STUB 행은 `crudNotes` 또는 blocker 사유 보유 강제. 검증: pytest PASS(form-registry 메타 가드 신규) · tsc 0 · ReadLints 0.*
 

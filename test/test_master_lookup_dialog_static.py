@@ -32,6 +32,11 @@ class MasterLookupDialogStaticTest(TestCase):
         for cls in ("fixed inset-x-2 top-8 bottom-2", "sm:w-[min(960px,96vw)]", "sm:max-h-[88vh]", "overflow-auto"):
             self.assertIn(cls, src)
 
+    def test_master_lookup_field_exists(self) -> None:
+        src = _read(FRONT / "components" / "master" / "master-lookup-field.tsx")
+        for kw in ("MasterLookupButton", "useInlineAutocomplete", "mastersApi.customers", "mastersApi.products"):
+            self.assertIn(kw, src)
+
     def test_representative_pages_use_lookup_button(self) -> None:
         customer = _read(FRONT / "app" / "(app)" / "master" / "customer" / "page.tsx")
         book = _read(FRONT / "app" / "(app)" / "master" / "book" / "page.tsx")
@@ -45,3 +50,17 @@ class MasterLookupDialogStaticTest(TestCase):
 
         self.assertIn("MasterLookupButton", inbound)
         self.assertIn('lookupKind="inboundVendor"', inbound)
+
+    def test_shipment_transactions_pages_use_lookup_field(self) -> None:
+        shipment_orders = _read(FRONT / "app" / "(app)" / "outbound" / "orders" / "page.tsx")
+        tx_status = _read(FRONT / "app" / "(app)" / "transactions" / "status" / "page.tsx")
+        tx_inbound = _read(FRONT / "app" / "(app)" / "transactions" / "inbound-statement" / "page.tsx")
+
+        self.assertIn("MasterLookupField", shipment_orders)
+        self.assertIn('lookupKind="publisher"', shipment_orders)
+
+        self.assertIn("MasterLookupField", tx_status)
+        self.assertIn('lookupKind="publisher"', tx_status)
+
+        self.assertIn("MasterLookupField", tx_inbound)
+        self.assertIn('lookupKind="inboundVendor"', tx_inbound)
