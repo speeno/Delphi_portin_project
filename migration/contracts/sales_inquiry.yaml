@@ -241,7 +241,7 @@ outputs:
       - { name: gubun,      type: string,  legacy: "S1_Ssub.Gubun" }
       - { name: slip_no,    type: string,  note: "전표번호 표시 — order_key.jubun 동값" }
       - { name: customer_profile, type: object, note: "G1_Ggeo 읽기전용 (Gadd1/2,Gtel1/2,Gposa 등)" }
-      - { name: stock_qty,  type: integer, default: 0, note: "재고 Label104 — Phase1 SUM(Gsqut) placeholder; Phase2 PrinJing(Sv_Ghng) — barcode_scan.yaml 참고" }
+      - { name: stock_qty,  type: integer, nullable: true, note: "재고 Label104 — Tong02 PrinJing/Tong04 _Sv_Ghng_; bcode+hcode 필수, 없으면 null" }
       - lines:
           - { name: gcode,         type: string,  legacy: "S1_Ssub.Gcode" }
           - { name: bcode,         type: string,  legacy: "S1_Ssub.Bcode" }
@@ -547,8 +547,8 @@ endpoints:
       "200":
         body:
           gcode: string
-          customer_profile: { gname, gadd1, gadd2, address, phone, fax, gposa, gpost, gbigo, name1, remark1, remark2, customer_memo }
-          stock_qty: integer
+          customer_profile: { gname, gadd1, gadd2, address, phone, fax, gposa, gpost, gbigo, name1, remark1, remark2, customer_memo, customer_memo_html, customer_memo_format }
+          stock_qty: integer|null
           memo_preview: { gbigo, sbigo, gtel1, gtel2, gname, gpost }
       "422": { body: { code: "INQ_VALIDATION" } }
 
@@ -842,9 +842,8 @@ phase2_addendum:
     base_legacy: Sobo21
     dec: DEC-064
     label104_legacy: "Tong02.pas PrinJing → Sv_Ghng SUM(GsumX) by Bcode (창고 재고)"
-    phase1_placeholder: "compute_sales_statement_stock_qty — SUM(Gsqut) on S1_Ssub + gjisa_lookup_variants IN"
-    phase2_target: "PrinJing/Sv_Ghng 포팅 — customer-preview·detail stock_qty 수치 동등 (예: Label104 694)"
-    regression_test: "test/test_sales_statement_stock_prinjing.py (Phase 2 예약)"
+    implemented: "2026-06-02 — prinjing_service.compute_warehouse_stock_qty; customer-preview bcode/ocode/hcode"
+    regression_test: "test/test_sales_statement_stock_prinjing.py"
   transactions_status_view:
     base_legacy: Sobo21
     # 단일 진실: 기존 GET /api/v1/transactions/sales-statement 서비스 함수

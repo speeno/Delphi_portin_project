@@ -78,6 +78,25 @@ class G1ProfileMappingTests(TestCase):
         self.assertEqual(p["remark2"], "이전사업자102-81-30788")
         self.assertEqual(p["phone"], "02-399-6423")
         self.assertEqual(p["fax"], "02-399-6415")
+        self.assertEqual(p["customer_memo_format"], "plain")
+
+    def test_profile_rtf_memos_html(self) -> None:
+        from app.services.g1_geo_lookup import _profile_from_row
+
+        row = {
+            "gname": "T",
+            "gadd1": "",
+            "gadd2": "",
+            "gtel1": "",
+            "gtel2": "",
+            "gbigo": "",
+            "name1": "",
+            "memos": "{\\rtf1\\ansi\\pard \\'b0\\'a1\\par}",
+        }
+        p = _profile_from_row(row)
+        self.assertEqual(p["customer_memo_format"], "rtf")
+        self.assertIn("가", p["customer_memo"])
+        self.assertIn("가", p["customer_memo_html"])
 
 
 class StmtGcodeFromLinesTests(TestCase):

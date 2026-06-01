@@ -112,7 +112,8 @@ dfm Panel003 → `sales-statement-reference-panel.tsx` (참조) + `sales-stateme
 | `Edit207` | TFlatEdit | 받는사람 | Gname | `<Input gname>` | `Sobo21.Edit207` |
 | `Edit208` | TFlatEdit | 우편번호 | Gpost | `<Input gpost>` | `Sobo21.Edit208` |
 | `StaticText1~4` | TStaticText | 핸드폰/전화/받는사람/우편번호 | — | Label htmlFor | `Sobo21.StaticText1` … `4` |
-| `Label103/104` | TmyLabel3d | 재고 | SUM(Gsqut) placeholder | `stock_qty` 표시 | `Sobo21.Label103` / `Label104` — Phase2 PrinJing |
+| `Label103/104` | TmyLabel3d | 재고 | Tong02 PrinJing(GsumX) | `stock_qty` (bcode+hcode) | `Sobo21.Label103` / `Label104` |
+| `Panel203` G1 | — | 추가 내용 RTF | G1 `Memos` | `RichMemoEditor` + `customer_memo_html` | `Sobo21.Edit203` |
 | `Button801` | TFlatButton | 저장 | UPSERT | 메모 저장 | `Sobo21.Button801` |
 | `Button802` | TFlatButton | 주소가져오기 | G1→메모 프리필 | 주소 가져오기 | `Sobo21.Button802` |
 | `Button803` | TFlatButton | 우편조회 | **out-of-scope** | — | — |

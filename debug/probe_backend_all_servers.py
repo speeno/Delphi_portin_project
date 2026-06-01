@@ -553,7 +553,7 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "group": "transactions.statement_preview",
             "path": (
                 f"/api/v1/transactions/sales-statement/customer-preview?serverId={sid}"
-                f"&gcode=1&dateFrom={df}&dateTo={dt}"
+                f"&gcode=1&dateFrom={df}&dateTo={dt}&hcode=1&bcode=1"
             ),
             "ok_status": {200, 422},
         },

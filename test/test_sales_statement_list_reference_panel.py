@@ -31,6 +31,8 @@ class SalesStatementListPanelsStaticTest(TestCase):
         self.assertIn("Sobo21.Label104", ref)
         self.assertIn("Sobo21.Edit203", ref)
         self.assertIn("memoPreview", ref)
+        self.assertIn("RichMemoEditor", ref)
+        self.assertIn("Sobo21.Panel203.S1Preview", ref)
         self.assertIn("Sobo21.Panel007.Error", ref)
         self.assertIn(
             "Sobo21.Button801",
@@ -46,6 +48,7 @@ class SalesStatementListPanelsStaticTest(TestCase):
         self.assertLess(prev, detail)
         fn = router[prev : prev + 800]
         self.assertIn("jubun", fn)
+        self.assertIn("bcode", fn)
 
     def test_inquiry_api_memo_preview(self) -> None:
         src = _read(FRONT / "lib" / "inquiry-api.ts")
@@ -54,7 +57,7 @@ class SalesStatementListPanelsStaticTest(TestCase):
 
 
 class SalesStatementStockQtyTest(IsolatedAsyncioTestCase):
-    async def test_compute_stock_uses_gcode_in(self) -> None:
+    async def test_compute_stock_delegates_prinjing(self) -> None:
         import sys
 
         global sys_path_added
@@ -62,32 +65,28 @@ class SalesStatementStockQtyTest(IsolatedAsyncioTestCase):
             sys.path.insert(0, str(BACKEND))
             sys_path_added = True
 
+        from unittest.mock import patch
+
         from app.services import transactions_service
 
-        captured: list[tuple[str, tuple]] = []
+        async def fake_prinjing(_server_id, *, ocode, bcode, hcode):
+            self.assertEqual(ocode, "B")
+            self.assertEqual(bcode, "BK99")
+            self.assertEqual(hcode, "5019")
+            return 694
 
-        async def fake_query(_server_id, sql, params=None):
-            captured.append((sql, tuple(params or ())))
-            return [{"stock_qty": 694}]
-
-        old = transactions_service.execute_query
-        transactions_service.execute_query = fake_query
-        try:
+        with patch(
+            "app.services.prinjing_service.compute_warehouse_stock_qty",
+            new=fake_prinjing,
+        ):
             qty = await transactions_service.compute_sales_statement_stock_qty(
                 "remote_138",
-                gcode="00001",
-                date_from="2026-01-01",
-                date_to="2026-01-31",
-                gjisa="01|광화문점",
+                bcode="BK99",
+                hcode="5019",
+                ocode="B",
             )
-        finally:
-            transactions_service.execute_query = old
 
         self.assertEqual(qty, 694)
-        sql, params = captured[0]
-        self.assertIn("Gcode IN", sql)
-        self.assertIn("COALESCE(Gjisa,'') IN", sql)
-        self.assertIn("00001", params)
 
     async def test_list_sales_statements_gcode_in_filter(self) -> None:
         import sys

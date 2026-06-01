@@ -979,7 +979,9 @@
 - **참조**: `analysis/layout_mappings/Sobo21.md`, `migration/contracts/sales_inquiry.yaml`, Subu21.pas Button101/Button301, Tong02.pas PrinJing
 
 ---
-*최종 업데이트: 2026-06-01 — DEC-064 신규 (C6 Sobo21 Gjisa variants + 참고 패널 memo_preview Phase 1; Label104 재고는 Phase 2 PrinJing).*
+*최종 업데이트: 2026-06-02 — DEC-064 Phase 2: PrinJing `prinjing_service` + G1 Memos RTF/HTML(`rtf_convert`, TipTap, masters PATCH `customerMemoHtml`).*
+
+*이전: 2026-06-01 — DEC-064 신규 (C6 Sobo21 Gjisa variants + 참고 패널 memo_preview Phase 1; Label104 재고는 Phase 2 PrinJing).*
 
 *과거: 2026-05-31 — DEC-059 운영 보강(기초관리 W3 종료 + RU/CRUD 정합). `form-registry.ts` master 그룹의 `roadmapWave: "p3"` 라벨 제거(미설정=p2 기본값), Sobo14 `crudParity` RU→CRUD 상향(상세 삭제 Button103 복원), Sobo16_special RU→CRUD 상향(POST/DELETE + UI + 계약·테스트 동기화). `docs/crud-backlog.md` §2.1 최신화, `analysis/layout_mappings/Sobo14.md`/`Sobo16.md` 이벤트 표 갱신, `analysis/audit/phase1-component-fidelity.md` note 동기화, `test_form_registry_metadata`·`test_masters_special_g6`·`test_master_crud_api_contract` 회귀 가드 확장.*
 
