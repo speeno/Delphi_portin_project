@@ -86,9 +86,12 @@ class GjisaFilterSqlTest(IsolatedAsyncioTestCase):
             "",
         )
         self.assertIn("COALESCE(Gjisa,'') IN", list_sql)
+        self.assertIn("Scode = 'X'", list_sql)
 
     async def test_customer_preview_memo_load(self) -> None:
         from app.services import transactions_service
+        import app.services.h2_gbun_adapt as h2a
+        import app.services.s1_memo_adapt as s1m
 
         captured: list[tuple[str, tuple]] = []
 
@@ -103,10 +106,26 @@ class GjisaFilterSqlTest(IsolatedAsyncioTestCase):
         async def fake_profile(*_a, **_k):
             return {"gname": "교보문고", "address": "서울", "phone": "", "fax": "", "gposa": ""}
 
+        async def fake_meta(_server_id):
+            cols = {
+                "gdate", "gcode", "gubun", "jubun", "gjisa", "hcode", "scode",
+                "gbigo", "sbigo", "gtel1", "gtel2", "gname", "gpost", "ocode",
+            }
+            exact = {k: k.capitalize() if k != "gcode" else "Gcode" for k in cols}
+            exact.update({"gdate": "Gdate", "gjisa": "Gjisa", "gbigo": "Gbigo", "sbigo": "Sbigo"})
+            return cols, exact
+
+        async def fake_gjisa(*_a, **_k):
+            return ("2|부곡리(매장)",)
+
         old = transactions_service.execute_query
         old_profile = transactions_service.fetch_g1_customer_profile
+        old_meta = s1m.s1_memo_column_meta
+        old_gj = h2a.gjisa_search_variants
         transactions_service.execute_query = fake_query
         transactions_service.fetch_g1_customer_profile = fake_profile
+        s1m.s1_memo_column_meta = fake_meta
+        h2a.gjisa_search_variants = fake_gjisa
         try:
             res = await transactions_service.get_sales_statement_customer_preview(
                 server_id="remote_138",
@@ -120,6 +139,8 @@ class GjisaFilterSqlTest(IsolatedAsyncioTestCase):
         finally:
             transactions_service.execute_query = old
             transactions_service.fetch_g1_customer_profile = old_profile
+            s1m.s1_memo_column_meta = old_meta
+            h2a.gjisa_search_variants = old_gj
 
         self.assertEqual(res["memo_preview"].get("gbigo"), "선주문")
         memo_sql = next((s for s, _ in captured if "FROM S1_Memo" in s), "")

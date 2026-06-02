@@ -156,7 +156,8 @@ class P0HcodeCoalesceTests(IsolatedAsyncioTestCase):
         self.assertEqual(svc.call_args.kwargs.get("hcode"), "9001")
 
     # ── transactions ──
-    def test_transactions_sales_statement_injects_jwt_hcode(self) -> None:
+    def test_transactions_sales_statement_skips_jwt_hcode_when_query_empty(self) -> None:
+        """Subu21 Edit107 미입력 — 목록은 JWT hcode 로 S1_Ssub 를 좁히지 않음."""
         from app.services import transactions_service
 
         with patch.object(
@@ -170,6 +171,26 @@ class P0HcodeCoalesceTests(IsolatedAsyncioTestCase):
                     "serverId": "remote_1",
                     "dateFrom": "2026.01.01",
                     "dateTo": "2026.01.31",
+                },
+            )
+        self.assertEqual(res.status_code, 200)
+        self.assertIsNone(svc.call_args.kwargs.get("hcode"))
+
+    def test_transactions_sales_statement_explicit_hcode_passes_guard(self) -> None:
+        from app.services import transactions_service
+
+        with patch.object(
+            transactions_service,
+            "list_sales_statements",
+            new=AsyncMock(return_value=([], 0)),
+        ) as svc:
+            res = self.client.get(
+                "/api/v1/transactions/sales-statement",
+                params={
+                    "serverId": "remote_1",
+                    "dateFrom": "2026.01.01",
+                    "dateTo": "2026.01.31",
+                    "hcode": "9001",
                 },
             )
         self.assertEqual(res.status_code, 200)

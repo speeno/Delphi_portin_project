@@ -121,11 +121,17 @@ inputs:
       type: string
       required: false
       legacy_field: "S1_Ssub.Gjisa"
-      note: "Subu21 Edit106 — H2 콤보 gjisa_value(Jubun|Gname·Gname). LIST/재고/메모는 gjisa_lookup_variants IN (pipe·dot·공백 정규화)."
+      note: "Subu21 Edit106 — H2 콤보 gjisa_value(Jubun|Gname·Gname). LIST/재고/메모는 gjisa_search_variants IN (pipe·dot·공백 + gname-only 시 H2_Gbun 해석)."
     - name: jubun
       type: string
       required: false
       legacy_field: "S1_Ssub.Jubun"
+      note: "Subu21 Edit103 — jubun_lookup_variants IN (1↔00001 zero-pad). FE formatJubunInput 동등."
+    - name: hcode
+      type: string
+      required: false
+      legacy_field: "Subu21 Edit107 (출판사)"
+      note: "쿼리 hcode 미전달 시 JWT scope 미주입(S1_Ssub Hcode='' 행 포함). 명시 시 enforce_hcode_isolation."
     - name: include_cancelled
       type: boolean
       required: false
@@ -858,7 +864,7 @@ phase2_addendum:
         serverId: required string
         dateFrom: required ISO date (camelCase)   # snake_case dateFrom 도 허용
         dateTo:   required ISO date (camelCase)
-        hcode:    optional (빈 값 = 전체 거래처 — 2026-04-21 정책)
+        hcode:    optional — 출판사(Edit107) override only; 생략 시 Subu21 과 같이 JWT hcode 로 S1_Ssub 미필터
         includeCancelled: optional bool (default false — Yesno='2' 제외)
         limit:    optional int (1~500, default 50)
         offset:   optional int (>=0, default 0)

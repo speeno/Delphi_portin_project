@@ -55,6 +55,46 @@ class G1ProfileRowSqlTests(TestCase):
         self.assertIn("FROM G1_Ggeo g WHERE", captured[0])
         self.assertIn("g.Gname", captured[0])
 
+    def test_fetch_profile_row_tries_scope_fallback_before_empty(self) -> None:
+        import asyncio
+        from unittest.mock import AsyncMock, patch
+
+        from app.services.g1_geo_lookup import _fetch_g1_profile_row
+
+        captured: list[tuple[str, tuple]] = []
+
+        async def fake_meta(_server_id: str):
+            return (
+                {"gname"},
+                {"gname": "Gname"},
+            )
+
+        async def fake_query(_server_id, sql, params=None):
+            captured.append((sql, tuple(params or ())))
+            hc = params[0] if params else ""
+            if hc == "5019":
+                return [{"gname": "영풍"}]
+            return []
+
+        with patch(
+            "app.services.g1_geo_lookup.g1_geo_column_meta",
+            new=AsyncMock(side_effect=fake_meta),
+        ), patch(
+            "app.services.g1_geo_lookup.execute_query",
+            new=AsyncMock(side_effect=fake_query),
+        ):
+            row = asyncio.run(
+                _fetch_g1_profile_row(
+                    "remote_153", "", "00004", fallback_hcodes=("5019",)
+                )
+            )
+
+        self.assertIsNotNone(row)
+        self.assertEqual(row.get("gname"), "영풍")
+        hcodes = [p[1][0] for p in captured]
+        self.assertEqual(hcodes[0], "")
+        self.assertEqual(hcodes[1], "5019")
+
 
 class G1ProfileMappingTests(TestCase):
     def test_profile_from_row_remark_fields(self) -> None:

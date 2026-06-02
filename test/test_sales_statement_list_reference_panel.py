@@ -88,6 +88,61 @@ class SalesStatementStockQtyTest(IsolatedAsyncioTestCase):
 
         self.assertEqual(qty, 694)
 
+    async def test_customer_preview_uses_g1_fallback_hcodes(self) -> None:
+        import sys
+
+        if str(BACKEND) not in sys.path:
+            sys.path.insert(0, str(BACKEND))
+
+        from unittest.mock import AsyncMock, patch
+
+        from app.services import transactions_service
+
+        captured: dict[str, tuple[str, ...]] = {}
+
+        async def fake_preview(**kwargs):
+            captured["g1_fallback_hcodes"] = kwargs.get("g1_fallback_hcodes") or ()
+            captured["hcode"] = kwargs.get("hcode") or ""
+            return {
+                "gcode": "00004",
+                "customer_profile": {"gname": "영풍"},
+                "stock_qty": None,
+                "memo_preview": {},
+            }
+
+        with patch.object(
+            transactions_service,
+            "get_sales_statement_customer_preview",
+            new=AsyncMock(side_effect=fake_preview),
+        ):
+            from app.core.hcode_isolation import resolve_scope_hcode
+            from app.core.deps import enforce_hcode_isolation
+
+            ctx = {
+                "user_id": "u1",
+                "server_id": "remote_153",
+                "role": "operator",
+                "hcode": "5019",
+                "permissions": ["transactions.read"],
+                "account_type": "T2_PUB",
+            }
+            scope = resolve_scope_hcode(ctx)
+            self.assertEqual(scope, "5019")
+            raw = ""
+            publisher = "" if not raw else enforce_hcode_isolation(raw, ctx) or ""
+            g1_fb = (scope,) if scope and not raw else ()
+            await transactions_service.get_sales_statement_customer_preview(
+                server_id="remote_153",
+                gcode="00004",
+                date_from="2026-05-14",
+                date_to="2026-05-14",
+                hcode=publisher,
+                g1_fallback_hcodes=g1_fb,
+            )
+
+        self.assertEqual(captured["hcode"], "")
+        self.assertEqual(captured["g1_fallback_hcodes"], ("5019",))
+
     async def test_list_sales_statements_gcode_in_filter(self) -> None:
         import sys
 

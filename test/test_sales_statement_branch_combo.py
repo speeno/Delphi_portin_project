@@ -50,8 +50,11 @@ class SalesStatementBranchComboTest(TestCase):
 
     def test_list_sales_statements_filters_gjisa(self) -> None:
         svc = _read(BACKEND / "app" / "services" / "transactions_service.py")
-        self.assertIn("_append_gjisa_filter", svc)
-        self.assertIn("gjisa_lookup_variants", svc)
+        self.assertIn("_append_gjisa_filter_async", svc)
+        self.assertIn("gjisa_search_variants", svc)
+        self.assertIn("_append_jubun_filter", svc)
+        self.assertIn("jubun_lookup_variants", svc)
+        self.assertIn("Scode = 'X'", svc)
         self.assertIn("assert_sales_statement_search_allowed", svc)
         self.assertIn("_append_gcode_filter", svc)
         self.assertIn("compute_sales_statement_stock_qty", svc)

@@ -40,6 +40,46 @@ class RtfConvertTest(TestCase):
         clean = sanitize_html(dirty)
         self.assertNotIn("script", clean.lower())
 
+    def test_rtf_bold_internal_html(self) -> None:
+        rtf = r"{\rtf1\ansi\pard\b bold\b0 normal\par}"
+        out = rtf_to_html(rtf)
+        self.assertRegex(out, r"<strong>\s*bold\s*</strong>")
+        self.assertIn("normal", out)
+
+    def test_rtf_unicode_plain(self) -> None:
+        rtf = r"{\\rtf1\\ansi\\pard \\u54861?\\par}"
+        plain = rtf_to_plain(rtf)
+        self.assertTrue(plain)
+
+    def test_fonttbl_hex_not_in_plain(self) -> None:
+        """fonttbl 의 폰트명 hex 가 본문 평문에 섞이지 않아야 함."""
+        # 나눔바른고딕 (cp949) + 굴림 (cp949) in fonttbl only
+        font_nanum = "".join(f"\\'{b:02x}" for b in "나눔바른고딕".encode("cp949"))
+        font_gulim = "".join(f"\\'{b:02x}" for b in "굴림".encode("cp949"))
+        body = "".join(f"\\'{b:02x}" for b in "안성점 오픈예정".encode("cp949"))
+        rtf = (
+            r"{\rtf1\ansi\deff0"
+            r"{\fonttbl{\f0\fcharset129 " + font_nanum + r";"
+            r"\f1\fcharset129 " + font_gulim + r";}}"
+            r"\pard\f0 " + body + r"\par}"
+        )
+        plain = rtf_to_plain(rtf)
+        self.assertIn("안성점", plain)
+        self.assertNotIn("나눔바른고딕", plain)
+        self.assertNotIn("굴림", plain)
+        html_out = rtf_to_html(rtf)
+        self.assertIn("안성점", html_out)
+        self.assertNotIn("나눔바른고딕", html_out)
+
+    def test_multiline_paragraphs(self) -> None:
+        line1 = "".join(f"\\'{b:02x}" for b in "첫줄".encode("cp949"))
+        line2 = "".join(f"\\'{b:02x}" for b in "둘째줄".encode("cp949"))
+        rtf = r"{\rtf1\ansi\pard " + line1 + r"\par\pard " + line2 + r"\par}"
+        plain = rtf_to_plain(rtf)
+        self.assertIn("첫줄", plain)
+        self.assertIn("둘째줄", plain)
+        self.assertIn("\n", plain)
+
 
 if __name__ == "__main__":
     from unittest import main
