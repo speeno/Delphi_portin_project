@@ -755,7 +755,29 @@ customer_variants:
     DEC-019 (variant 통합 정책) + DEC-028 (dfm 산출물 의무 입력) 그대로 재사용.
     본 contract 의 4폼은 dfm/pas 변형(고객사별 분기)이 발견되면 본 섹션에 추가하고,
     UI/SQL 분기를 코드에 두지 않으며 데이터/feature flag 로 흡수한다.
-  variants: []         # 0건 — 아래 verification 결과
+  variants:
+    - id: chul_09_warehouse_subu21
+      database: chul_09_db
+      account_types: [T3]
+      account_family: chul_09
+      legacy_source: WeLove_FTP/도서유통-출판/MySQL/도서유통/chul_09(위러브)/Subu21.pas
+      diffs:
+        - field: S1_Ssub.Hcode
+          default_subu21: "Edit107 (출판사, 빈 값 가능)"
+          chul_09: "Hnnnn (세션 JWT scope, 예 교문사 5019)"
+          modern: "LIST 쿼리 hcode 미전달 시 T3·chul_09 는 JWT scope 주입"
+        - field: S1_Ssub.Ocode
+          default_subu21: "B (지사 출고)"
+          chul_09: "A (FormShow 캡션 거래명세서-(창고))"
+          modern: "sales_statement_ocode_sql(server_id)"
+        - field: H2_Gbun.Hcode
+          default_subu21: "gcode 9* 만 scope, 그 외 ''"
+          chul_09: "항상 Hnnnn"
+          modern: "resolve_h2_hcode_for_customer"
+        - field: Yesno
+          default_subu21: "SELECT 에 Yesno 없음"
+          chul_09: 동일
+          modern: "chul_09_db 는 HAVING 취소 제외 없음(레거시 그리드 동일)"
   verification:
     - form: Subu21
       legacy_inventory: legacy_delphi_source/legacy_source/Subu21.{pas,dfm}

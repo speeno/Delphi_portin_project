@@ -98,12 +98,13 @@ async def _count_for_gjisa(
         gcode_lookup_variants,
         gjisa_lookup_variants,
         jubun_lookup_variants,
+        sales_statement_ocode_sql,
         sql_in_clause,
     )
     from app.services.transactions_service import _normalize_gdate
 
     g = _normalize_gdate(gdate)
-    where = ["Gdate=%s", "Gubun=%s", "Ocode='B'"]
+    where = ["Gdate=%s", "Gubun=%s", sales_statement_ocode_sql(server_id)]
     params: list[Any] = [g, gubun]
     j_clause, j_params = sql_in_clause("COALESCE(Jubun,'')", jubun_lookup_variants(jubun))
     where.append(j_clause)
@@ -126,15 +127,29 @@ async def _count_for_gjisa(
 
 
 async def _distinct_gjisa(
-    server_id: str, *, gdate: str, gcode: str, gubun: str, jubun: str
+    server_id: str,
+    *,
+    gdate: str,
+    gcode: str,
+    gubun: str,
+    jubun: str,
+    hcode: str | None = None,
 ) -> list[str]:
     from app.core.db import execute_query
-    from app.services.h2_gbun_adapt import gcode_lookup_variants, jubun_lookup_variants, sql_in_clause
+    from app.services.h2_gbun_adapt import (
+        gcode_lookup_variants,
+        jubun_lookup_variants,
+        sales_statement_ocode_sql,
+        sql_in_clause,
+    )
     from app.services.transactions_service import _normalize_gdate
 
     g = _normalize_gdate(gdate)
-    where = ["Gdate=%s", "Gubun=%s", "Ocode='B'", "Scode='X'"]
+    where = ["Gdate=%s", "Gubun=%s", sales_statement_ocode_sql(server_id), "Scode='X'"]
     params: list[Any] = [g, gubun]
+    if hcode:
+        where.append("Hcode=%s")
+        params.append(hcode)
     j_clause, j_params = sql_in_clause("COALESCE(Jubun,'')", jubun_lookup_variants(jubun))
     where.append(j_clause)
     params.extend(j_params)
@@ -170,13 +185,16 @@ async def _parity_matrix(
     rows: list[dict[str, Any]] = []
 
     async def add(label: str, **kwargs: Any) -> None:
-        row = await _count_for_gjisa(server_id, gdate=gdate, gcode=gcode, gubun=gubun, jubun=jubun, **kwargs)
+        ju = kwargs.pop("jubun", jubun)
+        row = await _count_for_gjisa(
+            server_id, gdate=gdate, gcode=gcode, gubun=gubun, jubun=ju, **kwargs
+        )
         row["label"] = label
         rows.append(row)
 
-    await add("legacy_exact_jubun_gjisa", gjisa=gjisa, jubun=jubun, scode_x=True, hcode="")
+    await add("legacy_exact_jubun_gjisa", gjisa=gjisa, scode_x=True, hcode="")
     await add("jubun_unpadded_1", gjisa=gjisa, jubun="1", scode_x=True, hcode="")
-    await add("jwt_hcode_only", gjisa=gjisa, jubun=jubun, scode_x=True, hcode=jwt_hcode)
+    await add("jwt_hcode_only", gjisa=gjisa, scode_x=True, hcode=jwt_hcode)
     await add("no_scode", gjisa=gjisa, jubun=jubun, scode_x=False, hcode="")
     modern = await _count_modern_list(
         server_id,
@@ -219,7 +237,12 @@ async def _probe_server(
     info: dict[str, Any] = {"server_id": server_id, "ok": True}
     try:
         distinct = await _distinct_gjisa(
-            server_id, gdate=gdate, gcode=gcode, gubun=gubun, jubun=jubun
+            server_id,
+            gdate=gdate,
+            gcode=gcode,
+            gubun=gubun,
+            jubun=jubun,
+            hcode=jwt_hcode or None,
         )
         info["distinct_gjisa"] = distinct
         counts = []

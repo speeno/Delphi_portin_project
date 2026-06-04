@@ -31,6 +31,14 @@ class H2GbunAdaptTest(IsolatedAsyncioTestCase):
         self.assertEqual(branch_hcode_for_customer("90001", "H9"), "H9")
         self.assertEqual(branch_hcode_for_customer("90001", None), "")
 
+    def test_resolve_h2_hcode_chul09(self) -> None:
+        from app.services.h2_gbun_adapt import resolve_h2_hcode_for_customer
+
+        self.assertEqual(
+            resolve_h2_hcode_for_customer("remote_153", "00004", "5019"),
+            "5019",
+        )
+
     def test_gcode_lookup_variants(self) -> None:
         from app.services.h2_gbun_adapt import gcode_lookup_variants
 

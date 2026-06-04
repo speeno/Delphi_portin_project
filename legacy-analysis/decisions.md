@@ -977,6 +977,7 @@
 - **배경/근거**: 레거시 스크린샷(교보문고 00001·2026-05-14) 대비 모던 목록 0건의 1순위 원인은 `Gjisa` 정확 일치; 재고 694 불일치는 별도 비즈니스 정의. `gcode_lookup_variants` 패턴을 `gjisa_lookup_variants` 로 일반화(SOLID-O).
 - **영향**: `h2_gbun_adapt.gjisa_lookup_variants`, `transactions_service._append_gjisa_filter`, `load_sales_statement_memo_preview`, FE `SalesStatementReferencePanel`·`page.tsx` `refError`/`memoPreview`. 진단: `debug/probe_sales_statement_list_gjisa.py`. 회귀: `test/test_sales_statement_gjisa_variants.py`, `test/test_sales_statement_list_reference_panel.py`.
 - **2026-06-02 보강**: LIST `Scode='X'`·`jubun_lookup_variants`·`gjisa_search_variants`(H2 gname-only); GET `/sales-statement` 는 쿼리 `hcode` 없을 때 JWT scope 미주입(Subu21 Edit107 `''`). 전표번호 FE `formatJubunInput`. RTF `rtf_convert` pandoc optional + `\u`/`\fs` 파서.
+- **2026-06-04 보강 (교문사·chul_09_db)**: WeLove `chul_09(위러브)/Subu21.pas` 정본 — `Hcode=Hnnnn`(JWT 5019), `Ocode='A'`(창고 캡션), H2 도 `Hnnnn`. `resolve_h2_hcode_for_customer`·`sales_statement_ocode_sql`·T3·`chul_09` LIST JWT hcode 주입·취소 라인 HAVING 미적용. `customer_variants` §8 `chul_09_warehouse_subu21`. 회귀 `test/test_sales_statement_chul09_hcode_scope.py`.
 - **참조**: `analysis/layout_mappings/Sobo21.md`, `migration/contracts/sales_inquiry.yaml`, Subu21.pas Button101/Button301, Tong02.pas PrinJing
 
 ---
