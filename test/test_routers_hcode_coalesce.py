@@ -157,8 +157,8 @@ class P0HcodeCoalesceTests(IsolatedAsyncioTestCase):
         self.assertEqual(svc.call_args.kwargs.get("hcode"), "9001")
 
     # ── transactions ──
-    def test_transactions_sales_statement_skips_jwt_hcode_when_query_empty(self) -> None:
-        """T2_DIST — Subu21 Edit107 미입력 시 목록은 JWT hcode 미주입."""
+    def test_transactions_sales_statement_injects_jwt_hcode_for_t2_dist(self) -> None:
+        """T2_DIST — 빈 hcode 검색도 로그인 JWT hcode 기본 적용."""
         from app.services import transactions_service
 
         dist_ctx = {
@@ -195,7 +195,51 @@ class P0HcodeCoalesceTests(IsolatedAsyncioTestCase):
                     },
                 )
             self.assertEqual(res.status_code, 200)
-            self.assertIsNone(svc.call_args.kwargs.get("hcode"))
+            self.assertEqual(svc.call_args.kwargs.get("hcode"), "9001")
+        finally:
+            app.dependency_overrides[get_user_context] = self._default_ctx_override
+
+    def test_transactions_sales_statement_injects_jwt_hcode_chul09_db_profile(
+        self,
+    ) -> None:
+        """chul_09_db 서버 프로필 — JWT account_family 없어도 Hnnnn 주입."""
+        from app.services import transactions_service
+
+        ctx = {
+            "user_id": "smoke",
+            "server_id": "remote_153",
+            "role": "operator",
+            "hcode": "5019",
+            "branch_id": "",
+            "permissions": list(_T2_PUB_PERMS),
+            "tenant_id": "",
+            "account_family": "",
+            "active_build_id": "",
+            "build_role": "",
+            "account_type": "",
+            "dist_hcode": "",
+        }
+
+        async def _ctx() -> dict[str, Any]:
+            return ctx
+
+        app.dependency_overrides[get_user_context] = _ctx
+        try:
+            with patch.object(
+                transactions_service,
+                "list_sales_statements",
+                new=AsyncMock(return_value=([], 0)),
+            ) as svc:
+                res = self.client.get(
+                    "/api/v1/transactions/sales-statement",
+                    params={
+                        "serverId": "remote_153",
+                        "dateFrom": "2026.01.01",
+                        "dateTo": "2026.01.31",
+                    },
+                )
+            self.assertEqual(res.status_code, 200)
+            self.assertEqual(svc.call_args.kwargs.get("hcode"), "5019")
         finally:
             app.dependency_overrides[get_user_context] = self._default_ctx_override
 

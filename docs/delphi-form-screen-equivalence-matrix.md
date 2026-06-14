@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-05-31T01:22:17Z
+> **생성 시각 (UTC)**: 2026-06-14T10:35:17Z
 
 ## 목적
 
@@ -30,16 +30,28 @@
 | MULTI_MAP | `Sobo16_special` | `Subu16` | 특별관리 | 특별관리 | `Sobo16` | `/master/special` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | OK_EXEMPT | `Sobo17` | `Subu17` | 출판사·출고거래처(마스터) | 출판사관리 | `Sobo17` | `/master/publisher` | DEC-023 표기 통일(allowlist) |
 | MULTI_MAP | `Sobo21` | `Subu21` | 거래명세서 | 거래명세서 | `Sobo21` | `/transactions/sales-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo21_shipment_alias` | `Subu21` | 거래명세서 | 거래명세서 | `Sobo21` | `/transactions/sales-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo21_status_list` | `Subu21` | 거래현황(LIST) | 거래명세서 | `Sobo21` | `/transactions/status?view=list` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo21_status_memo` | `Subu21` | 거래현황(메모) | 거래명세서 | `Sobo21` | `/transactions/status?view=memo` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo21_status_summary` | `Subu21` | 거래현황(요약) | 거래명세서 | `Sobo21` | `/transactions/status?view=summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| CAPTION_DIFF | `Sobo22` | `Subu22` | 입고접수관리 | 입고명세서 | `Sobo22` | `/inbound/receipts` | DFM「입고명세서」↔모던「입고접수관리」 (r=0.36) |
+| MULTI_MAP | `Sobo22` | `Subu22` | 입고접수관리 | 입고명세서 | `Sobo22` | `/inbound/receipts` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo22_inbound_statement` | `Subu22` | 입고명세서 | 입고명세서 | `Sobo22` | `/transactions/inbound-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MATCH | `Sobo23` | `Subu23` | 반품명세서 | 반품명세서 | `Sobo23` | `/returns/receipts` |  |
-| CAPTION_DIFF | `Sobo24` | `Subu24` | 반품재고(재생) | 반품재고(정품입고)-재생 | `Sobo24` | `/returns/inventory` | DFM「반품재고(정품입고)-재생」↔모던「반품재고(재생)」 (r=0.67) |
-| CAPTION_DIFF | `Sobo25` | `Subu25` | 반품재고(해체) | 반품재고(반품입고)-해체 | `Sobo25` | `/returns/inventory` | DFM「반품재고(반품입고)-해체」↔모던「반품재고(해체)」 (r=0.67) |
-| MATCH | `Sobo27` | `Subu27` | 출고접수관리 | 출고접수관리 | `Sobo27` | `/outbound/orders` |  |
-| NEAR_MATCH | `Sobo28_delivery` | `Subu28` | 택배관리 | 출고택배관리 | `Sobo28` | `/shipping/courier` | 유사도 0.80 (≥0.78) |
-| CAPTION_DIFF | `Sobo29_other` | `Subu29` | 기타명세서 | 신간명세서 | `Sobo29` | `/transactions/other` | DFM「신간명세서」↔모던「기타명세서」 (r=0.60) |
+| MULTI_MAP | `Sobo21_status_detail` | `Subu24` | 거래현황(상세) | 반품재고(정품입고)-재생 | `Sobo24` | `/transactions/status?view=detail` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo24` | `Subu24` | 반품재고(재생) | 반품재고(정품입고)-재생 | `Sobo24` | `/returns/inventory` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo25` | `Subu25` | 반품재고(해체) | 반품재고(반품입고)-해체 | `Sobo25` | `/returns/inventory` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo25_status_detail` | `Subu25` | 입고현황(상세) | 반품재고(반품입고)-해체 | `Sobo25` | `/transactions/inbound-status?view=detail` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo25_status_list` | `Subu25` | 입고현황(LIST) | 반품재고(반품입고)-해체 | `Sobo25` | `/transactions/inbound-status?view=list` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo25_status_summary` | `Subu25` | 입고현황(요약) | 반품재고(반품입고)-해체 | `Sobo25` | `/transactions/inbound-status?view=summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| CAPTION_DIFF | `Sobo26_production_stmt` | `Subu26` | 제작명세서 | 출고접수현황 | `Sobo26` | `/transactions/production/statement` | DFM「출고접수현황」↔모던「제작명세서」 (r=0.00) |
+| LEGACY_MISSING | `Sobo_author_history` | `Subu26_1` | 내역조회(저자) | — | `—` | `/transactions/author-history` | DFM `Subu26_1.dfm` 없음 또는 루트 Caption 추출 실패 |
+| MULTI_MAP | `Sobo27` | `Subu27` | 출고접수관리 | 출고접수관리 | `Sobo27` | `/outbound/orders` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo27_production_status` | `Subu27` | 제작현황 | 출고접수관리 | `Sobo27` | `/transactions/production/status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo28_delivery` | `Subu28` | 택배관리 | 출고택배관리 | `Sobo28` | `/shipping/courier` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo28_withholding` | `Subu28` | 원천징수 | 출고택배관리 | `Sobo28` | `/transactions/withholding` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo29_new_release` | `Subu29` | 신간발행 | 신간명세서 | `Sobo29` | `/transactions/new-release` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo29_new_release_shipment_alias` | `Subu29` | 신간발행 | 신간명세서 | `Sobo29` | `/transactions/new-release` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo29_other` | `Subu29` | 기타명세서 | 신간명세서 | `Sobo29` | `/transactions/other` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MATCH | `Sobo31` | `Subu31` | 도서별수불원장 | 도서별수불원장 | `Sobo31` | `/inventory/ledger` |  |
 | CAPTION_DIFF | `Sobo32_ledger` | `Subu32` | 거래처원장 | 기간별평균재고 | `Sobo32` | `/ledger/customer` | DFM「기간별평균재고」↔모던「거래처원장」 (r=0.00) |
 | CAPTION_DIFF | `Sobo32_1_ledger` | `Subu32_1` | 통합 거래처원장 | 출판사별 재고 현황 | `Sobo32_1` | `/ledger/customer-integrated` | DFM「출판사별 재고 현황」↔모던「통합 거래처원장」 (r=0.00) |
@@ -82,6 +94,10 @@
 | MATCH | `Sobo55` | `Subu55` | 일별반품내역서 | 일별 반품내역서 | `Sobo55` | `/returns/reports` |  |
 | MATCH | `Sobo57` | `Subu57` | 기간별 입고내역서 | 기간별입고내역서 | `Sobo57` | `/inbound/reports/period` |  |
 | MATCH | `Sobo58` | `Subu58` | 기간별반품내역서 | 기간별반품내역서 | `Sobo58` | `/returns/period-report` |  |
+| MULTI_MAP | `Sobo59_1` | `Subu59_1` | 출고검증(1) | 일별 내역서(요약) | `Sobo59_1` | `/transactions/verification?v=1` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo59_verification_shipment_alias` | `Subu59_1` | 출고검증 | 일별 내역서(요약) | `Sobo59_1` | `/transactions/verification?v=1` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| CAPTION_DIFF | `Sobo59_2` | `Subu59_2` | 출고검증(2) | 출고 검증관리 | `Sobo59_2` | `/transactions/verification?v=2` | DFM「출고 검증관리」↔모던「출고검증(2)」 (r=0.62) |
+| NEAR_MATCH | `Sobo59_3` | `Subu59_3` | 출고검증(개별) | 출고 검증관리(개별) | `Sobo59_3` | `/transactions/verification?v=individual` | 유사도 0.89 (≥0.78) |
 | MATCH | `Sobo61` | `Subu61` | 도서별판매 | 도서별판매 | `Sobo61` | `/reports/book-sales` |  |
 | MATCH | `Sobo62` | `Subu62` | 거래처판매 | 거래처판매 | `Sobo62` | `/reports/customer-sales` |  |
 | MULTI_MAP | `Sobo67_status` | `Subu67` | 출고현황 | 도서별년말집계 | `Sobo67` | `/outbound/status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
@@ -115,7 +131,6 @@
 | `Subu20` | 거래내역변경 | `legacy_delphi_source/legacy_source/Subu20.dfm` |
 | `Subu22_1` | 가입고 요청서 | `legacy_delphi_source/legacy_source/Subu22_1.dfm` |
 | `Subu22_2` | 가입고 현황 | `legacy_delphi_source/legacy_source/Subu22_2.dfm` |
-| `Subu26` | 출고접수현황 | `legacy_delphi_source/legacy_source/Subu26.dfm` |
 | `Subu27_1` | 출고접수관리 | `legacy_delphi_source/legacy_source/Subu27_1.dfm` |
 | `Subu30` | Sobo30 | `legacy_delphi_source/legacy_source/Subu30.dfm` |
 | `Subu32_9` | 도서별수불원장 | `legacy_delphi_source/legacy_source/Subu32_9.dfm` |
@@ -131,9 +146,6 @@
 | `Subu44_1` | 반품비현황 | `legacy_delphi_source/legacy_source/Subu44_1.dfm` |
 | `Subu56` | 기간별출고내역서 | `legacy_delphi_source/legacy_source/Subu56.dfm` |
 | `Subu59` | 기간별택배내역서 | `legacy_delphi_source/legacy_source/Subu59.dfm` |
-| `Subu59_1` | 일별 내역서(요약) | `legacy_delphi_source/legacy_source/Subu59_1.dfm` |
-| `Subu59_2` | 출고 검증관리 | `legacy_delphi_source/legacy_source/Subu59_2.dfm` |
-| `Subu59_3` | 출고 검증관리(개별) | `legacy_delphi_source/legacy_source/Subu59_3.dfm` |
 | `Subu59_9` | 자료삭제 | `legacy_delphi_source/legacy_source/Subu59_9.dfm` |
 | `Subu60` | Sobo60 | `legacy_delphi_source/legacy_source/Subu60.dfm` |
 | `Subu63` | 도서별집계 | `legacy_delphi_source/legacy_source/Subu63.dfm` |

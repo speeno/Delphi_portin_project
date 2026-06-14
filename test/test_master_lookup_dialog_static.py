@@ -57,7 +57,8 @@ class MasterLookupDialogStaticTest(TestCase):
         tx_inbound = _read(FRONT / "app" / "(app)" / "transactions" / "inbound-statement" / "page.tsx")
 
         self.assertIn("MasterLookupField", shipment_orders)
-        self.assertIn('lookupKind="publisher"', shipment_orders)
+        self.assertIn('lookupKind="customer"', shipment_orders)
+        self.assertIn("applyCustomerToHcode", shipment_orders)
 
         self.assertIn("MasterLookupField", tx_status)
         self.assertIn('lookupKind="publisher"', tx_status)

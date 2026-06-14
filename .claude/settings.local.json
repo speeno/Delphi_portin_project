@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Read(//private/tmp/**)",
+      "Bash(rm -rf sobo21_frames)",
+      "Bash(mkdir sobo21_frames)",
+      "Bash(ffprobe -v error -select_streams v:0 -show_entries format=duration:stream=width,height,nb_frames -of default=noprint_wrappers=1 \"/Users/speeno/Downloads/거래명세서 신규추가 및 검색.mp4\")",
+      "Bash(ffmpeg -nostdin -i \"/Users/speeno/Downloads/거래명세서 신규추가 및 검색.mp4\" -vf \"fps=1/3,scale=1280:-1\" -q:v 3 /tmp/sobo21_frames/f_%03d.jpg -y)",
+      "Read(//opt/homebrew/Cellar/x265/**)",
+      "Read(//opt/homebrew/Cellar/x265/4.2/lib/**)",
+      "Bash(brew list *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(ln -sf /opt/homebrew/Cellar/x265/4.2/lib/libx265.216.dylib /opt/homebrew/Cellar/x265/4.2/lib/libx265.215.dylib)",
+      "Bash(ln -sf /opt/homebrew/Cellar/x265/4.2/lib/libx265.216.dylib /opt/homebrew/opt/x265/lib/libx265.215.dylib)",
+      "Bash(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \"/Users/speeno/Downloads/거래명세서 신규추가 및 검색.mp4\")",
+      "Bash(mkdir -p sobo21_frames)",
+      "Bash(ffmpeg -nostdin -loglevel error -i \"/Users/speeno/Downloads/거래명세서 신규추가 및 검색.mp4\" -vf \"fps=1/2.5,scale=1400:-1\" -q:v 3 /tmp/sobo21_frames/f_%03d.jpg -y)",
+      "Bash(ffmpeg -nostdin -loglevel error -i \"/Users/speeno/Downloads/거래명세서 신규추가 및 검색.mp4\" -vn -ac 1 -ar 16000 /tmp/sobo21_audio.wav -y)",
+      "Bash(whisper /tmp/sobo21_audio.wav --language Korean --model small --output_format txt --output_dir /tmp/sobo21_tx --fp16 False)",
+      "Bash(echo \"started whisper pid $!\")",
+      "Bash(ffmpeg -nostdin -loglevel error -i \"/Users/speeno/Downloads/거래명세서 신규추가 및 검색.mp4\" -vf \"fps=1/8,scale=640:-1,tile=4x4\" -q:v 4 /tmp/sobo21_montage_%02d.jpg -y)",
+      "Bash(grep -i \"\\\\.pas$\")",
+      "Bash(python -m pytest test/ -k \"outbound\" -q)",
+      "Bash(python3 -m pytest test/ -k \"outbound\" -q)",
+      "Bash(git stash *)",
+      "Bash(python3 -m pytest test/test_outbound_shipment_status.py -q)",
+      "Bash(grep -nA15 \"def get_user_context\" backend/app/core/deps.py)",
+      "Bash(perl -0pi -e 's/\\\\boutbound_logger\\\\\\(\\\\n\\(\\\\s+action=\"created\"\\)/log_outbound_action\\(\\\\n$1/g' backend/app/routers/transactions.py)",
+      "Bash(python3 -m pytest test/test_sobo48_sobo29_phase1.py -p no:cacheprovider)",
+      "Bash(python3 -c \"import sys; sys.path.insert\\(0,'.'\\); from app.main import app; print\\('app import OK'\\)\")",
+      "Bash(python3 -m pytest test/test_sales_statement_create_phase1.py test/test_c2_outbound_phase1.py -q)",
+      "Bash(iconv -f EUC-KR -t UTF-8//TRANSLIT \"WeLove_FTP/도서유통-출판/Subu21.pas\")",
+      "Bash(iconv -f EUC-KR -t UTF-8//TRANSLIT \"WeLove_FTP/도서유통-출판/Subu20.pas\")"
+    ]
+  }
+}

@@ -557,6 +557,15 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200, 422},
         },
+        # DEC-065 — 거래명세서 신규추가 라인 자동조회(읽기 전용). 빈 결과(found=false)도 200.
+        {
+            "group": "transactions.statement_line_defaults",
+            "path": (
+                f"/api/v1/transactions/sales-statement/line-defaults?serverId={sid}"
+                f"&bcode=1&customer=1&pubun=위탁"
+            ),
+            "ok_status": {200},
+        },
         # C1 입고명세서 facade (Menu202) — inbound_service.list_receipts 재사용.
         {
             "group": "transactions.inbound_statement",

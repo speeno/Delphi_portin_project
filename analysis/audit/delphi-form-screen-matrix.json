@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-31T01:22:17.328445+00:00",
+  "generated_at": "2026-06-14T10:35:17.277042+00:00",
   "summary": {
-    "registry_forms": 77,
+    "registry_forms": 93,
     "legacy_dfm_subu_stems": 91,
-    "orphan_legacy_stems": 45,
-    "subu_caption_diff": 15,
-    "subu_legacy_missing": 0
+    "orphan_legacy_stems": 41,
+    "subu_caption_diff": 13,
+    "subu_legacy_missing": 1
   },
   "rows": [
     {
@@ -104,8 +104,8 @@
       "legacy_form_object": "Sobo22",
       "legacy_caption": "입고명세서",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu22.dfm",
-      "status": "CAPTION_DIFF",
-      "note": "DFM「입고명세서」↔모던「입고접수관리」 (r=0.36)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo22_import",
@@ -148,8 +148,8 @@
       "legacy_form_object": "Sobo27",
       "legacy_caption": "출고접수관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu27.dfm",
-      "status": "MATCH",
-      "note": ""
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo21",
@@ -225,8 +225,8 @@
       "legacy_form_object": "Sobo24",
       "legacy_caption": "반품재고(정품입고)-재생",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu24.dfm",
-      "status": "CAPTION_DIFF",
-      "note": "DFM「반품재고(정품입고)-재생」↔모던「반품재고(재생)」 (r=0.67)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo25",
@@ -236,8 +236,8 @@
       "legacy_form_object": "Sobo25",
       "legacy_caption": "반품재고(반품입고)-해체",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu25.dfm",
-      "status": "CAPTION_DIFF",
-      "note": "DFM「반품재고(반품입고)-해체」↔모던「반품재고(해체)」 (r=0.67)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo51",
@@ -691,6 +691,17 @@
       "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
+      "modern_id": "Sobo21_status_detail",
+      "folder": "Subu24",
+      "route": "/transactions/status?view=detail",
+      "modern_caption": "거래현황(상세)",
+      "legacy_form_object": "Sobo24",
+      "legacy_caption": "반품재고(정품입고)-재생",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu24.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
       "modern_id": "Sobo21_status_summary",
       "folder": "Subu21",
       "route": "/transactions/status?view=summary",
@@ -720,8 +731,173 @@
       "legacy_form_object": "Sobo29",
       "legacy_caption": "신간명세서",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu29.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo22_inbound_statement",
+      "folder": "Subu22",
+      "route": "/transactions/inbound-statement",
+      "modern_caption": "입고명세서",
+      "legacy_form_object": "Sobo22",
+      "legacy_caption": "입고명세서",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu22.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo25_status_list",
+      "folder": "Subu25",
+      "route": "/transactions/inbound-status?view=list",
+      "modern_caption": "입고현황(LIST)",
+      "legacy_form_object": "Sobo25",
+      "legacy_caption": "반품재고(반품입고)-해체",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu25.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo25_status_detail",
+      "folder": "Subu25",
+      "route": "/transactions/inbound-status?view=detail",
+      "modern_caption": "입고현황(상세)",
+      "legacy_form_object": "Sobo25",
+      "legacy_caption": "반품재고(반품입고)-해체",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu25.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo25_status_summary",
+      "folder": "Subu25",
+      "route": "/transactions/inbound-status?view=summary",
+      "modern_caption": "입고현황(요약)",
+      "legacy_form_object": "Sobo25",
+      "legacy_caption": "반품재고(반품입고)-해체",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu25.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo59_1",
+      "folder": "Subu59_1",
+      "route": "/transactions/verification?v=1",
+      "modern_caption": "출고검증(1)",
+      "legacy_form_object": "Sobo59_1",
+      "legacy_caption": "일별 내역서(요약)",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu59_1.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo59_2",
+      "folder": "Subu59_2",
+      "route": "/transactions/verification?v=2",
+      "modern_caption": "출고검증(2)",
+      "legacy_form_object": "Sobo59_2",
+      "legacy_caption": "출고 검증관리",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu59_2.dfm",
       "status": "CAPTION_DIFF",
-      "note": "DFM「신간명세서」↔모던「기타명세서」 (r=0.60)"
+      "note": "DFM「출고 검증관리」↔모던「출고검증(2)」 (r=0.62)"
+    },
+    {
+      "modern_id": "Sobo59_3",
+      "folder": "Subu59_3",
+      "route": "/transactions/verification?v=individual",
+      "modern_caption": "출고검증(개별)",
+      "legacy_form_object": "Sobo59_3",
+      "legacy_caption": "출고 검증관리(개별)",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu59_3.dfm",
+      "status": "NEAR_MATCH",
+      "note": "유사도 0.89 (≥0.78)"
+    },
+    {
+      "modern_id": "Sobo26_production_stmt",
+      "folder": "Subu26",
+      "route": "/transactions/production/statement",
+      "modern_caption": "제작명세서",
+      "legacy_form_object": "Sobo26",
+      "legacy_caption": "출고접수현황",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu26.dfm",
+      "status": "CAPTION_DIFF",
+      "note": "DFM「출고접수현황」↔모던「제작명세서」 (r=0.00)"
+    },
+    {
+      "modern_id": "Sobo27_production_status",
+      "folder": "Subu27",
+      "route": "/transactions/production/status",
+      "modern_caption": "제작현황",
+      "legacy_form_object": "Sobo27",
+      "legacy_caption": "출고접수관리",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu27.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo28_withholding",
+      "folder": "Subu28",
+      "route": "/transactions/withholding",
+      "modern_caption": "원천징수",
+      "legacy_form_object": "Sobo28",
+      "legacy_caption": "출고택배관리",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu28.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo_author_history",
+      "folder": "Subu26_1",
+      "route": "/transactions/author-history",
+      "modern_caption": "내역조회(저자)",
+      "legacy_form_object": "",
+      "legacy_caption": "",
+      "legacy_dfm": "",
+      "status": "LEGACY_MISSING",
+      "note": "DFM `Subu26_1.dfm` 없음 또는 루트 Caption 추출 실패"
+    },
+    {
+      "modern_id": "Sobo29_new_release",
+      "folder": "Subu29",
+      "route": "/transactions/new-release",
+      "modern_caption": "신간발행",
+      "legacy_form_object": "Sobo29",
+      "legacy_caption": "신간명세서",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu29.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo21_shipment_alias",
+      "folder": "Subu21",
+      "route": "/transactions/sales-statement",
+      "modern_caption": "거래명세서",
+      "legacy_form_object": "Sobo21",
+      "legacy_caption": "거래명세서",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu21.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo59_verification_shipment_alias",
+      "folder": "Subu59_1",
+      "route": "/transactions/verification?v=1",
+      "modern_caption": "출고검증",
+      "legacy_form_object": "Sobo59_1",
+      "legacy_caption": "일별 내역서(요약)",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu59_1.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo29_new_release_shipment_alias",
+      "folder": "Subu29",
+      "route": "/transactions/new-release",
+      "modern_caption": "신간발행",
+      "legacy_form_object": "Sobo29",
+      "legacy_caption": "신간명세서",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu29.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Settle_outstanding",
@@ -753,8 +929,8 @@
       "legacy_form_object": "Sobo28",
       "legacy_caption": "출고택배관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu28.dfm",
-      "status": "NEAR_MATCH",
-      "note": "유사도 0.80 (≥0.78)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Stats_monthly",
@@ -924,12 +1100,6 @@
       "caption": "가입고 현황"
     },
     {
-      "folder": "Subu26",
-      "dfm_path": "legacy_delphi_source/legacy_source/Subu26.dfm",
-      "form_object": "Sobo26",
-      "caption": "출고접수현황"
-    },
-    {
       "folder": "Subu27_1",
       "dfm_path": "legacy_delphi_source/legacy_source/Subu27_1.dfm",
       "form_object": "Sobo27",
@@ -1018,24 +1188,6 @@
       "dfm_path": "legacy_delphi_source/legacy_source/Subu59.dfm",
       "form_object": "Sobo59",
       "caption": "기간별택배내역서"
-    },
-    {
-      "folder": "Subu59_1",
-      "dfm_path": "legacy_delphi_source/legacy_source/Subu59_1.dfm",
-      "form_object": "Sobo59_1",
-      "caption": "일별 내역서(요약)"
-    },
-    {
-      "folder": "Subu59_2",
-      "dfm_path": "legacy_delphi_source/legacy_source/Subu59_2.dfm",
-      "form_object": "Sobo59_2",
-      "caption": "출고 검증관리"
-    },
-    {
-      "folder": "Subu59_3",
-      "dfm_path": "legacy_delphi_source/legacy_source/Subu59_3.dfm",
-      "form_object": "Sobo59_3",
-      "caption": "출고 검증관리(개별)"
     },
     {
       "folder": "Subu59_9",

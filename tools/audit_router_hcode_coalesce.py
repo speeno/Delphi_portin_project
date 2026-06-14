@@ -48,7 +48,17 @@ _ALLOWED_HELPERS = frozenset(
         "enforce_hcode_identity",
         "enforce_hcode_range",
         "enforce_hcode_pattern",
+        # 라우터 내부 래퍼 — 동일 정책의 thin alias.
+        "_require_publisher_hcode",
+        "_guard_billing_hcode",
+        "resolve_scope_hcode",
     }
+)
+_PATH_HCODE_KEY_MARKERS = (
+    "{order_key}",
+    "{receipt_key}",
+    "{return_key}",
+    "{billing_key}",
 )
 _NOQA_MARKER = "noqa: hcode-router-coalesce"
 
@@ -88,6 +98,7 @@ class Stats:
     endpoints_seen: int = 0
     optional_hcode_endpoints: int = 0
     scope_identifier_endpoints: int = 0
+    path_hcode_key_endpoints: int = 0
     findings_critical: int = 0
     findings_info: int = 0
     skipped_noqa: int = 0
@@ -216,6 +227,11 @@ def _body_text(source_lines: list[str], func: ast.AST) -> str:
     return "\n".join(source_lines[start:end])
 
 
+def _has_path_hcode_key(path: str) -> bool:
+    """합성키 path 에 hcode 세그먼트가 포함된 상세/출력 GET."""
+    return any(marker in path for marker in _PATH_HCODE_KEY_MARKERS)
+
+
 def _calls_helper(body_text: str) -> bool:
     return any(h + "(" in body_text for h in _ALLOWED_HELPERS)
 
@@ -256,7 +272,13 @@ def _scan_file(path: Path, stats: Stats) -> list[Finding]:
         if idents or has_body_hcode:
             stats.scope_identifier_endpoints += 1
 
-        if not (is_optional_hcode_get or idents or has_body_hcode):
+        has_path_hcode_key = (
+            method == "GET" and bool(path_str) and _has_path_hcode_key(path_str)
+        )
+        if has_path_hcode_key:
+            stats.path_hcode_key_endpoints += 1
+
+        if not (is_optional_hcode_get or idents or has_body_hcode or has_path_hcode_key):
             continue
 
         body = _body_text(src_lines, node)
@@ -271,6 +293,8 @@ def _scan_file(path: Path, stats: Stats) -> list[Finding]:
             signal_bits.append("idents=" + ",".join(sorted(set(idents))))
         if has_body_hcode:
             signal_bits.append("body_hcode")
+        if has_path_hcode_key:
+            signal_bits.append("path_hcode_key")
         signal = "; ".join(signal_bits)
 
         if _calls_helper(body):

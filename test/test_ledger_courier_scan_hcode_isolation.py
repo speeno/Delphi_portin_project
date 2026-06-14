@@ -173,10 +173,10 @@ class LedgerHcodeIsolationTests(_BaseRouterTest):
         self.assertEqual(svc.call_args.kwargs.get("scope_hcode"), "9001")
 
 
-class LedgerDistWideTests(_BaseRouterTest):
+class LedgerDistScopedTests(_BaseRouterTest):
     CTX = staticmethod(_t2_dist_ctx)
 
-    def test_publisher_settings_dist_no_scope(self) -> None:
+    def test_publisher_settings_dist_binds_scope(self) -> None:
         from app.services import customer_ledger_service
 
         with patch.object(
@@ -189,16 +189,16 @@ class LedgerDistWideTests(_BaseRouterTest):
                 params={"serverId": "remote_1"},
             )
         self.assertEqual(res.status_code, 200)
-        self.assertIsNone(svc.call_args.kwargs.get("scope_hcode"))
+        self.assertEqual(svc.call_args.kwargs.get("scope_hcode"), "9001")
 
-    def test_integrated_dist_pattern_passes(self) -> None:
+    def test_integrated_dist_other_pattern_returns_403(self) -> None:
         from app.services import customer_ledger_service
 
         with patch.object(
             customer_ledger_service,
             "get_integrated_customer_ledger",
             new=AsyncMock(return_value={"rows": [], "page": {}}),
-        ) as svc:
+        ):
             res = self.client.get(
                 "/api/v1/ledger/customer-integrated",
                 params={
@@ -208,8 +208,7 @@ class LedgerDistWideTests(_BaseRouterTest):
                     "dateTo": "2026.01.31",
                 },
             )
-        self.assertEqual(res.status_code, 200)
-        self.assertIsNone(svc.call_args.kwargs.get("scope_hcode"))
+        self.assertEqual(res.status_code, 403)
 
 
 class CourierHcodeIsolationTests(_BaseRouterTest):

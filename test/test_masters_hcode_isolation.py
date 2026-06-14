@@ -62,7 +62,7 @@ class MastersHcodeIsolationTests(TestCase):
         select_sql, _ = cap.calls[0]
         self.assertNotIn("Hcode=%s", select_sql)
 
-    def test_resolve_scope_hcode_dist_returns_none(self) -> None:
+    def test_resolve_scope_hcode_dist_returns_login_hcode(self) -> None:
         ctx = {
             "role": "operator",
             "hcode": "1001",
@@ -70,7 +70,7 @@ class MastersHcodeIsolationTests(TestCase):
             "account_type": "T2_DIST",
             "account_family": "kbt",
         }
-        self.assertIsNone(resolve_scope_hcode(ctx))
+        self.assertEqual(resolve_scope_hcode(ctx), "1001")
 
     def test_resolve_scope_hcode_super_returns_none(self) -> None:
         ctx = {

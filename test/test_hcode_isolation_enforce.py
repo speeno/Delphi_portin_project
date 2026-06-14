@@ -5,7 +5,7 @@
 1. T2_PUB·공유 DB 계정 + 빈 hcode → JWT scope 가 자동 주입.
 2. T2_PUB 계정이 본인 hcode 와 다른 값을 명시 → 403 ``HCODE_FORBIDDEN``.
 3. T2_PUB 계정이 본인 hcode 와 동일한 값을 명시 → 통과.
-4. T2_DIST·super 계정은 임의 hcode 명시 가능.
+4. T2_DIST·T1 등 비슈퍼는 본인 hcode 만 허용(타사 403). super 만 임의 hcode 허용.
 5. 점검(`inspect_subject_hcode`) 모드는 명시값을 그대로 통과.
 """
 
@@ -76,9 +76,8 @@ class EnforceHcodeIsolationTests(TestCase):
             enforce_hcode_isolation("", _ctx_t3_chul09("KMS01")), "KMS01"
         )
 
-    def test_t2_dist_empty_query_returns_none(self) -> None:
-        # 총판은 빈 hcode = 전체 (DEC-033 f).
-        self.assertIsNone(enforce_hcode_isolation(None, _ctx_t2_dist("1001")))
+    def test_t2_dist_empty_query_injects_jwt_scope(self) -> None:
+        self.assertEqual(enforce_hcode_isolation(None, _ctx_t2_dist("1001")), "1001")
 
     def test_super_empty_query_returns_none(self) -> None:
         self.assertIsNone(enforce_hcode_isolation(None, _ctx_super()))
@@ -98,10 +97,13 @@ class EnforceHcodeIsolationTests(TestCase):
             enforce_hcode_isolation("9001", _ctx_t2_pub("9001")), "9001"
         )
 
-    def test_t2_dist_arbitrary_hcode_passes(self) -> None:
-        # 총판은 다른 거래처 hcode 명시 허용.
+    def test_t2_dist_other_hcode_raises_403(self) -> None:
+        with self.assertRaises(HTTPException):
+            enforce_hcode_isolation("9001", _ctx_t2_dist("1001"))
+
+    def test_t2_dist_own_hcode_passes(self) -> None:
         self.assertEqual(
-            enforce_hcode_isolation("9001", _ctx_t2_dist("1001")), "9001"
+            enforce_hcode_isolation("1001", _ctx_t2_dist("1001")), "1001"
         )
 
     def test_super_arbitrary_hcode_passes(self) -> None:

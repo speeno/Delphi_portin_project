@@ -95,6 +95,42 @@ class PrinjingServiceAsyncTest(IsolatedAsyncioTestCase):
 
         self.assertEqual(qty, 100)
         self.assertTrue(any("MAX(Gdate)" in c[0] for c in calls))
+        s1_calls = [sql for sql, _params in calls if "FROM S1_Ssub" in sql]
+        self.assertEqual(len(s1_calls), 1)
+        self.assertNotIn("Bdate IS NULL", s1_calls[0])
+
+    async def test_prinjing_does_not_double_count_s1_movements(self) -> None:
+        from app.services import prinjing_service as svc
+
+        async def fake_query(_sid, sql, params=None):
+            if "MAX(Gdate)" in sql:
+                return [{"opening_date": "2026.01.01"}]
+            if "FROM Sv_Ghng" in sql:
+                return [{"Gcode": "B001", "Gsusu": 1000, "Gsqut": 0, "Obqut": 0}]
+            if "FROM S1_Ssub" in sql:
+                return [
+                    {
+                        "Bcode": "B001",
+                        "Scode": "X",
+                        "Gubun": "출고",
+                        "Pubun": "",
+                        "Gsqut": 71,
+                    }
+                ]
+            if "FROM Sg_Csum" in sql:
+                return []
+            return []
+
+        old = svc.execute_query
+        svc.execute_query = fake_query
+        try:
+            qty = await svc.compute_warehouse_stock_qty(
+                "remote_138", ocode="B", bcode="B001", hcode="5019"
+            )
+        finally:
+            svc.execute_query = old
+
+        self.assertEqual(qty, 929)
 
 
 if __name__ == "__main__":

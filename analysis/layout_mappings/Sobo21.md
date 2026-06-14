@@ -49,16 +49,16 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 | 12 | `Panel105` | TFlatPanel | "거래처명" 라벨 | `<Input id="customerName" readOnly>` | `Sobo21.Edit105` | lookup 선택명 표시 |
 | 11 | `Panel102` | TFlatPanel | "출판사코드" 라벨 | **out-of-scope** | — | Edit107 출판사 |
 | 10 | `Panel103` | TFlatPanel | "거래구분" 라벨 | `<select id="gubun">` 출고/반품/파지 | `Sobo21.Edit102` | Subu21 L510 `@Gubun` |
-| (n/a) | `Edit103` | TFlatEdit | 전표번호 | `<Input id="jubun">` | `Sobo21.Edit103` | |
+| (n/a) | `Edit103` | TFlatEdit | 거래구분 차수(Jubun, hidden) | `<Input id="jubun">` 고급필터 | `Sobo21.Edit103` | MaxLength=2, Visible=False — 출고 11/12·반품 21/22 |
 | (n/a) | `Edit104` | TFlatEdit | 거래처코드 | `MasterLookupField` value | `Sobo21.Edit104` | |
 | (n/a) | `Edit105` | TFlatEdit | 거래처명 | readOnly 표시 | `Sobo21.Edit105` | |
 | (n/a) | `Edit106` | TFlatComboBox | 지사(Gjisa) | `<select id="gjisa">` — `customerBranchList` 동적 로드, 0건 시 숨김 | `Sobo21.Edit106` | Subu21 L1048–1070 `H2_Gbun` |
 | (n/a) | `Edit107/108` | TFlatEdit | 출판사코드/명 | **out-of-scope** | — | |
-| (n/a) | `Edit109` | TFlatEdit | 보조 | **out-of-scope** | — | |
+| (n/a) | `Edit109` | TFlatEdit | 전표번호(Idnum 5자리) | `<Input id="idnum">` | `Sobo21.Edit109` | DEC-064 §Idnum 정합 — `Format('%05s', St2)` |
 | (n/a) | `DateEdit1` | TDateEdit | 캘린더 팝업 | (HTML5 date input 내장) | — | §7 deltas |
 | (n/a) | `Button701/702/901` | TFlatButton | 캘린더 트리거 / 인쇄 | (HTML5 picker 내장 / 인쇄 후속) | — | DEC-017 deferred |
 | (n/a) | `Button101` | TFlatButton (Visible=false, OnClick `Button101Click`) | 조회(보조) | `<Button onClick=load>조회` (line 203~212) | button(조회) | dxButton1 과 동일 핸들러 |
-| (n/a) | `Button201` | TFlatButton (Visible=false) | 신규 등록 | **out-of-scope** | — | 거래명세서 신규는 C2 outbound 와 분리 |
+| (n/a) | `Button201` | TFlatButton (Visible=false) | 신규 등록 | **in-scope (DEC-065)** | 목록 페이지 `신규(N)` 버튼 + `sales-statement/new` 페이지(`Sobo21.Button201`) | 화면 내 신규추가 복원 — 기존 "C2 outbound 와 분리" 부분 번복 |
 | (n/a) | `dxButton1` | TdxButton ("검색") | 검색 실행 | `<Button onClick=load>조회` (line 203~212) | button(조회) | Button101 과 동일 의미 — `data-legacy-id="dxButton1"` 1순위 부착 |
 
 > **TabOrder 보존**: 모던 검색 영역의 키보드 흐름은 거래처 → 시작일 → 종료일 → 취소포함 → 조회 (DOM 순서). dfm 의 TabOrder 0 (Edit101) → 8 (Panel101 라벨) → 13 (Panel104 라벨) → ... 은 라벨이 input 의 `htmlFor` 로 묶이며 의미상 보존됨.

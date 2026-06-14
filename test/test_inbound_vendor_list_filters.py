@@ -67,8 +67,8 @@ def _meta() -> tuple[AsyncMock, AsyncMock]:
         "gadd1": "Gadd1",
         "gadd2": "Gadd2",
     }
-    gbun_cols = {"gcode", "gname"}
-    gbun_exact = {"gcode": "Gcode", "gname": "Gname"}
+    gbun_cols = {"gcode", "gname", "hcode"}
+    gbun_exact = {"gcode": "Gcode", "gname": "Gname", "hcode": "Hcode"}
     return (
         AsyncMock(return_value=(ggwo_cols, ggwo_exact)),
         AsyncMock(return_value=(gbun_cols, gbun_exact)),
@@ -114,11 +114,41 @@ class InboundVendorListFilterTests(TestCase):
         self.assertIn("g.Gtel1 LIKE", select_sql)
         self.assertIn("g.Guper LIKE", select_sql)
 
-    def test_list_select_includes_gbun_join(self) -> None:
+    def test_list_applies_scope_hcode_when_provided(self) -> None:
+        cap = _Capture()
+        ggwo_mock, gbun_mock = _meta()
+        with (
+            patch.object(masters_service, "execute_query", new=cap),
+            patch.object(masters_service, "g2_ggwo_column_meta", ggwo_mock),
+            patch.object(masters_service, "g2_gbun_column_meta", gbun_mock),
+        ):
+            asyncio.run(
+                masters_service.list_inbound_vendors(
+                    server_id="remote_1",
+                    limit=50,
+                    offset=0,
+                    scope_hcode="PUB01",
+                )
+            )
+        select_sql, select_params = cap.select
+        count_sql, count_params = cap.count
+        self.assertIn("g.Hcode=%s", select_sql)
+        self.assertIn("g.Hcode=%s", count_sql)
+        self.assertIn("PUB01", select_params)
+        self.assertIn("PUB01", count_params)
+
+    def test_list_select_uses_scalar_gbun_subquery_not_join(self) -> None:
+        """Sobo12 — G2_Ggwo 단독 목록. Gubun 단독 JOIN 시 행 곱셈(82→574) 회귀 방지."""
         cap = _run()
-        select_sql, _ = cap.select
-        self.assertIn("LEFT JOIN G2_Gbun", select_sql)
+        select_sql, count_sql = cap.select[0], cap.count[0]
+        self.assertNotIn("LEFT JOIN G2_Gbun", select_sql)
+        self.assertNotIn("LEFT JOIN G2_Gbun", count_sql)
+        self.assertIn("FROM G2_Ggwo g", select_sql)
+        self.assertIn("FROM G2_Ggwo g", count_sql)
         self.assertIn("gbun_name", select_sql)
+        self.assertIn("(SELECT COALESCE(b.Gname,'') FROM G2_Gbun b", select_sql)
+        self.assertIn("b.Gcode=g.Gubun", select_sql)
+        self.assertIn("b.Hcode=g.Hcode", select_sql)
         self.assertIn("gjuso", select_sql)
 
 

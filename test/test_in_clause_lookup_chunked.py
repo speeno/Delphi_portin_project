@@ -189,13 +189,22 @@ class LookupCallersUseHelperTests(IsolatedAsyncioTestCase):
         spy.assert_awaited()
 
     async def test_transactions_product_names_uses_helper(self) -> None:
-        await self._spy_module(
-            "app.services.transactions_service",
-            "_fetch_product_names",
-            "srv",
-            "H001",
-            ["B001", "B002"],
-        )
+        # _fetch_product_names 는 in_clause_lookup 외에 g4_book_adapt.g4_column_names /
+        # shelf_select_sql 도 사용 — schema 어댑터는 별도 stub 으로 가로채 실 DB 의존 0.
+        from app.services import transactions_service as ts
+
+        async def fake_columns(_server_id: str) -> set[str]:
+            return {"hcode", "gcode", "gname", "gpost"}
+
+        def fake_shelf(_cols: set[str]) -> str:
+            return "Gpost AS shelf"
+
+        spy = AsyncMock(return_value=[])
+        with patch.object(ts, "in_clause_lookup", new=spy), \
+             patch("app.services.g4_book_adapt.g4_column_names", new=fake_columns), \
+             patch("app.services.g4_book_adapt.shelf_select_sql", new=fake_shelf):
+            await ts._fetch_product_names("srv", "H001", ["B001", "B002"])
+        spy.assert_awaited()
 
     async def test_inbound_publisher_names_uses_helper(self) -> None:
         await self._spy_module(

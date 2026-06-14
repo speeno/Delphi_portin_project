@@ -126,7 +126,12 @@ inputs:
       type: string
       required: false
       legacy_field: "S1_Ssub.Jubun"
-      note: "Subu21 Edit103 — jubun_lookup_variants IN (1↔00001 zero-pad). FE formatJubunInput 동등."
+      note: "Subu21 Edit103 (hidden, MaxLength=2) — 거래구분 차수(출고 11/12·반품 21/22). jubun_lookup_variants IN. FE formatJubunInput 동등."
+    - name: idnum
+      type: integer
+      required: false
+      legacy_field: "S1_Ssub.Idnum"
+      note: "DEC-064 §Idnum 정합 (2026-06-05) — Subu21 Edit109 (사용자 노출 '전표번호' 5자리 zero-pad). 정수 매칭(Subu21.pas Button901Click L924 'Idnum= @Idnum')."
     - name: hcode
       type: string
       required: false
@@ -233,7 +238,19 @@ inputs:
 outputs:
   sales_statement_list:
     fields:
-      - { name: order_key, type: object, schema: { gdate: string, hcode: string, jubun: string, gjisa: string } }
+      - name: order_key
+        type: object
+        # DEC-064 §Idnum 정합 (2026-06-05) — 6축 합성키.
+        # Subu21.pas: Idnum = Edit109(사용자 노출 '전표번호' 5자리), Jubun = Edit103(hidden 차수),
+        # Gubun = Edit102, Gcode = Edit104. 4축(legacy)도 backward-compat 으로 인식.
+        schema:
+          gdate: string
+          hcode: string
+          jubun: string
+          gjisa: string
+          idnum: integer  # Subu21 Edit109 5자리 전표번호 정수값 (DEC-064)
+          gubun: string   # Subu21 Edit102 출고/반품
+          gcode: string   # Subu21 Edit104 거래처코드
       - { name: customer_name, type: string, source: "G1_Ggeo.Gname / H2_Gbun" }
       - { name: row_count,   type: integer, source: "COUNT(*) — 별칭 'lines' 금지 (HOT-OUT-1 회피)" }
       - { name: qty,         type: integer, source: "SUM(Gsqut)" }
@@ -245,7 +262,7 @@ outputs:
       - { name: order_key,  type: object }
       - { name: customer,   type: object, schema: { hcode: string, gname: string, gcode: string } }
       - { name: gubun,      type: string,  legacy: "S1_Ssub.Gubun" }
-      - { name: slip_no,    type: string,  note: "전표번호 표시 — order_key.jubun 동값" }
+      - { name: slip_no,    type: string,  note: "전표번호 표시 — DEC-064 §Idnum 정합 후 order_key.idnum 5자리 zero-pad" }
       - { name: customer_profile, type: object, note: "G1_Ggeo 읽기전용 (Gadd1/2,Gtel1/2,Gposa 등)" }
       - { name: stock_qty,  type: integer, nullable: true, note: "재고 Label104 — Tong02 PrinJing/Tong04 _Sv_Ghng_; bcode+hcode 필수, 없으면 null" }
       - lines:
@@ -500,7 +517,12 @@ data_access:
 endpoints:
   - method: GET
     path: /api/v1/transactions/sales-statement
-    description: "거래명세서 목록 (TSobo21 Button101Click 동등)."
+    description: |
+      거래명세서 목록 (Subu21 Button101Click 동등).
+      UX(2026-06): DEC-064 §Idnum 정합 — 전표번호(idnum)+일자범위만으로 단건 조회 가능.
+      idnum 비입력 시 jubun(=거래구분 차수)+일자로 N건 후보를 surface, 행 선택으로
+      (Gdate,Gcode,Gjisa,Hcode,Idnum) 자동채움. GROUP BY 6축 (Gdate, Hcode, Idnum,
+      Gubun, Jubun, Gjisa, Gcode) 로 1슬립=1행 보장.
     auth: bearer
     request:
       query:
@@ -511,6 +533,12 @@ endpoints:
         gcode?: string
         gjisa?: string
         jubun?: string
+        idnum?: integer  # DEC-064 §Idnum 정합 — Subu21 Edit109 5자리 zero-pad
+        note_idnum: "정수 매칭 (Subu21.pas Button901Click L924 'Idnum= @Idnum'). 단건 식별자."
+        note_jubun: "거래구분 차수(2자리 hidden). 단독 검색은 다건 후보, 행 선택으로 idnum/gcode 확정"
+        bcode?: string   # DEC-065 P4 — 거래현황(상세) Subu24 검색: 도서코드 라인 필터(S1_Ssub.Bcode 동등)
+        pubun?: string   # DEC-065 P4 — 거래현황(상세) Subu24 검색: 도서구분 라인 필터(S1_Ssub.Pubun 동등)
+        note_search_dialog: "bcode/pubun 은 라인 단위 동등 매칭(파생테이블 불요, mysql3 호환). FE 검색 다이얼로그 SalesStatementSearchDialog 전용 필터."
         include_cancelled?: boolean
         limit?: integer
         offset?: integer
@@ -519,7 +547,14 @@ endpoints:
         # DEC-024 (paging 표준): 신규 ``page`` 객체 + BC 평면 (deprecated, Phase 2 제거).
         body:
           items:
-            - order_key: { gdate: string, hcode: string, jubun: string, gjisa: string }
+            - order_key:
+                gdate: string
+                hcode: string
+                jubun: string
+                gjisa: string
+                idnum: integer
+                gubun: string
+                gcode: string
               customer_name: string
               row_count: integer
               qty: integer
@@ -537,7 +572,10 @@ endpoints:
 
   - method: GET
     path: /api/v1/transactions/sales-statement/customer-preview
-    description: "목록 참조 패널 — G1 프로필 + 당일 S1_Memo(Button301) + S1_Ssub 재고 합 (Sobo21 Panel003)."
+    description: |
+      목록 참조 패널 — G1 프로필 + 당일 S1_Memo(Button301) + Label104 재고.
+      stock_qty: Tong02 PrinJing(compute_warehouse_stock_qty) — query bcode+hcode+ocode 필수.
+      명세 라인 클릭 시 해당 Bcode 로 온디맨드 재조회(실시간 재고).
     auth: bearer
     request:
       query:
@@ -546,9 +584,12 @@ endpoints:
         date_from: string
         date_to: string
         hcode?: string
+        bcode?: string
+        ocode?: string
         gubun?: string
         jubun?: string
         gjisa?: string
+        idnum?: integer  # DEC-064 §Idnum 정합 — 단건 컨텍스트 메모 보강
     responses:
       "200":
         body:
@@ -560,16 +601,27 @@ endpoints:
 
   - method: GET
     path: /api/v1/transactions/sales-statement/{order_key}
-    description: "거래명세서 상세 (라인 + 메모)."
+    description: |
+      거래명세서 상세 (라인 + 메모). DEC-064 §Idnum 정합 — 7세그먼트 합성키
+      ``{gdate}|{hcode}|{jubun}|{gjisa}|{idnum}|{gubun}|{gcode}``. 4세그먼트(legacy)도
+      backward-compat (idnum=0 fallback — 동일 jubun 다건 시 첫 행).
     auth: bearer
     request:
       path:
-        order_key: "string ('{gdate}|{hcode}|{jubun}|{gjisa}')"
+        order_key: "string ('{gdate}|{hcode}|{jubun}|{gjisa}[|{idnum}|{gubun}|{gcode}]')"
     responses:
       "200":
         body:
-          order_key: { gdate: string, hcode: string, jubun: string, gjisa: string }
+          order_key:
+            gdate: string
+            hcode: string
+            jubun: string
+            gjisa: string
+            idnum: integer
+            gubun: string
+            gcode: string
           customer: { hcode: string, gname: string }
+          slip_no: string  # DEC-064 — idnum 5자리 zero-pad ('00001'); idnum=0 이면 빈 문자열.
           status: "active|cancelled"
           lines: [...]
           memo: { gbigo, sbigo, gtel1, gtel2, gname, gpost }
@@ -595,6 +647,74 @@ endpoints:
           action: "inserted|updated"
           updated_at: string
       "404": { body: { detail: "Order not found", code: "INQ_NOT_FOUND" } }
+      "422": { body: { detail: "Validation failed", code: "INQ_VALIDATION" } }
+      "500": { body: { detail: "Transaction failed (rolled back)", code: "INQ_TX_FAILED" } }
+
+  # DEC-065 — 거래명세서 화면 내 신규추가 (Sobo21 Button201). 1차 거래구분 '출고' 고정.
+  # 생성은 outbound_service.create_order 재사용(동일 S1_Ssub). 신규 SQL 표면 최소화(DEC-040 정합).
+  - method: GET
+    path: /api/v1/transactions/sales-statement/line-defaults
+    description: |
+      도서코드 자동조회 — Subu21.pas Button201Click(L568~630) + Tong02.pas PrinZing/PrinRat1 동등.
+      단가·비율 4단 override(last-wins): G1_Ggeo(거래처 비율, Pubun 선택) → G4_Book(도서마스터 단가/비율)
+      → G6_Ggeo(거래처×도서 특가) → S1_Ssub 직전거래가(G7_Ggeo.Chek3='grat1'|'grat2' 게이트).
+      회사 컨텍스트(Hnnnn)=JWT scope hcode, customer=거래처코드(Edit104). 단일행 동등조회만(mysql3 호환).
+    auth: bearer
+    request:
+      query:
+        server_id: string
+        bcode: string            # 도서코드 (S1_Ssub.Bcode)
+        customer?: string        # 거래처코드 — G1/G6/직전거래가 조회 키
+        pubun?: string           # 품목구분 (기본 '위탁') — 비율 컬럼 선택
+        qty?: integer            # 입력 수량 — gssum 미리보기 계산용
+        gjisa?: string           # 지사 — 직전거래가 지사 키 변형(특정 고객 DB)
+    responses:
+      "200":
+        body:
+          bcode: string
+          product_name: string   # G4_Book.Gname
+          gjeja: string          # G4_Book.Gjeja (저자)
+          gdang: integer         # 단가 (S1_Ssub.Gdang)
+          grat1: number          # 비율 % (Pubun 선택값)
+          pubun: string
+          gssum: integer         # qty 기준 계산금액 (없으면 0)
+          source: string         # 결정 출처 (G1_Ggeo/G4_Book/G6_Ggeo/S1_Ssub:last)
+          found: boolean
+      "500": { body: { detail: "line-defaults query failed", code: "INQ_TX_FAILED" } }
+
+  - method: POST
+    path: /api/v1/transactions/sales-statement
+    description: |
+      거래명세서 출고 전표 생성. gubun='출고' 서버 강제(D2 1차). 전표번호(Jubun) 자동 채번.
+      라인 금액(gssum)은 서버에서 PrinYing(= round(Gdang*Gsqut*Grat1/100)) 재계산·검증
+      (클라이언트가 양수 금액을 보냈는데 ±1 초과 불일치 시 422). audit.outbound 'created'.
+      라인 Gcode=거래처코드(Edit104)=header.hcode (Subu21 정합).
+    auth: bearer
+    request:
+      content_type: application/json
+      schema:
+        serverId: string
+        gdate: string            # 'YYYY-MM-DD' (저장 시 'YYYY.MM.DD')
+        hcode: string            # 거래처코드 (S1_Ssub.Hcode/Gcode)
+        gjisa?: string
+        jubun?: string           # 생략 시 서버 자동 채번
+        lines:
+          - bcode: string
+            pubun: string        # 기본 '위탁'
+            gsqut: integer
+            gdang: integer
+            grat1: number
+            gssum?: integer      # 0/생략 시 서버 계산값 채택
+            gbigo?: string
+    responses:
+      "201":
+        body:
+          order_key: { gdate, hcode, jubun, gjisa }
+          slip_no: string        # 채번된 Jubun
+          lines: integer
+          qty: integer
+          amount: integer
+          created_at: string
       "422": { body: { detail: "Validation failed", code: "INQ_VALIDATION" } }
       "500": { body: { detail: "Transaction failed (rolled back)", code: "INQ_TX_FAILED" } }
 

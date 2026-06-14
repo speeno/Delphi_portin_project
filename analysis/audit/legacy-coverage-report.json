@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-05-31T01:22:18.141868+00:00",
+  "generated_at": "2026-06-14T10:35:17.838614+00:00",
   "summary": {
     "total_dfm_candidates": 118,
-    "registry_entries": 77,
-    "ok": 25,
+    "registry_entries": 93,
+    "ok": 27,
     "missing_forms": 0,
-    "caption_mismatches": 7,
-    "allowed": 104
+    "caption_mismatches": 20,
+    "allowed": 99
   },
   "missing_forms": [],
   "caption_mismatches": [
@@ -53,11 +53,102 @@
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu16.dfm"
     },
     {
+      "form_name": "Sobo21_status_detail",
+      "dfm_form_name": "Sobo21",
+      "registry_caption": "거래현황(상세)",
+      "dfm_caption": "거래명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm"
+    },
+    {
+      "form_name": "Sobo25_status_detail",
+      "dfm_form_name": "Sobo25",
+      "registry_caption": "입고현황(상세)",
+      "dfm_caption": "반품재고(반품입고)-해체",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm"
+    },
+    {
+      "form_name": "Sobo25_status_list",
+      "dfm_form_name": "Sobo25",
+      "registry_caption": "입고현황(LIST)",
+      "dfm_caption": "반품재고(반품입고)-해체",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm"
+    },
+    {
+      "form_name": "Sobo25_status_summary",
+      "dfm_form_name": "Sobo25",
+      "registry_caption": "입고현황(요약)",
+      "dfm_caption": "반품재고(반품입고)-해체",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm"
+    },
+    {
+      "form_name": "Sobo26_production_stmt",
+      "dfm_form_name": "Sobo26",
+      "registry_caption": "제작명세서",
+      "dfm_caption": "출고접수현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu26.dfm"
+    },
+    {
+      "form_name": "Sobo27_production_status",
+      "dfm_form_name": "Sobo27",
+      "registry_caption": "제작현황",
+      "dfm_caption": "출고접수관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu27.dfm"
+    },
+    {
       "form_name": "Sobo28_delivery",
       "dfm_form_name": "Sobo28",
       "registry_caption": "택배관리",
       "dfm_caption": "출고택배관리",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu28.dfm"
+    },
+    {
+      "form_name": "Sobo28_withholding",
+      "dfm_form_name": "Sobo28",
+      "registry_caption": "원천징수",
+      "dfm_caption": "출고택배관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu28.dfm"
+    },
+    {
+      "form_name": "Sobo29_new_release",
+      "dfm_form_name": "Sobo29",
+      "registry_caption": "신간발행",
+      "dfm_caption": "신간명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu29.dfm"
+    },
+    {
+      "form_name": "Sobo29_new_release_shipment_alias",
+      "dfm_form_name": "Sobo29",
+      "registry_caption": "신간발행",
+      "dfm_caption": "신간명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu29.dfm"
+    },
+    {
+      "form_name": "Sobo59_1",
+      "dfm_form_name": "Sobo59_1",
+      "registry_caption": "출고검증(1)",
+      "dfm_caption": "일별 내역서(요약)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_1.dfm"
+    },
+    {
+      "form_name": "Sobo59_2",
+      "dfm_form_name": "Sobo59_2",
+      "registry_caption": "출고검증(2)",
+      "dfm_caption": "출고 검증관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_2.dfm"
+    },
+    {
+      "form_name": "Sobo59_3",
+      "dfm_form_name": "Sobo59_3",
+      "registry_caption": "출고검증(개별)",
+      "dfm_caption": "출고 검증관리(개별)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_3 - 복사본.dfm"
+    },
+    {
+      "form_name": "Sobo59_verification_shipment_alias",
+      "dfm_form_name": "Sobo59",
+      "registry_caption": "출고검증",
+      "dfm_caption": "기간별택배내역서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59.dfm"
     }
   ],
   "allowed": [
@@ -495,15 +586,6 @@
       "until": "Phase 3 audit"
     },
     {
-      "form_name": "Sobo26",
-      "form_class": "TSobo26",
-      "dfm_caption": "출고접수현황",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu26.dfm",
-      "category": "missing",
-      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
-      "until": "Phase 3 audit"
-    },
-    {
       "form_name": "Sobo29_other",
       "dfm_form_name": "Sobo29",
       "registry_caption": "기타명세서",
@@ -813,42 +895,6 @@
       "until": "Phase 3 audit"
     },
     {
-      "form_name": "Sobo59",
-      "form_class": "TSobo59",
-      "dfm_caption": "기간별택배내역서",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59.dfm",
-      "category": "missing",
-      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
-      "until": "Phase 3 audit"
-    },
-    {
-      "form_name": "Sobo59_1",
-      "form_class": "TSobo59_1",
-      "dfm_caption": "일별 내역서(요약)",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_1.dfm",
-      "category": "missing",
-      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
-      "until": "Phase 3 audit"
-    },
-    {
-      "form_name": "Sobo59_2",
-      "form_class": "TSobo59_2",
-      "dfm_caption": "출고 검증관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_2.dfm",
-      "category": "missing",
-      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
-      "until": "Phase 3 audit"
-    },
-    {
-      "form_name": "Sobo59_3",
-      "form_class": "TSobo59_3",
-      "dfm_caption": "출고 검증관리(개별)",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_3 - 복사본.dfm",
-      "category": "missing",
-      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
-      "until": "Phase 3 audit"
-    },
-    {
       "form_name": "Sobo60",
       "form_class": "TSobo60",
       "dfm_caption": "Sobo60",
@@ -1040,6 +1086,16 @@
       "form_name": "Sobo21",
       "dfm_form_name": "Sobo21",
       "caption": "거래명세서"
+    },
+    {
+      "form_name": "Sobo21_shipment_alias",
+      "dfm_form_name": "Sobo21",
+      "caption": "거래명세서"
+    },
+    {
+      "form_name": "Sobo22_inbound_statement",
+      "dfm_form_name": "Sobo22",
+      "caption": "입고명세서"
     },
     {
       "form_name": "Sobo23",

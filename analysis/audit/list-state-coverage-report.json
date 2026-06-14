@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-31T01:22:18.312395+00:00",
+  "generated_at": "2026-06-14T10:35:17.992037+00:00",
   "summary": {
-    "total_pages": 108,
-    "covered": 33,
-    "violations": 11,
+    "total_pages": 117,
+    "covered": 36,
+    "violations": 16,
     "allowed": 0,
-    "skipped": 64
+    "skipped": 65
   },
   "covered": [
     {
@@ -133,6 +133,18 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/page.tsx"
     },
     {
+      "route_key": "transactions.author-history",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/author-history/page.tsx"
+    },
+    {
+      "route_key": "transactions.inbound-statement",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/inbound-statement/page.tsx"
+    },
+    {
+      "route_key": "transactions.inbound-status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/inbound-status/page.tsx"
+    },
+    {
       "route_key": "transactions.sales-statement",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/page.tsx"
     },
@@ -183,8 +195,28 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/sales-period/page.tsx"
     },
     {
+      "route_key": "transactions.new-release",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/new-release/page.tsx"
+    },
+    {
       "route_key": "transactions.other",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/other/page.tsx"
+    },
+    {
+      "route_key": "transactions.production.statement",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/production/statement/page.tsx"
+    },
+    {
+      "route_key": "transactions.production.status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/production/status/page.tsx"
+    },
+    {
+      "route_key": "transactions.verification",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/verification/page.tsx"
+    },
+    {
+      "route_key": "transactions.withholding",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/withholding/page.tsx"
     }
   ],
   "allowed": [],
@@ -436,6 +468,10 @@
     {
       "route_key": "transactions.sales-statement",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/[orderKey]/page.tsx"
+    },
+    {
+      "route_key": "transactions.sales-statement.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/new/page.tsx"
     },
     {
       "route_key": "transactions.sales-statement.print",

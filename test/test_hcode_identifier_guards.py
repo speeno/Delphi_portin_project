@@ -10,7 +10,7 @@
 정책
 ----
 - 격리 계정(T2_PUB·T3 공유 DB): 빈 값 → JWT scope 자동 주입, 타사 값 → 403.
-- 슈퍼/T1/T2_DIST: 입력 그대로(광역 조회 허용).
+- 슈퍼만 광역 조회 허용. 그 외는 JWT scope 주입 + tamper 403.
 """
 
 from __future__ import annotations
@@ -96,14 +96,18 @@ class EnforceHcodeIdentityTests(TestCase):
         with self.assertRaises(HTTPException):
             enforce_hcode_identity("OTHER", _ctx_t3_chul09("KMS01"))
 
-    def test_t2_dist_arbitrary_passes(self) -> None:
-        self.assertEqual(enforce_hcode_identity("9001", _ctx_t2_dist("1001")), "9001")
+    def test_t2_dist_other_raises_403(self) -> None:
+        with self.assertRaises(HTTPException):
+            enforce_hcode_identity("9001", _ctx_t2_dist("1001"))
+
+    def test_t2_dist_own_passes(self) -> None:
+        self.assertEqual(enforce_hcode_identity("1001", _ctx_t2_dist("1001")), "1001")
 
     def test_super_arbitrary_passes(self) -> None:
         self.assertEqual(enforce_hcode_identity("ANY", _ctx_super()), "ANY")
 
-    def test_t2_dist_empty_returns_none(self) -> None:
-        self.assertIsNone(enforce_hcode_identity(None, _ctx_t2_dist("1001")))
+    def test_t2_dist_empty_injects_scope(self) -> None:
+        self.assertEqual(enforce_hcode_identity(None, _ctx_t2_dist("1001")), "1001")
 
 
 class EnforceHcodeRangeTests(TestCase):
@@ -121,11 +125,9 @@ class EnforceHcodeRangeTests(TestCase):
         with self.assertRaises(HTTPException):
             enforce_hcode_range("0001", "ZZZZ", _ctx_t2_pub("9001"))
 
-    def test_t2_dist_range_passes(self) -> None:
-        self.assertEqual(
-            enforce_hcode_range("0001", "ZZZZ", _ctx_t2_dist("1001")),
-            ("0001", "ZZZZ"),
-        )
+    def test_t2_dist_other_range_raises_403(self) -> None:
+        with self.assertRaises(HTTPException):
+            enforce_hcode_range("0001", "ZZZZ", _ctx_t2_dist("1001"))
 
 
 class EnforceHcodePatternTests(TestCase):
@@ -139,9 +141,12 @@ class EnforceHcodePatternTests(TestCase):
         with self.assertRaises(HTTPException):
             enforce_hcode_pattern("00", _ctx_t2_pub("9001"))
 
-    def test_t2_dist_returns_none(self) -> None:
-        # 총판은 scope 강제 없음 — 서비스가 패턴 그대로 사용.
-        self.assertIsNone(enforce_hcode_pattern("00", _ctx_t2_dist("1001")))
+    def test_t2_dist_other_pattern_raises_403(self) -> None:
+        with self.assertRaises(HTTPException):
+            enforce_hcode_pattern("00", _ctx_t2_dist("1001"))
+
+    def test_t2_dist_empty_pattern_returns_scope(self) -> None:
+        self.assertEqual(enforce_hcode_pattern("", _ctx_t2_dist("1001")), "1001")
 
 
 class GuardScopeBoundTests(TestCase):

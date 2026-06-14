@@ -128,6 +128,8 @@ def _row_sales() -> dict[str, Any]:
     return {
         "Gdate": "2026.04.01",
         "Hcode": "H001",
+        "Idnum": 1,
+        "Gubun": "출고",
         "Jubun": "J1",
         "Gjisa": "",
         "stmt_gcode": "GCUST01",
@@ -164,6 +166,7 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
         expected_group_by: str,
         names_attr2: str | None = None,
         names_value2: dict[str, str] | None = None,
+        allow_multi_exec: bool = False,
     ) -> None:
         with patch(f"{module_path}.execute_query", new=AsyncMock(return_value=rows)) as exec_mock, \
              patch(f"{module_path}.{names_attr}", new=AsyncMock(return_value=names_value)), \
@@ -178,8 +181,8 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
             kwargs = cg_mock.await_args.kwargs
             self.assertEqual(kwargs["group_by"], expected_group_by)
             self.assertEqual(kwargs["table"], "S1_Ssub")
-            # data SELECT 는 1번만 — derived count 분기 제거 확인.
-            self.assertEqual(exec_mock.await_count, 1)
+            if not allow_multi_exec:
+                self.assertEqual(exec_mock.await_count, 1)
 
     async def _invoke(self, module_path: str, fn_name: str, kwargs: dict[str, Any]) -> Any:
         import importlib
@@ -221,20 +224,26 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
 
     async def test_transactions_list_sales_statements_no_hcode(self) -> None:
         """hcode 빈 값일 때 전체 거래처 대상 — 2026-04-21 정책 회귀."""
-        await self._verify(
-            module_path="app.services.transactions_service",
-            call_kwargs={
-                "server_id": "srv",
-                "hcode": None,
-                "date_from": "2026-04-01",
-                "date_to": "2026-04-30",
-            },
-            rows=[_row_sales()],
-            names_attr="fetch_g1_customer_gnames",
-            names_value={("H001", "GCUST01"): "거래처A", ("", "GCUST01"): "거래처A"},
-            list_fn_name="list_sales_statements",
-            expected_group_by="Gdate, Hcode, COALESCE(Jubun,''), COALESCE(Gjisa,'')",
-        )
+        import app.services.s1_ssub_adapt as s1a
+
+        with patch.object(s1a, "s1_has_idnum_column", new=AsyncMock(return_value=True)), \
+             patch.object(s1a, "s1_idnum_group_expr", new=AsyncMock(return_value="COALESCE(Idnum,0)")), \
+             patch.object(s1a, "s1_idnum_select_expr", new=AsyncMock(return_value="COALESCE(Idnum,0) AS Idnum")):
+            await self._verify(
+                module_path="app.services.transactions_service",
+                call_kwargs={
+                    "server_id": "srv",
+                    "hcode": None,
+                    "date_from": "2026-04-01",
+                    "date_to": "2026-04-30",
+                },
+                rows=[_row_sales()],
+                names_attr="fetch_g1_customer_gnames",
+                names_value={("H001", "GCUST01"): "거래처A", ("", "GCUST01"): "거래처A"},
+                list_fn_name="list_sales_statements",
+                expected_group_by="Gdate, Hcode, COALESCE(Idnum,0), Gubun, COALESCE(Jubun,''), COALESCE(Gjisa,''), Gcode",
+                allow_multi_exec=True,
+            )
 
     async def test_returns_list(self) -> None:
         # returns_service.list_returns: data SELECT 1회 + publisher lookup 1회.
@@ -276,11 +285,16 @@ class TransactionsSalesStatementHcodeOptionalTests(IsolatedAsyncioTestCase):
             captured_params.append(params)
             return [_row_sales()]
 
+        import app.services.s1_ssub_adapt as s1a
+
         with patch("app.services.transactions_service.execute_query", new=fake_exec), \
              patch(
                  "app.services.transactions_service.fetch_g1_customer_gnames",
                  new=AsyncMock(return_value={}),
              ), \
+             patch.object(s1a, "s1_has_idnum_column", new=AsyncMock(return_value=True)), \
+             patch.object(s1a, "s1_idnum_group_expr", new=AsyncMock(return_value="COALESCE(Idnum,0)")), \
+             patch.object(s1a, "s1_idnum_select_expr", new=AsyncMock(return_value="COALESCE(Idnum,0) AS Idnum")), \
              patch("app.services.transactions_service.count_grouped", new=AsyncMock(return_value=1)) as cg_mock:
             items, total = await ts.list_sales_statements(
                 server_id="srv",
@@ -300,6 +314,7 @@ class TransactionsSalesStatementHcodeOptionalTests(IsolatedAsyncioTestCase):
 
     async def test_with_hcode_keeps_filter(self) -> None:
         from app.services import transactions_service as ts
+        import app.services.s1_ssub_adapt as s1a
 
         captured_sql: list[str] = []
         captured_params: list[tuple] = []
@@ -314,6 +329,9 @@ class TransactionsSalesStatementHcodeOptionalTests(IsolatedAsyncioTestCase):
                  "app.services.transactions_service.fetch_g1_customer_gnames",
                  new=AsyncMock(return_value={}),
              ), \
+             patch.object(s1a, "s1_has_idnum_column", new=AsyncMock(return_value=True)), \
+             patch.object(s1a, "s1_idnum_group_expr", new=AsyncMock(return_value="COALESCE(Idnum,0)")), \
+             patch.object(s1a, "s1_idnum_select_expr", new=AsyncMock(return_value="COALESCE(Idnum,0) AS Idnum")), \
              patch("app.services.transactions_service.count_grouped", new=AsyncMock(return_value=1)) as cg_mock:
             await ts.list_sales_statements(
                 server_id="srv",
@@ -359,6 +377,9 @@ class HttpRouterRegressionTests(TestCase):
         else:
             self.app.dependency_overrides.pop(get_current_user, None)
 
+    @patch("app.services.s1_ssub_adapt.s1_idnum_select_expr", new_callable=AsyncMock)
+    @patch("app.services.s1_ssub_adapt.s1_idnum_group_expr", new_callable=AsyncMock)
+    @patch("app.services.s1_ssub_adapt.s1_has_idnum_column", new_callable=AsyncMock)
     @patch("app.services.transactions_service.count_grouped", new_callable=AsyncMock)
     @patch("app.services.transactions_service.fetch_g1_customer_gnames", new_callable=AsyncMock)
     @patch("app.services.transactions_service.execute_query", new_callable=AsyncMock)
@@ -367,10 +388,16 @@ class HttpRouterRegressionTests(TestCase):
         mock_exec: AsyncMock,
         mock_names: AsyncMock,
         mock_cg: AsyncMock,
+        mock_has_idnum: AsyncMock,
+        mock_idnum_group: AsyncMock,
+        mock_idnum_select: AsyncMock,
     ) -> None:
         mock_exec.return_value = []
         mock_names.return_value = {}
         mock_cg.return_value = 0
+        mock_has_idnum.return_value = True
+        mock_idnum_group.return_value = "COALESCE(Idnum,0)"
+        mock_idnum_select.return_value = "COALESCE(Idnum,0) AS Idnum"
         r = self.client.get(
             "/api/v1/transactions/sales-statement",
             params={

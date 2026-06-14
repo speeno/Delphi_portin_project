@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-05-31T01:22:17.967341+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-06-14T10:35:17.693032+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -21,16 +21,16 @@
 
 ## 3. `form-registry` — preview 또는 STUB
 
-- `Sobo43_shipping_ledger` (발송비내역) route `/settlement/shipping-ledger` — ['STUB'] (line 1280)
+- `Sobo43_shipping_ledger` (발송비내역) route `/settlement/shipping-ledger` — ['STUB'] (line 1660)
   - notes: W2 scaffold — GET /settlement/shipping-ledger 빈 목록. T2 SQL·t3_ssub_adapt 후 CRUD 상향
-- `Sobo44_shipping_status` (발송비현황) route `/settlement/shipping-status` — ['STUB'] (line 1300)
+- `Sobo44_shipping_status` (발송비현황) route `/settlement/shipping-status` — ['STUB'] (line 1680)
   - notes: W2 scaffold — GET /settlement/shipping-status 빈 목록. 재고현황 Sobo44_inv 와 별개
 
 ## 4. `form-registry` — phase1 이지만 부분 동등 (R / RU / STUB)
 
 > 레거시 화면은 풀 CRUD 였지만 모던 화면이 조회·부분쓰기에 머문 항목.
 
-### R (21건)
+### R (34건)
 - `MenuBillingStatements` (내역서관리) `/billing/statements`
   - 허브 MVP (2026-05-15) — 입고·반품·거래·출고·택배·판매 리포트로 링크. 8종 단일 SQL은 후속
 - `MenuShippingReturnsInventory` (반품재고관리(통합)) `/shipping/returns-inventory`
@@ -39,6 +39,28 @@
   - 허브 MVP (2026-05-15) — 기존 /stats/* 화면으로 링크. 8개 전용 하위 라우트·SQL은 후속
 - `Settle_outstanding` (미수현황) `/settlement/outstanding`
   - 조회 전용 — 미수 합계
+- `Sobo21` (거래명세서) `/transactions/sales-statement`
+  - 거래명세서 조회(Subu21). 메모 쓰기는 거래현황(메모) Sobo21_status_memo RU(PATCH /transactions/sales-statement/{key}/memo)로 분리
+- `Sobo21_status_detail` (거래현황(상세)) `/transactions/status?view=detail`
+  - 레거시 Sobo24 거래현황 상세 — 전표 단위 라인(도서·수량·금액) 펼침. GET /transactions/status?view=detail
+- `Sobo21_status_list` (거래현황(LIST)) `/transactions/status?view=list`
+  - 거래현황 목록 조회 — GET /transactions/status?view=list
+- `Sobo21_status_summary` (거래현황(요약)) `/transactions/status?view=summary`
+  - 거래현황 기간 요약 집계 조회 — GET /transactions/status?view=summary
+- `Sobo22_inbound_statement` (입고명세서) `/transactions/inbound-statement`
+  - C1 phase1 — Menu202 입고명세서(조회·출력). GET /transactions/inbound-statement 는 inbound_service.list_receipts 재사용 facade(신규 SQL 0). 라인 펼침은 /inbound/receipts/{key} 지연 조회. C3 입고접수(/inbound/receipts)와 동일 Subu22 — variant 는 inbound_receipt.yaml 에만
+- `Sobo25_status_detail` (입고현황(상세)) `/transactions/inbound-status?view=detail`
+  - C2 phase1 — 입고현황 상세(view=detail). 목록은 list 와 동일 facade, 행 펼침 시 /inbound/receipts/{key} 라인 지연 조회(신규 SQL 0)
+- `Sobo25_status_list` (입고현황(LIST)) `/transactions/inbound-status?view=list`
+  - C2 phase1 — Menu205 입고현황(F25, 조회). Publisher 정본 publisher_source_root/Subu25(caption 입고현황) 재추출로 P0 해제. GET /transactions/inbound-status?view=list 는 inbound_service.list_receipts 재사용 facade(신규 SQL 0). Sobo25_inbound_status.md
+- `Sobo25_status_summary` (입고현황(요약)) `/transactions/inbound-status?view=summary`
+  - C2 phase1 — 입고현황 요약(view=summary). inbound_service.period_report(기간 출판사/거래처 집계) 재사용 facade(신규 SQL 0)
+- `Sobo26_production_stmt` (제작명세서) `/transactions/production/statement`
+  - C6 phase1 — Menu206 제작명세서(F26, 조회). Publisher 정본 publisher_source_root/Subu26(caption 제작명세서) 재추출로 P0 해제. GET /transactions/production/statement = production_service.list_production_statement(S2_Ssub, Ycode=출판사). 인쇄 OOS(DEC-017). Sobo26_production_stmt.md
+- `Sobo27_production_status` (제작현황) `/transactions/production/status`
+  - C7 phase1 — Menu207 제작현황(F27, 조회). Publisher 정본 publisher_source_root/Subu27(caption 제작현황) 재추출로 P0 해제. GET /transactions/production/status = production_service.list_production_status(S2_Ssub, Bcode 범위 필터). Sobo27_production_status.md
+- `Sobo28_withholding` (원천징수) `/transactions/withholding`
+  - C8 phase1 — Menu208 원천징수(F28, 조회). Publisher 정본 publisher_source_root/Subu28(caption 원천징수관리) 재추출로 P0 해제. GET /transactions/withholding = withholding_service.list_withholding(S3_Ssub, 저자명 G3_Gjeo.Gposa). 인쇄 OOS(DEC-017). Sobo28_withholding.md
 - `Sobo32_1_ledger` (통합 거래처원장) `/ledger/customer-integrated`
   - 조회 전용 — DBGrid301 분해는 P3 (customer-ledger-implementation-plan §8)
 - `Sobo32_ledger` (거래처원장) `/ledger/customer`
@@ -67,6 +89,10 @@
   - 차트 조회 전용
 - `Sobo58` (기간별반품내역서) `/returns/period-report`
   - 조회 전용 — test_c4_returns_phase2 / test_returns_period_ledger_regression / DEC-028 data-legacy-id
+- `Sobo59_1` (출고검증(1)) `/transactions/verification?v=1`
+  - C3 phase1 — 정본 캡션은 「일별 내역서(요약)」(Subu59_1.dfm). GET /transactions/verification?v=1 = verification_service.list_verification(mode=summary, S1_Ssub 그룹 Bcode 제외). 검증 쓰기 없는 요약 조회(R). SME 확인 후 캡션 정정 가능. Sobo59_2.md
+- `Sobo_author_history` (내역조회(저자)) `/transactions/author-history`
+  - C10 phase1 — Publisher MySQL/Subu26_1(내역조회(저자)-거래현황) 정본 publisher_source_root 재추출로 P0 해제. GET /transactions/author-history = author_history_service.list_author_history(S1_Ssub 라인 Scode='X' + G4_Book.Gjeja 저자). 조회 전용. Sobo_author_history.md
 - `Stats_monthly` (월별통계) `/stats/monthly`
   - 조회 전용 — statsApi.salesPeriod(groupBy=monthly) → GET /api/v1/stats/sales-period (DEC-040 재사용)
 - `WebAdmAudit` (감사 통합 뷰) `/admin/audit`
@@ -74,15 +100,15 @@
 - `WebAdmOps` (운영 모니터링) `/admin/ops`
   - 조회 전용 — C14 phase2 회귀 통과
 
-### RU (9건)
-- `Sobo14` (도서관리(마스터)) `/master/book`
-  - 조회+수정만 — 신규(C)·삭제(D) 후속
+### RU (11건)
 - `Sobo16_baebon` (배본처관리) `/master/baebon`
   - Sobo16 G6_Ggeo를 배본처(거래처/도서/물류코드) 중심으로 재표기
-- `Sobo16_special` (특별관리) `/master/special`
-  - G6_Ggeo 목록 + Grat1/Gssum 부분 수정 — 신규/삭제·Gcode/Bcode 변경은 후속
+- `Sobo21_status_memo` (거래현황(메모)) `/transactions/status?view=memo`
+  - 거래현황 메모 조회+편집 — PATCH /transactions/sales-statement/{key}/memo (S1_Memo UPSERT, Subu21.pas L1452 동등)
 - `Sobo28_delivery` (택배관리) `/shipping/courier`
   - 내부 S1_Ssub 라인 조회 + S1_Memo 조회/저장 완료 — 외부 택배사 API는 별도 후속
+- `Sobo29_new_release` (신간발행) `/transactions/new-release`
+  - C9 phase1 — Menu209 신간발행. GET /transactions/new-release 는 list_other_statements(jubun='신간') 재사용 facade(신규 SQL 0) + 전체메모는 /transactions/other/memo 재사용. 기타명세서(Sobo29_other)와 전표구분만 다른 단일 폼(코드 분기 금지)
 - `Sobo29_other` (기타명세서) `/transactions/other`
   - S1_Ssub 신간/기타 명세 조회 + S1_Memo 전체메모 저장
 - `Sobo48_compare` (출판사관리(설정)) `/ledger/comparison`
@@ -91,6 +117,10 @@
   - DEC-035 외부 채널 발행 stub 배너 — 실제 발행은 후속
 - `Sobo49_tax_bill` (세금계산서) `/settlement/tax-invoice`
   - DEC-035 외부 채널 발행 stub 배너 — 실제 발행은 후속
+- `Sobo59_2` (출고검증(2)) `/transactions/verification?v=2`
+  - C4 phase1 — 「출고 검증관리」(Subu59_2). GET /transactions/verification?v=2 = list_verification(mode=book), PATCH /transactions/verification = confirm/cancel(S1_Chek INSERT Yesno='1' / UPDATE Check='D', Subu59_2.pas Button102/103 동등). 검증 키=(Hcode,Gdate,Scode,Gcode,Jubun,Gjisa,Bcode). Sobo59_2.md
+- `Sobo59_3` (출고검증(개별)) `/transactions/verification?v=individual`
+  - C5 phase1 — 「출고 검증관리(개별)」(Subu59_3). GET /transactions/verification?v=individual = list_verification(mode=book), PATCH = confirm/cancel(S1_Chek). v=2와 동일 검증 키·쓰기, 개별(라인) 선택 UI. T4_Ssub 개별 바코드 적재는 후속(OOS). Sobo59_3.md
 - `WebAdmAuditRotate` (감사 비밀번호 회전) `/admin/audit-rotate`
   - 회전(write) 동작 — C5 phase2 회귀 통과
 
@@ -101,8 +131,8 @@
 - `도서물류관리프로그램/backend/app/routers/_stub.py:27` — `"""이름이 무엇이든 503 응답. 프론트는 NOT_IMPLEMENTED 로 인식."""`
 - `도서물류관리프로그램/backend/app/routers/_stub.py:29` — `status_code=status.HTTP_503_SERVICE_UNAVAILABLE,`
 - `도서물류관리프로그램/backend/app/routers/_stub.py:31` — `"code": "NOT_IMPLEMENTED",`
-- `도서물류관리프로그램/backend/app/routers/returns.py:512` — `status_code=status.HTTP_501_NOT_IMPLEMENTED,`
-- `도서물류관리프로그램/backend/app/routers/settlement.py:843` — `result = await tax_invoice_service.issue_external_stub(`
+- `도서물류관리프로그램/backend/app/routers/returns.py:520` — `status_code=status.HTTP_501_NOT_IMPLEMENTED,`
+- `도서물류관리프로그램/backend/app/routers/settlement.py:858` — `result = await tax_invoice_service.issue_external_stub(`
 
 ## 6. `docs/crud-backlog.md` §2.6 참조 (문서 불릿)
 
