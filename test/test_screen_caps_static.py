@@ -49,9 +49,20 @@ class ScreenCapsStaticTest(TestCase):
             f"requiredPermission 누락 phase1/2 라우트 폼: {missing[:12]}",
         )
 
-    def test_sidebar_fxx_read_gate(self) -> None:
+    def test_sidebar_visibility_is_matrix_driven(self) -> None:
+        """MENUVIS-DEC-06 개정 (2026-06-20) — 사이드바 가시성은 매트릭스 기준.
+
+        레거시 Delphi 동작 복원: Fxx=X 화면도 *메뉴는 노출* 하고(매트릭스
+        ``getMenuState`` 기준), 쓰기 가능 여부는 화면 내부 ``canWrite`` 로 제어한다
+        (원본은 X 메뉴 클릭 시 접속불가 안내). 따라서 사이드바 ``isVisibleForm`` 은
+        Fxx read(``canAccessScreen``)로 메뉴를 숨기지 *않는다* — 경리부 등 부서계정이
+        관리자 외 모든 메뉴를 보던 원본 구성을 보존하기 위함.
+        """
         text = _SIDEBAR.read_text(encoding="utf-8")
-        self.assertIn("canAccessScreen", text)
+        # 가시성 판정 함수가 매트릭스 visible 을 사용하는지 확인.
+        self.assertIn("menuState.visible", text)
+        # Fxx read 게이트(canAccessScreen)로 메뉴를 숨기는 회귀가 재유입되지 않도록 가드.
+        self.assertNotIn("perms.canAccessScreen(form)", text)
 
     def test_master_forms_have_license_fkey(self) -> None:
         """DEC-RBAC-04 — 기초관리 핵심 마스터 화면은 ``licenseFkey`` 가 부착돼야 한다.

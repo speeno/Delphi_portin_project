@@ -57,6 +57,8 @@ class MasterLookupDialogStaticTest(TestCase):
         tx_inbound = _read(FRONT / "app" / "(app)" / "transactions" / "inbound-statement" / "page.tsx")
 
         self.assertIn("MasterLookupField", shipment_orders)
+        # 출고 목록 필터는 거래처(G1_Ggeo) 코드 기준 → customer lookup.
+        # (회사 Hcode 격리는 서버 scope 가 강제; 팝업은 거래처 목록이어야 함 — 사용자 요청.)
         self.assertIn('lookupKind="customer"', shipment_orders)
         self.assertIn("applyCustomerToHcode", shipment_orders)
 

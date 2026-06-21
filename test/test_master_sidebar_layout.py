@@ -31,13 +31,15 @@ class MasterSidebarLayoutTest(TestCase):
                 "Sobo12",
                 "Sobo13",
                 "Sobo14",
-                "Sobo15",
                 "Sobo16_special",
                 "Sobo39",
             ],
         )
         # 배본처관리(Sobo16_baebon)는 운영 요청으로 사이드바에서 감춤 (2026-05).
         self.assertNotIn("Sobo16_baebon", form_ids)
+        # 기타거래처(Sobo15)는 거래처관리(Sobo11)와 중복(평행 G5_Ggeo 마스터)이라
+        # 운영 요청으로 사이드바에서 감춤 (2026-06-20). 레지스트리/페이지는 보존.
+        self.assertNotIn("Sobo15", form_ids)
         self.assertIn('kind: "separator"', body)
         self.assertIn('label: "비율관리"', body)
 

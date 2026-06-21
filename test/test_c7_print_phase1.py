@@ -454,7 +454,13 @@ class C7PrintStaticTestCase(TestCase):
         from fastapi import HTTPException
         from app.routers.print import _parse_order_key_3, _parse_order_key_4
 
-        self.assertEqual(_parse_order_key_3("2026.04.24|5049|"), ("2026.04.24", "5049", ""))
+        # 출고 합성키는 거래처(Gcode) 분리를 위해 4-파트(gdate|hcode|gcode|jubun) — 구 3-파트
+        # (gcode='') backward-compat. 2026-06-21 전표 거래처 충돌 분리.
+        self.assertEqual(_parse_order_key_3("2026.04.24|5049|"), ("2026.04.24", "5049", "", ""))
+        self.assertEqual(
+            _parse_order_key_3("2026.04.24|5049|00044|11"),
+            ("2026.04.24", "5049", "00044", "11"),
+        )
         self.assertEqual(_parse_order_key_4("2026.04.24|5049|"), ("2026.04.24", "5049", "", ""))
         self.assertEqual(_parse_order_key_4("2026.04.24|5049||"), ("2026.04.24", "5049", "", ""))
         self.assertEqual(_parse_order_key_4("2026.04.24|5049|J|G"), ("2026.04.24", "5049", "J", "G"))

@@ -38,7 +38,7 @@ account-menu-fxx-rbac **Phase F-1** — 누락 3화면 정본화. `Subu12/Sobo12
 | col1 | `GNAME` | 입고처명 | 입고처명 | `Sobo12.DBGrid101.GNAME` |
 | col2 | `SCODE` | ^ (펼침 토글) | 입고처구분(`gbun_name`/`gubun`) | `Sobo12.DBGrid101.SCODE` |
 | — | `Jubun` | 입고처지역 | 지역 | `Sobo12.Edit102` |
-| — | `Guper` | 대표자 | 대표자 | `Sobo12.Edit106` |
+| — | `Gposa` | 대표자 | 대표자 | `Sobo12.Edit106` |
 | — | `Gtel1`/`Gtel2` | 전화 | 전화(합침) | `Sobo12.Edit112` |
 | — | `Gpost` | 우편번호 | 우편번호 | `Sobo12.Edit111` |
 | — | `Gadd1`/`Gadd2` | 주소 | 주소(`gjuso`) | `Sobo12.Edit116` |

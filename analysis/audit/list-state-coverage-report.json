@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-14T10:35:17.992037+00:00",
+  "generated_at": "2026-06-20T20:28:39.650715+00:00",
   "summary": {
-    "total_pages": 117,
+    "total_pages": 118,
     "covered": 36,
     "violations": 16,
     "allowed": 0,
-    "skipped": 65
+    "skipped": 66
   },
   "covered": [
     {
@@ -476,6 +476,10 @@
     {
       "route_key": "transactions.sales-statement.print",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/[orderKey]/print/page.tsx"
+    },
+    {
+      "route_key": "workspace",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/workspace/page.tsx"
     },
     {
       "route_key": "year-month-stats",

@@ -86,5 +86,48 @@ class G7GgeoListScopeTests(TestCase):
         self.assertIsNone(resolve_g7_ggeo_list_scope(ctx))
 
 
+class SearchCustomersG1ScopeTests(TestCase):
+    """출고접수/거래명세서 거래처 자동완성 — G1_Ggeo(거래처관리와 동일 소스).
+
+    거래처(서점/상대처)는 ``거래처관리 = G1_Ggeo``(Hcode=소유 계정, Gcode=거래처코드)
+    에서 관리되며, 거래처 검색 팝업(customerList)도 G1_Ggeo 를 쓴다. 인라인
+    자동완성도 동일 소스를 로그인 계정 ``Hcode`` 스코프로 조회해야 한다.
+
+    회귀: 이전엔 G7_Ggeo(출판사 테이블)를 조회해, 창고 DB(chul_09)처럼 G7_Ggeo 에
+    본인 출판사(5019)만 있는 계정에서 거래처를 골라도 본인 hcode 가 등록됐다.
+    """
+
+    def _run(self, scope):
+        calls: list[tuple[str, tuple[object, ...]]] = []
+
+        async def _cap(_sid: str, sql: str, params=()):
+            calls.append((sql, tuple(params or ())))
+            return []
+
+        with patch.object(masters_service, "execute_query", new=_cap):
+            asyncio.run(
+                masters_service.search_customers(
+                    server_id="remote_153", q="교보", limit=10, scope_hcode=scope
+                )
+            )
+        return calls[0]
+
+    def test_queries_g1_ggeo_not_g7(self) -> None:
+        sql, _ = self._run("5019")
+        self.assertIn("FROM G1_Ggeo", sql)
+        self.assertNotIn("G7_Ggeo", sql)
+
+    def test_scopes_on_hcode_owner(self) -> None:
+        # G1_Ggeo 격리 키 = Hcode(소유 계정). scope 가 Hcode 컬럼에 적용돼야 한다.
+        sql, params = self._run("5019")
+        self.assertIn("Hcode=%s", sql)
+        self.assertIn("5019", params)
+
+    def test_like_group_parenthesized_so_scope_does_not_leak_via_or(self) -> None:
+        sql, _ = self._run("5019")
+        self.assertIn("(Gcode LIKE %s OR Gname LIKE %s)", sql)
+        self.assertNotEqual(sql.find(") AND "), -1, "scope 필터가 LIKE 그룹 밖 AND 로 결합돼야 한다")
+
+
 if __name__ == "__main__":
     main(verbosity=2)

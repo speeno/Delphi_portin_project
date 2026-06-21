@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-06-14T10:35:17.693032+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-06-20T01:27:01.735542+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -21,9 +21,9 @@
 
 ## 3. `form-registry` — preview 또는 STUB
 
-- `Sobo43_shipping_ledger` (발송비내역) route `/settlement/shipping-ledger` — ['STUB'] (line 1660)
+- `Sobo43_shipping_ledger` (발송비내역) route `/settlement/shipping-ledger` — ['STUB'] (line 1664)
   - notes: W2 scaffold — GET /settlement/shipping-ledger 빈 목록. T2 SQL·t3_ssub_adapt 후 CRUD 상향
-- `Sobo44_shipping_status` (발송비현황) route `/settlement/shipping-status` — ['STUB'] (line 1680)
+- `Sobo44_shipping_status` (발송비현황) route `/settlement/shipping-status` — ['STUB'] (line 1684)
   - notes: W2 scaffold — GET /settlement/shipping-status 빈 목록. 재고현황 Sobo44_inv 와 별개
 
 ## 4. `form-registry` — phase1 이지만 부분 동등 (R / RU / STUB)
@@ -77,7 +77,7 @@
   - 조회 전용 — GET /api/v1/stats/publisher: book-sales 행을 출판사 축으로 재집계(stats_reports.yaml STAT-PUB, 신규 SQL 0건). 레거시 Subu43 전 지표·출력 1:1 복원은 비목표.
 - `Sobo46_billing` (청구서 인쇄(미리보기)) ``
   - 인쇄 미리보기만 — 쓰기 없음 (DEC-035 외부 채널 후속)
-- `Sobo46_billing_bill` (청구서출력) `/settlement/billing`
+- `Sobo46_billing_bill` (청구서출력) `/settlement/billing?view=print`
   - 인쇄 미리보기만 — 쓰기 없음 (DEC-035 후속)
 - `Sobo50_stats` (기간별 매출 분석) `/stats/sales-period`
   - 차트 조회 전용

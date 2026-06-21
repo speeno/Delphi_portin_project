@@ -450,6 +450,11 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "courier.cj_status",
+            "path": f"/api/v1/courier/cj/status?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
             "group": "inbound.receipts",
             "path": (
                 f"/api/v1/inbound/receipts?serverId={sid}"

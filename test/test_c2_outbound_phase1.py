@@ -140,7 +140,7 @@ class C2OutboundPhase1Tests(TestCase):
     # -- TC-OUT-002 수정 (PUT) — diff -----------------------------------------
 
     def test_tc_out_002_update_returns_diff(self) -> None:
-        async def fake_update(*, server_id, gdate, hcode, jubun, desired_lines):  # noqa: ARG001
+        async def fake_update(*, server_id, gdate, hcode, jubun, desired_lines, gcode=""):  # noqa: ARG001
             return {
                 "order_key": {"gdate": gdate, "hcode": hcode, "jubun": jubun},
                 "lines": len(desired_lines),
@@ -168,7 +168,7 @@ class C2OutboundPhase1Tests(TestCase):
     # -- TC-OUT-003 취소 (PATCH) ----------------------------------------------
 
     def test_tc_out_003_cancel_returns_cancelled(self) -> None:
-        async def fake_cancel(*, server_id, gdate, hcode, jubun):  # noqa: ARG001
+        async def fake_cancel(*, server_id, gdate, hcode, jubun, gcode=""):  # noqa: ARG001
             return {
                 "order_key": {"gdate": gdate, "hcode": hcode, "jubun": jubun},
                 "status": "cancelled",
@@ -186,7 +186,7 @@ class C2OutboundPhase1Tests(TestCase):
         self.assertEqual(body["status"], "cancelled")
 
     def test_tc_out_003_cancel_idempotent_returns_409(self) -> None:
-        async def fake_cancel(*, server_id, gdate, hcode, jubun):  # noqa: ARG001
+        async def fake_cancel(*, server_id, gdate, hcode, jubun, gcode=""):  # noqa: ARG001
             return {
                 "order_key": {"gdate": gdate, "hcode": hcode, "jubun": jubun},
                 "status": "already_cancelled",
@@ -280,7 +280,7 @@ class C2OutboundPhase1Tests(TestCase):
                 "created_at": "2026-04-25T03:00:00+00:00",
             }
 
-        async def fake_update(*, server_id, gdate, hcode, jubun, desired_lines):  # noqa: ARG001
+        async def fake_update(*, server_id, gdate, hcode, jubun, desired_lines, gcode=""):  # noqa: ARG001
             return {
                 "order_key": {"gdate": gdate, "hcode": hcode, "jubun": jubun},
                 "lines": 1, "qty": 1, "amount": 100,
@@ -288,7 +288,7 @@ class C2OutboundPhase1Tests(TestCase):
                 "diff": {"inserted": 0, "updated": 1, "deleted": 0},
             }
 
-        async def fake_cancel(*, server_id, gdate, hcode, jubun):  # noqa: ARG001
+        async def fake_cancel(*, server_id, gdate, hcode, jubun, gcode=""):  # noqa: ARG001
             return {
                 "order_key": {"gdate": gdate, "hcode": hcode, "jubun": jubun},
                 "status": "cancelled",
@@ -410,9 +410,13 @@ class OutboundServiceUnitTests(TestCase):
             captured_statements.append(statements)
             return [1] * len(statements)
 
+        async def fake_s1_cols(server_id):  # noqa: ARG001
+            return set()  # 옵션 컬럼 없는 서버로 취급 → SQL_INSERT_LINE 그대로 사용
+
         async def runner():
             with patch.object(outbound_service, "execute_query", side_effect=fake_query), \
-                 patch.object(outbound_service, "execute_in_transaction", side_effect=fake_tx):
+                 patch.object(outbound_service, "execute_in_transaction", side_effect=fake_tx), \
+                 patch.object(outbound_service, "s1_column_names", side_effect=fake_s1_cols):
                 return await outbound_service.update_order(
                     server_id="remote_1",
                     gdate="2026-04-25", hcode="A0001", jubun="1",
@@ -473,12 +477,15 @@ class OutboundOrderKeyParseTests(TestCase):
     """Jubun NULL/빈 값 → 목록 URL `gdate|hcode|` 파싱 (출고 상세 오류 방지)."""
 
     def test_parse_order_key_allows_empty_jubun(self) -> None:
-        g, h, j = outbound_router._parse_order_key("2026.04.24|5010|")
-        self.assertEqual((g, h, j), ("2026.04.24", "5010", ""))
+        # 4-파트(gdate|hcode|gcode|jubun) — 빈 jubun 허용. 구 3-파트는 gcode='' backward-compat.
+        g, h, gc, j = outbound_router._parse_order_key("2026.04.24|5010|00044|")
+        self.assertEqual((g, h, gc, j), ("2026.04.24", "5010", "00044", ""))
+        g3, h3, gc3, j3 = outbound_router._parse_order_key("2026.04.24|5010|")
+        self.assertEqual((g3, h3, gc3, j3), ("2026.04.24", "5010", "", ""))
 
     def test_parse_order_key_rejects_too_few_segments(self) -> None:
         with self.assertRaises(HTTPException) as ctx:
-            outbound_router._parse_order_key("2026.04.24|5010")
+            outbound_router._parse_order_key("2026.04.24")
         self.assertEqual(ctx.exception.status_code, 422)
 
     def test_parse_order_key_rejects_empty_hcode(self) -> None:

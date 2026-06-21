@@ -28,7 +28,7 @@ class ShipmentTransactionsLookupApplyTest(TestCase):
 
         self.assertIn('lookupKind="publisher"', orders)
         self.assertIn('lookupKind="publisher"', status)
-        self.assertIn('lookupKind="publisher"', receipts)
+        # receipts 출판사코드 필터 — 불필요 항목으로 제거 (R11)
         self.assertIn('lookupKind="inboundVendor"', receipts)
         self.assertIn('lookupKind="book"', new_receipts)
 

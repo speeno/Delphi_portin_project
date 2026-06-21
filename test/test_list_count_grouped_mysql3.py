@@ -202,7 +202,8 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
             names_attr="fetch_g1_customer_gnames",
             names_value={("H001", "GCUST01"): "거래처A"},
             list_fn_name="list_orders",
-            expected_group_by="Gdate, Hcode, COALESCE(Jubun,'')",
+            # 거래처(Gcode) 별 슬립 분리 — 출고 키에 Gcode 포함(2026-06-21, DEC 전표 거래처 충돌).
+            expected_group_by="Gdate, Hcode, Gcode, COALESCE(Jubun,'')",
         )
 
     async def test_inbound_list_receipts(self) -> None:

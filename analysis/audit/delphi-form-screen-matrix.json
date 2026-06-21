@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-14T10:35:17.277042+00:00",
+  "generated_at": "2026-06-20T01:27:00.926991+00:00",
   "summary": {
     "registry_forms": 93,
     "legacy_dfm_subu_stems": 91,
@@ -220,7 +220,7 @@
     {
       "modern_id": "Sobo24",
       "folder": "Subu24",
-      "route": "/returns/inventory",
+      "route": "/returns/inventory?tab=regen",
       "modern_caption": "반품재고(재생)",
       "legacy_form_object": "Sobo24",
       "legacy_caption": "반품재고(정품입고)-재생",
@@ -231,7 +231,7 @@
     {
       "modern_id": "Sobo25",
       "folder": "Subu25",
-      "route": "/returns/inventory",
+      "route": "/returns/inventory?tab=disassemble",
       "modern_caption": "반품재고(해체)",
       "legacy_form_object": "Sobo25",
       "legacy_caption": "반품재고(반품입고)-해체",
@@ -242,7 +242,7 @@
     {
       "modern_id": "Sobo51",
       "folder": "Subu51",
-      "route": "/returns/inventory",
+      "route": "/returns/inventory?tab=change",
       "modern_caption": "반품재고(변경)",
       "legacy_form_object": "Sobo51",
       "legacy_caption": "반품재고(변경)",
@@ -418,7 +418,7 @@
     {
       "modern_id": "Sobo46_billing_bill",
       "folder": "Subu46",
-      "route": "/settlement/billing",
+      "route": "/settlement/billing?view=print",
       "modern_caption": "청구서출력",
       "legacy_form_object": "Sobo46",
       "legacy_caption": "청구서출력",

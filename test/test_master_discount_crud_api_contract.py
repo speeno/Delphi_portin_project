@@ -108,7 +108,7 @@ class DiscountCrudRouterTests(TestCase):
         self.assertEqual(r.json().get("variant"), "v1")
 
     def test_patch_discount_missing_row(self) -> None:
-        async def fake_upd(*, server_id: str, gcode: str, variant: str | None, payload: dict):  # noqa: ARG001
+        async def fake_upd(*, server_id: str, gcode: str, variant: str | None, payload: dict, scope_hcode: str | None = None):  # noqa: ARG001
             self.assertEqual(gcode, "ZZZZZ")
             self.assertEqual(variant, "v2")
             self.assertIn("gpper", payload)
