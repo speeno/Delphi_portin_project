@@ -1,7 +1,7 @@
 """DEC-033 회귀 가드 — 출고/입고 LIST 가 mysql3 서버에서 COALESCE(1064) 대신 IFNULL 사용.
 
 적대적 리뷰(DEC-065) 확정 findings #1: ``list_orders``/``list_receipts`` 가 mysql3_protocol
-서버에서 raw COALESCE 를 방출해 1064→HTTP 500 발생. ``_shipment_status_order_level_sql``
+서버에서 raw COALESCE 를 방출해 1064→HTTP 500 발생. ``mysql3_protocol`` 분기
 패턴(mysql3 시 IFNULL)으로 수정. 본 가드는 실제 방출 SQL 문자열을 캡처해 검증한다
 (기존 테스트는 SQL 을 모킹해 이 결함을 놓쳤다).
 """

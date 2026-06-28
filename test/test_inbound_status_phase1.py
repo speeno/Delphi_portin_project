@@ -46,7 +46,10 @@ def _receipt_item() -> dict:
         "lines": 3,
         "qty": 30,
         "amount": 300_000,
-        "status": "active",
+        # 실제 list_receipts 어휘(_line_status_from_yesno_max → pending|received|done).
+        # 2026-06-27 회귀: ReceiptListItem.status 가 active/cancelled 2-state Literal 이라
+        # 'received' 입력에서 ValidationError(→500, 입고현황 목록/상세 조회 불가)였다.
+        "status": "received",
     }
 
 

@@ -373,10 +373,12 @@ class OutboundServiceUnitTests(TestCase):
         self.assertEqual(outbound_service._normalize_gdate(""), "")
 
     def test_line_status_from_yesno(self) -> None:
-        self.assertEqual(outbound_service._line_status_from_yesno_max("2"), "cancelled")
-        self.assertEqual(outbound_service._line_status_from_yesno_max("0"), "active")
-        self.assertEqual(outbound_service._line_status_from_yesno_max("1"), "active")
-        self.assertEqual(outbound_service._line_status_from_yesno_max(None), "active")
+        # 레거시 Subu21 정본: '1'·'2' 모두 완료(done), '0'→접수, ''→대기. '2'는 취소 아님.
+        self.assertEqual(outbound_service._line_status_from_yesno_max("2"), "done")
+        self.assertEqual(outbound_service._line_status_from_yesno_max("1"), "done")
+        self.assertEqual(outbound_service._line_status_from_yesno_max("0"), "received")
+        self.assertEqual(outbound_service._line_status_from_yesno_max(""), "pending")
+        self.assertEqual(outbound_service._line_status_from_yesno_max(None), "pending")
 
     def test_create_order_validation_empty_lines_raises(self) -> None:
         async def runner():
@@ -492,6 +494,69 @@ class OutboundOrderKeyParseTests(TestCase):
         with self.assertRaises(HTTPException) as ctx:
             outbound_router._parse_order_key("2026.04.24||1")
         self.assertEqual(ctx.exception.status_code, 422)
+
+
+class OutboundTransitionTests(TestCase):
+    """출고요청(대기→접수) / 완료(접수→완료) 전이 — DB 모킹."""
+
+    def _run(self, coro):
+        import asyncio
+
+        return asyncio.get_event_loop().run_until_complete(coro)
+
+    def test_request_dispatch_pending_to_received(self) -> None:
+        captured: list = []
+        seq = [[{"Yesno": ""}, {"Yesno": ""}], [{"Yesno": "0"}, {"Yesno": "0"}]]
+
+        async def fake_query(server_id, sql, params):  # noqa: ANN001, ARG001
+            return seq.pop(0)
+
+        async def fake_tx(server_id, statements):  # noqa: ANN001, ARG001
+            captured.append(statements)
+            return [1]
+
+        with patch.object(outbound_service, "execute_query", side_effect=fake_query), \
+             patch.object(outbound_service, "execute_in_transaction", side_effect=fake_tx):
+            res = self._run(
+                outbound_service.request_dispatch(
+                    server_id="remote_1", gdate="2026.04.25", hcode="A0001", jubun="1", gcode="G01"
+                )
+            )
+        self.assertEqual(res["status"], "received")
+        sql, params = captured[0][0]
+        self.assertIn("UPDATE S1_Ssub SET Yesno=%s", sql)
+        self.assertEqual(params[0], "0")  # to_yesno = 접수
+        self.assertEqual(params[-1], "")  # from_yesno = 대기
+
+    def test_mark_completed_received_to_done(self) -> None:
+        seq = [[{"Yesno": "0"}], [{"Yesno": "1"}]]
+
+        async def fake_query(server_id, sql, params):  # noqa: ANN001, ARG001
+            return seq.pop(0)
+
+        async def fake_tx(server_id, statements):  # noqa: ANN001, ARG001
+            return [1]
+
+        with patch.object(outbound_service, "execute_query", side_effect=fake_query), \
+             patch.object(outbound_service, "execute_in_transaction", side_effect=fake_tx):
+            res = self._run(
+                outbound_service.mark_completed(
+                    server_id="remote_1", gdate="2026.04.25", hcode="A0001", jubun="1"
+                )
+            )
+        self.assertEqual(res["status"], "done")
+
+    def test_transition_order_not_found_returns_none(self) -> None:
+        async def fake_query(server_id, sql, params):  # noqa: ANN001, ARG001
+            return []
+
+        with patch.object(outbound_service, "execute_query", side_effect=fake_query):
+            res = self._run(
+                outbound_service.request_dispatch(
+                    server_id="remote_1", gdate="x", hcode="y", jubun="z"
+                )
+            )
+        self.assertIsNone(res)
 
 
 if __name__ == "__main__":

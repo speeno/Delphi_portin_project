@@ -148,6 +148,45 @@ class C6SalesStatementTests(TestCase):
         self.assertEqual(body["items"][0]["row_count"], 3)
         self.assertEqual(body["items"][0]["status"], "active")
 
+    # -- TC-INQ-001b 상태 어휘 회귀 (2026-06-27) --------------------------
+    def test_tc_inq_001b_list_accepts_3state_status_vocab(self) -> None:
+        """서비스 _line_status_from_yesno_max 가 산출하는 done/received/pending 이
+        SalesStatementListItem 모델을 통과해 200 으로 surface 되는지 가드.
+
+        회귀 배경: status Literal 이 active/cancelled 2-state 로 남아 있어
+        'done' 입력이 ValidationError(→500 INQ_TX_FAILED)를 일으켰다(거래명세서
+        목록 조회 실패). 본 테스트는 서비스 실제 어휘(done/received/pending)로
+        라운드트립을 고정한다.
+        """
+        async def fake_list(**kwargs):  # noqa: ARG001
+            items = [
+                {**base, "status": st}
+                for base, st in (
+                    ({"order_key": VALID_KEY, "customer_name": "완료", "row_count": 1,
+                      "qty": 1, "amount": 1}, "done"),
+                    ({"order_key": VALID_KEY, "customer_name": "접수", "row_count": 1,
+                      "qty": 1, "amount": 1}, "received"),
+                    ({"order_key": VALID_KEY, "customer_name": "대기", "row_count": 1,
+                      "qty": 1, "amount": 1}, "pending"),
+                )
+            ]
+            return items, len(items)
+
+        with patch.object(
+            transactions_service, "list_sales_statements", side_effect=fake_list
+        ):
+            res = self.client.get(
+                "/api/v1/transactions/sales-statement"
+                "?serverId=remote_1&hcode=A0001"
+                "&dateFrom=2026-04-11&dateTo=2026-04-18"
+            )
+
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        self.assertEqual(
+            [it["status"] for it in body["items"]], ["done", "received", "pending"]
+        )
+
     # -- TC-INQ-002 상세 ---------------------------------------------------
 
     def test_tc_inq_002_detail_returns_lines_and_memo(self) -> None:
@@ -498,15 +537,18 @@ class C6ServiceUnitTests(TestCase):
         self.assertEqual(transactions_service._safe_int("xx", default=7), 7)
 
     def test_line_status_from_yesno_max(self) -> None:
-        # 모든 라인이 '2' 일 때만 cancelled
+        # 레거시 Subu21 정본: '1'·'2' 모두 완료(done), '0'→접수, ''→대기. '2'는 취소 아님.
         self.assertEqual(
-            transactions_service._line_status_from_yesno_max("2"), "cancelled"
+            transactions_service._line_status_from_yesno_max("2"), "done"
         )
         self.assertEqual(
-            transactions_service._line_status_from_yesno_max("1"), "active"
+            transactions_service._line_status_from_yesno_max("1"), "done"
         )
         self.assertEqual(
-            transactions_service._line_status_from_yesno_max(None), "active"
+            transactions_service._line_status_from_yesno_max("0"), "received"
+        )
+        self.assertEqual(
+            transactions_service._line_status_from_yesno_max(None), "pending"
         )
 
     def test_sales_statement_sql_coalesce_jubun_gjisa_keys(self) -> None:

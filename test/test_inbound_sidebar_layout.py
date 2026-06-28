@@ -32,6 +32,8 @@ class InboundSidebarLayoutTest(TestCase):
         self.assertRegex(self.src, r'inbound:\s*"ACC-MENU-NAV-09"')
 
     def test_layout_order(self) -> None:
+        # 입고현황은 출고현황(Sobo67_status)과 동일하게 단일 메뉴 항목(Sobo25_status_list).
+        # 상세/요약은 페이지 내부 탭(view=detail|summary 딥링크)이라 사이드바에 미노출.
         ids = self._layout_form_ids()
         self.assertEqual(
             ids,
@@ -39,13 +41,14 @@ class InboundSidebarLayoutTest(TestCase):
                 "Sobo22",
                 "Sobo22_inbound_statement",
                 "Sobo25_status_list",
-                "Sobo25_status_detail",
-                "Sobo25_status_summary",
                 "Sobo54",
                 "Sobo57",
                 "Sobo22_import",
             ],
         )
+        # 단일 레벨 보증 — 입고현황 children 서브그룹이 없어야 한다.
+        self.assertNotIn("Sobo25_status_detail", ids)
+        self.assertNotIn("Sobo25_status_summary", ids)
 
     def test_sidebar_layouts_map_registers_inbound(self) -> None:
         block = re.search(

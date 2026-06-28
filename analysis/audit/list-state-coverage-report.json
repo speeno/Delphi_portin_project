@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-20T20:28:39.650715+00:00",
+  "generated_at": "2026-06-27T09:52:43.332034+00:00",
   "summary": {
     "total_pages": 118,
     "covered": 36,
@@ -89,10 +89,6 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/page.tsx"
     },
     {
-      "route_key": "outbound.status",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/status/page.tsx"
-    },
-    {
       "route_key": "reports.book-sales",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/reports/book-sales/page.tsx"
     },
@@ -143,6 +139,10 @@
     {
       "route_key": "transactions.inbound-status",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/inbound-status/page.tsx"
+    },
+    {
+      "route_key": "transactions.outbound-status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/outbound-status/page.tsx"
     },
     {
       "route_key": "transactions.sales-statement",

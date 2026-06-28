@@ -1023,6 +1023,23 @@
 - **결정자**: 메인개발자 + 사용자 (2026-06-21 "1차 API Key 미확보 → 목업 우선 구현" 요청)
 - **참조**: `도서물류관리프로그램/backend/app/services/carriers/cj_client.py`, `.../app/services/cj_booking_service.py`, `.../app/routers/courier_cj.py`, `.../app/services/delivery_dispatch_service.py`(`carrier=='cj'`·`set_dispatch_status`), `.../app/core/config.py`(`CJ_*`), `.../frontend/src/lib/courier-cj-api.ts`, `.../frontend/src/app/(app)/shipping/courier/page.tsx`(CJ 패널), `CJLAPI-택배 표준 API Developer Guide-V3.9.4.pdf`, `debug/probe_backend_all_servers.py`(`courier.cj_status`)
 
+### DEC-068: 기초관리(거래처/입고처/저자/도서) 엑셀 입출력 + 헤더정렬 + 도서 전자책/발행일
+
+- **일자**: 2026-06-27
+- **결정 사항**: 4개 기초관리 목록 화면(Sobo11/12/13/14)에 다음을 추가/수정한다.
+  - **(A) 엑셀 저장(export)** — 공용 `masters_excel.py`(openpyxl) + `GET /api/v1/masters/exports/{customer,inbound-vendors,authors,book}.xlsx`. hcode 격리는 기존 `list_*` 서비스 재사용, `collect_all_rows` 가 `page.has_more` 로 ceil=500 페이지를 끝까지 모음(`EXPORT_MAX_ROWS=100000` 안전상한). **저장 대상 = 현재 화면 검색 필터 결과**(프론트가 필터+정렬 동봉). 파일명은 클라이언트가 `거래처목록_YYYYMMDD.xlsx` 로 날짜 접미.
+  - **(B) 거래처 필드선택** — 거래처만 상세 전체 32필드를 체크박스로 선택 저장(`GET /exports/customer-fields` 단일 카탈로그 + `?fields=` CSV). 라벨 정본 = `customer-detail-form.tsx`(DFM 캡션 정정: **Gposa=대표자/Guper=업태/Gjomo=종목**, Grat1~6=위탁/현매/매절/납품/특별/기타). 팝업은 `resize` 가능. **PK(거래처코드)는 항상 강제 포함**(프론트 disabled 체크 + 백엔드 `select_customer_columns` 가 `gcode` 무조건 주입) — 업로드 역반영 시 행 식별 필수.
+  - **(C) 엑셀 업로드(역반영)** — 다운로드 서식 그대로 재업로드 → PK(코드)로 행 식별, 수정분을 기존 `update_*` 서비스로 반영(업서트 아님, 존재 행만). `POST /api/v1/masters/imports/{...}.xlsx`(multipart), **PATCH 와 동일 Fxx 가드(F11~F14)+audit**. 전화/주소 **합본 컬럼은 역분해 불가 → import 제외**(거래처는 전화1/2·주소1/2 개별이라 거의 전 필드 역반영). 행별 부분실패 허용 + 요약 리포트(updated/unchanged/not_found/error).
+  - **(D) 헤더 클릭 정렬** — `DataGrid` 에 opt-in `sort`/`onSortChange`/컬럼 `sortable` 추가(LSP, 기존 호출자 무변경). 백엔드 `list_*` 에 `sortBy`/`sortDir` + **화이트리스트 `_order_by_clause`**(허용 key만, 그 외 default — SQL 주입 차단, 동률 시 PK 보조정렬). 정렬은 export 에도 동봉.
+  - **(E) 도서 발행일 필터 버그 수정** — `Date1` 이 `YYYY-MM-DD`/`YYYY.MM.DD`/`YYYYMMDD` 혼재 저장이라 입력의 `-` 만 제거해 비교하면 `'2026-01-01' >= '20260101'` 이 거짓이 되어 범위 행 누락. **양쪽 모두 구분자 제거(중첩 REPLACE, 3.23 호환) 후 숫자 비교** + 빈 Date1 제외.
+  - **(F) 거래처 export 중복행 버그 수정** — `list_customer_master_full` 의 G1_Gbun 이중 LEFT JOIN 이 멀티테넌트 Gcode 충돌로 행을 2배 증식(상세 단건은 rows[0] 라 은폐). **JOIN 제거 + G1_Gbun 1회 조회 후 Python 맵으로 구분명 1:1 해석**(목록 JOIN 금지 원칙 = inbound 와 동일).
+  - **(G) 신규 도서 전자책 카드** — 레거시 `G4_Book` 은 전 컬럼이 용도 확정(bigo3=전자책 플래그)이라 전자책 전용 ISBN/가격을 둘 빈 컬럼이 없음 → **신규 사이드 테이블 `G4_Book_Ebook`(Hcode,Gcode,Eisbn,Eprice)** 으로 분리(레거시 스키마 무변경). `book_ebook_service`(CREATE IF NOT EXISTS + REPLACE INTO, 3.23 호환, scope_hcode 격리). 책 create/detail/update 에 wiring, 폼에 「전자책」 카드(전자책 여부+ISBN+가격).
+- **배경/근거**: (B)/(C)/(F)/(G) 모두 멀티테넌트 hcode 격리·MySQL 3.23 무파괴·레거시 DDL 회피 제약을 우선. JOIN 행증식·날짜 표기 혼재·합본 컬럼 비가역성은 레거시 데이터 특성상 실측 버그. 전자책 저장은 **사용자 선택(별도 사이드 테이블)**.
+- **대안**: 전자책 — (1)G4_Book 신규 컬럼 ALTER (2)기존 여유 컬럼 재사용 → 사용자가 (3)사이드 테이블 선택. 정렬 — DataGrid 클라이언트 정렬(전 페이지 미반영) 대신 서버 ORDER BY.
+- **영향**: `masters.py`(+exports/imports/ebook), 신규 `masters_excel.py`·`book_ebook_service.py`, `masters_service.py`(sort_by/sort_dir·list_customer_master_full·발행일), `data-grid.tsx`(sort opt-in), 4 목록 페이지 + book 폼/new/[gcode] + `master-api.ts` + `download.ts`/`focus-advance.ts`. requirements 에 `openpyxl` 고정. 회귀 `test/test_masters_excel_export.py`(17). probe 에 export GET 등록. **별도: 신규 입력폼 Enter=다음칸 이동**(`focus-advance.ts`, 4 마스터 폼 + 출고접수 헤더, 콤보/그리드는 가드/제외).
+- **결정자**: 메인개발자 + 사용자 (2026-06-27 일련 요청)
+- **참조**: `도서물류관리프로그램/backend/app/services/{masters_excel,book_ebook_service}.py`, `.../app/services/masters_service.py`(`list_customer_master_full`·`_order_by_clause`·발행일 REPLACE), `.../app/routers/masters.py`(exports/imports/ebook), `.../frontend/src/components/data-grid/data-grid.tsx`, `.../src/lib/{download,focus-advance,master-api}.ts`, `.../src/components/master/{master-import-button,book-detail-form}.tsx`, `test/test_masters_excel_export.py`
+
 ---
 *최종 업데이트: 2026-06-20 — DEC-066 신규 (부서계정 경리부 전 화면 CRUD = 로그인/리프레시 시 업무 Fxx 전부 'O' 효과매트릭스로 permissions·fxx_caps 승격, login_profile·license_keys 는 원본 유지로 메뉴 무변경, 관리자 플랫폼 Fxx 제외 + JWT permissions 한도 30→64 + BLS_FULL_CRUD_LOGIN_IDS env / MENUVIS-DEC-06 사이드바 가시성 매트릭스 기준 환원 — canAccessScreen 게이트 제거). 직전: 2026-06-14 — DEC-065 + P4 보강 (거래명세서 Sobo21 화면 내 신규추가 — outbound create_order 재사용 + 단가/비율/금액 패리티 + 직전거래가 G7_Ggeo 게이트 + 키보드 전용 in-grid / P4: 거래현황(상세) Subu24 검색 다이얼로그 — bcode/pubun 라인 필터 + 듀얼그리드 + 키보드 전용 모달).*
 

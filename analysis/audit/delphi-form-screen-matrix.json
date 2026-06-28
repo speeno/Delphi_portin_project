@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-20T01:27:00.926991+00:00",
+  "generated_at": "2026-06-27T11:41:59.264646+00:00",
   "summary": {
     "registry_forms": 93,
     "legacy_dfm_subu_stems": 91,
@@ -561,7 +561,7 @@
     {
       "modern_id": "Sobo67_status",
       "folder": "Subu67",
-      "route": "/outbound/status",
+      "route": "/transactions/outbound-status",
       "modern_caption": "출고현황",
       "legacy_form_object": "Sobo67",
       "legacy_caption": "도서별년말집계",
@@ -748,8 +748,8 @@
     {
       "modern_id": "Sobo25_status_list",
       "folder": "Subu25",
-      "route": "/transactions/inbound-status?view=list",
-      "modern_caption": "입고현황(LIST)",
+      "route": "/transactions/inbound-status",
+      "modern_caption": "입고현황",
       "legacy_form_object": "Sobo25",
       "legacy_caption": "반품재고(반품입고)-해체",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu25.dfm",

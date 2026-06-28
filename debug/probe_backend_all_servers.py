@@ -224,6 +224,36 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "masters.export.customer_fields",
+            "path": "/api/v1/masters/exports/customer-fields",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.export.customer",
+            "path": f"/api/v1/masters/exports/customer.xlsx?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.export.inbound_vendors",
+            "path": f"/api/v1/masters/exports/inbound-vendors.xlsx?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.export.authors",
+            "path": f"/api/v1/masters/exports/authors.xlsx?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "masters.export.book",
+            "path": f"/api/v1/masters/exports/book.xlsx?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
+            "group": "grid_prefs.get",
+            "path": f"/api/v1/grid-prefs/master.customer?serverId={sid}",
+            "ok_status": {200},
+        },
+        {
             "group": "masters.book_categories",
             "path": f"/api/v1/masters/book-categories?serverId={sid}&limit=1",
             "ok_status": {200},
@@ -426,14 +456,6 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
-            "group": "outbound.shipment_status",
-            "path": (
-                f"/api/v1/outbound/shipment-status?serverId={sid}"
-                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
-            ),
-            "ok_status": {200},
-        },
-        {
             "group": "shipping.courier_lines",
             "path": (
                 f"/api/v1/shipping/courier/lines?serverId={sid}"
@@ -603,6 +625,31 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "path": (
                 f"/api/v1/transactions/inbound-status?serverId={sid}"
                 f"&view=summary&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        # 출고현황 facade (Subu24 거래현황, 출고 관점) — list_outbound_status_*.
+        {
+            "group": "transactions.outbound_status",
+            "path": (
+                f"/api/v1/transactions/outbound-status?serverId={sid}"
+                f"&view=list&dateFrom={df}&dateTo={dt}&storeKind=ALL&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.outbound_status_detail",
+            "path": (
+                f"/api/v1/transactions/outbound-status?serverId={sid}"
+                f"&view=detail&dateFrom={df}&dateTo={dt}&storeKind=ALL&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.outbound_status_summary",
+            "path": (
+                f"/api/v1/transactions/outbound-status?serverId={sid}"
+                f"&view=summary&dateFrom={df}&dateTo={dt}&storeKind=ALL&limit=1&offset=0"
             ),
             "ok_status": {200},
         },

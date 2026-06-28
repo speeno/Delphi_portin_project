@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-06-20T01:27:01.735542+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-06-27T09:52:42.751165+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -21,9 +21,9 @@
 
 ## 3. `form-registry` — preview 또는 STUB
 
-- `Sobo43_shipping_ledger` (발송비내역) route `/settlement/shipping-ledger` — ['STUB'] (line 1664)
+- `Sobo43_shipping_ledger` (발송비내역) route `/settlement/shipping-ledger` — ['STUB'] (line 1671)
   - notes: W2 scaffold — GET /settlement/shipping-ledger 빈 목록. T2 SQL·t3_ssub_adapt 후 CRUD 상향
-- `Sobo44_shipping_status` (발송비현황) route `/settlement/shipping-status` — ['STUB'] (line 1684)
+- `Sobo44_shipping_status` (발송비현황) route `/settlement/shipping-status` — ['STUB'] (line 1691)
   - notes: W2 scaffold — GET /settlement/shipping-status 빈 목록. 재고현황 Sobo44_inv 와 별개
 
 ## 4. `form-registry` — phase1 이지만 부분 동등 (R / RU / STUB)

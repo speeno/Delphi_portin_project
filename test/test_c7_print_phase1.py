@@ -617,15 +617,24 @@ class C7PrintStaticTestCase(TestCase):
         self.assertIn("blob.size === 0", helper_text)
         self.assertIn("0x25", helper_text)  # %PDF magic
         self.assertIn("setTimeout(() => URL.revokeObjectURL", helper_text)
+        # 인쇄 전용 공통 helper(printPdfFromUrl)도 동일 인증 blob fetch 를 경유한다.
+        self.assertIn("printPdfFromUrl", helper_text)
+        self.assertIn("fetchAuthenticatedPdfBlob", helper_text)
 
+        # PDF URL 을 쓰는 페이지는 인증 helper(다운로드 downloadPdfWithAuth 또는
+        # 인쇄 printPdfFromUrl)를 경유해야 한다 — 원시 <a href/download> 우회 금지.
+        _auth_helpers = ("downloadPdfWithAuth", "printPdfFromUrl")
         app_dir = FRONTEND / "src" / "app" / "(app)"
         checked = 0
         for page in app_dir.rglob("*.tsx"):
             text = page.read_text(encoding="utf-8")
-            if "PdfUrl" not in text and "downloadPdfWithAuth" not in text:
+            if "PdfUrl" not in text and not any(h in text for h in _auth_helpers):
                 continue
             checked += 1
-            self.assertIn("downloadPdfWithAuth", text, f"{page}: auth helper 누락")
+            self.assertTrue(
+                any(h in text for h in _auth_helpers),
+                f"{page}: auth helper(downloadPdfWithAuth/printPdfFromUrl) 누락",
+            )
             self.assertNotRegex(text, r"href=\{.*PdfUrl", f"{page}: 직접 PDF href 금지")
             self.assertNotRegex(text, r"download=\{`(?:outbound|sales|return|invoice|tax_invoice|label)_", f"{page}: 직접 download 금지")
         self.assertGreaterEqual(checked, 6)
