@@ -1061,8 +1061,19 @@
 - **결정자**: 메인개발자 + 사용자 (2026-07-03 저장 유실 보고)
 - **참조**: `도서물류관리프로그램/backend/app/services/{user_prefs_db,grid_prefs_service,user_profile_service}.py`, `.../app/routers/me.py`, DEC-068(사이드 테이블 선례), DEC-069(임시 FS 배포 함정)
 
+### DEC-071: 일괄 출고요청 (거래명세서·출고현황 화면 — 대기 전표 선택 접수 전이)
+
+- **일자**: 2026-07-03
+- **결정 사항**: 신규 생성 화면에서 출고요청 없이 **신청만 한(대기, Yesno='') 전표**를 거래명세서(Sobo21)·출고현황(Sobo24) 화면에서 **선택 일괄 출고요청(접수 '0' 전이)** 할 수 있게 한다(레거시 기능 동등 — 사용자 확인). 백엔드는 신규 `PATCH /api/v1/outbound/orders/batch/request` (keys ≤200, 기존 `outbound_service.request_dispatch` 재사용, bounded gather 동시 3, keys 순서 보존, 항목 단위 부분 실패 not_found/error 보고, 건별 audit). **단건 라우트보다 먼저 등록**해 `batch` 가 order_key 로 매칭되지 않게 한다. 프론트: 거래명세서 = 기존 다중선택 재사용 + 「대기 N건 출고요청」 버튼(`Sobo21.BulkRequestDispatch`), 출고현황 상세 뷰 = 체크박스 선택열 신설 + 툴바 버튼(`Sobo24.BulkRequestDispatch`) — 두 화면 모두 **대기(pending) 상태만 집계/전송**.
+- **배경/근거**: 상태기계(DEC-009~012/065): 저장=대기('') → 출고요청=접수('0') → 완료('1') / 취소('2'). 단건 전이 API 는 기존 존재 — 화면 단위 일괄 실행 UI 와 배치 API 가 공백이었다. Render↔한국DB RTT 때문에 클라이언트 단건 반복 대신 서버 배치 + 병렬(동시 3, batch.pdf 와 동일 보수치).
+- **영향**: `backend/app/routers/outbound.py`(+BatchRequestBody/Response·request_dispatch_batch), `frontend/src/lib/outbound-api.ts`(+requestDispatchBatch), 거래명세서/출고현황 page.tsx. 회귀 `test/test_outbound_batch_request.py`(라우터 4 + 화면 정적 2). 신규 SQL 0(기존 서비스 재사용).
+- **결정자**: 메인개발자 + 사용자 (2026-07-03 레거시 기능 요청)
+- **참조**: `도서물류관리프로그램/backend/app/routers/outbound.py`, `.../frontend/src/app/(app)/transactions/{sales-statement,outbound-status}/page.tsx`, DEC-065(화면 내 신규추가), DEC-033(다중 DB)
+
 ---
-*최종 업데이트: 2026-07-03 — DEC-070 신규 (내정보 preferences DB 정본화 — Render 임시 FS 재배포 리셋 → Web_User_Prefs 사이드 테이블 정본 + 파일 캐시 + back-fill, 회귀 9종). 같은 날: DEC-069 신규+보강.*
+*최종 업데이트: 2026-07-03 — DEC-071 신규 (일괄 출고요청 — 대기 전표 선택 접수 전이, 배치 API + 두 화면 UI). 같은 날: DEC-069/070.*
+
+*직전: 2026-07-03 — DEC-070 신규 (내정보 preferences DB 정본화 — Render 임시 FS 재배포 리셋 → Web_User_Prefs 사이드 테이블 정본 + 파일 캐시 + back-fill, 회귀 9종). 같은 날: DEC-069 신규+보강.*
 
 *직전: 2026-07-03 — DEC-069 신규 (배포-안전 저장소 상대 경로 탐색 — Render Docker `/app` 얕은 경로에서 `parents[4]` IndexError 로 거래명세서 PDF 500 → `app/core/repo_paths.find_repo_file` 상위 탐색 헬퍼 + `backend/data/contracts/print_sales_statement.yaml` 번들 사본 + Dockerfile fonts-nanum. 회귀 가드 test_print_repo_paths_deploy.py 4종).*
 
