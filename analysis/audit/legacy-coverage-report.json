@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-27T09:52:43.025385+00:00",
+  "generated_at": "2026-07-03T11:57:20.107777+00:00",
   "summary": {
     "total_dfm_candidates": 118,
     "registry_entries": 93,
@@ -69,7 +69,7 @@
     {
       "form_name": "Sobo25_status_list",
       "dfm_form_name": "Sobo25",
-      "registry_caption": "입고현황(LIST)",
+      "registry_caption": "입고현황",
       "dfm_caption": "반품재고(반품입고)-해체",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm"
     },
