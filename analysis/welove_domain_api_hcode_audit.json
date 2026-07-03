@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-03T12:55:03.925416+00:00",
+  "generated_at": "2026-07-03T13:06:01.409511+00:00",
   "summary": {
     "files_scanned": 88,
     "sql_literals": 415,
-    "critical": 6,
-    "warn": 13,
+    "critical": 0,
+    "warn": 0,
     "info": 201,
-    "skipped_noqa": 17,
+    "skipped_noqa": 36,
     "multi_tenant_tables_seen": [
       "G4_Book",
       "G7_Ggeo",
@@ -151,30 +151,6 @@
       "reason": "unknown_tables_only",
       "sql_excerpt": "INSERT INTO audit_returns (gcode, action, result, return_key, client_ip, server_id,  audit_token_hash, reason, extra_json) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
       "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/author_history_service.py",
-      "function": "list_author_history",
-      "lineno": 122,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT Gdate, Idnum, Gcode, Bcode, IFNULL(Pubun,'') AS Pubun, IFNULL(Gubun,'') AS Gubun, IFNULL(Jubun,'') AS Jubun, Gsqut, Gssum, Gdang, Grat1, Yesno FROM S1_Ssub WHERE <<dyn>> ORDER BY Gdate, Idnum, …",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/author_history_service.py",
-      "function": "list_author_history",
-      "lineno": 162,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT COALESCE(SUM(Gsqut),0) AS qty, COALESCE(SUM(Gssum),0) AS amount FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "verify_hcode_from_jwt"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/book_ebook_service.py",
@@ -1895,20 +1871,8 @@
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
-      "function": "_next_jubun",
-      "lineno": 97,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT MAX(Jubun+0) AS mx FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "<module>",
-      "lineno": 287,
+      "lineno": 288,
       "tables": [
         "G4_Book"
       ],
@@ -1920,7 +1884,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "<module>",
-      "lineno": 294,
+      "lineno": 295,
       "tables": [
         "G7_Ggeo"
       ],
@@ -1928,66 +1892,6 @@
       "reason": "missing_hcode_filter_on_multi_tenant_select",
       "sql_excerpt": "SELECT IFNULL(Gname,'') AS gname, IFNULL(Pubun,'') AS pubun, IFNULL(Grat1,0) AS grat1, IFNULL(Grat2,0) AS grat2, IFNULL(Grat3,0) AS grat3, IFNULL(Grat4,0) AS grat4, IFNULL(Grat5,0) AS grat5, IFNULL(Gr…",
       "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
-      "function": "cancel_order",
-      "lineno": 744,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT Yesno FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
-      "function": "cancel_order",
-      "lineno": 760,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "critical",
-      "reason": "missing_hcode_filter_on_multi_tenant_write",
-      "sql_excerpt": "UPDATE S1_Ssub SET Yesno='2', Time3=NOW() WHERE <<dyn>>",
-      "recommended_action": "add_hcode_filter"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
-      "function": "_transition_yesno",
-      "lineno": 787,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT Yesno FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
-      "function": "_transition_yesno",
-      "lineno": 795,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "critical",
-      "reason": "missing_hcode_filter_on_multi_tenant_write",
-      "sql_excerpt": "UPDATE S1_Ssub SET Yesno=%s, Time3=NOW() WHERE <<dyn>> AND IFNULL(Yesno,'')=%s",
-      "recommended_action": "add_hcode_filter"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
-      "function": "_transition_yesno",
-      "lineno": 802,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT Yesno FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "verify_hcode_from_jwt"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/pricing_service.py",
@@ -2338,42 +2242,6 @@
       "recommended_action": "mark_noqa_with_reason"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/sales_statement_create_service.py",
-      "function": "update_sales_statement",
-      "lineno": 364,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT Gcode, Bcode, Gjisa, Gubun, Ocode, Scode, Pubun, Gsqut, Gssum<<dyn>> FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/sales_statement_create_service.py",
-      "function": "update_sales_statement",
-      "lineno": 402,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "critical",
-      "reason": "missing_hcode_filter_on_multi_tenant_write",
-      "sql_excerpt": "UPDATE S1_Ssub SET <<dyn>>, Time3=NOW() WHERE <<dyn>> AND Gcode=%s AND Bcode=%s",
-      "recommended_action": "add_hcode_filter"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/sales_statement_create_service.py",
-      "function": "update_sales_statement",
-      "lineno": 403,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "critical",
-      "reason": "missing_hcode_filter_on_multi_tenant_write",
-      "sql_excerpt": "DELETE FROM S1_Ssub WHERE <<dyn>> AND Gcode=%s AND Bcode=%s",
-      "recommended_action": "add_hcode_filter"
-    },
-    {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/scan_match_service.py",
       "function": "<module>",
       "lineno": 37,
@@ -2470,102 +2338,6 @@
       "reason": "unknown_tables_only",
       "sql_excerpt": "SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = %s",
       "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
-      "function": "load_sales_statement_memo_preview",
-      "lineno": 1604,
-      "tables": [
-        "S1_Memo"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT <<dyn>> FROM S1_Memo WHERE",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
-      "function": "get_sales_statement_detail",
-      "lineno": 1709,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT <<dyn>> FROM S1_Ssub WHERE <<dyn>> ORDER BY Gcode, Bcode",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
-      "function": "get_sales_statement_detail",
-      "lineno": 1800,
-      "tables": [
-        "S1_Memo"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT <<dyn>> FROM S1_Memo WHERE <<dyn>> LIMIT 1",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
-      "function": "mark_sales_statement_completed",
-      "lineno": 2759,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT IFNULL(Yesno,'') AS y FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
-      "function": "mark_sales_statement_completed",
-      "lineno": 2767,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "critical",
-      "reason": "missing_hcode_filter_on_multi_tenant_write",
-      "sql_excerpt": "UPDATE S1_Ssub SET Yesno='1', Time3=NOW() WHERE <<dyn>> AND IFNULL(Yesno,'')='0'",
-      "recommended_action": "add_hcode_filter"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
-      "function": "mark_sales_statement_completed",
-      "lineno": 2774,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT IFNULL(Yesno,'') AS y FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
-      "function": "delete_sales_statement",
-      "lineno": 2808,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "warn",
-      "reason": "missing_hcode_filter_on_multi_tenant_select",
-      "sql_excerpt": "SELECT IFNULL(Yesno,'') AS y FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "verify_hcode_from_jwt"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
-      "function": "delete_sales_statement",
-      "lineno": 2818,
-      "tables": [
-        "S1_Ssub"
-      ],
-      "severity": "critical",
-      "reason": "missing_hcode_filter_on_multi_tenant_write",
-      "sql_excerpt": "DELETE FROM S1_Ssub WHERE <<dyn>>",
-      "recommended_action": "add_hcode_filter"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/user_prefs_db.py",
