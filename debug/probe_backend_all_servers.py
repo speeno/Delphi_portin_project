@@ -848,6 +848,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            # 출력 이력(Web_Print_Log) — 사이드 테이블 미생성/DB 불가 시에도 빈 목록 200.
+            "group": "print.sales_statement_print_log",
+            "path": f"/api/v1/print/sales-statement/print-log?serverId={sid}&limit=5",
+            "ok_status": {200},
+        },
+        {
             "group": "print.label_pdf",
             "path": f"/api/v1/print/label/SAMPLE.pdf?serverId={sid}&form=1",
             "ok_status": {200, 404, 422, 503},

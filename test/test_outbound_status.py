@@ -169,9 +169,12 @@ class LinesSqlTests(IsolatedAsyncioTestCase):
         book_rows = AsyncMock(return_value=[{"bcode": "B1", "gname": "도서A", "shelf": ""}])
         s1cols = AsyncMock(return_value={"gdang", "grat1", "pubun"})
         g4cols = AsyncMock(return_value={"gcode", "gname"})
+        # 거래처명 lookup(G1_Ggeo) — 목록 JOIN 금지 원칙의 런타임 채움 (2026-07-03 추가).
+        cust_names = AsyncMock(return_value={("H0001", "00001"): "북센"})
 
         with patch.object(tx, "execute_query", side_effect=fake_exec), \
                 patch.object(tx, "in_clause_lookup", book_rows), \
+                patch.object(tx, "fetch_g1_customer_gnames", cust_names), \
                 patch("app.services.s1_ssub_adapt.s1_column_names", s1cols), \
                 patch("app.services.g4_book_adapt.g4_column_names", g4cols):
             lines, total, totals = await tx.list_outbound_status_lines(

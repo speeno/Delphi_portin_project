@@ -1070,8 +1070,19 @@
 - **결정자**: 메인개발자 + 사용자 (2026-07-03 레거시 기능 요청)
 - **참조**: `도서물류관리프로그램/backend/app/routers/outbound.py`, `.../frontend/src/app/(app)/transactions/{sales-statement,outbound-status}/page.tsx`, DEC-065(화면 내 신규추가), DEC-033(다중 DB)
 
+### DEC-072: 출력 결과 추적 — 출력된 건만 완료 전이 + Web_Print_Log 이력 + 자동출력 조회창
+
+- **일자**: 2026-07-03
+- **결정 사항**: ① **출력이 실제 완료된 건만 접수→완료 전이** — 거래명세서 단건/일괄 PDF 응답에 `X-Printed-Keys` 헤더(PDF 에 실제 포함된 전표 키의 base64 UTF-8 JSON — Gjisa 한글 대비)를 실어, 프론트(수동 인쇄·자동출력 모니터)는 이 목록에 대해서만 `completeSalesStatement` 를 호출한다(헤더 부재 구버전만 기존 동작 fallback). ② **상세 출력 이력** — 신규 사이드 테이블 `Web_Print_Log`(Seq AUTO_INCREMENT PK, Hcode/UserId/PrintedAt/Kind(single|batch|auto)/Gdate/Jubun/Gjisa/Gcode/CustomerName/LineCount/Amount, 3.23 호환 append 전용, 기록 실패는 인쇄 비차단). PDF 생성 성공 시 전표당 1행 기록, `GET /api/v1/print/sales-statement/print-log`(hcode 격리·최신순) + 자동출력 모니터 「서버 출력 이력」 패널·세션 로그 전표번호 표기. PDF 요청에 `source=auto|manual` 로 kind 구분. ③ **자동출력 조회창** — `received-today` 에 `days`(1~30, 기본 1) 파라미터: 일괄 출고요청(DEC-071)은 과거 거래일자 전표도 접수 전이하므로 Gdate=당일 필터로는 자동출력이 놓친다 → 모니터는 `days=7` 로 폴링(완료 전이 후 목록에서 빠지므로 중복 인쇄 없음, 세션 dedup 병행). ④ 출고현황 목록 뷰 라인에 거래처명 컬럼 추가(G1_Ggeo 런타임 lookup — 목록 JOIN 금지 유지).
+- **배경/근거**: 2026-07-03 보고 — "접수요청 후 출력이 완료된 건만 완료로", "어떤 건이 출력되었는지 자세한 기록", "다건 접수요청 시 출력 검증", "출고현황 거래처 필드 누락". 기존 흐름은 인쇄 트리거 직후 선택 전체를 완료 전이해 PDF 미포함(자료 없음) 건도 완료 처리될 수 있었다.
+- **영향**: `backend/app/routers/print.py`(+헤더/이력/print-log GET/source), `backend/app/services/print_log_db.py` 신규, `backend/app/routers/transactions.py`(received-today days), `backend/app/services/transactions_service.py`+`models/inquiry.py`(라인 customer_name), 프론트 `print-api.ts`(+decodePrintedKeysHeader·printPdfFromUrl 반환·getSalesStatementPrintLog), `inquiry-api.ts`(days), 거래명세서/자동출력 모니터/출고현황 page.tsx. probe 매트릭스 `print.sales_statement_print_log` 등록. 회귀 `test/test_print_result_tracking.py`(11 — 멀티키 헤더/누락 제외/kind/이력 SQL/days 창/모니터 정적).
+- **결정자**: 메인개발자 + 사용자 (2026-07-03 연속 요청)
+- **참조**: DEC-071(일괄 출고요청), DEC-070(사이드 테이블 패턴), `도서물류관리프로그램/backend/app/services/print_log_db.py`
+
 ---
-*최종 업데이트: 2026-07-03 — DEC-071 신규 (일괄 출고요청 — 대기 전표 선택 접수 전이, 배치 API + 두 화면 UI). 같은 날: DEC-069/070.*
+*최종 업데이트: 2026-07-03 — DEC-072 신규 (출력된 건만 완료 전이 X-Printed-Keys + Web_Print_Log 상세 이력 + received-today days 조회창 + 출고현황 라인 거래처명). 같은 날: DEC-069/070/071.*
+
+*직전: 2026-07-03 — DEC-071 신규 (일괄 출고요청 — 대기 전표 선택 접수 전이, 배치 API + 두 화면 UI). 같은 날: DEC-069/070.*
 
 *직전: 2026-07-03 — DEC-070 신규 (내정보 preferences DB 정본화 — Render 임시 FS 재배포 리셋 → Web_User_Prefs 사이드 테이블 정본 + 파일 캐시 + back-fill, 회귀 9종). 같은 날: DEC-069 신규+보강.*
 
