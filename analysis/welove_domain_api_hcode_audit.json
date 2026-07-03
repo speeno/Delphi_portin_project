@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-06-27T09:43:34.075301+00:00",
+  "generated_at": "2026-07-03T12:55:03.925416+00:00",
   "summary": {
-    "files_scanned": 86,
-    "sql_literals": 406,
-    "critical": 4,
-    "warn": 10,
-    "info": 200,
+    "files_scanned": 88,
+    "sql_literals": 415,
+    "critical": 6,
+    "warn": 13,
+    "info": 201,
     "skipped_noqa": 17,
     "multi_tenant_tables_seen": [
       "G4_Book",
@@ -383,7 +383,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
       "function": "<module>",
-      "lineno": 134,
+      "lineno": 149,
       "tables": [
         "G1_Ggeo"
       ],
@@ -395,7 +395,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
       "function": "<module>",
-      "lineno": 137,
+      "lineno": 152,
       "tables": [
         "G4_Book"
       ],
@@ -407,7 +407,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
       "function": "_is_period_locked",
-      "lineno": 155,
+      "lineno": 170,
       "tables": [
         "application_settings"
       ],
@@ -419,7 +419,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
       "function": "_fetch_vendor_names",
-      "lineno": 1113,
+      "lineno": 1157,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1908,7 +1908,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "<module>",
-      "lineno": 258,
+      "lineno": 287,
       "tables": [
         "G4_Book"
       ],
@@ -1920,7 +1920,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "<module>",
-      "lineno": 265,
+      "lineno": 294,
       "tables": [
         "G7_Ggeo"
       ],
@@ -1932,7 +1932,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "cancel_order",
-      "lineno": 709,
+      "lineno": 744,
       "tables": [
         "S1_Ssub"
       ],
@@ -1944,7 +1944,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "cancel_order",
-      "lineno": 725,
+      "lineno": 760,
       "tables": [
         "S1_Ssub"
       ],
@@ -1956,7 +1956,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "_transition_yesno",
-      "lineno": 752,
+      "lineno": 787,
       "tables": [
         "S1_Ssub"
       ],
@@ -1968,7 +1968,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "_transition_yesno",
-      "lineno": 760,
+      "lineno": 795,
       "tables": [
         "S1_Ssub"
       ],
@@ -1980,7 +1980,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "_transition_yesno",
-      "lineno": 767,
+      "lineno": 802,
       "tables": [
         "S1_Ssub"
       ],
@@ -2474,7 +2474,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
       "function": "load_sales_statement_memo_preview",
-      "lineno": 1594,
+      "lineno": 1604,
       "tables": [
         "S1_Memo"
       ],
@@ -2486,7 +2486,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
       "function": "get_sales_statement_detail",
-      "lineno": 1699,
+      "lineno": 1709,
       "tables": [
         "S1_Ssub"
       ],
@@ -2498,7 +2498,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
       "function": "get_sales_statement_detail",
-      "lineno": 1790,
+      "lineno": 1800,
       "tables": [
         "S1_Memo"
       ],
@@ -2506,6 +2506,78 @@
       "reason": "missing_hcode_filter_on_multi_tenant_select",
       "sql_excerpt": "SELECT <<dyn>> FROM S1_Memo WHERE <<dyn>> LIMIT 1",
       "recommended_action": "verify_hcode_from_jwt"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "mark_sales_statement_completed",
+      "lineno": 2759,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_select",
+      "sql_excerpt": "SELECT IFNULL(Yesno,'') AS y FROM S1_Ssub WHERE <<dyn>>",
+      "recommended_action": "verify_hcode_from_jwt"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "mark_sales_statement_completed",
+      "lineno": 2767,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "critical",
+      "reason": "missing_hcode_filter_on_multi_tenant_write",
+      "sql_excerpt": "UPDATE S1_Ssub SET Yesno='1', Time3=NOW() WHERE <<dyn>> AND IFNULL(Yesno,'')='0'",
+      "recommended_action": "add_hcode_filter"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "mark_sales_statement_completed",
+      "lineno": 2774,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_select",
+      "sql_excerpt": "SELECT IFNULL(Yesno,'') AS y FROM S1_Ssub WHERE <<dyn>>",
+      "recommended_action": "verify_hcode_from_jwt"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "delete_sales_statement",
+      "lineno": 2808,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_select",
+      "sql_excerpt": "SELECT IFNULL(Yesno,'') AS y FROM S1_Ssub WHERE <<dyn>>",
+      "recommended_action": "verify_hcode_from_jwt"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "delete_sales_statement",
+      "lineno": 2818,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "critical",
+      "reason": "missing_hcode_filter_on_multi_tenant_write",
+      "sql_excerpt": "DELETE FROM S1_Ssub WHERE <<dyn>>",
+      "recommended_action": "add_hcode_filter"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/user_prefs_db.py",
+      "function": "get_user_prefs",
+      "lineno": 68,
+      "tables": [
+        "Web_User_Prefs"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Prefs FROM Web_User_Prefs WHERE Hcode=%s AND UserId=%s LIMIT 1",
+      "recommended_action": "mark_noqa_with_reason"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/verification_service.py",

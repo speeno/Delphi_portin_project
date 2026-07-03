@@ -1051,8 +1051,20 @@
 - **결정자**: 메인개발자 + 사용자 (2026-07-03 운영 500 보고)
 - **참조**: `도서물류관리프로그램/backend/app/core/repo_paths.py`, `.../app/services/{sales_statement_print_profile,print_template_registry}.py`, `.../backend/data/contracts/print_sales_statement.yaml`, `.../backend/Dockerfile`, `test/test_print_repo_paths_deploy.py`, DEC-037(WeasyPrint 단일 엔진)
 
+### DEC-070: 내정보 preferences DB 정본화 (Web_User_Prefs 사이드 테이블)
+
+- **일자**: 2026-07-03
+- **결정 사항**: 내정보(preferences — 자동출력/테두리/테마/공급자정보 등)의 정본을 파일(`backend/data/user_profiles.json`)에서 **로그인 데이터 서버의 신규 사이드 테이블 `Web_User_Prefs`** (PK=(Hcode,UserId), Prefs TEXT, 3.23 호환 CREATE IF NOT EXISTS + REPLACE INTO — `grid_prefs_service`/DEC-068 G4_Book_Ebook 과 동일 패턴)로 옮긴다. 파일은 동기 렌더 경로(`user_profile_service.get_profile` — 인쇄 HTML 빌더가 사용)를 위한 **캐시**로 유지: GET /me/profile 이 DB 정본 → 파일 캐시 동기화, PATCH 는 파일+DB 이중 기록, DB 무행 + 파일 저장분 존재 시 1회 back-fill 승격. DB 실패는 전부 graceful(파일 fallback, 200 유지).
+- **배경/근거**: Render Docker 의 컨테이너 파일시스템은 임시라 재배포/재시작마다 파일이 이미지 원본으로 리셋 — 사용자가 내정보에서 자동출력을 켜고 저장해도 다음 배포에 소실("저장이 안 됨" 2026-07-03 보고, 당일 배포 4회로 증폭). 격리: 모든 SQL Hcode+UserId 동시 필터(hcode 감사 info 등급 통과).
+- **대안**: (1) Render Persistent Disk — 유료 + zero-downtime 배포 상실. (2) 파일을 git 에 주기 커밋 — 운영 데이터의 레포 유입, 부적절. (3) 채택: 기존 사이드 테이블 패턴 재사용(추가 인프라 0).
+- **영향**: `backend/app/services/user_prefs_db.py` 신규, `backend/app/routers/me.py`(GET 동기화/back-fill + PATCH 이중 기록). 회귀 `test/test_user_prefs_db_persistence.py` 9종. **잔여**: 업로드 로고(`data/uploads/`)·테넌트 도장(`data/tenant_print/`)은 여전히 임시 FS/이미지 제외 — 영속화 별도 과제.
+- **결정자**: 메인개발자 + 사용자 (2026-07-03 저장 유실 보고)
+- **참조**: `도서물류관리프로그램/backend/app/services/{user_prefs_db,grid_prefs_service,user_profile_service}.py`, `.../app/routers/me.py`, DEC-068(사이드 테이블 선례), DEC-069(임시 FS 배포 함정)
+
 ---
-*최종 업데이트: 2026-07-03 — DEC-069 신규 (배포-안전 저장소 상대 경로 탐색 — Render Docker `/app` 얕은 경로에서 `parents[4]` IndexError 로 거래명세서 PDF 500 → `app/core/repo_paths.find_repo_file` 상위 탐색 헬퍼 + `backend/data/contracts/print_sales_statement.yaml` 번들 사본 + Dockerfile fonts-nanum. 회귀 가드 test_print_repo_paths_deploy.py 4종).*
+*최종 업데이트: 2026-07-03 — DEC-070 신규 (내정보 preferences DB 정본화 — Render 임시 FS 재배포 리셋 → Web_User_Prefs 사이드 테이블 정본 + 파일 캐시 + back-fill, 회귀 9종). 같은 날: DEC-069 신규+보강.*
+
+*직전: 2026-07-03 — DEC-069 신규 (배포-안전 저장소 상대 경로 탐색 — Render Docker `/app` 얕은 경로에서 `parents[4]` IndexError 로 거래명세서 PDF 500 → `app/core/repo_paths.find_repo_file` 상위 탐색 헬퍼 + `backend/data/contracts/print_sales_statement.yaml` 번들 사본 + Dockerfile fonts-nanum. 회귀 가드 test_print_repo_paths_deploy.py 4종).*
 
 *이전: 2026-06-20 — DEC-066 신규 (부서계정 경리부 전 화면 CRUD = 로그인/리프레시 시 업무 Fxx 전부 'O' 효과매트릭스로 permissions·fxx_caps 승격, login_profile·license_keys 는 원본 유지로 메뉴 무변경, 관리자 플랫폼 Fxx 제외 + JWT permissions 한도 30→64 + BLS_FULL_CRUD_LOGIN_IDS env / MENUVIS-DEC-06 사이드바 가시성 매트릭스 기준 환원 — canAccessScreen 게이트 제거). 직전: 2026-06-14 — DEC-065 + P4 보강 (거래명세서 Sobo21 화면 내 신규추가 — outbound create_order 재사용 + 단가/비율/금액 패리티 + 직전거래가 G7_Ggeo 게이트 + 키보드 전용 in-grid / P4: 거래현황(상세) Subu24 검색 다이얼로그 — bcode/pubun 라인 필터 + 듀얼그리드 + 키보드 전용 모달).*
 

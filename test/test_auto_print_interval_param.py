@@ -29,4 +29,10 @@ class AutoPrintIntervalParamTests(TestCase):
         self.assertIn("Math.min(1800", self.src)
 
     def test_poll_loop_uses_dynamic_interval(self) -> None:
-        self.assertIn("setInterval(() => void checkAndPrint(), pollMs)", self.src)
+        self.assertIn("setInterval(run, pollMs)", self.src)
+
+    def test_countdown_display_present(self) -> None:
+        # 다음 자동 트리거까지 남은 시간(분/초) 표시 — 사용자 요청(2026-07-03).
+        self.assertIn("formatCountdown", self.src)
+        self.assertIn("nextRunAtRef", self.src)
+        self.assertIn("다음 확인까지", self.src)
