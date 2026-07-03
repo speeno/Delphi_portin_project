@@ -55,7 +55,7 @@ def _publisher_row(gdate: str, hcode: str, gcode: str, bcode: str, *, qty: int) 
     return {
         "gdate": gdate, "hcode": hcode, "hname": f"P-{hcode}",
         "gcode": gcode, "gname": f"V-{gcode}",
-        "idnum": "120000000001", "pubun": "신간",
+        "idnum": 12, "pubun": "신간",
         "bcode": bcode, "bname": f"B-{bcode}",
         "gsqut": qty, "gdang": 10000,
     }
@@ -64,7 +64,7 @@ def _publisher_row(gdate: str, hcode: str, gcode: str, bcode: str, *, qty: int) 
 def _vendor_row(gcode: str, bcode: str, *, qty: int, amount: int, gdate: str | None = None) -> dict:
     base = {
         "gcode": gcode, "gname": f"V-{gcode}",
-        "idnum": "120000000001", "pubun": "신간",
+        "idnum": 12, "pubun": "신간",
         "bcode": bcode, "bname": f"B-{bcode}",
         "gsqut": qty, "gdang": 10000, "grat1": 0.7, "gssum": amount,
     }
@@ -88,7 +88,9 @@ class DailyReportContractTest(TestCase):
     def test_paging_passthrough_and_synced_roll(self) -> None:
         captured: dict = {}
 
-        async def fake_daily(*, server_id: str, gdate: str, limit: int, offset: int) -> dict:
+        async def fake_daily(
+            *, server_id: str, gdate: str, hcode: str | None = None, limit: int, offset: int
+        ) -> dict:
             captured.update({
                 "server_id": server_id, "gdate": gdate,
                 "limit": limit, "offset": offset,
@@ -148,7 +150,8 @@ class PeriodReportContractTest(TestCase):
         captured: dict = {}
 
         async def fake_period(
-            *, server_id: str, date_from: str, date_to: str, limit: int, offset: int
+            *, server_id: str, date_from: str, date_to: str,
+            hcode: str | None = None, limit: int, offset: int
         ) -> dict:
             captured.update({
                 "server_id": server_id, "date_from": date_from, "date_to": date_to,

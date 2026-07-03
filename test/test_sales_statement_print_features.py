@@ -115,6 +115,45 @@ class MarkCompletedServiceTests(IsolatedAsyncioTestCase):
         self.assertIsNone(res)
 
 
+class DeleteServiceTests(IsolatedAsyncioTestCase):
+    async def test_delete_pending_removes_lines(self) -> None:
+        async def fake_eq(server_id, sql, params=()):  # noqa: ANN001, ARG001
+            return [{"y": "0"}, {"y": ""}]  # 접수/대기 — 삭제 가능
+
+        del_mock = AsyncMock()
+        with patch.object(tx, "execute_query", side_effect=fake_eq), \
+                patch.object(tx, "execute_in_transaction", del_mock):
+            res = await tx.delete_sales_statement(
+                server_id=_SID, gdate="2026-06-28", hcode="H1", jubun="00001", gjisa="",
+            )
+        self.assertEqual(res["status"], "deleted")
+        self.assertEqual(res["deleted"], 2)
+        sql = del_mock.await_args.args[1][0][0]
+        self.assertIn("DELETE FROM S1_Ssub", sql)
+
+    async def test_delete_completed_locked(self) -> None:
+        async def fake_eq(server_id, sql, params=()):  # noqa: ANN001, ARG001
+            return [{"y": "1"}]  # 완료 — 잠금
+
+        del_mock = AsyncMock()
+        with patch.object(tx, "execute_query", side_effect=fake_eq), \
+                patch.object(tx, "execute_in_transaction", del_mock):
+            with self.assertRaises(ValueError) as cm:
+                await tx.delete_sales_statement(
+                    server_id=_SID, gdate="2026-06-28", hcode="H1", jubun="00001", gjisa="",
+                )
+        self.assertEqual(str(cm.exception), "STATEMENT_LOCKED")
+        del_mock.assert_not_awaited()  # 삭제 미실행
+
+    async def test_delete_no_rows_returns_none(self) -> None:
+        with patch.object(tx, "execute_query", side_effect=AsyncMock(return_value=[])), \
+                patch.object(tx, "execute_in_transaction", AsyncMock()):
+            res = await tx.delete_sales_statement(
+                server_id=_SID, gdate="2026-06-28", hcode="H1", jubun="9", gjisa="",
+            )
+        self.assertIsNone(res)
+
+
 def _auth() -> dict:
     return {"user_id": "u", "server_id": _SID, "hcode": "H1", "role": "operator", "permissions": []}
 
@@ -198,6 +237,36 @@ class RouterTests(TestCase):
     def test_batch_pdf_empty_keys_422(self) -> None:
         r = self.client.get(f"/api/v1/print/sales-statement/batch.pdf?serverId={_SID}&keys=")
         self.assertEqual(r.status_code, 422, r.text)
+
+    def test_delete_endpoint_200(self) -> None:
+        async def fake_del(**kwargs):  # noqa: ARG001
+            return {"order_key": {"gdate": "2026.06.28", "hcode": "H1", "jubun": "1", "gjisa": ""},
+                    "deleted": 2, "status": "deleted"}
+
+        with patch.object(tx, "delete_sales_statement", side_effect=fake_del):
+            r = self.client.delete(
+                f"/api/v1/transactions/sales-statement/2026.06.28%7CH1%7C1%7C?serverId={_SID}"
+            )
+        self.assertEqual(r.status_code, 200, r.text)
+        self.assertEqual(r.json()["deleted"], 2)
+
+    def test_delete_endpoint_locked_422(self) -> None:
+        async def fake_del(**kwargs):  # noqa: ARG001
+            raise ValueError("STATEMENT_LOCKED")
+
+        with patch.object(tx, "delete_sales_statement", side_effect=fake_del):
+            r = self.client.delete(
+                f"/api/v1/transactions/sales-statement/2026.06.28%7CH1%7C1%7C?serverId={_SID}"
+            )
+        self.assertEqual(r.status_code, 422, r.text)
+        self.assertEqual(r.json()["detail"]["code"], "INQ_TX_LOCKED")
+
+    def test_delete_endpoint_404_when_missing(self) -> None:
+        with patch.object(tx, "delete_sales_statement", AsyncMock(return_value=None)):
+            r = self.client.delete(
+                f"/api/v1/transactions/sales-statement/2026.06.28%7CH1%7C9%7C?serverId={_SID}"
+            )
+        self.assertEqual(r.status_code, 404, r.text)
 
 
 if __name__ == "__main__":
