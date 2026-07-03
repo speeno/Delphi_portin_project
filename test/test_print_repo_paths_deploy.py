@@ -93,6 +93,31 @@ class ResolveIrPathDeployTests(TestCase):
         self.assertIsNone(res)  # graceful fallback → manual 빌더
 
 
+class DockerfileEngineGuardTests(TestCase):
+    """WeasyPrint(>=53) dlopen 네이티브 의존 — 누락 시 운영 503 PR_ENGINE_UNAVAILABLE."""
+
+    # weasyprint/text/ffi.py 가 dlopen 하는 라이브러리의 Debian 패키지 (harfbuzz-subset 은 선택이나 동봉).
+    _REQUIRED_APT = (
+        "libpango-1.0-0",
+        "libpangoft2-1.0-0",
+        "libharfbuzz0b",
+        "libharfbuzz-subset0",
+        "fonts-nanum",  # 한글 글리프 — 없으면 tofu
+    )
+
+    def test_dockerfile_installs_weasyprint_native_deps(self) -> None:
+        text = (_BACKEND / "Dockerfile").read_text(encoding="utf-8")
+        missing = [pkg for pkg in self._REQUIRED_APT if pkg not in text]
+        self.assertEqual(missing, [], f"Dockerfile apt 목록에서 누락: {missing}")
+
+    def test_dockerfile_has_buildtime_engine_check(self) -> None:
+        text = (_BACKEND / "Dockerfile").read_text(encoding="utf-8")
+        self.assertIn(
+            "from weasyprint import HTML", text,
+            "빌드 타임 PDF 엔진 검증(RUN python -c ... write_pdf) 제거 금지 — 런타임 503 조기 차단",
+        )
+
+
 class NoFixedParentsIndexTests(TestCase):
     _BANNED = re.compile(r"\.parents\[[4-9]\]")
 
