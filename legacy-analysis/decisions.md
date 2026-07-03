@@ -1040,8 +1040,20 @@
 - **결정자**: 메인개발자 + 사용자 (2026-06-27 일련 요청)
 - **참조**: `도서물류관리프로그램/backend/app/services/{masters_excel,book_ebook_service}.py`, `.../app/services/masters_service.py`(`list_customer_master_full`·`_order_by_clause`·발행일 REPLACE), `.../app/routers/masters.py`(exports/imports/ebook), `.../frontend/src/components/data-grid/data-grid.tsx`, `.../src/lib/{download,focus-advance,master-api}.ts`, `.../src/components/master/{master-import-button,book-detail-form}.tsx`, `test/test_masters_excel_export.py`
 
+### DEC-069: 배포-안전 저장소 상대 경로 탐색 (parents[N] 고정 인덱스 금지 + 계약 yaml 번들 사본)
+
+- **일자**: 2026-07-03
+- **결정 사항**: 백엔드에서 저장소 상대 리소스(허브 계약 yaml, 허브 산출물 IR 등)를 찾을 때 `Path(__file__).parents[N]` **고정 인덱스 접근을 금지**하고, 신규 공용 헬퍼 `app/core/repo_paths.find_repo_file(relpath, start=)` (상위 디렉토리 순차 탐색, 미발견 시 `None`) 만 사용한다. 아울러 런타임 필수 계약인 `migration/contracts/print_sales_statement.yaml` 은 **백엔드 번들 사본** `backend/data/contracts/print_sales_statement.yaml` 을 두고, 탐색 우선순위 = 허브 정본(개발 중첩 배치) → 번들 사본(단독 배포) → 내장 기본 프로필(graceful) 로 한다. 편집은 반드시 허브 정본에서 하고 사본에 복사 — 두 파일의 파싱 내용 동기화는 회귀 테스트가 강제한다. Dockerfile 에는 `fonts-nanum` 을 추가해 한글 글리프 tofu 를 차단한다(폰트 README 의 apt 경로 채택).
+- **배경/근거**: 거래명세서 PDF 인쇄가 로컬은 정상, Render 배포에서 500. 원인 = Render Docker 는 `backend/` 만 빌드해 모듈 경로가 `/app/app/services/...` (조상 4개)가 되고, `sales_statement_print_profile.py` 의 모듈 레벨 `parents[4]` 가 **IndexError** → 모듈 임포트 자체가 실패 → 삼련/일괄/자동출력 전부 500. `print_template_registry._resolve_ir_path` 의 동일 패턴도 잠재 500 (try 블록 밖 호출). WeasyPrint 미설치 503 graceful 경로는 이미 있었으나 경로 깊이 크래시는 커버하지 못했다.
+- **대안**: (1) Docker 에 허브 전체 포함 — 이미지 비대 + 제품 단독 배포 원칙 위배. (2) env 로 계약 경로 주입 — 운영 설정 누락 시 재발, 기본값이 안전해야 함. (3) 계약 yaml 정본을 제품 레포로 이동 — CLAUDE.md 상 customer_variants 정본은 허브 `migration/contracts` 이므로 사본+동기화 가드 채택.
+- **영향**: `backend/app/core/repo_paths.py` 신규, `backend/app/services/sales_statement_print_profile.py`(_contract_path 탐색), `backend/app/services/print_template_registry.py`(_resolve_ir_path → find_repo_file, 미발견 None = manual 빌더 fallback), `backend/data/contracts/print_sales_statement.yaml` 번들 사본, `backend/Dockerfile`(+fonts-nanum). 회귀 가드 `test/test_print_repo_paths_deploy.py` — 얕은 경로 무예외 / yaml 미발견 기본 프로필 / 번들↔허브 파싱 동기화 / `parents[4-9]` 재유입 금지 스캔 4종. 잔여 알려진 제약: `.dockerignore` 가 `data/tenant_print/` 를 제외하므로 Render 에서 도장 오버레이는 미출력(코드는 graceful None) — 운영 디스크/외부 저장소 이관은 별도 운영 작업.
+- **결정자**: 메인개발자 + 사용자 (2026-07-03 운영 500 보고)
+- **참조**: `도서물류관리프로그램/backend/app/core/repo_paths.py`, `.../app/services/{sales_statement_print_profile,print_template_registry}.py`, `.../backend/data/contracts/print_sales_statement.yaml`, `.../backend/Dockerfile`, `test/test_print_repo_paths_deploy.py`, DEC-037(WeasyPrint 단일 엔진)
+
 ---
-*최종 업데이트: 2026-06-20 — DEC-066 신규 (부서계정 경리부 전 화면 CRUD = 로그인/리프레시 시 업무 Fxx 전부 'O' 효과매트릭스로 permissions·fxx_caps 승격, login_profile·license_keys 는 원본 유지로 메뉴 무변경, 관리자 플랫폼 Fxx 제외 + JWT permissions 한도 30→64 + BLS_FULL_CRUD_LOGIN_IDS env / MENUVIS-DEC-06 사이드바 가시성 매트릭스 기준 환원 — canAccessScreen 게이트 제거). 직전: 2026-06-14 — DEC-065 + P4 보강 (거래명세서 Sobo21 화면 내 신규추가 — outbound create_order 재사용 + 단가/비율/금액 패리티 + 직전거래가 G7_Ggeo 게이트 + 키보드 전용 in-grid / P4: 거래현황(상세) Subu24 검색 다이얼로그 — bcode/pubun 라인 필터 + 듀얼그리드 + 키보드 전용 모달).*
+*최종 업데이트: 2026-07-03 — DEC-069 신규 (배포-안전 저장소 상대 경로 탐색 — Render Docker `/app` 얕은 경로에서 `parents[4]` IndexError 로 거래명세서 PDF 500 → `app/core/repo_paths.find_repo_file` 상위 탐색 헬퍼 + `backend/data/contracts/print_sales_statement.yaml` 번들 사본 + Dockerfile fonts-nanum. 회귀 가드 test_print_repo_paths_deploy.py 4종).*
+
+*이전: 2026-06-20 — DEC-066 신규 (부서계정 경리부 전 화면 CRUD = 로그인/리프레시 시 업무 Fxx 전부 'O' 효과매트릭스로 permissions·fxx_caps 승격, login_profile·license_keys 는 원본 유지로 메뉴 무변경, 관리자 플랫폼 Fxx 제외 + JWT permissions 한도 30→64 + BLS_FULL_CRUD_LOGIN_IDS env / MENUVIS-DEC-06 사이드바 가시성 매트릭스 기준 환원 — canAccessScreen 게이트 제거). 직전: 2026-06-14 — DEC-065 + P4 보강 (거래명세서 Sobo21 화면 내 신규추가 — outbound create_order 재사용 + 단가/비율/금액 패리티 + 직전거래가 G7_Ggeo 게이트 + 키보드 전용 in-grid / P4: 거래현황(상세) Subu24 검색 다이얼로그 — bcode/pubun 라인 필터 + 듀얼그리드 + 키보드 전용 모달).*
 
 *이전: 2026-06-01 — DEC-064 신규 (C6 Sobo21 Gjisa variants + 참고 패널 memo_preview Phase 1; Label104 재고는 Phase 2 PrinJing).*
 
