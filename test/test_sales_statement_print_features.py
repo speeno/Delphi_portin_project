@@ -238,6 +238,35 @@ class RouterTests(TestCase):
         r = self.client.get(f"/api/v1/print/sales-statement/batch.pdf?serverId={_SID}&keys=")
         self.assertEqual(r.status_code, 422, r.text)
 
+    def test_batch_pdf_parallel_preserves_key_order(self) -> None:
+        """상세 조회 병렬화(bounded gather) 후에도 응답은 요청 keys 순서를 보존한다."""
+        import asyncio
+
+        from app.services import print_service
+
+        async def fake_detail(**kwargs):  # noqa: ANN001
+            jubun = kwargs["jubun"]
+            # 첫 키가 가장 늦게 끝나도(역전 지연) 합쳐지는 순서는 keys 순서여야 한다.
+            await asyncio.sleep(0.05 if jubun == "00001" else 0.0)
+            return {**_detail(), "jubun_probe": jubun}
+
+        captured: dict = {}
+
+        def fake_combined(details, **kwargs):  # noqa: ANN001, ARG001
+            captured["order"] = [d["jubun_probe"] for d in details]
+            return "<html><body>combined</body></html>"
+
+        with patch.object(tx, "get_sales_statement_detail", side_effect=fake_detail), \
+                patch.object(tx, "render_sales_statements_combined_html", side_effect=fake_combined), \
+                patch.object(print_service, "render_pdf", return_value=b"%PDF-1.4 fake"):
+            r = self.client.get(
+                f"/api/v1/print/sales-statement/batch.pdf?serverId={_SID}"
+                "&keys=2026.06.28%7CH1%7C00001%7C,2026.06.28%7CH1%7C00002%7C,2026.06.28%7CH1%7C00003%7C"
+            )
+        self.assertEqual(r.status_code, 200, r.text)
+        self.assertEqual(captured["order"], ["00001", "00002", "00003"])
+
+
     def test_delete_endpoint_200(self) -> None:
         async def fake_del(**kwargs):  # noqa: ARG001
             return {"order_key": {"gdate": "2026.06.28", "hcode": "H1", "jubun": "1", "gjisa": ""},
@@ -267,6 +296,28 @@ class RouterTests(TestCase):
                 f"/api/v1/transactions/sales-statement/2026.06.28%7CH1%7C9%7C?serverId={_SID}"
             )
         self.assertEqual(r.status_code, 404, r.text)
+
+
+class EngineWarmupTests(TestCase):
+    """기동 시 PDF 엔진 워밍업 — 어떤 환경에서도 예외를 밖으로 던지지 않는다."""
+
+    def test_warmup_never_raises(self) -> None:
+        from app.services import print_service
+
+        res = print_service._warmup_engine_once()
+        self.assertIn(res, (True, False))  # 엔진 유무와 무관하게 graceful
+
+    def test_warmup_swallows_missing_engine(self) -> None:
+        from app.services import print_service
+
+        with patch.dict(sys.modules, {"weasyprint": None}):
+            self.assertFalse(print_service._warmup_engine_once())
+
+    def test_background_thread_starts_without_error(self) -> None:
+        from app.services import print_service
+
+        with patch.object(print_service, "_warmup_engine_once", return_value=False):
+            print_service.warmup_engine_background()  # 예외 없이 스레드 기동
 
 
 if __name__ == "__main__":
