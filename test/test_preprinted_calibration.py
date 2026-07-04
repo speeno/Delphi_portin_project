@@ -95,17 +95,20 @@ class CalibrationCssTests(TestCase):
         html = tx.render_sales_statement_html(
             _detail(), layout="legacy_triplicate", server_id=_SID, user_id="u", borders=False,
         )
+        # 스캔 실측 정본 (analysis/print_specs/sales_statement_triplicate_form.md)
         self.assertIn(
-            ".tri-lines { width: 172.6mm; margin-left: auto; margin-right: auto; height: auto; }",
+            ".tri-lines { width: 182.9mm; margin-left: auto; margin-right: auto; height: auto; }",
             html,
         )
-        self.assertIn(".tri-lines tbody td { height: 4.45mm; }", html)
-        # 섹션 피치 99mm — 2·3련 누적 어긋남 방지의 핵심
-        self.assertIn(".triplicate-section { height: 99.0mm; margin-bottom: 0.0mm; }", html)
+        self.assertIn(".tri-lines tbody td { height: 4.52mm; }", html)
+        # 섹션 피치 99.7mm — 2·3련 누적 어긋남 방지의 핵심
+        self.assertIn(".triplicate-section { height: 99.7mm; margin-bottom: 0.0mm; }", html)
         self.assertIn("@page { margin-top: 0.0mm; margin-bottom: 0.0mm; }", html)
         self.assertIn(".tri-lines thead th { height: 6.0mm; }", html)
-        self.assertIn(".camount { width: 24.7mm; }", html)
-        self.assertIn(".cno { width: 3.6mm; }", html)
+        self.assertIn(".camount { width: 26.0mm; }", html)
+        self.assertIn(".cno { width: 3.8mm; }", html)
+        # 좌측 절대 위치: 중앙배치 13.55mm + 0.65mm 보정 = 실측 14.2mm
+        self.assertIn("transform: translate(0.65mm, 0.0mm)", html)
 
 
 class ContractYamlTests(TestCase):

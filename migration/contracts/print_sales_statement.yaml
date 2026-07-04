@@ -42,22 +42,22 @@ profiles:
     # (2026-07-04 양식지 사진 계측 — 섹션주기 99mm 앵커, 등방 5.882px/mm)
     preprinted_calibration:
       offset_top_mm: 0          # 시험 인쇄(테두리 ON) 후 미세조정 — 양수=아래
-      offset_left_mm: 0         # 양수=오른쪽
-      page_margin_v_mm: 0       # 상하 여백 0 — 3x99mm 피치가 A4 297mm 를 꽉 채움
-      section_pitch_mm: 99      # 련 반복 주기 (실측 = A4/3. 피치 오차는 2·3련에 누적)
+      page_margin_v_mm: 0       # 상하 여백 0 — 3x99.7mm 피치 수용
+      section_pitch_mm: 99.7    # 련 반복 주기 (스캔 실측 — 표 하단 이중선 85.3/185.0/284.6)
       section_gap_mm: 0
-      table_width_mm: 172.6     # 물리 표 폭 (기존 렌더 194mm → 실측 172.6mm)
-      line_row_height_mm: 4.45  # 데이터 행 (기존 4.0)
-      line_header_height_mm: 6.0   # 표 헤더 행 (기존 4.7)
-      field_row_height_mm: 6.45    # 좌측 거래처코드/발행일/거래처명 행
-      line_col_widths_mm:       # 도서명은 auto(잔여)
-        "no": 3.6  # 따옴표 필수 — YAML 1.1 에서 no 는 boolean
-        shelf: 13.2
-        qty: 13.5
-        price: 13.3
-        rate: 10.5
-        amount: 24.7
-        note: 20.3
+      offset_left_mm: 0.65      # 중앙배치(13.55mm) → 실측 좌여백 14.2mm 보정
+      table_width_mm: 182.9     # 물리 표 폭 (좌 14.2mm ~ 우 197.1mm)
+      line_row_height_mm: 4.52  # 데이터 행 (10행 = 45.18mm)
+      line_header_height_mm: 6.0   # 표 헤더 행 (실측 5.97)
+      field_row_height_mm: 5.73    # 좌측 거래처코드/발행일/거래처명 행
+      line_col_widths_mm:       # 도서명은 auto(잔여 75.1)
+        "no": 3.8  # 따옴표 필수 — YAML 1.1 에서 no 는 boolean
+        shelf: 16.9
+        qty: 14.4
+        price: 14.15
+        rate: 11.05
+        amount: 26.0
+        note: 21.5
     # 삼련 우측 공급자 블록 도장 오버레이 — 바이너리는 tenant_print_assets, 표시 여부·위치만 YAML
     seal_overlay:
       enabled: true
