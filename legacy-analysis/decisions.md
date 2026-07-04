@@ -1079,8 +1079,20 @@
 - **결정자**: 메인개발자 + 사용자 (2026-07-03 연속 요청)
 - **참조**: DEC-071(일괄 출고요청), DEC-070(사이드 테이블 패턴), `도서물류관리프로그램/backend/app/services/print_log_db.py`
 
+### DEC-073: 로고·도장 이미지 DB 영속화 (Web_Print_Assets — DEC-070 패턴 확장)
+
+- **일자**: 2026-07-04
+- **결정 사항**: 업로드 로고(`data/uploads/`, StaticFiles 서빙)와 테넌트 도장(`data/tenant_print/`)의 정본을 신규 사이드 테이블 **`Web_Print_Assets`**(PK=(Hcode,UserId,Kind), `DataB64` MEDIUMTEXT base64 — 바이너리 charset 이슈 회피, 3.23 호환, 상한 768KB)로 옮긴다. 로고 = (hcode, user_id, 'logo'), 도장 = ('', '', 'sales_statement_seal') — **도장의 서버(테넌트) 단위 시맨틱은 파일 모델 그대로 보존**(hcode 단위 분리는 필요 시 후속). 파일은 캐시: 업로드/삭제 시 파일+DB 이중 기록, 조회 경로에서 히드레이션 — 로고는 `GET /me/profile` 에서 파일 부재 시 DB 복원 + 구버전 파일 보유 시 1회 back-fill, 도장은 `hydrate_seal_from_db`(프로세스당 서버별 1회 — RTT 절약)를 seal-status/미리보기/거래명세서 단건·일괄 PDF 렌더 직전에 호출. 모든 DB 실패는 graceful(자산 없는 표시/출력으로 저하).
+- **배경/근거**: Render 임시 FS + `.dockerignore` 제외로 재배포 시 로고 소실, 도장은 운영 이미지에 아예 미포함(DEC-069 잔여 과제). 이로써 **Render 에서도 도장 오버레이가 인쇄에 복원**된다.
+- **대안**: Render Persistent Disk(유료·zero-downtime 상실) / 이미지에 자산 포함(git 에 운영 바이너리 유입) → 기존 사이드 테이블 패턴 재사용 채택.
+- **영향**: `backend/app/services/web_assets_db.py` 신규, `tenant_print_assets.py`(+persist/delete/hydrate), `user_profile_service.py`(+read_logo_bytes — 경로 이탈 가드), `routers/me.py`(로고·도장 이중 기록 + 히드레이션, 도장 업로드 응답 `persisted_db`), `routers/print.py`(렌더 전 도장 히드레이션). 회귀 `test/test_web_assets_persistence.py`(11 — base64 왕복/상한/graceful/히드레이션 실복원·1회성/이중 기록/렌더 훅). hcode 감사 strict exit 0 유지.
+- **결정자**: 메인개발자 + 사용자 (2026-07-04 후속 과제 지시)
+- **참조**: DEC-070(Web_User_Prefs), DEC-069(임시 FS 함정), `도서물류관리프로그램/backend/app/services/web_assets_db.py`
+
 ---
-*최종 업데이트: 2026-07-03 — DEC-072 신규 (출력된 건만 완료 전이 X-Printed-Keys + Web_Print_Log 상세 이력 + received-today days 조회창 + 출고현황 라인 거래처명). 같은 날: DEC-069/070/071.*
+*최종 업데이트: 2026-07-04 — DEC-073 신규 (로고·도장 이미지 DB 영속화 — Web_Print_Assets base64 정본 + 파일 캐시 + 히드레이션, Render 도장 인쇄 복원). 직전: 2026-07-03 — DEC-069~072.*
+
+*이전: 2026-07-03 — DEC-072 신규 (출력된 건만 완료 전이 X-Printed-Keys + Web_Print_Log 상세 이력 + received-today days 조회창 + 출고현황 라인 거래처명). 같은 날: DEC-069/070/071.*
 
 *직전: 2026-07-03 — DEC-071 신규 (일괄 출고요청 — 대기 전표 선택 접수 전이, 배치 API + 두 화면 UI). 같은 날: DEC-069/070.*
 
