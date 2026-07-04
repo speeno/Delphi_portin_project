@@ -1089,8 +1089,20 @@
 - **결정자**: 메인개발자 + 사용자 (2026-07-04 후속 과제 지시)
 - **참조**: DEC-070(Web_User_Prefs), DEC-069(임시 FS 함정), `도서물류관리프로그램/backend/app/services/web_assets_db.py`
 
+### DEC-074: 양식지 인쇄 위치 보정 (preprinted_calibration — 계약 yaml 실측 캘리브레이션)
+
+- **일자**: 2026-07-04
+- **결정 사항**: 미리 인쇄된 A4 양식지 위에 텍스트만 출력할 때(테두리 OFF) 물리 용지와 텍스트 위치가 어긋나는 문제의 보정을 **계약 yaml 데이터**로만 제어한다(코드 분기 0). `print_sales_statement.yaml profiles.<key>.preprinted_calibration = { offset_top_mm, offset_left_mm, line_row_height_mm }` — offset 양수=아래/오른쪽(body transform: translate), `line_row_height_mm > 0` 이면 표 행 높이 고정(0=폰트 자동). 삼련(.tri-lines)·A4 이련(.a4-lines) 두 빌더 공통 헬퍼 `_preprinted_calibration_css` 로 적용하며, **borders ON/OFF 지오메트리를 단일화** — 테두리 ON 시험 인쇄로 측정한 어긋남(mm)이 양식지 모드에 그대로 유효하다. 서버(회원사)별 용지 차이는 `profiles.<key>` 오버라이드 + `server_profile_map` (customer_variants 원칙 동일).
+- **배경/근거**: 2026-07-04 보고. 현 지오메트리는 CSS mm 근사 구현이며 **물리 양식지의 실측 좌표 스펙은 리포에 없음** — 원본 입력(용지 사진/샘플)은 세션 첨부로 소실. 전체 재입력 대신 "시험 인쇄 → 상/좌 어긋남 실측 → yaml 보정" 루프로 수렴시킨다.
+- **대안**: (1) CSS 상수 직접 수정 — 회원사별 용지 차이에 코드 분기 유발. (2) .frf 레거시 좌표 재추출 — 물리 용지가 레거시 인쇄본이라는 보장이 없고 프린터 여백 오차는 어차피 실측 필요.
+- **영향**: `backend/app/services/transactions_service.py`(+_preprinted_calibration_css, 두 css 조립), `migration/contracts/print_sales_statement.yaml` + 백엔드 번들 사본(동기). 회귀 `test/test_preprinted_calibration.py`(6 — 오프셋/행높이 반영, ON/OFF 동일 지오메트리, 0=무배출, 불량값 graceful, yaml 블록).
+- **결정자**: 메인개발자 + 사용자 (2026-07-04 위치 불일치 보고)
+- **참조**: DEC-037(WeasyPrint), DEC-065(삼련), `analysis/print_specs/c7_phase1.md`
+
 ---
-*최종 업데이트: 2026-07-04 — DEC-073 신규 (로고·도장 이미지 DB 영속화 — Web_Print_Assets base64 정본 + 파일 캐시 + 히드레이션, Render 도장 인쇄 복원). 직전: 2026-07-03 — DEC-069~072.*
+*최종 업데이트: 2026-07-04 — DEC-074 신규 (양식지 인쇄 위치 보정 — preprinted_calibration yaml 캘리브레이션, ON/OFF 지오메트리 단일화). 같은 날: DEC-073.*
+
+*직전: 2026-07-04 — DEC-073 신규 (로고·도장 이미지 DB 영속화 — Web_Print_Assets base64 정본 + 파일 캐시 + 히드레이션, Render 도장 인쇄 복원). 직전: 2026-07-03 — DEC-069~072.*
 
 *이전: 2026-07-03 — DEC-072 신규 (출력된 건만 완료 전이 X-Printed-Keys + Web_Print_Log 상세 이력 + received-today days 조회창 + 출고현황 라인 거래처명). 같은 날: DEC-069/070/071.*
 

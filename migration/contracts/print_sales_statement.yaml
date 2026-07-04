@@ -34,6 +34,14 @@ profiles:
       - { label: "팩스", value: "031-955-0955" }
     bank_footer_line: "국민은행 009-25-0000-648 예금주:(주)교문사"
     vertical_return_note: "※반품처 천일화물 파주광탄"
+    # 양식지(미리 인쇄된 용지) 인쇄 위치 보정 — 물리 용지 실측값으로 조정.
+    # offset: 양수 = 아래/오른쪽 이동(mm). line_row_height_mm: 0=자동(폰트 기반),
+    # 양식지 표의 행 간격 실측값(mm)을 지정하면 행 높이를 고정한다.
+    # 서버(회원사)별로 용지가 다르면 profiles.<key> 오버라이드 + server_profile_map 으로 분리.
+    preprinted_calibration:
+      offset_top_mm: 0
+      offset_left_mm: 0
+      line_row_height_mm: 0
     # 삼련 우측 공급자 블록 도장 오버레이 — 바이너리는 tenant_print_assets, 표시 여부·위치만 YAML
     seal_overlay:
       enabled: true
