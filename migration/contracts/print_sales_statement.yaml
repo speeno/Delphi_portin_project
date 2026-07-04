@@ -38,10 +38,26 @@ profiles:
     # offset: 양수 = 아래/오른쪽 이동(mm). line_row_height_mm: 0=자동(폰트 기반),
     # 양식지 표의 행 간격 실측값(mm)을 지정하면 행 높이를 고정한다.
     # 서버(회원사)별로 용지가 다르면 profiles.<key> 오버라이드 + server_profile_map 으로 분리.
+    # 실측 정본: analysis/print_specs/sales_statement_triplicate_form.md
+    # (2026-07-04 양식지 사진 계측 — 섹션주기 99mm 앵커, 등방 5.882px/mm)
     preprinted_calibration:
-      offset_top_mm: 0
-      offset_left_mm: 0
-      line_row_height_mm: 0
+      offset_top_mm: 0          # 시험 인쇄(테두리 ON) 후 미세조정 — 양수=아래
+      offset_left_mm: 0         # 양수=오른쪽
+      page_margin_v_mm: 0       # 상하 여백 0 — 3x99mm 피치가 A4 297mm 를 꽉 채움
+      section_pitch_mm: 99      # 련 반복 주기 (실측 = A4/3. 피치 오차는 2·3련에 누적)
+      section_gap_mm: 0
+      table_width_mm: 172.6     # 물리 표 폭 (기존 렌더 194mm → 실측 172.6mm)
+      line_row_height_mm: 4.45  # 데이터 행 (기존 4.0)
+      line_header_height_mm: 6.0   # 표 헤더 행 (기존 4.7)
+      field_row_height_mm: 6.45    # 좌측 거래처코드/발행일/거래처명 행
+      line_col_widths_mm:       # 도서명은 auto(잔여)
+        "no": 3.6  # 따옴표 필수 — YAML 1.1 에서 no 는 boolean
+        shelf: 13.2
+        qty: 13.5
+        price: 13.3
+        rate: 10.5
+        amount: 24.7
+        note: 20.3
     # 삼련 우측 공급자 블록 도장 오버레이 — 바이너리는 tenant_print_assets, 표시 여부·위치만 YAML
     seal_overlay:
       enabled: true

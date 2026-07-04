@@ -53,7 +53,7 @@ class CalibrationCssTests(TestCase):
                 _detail(), layout="legacy_triplicate", server_id=_SID, user_id="u", borders=False,
             )
         self.assertIn("transform: translate(1.5mm, -2.0mm)", html)
-        self.assertIn(".tri-lines td { height: 6.2mm; }", html)
+        self.assertIn(".tri-lines tbody td { height: 6.2mm; }", html)
 
     def test_triplicate_borders_on_shares_same_geometry(self) -> None:
         """테두리 ON 시험 인쇄로 측정한 보정값이 양식지 모드와 동일 적용."""
@@ -79,16 +79,33 @@ class CalibrationCssTests(TestCase):
         self.assertNotIn("transform: translate", html)
 
     def test_helper_graceful_on_bad_values(self) -> None:
-        self.assertEqual(
-            tx._preprinted_calibration_css(
-                {"preprinted_calibration": {"offset_top_mm": "abc"}},
-                line_row_selector=".x td",
-            ),
-            "",
+        css = tx._preprinted_calibration_css(
+            {"preprinted_calibration": {"offset_top_mm": "abc", "line_row_height_mm": 5}},
+            layout="triplicate",
         )
+        self.assertIn("height: 5.0mm", css)  # 불량 키만 0 처리, 나머지 유효
+        self.assertEqual(tx._preprinted_calibration_css({}, layout="triplicate"), "")
         self.assertEqual(
-            tx._preprinted_calibration_css({}, line_row_selector=".x td"), "",
+            tx._preprinted_calibration_css({"preprinted_calibration": {}}, layout="unknown"), "",
         )
+
+    def test_default_profile_measured_geometry_emitted(self) -> None:
+        """실측 정본(172.6mm 표폭·컬럼·행높이)이 기본 프로필로 렌더에 반영된다."""
+        sales_statement_print_profile.clear_profile_cache_for_tests()
+        html = tx.render_sales_statement_html(
+            _detail(), layout="legacy_triplicate", server_id=_SID, user_id="u", borders=False,
+        )
+        self.assertIn(
+            ".tri-lines { width: 172.6mm; margin-left: auto; margin-right: auto; height: auto; }",
+            html,
+        )
+        self.assertIn(".tri-lines tbody td { height: 4.45mm; }", html)
+        # 섹션 피치 99mm — 2·3련 누적 어긋남 방지의 핵심
+        self.assertIn(".triplicate-section { height: 99.0mm; margin-bottom: 0.0mm; }", html)
+        self.assertIn("@page { margin-top: 0.0mm; margin-bottom: 0.0mm; }", html)
+        self.assertIn(".tri-lines thead th { height: 6.0mm; }", html)
+        self.assertIn(".camount { width: 24.7mm; }", html)
+        self.assertIn(".cno { width: 3.6mm; }", html)
 
 
 class ContractYamlTests(TestCase):

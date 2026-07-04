@@ -1096,8 +1096,9 @@
 - **배경/근거**: 2026-07-04 보고. 현 지오메트리는 CSS mm 근사 구현이며 **물리 양식지의 실측 좌표 스펙은 리포에 없음** — 원본 입력(용지 사진/샘플)은 세션 첨부로 소실. 전체 재입력 대신 "시험 인쇄 → 상/좌 어긋남 실측 → yaml 보정" 루프로 수렴시킨다.
 - **대안**: (1) CSS 상수 직접 수정 — 회원사별 용지 차이에 코드 분기 유발. (2) .frf 레거시 좌표 재추출 — 물리 용지가 레거시 인쇄본이라는 보장이 없고 프린터 여백 오차는 어차피 실측 필요.
 - **영향**: `backend/app/services/transactions_service.py`(+_preprinted_calibration_css, 두 css 조립), `migration/contracts/print_sales_statement.yaml` + 백엔드 번들 사본(동기). 회귀 `test/test_preprinted_calibration.py`(6 — 오프셋/행높이 반영, ON/OFF 동일 지오메트리, 0=무배출, 불량값 graceful, yaml 블록).
-- **결정자**: 메인개발자 + 사용자 (2026-07-04 위치 불일치 보고)
-- **참조**: DEC-037(WeasyPrint), DEC-065(삼련), `analysis/print_specs/c7_phase1.md`
+- **보강 (2026-07-04, 실측 반영)**: 사용자 제공 양식지 사진을 픽셀 계측(괘선 검출, 스케일 앵커 = 3련 섹션 주기 582.3px=99mm → 5.882px/mm, 원근오차 0.6%)해 **실측 정본** `analysis/print_specs/sales_statement_triplicate_form.md`(+사진 사본 assets/)로 영구 기록. 종전 렌더와의 주요 편차: 표 폭 194→**172.6mm**, 데이터 행 4.0→**4.45mm**, 표 헤더 4.7→**6.0mm**, 섹션 피치 93→**99mm**(2·3련 누적 -6/-12mm 어긋남의 주범). 캘리브레이션 노브 확장: `table_width_mm`(중앙 배치+flex 스트레치 해제)/`line_col_widths_mm`(7열, 도서명 auto — **yaml `no:` 는 boolean 이라 반드시 `"no":` 인용**)/`line_header_height_mm`/`field_row_height_mm`/`section_pitch_mm`+`section_gap_mm`/`page_margin_v_mm`(3×99=297 충족 위해 상하 0). 기본 프로필에 실측값 기입, 잔여 미확정(페이지 좌우 절대 위치·섹션 상단 오프셋 — 사진 크롭으로 미상)은 테두리 ON 시험 인쇄 후 offset 으로 확정.
+- **결정자**: 메인개발자 + 사용자 (2026-07-04 위치 불일치 보고 + 양식지 사진 제공)
+- **참조**: DEC-037(WeasyPrint), DEC-065(삼련), `analysis/print_specs/{c7_phase1,sales_statement_triplicate_form}.md`
 
 ---
 *최종 업데이트: 2026-07-04 — DEC-074 신규 (양식지 인쇄 위치 보정 — preprinted_calibration yaml 캘리브레이션, ON/OFF 지오메트리 단일화). 같은 날: DEC-073.*
