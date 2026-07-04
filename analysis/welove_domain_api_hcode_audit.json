@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-03T13:06:01.409511+00:00",
+  "generated_at": "2026-07-04T01:20:46.570424+00:00",
   "summary": {
-    "files_scanned": 88,
-    "sql_literals": 415,
+    "files_scanned": 90,
+    "sql_literals": 419,
     "critical": 0,
     "warn": 0,
-    "info": 201,
+    "info": 205,
     "skipped_noqa": 36,
     "multi_tenant_tables_seen": [
       "G4_Book",
@@ -1966,6 +1966,30 @@
       "recommended_action": "mark_noqa_with_reason"
     },
     {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/print_log_db.py",
+      "function": "record_printed",
+      "lineno": 82,
+      "tables": [
+        "Web_Print_Log"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO Web_Print_Log (Hcode, UserId, PrintedAt, Kind, Gdate, Jubun, Gjisa, Gcode, CustomerName, LineCount, Amount) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/print_log_db.py",
+      "function": "list_recent",
+      "lineno": 110,
+      "tables": [
+        "Web_Print_Log"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Seq, Hcode, UserId, PrintedAt, Kind, Gdate, Jubun, Gjisa, Gcode, CustomerName, LineCount, Amount FROM Web_Print_Log WHERE Hcode=%s ORDER BY Seq DESC LIMIT <<dyn>>",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/production_service.py",
       "function": "_list_s2",
       "lineno": 76,
@@ -2385,6 +2409,30 @@
       "severity": "info",
       "reason": "unknown_tables_only",
       "sql_excerpt": "UPDATE S1_Chek SET `Check`='D', Time2=now() WHERE Hcode=%s AND Gdate=%s AND Scode=%s AND Gcode=%s AND Ocode='B' AND Jubun=%s AND Gjisa=%s AND Bcode=%s",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/web_assets_db.py",
+      "function": "get_asset",
+      "lineno": 103,
+      "tables": [
+        "Web_Print_Assets"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Ext, DataB64 FROM Web_Print_Assets WHERE Hcode=%s AND UserId=%s AND Kind=%s LIMIT 1",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/web_assets_db.py",
+      "function": "delete_asset",
+      "lineno": 129,
+      "tables": [
+        "Web_Print_Assets"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "DELETE FROM Web_Print_Assets WHERE Hcode=%s AND UserId=%s AND Kind=%s",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
