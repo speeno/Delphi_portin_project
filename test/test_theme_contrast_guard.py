@@ -64,6 +64,27 @@ def _parse_themes() -> dict[str, dict[str, str]]:
     return out
 
 
+class ThemePreviewSwatchGuard(TestCase):
+    """내정보 테마 미리보기 스와치 — 배경 토큰마다 짝 전경 토큰 필수(상속 금지).
+
+    어두운 사이드바/주요 스와치에서 라벨이 파묻히는 회귀 방지(2026-07-04 보고).
+    """
+
+    def test_swatches_pair_bg_with_foreground(self) -> None:
+        page = (
+            _THEMES_CSS.parents[1] / "app" / "(app)" / "settings" / "my-profile" / "page.tsx"
+        ).read_text(encoding="utf-8")
+        for pair in (
+            "bg-background text-foreground",
+            "bg-card text-card-foreground",
+            "bg-primary text-primary-foreground",
+            "bg-secondary text-secondary-foreground",
+            "bg-sidebar text-sidebar-foreground",
+            "bg-accent text-accent-foreground",
+        ):
+            self.assertIn(pair, page, f"미리보기 스와치 전경 토큰 누락: {pair}")
+
+
 class ThemeContrastGuard(TestCase):
     def test_themes_css_exists_and_has_themes(self) -> None:
         themes = _parse_themes()
