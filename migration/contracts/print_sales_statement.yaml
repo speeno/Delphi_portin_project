@@ -41,15 +41,18 @@ profiles:
     # 실측 정본: analysis/print_specs/sales_statement_triplicate_form.md
     # (2026-07-04 양식지 사진 계측 — 섹션주기 99mm 앵커, 등방 5.882px/mm)
     preprinted_calibration:
-      offset_top_mm: 0          # 시험 인쇄(테두리 ON) 후 미세조정 — 양수=아래
       page_margin_v_mm: 0       # 상하 여백 0 — 3x99.7mm 피치 수용
       section_pitch_mm: 99.7    # 련 반복 주기 (스캔 실측 — 표 하단 이중선 85.3/185.0/284.6)
       section_gap_mm: 0
-      offset_left_mm: 0.65      # 중앙배치(13.55mm) → 실측 좌여백 14.2mm 보정
+      offset_top_mm: 1.35       # PDF 실측: 표 상단 32.71 → 물리 34.1mm
+      table_margin_left_mm: 3.5 # 컨테이너 좌단(10.06mm)+3.5+translate0.65 = 물리 14.2mm
+      offset_left_mm: 0.65
       table_width_mm: 182.9     # 물리 표 폭 (좌 14.2mm ~ 우 197.1mm)
       line_row_height_mm: 4.52  # 데이터 행 (10행 = 45.18mm)
       line_header_height_mm: 6.0   # 표 헤더 행 (실측 5.97)
       field_row_height_mm: 5.73    # 좌측 거래처코드/발행일/거래처명 행
+      field_margin_top_mm: 7.6     # 필드 블록 시작 = 물리 15.0mm (PDF 실측 11.93→+3.07)
+      footer_margin_top_mm: 4.8    # 표 하단→푸터 상단 간격 (물리 85.3→90.1)
       line_col_widths_mm:       # 도서명은 auto(잔여 75.1)
         "no": 3.8  # 따옴표 필수 — YAML 1.1 에서 no 는 boolean
         shelf: 16.9

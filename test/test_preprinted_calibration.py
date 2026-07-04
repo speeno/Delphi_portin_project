@@ -53,7 +53,7 @@ class CalibrationCssTests(TestCase):
                 _detail(), layout="legacy_triplicate", server_id=_SID, user_id="u", borders=False,
             )
         self.assertIn("transform: translate(1.5mm, -2.0mm)", html)
-        self.assertIn(".tri-lines tbody td { height: 6.2mm; }", html)
+        self.assertIn(".tri-lines tbody td { height: 6.2mm; box-sizing: border-box; }", html)
 
     def test_triplicate_borders_on_shares_same_geometry(self) -> None:
         """테두리 ON 시험 인쇄로 측정한 보정값이 양식지 모드와 동일 적용."""
@@ -95,20 +95,21 @@ class CalibrationCssTests(TestCase):
         html = tx.render_sales_statement_html(
             _detail(), layout="legacy_triplicate", server_id=_SID, user_id="u", borders=False,
         )
-        # 스캔 실측 정본 (analysis/print_specs/sales_statement_triplicate_form.md)
+        # 스캔 실측 정본 + PDF 검증 루프 확정값 (2026-07-04 — 전 항목 물리 ±0.35mm)
         self.assertIn(
-            ".tri-lines { width: 182.9mm; margin-left: auto; margin-right: auto; height: auto; }",
-            html,
+            ".tri-lines { width: 182.9mm; margin-left: 3.5mm; height: auto; }", html,
         )
-        self.assertIn(".tri-lines tbody td { height: 4.52mm; }", html)
+        self.assertIn(".tri-lines tbody td { height: 4.52mm; box-sizing: border-box; }", html)
         # 섹션 피치 99.7mm — 2·3련 누적 어긋남 방지의 핵심
         self.assertIn(".triplicate-section { height: 99.7mm; margin-bottom: 0.0mm; }", html)
         self.assertIn("@page { margin-top: 0.0mm; margin-bottom: 0.0mm; }", html)
-        self.assertIn(".tri-lines thead th { height: 6.0mm; }", html)
+        self.assertIn(".tri-lines thead th { height: 6.0mm; box-sizing: border-box; }", html)
         self.assertIn(".camount { width: 26.0mm; }", html)
         self.assertIn(".cno { width: 3.8mm; }", html)
-        # 좌측 절대 위치: 중앙배치 13.55mm + 0.65mm 보정 = 실측 14.2mm
-        self.assertIn("transform: translate(0.65mm, 0.0mm)", html)
+        self.assertIn("transform: translate(0.65mm, 1.35mm)", html)
+        # 필드 블록(물리 15.0mm)·푸터(표 하단+4.8mm) 세로 위치
+        self.assertIn(".cust-mini { margin-top: 7.6mm; }", html)
+        self.assertIn(".body-flex { flex: 0 0 auto; } .foot3 { margin-top: 4.8mm; }", html)
 
 
 class ContractYamlTests(TestCase):
