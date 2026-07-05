@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-04T01:20:46.570424+00:00",
+  "generated_at": "2026-07-04T18:19:52.715968+00:00",
   "summary": {
     "files_scanned": 90,
-    "sql_literals": 419,
+    "sql_literals": 420,
     "critical": 0,
     "warn": 0,
     "info": 205,
-    "skipped_noqa": 36,
+    "skipped_noqa": 37,
     "multi_tenant_tables_seen": [
       "G4_Book",
       "G7_Ggeo",

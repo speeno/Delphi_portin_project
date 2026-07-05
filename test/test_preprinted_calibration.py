@@ -103,6 +103,16 @@ class CalibrationCssTests(TestCase):
         # 섹션 피치 99.7mm — 2·3련 누적 어긋남 방지의 핵심
         self.assertIn(".triplicate-section { height: 99.7mm; margin-bottom: 0.0mm; }", html)
         self.assertIn("@page { margin-top: 0.0mm; margin-bottom: 0.0mm; }", html)
+        # 3x99.7mm=299.1mm > 297mm(A4) — 마지막 련은 고정 피치가 아닌 내용 높이만
+        # 차지해야 1페이지에 3련이 모두 들어간다 (2026-07-04 2페이지 분할 회귀, DEC-075).
+        # WeasyPrint 실측: auto-height 만으로는 border-box 98.43mm > 잔여 97.6mm 로
+        # 0.83mm 초과해 여전히 2페이지 — 물리 양식지에 대응 기준선이 없는 하단
+        # padding/border 도 제거해야 1페이지에 들어간다(DEC-075 보강).
+        self.assertIn(
+            ".triplicate-section:last-child { margin-bottom: 0; height: auto; "
+            "padding-bottom: 0; border-bottom-width: 0; }",
+            html,
+        )
         self.assertIn(".tri-lines thead th { height: 6.0mm; box-sizing: border-box; }", html)
         self.assertIn(".camount { width: 26.0mm; }", html)
         self.assertIn(".cno { width: 3.8mm; }", html)
@@ -110,6 +120,14 @@ class CalibrationCssTests(TestCase):
         # 필드 블록(물리 15.0mm)·푸터(표 하단+4.8mm) 세로 위치
         self.assertIn(".cust-mini { margin-top: 7.6mm; }", html)
         self.assertIn(".body-flex { flex: 0 0 auto; } .foot3 { margin-top: 4.8mm; }", html)
+        # 헤더(거래처코드/공급자)·푸터도 표와 동일 폭·좌측 정렬 — 스캔상 3블록 좌단 14.2mm 일치
+        # (표만 margin-left 를 받아 헤더·푸터가 3.5mm 좌측으로 어긋나던 문제, 2026-07-05).
+        self.assertIn(".hdr3 { width: 182.9mm; margin-left: 3.5mm; align-self: flex-start; }", html)
+        self.assertIn(
+            ".foot3 { width: 182.9mm; margin-left: 3.5mm; align-self: flex-start; "
+            "box-sizing: border-box; }",
+            html,
+        )
 
 
 class ContractYamlTests(TestCase):
@@ -122,3 +140,17 @@ class ContractYamlTests(TestCase):
         self.assertIsInstance(cal, dict)
         for k in ("offset_top_mm", "offset_left_mm", "line_row_height_mm"):
             self.assertIn(k, cal)
+
+    def test_triplicate_first_two_sections_fit_within_a4_page(self) -> None:
+        """마지막 련은 auto-height 라 제외해도, 앞의 2련(고정 피치)만으로 A4 297mm 를
+        넘으면 마지막 련이 어차피 2페이지로 밀린다 — 회귀 시 반드시 함께 확인.
+        """
+        data = yaml.safe_load(
+            (ROOT / "migration" / "contracts" / "print_sales_statement.yaml")
+            .read_text(encoding="utf-8")
+        )
+        cal = data["profiles"]["default"]["preprinted_calibration"]
+        pitch = float(cal["section_pitch_mm"])
+        margin_v = float(cal.get("page_margin_v_mm") or 0)
+        usable = 297.0 - 2 * margin_v
+        self.assertLessEqual(2 * pitch, usable)

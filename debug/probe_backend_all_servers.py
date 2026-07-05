@@ -456,6 +456,15 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            # 서버 정렬 경로(2026-07-05) — 전체 결과 정렬 후 페이징 스모크.
+            "group": "outbound.orders.sort",
+            "path": (
+                f"/api/v1/outbound/orders?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&sortBy=amount&sortDir=desc"
+            ),
+            "ok_status": {200},
+        },
+        {
             "group": "shipping.courier_lines",
             "path": (
                 f"/api/v1/shipping/courier/lines?serverId={sid}"

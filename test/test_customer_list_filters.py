@@ -53,9 +53,21 @@ class _Capture:
         return self.calls[1]
 
 
+async def _fake_geo_meta(server_id: str):  # noqa: ARG001
+    # 목록 선택 컬럼 DDL 메타 stub — 실제 SHOW COLUMNS(DB) 회피. gubun 존재(구분명 해석) 가정.
+    cols = {"gubun", "jubun", "gposa", "gnumb", "guper", "gjomo", "gfax1", "gbigo", "email"}
+    return cols, {c: c.capitalize() for c in cols}
+
+
+async def _fake_gbun_map(server_id: str, *, scope_hcode=None):  # noqa: ARG001
+    return {}
+
+
 def _run(**kwargs) -> _Capture:
     cap = _Capture()
-    with patch.object(masters_service, "execute_query", new=cap):
+    with patch.object(masters_service, "execute_query", new=cap), \
+            patch.object(masters_service, "g1_geo_column_meta", new=_fake_geo_meta), \
+            patch.object(masters_service, "_gbun_code_name_map", new=_fake_gbun_map):
         asyncio.run(
             masters_service.list_customer_master(
                 server_id="remote_1", limit=50, offset=0, **kwargs
@@ -139,6 +151,29 @@ class CustomerListFilterTests(TestCase):
         _, select_params = cap.select
         _, count_params = cap.count
         self.assertEqual(list(select_params[:-2]), list(count_params))
+
+
+class CustomerListResponseModelTests(TestCase):
+    """response_model 회귀 — 서비스가 채운 목록 선택 컬럼을 FastAPI 가 잘라내지 않아야 한다.
+
+    CustomerListItem(Pydantic response_model)에 필드가 없으면 서비스가 sname 등을 채워도
+    응답에서 제거돼 화면 컬럼이 빈값으로 나온다(2026-07-05 거래처구분 미표시 버그).
+    """
+
+    def test_response_model_declares_new_columns(self) -> None:
+        from app.models.master import CustomerListItem
+
+        fields = set(CustomerListItem.model_fields.keys())
+        for f in ("sname", "jubun", "gposa", "gnumb", "guper", "gjomo", "gfax1", "gbigo", "email"):
+            self.assertIn(f, fields, f"CustomerListItem 에 {f} 누락 → 응답에서 잘림")
+
+    def test_model_round_trips_values(self) -> None:
+        from app.models.master import CustomerListItem
+
+        m = CustomerListItem(gcode="00000", gname="창고", sname="교문사 관련", jubun="서울")
+        dumped = m.model_dump()
+        self.assertEqual(dumped["sname"], "교문사 관련")
+        self.assertEqual(dumped["jubun"], "서울")
 
 
 if __name__ == "__main__":

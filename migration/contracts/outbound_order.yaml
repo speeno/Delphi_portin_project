@@ -352,6 +352,11 @@ endpoints:
         include_cancelled?: boolean    # 기본 false (Yesno='2' 제외)
         limit?: integer    # 기본 100, 최대 500 (DEC-024 표준)
         offset?: integer
+        # 서버 정렬(2026-07-05) — 전체 결과 정렬 후 페이징. sort_by 화이트리스트:
+        # gdate|customer_name|jubun|lines|qty|amount|status (그 외/미지정=기본 Gdate DESC).
+        # customer_name 은 이름이 SQL 밖이라 거래처코드(Gcode)로 정렬. jubun 은 숫자 정렬.
+        sort_by?: string
+        sort_dir?: string  # asc|desc (기본 asc)
     responses:
       "200":
         # DEC-024 (paging 표준): 신규 ``page`` 객체 + BC 평면 (deprecated, Phase 2 제거).

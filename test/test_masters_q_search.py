@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import asyncio
 import sys
-from contextlib import nullcontext
+from contextlib import ExitStack, nullcontext  # noqa: F401  (nullcontext kept for BC)
 from pathlib import Path
 from typing import Any
 from unittest import TestCase, main
@@ -75,6 +75,32 @@ _FAKE_G7_COLS = frozenset(
 async def _fake_g7_cols(_server_id: str) -> frozenset[str]:
     return _FAKE_G7_COLS
 
+
+async def _fake_geo_meta(_server_id: str):
+    # 거래처 목록 선택 컬럼 DDL 메타 stub — 실제 SHOW COLUMNS(DB) 회피(gubun 등 존재 가정).
+    cols = {"gubun", "jubun", "gposa", "gnumb", "guper", "gjomo", "gfax1", "gbigo", "email"}
+    return cols, {c: c.capitalize() for c in cols}
+
+
+async def _fake_gbun_map(_server_id: str, *, scope_hcode=None):
+    return {}
+
+
+def _list_meta_patches(fn) -> ExitStack:
+    """list 함수별 SHOW COLUMNS(DB) 회피 패치 — customer=g1_geo_column_meta/gbun_map, discount=_g7."""
+    stack = ExitStack()
+    stack.enter_context(
+        patch.object(masters_service, "g1_geo_column_meta", new=_fake_geo_meta)
+    )
+    stack.enter_context(
+        patch.object(masters_service, "_gbun_code_name_map", new=_fake_gbun_map)
+    )
+    if fn is masters_service.list_discounts:
+        stack.enter_context(
+            patch.object(masters_service, "_g7_ggeo_columns_lower", side_effect=_fake_g7_cols)
+        )
+    return stack
+
 Q_CASES = [
     ("empty", ""),
     ("ascii", "A0001"),
@@ -105,12 +131,7 @@ class _Capture:
 class MastersQSearchMatrix(TestCase):
     def _run_case(self, fn, q: str | None) -> _Capture:
         cap = _Capture()
-        ctx = (
-            patch.object(masters_service, "_g7_ggeo_columns_lower", side_effect=_fake_g7_cols)
-            if fn is masters_service.list_discounts
-            else nullcontext()
-        )
-        with ctx:
+        with _list_meta_patches(fn):
             with patch.object(masters_service, "execute_query", new=cap):
                 asyncio.run(fn(server_id="remote_1", q=q, limit=50, offset=0))
         return cap
@@ -218,12 +239,7 @@ class MasterPkGuard(TestCase):
         for label, fn in LIST_FUNCS:
             with self.subTest(entity=label):
                 cap = _Capture()
-                ctx = (
-                    patch.object(masters_service, "_g7_ggeo_columns_lower", side_effect=_fake_g7_cols)
-                    if fn is masters_service.list_discounts
-                    else nullcontext()
-                )
-                with ctx:
+                with _list_meta_patches(fn):
                     with patch.object(masters_service, "execute_query", new=cap):
                         asyncio.run(fn(server_id="remote_1", q="", limit=50, offset=0))
                 self.assertEqual(len(cap.calls), 2)
@@ -235,12 +251,7 @@ class MasterPkGuard(TestCase):
         for label, fn in LIST_FUNCS:
             with self.subTest(entity=label):
                 cap = _Capture()
-                ctx = (
-                    patch.object(masters_service, "_g7_ggeo_columns_lower", side_effect=_fake_g7_cols)
-                    if fn is masters_service.list_discounts
-                    else nullcontext()
-                )
-                with ctx:
+                with _list_meta_patches(fn):
                     with patch.object(masters_service, "execute_query", new=cap):
                         asyncio.run(fn(server_id="remote_1", q="A0001", limit=50, offset=0))
                 for sql, _params in cap.calls:

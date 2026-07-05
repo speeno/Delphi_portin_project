@@ -1100,8 +1100,213 @@
 - **결정자**: 메인개발자 + 사용자 (2026-07-04 위치 불일치 보고 + 양식지 사진 제공)
 - **참조**: DEC-037(WeasyPrint), DEC-065(삼련), `analysis/print_specs/{c7_phase1,sales_statement_triplicate_form}.md`
 
+### DEC-075: 삼련 마지막 련 auto-height (3×section_pitch_mm > A4 297mm 2페이지 분리 수정)
+
+- **일자**: 2026-07-04
+- **결정 사항**: `legacy_triplicate` 렌더러의 `.triplicate-section:last-child`(3번째 련)에
+  `height: auto; padding-bottom: 0; border-bottom-width: 0;`를 추가한다
+  (`backend/app/services/transactions_service.py`
+  `_render_sales_statement_legacy_triplicate_html`). 앞의 2개 련은 다음 련의 시작 위치를
+  맞추기 위해 `section_pitch_mm` 고정 높이 박스가 필요하지만, 마지막 련은 뒤에 아무것도
+  없으므로 고정 높이가 불필요 — 실제 내용 높이만 차지하게 하고, 물리 양식지에 대응하는
+  기준선이 없는 하단 padding/border 여백도 제거한다.
+- **배경/근거**: DEC-074 보강(2026-07-04, PDF 검증)에서 스캔 실측 기반 `section_pitch_mm`을
+  99→**99.7mm**로 갱신했으나, `page_margin_v_mm=0`에서도 `3 × 99.7mm = 299.1mm >
+  297mm`(A4)가 되어 3련 인쇄 시 3번째 련이 2페이지로 밀려나는 회귀가 발생(사용자 보고:
+  "3륜 출력하면 2페이지로 출력된다"). **1차 수정(`height: auto`만)은 불충분했다** —
+  WeasyPrint 로 실제 렌더링해 박스 트리를 실측한 결과, 3번째 련의 실제 필요 높이는
+  border-box 기준 **98.43mm**(content 94.38 + padding 3.2 + border 0.85)인데 앞 2련이
+  `2 × 99.7mm = 199.4mm`를 차지해 잔여 공간은 **97.6mm**뿐 — **0.83mm 초과**로
+  `page-break-inside: avoid` 가 3번째 련 전체를 다음 페이지로 밀어(스크린샷: 1페이지 하단에
+  큰 공백 후 2페이지에 인수증 단독 출력) 여전히 2페이지였다. 하단 padding(1.6mm)+
+  border(0.42mm)는 물리 양식지의 어떤 기준선과도 대응하지 않는 순수 렌더링 여백이라
+  안전하게 제거 가능 — 제거 시 실측 필요 높이가 96.83mm(또는 padding+border 모두 제거 시
+  96.4mm)로 줄어 97.6mm 안에 들어간다. 1·2련의 피치 앵커(0mm, 99.7mm 시작)와 실측
+  지오메트리(DEC-074)는 그대로 유지된다.
+- **대안**: (1) `section_pitch_mm`을 99mm로 되돌림 — 실측 정본(DEC-074 PDF 검증, ±0.35mm 오차)을
+  폐기하게 되어 2·3련 정렬이 다시 어긋남. (2) `page_margin_v_mm`을 음수로 — `@page` 음수 마진은
+  프린터/브라우저 호환성이 불확실. 마지막 련의 하단 padding/border 만 제거하는 편이 실측값을
+  보존하면서(1·2련·3련의 상단 정렬 기준은 전혀 건드리지 않음) 가장 안전하다.
+- **검증 방법**: HTML 문자열 검사만으로는 실제 페이지 분할 여부를 알 수 없다는 것 자체가
+  1차 수정이 불충분한 채로 통과했던 원인 — WeasyPrint 로 직접 렌더링해 `len(doc.pages)`와
+  박스 트리(`position_y`/`height`)를 실측해 검증했다(로컬 확인 시
+  `DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib:/usr/local/lib` 필요, Homebrew pango/cairo).
+- **영향**: `backend/app/services/transactions_service.py`(last-child CSS 규칙 확장).
+  회귀: `test/test_preprinted_calibration.py`(last-child 규칙 문자열 갱신 + 계약 yaml
+  `section_pitch_mm × 2 ≤ 297mm - 2×page_margin_v_mm` 산술 가드), `test/test_sales_statement_triplicate.py`
+  신규 `test_legacy_triplicate_renders_single_pdf_page`(WeasyPrint 실렌더 후 `len(doc.pages) == 1`
+  실측 검증, borders on/off 모두 — 네이티브 의존성 없는 환경에서는 graceful skip).
+- **결정자**: 메인개발자 (2026-07-04 사용자의 "3륜 2페이지 출력" 버그 보고 + 재현 스크린샷 확인 후)
+- **참조**: DEC-074(양식지 캘리브레이션), `analysis/print_specs/sales_statement_triplicate_form.md`
+
+### DEC-076: 삼련 반품처 세로문구 — WeasyPrint writing-mode 미지원 대체(글자별 줄바꿈)
+
+- **일자**: 2026-07-04
+- **결정 사항**: 삼련(`legacy_triplicate`) 반품처 안내문구(`.vert-note`, 예: "※반품처 천일화물
+  파주광탄")를 CSS `writing-mode: vertical-rl` 대신 **글자 단위 `<br>` 줄바꿈**으로 렌더한다
+  (`transactions_service._vertical_note_html`). 공백 문자는 빈 줄로 남겨 의미 단위 사이 여백을
+  살린다. `.vert-note` CSS 에서 `writing-mode`/`text-orientation` 선언은 제거.
+- **배경/근거**: 사용자 보고 — 반품처 문구가 "※반품/처 천/일화물/파주광/탄" 처럼 여러 짧은
+  줄로 뒤섞여 보임(스크린샷). 백엔드 로그(`WARNING weasyprint: Ignored 'writing-mode:
+  vertical-rl' ... unknown property`)로 확인한 결과 **WeasyPrint 는 writing-mode/
+  text-orientation 을 아예 지원하지 않아 조용히 무시**한다 — 실제로는 좁은 7mm 폭 열 안에서
+  가로쓰기가 줄바꿈되어 여러 줄로 쪼개진 것이었다(DEC-037 이후 처음부터 있던 결함으로 추정 —
+  브라우저 미리보기는 `writing-mode` 를 지원해 정상으로 보였을 것이나, 실제 인쇄 PDF 엔진은
+  WeasyPrint 단일이라 미리보기-출력 간 불일치가 있었다). CSS 세로쓰기에 의존하지 않는 방식으로
+  바꾸면 브라우저 미리보기와 PDF 출력이 동일해지는 부수 효과도 있다.
+- **영향**: `backend/app/services/transactions_service.py`(`_vertical_note_html` 신설,
+  `.vert-note` CSS 단순화). 회귀: `test/test_sales_statement_triplicate.py`
+  (`test_legacy_triplicate_contains_three_sections_and_columns` /
+  `test_supplier_fields_from_user_preferences_over_yaml` — 글자별 `<br>` 조인 문자열로 갱신 +
+  `writing-mode`/`text-orientation` 미사용 assertNotIn 추가).
+- **보강(2026-07-05, 겹침 수정)**: 세로문구가 표 오른쪽 컬럼(비고)과 겹쳐 보이는 후속 보고.
+  원인: 표는 캘리브레이션으로 고정폭(182.9mm)인데 `.vert-note` 를 flex 컬럼(7mm)으로 두어
+  표를 왼쪽으로 밀지 못하고 표가 세로문구 영역으로 오버플로우(표 우단 196.2mm > 문구 시작
+  193.0mm). 수정: `.vert-note` 를 flex 흐름에서 빼 `.body-flex`(position:relative) 기준
+  `position:absolute; right:0; width:3.4mm` 로 표 우측 잔여 폭(≈197~200mm)에 얹음 — 표는
+  전폭 확보, 문구 글리프(197.2~199.3mm)가 표 우단(196.2mm)을 넘지 않아 겹침 제거(WeasyPrint 실측).
+- **보강(2026-07-05, 스캔 기준 재검증·도장/세로문구 정밀 정렬)**: 사용자 A4 스캔
+  (`Scan2026-07-04`, 2457×3484px=11.7px/mm)을 실측해 현 렌더와 대조(에이전트 픽셀 계측).
+  **결론: 표는 이미 스캔과 ≤0.3mm 일치**(좌 14.2, 우 197.1, 폭 182.9, 행 4.52, 피치 99.7 모두
+  DEC-074 값 그대로 유효 — 세로문구 수정이 표를 변형시키지 않았음을 확인). 실제 어긋남 2건만 보정:
+  (1) **세로문구**: 렌더 중심 198.8mm vs 스캔 199.7mm → `.vert-note right: -0.9mm` 로 우측 이동
+  (렌더 중심 199.83mm). (2) **도장**: 이전 값(top2/right2/width22)이 스캔 대비 8mm 아래·2mm 큼
+  (업태/전화 위) → `seal_overlay { offset_top_mm:-4.5, offset_right_mm:-1.5, width_mm:18.5 }`
+  (공급자블록 우상단 음수 오프셋) 로 등록번호/성명 상단(중심 y≈12mm, 지름 18.5mm)에 정렬
+  (렌더 중심 192.9/11.9 — y·크기 스캔 일치, x 는 섹션 우측 클립 경계 200.6mm 때문에 5mm 좌측).
+  추가로 **양식지(borders=off) 모드에서도 도장이 찍히도록** `.preprinted .seal-overlay
+  { visibility: visible }` 예외(공급자 블록은 양식지 인쇄분이라 숨기되 도장은 문서별 오버레이).
+  yaml 소스+번들 사본 동기 갱신. 회귀: `test_sales_statement_triplicate.py` 도장 테스트에 신값·
+  양식지 가시성·세로문구 이동 assert 추가.
+- **보강(2026-07-05, 외곽 테두리 제거 — 세로문구를 테두리 바깥으로)**: 사용자 보고 — 세로문구가
+  전체 페이지 외곽 테두리 안에 갇히고 표가 그 폭에 안 맞음. 스캔 재확인 결과 **삼련엔 내용
+  블록(표/공급자/거래처/푸터) 각자의 테두리만 있고 이들을 감싸는 바깥 사각형이 없다**. 렌더는
+  `.triplicate-section` 이 외곽 사각형(우 202mm)을 그려 표 우측(197mm)을 지나 세로문구(199.7mm)를
+  안에 가뒀다. 수정: `.triplicate-section { border: ...transparent; overflow: visible }` — 테두리
+  폭 유지(box-sizing/피치 불변)로 색만 투명해 바깥 사각형 제거, overflow:visible 로 우측 여백의
+  세로문구·도장이 안 잘림. 결과: 표 우측 테두리가 최외곽, 세로문구는 그 바깥 여백(스캔 동형).
+  실제 인쇄(borders=off 양식지)에선 외곽선·세로문구가 원래 숨김이라 무영향 — borders=on
+  미리보기/빈용지 정합용. 3련 1페이지 유지 확인.
+  - **주의**: 섹션은 인라인 `style='border-color:{련색}'` 이 있어 CSS 투명을 덮어써 처음엔 외곽선이
+    안 지워졌다. 인라인에서 `border-color` 제거(‑‑ink 만 유지)해야 실제로 투명 적용됨.
+- **보강(2026-07-05, 헤더·푸터 좌우 정렬 — 3블록 좌단 14.2mm 일치)**: 사용자 보고 — 표가
+  거래처코드 블록(위)·국민은행 푸터(아래) 보다 3.5mm 안쪽으로 들어가 좌단이 안 맞음. 스캔 실측:
+  거래처코드 블록·표·푸터 좌단이 **모두 14.2mm**, 공급자 블록 우단은 표와 같은 197.1mm. 원인:
+  DEC-074 의 `table_margin_left_mm=3.5` 를 **표에만** 적용해 헤더(hdr3)·푸터(foot3)가 섹션 좌단
+  (10.7mm)에 남아 어긋남. 수정: `_preprinted_calibration_css` 에서 삼련일 때 `.hdr3`/`.foot3` 에도
+  표와 동일한 `width=182.9mm; margin-left=3.5mm; align-self:flex-start`(flex 컬럼 stretch 방지)
+  적용 → 헤더(거래처코드 좌 14.2 / 공급자 우 197.1)·표·푸터 모두 14.2~197.1 정렬. borders on/off
+  공통(양식지 모드에서도 거래처코드 값이 인쇄 셀에 맞음). 회귀: `test_preprinted_calibration.py`
+  에 hdr3/foot3 정렬 assert 추가.
+- **결정자**: 메인개발자 (2026-07-04 세로문구 / 2026-07-05 스캔 기준 재캘리브레이션 사용자 보고 확인 후)
+- **참조**: DEC-037(WeasyPrint 단일 PDF 엔진), DEC-074(양식지 캘리브레이션 정본),
+  DEC-073(도장 DB 영속화), DEC-075(같은 삼련 렌더러의 페이지 분리 수정)
+
+### DEC-077: 거래명세서 수정 저장 시 거래처(Gcode)·전표번호(Idnum) 소실 버그 수정
+
+- **일자**: 2026-07-05
+- **결정 사항**: `sales_statement_create_service.update_sales_statement` 의 desired-state diff 에서
+  라인 식별키의 거래처코드(Gcode)를 **hcode(테넌트)로 잘못 채우던 버그**를 수정한다. 슬립의
+  실제 거래처 Gcode 는 payload 라인에 없으므로, 현재 라인(cur_rows[0])의 Gcode 를 슬립 공통값
+  `s_gcode` 로 취해 desired 키·INSERT 값에 사용한다(한 전표=한 거래처 불변식). 아울러 재삽입
+  라인이 전표번호(Idnum)를 잃지 않도록 SELECT 에 Idnum 을 추가하고(`has_idnum`), 슬립 공통
+  `s_idnum` 을 `_build_insert_line_sql(has_idnum=True)` 경로로 INSERT 에 함께 넣는다.
+- **배경/근거**: 사용자 보고(2026-07-05) — 상세 편집 팝업(더블클릭)이나 수정 폼에서 라인
+  수정/도서 추가 후 저장하면 목록의 거래처가 `거래처명 (코드)` → **`5019 (5019)`**(=hcode)로,
+  전표번호가 **`–`**(빈값)로 바뀌는 회귀. 원인: `desired[(hcode, bcode)]` + `"gcode": hcode`
+  로 키잉했는데 `current` 는 `(실제 Gcode, Bcode)` 로 키잉 → 키가 **절대 일치하지 않아** 전
+  라인이 DELETE + `gcode=hcode` 로 재INSERT(=거래처 소실) + INSERT 경로가 `has_idnum` 미지정
+  이라 Idnum 누락(=전표번호 소실). 같은 값(hcode==Gcode)만 쓰던 기존 테스트가 이를 못 잡았다.
+- **영향**: `backend/app/services/sales_statement_create_service.py`(update_sales_statement:
+  SELECT+Idnum, s_gcode/s_idnum, desired 키, INSERT mid_vals). 회귀:
+  `test/test_sales_statement_update_phase1.py::test_update_preserves_customer_gcode_and_idnum`
+  (hcode≠Gcode 슬립에서 기존 라인 UPDATE·삭제 0 + 신규 라인 INSERT 의 Gcode=거래처/Idnum 보존
+  검증). 프론트 무변경(저장 payload 형태 동일).
+- **결정자**: 메인개발자 (2026-07-05 사용자 재현 스크린샷 확인 후)
+- **참조**: DEC-065(거래명세서 수정 desired-state diff), 멀티테넌트 hcode 격리(hcode=테넌트 vs Gcode=거래처 구분)
+
+### DEC-078: 거래명세서 상세 수정 — 거래일자(Gdate) 변경 허용(정밀 스코프 이동)
+
+- **일자**: 2026-07-05
+- **결정 사항**: 거래명세서 편집 팝업에서 거래일자를 편집 가능하게 하고, 저장 시 새 일자가 다르면
+  슬립을 새 일자로 이동한다. 이동은 **이 슬립의 거래처(Gcode)로 스코프**한
+  `UPDATE S1_Ssub SET Gdate=<new> WHERE Gdate=<old> AND Hcode=<h> AND IFNULL(Jubun,'')=<j> AND Gcode=<gc>`
+  를 라인 diff 보다 **먼저** 실행하고, 이후 라인 diff(UPDATE/INSERT/DELETE)는 새 일자 키로 수행한다.
+  전표번호(Idnum)는 **유지**(재부여 안 함). `update_sales_statement(new_gdate=...)` +
+  `SalesStatementUpdateRequest.newGdate` + 프론트 편집 다이얼로그 날짜 input.
+- **배경/근거**: 사용자 요청(2026-07-05). 조사 결과 거래명세서 슬립의 실제 식별은 7축
+  (Gdate, Hcode, Idnum, Gubun, Jubun, Gjisa, Gcode)이고 전표번호(Idnum)는 **날짜별 일련번호**라,
+  날짜 이동 시 새 일자에 같은 Idnum 이 이미 있으면 중복이 생긴다. 사용자는 이 중복을 **인지하고
+  레거시에서 그렇게 사용해왔다며 그대로 진행**을 승인(중복 표시 허용). 다만 "키로 쓰는 경우 의견을
+  달라"는 요청에 따라, **다른 거래처/슬립 훼손 방지**를 위해 이동을 Gcode 로 스코프해 같은
+  (일자,회사,전표)를 공유할 수 있는 타 거래처 슬립을 건드리지 않도록 했다(정밀 스코프).
+- **알려진 한계(사용자 합의)**: 같은 거래처가 대상 일자에 동일 (Jubun,Idnum) 슬립을 이미 가진
+  드문 경우엔 목록 GROUP BY(7축)에서 병합되어 보일 수 있다. 사용자 합의 하에 허용(레거시 동작).
+  필요 시 후속으로 이동 시 Idnum 재부여/충돌 차단 옵션 추가 가능(open).
+- **영향**: `backend/app/services/sales_statement_create_service.py`(update_sales_statement:
+  new_gdate/ng/write_hkey/이동 UPDATE, INSERT·라인 diff 를 새 일자 키로), `app/models/inquiry.py`
+  (newGdate), `app/routers/transactions.py`(전달). 프론트: `sales-statement-edit-dialog.tsx`
+  (날짜 input+dirty), `inquiry-api.ts`(newGdate). 회귀: `test_sales_statement_update_phase1.py`
+  (이동 UPDATE 선행+Gcode 스코프+새 일자 라인 diff+응답 order_key 새 일자 / 동일 일자 미이동).
+- **결정자**: 메인개발자 + 사용자 (2026-07-05 — 중복 전표번호 인지·승인, 정밀 스코프는 개발자 판단)
+- **참조**: DEC-077(같은 update 경로 Gcode/Idnum 보존), DEC-065
+
+### DEC-079: 거래처(Sobo11) 구분별 코드 접두 채번 + 검색 Enter 네비 + 목록 선택 컬럼 13종
+
+- **결정**: 사용자 제공 스킴(2026-07-05)을 신규 기능으로 구현. 레거시/기존 앱엔 **접두 스킴이
+  전무**(기존 채번은 숫자 `MAX(Gcode)+1`, 거래처구분은 G1_Gbun 자유 카테고리)했으므로 신규 도입.
+  1) **구분별 접두 채번**: 거래처구분명→접두문자 맵(구내서점 A·인터넷서점 B·일반서점 C·총판 D·
+     현매거래처 E·eBook거래처 F·교과서 G·본보기도서 H·납품거래처 **J**·기타거래처 **K** — **I 건너뜀**).
+     코드=`<접두><6자리>`, 같은 접두 코드 중 `MAX(Gcode)+1`(`LIKE '<P>%'`+`LENGTH=7`, 6자리 0패딩이라
+     문자 MAX=숫자 MAX → CAST 불필요 mysql3 호환). `masters_service.customer_type_prefix` +
+     `next_customer_code_by_prefix`, `/masters/next-code` 에 `gubunName` 파라미터 추가(매칭 안 되면
+     숫자 폴백). 신규 등록 화면은 거래처구분 select/변경 시 재발급(접두 매칭 시 덮어씀, 미매칭 시
+     빈 경우만 숫자 채움).
+  2) **검색 Enter 네비**: 코드+Enter→결과 1건이면 거래처구분으로 포커스 이동, 거래구분+Enter→지역.
+  3) **목록 선택 컬럼 13종**: 구분(sname)·지역(jubun)·코드·명·대표자(gposa)·사업자번호(gnumb)·
+     업태(guper)·종목(gjomo)·주소·이메일(email)·전화·팩스(gfax1)·비고1(gbigo). 추가 컬럼은
+     `g1_geo_column_meta`(SHOW COLUMNS)로 DDL 차이 흡수(없으면 '' 리터럴). **신규 컬럼은 정렬 비활성**
+     — 테넌트별 컬럼 누락 시 ORDER BY 500 위험(4서버 무500 불변식), 코드/명/전화만 정렬 유지.
+- **주의**: 접두 매칭은 거래처구분 **명(sname)** 기준(공백·대소문자 무시). 테넌트 G1_Gbun 카테고리명이
+  스킴과 다르면 폴백(숫자). 목록 구분 표시는 저장된 sname(생성/수정 시 기록) 사용 — 필요 시 G1_Gbun
+  재해석은 `list_customer_master_full` 방식(파이썬 맵) 참조.
+- **테스트**: `test_customer_code_prefix.py`(맵 10종·I 제외·접두 채번·mysql3 SQL). 기존
+  `test_customer_list_filters.py`·`test_masters_q_search.py` 는 `list_customer_master` 신규 SHOW
+  COLUMNS 호출을 `g1_geo_column_meta` 모킹으로 흡수(실 DB 미연결 유지).
+- **보강(2026-07-05, 사용자 재검토 피드백)**:
+  - **거래처구분 컬럼 데이터 미표시 수정**: 상당수 테넌트에 `Sname` 컬럼이 **아예 없음**
+    (remote_153 실측) → `_txt_col("sname")` 이 `'' AS sname` 로 항상 빈값. `Gubun` 코드를 뽑아
+    `_gbun_code_name_map`(G1_Gbun 1회 조회, JOIN 금지) 로 명 해석해 채운다. 나머지 신규 컬럼
+    (gposa/gnumb/guper/gjomo/email 등)은 존재하나 레코드에 값이 없으면 정상적으로 빈값.
+  - **목록 신규 컬럼이 화면에서 빈값(response_model strip)**: 서비스는 sname 등을 채웠으나
+    라우터 `response_model=CustomerListResponse`(Pydantic `CustomerListItem`)에 신규 필드가
+    없어 FastAPI 가 응답에서 잘라냄 → 컬럼은 뜨는데 값이 전부 빔(상세는 정상). `CustomerListItem`
+    에 sname/jubun/gposa/gnumb/guper/gjomo/gfax1/gbigo/email 추가. 회귀:
+    `CustomerListResponseModelTests`(모델 필드 선언 + 값 라운드트립). **교훈: 서비스 dict 에 필드를
+    더하면 response_model 에도 반드시 선언**(안 그러면 조용히 잘림).
+  - **미등록 구분값 추가·자동 채번**(사용자 "등록 안 된 구분값도 추가"): 신규 거래처 화면
+    거래처구분 선택지에 접두 스킴 10종을 미등록이어도 노출(`/masters/customer-type-prefixes` +
+    `MasterGbunSelect includeTypePrefixes`). 선택 시 gubun 코드는 비워 보내고(구분명만) 백엔드
+    `_resolve_gubun_code` 가 구분명→코드 조회 실패 시 **접두 스킴이면 카테고리 자동 등록**
+    (G1_Gbun 코드=접두문자 A~K, 숫자 카테고리 코드와 무충돌·거래처코드 접두와 의미일치).
+    거래처코드도 해당 접두로 채번. 회귀: `test_customer_code_prefix.py::ResolveGubunAutoRegisterTests`.
+- **결정자**: 메인개발자 + 사용자 (2026-07-05 — 스킴·접두표·컬럼 목록 사용자 제공, 재검토 피드백 2건)
+- **참조**: DEC-068(목록 JOIN 금지 행증식), G1_Ggeo 컬럼 의미 메모(Gposa=대표/Guper=업태/Gjomo=종목)
+
 ---
-*최종 업데이트: 2026-07-04 — DEC-074 신규 (양식지 인쇄 위치 보정 — preprinted_calibration yaml 캘리브레이션, ON/OFF 지오메트리 단일화). 같은 날: DEC-073.*
+*최종 업데이트: 2026-07-05 — DEC-079 신규 (거래처 구분별 접두 채번 A~K[I제외]+검색 Enter 네비+목록
+선택 컬럼 13종). 직전: DEC-078.*
+*직전: 2026-07-05 — DEC-078 신규 (거래명세서 거래일자 변경 허용 — Gcode 정밀 스코프 이동,
+Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
+
+*직전: 2026-07-05 — DEC-077 신규 (거래명세서 수정 저장 시 거래처 Gcode·전표번호 Idnum
+소실 버그 수정 — desired diff 가 Gcode 를 hcode 로 덮던 회귀). 직전: DEC-076.*
+
+*직전: 2026-07-04 — DEC-076 신규 (삼련 반품처 세로문구 — WeasyPrint writing-mode 미지원
+확인, 글자별 `<br>` 줄바꿈으로 대체). 직전: DEC-075.*
+
+*직전: 2026-07-04 — DEC-075 신규 (삼련 마지막 련 auto-height + 하단 padding/border 제거 —
+3×99.7mm 피치가 A4 297mm 초과해 2페이지로 분리되던 버그 수정, WeasyPrint 실측으로 검증). 직전: DEC-074.*
 
 *직전: 2026-07-04 — DEC-073 신규 (로고·도장 이미지 DB 영속화 — Web_Print_Assets base64 정본 + 파일 캐시 + 히드레이션, Render 도장 인쇄 복원). 직전: 2026-07-03 — DEC-069~072.*
 

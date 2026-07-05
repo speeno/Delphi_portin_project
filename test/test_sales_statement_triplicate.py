@@ -114,7 +114,12 @@ class SalesStatementTriplicateTests(unittest.TestCase):
         self.assertIn("supplier-vlabel", html)
         self.assertIn("공<br>급<br>자", html)
         self.assertIn("국민은행 009-25-0000-648", html)
-        self.assertIn("※반품처 천일화물 파주광탄", html)
+        # 세로쓰기 대체 — WeasyPrint 는 writing-mode/text-orientation 미지원(unknown property 로
+        # 무시)이라 실제 PDF 에서 가로쓰기 줄바꿈으로 뒤섞여 보였다. 글자 단위 <br> 로 쌓아
+        # 세로 한 줄 고정(2026-07-04 보고, DEC-075 보강).
+        self.assertIn("※<br>반<br>품<br>처<br> <br>천<br>일<br>화<br>물<br> <br>파<br>주<br>광<br>탄", html)
+        self.assertNotIn("writing-mode", html)
+        self.assertNotIn("text-orientation", html)
         self.assertIn("Sobo21.Triplicate.FooterBank", html)
         self.assertIn("Sobo21.Triplicate.VerticalNote", html)
         if is_barcode_engine_available():
@@ -134,6 +139,22 @@ class SalesStatementTriplicateTests(unittest.TestCase):
             )
         self.assertIn("Sobo21.Triplicate.SealOverlay", html)
         self.assertIn("data:image/png;base64,", html)
+        # 스캔 실측 재캘리브레이션(2026-07-05) — 도장 지름 18.5mm, 공급자 블록 우상단 기준
+        # 음수 오프셋(위/오른쪽)으로 등록번호/성명 상단에 얹힘(중심 y≈12mm).
+        self.assertIn("width:18.5mm", html)
+        self.assertIn("top:-4.5mm", html)
+        self.assertIn("right:-1.5mm", html)
+        # 양식지(borders=off) 모드에서도 도장은 찍혀야 함 — supplier-stack 숨김 예외.
+        self.assertIn(".preprinted .seal-overlay { visibility: visible; }", html)
+        # 세로문구는 표를 밀지 않도록 absolute + 스캔 중심(199.7mm) 정렬용 우측 이동.
+        self.assertIn("right: -0.9mm", html)
+        # 섹션 외곽 테두리는 투명 — 스캔엔 내용 블록별 테두리만 있고 감싸는 바깥 사각형이 없다.
+        # (표 우측 197mm 을 지나 202mm 에 그려져 세로문구를 가두던 외곽선 제거, 2026-07-05)
+        self.assertIn("border: 1.6px solid transparent", html)
+        # 섹션 인라인 스타일에 border-color 가 없어야 CSS 투명이 안 덮인다(--ink 만 유지).
+        # (인라인 border-color 는 ';border-color:' 패턴 — .preprinted CSS 의 '{ border-color:' 와 구분)
+        self.assertNotIn(";border-color:", html)
+        self.assertIn("class='triplicate-section' style='--ink:", html)
 
     def test_legacy_triplicate_pagination_over_ten_lines(self) -> None:
         from app.services.transactions_service import render_sales_statement_html
@@ -164,6 +185,35 @@ class SalesStatementTriplicateTests(unittest.TestCase):
         self.assertEqual(html.count("<div class='triplicate-sheet'"), 2)
         self.assertIn("총 2장 중 1장", html)
         self.assertIn("총 2장 중 2장", html)
+
+    def test_legacy_triplicate_renders_single_pdf_page(self) -> None:
+        """삼련(공급자/공급받는자/인수증) 3련이 실제 PDF 1페이지에 모두 들어가야 한다.
+
+        회귀: section_pitch_mm 이 물리 실측값으로 갱신되며 3x99.7mm=299.1mm 가 A4
+        297mm 를 초과해 마지막 련(인수증)이 통째로 2페이지로 밀린 적이 있다
+        (2026-07-04, DEC-075). HTML 문자열 검사만으로는 실제 페이지 분할 여부를
+        알 수 없으므로 WeasyPrint 로 실제 렌더링해 페이지 수를 확인한다.
+        """
+        try:
+            from weasyprint import HTML  # type: ignore[import-not-found]
+        except (ImportError, OSError) as exc:
+            self.skipTest(f"WeasyPrint native deps unavailable: {exc}")
+
+        from app.services.transactions_service import render_sales_statement_html
+
+        for borders in (True, False):
+            html = render_sales_statement_html(
+                self._detail(),
+                layout="legacy_triplicate",
+                server_id="remote_test",
+                borders=borders,
+            )
+            doc = HTML(string=html).render()
+            self.assertEqual(
+                len(doc.pages),
+                1,
+                f"borders={borders}: 삼련 3종이 1페이지에 모두 출력되어야 함",
+            )
 
     def test_bank_footer_from_user_preferences_over_yaml(self) -> None:
         from app.services.transactions_service import render_sales_statement_html
@@ -218,7 +268,8 @@ class SalesStatementTriplicateTests(unittest.TestCase):
             )
         self.assertIn("111-22-33333", html)
         self.assertIn("(주)사용자서점", html)
-        self.assertIn("※사용자 반품 안내", html)
+        # 세로쓰기 대체 — 글자 단위 <br> 로 쌓는다(위 VerticalNote 테스트 참고).
+        self.assertIn("※<br>사<br>용<br>자<br> <br>반<br>품<br> <br>안<br>내", html)
         self.assertNotIn("102-81-23967", html)
 
 
