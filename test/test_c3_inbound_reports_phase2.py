@@ -89,7 +89,8 @@ class DailyReportContractTest(TestCase):
         captured: dict = {}
 
         async def fake_daily(
-            *, server_id: str, gdate: str, hcode: str | None = None, limit: int, offset: int
+            *, server_id: str, gdate: str, hcode: str | None = None, limit: int, offset: int,
+            pub_sort_by=None, pub_sort_dir=None, ven_sort_by=None, ven_sort_dir=None,
         ) -> dict:
             captured.update({
                 "server_id": server_id, "gdate": gdate,
@@ -151,7 +152,8 @@ class PeriodReportContractTest(TestCase):
 
         async def fake_period(
             *, server_id: str, date_from: str, date_to: str,
-            hcode: str | None = None, limit: int, offset: int
+            hcode: str | None = None, limit: int, offset: int,
+            pub_sort_by=None, pub_sort_dir=None, ven_sort_by=None, ven_sort_dir=None,
         ) -> dict:
             captured.update({
                 "server_id": server_id, "date_from": date_from, "date_to": date_to,

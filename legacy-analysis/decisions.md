@@ -1338,8 +1338,31 @@
 - **참조**: DEC-077(부분 대응 — 배포 격차로 사고 미차단), DEC-078(일자 이동 Gcode 스코프),
   DEC-064(7세그 합성키), DEC-065(desired-state diff), DEC-033(IFNULL/COALESCE 게이트)
 
+### DEC-081: 출고접수 목록 — Yesno='2'는 완료(취소 아님)이며 항상 표시(HAVING 제외 제거)
+
+- **문제**(사용자 보고 2026-07-06): 출고접수관리에서 기간(예 7/1~7/6) 지정해도 7/2 데이터만
+  나옴. 라이브 실측(remote_153/hcode 5019): 7/1(39)·7/3(49)·7/6(82) 라인이 **전부 Yesno='2'**,
+  7/2 만 '0'(45)/'1'(4). `list_orders` 의 `HAVING MAX(Yesno)<>'2'`(취소 포함 미체크 시)가 그 날들을
+  통째로 숨김.
+- **근본 원인 = 코드 내 '2' 의미 충돌**: 상태표시 `_line_status_from_yesno_max`+레거시 Subu21 정본은
+  **'1'·'2' 모두 완료(done)**(취소는 행 DELETE), 그러나 목록 HAVING 과 웹 취소(TC-OUT-003
+  soft-delete `UPDATE Yesno='2'`)는 **'2'=취소**로 취급. 데이터 패턴(하루 전체 '2')상 취소가 아니라
+  **완료(출고끝)**가 타당.
+- **결정**(사용자 확정): **'2'=완료, 항상 표시.** `list_orders` 의 `having=""` 로 고정(SELECT·
+  count_grouped 공통) — Yesno 기반 취소 제외 없음. status 표시는 그대로 done. `include_cancelled`
+  는 이제 HAVING 무영향(취소=행 DELETE 정본).
+- **잔여 이슈(후속 결정 필요)**: (a) 웹 취소가 soft-delete 로 '2' 를 써 이제 '완료'로 노출됨 —
+  실제 취소 숨김을 원하면 별도 취소 표식/행 DELETE 필요. (b) 프론트 "취소 포함" 체크박스가
+  no-op 이 됨(정리/재정의 대상).
+- **회귀**: `test_outbound_list_server_sort.py::OutboundListShowsCompletedTest`(HAVING '2' 제외 없음
+  + count_having='' + '2'행 done 포함). 라이브 검증: 42건(7/1:12·7/2:14·7/3:7·7/6:9) 정상 표시.
+- **결정자**: 메인개발자 + 사용자 (2026-07-06 — '2'=완료 항상표시 선택)
+- **참조**: DEC-033(list_orders mysql3 count_grouped), 상태어휘 메모(status-vocab-yesno-3state)
+
 ---
-*최종 업데이트: 2026-07-06 — DEC-080 신규 (거래명세표 대량 소실 사고 — binlog 복원 90라인 +
+*최종 업데이트: 2026-07-06 — DEC-081 신규 (출고접수 목록 Yesno='2'=완료 항상표시, HAVING 취소
+제외 제거). 직전: DEC-080.*
+*직전: 2026-07-06 — DEC-080 신규 (거래명세표 대량 소실 사고 — binlog 복원 90라인 +
 전표 키 스코프 fail-closed 강제 + Render 재배포 필요). 직전: DEC-079.*
 *직전: 2026-07-05 — DEC-079 신규 (거래처 구분별 접두 채번 A~K[I제외]+검색 Enter 네비+목록
 선택 컬럼 13종). 직전: DEC-078.*
