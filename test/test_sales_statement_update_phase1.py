@@ -250,7 +250,8 @@ class UpdateHttpTests(TestCase):
         self.client = TestClient(app)
 
     def test_put_returns_200_with_diff(self) -> None:
-        async def fake_update(*, server_id, gdate, hcode, jubun, lines, new_gdate=None):  # noqa: ARG001
+        async def fake_update(*, server_id, gdate, hcode, jubun, lines, new_gdate=None,
+                              gcode="", idnum=None):  # noqa: ARG001
             return {
                 "order_key": {"gdate": "2026.06.11", "hcode": "00001", "jubun": "00001"},
                 "lines": len(lines), "qty": 2, "amount": 51000,
@@ -270,7 +271,8 @@ class UpdateHttpTests(TestCase):
         self.assertEqual(body["amount"], 51000)
 
     def test_put_404_when_absent(self) -> None:
-        async def fake_none(*, server_id, gdate, hcode, jubun, lines, new_gdate=None):  # noqa: ARG001
+        async def fake_none(*, server_id, gdate, hcode, jubun, lines, new_gdate=None,
+                            gcode="", idnum=None):  # noqa: ARG001
             return None
 
         with patch.object(svc, "update_sales_statement", side_effect=fake_none):

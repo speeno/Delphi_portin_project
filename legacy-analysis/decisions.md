@@ -1293,8 +1293,55 @@
 - **결정자**: 메인개발자 + 사용자 (2026-07-05 — 스킴·접두표·컬럼 목록 사용자 제공, 재검토 피드백 2건)
 - **참조**: DEC-068(목록 JOIN 금지 행증식), G1_Ggeo 컬럼 의미 메모(Gposa=대표/Guper=업태/Gjomo=종목)
 
+### DEC-080: 거래명세표 대량 소실 사고(2026-07-04) — binlog 복원 + 전표 키 스코프 강제(fail-closed)
+
+- **일자**: 2026-07-06
+- **사고**: h=5019(remote_153) 사용자가 7/4 23:43·23:44 / 7/5 02:37 웹 거래명세서 **수정 저장** 시
+  타 거래처 라인이 일괄 삭제됨. 피해: **7/2 jubun=11 46라인·12거래처 2,048,225원**,
+  7/2 jubun=12 3라인·138,140원, **6/30 jubun=21 반품 32라인·5거래처 −899,415원**,
+  7/3 소전표(교문사 80028·교보 00001) 12라인 — 반복 재수정 churn 중 소실. 잔존물은
+  `Gcode='5019'(=hcode)`·`Idnum=NULL` 손상 행 15개("오류가 발생된 거래처 2곳"의 정체).
+  과거 동일 유형 1건: 6/20 22:09 jubun=23(2행, 원본 불명·미복원).
+- **근본 원인 (2중)**:
+  1) **키 결함(설계)**: `update_sales_statement` 가 전표를 (Gdate, Hcode, Jubun) 3키로 식별.
+     레거시 Jubun 은 (Gdate,Hcode) 내 **거래처별** 시퀀스라 거래처 간 공유 키 — desired-state
+     diff 의 `current` 에 같은 날짜·같은 Jubun 의 **전 거래처 라인**이 로드되어
+     `current − desired` 가 전부 DELETE 됨. DEC-077(로컬 수정)로도 이 폭은 안 닫혔음.
+  2) **배포 격차**: 운영(Render)은 DEC-077 이전 빌드 — 재삽입 라인 Gcode←hcode, Idnum 누락
+     (사고 잔존물 시그니처와 일치. 같은 세션의 신규 작성은 정상 시그니처 → create 정상, update 만 결함).
+- **포렌식/복구**: remote_153 은 `log_bin=ON`(STATEMENT)·`expire_logs_days=0` —
+  `SHOW BINLOG EVENTS`(읽기 전용 SQL, SSH 불필요)로 mysql-bin.000025 후미 ~17MB 스캔
+  (secant + id↔일자 브래킷). 사고 DELETE 문(거래처·도서쌍 전수)과 원본 INSERT/UPDATE 전량 확보 →
+  이벤트 재생 시뮬레이션(최종 상태가 실 DB 잔존 4행과 **정확 일치**로 검증) → 삭제 시점 상태 재구성.
+  **90라인 복원**(원본 id/Idnum/Yesno/Gubun 보존, 존재확인 idempotent, 7/6 레거시 수동 재입력 9라인
+  자동 제외) + **손상 행 15개 삭제**(id 4중 일치 검증). 오류 0. 실행 로그/재구성 산출물은
+  세션 스크래치(`restore_run_log.json`/`restore_inventory.json`) — 사고 SQL 원문은 binlog 에 영구 잔존.
+  기본 제외(사용자 승인): 6/27 13라인(744,900원)·6/17~6/29 개별 삭제 8건·7/2 ju12 '00003' 추가분·6/20 ju23.
+- **재발 방지 (fail-closed)**:
+  1) `update_sales_statement(gcode=, idnum=)` — 7세그 order_key 의 거래처/전표번호로 SELECT·쓰기
+     (UPDATE/DELETE/일자이동) 스코프. 스코프 없이 **여러 거래처 매칭 시
+     `ValueError("SLIP_KEY_AMBIGUOUS")` → 422, 아무 것도 쓰지 않음** (단일 거래처면 4세그 호환).
+  2) PUT 라우터 `_parse_order_key`(4세그, gcode/idnum 폐기) → `_parse_order_key_extended`(7세그).
+     프론트는 전 구간 7세그 전송 중이었음 — 라우터가 버리던 것이 약한 고리.
+  3) `outbound_service.update_order` — gcode 미지정+다중 거래처 매칭 시 `ORDER_KEY_AMBIGUOUS` 거부,
+     INSERT `has_idnum` 누락 수정(전표번호 보존) + SELECT 에 Gjisa/Gubun/Ocode/Scode 추가
+     (재삽입 라인 지사 소실·Ocode='B' 고정 회귀 동시 수정).
+- **영향**: `backend/app/services/sales_statement_create_service.py`, `outbound_service.py`,
+  `app/routers/transactions.py`, `outbound.py`. 회귀:
+  `test/test_sales_statement_update_slip_scope.py`(11건 — 사고 재현·fail-closed 무기록·스코프
+  SQL/params·7세그 전달·422 메시지·Idnum 보존) + `test_sales_statement_update_phase1.py` fake 시그니처
+  갱신. 정적 감사 3종 critical=0. 전체 스위트 신규 실패 0(기존 실패 94건은 패치 전 103건의 부분집합).
+- **운영 조치 필요**: ① **Render 재배포**(이 패치 + DEC-077/078 포함 최신 빌드) — 배포 전까지
+  웹 '수정' 기능 사용 금지 안내. ② 사용자 데이터 검증(7/2·6/30·7/3 화면 대조, 6/20·6/27 항목 판단).
+  ③ remote_154/155 'Host blocked'(1129) — `mysqladmin flush-hosts` 필요(별건).
+- **결정자**: 메인개발자 + 사용자 (2026-07-06 — 복원 범위·손상 행 삭제·패치 승인)
+- **참조**: DEC-077(부분 대응 — 배포 격차로 사고 미차단), DEC-078(일자 이동 Gcode 스코프),
+  DEC-064(7세그 합성키), DEC-065(desired-state diff), DEC-033(IFNULL/COALESCE 게이트)
+
 ---
-*최종 업데이트: 2026-07-05 — DEC-079 신규 (거래처 구분별 접두 채번 A~K[I제외]+검색 Enter 네비+목록
+*최종 업데이트: 2026-07-06 — DEC-080 신규 (거래명세표 대량 소실 사고 — binlog 복원 90라인 +
+전표 키 스코프 fail-closed 강제 + Render 재배포 필요). 직전: DEC-079.*
+*직전: 2026-07-05 — DEC-079 신규 (거래처 구분별 접두 채번 A~K[I제외]+검색 Enter 네비+목록
 선택 컬럼 13종). 직전: DEC-078.*
 *직전: 2026-07-05 — DEC-078 신규 (거래명세서 거래일자 변경 허용 — Gcode 정밀 스코프 이동,
 Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
