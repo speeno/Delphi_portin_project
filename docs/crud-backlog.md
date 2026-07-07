@@ -75,10 +75,10 @@
 | Sobo54 / Sobo57 / Sobo55 | 일별·기간 입고/반품 내역서 | phase1 | R | 조회 전용 | R | — |
 | Sobo23 / Sobo24 / Sobo25 / Sobo51 | 반품명세서 / 반품재고(재생/해체/변경) | phase1 | CRUD | 정식 포팅 | CRUD | — |
 | Sobo58 / Sobo34_4 | 기간 반품 / 기간 재고원장 | phase2 | R | 조회 전용 (회귀 미통과) | R | p2 |
-| Sobo50_stats / Sobo51_stats / Sobo52_stats / Sobo53_stats | 매출·거래처·도서회전·분기 손익 | phase2 | R | 차트 조회 | R | p3 |
-| Stats_monthly | 월별통계 | phase2 | R | 조회 전용 | R | p2 |
-| Sobo36_stats_route / Sobo37_stats_route | 거래처·도서 통계(목록) | phase2 | R | 조회 전용 | R | p3 |
-| Sobo43_stats_route | 출판사통계 | phase1 | R | `/stats/publisher` 그리드 구현 — **레거시 Subu43 발송비와 무관** (`Sobo43_shipping_ledger` 참조) | R | p3 |
+| Sobo50_stats / Sobo51_stats / Sobo52_stats / Sobo53_stats | 매입·매출·거래처·도서회전·분기 손익 | phase1 | R(정본) | DEC-082~086 정비 완료 — 그리드 표준·서버정렬·룩업·매입매출(월/분기/년)·엑셀 export | — | 완료 |
+| Stats_monthly | 월별통계 | phase1 | R(정본) | DEC-082~084 정비 완료 (조회 정본 — 통계는 쓰기 없음) | — | 완료 |
+| Sobo36_stats_route / Sobo37_stats_route | 거래처·도서 통계(목록) | phase1 | R(정본) | DEC-082~084 정비 완료 (거래처/도서 룩업·정렬·세션) | — | 완료 |
+| Sobo43_stats_route | 출판사통계 | phase1 | R(정본) | DEC-083 Hcode 축 재작성 완료 — **레거시 Subu43 발송비와 무관** (`Sobo43_shipping_ledger` 참조) | — | 완료 |
 | Sobo43_shipping_ledger / Sobo44_shipping_status | 발송비내역·현황 | phase2 | STUB | API scaffold 빈 목록 — T2 SQL·adapt 후 RU | RU | p2 |
 | Sobo28_delivery | 출고택배관리 | phase1 | RU | 내부 라인/메모 완료, 외부 택배사 API는 별도 후속 | RU | p4 |
 | WebAdmHome / WebAdmUserSrv / WebAdmRBAC / WebAdmEnv / Subu10_id_logn | 관리 콘솔 | phase1 | RU/CRUD | admin-api 에 POST/PUT 존재 | CRUD | — |
@@ -146,7 +146,7 @@
 | 출판사·할인율·물류비·도서코드·도서·거래처 마스터 | 신규(C) + 수정(U) + 삭제(D) 폼 (마스터 전영역) |
 | Sobo32_ledger / Sobo32_1_ledger | DBGrid301 (계좌 잔액 분해) — `customer-ledger-implementation-plan.md` §8 |
 | Sobo46_billing / Sobo49_tax | 인쇄·세금 PDF 양식 + 외부 채널 실연동 |
-| Sobo50~53_stats / Sobo36/37/43_stats_route | recharts 시각화 보강 + 정책 확장 |
+| ~~Sobo50~53_stats / Sobo36/37/43_stats_route~~ | ~~recharts 시각화 보강 + 정책 확장~~ — DEC-082~086 완료(2026-07-08): 공통그리드·서버정렬·룩업·매입매출(월/분기/년)·엑셀 export |
 | Sobo29_other | 비정형 명세 출력기 SQL 합의 |
 
 ### P4 (장기·인프라)

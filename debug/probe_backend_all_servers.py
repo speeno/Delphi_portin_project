@@ -762,6 +762,15 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200, 422},
         },
         {
+            # DEC-086 — 기간별 매입·매출 전체 엑셀 export (분기 groupBy 겸사 검증).
+            "group": "stats.sales_period_export",
+            "path": (
+                f"/api/v1/stats/sales-period/export.xlsx?serverId={sid}"
+                f"&hcode=%25&dateFrom={df}&dateTo={dt}&groupBy=quarterly"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
             "group": "stats.customer_analysis",
             "path": (
                 f"/api/v1/stats/customer-analysis?serverId={sid}"

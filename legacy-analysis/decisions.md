@@ -1476,8 +1476,95 @@
 - **참조**: DEC-083(통계 정비), DEC-033 (f), 입고 LIST 0건 회귀(2026-06-21,
   inbound_service._inbound_ocode), h2_gbun_adapt.sales_statement_ocode_sql
 
+### DEC-085: 분기/반기 손익 0건 사고 — T2_Ssub.Gdate 월키 정규화
+
+- **증상**(사용자 보고 2026-07-08): 분기/반기 손익(Sobo53) 화면 데이터 전무.
+- **근본 원인 — 월키 포맷 불일치**: 레거시 Subu45(정산 입력)는 T2_Ssub.Gdate 에
+  ``FormatDateTime('yyyy"."mm"')`` = **점 구분 월('2026.07')** 을 기록
+  (legacy_delphi_source Subu45.pas L170/L657). 그런데 `_SQL_PERIOD_SUMMARY` 는
+  ``Gdate BETWEEN '202601' AND '202603'``(YYYYMM 6자리) 직접 비교 — 문자열
+  정렬상 ``'.'(0x2E) < '0'(0x30)`` 이라 점 표기 전 행이 하한 탈락 → **항상 0건**.
+- **수정**: 숫자만 남긴 6자리 월키
+  ``LEFT(REPLACE(REPLACE(REPLACE(TRIM(Gdate),'-',''),'.',''),'/',''),6)`` 로
+  WHERE/GROUP/ORDER/COUNT 통일 — '2026.07'/'202607' 표기 모두 일치
+  (t5_ssub_adapt._trim_gdate·T5 입금 sql_deposit_sdate 와 동일한 mysql3 검증 패턴).
+  Sobo47 청구금액(년월) 도 같은 SQL 공유로 함께 복구.
+- **잔여 이슈(후속) — 정산 모듈 전반의 'YYYYMM' 가정**: settlement_service 의
+  다른 T2/T3/S1 비교(`Gdate = %s` 마감 키, `LEFT(Gdate,6)` — 점 표기에선
+  '2026.0' 이 됨, Sobo42 입금현황 `t.Gdate = %s` 등 _norm_month 사용 12곳)가
+  동일 가정 위에 있음. **마감 UPDATE/DELETE 키에 얽혀 있어 별도 검증 후 일괄
+  월키화 필요** — 이번에는 사용자 보고 화면(분기 손익 + 년월 청구) 조회만 수정.
+- **회귀**: `test/test_dec085_t2_month_key.py` 3건(월키 SQL 강제/원컬럼 BETWEEN
+  회귀 금지/분기→월 경계 위임) + 정산·통계 인접 52건 PASS.
+- **결정자**: 메인개발자 (레거시 Subu45 원문 대조)
+- **참조**: DEC-084(Ocode 스코프 사고 — 같은 "포맷/값 가정 vs 실데이터" 계열),
+  t5_ssub_adapt(월키 어댑터 선례), DEC-031(마감 가드 — 후속 수정 시 주의)
+
+### DEC-086: 기간별 매입·매출(월/분기/년) + 엑셀 export — 통계 그룹 R/W3 배지 완료 처리
+
+- **배경**(사용자 요청 2026-07-08): 통계관리 사이드바의 R/W3 배지 항목 완료 + "월별,
+  년별, 분기별 매입·매출 조회 및 엑셀로 모든 정보 저장" 기능 요청.
+- **매입·매출 기간 통계**: `_apply_book_sales_branch` 에 ``gisum``(매입액 — Scode='Y'
+  입고/반품 행 Gssum) 누적 추가(BookSalesRow 추가 필드, 하위 호환). `get_sales_period`
+  groupBy quarterly/yearly 신설(버킷 라벨 YYYY-Qn/YYYY) + 매입 축
+  ``buy_qut_total/buy_sum_total`` 동시 집계(기존 매출 키 유지). 화면(Sobo50)은
+  「기간별 매입·매출 분석」 으로 확장 — 매입/매출 4컬럼 + 5장 요약 카드.
+- **엑셀 export**: ``GET /api/v1/stats/sales-period/export.xlsx`` — 전체 버킷+합계 행,
+  화면과 동일 필터·정렬 부착(DEC-068 "정렬은 export 에도 동봉"),
+  `masters_excel.build_list_workbook` 재사용(표현만 책임 — SRP), guard
+  admin.stats.sales + enforce_hcode_isolation. 프론트 「엑셀 저장」 버튼
+  (`downloadBlobAs` + 날짜 접미 파일명). probe 매트릭스 등록(stats.sales_period_export).
+- **R/W3 배지 완료 처리**: 통계 그룹 9항목(Sobo50~53_stats/Stats_monthly/
+  Sobo36·37_stats_route/MenuYearMonthStats/Sobo43_stats_route)의
+  ``roadmapWave``/``crudParity``/``crudNotes`` 제거 — DEC-082~086 으로 공통그리드·
+  서버정렬·룩업·계정코드 정책·조회 복구·매입매출·엑셀이 반영되어 p3 백로그 소진.
+  통계는 조회 화면이 정본(쓰기 없음 = R 배지 불필요). docs/crud-backlog.md 해당 행
+  완료 표기. (주의: 사이드바 캡션은 「기간별 매출 분석」 유지 — 매트릭스 캡션 드리프트 회피.)
+- **회귀**: `test/test_dec086_buy_sell_period.py` 5건(gisum 누적/분기·년 버킷/매입 축/
+  groupBy 폴백/export 라우트 OpenAPI) + 통계·리포트 인접 151건 PASS,
+  form-registry 메타 가드 17건 PASS, tsc/eslint/next build PASS.
+- **결정자**: 메인개발자 + 사용자 (2026-07-08 — 스크린샷 R/W3 완료 + 매입매출·엑셀 지시)
+- **참조**: DEC-082~085, DEC-068(export 정렬 동봉), masters_excel(DEC-068 엑셀 선례),
+  docs/crud-backlog.md §2.5/§P3
+
+### DEC-087: 통계 목록 최종거래일 필드 — 집계 행 날짜 정렬
+
+- **배경**(사용자 요청 2026-07-08): 통계 목록들이 기간으로 조회하면서도 행에 날짜
+  필드가 없어 날짜 정렬이 불가.
+- **결정**: 집계 행은 단일 날짜가 없으므로 **그룹별 ``MAX(Gdate)`` = 최종거래일** 을
+  표시·정렬 필드로 채택. SQL-INQ-7/9·출판사 축 집계에 ``MAX(Gdate) AS Gdate``
+  (+Sg_Csum pass) 한 컬럼씩 추가(mysql3 안전, 집계 수치 불변). 응답 필드
+  ``gdate``(도서별판매/거래처판매/거래처통계/도서통계/도서회전율) /
+  ``last_date``(출판사통계) — 모델·타입 추가 필드(하위 호환), 정렬 화이트리스트 편입.
+  7개 화면 그리드에 「최종거래일」 sortable 컬럼 부착. (구간 축 화면 — 기간별/월별/
+  분기손익/년말집계 — 는 이미 날짜 축 보유로 제외.)
+
+### DEC-088: 분기/반기 손익 — 최대 N개(1~12, UI 1~8) 분기 비교 고도화
+
+- **배경**(사용자 요청 2026-07-08): 분기 화면에서 여러 분기를 비교하고 싶다.
+- **설계**: ``quarters`` 파라미터 — (year, quarter) 를 **기준(마지막) 분기**로 과거
+  방향 N개 분기를 함께 집계. 응답: ``comparison``[{label 'YYYY-Qn', 청구/입금/잔액/
+  손익, month_from/to}] (과거→기준 순) + ``items`` = N개 분기 월별 행 병합(월 오름차순,
+  기존 페이지네이션 유지) + ``totals`` = N개 분기 합산. quarters=1 은 기존과 동등
+  (신규 SQL 0건 — 분기당 list_period_summary 1회 재사용, N≤12 클램프).
+- **화면**: 필터에 「비교 분기 수」(단일/최근 N개, 1~8) 선택 — 2개 이상이면 분기 비교
+  막대 차트 + 분기별 비교 표(손익 음수 적색), 요약 카드 라벨에 분기 수 표기.
+- **부수 수정**: 월별 그리드/차트가 ``ymonth`` 키를 읽어 월 컬럼이 비어 있던 잠복
+  버그 → 백엔드 정본 ``gdate``(DEC-085 'YYYYMM' 월키)로 교정.
+- **회귀**: `test_dec085_t2_month_key.py::test_quarterly_summary_n_quarter_comparison`
+  (분기 시퀀스/비교 배열/합산/월 병합 정렬) + DEC-087 gdate 가드
+  (`test_dec086_buy_sell_period.py`) + 통계 스위트 PASS, tsc/eslint/next build PASS.
+- **결정자**: 메인개발자 + 사용자 (2026-07-08)
+- **참조**: DEC-085(월키 정본), DEC-086(기간 통계), settlement_service.list_period_summary
+
 ---
-*최종 업데이트: 2026-07-08 — DEC-084 신규 (통계·원장 완료 거래 미조회 사고 — Ocode 스코프
+*최종 업데이트: 2026-07-08 — DEC-087/088 신규 (통계 목록 최종거래일 정렬 필드 +
+분기 N개 비교 고도화·월 컬럼 키 교정). 직전: DEC-086.*
+*직전: 2026-07-08 — DEC-086 신규 (기간별 매입·매출 월/분기/년 + 엑셀 export +
+통계 그룹 R/W3 배지 완료). 직전: DEC-085.*
+*직전: 2026-07-08 — DEC-085 신규 (분기/반기 손익 0건 — T2_Ssub 점 구분 월키
+정규화). 직전: DEC-084.*
+*직전: 2026-07-08 — DEC-084 신규 (통계·원장 완료 거래 미조회 사고 — Ocode 스코프
 기본 전체화 + Subu62 무필터 복원 + 통합원장 파라미터 순서 버그 수정). 직전: DEC-083.*
 *직전: 2026-07-08 — DEC-083 신규 (통계관리 12화면 전면 정비 — 계정코드 기본 검색
 조건 정책 + 거래처/도서/출판사 검색 시맨틱 교정 + 출판사통계 Hcode 축 수정). 직전: DEC-082.*
