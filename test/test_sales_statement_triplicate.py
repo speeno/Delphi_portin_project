@@ -144,8 +144,9 @@ class SalesStatementTriplicateTests(unittest.TestCase):
         self.assertIn("width:18.5mm", html)
         self.assertIn("top:-4.5mm", html)
         self.assertIn("right:-1.5mm", html)
-        # 양식지(borders=off) 모드에서도 도장은 찍혀야 함 — supplier-stack 숨김 예외.
-        self.assertIn(".preprinted .seal-overlay { visibility: visible; }", html)
+        # 도장은 테두리 출력(borders=on)에서만 — 양식지(borders=off) 모드에선 supplier-stack 과
+        # 함께 숨김. 강제 표시 예외가 없어야 한다(사용자 요청 2026-07-07).
+        self.assertNotIn(".preprinted .seal-overlay { visibility: visible; }", html)
         # 세로문구는 표를 밀지 않도록 absolute + 스캔 중심(199.7mm) 정렬용 우측 이동.
         self.assertIn("right: -0.9mm", html)
         # 섹션 외곽 테두리는 투명 — 스캔엔 내용 블록별 테두리만 있고 감싸는 바깥 사각형이 없다.
