@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-06T03:18:04.102894+00:00",
+  "generated_at": "2026-07-07T16:25:39.022171+00:00",
   "summary": {
     "files_scanned": 90,
-    "sql_literals": 422,
+    "sql_literals": 423,
     "critical": 0,
     "warn": 0,
-    "info": 207,
-    "skipped_noqa": 37,
+    "info": 208,
+    "skipped_noqa": 40,
     "multi_tenant_tables_seen": [
       "G4_Book",
       "G7_Ggeo",
@@ -191,7 +191,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "list_publisher_settings",
-      "lineno": 113,
+      "lineno": 119,
       "tables": [
         "G7_Ggeo"
       ],
@@ -203,7 +203,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "list_publisher_settings",
-      "lineno": 119,
+      "lineno": 135,
       "tables": [
         "G7_Ggeo"
       ],
@@ -215,7 +215,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "<module>",
-      "lineno": 225,
+      "lineno": 271,
       "tables": [
         "Sb_Csum"
       ],
@@ -227,7 +227,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "<module>",
-      "lineno": 229,
+      "lineno": 275,
       "tables": [
         "Sb_Csum"
       ],
@@ -239,7 +239,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_ledger_service.py",
       "function": "_grand_summary_single",
-      "lineno": 510,
+      "lineno": 574,
       "tables": [
         "S1_Ssub"
       ],
@@ -395,7 +395,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inbound_service.py",
       "function": "_fetch_vendor_names",
-      "lineno": 1157,
+      "lineno": 1218,
       "tables": [
         "G1_Ggeo"
       ],
@@ -419,7 +419,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
       "function": "_dates_count_sql",
-      "lineno": 131,
+      "lineno": 136,
       "tables": [
         "S1_Ssub"
       ],
@@ -431,7 +431,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
       "function": "_dates_page_sql",
-      "lineno": 143,
+      "lineno": 151,
       "tables": [
         "S1_Ssub"
       ],
@@ -443,7 +443,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
       "function": "_ledger_rows_sql",
-      "lineno": 169,
+      "lineno": 177,
       "tables": [
         "S1_Ssub"
       ],
@@ -2040,7 +2040,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_book_sales",
-      "lineno": 200,
+      "lineno": 285,
       "tables": [
         "Sg_Csum"
       ],
@@ -2052,7 +2052,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_year_end_book_aggregate",
-      "lineno": 601,
+      "lineno": 808,
       "tables": [
         "Sg_Csum"
       ],
@@ -2388,6 +2388,18 @@
       "recommended_action": "mark_noqa_with_reason"
     },
     {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
+      "function": "_fetch_all_grouped_statements",
+      "lineno": 964,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "info",
+      "reason": "missing_hcode_filter_on_multi_tenant_select",
+      "sql_excerpt": "SELECT <<dyn>>, COUNT(*) AS row_count, COALESCE(SUM(Gsqut),0) AS qty, COALESCE(SUM(Gssum),0) AS amount, MAX(Yesno) AS yesno_max FROM S1_Ssub WHERE <<dyn>> GROUP BY <<dyn>><<dyn>> <<dyn>> LIMIT %s OFFS…",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/user_prefs_db.py",
       "function": "get_user_prefs",
       "lineno": 68,
@@ -2402,7 +2414,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/verification_service.py",
       "function": "confirm_verification",
-      "lineno": 191,
+      "lineno": 211,
       "tables": [
         "S1_Chek"
       ],
@@ -2414,7 +2426,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/verification_service.py",
       "function": "confirm_verification",
-      "lineno": 201,
+      "lineno": 221,
       "tables": [
         "S1_Chek"
       ],
@@ -2426,7 +2438,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/verification_service.py",
       "function": "cancel_verification",
-      "lineno": 229,
+      "lineno": 249,
       "tables": [
         "S1_Chek"
       ],

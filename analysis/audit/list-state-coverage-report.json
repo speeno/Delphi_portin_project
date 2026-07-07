@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-03T11:57:20.413135+00:00",
+  "generated_at": "2026-07-07T16:02:14.207123+00:00",
   "summary": {
     "total_pages": 119,
-    "covered": 36,
-    "violations": 16,
+    "covered": 45,
+    "violations": 7,
     "allowed": 0,
     "skipped": 67
   },
@@ -35,6 +35,10 @@
     {
       "route_key": "ledger.book-integrated",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/book-integrated/page.tsx"
+    },
+    {
+      "route_key": "ledger.comparison",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/comparison/page.tsx"
     },
     {
       "route_key": "ledger.customer",
@@ -129,40 +133,6 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/page.tsx"
     },
     {
-      "route_key": "transactions.author-history",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/author-history/page.tsx"
-    },
-    {
-      "route_key": "transactions.inbound-statement",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/inbound-statement/page.tsx"
-    },
-    {
-      "route_key": "transactions.inbound-status",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/inbound-status/page.tsx"
-    },
-    {
-      "route_key": "transactions.outbound-status",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/outbound-status/page.tsx"
-    },
-    {
-      "route_key": "transactions.sales-statement",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/page.tsx"
-    },
-    {
-      "route_key": "transactions.status",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/status/page.tsx"
-    }
-  ],
-  "violations": [
-    {
-      "route_key": "ledger.comparison",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/comparison/page.tsx"
-    },
-    {
-      "route_key": "shipping.courier",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/shipping/courier/page.tsx"
-    },
-    {
       "route_key": "stats.book",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/book/page.tsx"
     },
@@ -193,6 +163,36 @@
     {
       "route_key": "stats.sales-period",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/sales-period/page.tsx"
+    },
+    {
+      "route_key": "transactions.author-history",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/author-history/page.tsx"
+    },
+    {
+      "route_key": "transactions.inbound-statement",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/inbound-statement/page.tsx"
+    },
+    {
+      "route_key": "transactions.inbound-status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/inbound-status/page.tsx"
+    },
+    {
+      "route_key": "transactions.outbound-status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/outbound-status/page.tsx"
+    },
+    {
+      "route_key": "transactions.sales-statement",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/sales-statement/page.tsx"
+    },
+    {
+      "route_key": "transactions.status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/status/page.tsx"
+    }
+  ],
+  "violations": [
+    {
+      "route_key": "shipping.courier",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/shipping/courier/page.tsx"
     },
     {
       "route_key": "transactions.new-release",

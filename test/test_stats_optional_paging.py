@@ -85,21 +85,31 @@ class StatsBackendOptionalPaging(IsolatedAsyncioTestCase):
         self.assertEqual(res["page"], {"limit": 1, "offset": 0, "total": 2, "has_more": True})
         self.assertEqual([i["gcode"] for i in res["items"]], ["B2"])
 
-    async def test_publisher_stats_reuses_book_sales_and_pages(self):
+    async def test_publisher_stats_groups_by_hcode_and_pages(self):
+        """DEC-082 — 출판사 축 = S1_Ssub.Hcode 그룹(get_publisher_sales_summary 재사용).
+
+        (구 구현은 get_book_sales 행에 없는 pcode 를 읽어 전부 "미분류" 로 합산되던
+        버그가 있었다 — 본 테스트는 정본 축/이름 lookup 재사용을 고정한다.)
+        """
         from app.services import stats_service
 
-        async def fake_book_sales(**kwargs):
+        async def fake_publisher_summary(**kwargs):
             self.assertIsNone(kwargs["hcode"])
             return {
                 "rows": [
-                    {"publisher_code": "P1", "publisher_name": "Pub", "giqut": 3, "goqut": 2, "gbqut": 1, "gjqut": 4, "gosum": 1000},
-                    {"publisher_code": "P1", "publisher_name": "Pub", "giqut": 5, "goqut": 7, "gbqut": 0, "gjqut": 8, "gosum": 2000},
+                    {"hcode": "P1", "book_count": 2, "giqut": 8, "goqut": 9,
+                     "gbqut": 1, "gjqut": 12, "gosum": 3000, "gpqut": 0, "gpsum": 0},
                 ],
-                "total": 2,
+                "truncated": False,
             }
 
-        old = stats_service.reports_service.get_book_sales
-        stats_service.reports_service.get_book_sales = fake_book_sales
+        async def fake_names(server_id, hcodes):
+            return {"P1": "Pub"}
+
+        old_summary = stats_service.reports_service.get_publisher_sales_summary
+        old_names = stats_service.inbound_service._fetch_publisher_names
+        stats_service.reports_service.get_publisher_sales_summary = fake_publisher_summary
+        stats_service.inbound_service._fetch_publisher_names = fake_names
         try:
             res = await stats_service.get_publisher_stats(
                 server_id="remote_138",
@@ -110,12 +120,15 @@ class StatsBackendOptionalPaging(IsolatedAsyncioTestCase):
                 offset=0,
             )
         finally:
-            stats_service.reports_service.get_book_sales = old
+            stats_service.reports_service.get_publisher_sales_summary = old_summary
+            stats_service.inbound_service._fetch_publisher_names = old_names
 
         self.assertEqual(res["page"]["total"], 1)
         self.assertEqual(res["items"][0]["publisher_code"], "P1")
+        self.assertEqual(res["items"][0]["publisher_name"], "Pub")
         self.assertEqual(res["items"][0]["book_count"], 2)
         self.assertEqual(res["totals"]["sales_total"], 3000)
+        self.assertEqual(res["metadata"]["publisher_source"], "s1_ssub_hcode")
 
 
 class StatsFrontendStaticPaging(TestCase):

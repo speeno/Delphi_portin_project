@@ -149,7 +149,7 @@ class BookModeAndFilterTests(IsolatedAsyncioTestCase):
         cap = _Capture()
         await _invoke(cap, book_mode="A")
         s1_sql, s1_params = cap.calls[0]
-        self.assertIn("Ocode LIKE", s1_sql)
+        self.assertIn("IFNULL(s.Ocode,'') LIKE", s1_sql)  # DEC-084 — NULL 안전 스코프
         self.assertIn("%A%", s1_params)
 
     async def test_book_mode_b_uses_b_like(self) -> None:

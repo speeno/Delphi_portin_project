@@ -1359,8 +1359,131 @@
 - **결정자**: 메인개발자 + 사용자 (2026-07-06 — '2'=완료 항상표시 선택)
 - **참조**: DEC-033(list_orders mysql3 count_grouped), 상태어휘 메모(status-vocab-yesno-3state)
 
+### DEC-082: 재고관리·재고원장 7화면 공통 그리드 정비 — 서버 정렬 아키텍처 + 룩업 + book-sales 상한
+
+- **배경**(사용자 요청 2026-07-07): 재고관리(재고현황 Sobo44_inv/도서수불장 Sobo33/통합
+  도서수불장 Sobo33_1) + 재고원장(도서별수불원장 Sobo31/거래처원장 Sobo32/통합 Sobo32_1/
+  출판사관리설정 Sobo48) 목록 화면에 공통 요소(헤더 클릭 서버 정렬·컬럼 선택/순서/너비·
+  검색 입력 자동완성+팝업)가 미반영 상태였음(전 화면 중 최하위 준수, stats 와 동급).
+- **정렬 아키텍처 결정** — DEC-068 (D) 를 페이지네이션 축이 있는 조회 화면으로 확장:
+  - **축 컬럼은 SQL 전역 정렬**: inventory/ledger 의 `gdate`(dates-page ORDER BY 방향),
+    customer-integrated 의 `hcode`(hcodes-page), comparison 의 `gcode/gname`(단순 목록 ORDER BY).
+  - **비축 컬럼은 누적 완료 후 "페이지 내" Python 정렬**: 일자/거래처 단위 사전 집계 구조
+    (DEC-033 (g/h/j))와 전역 수량 정렬이 상충하므로 페이지 구성은 유지.
+  - **Sobo32(거래처원장)는 페이지 구성 오름차순 고정**: 잔량(balance_qty) 누적·R4 totalsCache 가
+    "오름차순 일자 + 순차 페이지" 를 전제하므로 gdate desc 포함 모든 정렬은 표시 정렬만
+    (페이지 내 재정렬). 회귀: `test_ledger_sort_params.py::test_single_pagination_axis_stays_ascending`.
+  - **book-sales(통합 도서수불장)는 전체 정렬 후 페이징**(이미 전량 메모리 집계라 비용 0).
+  - 화이트리스트 밖 sortBy 는 방향까지 무시(masters `_order_by_clause` 동일 정책, 주입 차단).
+- **book-sales 풀스캔 상한 신설**: 서버측 LIMIT 없는 유일한 재고 계열 API 였음 —
+  `BLS_BOOK_SALES_MAX`(기본 20000) 상한 + `truncated` 응답/배너 (LEDGER_MAX 정책 미러).
+- **검색 입력 룩업 결정**: 이들 화면의 거래처 입력(S1_Ssub.Hcode = 거래처코드, 레거시
+  Subu32 Edit107 근거)은 `MasterLookupField lookupKind="customer"` + `applyCustomerToHcode`
+  (G1_Ggeo.Gcode 채움 — selection.hcode 는 소유계정이므로 금지), 도서코드 시작/끝은
+  `lookupKind="book"` + `applyBookToBcode`, Sobo48 검색어는 `publisher` 룩업.
+- **컬럼 설정**: 7화면 모두 `useGridPrefs`(서버 저장, hcode 계정 종속) + `GridColumnSettings`
+  + 헤더 드래그 순서/너비. Sobo32/32_1 은 원시 `<table>` → `DataGrid` 전환(기존
+  data-legacy-id 전량 컬럼 `legacyId` 로 보존). 재고현황(Sobo44_inv)은 표가 클라이언트 파생
+  집계(현재 페이지 도서별 재집계)라 정렬만 `useClientSort`(서버 표현 없음).
+- **부수 정비**: `ledger.comparison` 에 `useListSession` 도입(DEC-055 위반 16→15),
+  transactions/verification 동적 WHERE 오탐 2건 noqa 주석(hcode strict 감사 exit 0 복구).
+- **회귀**: `test/test_ledger_sort_params.py` 15건(5 엔드포인트 × 축/비축/주입/상한) + 기존
+  인접 스위트 106건 PASS, tsc/eslint/next build PASS.
+- **결정자**: 메인개발자 + 사용자 (2026-07-07 — 공통요소 반영 지시)
+- **참조**: DEC-068 (D) 헤더 정렬 표준, DEC-033 (f/g/h/j), DEC-055, DEC-024, Sobo32.md/Sobo32_1.md
+
+### DEC-083: 통계관리 12화면 전면 정비 — 계정코드 "기본 검색 조건" 정책 + 검색 시맨틱 교정
+
+- **배경**(사용자 요청 2026-07-07~08): 통계관리 하위 12화면(도서별판매 Sobo61/거래처판매
+  Sobo62/도서별년말집계 Sobo67_yearbook + stats 8종 + 년/월 허브)의 검색이 계정 코드
+  기반으로 바르게 동작하지 않았고, 검색창에 룩업·정렬·컬럼설정 등 공통 요소가 전무했다.
+- **계정코드(=로그인 hcode) 정책 (사용자 확정)**: "입력창이 존재하면 다른 계정 정보 접근이
+  가능해져 문제" — **계정코드 입력창은 admin(수퍼) 전용으로만 노출**하고, 일반 계정은
+  로그인 계정 코드가 **기본 검색 조건**으로 자동 적용된다(프론트 hcode 미전송 → 서버
+  `enforce_hcode_isolation` 이 JWT 코드 주입, 타 코드 403 기존 유지). 프론트 판정은
+  `user.role === "admin"`. 동일 정책을 재고관리·재고원장 화면(재고현황/도서수불장/통합
+  도서수불장/도서별수불원장)의 거래처/지사 입력에도 소급 적용.
+- **검색 시맨틱 교정 (S1_Ssub 축 정본: Hcode=계정(출판사, G7_Ggeo.Gcode 동일 키) /
+  Gcode=거래처(G1_Ggeo) / Bcode=도서(G4_Book))**:
+  - 거래처판매(Sobo62): `gcodeFrom/To` 가 "도서코드" 로 오표기 — 실제 바인딩은 거래처코드
+    범위. 라벨·룩업(거래처)·그리드 컬럼(hcode=계정코드/gcode=거래처코드/gname=거래처명/
+    gjqut=증정수) 교정.
+  - 거래처별 판매 분석·거래처통계: "코드" 컬럼이 `hcode`(계정, 격리 계정에선 상수) 표시
+    → `gcode`(거래처) 로 교정.
+  - **출판사통계(Sobo43) 근본 수정**: 기존 구현은 get_book_sales 행에 없는 `pcode` 를 읽어
+    전량 "미분류" 1행으로 붕괴 — 출판사 축은 `S1_Ssub.Hcode` GROUP 이 정본. 신규
+    `reports_service.get_publisher_sales_summary`(SQL-INQ-7 의 Hcode GROUP 트리비얼 변형,
+    stats_service "신규 SQL 0건" 가드 준수 위해 reports 층에 배치) + `_fetch_publisher_names`
+    (G7_Ggeo) 재사용. metadata.publisher_source="s1_ssub_hcode".
+- **조회 대상별 룩업**: 계정코드(admin)=거래처/출판사 룩업, 거래처코드 범위=customer 룩업
+  (`applyCustomerToGcode`), 도서코드 범위=book 룩업 — `MasterLookupField` 자동완성+Enter
+  확정+검색 팝업. 공용 `StatsFilterBar` 에 `showGcodeRange`/`showBcodeRange` 신설.
+- **필터·정렬 확장 (DEC-082 패턴)**: customer-sales/year-end-book/sales-period/
+  customer-analysis/book-turnover/publisher 에 `sortBy/sortDir`(화이트리스트, 전체 정렬 후
+  페이징) + customer-analysis `gcodeFrom/To`, sales-period·book-turnover `bcodeFrom/To` 신설.
+  customer-sales/year-end-book 에 `BOOK_SALES_MAX` 상한+`truncated` 부여. 분기/반기 손익은
+  정렬 미지원(월 시계열 고정).
+- **공통 그리드**: 12화면 전부(허브 제외 11) DataGrid + useGridPrefs + GridColumnSettings +
+  useListSession — stats 8화면의 DEC-055 위반 해소(전체 위반 15→7, 잔여는 transactions 계열).
+- **회귀**: `test_stats_reports_sort_params.py` 11건(정렬/필터 전달/주입/상한) +
+  `test_stats_optional_paging.py` 출판사 축 테스트 재작성(구 버그 고정 테스트 폐기) +
+  기존 인접 스위트 170건 PASS, tsc/eslint/next build PASS. hcode strict 감사 exit 0.
+- **잔여 이슈(후속)**: (a) 기간별 매출의 구간별 get_book_sales 반복 호출(일 단위 1년 ≈ 365회)
+  성능 — SQL 레벨 버킷 집계로 개선 여지. (b) 도서 회전율의 기반 조회 상한(2000행) — 대형
+  카탈로그에서 절단. (c) `/stats/publisher` 권한 키가 `admin.stats.customer` 재사용.
+- **결정자**: 메인개발자 + 사용자 (2026-07-08 — 계정코드 입력창 금지·기본 조건화 지시)
+- **참조**: DEC-082(공통 그리드·정렬 아키텍처), DEC-033 (f), DEC-055, hcode_isolation.py
+
+### DEC-084: 통계·원장 "완료 거래 미조회" 사고 — 도서구분(Ocode) 스코프 기본값 교정
+
+- **증상**(사용자 보고 2026-07-08): 출고관리·입고관리에는 완료 거래가 대량인데 통계관리
+  화면들은 거의 0건. (원장·재고 화면도 동일 계열 영향.)
+- **근본 원인 — Ocode 값 불일치**: 운영 4서버(remote_138/153/154/155)는 전부
+  `chul_09_db`(창고 계열)이고, 이 계열의 출고·입고·거래명세서 라인은
+  ``Ocode='A'``(레거시 일부 입고는 ``''``/NULL) 로 기록된다
+  (`_default_outbound_ocode`/`_inbound_ocode`/`sales_statement_ocode_sql` — 같은 원인의
+  입고 LIST 0건 회귀를 2026-06-21 에 이미 해결한 전례). 그런데 통계·원장 조회는
+  ``Ocode LIKE '%B%'``(scope 기본 'B') / 하드코딩 ``Ocode='B'``(거래처판매) 로
+  필터링해 'A' 행을 전부 제외했다.
+- **레거시 정본 확인**(WeLove_FTP Subu61/62/67 cp949 원문 대조):
+  - Subu61(도서별판매)/Subu67(년말집계) 기본값 = Panel102 '도 서 명' → ``Ocode LIKE '%%'``
+    (**전체**). 'A'/'B' 는 본사도서/창고도서 명시 선택 시에만.
+  - **Subu62(거래처판매)는 Ocode 필터 자체가 없음** (Scode='X' + Hcode 만).
+  - 즉 포팅 시 'B' 하드 기본은 레거시에 없던 축소 — 회귀였다.
+- **수정**:
+  - `get_book_sales`/`get_publisher_sales_summary`/`get_inventory_ledger`/
+    customer ledger(단일·통합): **scope 미지정/ALL = Ocode 절 제거(전체, ''/NULL 포함)**,
+    'A'/'B' 명시 시에만 LIKE. 라우터 기본 Query("B")→Query(None).
+  - `get_customer_sales`: 하드코딩 ``Ocode='B'`` 제거 (Subu62 원본 동등 — Scode 로만 스코프).
+  - `get_year_end_book_aggregate`: 기본 전체 + ``IFNULL(s.Ocode,'') LIKE`` NULL 안전화
+    (Sg_Csum pass 도 동일). 프론트 년말집계 bookMode 초기값 'B'→'ALL'.
+  - stats 위임 경로(`_sum_book_sales_outbound`/도서회전율/출판사통계) scope='B'→None.
+  - 거래처원장/통합 원장 프론트 범위 select 초기값 '창고도서(B)'→'전체(ALL)'.
+- **부수 발견·수정 — 통합 거래처원장 파라미터 순서 버그**: ocode 파라미터를 마지막에
+  append 해 위치 바인딩이 ``Ocode LIKE <hcode>`` / ``Hcode = '%B%'`` 로 어긋나 있었음
+  (격리 계정 통합원장 상시 0건). 절 순서(Gdate,Gdate,Bdate,Ocode,Hcode)에 맞게 재배치.
+- **잔여 이슈(후속)**: (a) `returns_service` 가 반품 라인을 ``Ocode='B'`` 리터럴로 쓰고
+  같은 값으로 읽음 — chul_09 에서 레거시('A') 반품 행이 반품 화면에 안 보일 가능성,
+  쓰기 경로 포함이라 별도 검증 후 서버 가변화 필요. (b) `verification_service`(출고검증)
+  의 ``Ocode='B'`` 하드코딩 + S1_Chek 키 — 동일 계열, 검증 키에 얽혀 있어 별도 이관.
+  (c) `transactions_service` S1_Memo 헤더 INSERT 의 Ocode 'B' 리터럴 — 명세서 라인('A')과
+  불일치 가능성 점검. (d) Subu61 원본의 ``(Scode='Y' AND Pubun<>'이동') OR X OR Z`` 상시
+  절은 미이식 — 분기 로직상 이동 행이 계상되지 않아 실효 차이 없다고 판단, 관찰 대상.
+- **회귀**: `test/test_dec084_ocode_scope.py` 9건(기본=절 제거/명시 LIKE/Subu62 무필터/
+  파라미터 순서/위임 scope=None) + 인접 스위트 179건 PASS, tsc/eslint/next build PASS,
+  hcode strict 감사 exit 0. 라이브 검증은 배포 후 통계 화면 실측 권장.
+- **결정자**: 메인개발자 (레거시 원문 대조 — Subu61 L297-323, Subu62 L285-325, Subu20 L561)
+- **참조**: DEC-083(통계 정비), DEC-033 (f), 입고 LIST 0건 회귀(2026-06-21,
+  inbound_service._inbound_ocode), h2_gbun_adapt.sales_statement_ocode_sql
+
 ---
-*최종 업데이트: 2026-07-06 — DEC-081 신규 (출고접수 목록 Yesno='2'=완료 항상표시, HAVING 취소
+*최종 업데이트: 2026-07-08 — DEC-084 신규 (통계·원장 완료 거래 미조회 사고 — Ocode 스코프
+기본 전체화 + Subu62 무필터 복원 + 통합원장 파라미터 순서 버그 수정). 직전: DEC-083.*
+*직전: 2026-07-08 — DEC-083 신규 (통계관리 12화면 전면 정비 — 계정코드 기본 검색
+조건 정책 + 거래처/도서/출판사 검색 시맨틱 교정 + 출판사통계 Hcode 축 수정). 직전: DEC-082.*
+*직전: 2026-07-07 — DEC-082 신규 (재고관리·재고원장 7화면 공통 그리드 정비 — 서버
+정렬 축/비축 아키텍처 + 룩업 + BLS_BOOK_SALES_MAX 상한). 직전: DEC-081.*
+*직전: 2026-07-06 — DEC-081 신규 (출고접수 목록 Yesno='2'=완료 항상표시, HAVING 취소
 제외 제거). 직전: DEC-080.*
 *직전: 2026-07-06 — DEC-080 신규 (거래명세표 대량 소실 사고 — binlog 복원 90라인 +
 전표 키 스코프 fail-closed 강제 + Render 재배포 필요). 직전: DEC-079.*
