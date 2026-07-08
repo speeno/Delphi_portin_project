@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-07T16:25:39.022171+00:00",
+  "generated_at": "2026-07-08T14:27:35.819908+00:00",
   "summary": {
-    "files_scanned": 90,
-    "sql_literals": 423,
+    "files_scanned": 91,
+    "sql_literals": 439,
     "critical": 0,
     "warn": 0,
-    "info": 208,
+    "info": 219,
     "skipped_noqa": 40,
     "multi_tenant_tables_seen": [
       "G4_Book",
@@ -246,6 +246,90 @@
       "severity": "info",
       "reason": "missing_hcode_filter_on_multi_tenant_select",
       "sql_excerpt": "SELECT Scode, Gubun, Pubun,        COALESCE(SUM(Gsqut),0) AS Gsqut, COALESCE(SUM(Gssum),0) AS Gssum FROM S1_Ssub WHERE",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/ebook_sales_service.py",
+      "function": "list_rows",
+      "lineno": 150,
+      "tables": [
+        "Web_Ebook_Sales"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Ym, Channel, Team, Qty, Amt FROM Web_Ebook_Sales WHERE <<dyn>> ORDER BY Ym DESC, Channel, Team LIMIT %s OFFSET %s",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/ebook_sales_service.py",
+      "function": "list_rows",
+      "lineno": 157,
+      "tables": [
+        "Web_Ebook_Sales"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(*) AS cnt FROM Web_Ebook_Sales WHERE <<dyn>>",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/ebook_sales_service.py",
+      "function": "list_rows",
+      "lineno": 162,
+      "tables": [
+        "Web_Ebook_Sales"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT IFNULL(SUM(Qty),0) AS q, IFNULL(SUM(Amt),0) AS a FROM Web_Ebook_Sales WHERE <<dyn>>",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/ebook_sales_service.py",
+      "function": "list_rows",
+      "lineno": 167,
+      "tables": [
+        "Web_Ebook_Sales"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT DISTINCT Channel FROM Web_Ebook_Sales WHERE Hcode = %s",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/ebook_sales_service.py",
+      "function": "upsert_row",
+      "lineno": 217,
+      "tables": [
+        "Web_Ebook_Sales"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "DELETE FROM Web_Ebook_Sales WHERE Hcode=%s AND Ym=%s AND Channel=%s AND Team=%s",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/ebook_sales_service.py",
+      "function": "delete_row",
+      "lineno": 242,
+      "tables": [
+        "Web_Ebook_Sales"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "DELETE FROM Web_Ebook_Sales WHERE Hcode=%s AND Ym=%s AND Channel=%s AND Team=%s",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/ebook_sales_service.py",
+      "function": "fetch_all_rows",
+      "lineno": 349,
+      "tables": [
+        "Web_Ebook_Sales"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Ym, Channel, Team, Qty, Amt FROM Web_Ebook_Sales WHERE Hcode = %s ORDER BY Ym, Channel, Team LIMIT %s OFFSET %s",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
@@ -2040,19 +2124,19 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_book_sales",
-      "lineno": 285,
+      "lineno": 294,
       "tables": [
         "Sg_Csum"
       ],
       "severity": "info",
       "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT Gcode, COALESCE(SUM(Gbsum),0) AS Gbsum FROM Sg_Csum WHERE <<dyn>> GROUP BY Gcode",
+      "sql_excerpt": "SELECT Gcode, MAX(Gdate) AS Gdate, COALESCE(SUM(Gbsum),0) AS Gbsum FROM Sg_Csum WHERE <<dyn>> GROUP BY Gcode",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_year_end_book_aggregate",
-      "lineno": 808,
+      "lineno": 829,
       "tables": [
         "Sg_Csum"
       ],
@@ -2064,7 +2148,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 171,
+      "lineno": 175,
       "tables": [
         "G4_Book"
       ],
@@ -2076,25 +2160,13 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 188,
+      "lineno": 192,
       "tables": [
         "Sg_Csum"
       ],
       "severity": "info",
       "reason": "unknown_tables_only",
       "sql_excerpt": "UPDATE Sg_Csum SET Gsqut=Gsqut+%s WHERE Gdate=%s AND Hcode=%s AND Bcode=%s",
-      "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
-      "function": "<module>",
-      "lineno": 191,
-      "tables": [
-        "Sg_Csum"
-      ],
-      "severity": "info",
-      "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT Gdate, Hcode, Bcode, Gsqut FROM Sg_Csum WHERE Gdate=%s AND Hcode=%s AND Bcode=%s LIMIT 1",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
@@ -2106,19 +2178,19 @@
       ],
       "severity": "info",
       "reason": "unknown_tables_only",
-      "sql_excerpt": "INSERT INTO Sg_Csum (Gdate, Hcode, Bcode, Gsqut) VALUES (%s, %s, %s, %s)",
+      "sql_excerpt": "SELECT Gdate, Hcode, Bcode, Gsqut FROM Sg_Csum WHERE Gdate=%s AND Hcode=%s AND Bcode=%s LIMIT 1",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 212,
+      "lineno": 199,
       "tables": [
-        "Sv_Ghng"
+        "Sg_Csum"
       ],
       "severity": "info",
       "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT MAX(Gdate) AS max_gdate FROM Sv_Ghng WHERE Hcode=%s AND Bcode=%s",
+      "sql_excerpt": "INSERT INTO Sg_Csum (Gdate, Hcode, Bcode, Gsqut) VALUES (%s, %s, %s, %s)",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
@@ -2130,13 +2202,25 @@
       ],
       "severity": "info",
       "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT MAX(Gdate) AS max_gdate FROM Sv_Ghng WHERE Hcode=%s AND Bcode=%s",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 220,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
       "sql_excerpt": "INSERT INTO Sv_Ghng (Gdate, Hcode, Bcode, Gbsum, Gbigo) VALUES (%s, %s, %s, %s, %s)",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 219,
+      "lineno": 223,
       "tables": [
         "Sv_Ghng"
       ],
@@ -2148,7 +2232,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 222,
+      "lineno": 226,
       "tables": [
         "Sg_Csum"
       ],
@@ -2160,7 +2244,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 225,
+      "lineno": 229,
       "tables": [
         "Sg_Csum"
       ],
@@ -2172,7 +2256,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "_txn",
-      "lineno": 774,
+      "lineno": 799,
       "tables": [
         "Sv_Ghng"
       ],
@@ -2184,7 +2268,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "process_change",
-      "lineno": 815,
+      "lineno": 840,
       "tables": [
         "Sv_Ghng"
       ],
@@ -2196,7 +2280,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "audit_returns_query",
-      "lineno": 1811,
+      "lineno": 1845,
       "tables": [
         "audit_returns"
       ],
@@ -2208,13 +2292,25 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "audit_returns_query",
-      "lineno": 1824,
+      "lineno": 1858,
       "tables": [
         "audit_returns"
       ],
       "severity": "info",
       "reason": "unknown_tables_only",
       "sql_excerpt": "SELECT COUNT(*) AS total FROM audit_returns WHERE <<dyn>>",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "<module>",
+      "lineno": 2053,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "info",
+      "reason": "missing_hcode_filter_on_multi_tenant_select",
+      "sql_excerpt": "SELECT COUNT(*) AS total FROM S1_Ssub WHERE Gdate >= %s AND Gdate <= %s AND Gubun='반품' AND Scode='X'   {hcode_filter}{bcode_filter}",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
@@ -2329,7 +2425,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
       "function": "<module>",
-      "lineno": 101,
+      "lineno": 129,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2341,7 +2437,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
       "function": "<module>",
-      "lineno": 136,
+      "lineno": 164,
       "tables": [
         "Sv_Ghng",
         "Reason"
@@ -2354,7 +2450,19 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
       "function": "<module>",
-      "lineno": 708,
+      "lineno": 212,
+      "tables": [
+        "R3_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT <<dyn>> AS Gdm, IFNULL(Sum(Gssum),0) AS Amt   FROM R3_Ssub  WHERE <<dyn>> BETWEEN %s AND %s    AND (%s = '' OR Hcode = %s)  GROUP BY <<dyn>>",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_service.py",
+      "function": "<module>",
+      "lineno": 848,
       "tables": [
         "R3_Ssub"
       ],
@@ -2364,9 +2472,33 @@
       "recommended_action": "mark_noqa_with_reason"
     },
     {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/shipping_ledger_service.py",
+      "function": "list_shipping_ledger",
+      "lineno": 148,
+      "tables": [
+        "T1_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(*) AS cnt FROM T1_Ssub t",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/shipping_ledger_service.py",
+      "function": "list_shipping_status",
+      "lineno": 222,
+      "tables": [
+        "T1_Ssub"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT COUNT(DISTINCT t.Hcode) AS cnt FROM T1_Ssub t",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/tax_invoice_service.py",
       "function": "<module>",
-      "lineno": 157,
+      "lineno": 149,
       "tables": [
         "G7_Ggeo"
       ],

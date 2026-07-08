@@ -571,6 +571,78 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "settlement.period",
+            "path": (
+                f"/api/v1/settlement/billing/period?serverId={sid}"
+                f"&monthFrom={month}&monthTo={month}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        # ─── DEC-091 — 정산 엑셀 export 전면화 (통계 DEC-089 미러). 200 = OpenAPI 등록.
+        {
+            "group": "settlement.billing_export",
+            "path": (
+                f"/api/v1/settlement/billing/export.xlsx?serverId={sid}"
+                f"&monthFrom={month}&monthTo={month}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "settlement.period_export",
+            "path": (
+                f"/api/v1/settlement/billing/period/export.xlsx?serverId={sid}"
+                f"&monthFrom={month}&monthTo={month}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "settlement.cash_export",
+            "path": (
+                f"/api/v1/settlement/cash/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "settlement.cash_status_export",
+            "path": (
+                f"/api/v1/settlement/cash-status/export.xlsx?serverId={sid}"
+                f"&variant=hcode&month={month}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "settlement.outstanding_export",
+            "path": (
+                f"/api/v1/settlement/outstanding/export.xlsx?serverId={sid}"
+                f"&monthFrom={month}&monthTo={month}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "settlement.tax_invoice_export",
+            "path": (
+                f"/api/v1/settlement/tax-invoice/export.xlsx?serverId={sid}&gdate={month}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "settlement.shipping_ledger_export",
+            "path": (
+                f"/api/v1/settlement/shipping-ledger/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "settlement.shipping_status_export",
+            "path": (
+                f"/api/v1/settlement/shipping-status/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
+        {
             "group": "settlement.audit_settlement",
             "path": (
                 f"/api/v1/audit/settlement?serverId={sid}&limit=1&offset=0"
@@ -771,6 +843,63 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200, 422},
         },
         {
+            # DEC-089 — 통계 전 화면 엑셀 export.
+            "group": "stats.customer_analysis_export",
+            "path": (
+                f"/api/v1/stats/customer-analysis/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "stats.book_turnover_export",
+            "path": (
+                f"/api/v1/stats/book-turnover/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "stats.publisher_export",
+            "path": (
+                f"/api/v1/stats/publisher/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "stats.quarterly_summary_export",
+            "path": (
+                f"/api/v1/stats/quarterly-summary/export.xlsx?serverId={sid}"
+                f"&year=2026&quarter=1&quarters=2"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "reports.book_sales_export",
+            "path": (
+                f"/api/v1/reports/book-sales/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "reports.customer_sales_export",
+            "path": (
+                f"/api/v1/reports/customer-sales/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "reports.year_end_book_export",
+            "path": (
+                f"/api/v1/reports/year-end-book/export.xlsx?serverId={sid}"
+                f"&dateFrom=2026-01&dateTo=2026-06"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
             "group": "stats.customer_analysis",
             "path": (
                 f"/api/v1/stats/customer-analysis?serverId={sid}"
@@ -794,6 +923,22 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200, 422},
         },
+        # ─── DEC-092 — 전자책 판매분석 (Web_Ebook_Sales 사이드 테이블) ───
+        {
+            "group": "stats.ebook_sales",
+            "path": (
+                f"/api/v1/stats/ebook-sales?serverId={sid}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "stats.ebook_sales_export",
+            "path": (
+                f"/api/v1/stats/ebook-sales/export.xlsx?serverId={sid}"
+                f"&monthFrom=1&monthTo=3"
+            ),
+            "ok_status": {200},
+        },
         {
             "group": "stats.publisher",
             "path": (
@@ -807,6 +952,47 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "path": (
                 f"/api/v1/returns/period-report?serverId={sid}"
                 f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        # ─── DEC-093 — 반품관리 정비 (inventory 후보 목록 + export 4종) ───
+        {
+            "group": "returns.inventory_candidates",
+            "path": (
+                f"/api/v1/returns/inventory-candidates?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "returns.export",
+            "path": (
+                f"/api/v1/returns/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "returns.ledger_export",
+            "path": (
+                f"/api/v1/returns/ledger/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "returns.period_report_export",
+            "path": (
+                f"/api/v1/returns/period-report/export.xlsx?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "returns.daily_export",
+            "path": (
+                f"/api/v1/returns/reports/daily/export.xlsx?serverId={sid}"
+                f"&date_from={df}&date_to={dt}"
             ),
             "ok_status": {200},
         },

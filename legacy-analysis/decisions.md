@@ -1557,8 +1557,257 @@
 - **결정자**: 메인개발자 + 사용자 (2026-07-08)
 - **참조**: DEC-085(월키 정본), DEC-086(기간 통계), settlement_service.list_period_summary
 
+### DEC-089: 분기손익 0원 2차 원인(Yesno) + 통계 차트 보강 + 엑셀 export 전면화
+
+- **분기손익 모두 0원 — 2차 원인**(사용자 보고 2026-07-08, DEC-085 월키 수정 후에도
+  지속): 레거시 Subu47 L282 원문 WHERE 는 ``Gdate 범위 [+Hcode]`` 뿐인데, 웹 포팅이
+  임의로 추가한 ``COALESCE(Yesno,'0') <> '2'`` 가 실데이터(마감 상태 값)를 전부 제외.
+  DEC-081 (Yesno '2'=완료) 과 동일 계열 — **레거시에 없는 Yesno 제외 금지**.
+  `_SQL_PERIOD_SUMMARY`(+COUNT) 에서 Yesno 절 제거, 회귀 가드에 "Yesno 미포함" 강제.
+- **차트 전수 점검**: 기간별 매입·매출 라인차트에 매입 시리즈 2종(점선, chart-3/4
+  토큰) 추가(`StatsLineChart` buyQut/buySum 옵션 — 하위 호환). 분기 월별 차트/그리드의
+  ``ymonth`` 키 참조는 DEC-088 에서 ``gdate`` 로 교정 완료. 거래처별/회전율/출판사
+  막대차트 매핑은 실키 대조 결과 정상.
+- **엑셀 export 전면화**: 통계관리 전 화면(11 — 허브 제외) 「엑셀 저장」.
+  신규 라우트 7종(도서별판매/거래처별판매/년말집계/거래처별분석/도서회전율/출판사/
+  분기손익 — 분기는 시트1 분기비교+시트2 월별 2시트, `build_multi_sheet_workbook`
+  신설) + 기존 기간별 1종. 전 행 수집은 `collect_all_rows`(has_more 루프,
+  EXPORT_MAX_ROWS 상한 + X-Export-Truncated 헤더), 컬럼은 화면 그리드 1:1,
+  조회와 동일 필터·정렬 부착(DEC-068 정책). 각 라우트 GET 가드는 조회와 동일
+  (admin.stats.* / enforce_hcode_isolation). probe 매트릭스 7건 등록.
+  월별통계/거래처통계/도서통계는 각각 기간별(monthly)/거래처별분석/도서별판매
+  export 를 재사용.
+- **회귀**: export 라우트 8종 OpenAPI 가드 + Yesno 미포함 가드 + 기존 스위트 106건
+  PASS, tsc/eslint/next build PASS.
+- **결정자**: 메인개발자 + 사용자 (2026-07-08 — 분기 0원·차트·엑셀 전면화 지시)
+- **참조**: DEC-081(Yesno 교훈), DEC-085(월키), DEC-086(기간별 엑셀 선례),
+  masters_excel(collect_all_rows/build_list_workbook)
+
+### DEC-090: 분기손익 0원 3차 원인 — T2 정산 도메인의 hcode 주입 부적합
+
+- **증상**(사용자 보고 2026-07-08): DEC-085(월키)·DEC-089(Yesno) 수정 후에도 모두 0원.
+- **근본 원인 — 도메인별 Hcode 의미 차이**: ``T2_Ssub.Hcode`` 는 **정산 대상
+  출판사 코드**(= G7_Ggeo.Gcode — cash-status JOIN·Subu45 거래처별 정산 행 구조)로,
+  S1 계열(Hcode=계정)과 다르다. 그런데 분기손익/청구금액(년월) 라우터가 S1 용
+  ``enforce_hcode_isolation`` 으로 **물류/총판 운영 계정의 로그인 코드를 강제 주입**
+  → 운영 코드는 T2 행에 존재하지 않아 항상 0. 레거시 Subu47 의 Hcode(Edit107)는
+  **선택 필터, 기본 = 전체 합산**.
+- **수정**: `hcode_isolation.resolve_publisher_row_scope(request_hcode, ctx)` 신설 —
+  격리 계정(T2_PUB / T3+chul_09)은 본인 출판사 코드 강제(요청값 무시), 물류/총판
+  (T1·T2_DIST)·슈퍼는 요청 필터 그대로(미지정=전체). `resolve_g7_ggeo_list_scope`
+  (Seak80/ACC-DATA-03 G7 정본) 재사용. 적용: stats 분기손익 GET/export +
+  settlement 청구금액(년월) 라우트. 감사 도구 `_ALLOWED_HELPERS` 에 등록.
+- **잔여(후속)**: settlement 의 다른 T2/T5 라우트(cash-status·billing·마감 등)도
+  동일 주입을 쓰므로 운영 계정에서 같은 증상 가능성 — 화면별 검증 후 일괄 전환 대상.
+  배포 후에도 0 이면 다음 진단 순서: ① 해당 계정 account_type(T3+chul_09 로 분류되면
+  격리 강제 — 광역 재분류 필요) ② T2_Ssub 에 실데이터 존재 여부(정산 모듈 미사용 계정).
+- **회귀**: `test_dec085_t2_month_key.py::PublisherRowScopeTests` 3건(운영=전체/선택
+  필터 통과/출판사 강제) + 정산·통계 스위트 83건 PASS, 라우터 hcode 감사 critical 0.
+- **결정자**: 메인개발자 (레거시 Subu47/45 + Seak80 G7 스코프 정본 대조)
+- **참조**: DEC-085/089(선행 2개 원인), resolve_g7_ggeo_list_scope, ACC-DATA-03
+
+### DEC-091: 정산관리 9화면 전면 정비 — 도메인 데이터복구(월키·Yesno·출판사스코프) + 공통그리드 + 발송비(T1_Ssub) 이식
+
+- **배경**(사용자 요청 2026-07-08): DEC-090 §잔여(후속) 이 예고한 대로, 정산관리 하위
+  9화면(청구서관리/청구금액년월/입금내역/입금현황/미수현황/입금전표/세금계산서/발송비내역/
+  발송비현황)에 통계·재고 사이클(DEC-082/083/089)의 "이전 최적화·개선 방식"을 그대로 적용.
+- **레거시 정본 대조**(WeLove_FTP/도서유통-New Subu41/42/42_1/43/44/45/47/49 cp949 원문):
+  모든 정산 `*_Ssub` 테이블에서 **`Hcode`=출판사(=G7_Ggeo.Gcode)**, `Gcode`=거래처.
+  Ocode/Scode/Gubun 리터럴은 청구 집계의 S1_Ssub 원천 읽기에만 있고 요약 테이블(T1/T2/T5)엔
+  없음. `D_Select`/`S_Where1` 은 빈 값(Base01.pas). **Yesno 필터는 정산 조회 어디에도 없음**.
+- **데이터 복구 3종 (조회 0건/오격리 근본 원인)**:
+  1. **월키 정규화(DEC-085 확대)**: 레거시 T2_Ssub.Gdate 는 점 표기 월('2026.07'). 조회
+     SQL 이 `Gdate=%s`/`BETWEEN`/`LEFT(Gdate,6)` 로 6자리('202607')와 직접 비교해 점 표기
+     행이 전량 탈락하던 잠복 버그를 `settlement_service._t2_month_key()`
+     (`LEFT(REPLACE(REPLACE(REPLACE(TRIM(Gdate),'-',''),'.',''),'/',''),6)`)로 통일 —
+     목록/상세/라인/라인수/입금현황(T2 4종)/미수 청구측/세금계산서 목록·카운트·인쇄.
+     **쓰기 키(_SQL_CHECK_YESNO/confirm/cancel/upsert/recalc/chek3·sdate UPDATE)는 원시
+     'YYYYMM' 유지** — 웹이 만든 헤더만 정확 겨냥, 레거시 행 오매칭 방지(DEC-085 주의 준수).
+  2. **Yesno 제외 제거(DEC-089/081 계열)**: 입금현황(T2·T5 양측)·미수(T2·T5)·세금계산서
+     조회의 웹 임의 추가 `COALESCE(Yesno,'0')<>'2'` 제거(레거시 무 Yesno). 청구서/입금
+     목록의 `includeCancelled` 토글(DEC-012 소프트취소, UI escape-hatch)은 유지.
+  3. **출판사 행 스코프(DEC-090 확대)**: billing/cash/cash-status/outstanding/tax-invoice
+     목록·export 라우터를 `enforce_hcode_isolation`(S1용 로그인코드 강제주입) →
+     `resolve_publisher_row_scope`(격리 계정만 본인 출판사 강제, 물류/총판·슈퍼는 선택
+     필터·기본 전체)로 전환. 상세/인쇄의 `enforce_hcode_identity`(식별자 tamper 가드)는 유지.
+- **발송비 실 이식(Subu43/44 → T1_Ssub)**: W2 scaffold(빈 목록)였던 발송비내역/현황을
+  레거시 T1_Ssub(Gdate 전체일자/Hcode 출판사/Gcode·Gname 거래처/Name1·2/Gssum) 실 쿼리로
+  구현. `shipping_ledger_service` — SHOW COLUMNS 캐시 어댑터(t5_ssub_adapt 패턴, 미보유
+  테넌트는 빈 목록+scaffold 격하로 500 방지), 일자키 정규화, 출판사 스코프, 거래처 선택,
+  정렬 화이트리스트, 페이지네이션. 현황은 출판사(Hcode)별 합계. 모델 필드 보강(gcode/gname/
+  line_count/totals/truncated). form-registry phase2/STUB → **phase1**.
+- **공통 그리드(DEC-082/083 그대로)**: 9화면 `DataGrid`+`useGridPrefs`+`GridColumnSettings`+
+  `useListSession`, 계정코드(hcode) 입력창 **admin 전용**(일반 계정은 서버 스코프 강제),
+  검색 입력 `MasterLookupField`(출판사=publisher·거래처=customer 룩업). 정렬은 서버
+  (outstanding/shipping — sortBy/sortDir 화이트리스트) 또는 클라이언트(billing/cash/
+  cash-status/period/tax — 소량 결과셋, `useClientSort`, DEC-082 재고현황 선례). write 흐름
+  (등록/수정/취소/확정/발행/토글/인쇄/전표카드)·data-legacy-id 보존.
+- **엑셀 export 전면화(DEC-089 미러)**: 8개 목록에 `export.xlsx` 라우트 신설(조회와 동일
+  필터·정렬, `masters_excel.collect_all_rows`+`build_list_workbook` 재사용) + 프론트 「엑셀
+  저장」 버튼. `/billing/export.xlsx` 는 `/billing/{billing_key}` 보다 먼저 등록(path 충돌 회피).
+  probe 매트릭스 9건(period 목록 + 8 export) 등록.
+- **회귀**: `test_dec091_settlement_normalization.py` 9건(월키/Yesno/쓰기키 원시 유지/미수 SQL
+  캡처/정렬 주입 차단/라우터 스코프) + `test_shipping_ledger_scaffold.py` 6건 재작성(T1_Ssub
+  실쿼리+미보유 격하+정렬) + `test_settlement_tax_invoice_chek3_optional.py` 3건 DEC-091
+  반영 + 기존 정산 스위트(phase1/optional/dec085/dec086) 무회귀 → 정산 인접 82+건 PASS.
+  라우터 hcode 감사 critical 0, ruff/py_compile OK.
+- **잔여 이슈(후속)**: (a) 청구서/입금 목록의 `includeCancelled` 기본 숨김 — 운영 T2 Yesno
+  의미가 '취소'가 아닐 경우 기본 숨김이 실데이터를 가릴 소지(별도 실측 후 기본값 재검토).
+  (b) 정산 마감 UPDATE/DELETE·recalc S1_Ssub 읽기의 월키는 미정규화(쓰기 키 안전 — 별도
+  검증 후 일괄 월키화 대상, DEC-085 잔여와 동일). (c) 발송비현황의 Scode 차원 집계는 출판사
+  합계로 단순화(레거시 Subu44 (Hcode,Scode) GROUP 대비 축소 — 필요 시 후속 확장).
+- **결정자**: 메인개발자 + 사용자 (2026-07-08 — 정산관리 하위 화면 정상화 지시)
+- **참조**: DEC-082/083(공통그리드·계정코드 정책), DEC-084(Ocode 스코프 계열),
+  DEC-085(월키), DEC-089(Yesno·엑셀 전면화), DEC-090(출판사 스코프 헬퍼),
+  Subu41/42/43/44/45/47/49(레거시 정본), masters_excel, t5_ssub_adapt
+
+#### DEC-091 보강 (같은 날 사용자 후속 2건)
+
+- **도서별년말집계(Sobo67) 월단위 0건**: 레거시 Subu67 Button201Click 은 `T00` 플래그로
+  **T00=1=전체 도서 월별 집계**(단일 도서 필터 없음)와 **T00=0=단일 도서 드릴다운**
+  (`Bcode=St3`) 두 모드를 갖는데, 포팅이 드릴다운만 구현하고 **부모 미지정 월 조회를
+  `1=0`으로 하드 차단**해 "월" 토글이 항상 0건이었다. `get_year_end_book_aggregate`
+  Pass1/2 의 `1=0` 제거 → 월+부모미지정 = 전체 도서 월별(Bcode 범위 존중), 드릴다운은
+  행 클릭 유지. 프론트 "월" 라디오가 `parentBcode` 를 비우도록 수정. `test_year_end_book`
+  22 PASS.
+- **분기/반기 손익(STAT-4) 값 미조회 — T2_Ssub 미집계 근본원인**(사용자 지적):
+  `get_quarterly_summary → list_period_summary → T2_Ssub`(사전 집계 테이블)만 읽는데,
+  T2 는 청구서 집계/재집계(recalc_billing)로만 채워지는 on-demand 테이블이라 **주기적
+  사전계산(크론·범위 recalc)이 없음** → 운영자가 해당 분기를 집계 안 했으면 S1 실거래가
+  있어도 0건. 사용자 선택 = **A(온디맨드 폴백) + C(손익 정본)**, 크론(B)은 후속:
+  - **A**: `list_period_summary` 가 T2 0행이면 출고(S1_Ssub)−반품(R3_Ssub) 월별 실시간
+    파생(`_period_summary_from_source`, recalc 공식). **읽기 전용**, 응답 `source`
+    ('t2_ssub'|'s1_ssub_live'). 파생 SQL 은 **월키 정규화(DEC-085) + Yesno 무필터
+    (DEC-081 — S1 Yesno='2'=완료)** — recalc 의 두 함정 회피.
+  - **C**: 손익 정본화 — 기존 화면은 `gsumx-gsumy`(금액−**세액**)를 "청구−입금"으로 오표기
+    하고 실입금(T5)을 안 읽었다. `deposits_by_month`(T5_Ssub 월합, cash_status/outstanding
+    T5 패턴 재사용) 신설 → `get_quarterly_summary` 축을 **청구=T2 Sum28 / 입금=T5 /
+    잔액=손익=청구−입금** 으로 재매핑. 프론트에 `source='s1_ssub_live'` 시 "마감 전 추정치"
+    앰버 배지.
+  - 회귀: `test_dec091_quarterly_source_fallback.py` 4 + `test_dec085`(분기 비교 재작성) +
+    stats/settlement 인접 150 PASS, tsc 0, hcode 감사 critical 0.
+  - **500 핫픽스**: A/C 도입 직후 quarterly-summary 500(STAT_INTERNAL_ERROR) 보고 —
+    신규 원천 쿼리(S1/R3/T5)가 미존재 테이블·변형사 스키마에서 예외 → 500. `_period_
+    summary_from_source`/`deposits_by_month` 를 **fail-safe**(예외 시 빈/0 격하 + warning
+    로그, year-end-book Sg_Csum 패턴)로 강화. 500 → 200(값 없으면 0 표시, 로그로 원인 추적).
+  - **실시간 진행률 UX**(사용자 요청): 분기별 원격 조회가 느릴 수 있어 **원형 프로그래스**로
+    진행률(%) 표시. `get_quarterly_summary` 를 `_compute_quarter`/`_assemble_quarterly`
+    로 분해(단일 진실원). 1차 SSE 스트림은 **버퍼링/React 배치로 0%에 고착** 보고(빠른/
+    빈 데이터에서 이벤트가 한 청크로 도착) → **클라이언트 분기별 팬아웃**으로 전환:
+    화면이 각 분기를 `quarterly-summary?quarters=1` 개별 요청으로 순차 호출하며 매 왕복마다
+    `CircularProgress`(SVG, 토큰만) 갱신 후 합산(백엔드 축과 동일). 왕복 지연이 단계별
+    진행을 보장(스트림/프록시 무관). SSE 라우트·제너레이터·구독 클라이언트는 제거.
+  - **차트 Y축 단위 축약**(사용자 요청): 큰 금액이 왼쪽 축에서 앞자리째 잘림 → 금액 축은
+    **천원(÷1000)** tick 포매터 + 축 라벨 "천원"(`StatsBarChart valueUnit`/`StatsLineChart
+    sumUnit="thousand"` — 분기손익·기간별 매출). 수량/혼합 축은 콤마+축 폭 확대(가독성).
+    툴팁은 항상 원 단위 정확값. 출판사통계는 출고수(수량)+금액 혼합축이라 천원 미적용(콤마만).
+  - **잔여(B, 후속)**: `POST /billing/recalc-range` + 크론 야간 재집계로 T2 영속화(조회 성능
+    + 청구/입금현황/미수 등 전체 T2 화면 일괄 정상화). 폴백(A)의 청구 공식이 recalc 와
+    동일하므로, B 도입 시 배지가 자동으로 't2_ssub'(확정)로 전환.
+
+### DEC-092: 전자책 판매분석 신규 화면 — 외부 채널 판매 요약 사이드 테이블 + 서식 2종 엑셀
+
+- **배경**(사용자 요청 2026-07-08): 교문사 「전자책 매출분석.xlsx」 서식을 저장할 수 있는
+  화면 요청 — 워크북 분석 결과 요약 서식 2종(① 연간: 연도 × 판매처[아카디피아/교보/
+  북이오/노팅/스콘] × [1팀|2팀|계|전년대비], 부수·금액 2블록 ② 동일 피벗의 월범위 연도
+  비교) + 채널별 원본 정산 시트(교보 47컬럼~스콘 55컬럼 이기종, 요약 수식은 대부분
+  0/#REF!). **기존 화면 없음 확인**(기존 전자책 코드는 G4_Book_Ebook 마스터 부가필드
+  DEC-068 뿐, 통계 화면은 전부 S1_Ssub 기반) → 통계 메뉴 하위 신규 화면.
+- **저장 모델**: 전자책 판매는 외부 채널 정산 파일 데이터라 레거시 DB 에 없음 →
+  ``Web_Ebook_Sales`` 사이드 테이블 신설(G4_Book_Ebook 패턴 1:1 — CREATE TABLE IF NOT
+  EXISTS + REPLACE INTO, mysql3-safe). PK (Hcode, Ym, Channel, Team) — **월 단위가 두
+  서식을 모두 파생 가능한 최소 granularity**. Hcode = 로그인 계정 스코프
+  (enforce_hcode_isolation — 계정 소유 데이터, S1 계열과 동일 주입이 올바름).
+- **입력 경로**: ① 화면 인라인 폼(년월/판매처/팀/부수/금액, 같은 키 덮어쓰기, 0/0=행
+  정리) ② 롱 포맷 입력 서식(년월|판매처|팀|부수|금액) 다운로드 + 업로드(동일 키 합산,
+  행 단위 부분 실패 허용 — masters import 컨벤션). 채널 원본 시트(교보/스콘 등) 직접
+  파싱은 이기종 5+ 서식이라 후속 분리(워크북 요약 수식이 깨져 있어 원본 파싱도 불가).
+- **출력**: ``GET /stats/ebook-sales/export.xlsx`` — 서식 2종 워크북(시트1 연간 1~12월,
+  시트2 M월~N월 연도비교). 피벗 재현: 채널 순서 = 원본 표기 우선
+  [아카디피아,교보,북이오,노팅,스콘]+신규 가나다(데이터 주도), 채널당 [1팀|2팀|계|
+  전년대비] 4컬럼 병합 헤더, 부수/금액 2블록, 연도 desc + 계 행 + 전체 계 열.
+  **전년대비 = 당년 계 − 전년 계**(원본 수식 확인 불가 — 차이값 채택, 전년 데이터
+  없으면 공란).
+- **적용**: backend ``ebook_sales_service.py`` + stats 라우터 6종(list/upsert/DELETE/
+  import.xlsx/template.xlsx/export.xlsx, admin.stats.sales 가드), frontend
+  ``/stats/ebook-sales``(DataGrid+useGridPrefs+GridColumnSettings+useListSession+클라
+  정렬 — DEC-082/083 공통그리드 준수, 계정코드 admin 전용), form-registry
+  ``Stats_ebook_sales``(folder ``_WebStats`` → 매트릭스 WEB_ONLY), probe 2건.
+- **회귀**: `test_dec092_ebook_sales.py` 11건(SQL 스코프/REPLACE·0/0 정리/검증/파서
+  합산·헤더·불량행/서식 2종 피벗 값·전년대비·연간 vs 월범위/라우트 등록) PASS,
+  form-registry 가드·stats 인접·list-state(신규 페이지 covered) 무회귀, tsc/eslint/
+  next build PASS. (legacy-coverage mismatch 20건·list-state 위반 7건은 기존 미커밋
+  transactions/production 계열 — 본 건 무접촉 확인.)
+- **잔여(후속)**: (a) 채널 원본 정산 파일(교보/아카디피아/북이오/스콘) 직접 업로드
+  파싱 — 채널별 어댑터로 월 요약 자동 산출. (b) 팀 구분이 1/2 고정 — 조직 개편 시
+  코드값 확장. (c) 전년대비 정의(차이 vs 증감률) 사용자 확인.
+- **결정자**: 메인개발자 + 사용자 (2026-07-08 — 서식 확인 후 신규 화면 지시)
+- **참조**: DEC-068(G4_Book_Ebook 사이드테이블·masters 엑셀 입출력 선례), DEC-082/083
+  (공통그리드·계정코드 정책), DEC-089(엑셀 export 전면화), masters_excel
+
+### DEC-093: 반품관리 전면 정비 — 데이터 정상화(Ocode/Yesno/날짜/스코프) + 공통그리드·키보드
+
+- **배경**(사용자 요청 2026-07-08): 반품관리 하위 화면들을 다른 메뉴(DEC-082/083/091)와
+  동일하게 정비 + 로그인 계정 데이터 기반 정상화 + 목록 표준 기능(정렬/컬럼이동/편집)·
+  검색어 입력·키보드 인터페이싱. 매핑 결과: 반품 전 화면 공통그리드 0/9,
+  **inventory(재생/해체/변경) 조회는 스텁(`setRows([])`)이라 3개 기능 도달 불가**,
+  reports 상세는 stale-closure(한 클릭 지연) 버그.
+- **레거시 정본 대조**(WeLove_FTP Subu23/24/25/51/55/58/34_4 + Base01 NewRecord,
+  도서유통-출판 빌드 교차): 반품 테이블은 전부 **S1_Ssub**(R3 없음, 변경만 Sg_Csum).
+  **운영 chul_09 계열 빌드에는 반품 폼이 없고** Subu21 거래명세서 경유 입력 —
+  Ocode 'A'/''/혼재, Yesno='O'(문자 O) 등. 레거시 반품 조회에 **Yesno 필터 전무**,
+  쓰기는 접수='1'/완료='2'(Base01 L7883~).
+- **데이터 정상화 4종**:
+  1. **Ocode**: 조회 3곳(`list_returns`/일별 마스터·상세)의 `='B'` 리터럴 제거(DEC-084
+     잔여 (a) 해소 — Gubun='반품'+Scode='X' 만으로 판별, ledger/period 무 Ocode 선례).
+     INSERT 는 `_default_outbound_ocode(server_id)` 서버 가변(chul_09='A' — 출고/입고
+     INSERT 동일 컨벤션, 양방향 불일치 차단).
+  2. **Yesno**: INSERT '0'→**'1'(레거시 접수)**. 읽기측 `s.Yesno='1'` 필터 9곳 전부
+     제거(웹 등록 반품이 원장/기간 화면에서 안 보이던 이중 버그 + 운영 혼재값 제외).
+     목록 기본 `HAVING MAX(Yesno)<>'2'` 제거(DEC-081 미러 — '2'=완료, 취소 아님) +
+     **3-state status**(pending/received/done, 구 active/cancelled 하위호환 Literal).
+     처리 경로(부분 재생/해체 FOR UPDATE 가드)의 Yesno='1' 은 유지(쓰기 가드).
+  3. **날짜 정규화**: ledger/period 가 대시(`YYYY-MM-DD`) 입력을 무정규화로 점 표기
+     Gdate 와 BETWEEN 비교하던 0건 갭 → `_normalize_gdate` 적용.
+  4. **스코프(크로스테넌트 차단)**: 일별 상세 무필터 → 로그인 스코프 폴백 +
+     `detail_for_hcode` 에 `enforce_hcode_identity` tamper 가드(일별·기간 공통),
+     기간 KPI 에 hcode 필터 추가(종전 전 테넌트 합산 노출).
+- **inventory 목록 신설**: `GET /returns/inventory-candidates` — 미처리 반품 라인
+  (Gubun='반품', Scode='X', 행 id 포함) 목록. 모던 처리 축(재생/해체=행 id, 변경=
+  Gdate/Hcode/Bcode)에 맞춰 3개 탭 단일 소스. 스텁이던 화면 조회 실동작화.
+- **엑셀 export 4종**: 목록/재고원장/기간별/일별 `export.xlsx`(masters_excel 재사용,
+  조회 동일 필터). probe 5건(candidates+export 4) 등록.
+- **공통 그리드 + 키보드**(프론트 5화면): DataGrid+useGridPrefs+GridColumnSettings+
+  useListSession(+기간/일별 신규)+클라 정렬, 계정코드 admin 전용(publisher 룩업),
+  도서 book 룩업, 날짜 Enter=조회, `enableKeyboardNav`+`onRowEnter`(Enter=상세/선택),
+  「엑셀 저장」. 목록의 취소포함 체크박스 제거(항상 표시+상태 배지). write 흐름
+  (등록/수정/취소/재생/해체/변경/롤백/가져오기, AuditPasswordModal 게이트) 전부 보존.
+  reports stale-closure 상세 지연 버그 수정.
+- **회귀**: `test_dec093_returns_normalization.py` 12건(INSERT 파라미터화/Yesno 어휘/
+  읽기필터 부재/KPI 스코프/일별 상세 폴백/후보 목록/날짜 정규화/라우트 등록) +
+  기존 반품 스위트 71 PASS·3 skip 무회귀, 라우터 hcode 감사 critical 0.
+- **잔여(후속)**: (a) 모던 소프트취소(PATCH cancel=Yesno '2')가 레거시 완료와 동치 —
+  '취소' UI 라벨 재검토(완료 처리로 개명 여부 사용자 확인). (b) 라인 편집 후 요약
+  재계산의 Yesno='1' 읽기 — 레거시 혼재값 슬립 편집 시 저계상 가능(별도 검증).
+  (c) 반품 INSERT 에 거래처(Gcode) 미기록 — 레거시는 기록(스키마 확장 별도 사이클).
+- **결정자**: 메인개발자 + 사용자 (2026-07-08 — 반품관리 정상화 지시)
+- **참조**: DEC-084 잔여 (a), DEC-081(Yesno='2'=완료), DEC-082/083/091(공통그리드),
+  _default_outbound_ocode/h2_gbun_adapt, Base01.pas NewRecord 정본
+
 ---
-*최종 업데이트: 2026-07-08 — DEC-087/088 신규 (통계 목록 최종거래일 정렬 필드 +
+*최종 업데이트: 2026-07-08 — DEC-093 신규 (반품관리 전면 정비 — Ocode/Yesno/날짜/스코프
+데이터 정상화 + inventory 후보목록 신설 + 공통그리드·키보드·엑셀). 직전: DEC-092.*
+*직전: 2026-07-08 — DEC-092 신규 (전자책 판매분석 — Web_Ebook_Sales 사이드
+테이블 + 입력폼/업로드 + 서식 2종(연간/월범위) 엑셀). 직전: DEC-091 보강.*
+*직전: 2026-07-08 — DEC-091 보강 (도서별년말집계 월단위 T00=1 전체집계 복원 +
+분기손익 T2 미집계 근본대응: S1−R3 원천 폴백 + 손익 청구−입금(T5) 정본). 직전: DEC-091 신규.*
+*직전: 2026-07-08 — DEC-091 신규 (정산관리 9화면 전면 정비 — 월키·Yesno·출판사
+스코프 데이터복구 + 공통그리드·룩업·엑셀 + 발송비 T1_Ssub 실이식). 직전: DEC-090.*
+*직전: 2026-07-08 — DEC-090 신규 (T2 정산 도메인 hcode 주입 부적합 — 출판사
+행 스코프 헬퍼 신설, 분기손익 0원 3차 원인). 직전: DEC-089.*
+*직전: 2026-07-08 — DEC-089 신규 (분기손익 Yesno 제외 제거 + 차트 매입 시리즈 +
+통계 전 화면 엑셀 export). 직전: DEC-087/088.*
+*직전: 2026-07-08 — DEC-087/088 신규 (통계 목록 최종거래일 정렬 필드 +
 분기 N개 비교 고도화·월 컬럼 키 교정). 직전: DEC-086.*
 *직전: 2026-07-08 — DEC-086 신규 (기간별 매입·매출 월/분기/년 + 엑셀 export +
 통계 그룹 R/W3 배지 완료). 직전: DEC-085.*

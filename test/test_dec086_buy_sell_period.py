@@ -107,6 +107,23 @@ class ExportRouteRegistrationTests(TestCase):
             {"serverId", "dateFrom", "dateTo", "groupBy", "sortBy", "sortDir"}, params
         )
 
+    def test_all_stats_export_routes_registered(self) -> None:
+        """DEC-089 — 통계 전 화면 엑셀 export 라우트 8종."""
+        from app.main import app
+
+        paths = set(app.openapi()["paths"])
+        expected = {
+            "/api/v1/stats/sales-period/export.xlsx",
+            "/api/v1/stats/customer-analysis/export.xlsx",
+            "/api/v1/stats/book-turnover/export.xlsx",
+            "/api/v1/stats/publisher/export.xlsx",
+            "/api/v1/stats/quarterly-summary/export.xlsx",
+            "/api/v1/reports/book-sales/export.xlsx",
+            "/api/v1/reports/customer-sales/export.xlsx",
+            "/api/v1/reports/year-end-book/export.xlsx",
+        }
+        self.assertLessEqual(expected, paths)
+
 
 if __name__ == "__main__":  # pragma: no cover
     main()

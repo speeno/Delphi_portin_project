@@ -264,16 +264,24 @@ class DrillDownAndGrainTests(IsolatedAsyncioTestCase):
         # 두 개의 월(04, 05) 버킷.
         self.assertEqual({r["gdate"] for r in out["rows"]}, {"2026.04", "2026.05"})
 
-    async def test_month_grain_without_parent_includes_short_circuit_clause(self) -> None:
-        # 부모 미지정 + 월 grid 진입 — POC grid2 정책에 따라 SQL WHERE 에 1=0 가드.
-        # (mock 은 SQL 을 실제 실행하지 않으므로 결과 행 수가 아닌 SQL 본문을 검증.)
-        cap = _Capture(detail_rows=[])
+    async def test_month_grain_without_parent_aggregates_all_books(self) -> None:
+        # DEC-091 후속 — 월단위 0건 사고 수정: 부모 미지정 + 월 grid = **전체 도서
+        # 월별 집계**(레거시 Subu67 Button201Click T00=1). 1=0 단락 가드 제거.
+        cap = _Capture(detail_rows=[
+            _row(bcode="B0001", gdate="2026.04.10", gsqut=1, gssum=10),
+            _row(bcode="B0002", gdate="2026.05.10", gsqut=2, gssum=20),
+        ])
         out = await _invoke(cap, grain="month", parent_bcode=None)
         s1_sql, _ = cap.calls[0]
         sg_sql, _ = cap.calls[1]
-        self.assertIn("1=0", s1_sql)
-        self.assertIn("1=0", sg_sql)
-        self.assertEqual(out["rows"], [])
+        self.assertNotIn("1=0", s1_sql, "월 전체 집계는 1=0 차단 금지")
+        self.assertNotIn("1=0", sg_sql)
+        # 단일 도서 필터(Bcode = %s)도 없어야 — 전체 도서 대상.
+        self.assertNotIn("s.Bcode = %s", s1_sql)
+        self.assertEqual(out["grain"], "month")
+        # 두 도서가 각자의 월(04/05)로 버킷 → 전체 도서 월별 집계.
+        self.assertEqual(len(out["rows"]), 2)
+        self.assertEqual({r["gdate"] for r in out["rows"]}, {"2026.04", "2026.05"})
 
 
 class SgCsumMergeTests(IsolatedAsyncioTestCase):

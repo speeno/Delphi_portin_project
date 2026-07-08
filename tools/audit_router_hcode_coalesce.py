@@ -52,6 +52,9 @@ _ALLOWED_HELPERS = frozenset(
         "_require_publisher_hcode",
         "_guard_billing_hcode",
         "resolve_scope_hcode",
+        # DEC-090 — 행=출판사(G7.Gcode) 도메인(T2 정산): 격리 계정만 강제,
+        # 물류/총판은 선택 필터(기본 전체 합산 — 레거시 Subu47 동등).
+        "resolve_publisher_row_scope",
     }
 )
 _PATH_HCODE_KEY_MARKERS = (

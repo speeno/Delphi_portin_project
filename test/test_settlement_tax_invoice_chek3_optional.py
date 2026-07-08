@@ -38,13 +38,18 @@ class TaxInvoiceChek3OptionalTest(TestCase):
         clear_t2_column_cache_for_tests()
 
     def test_full_columns_uses_coalesce(self) -> None:
-        """모든 선택 컬럼 존재 → 기존 ``COALESCE(...)`` 표현식 유지."""
+        """모든 선택 컬럼 존재 → 기존 ``COALESCE(...)`` SELECT 표현식 유지."""
         cols = {"hcode", "sum26", "sum27", "sum28", "chek3", "sdate", "yesno", "gdate"}
         sql = _build_sql_list_tax(cols)
         self.assertIn("COALESCE(t.Chek3,'0') AS Chek3", sql)
         self.assertIn("COALESCE(t.Sdate,'') AS Sdate", sql)
         self.assertIn("COALESCE(t.Yesno,'0') AS Yesno", sql)
-        self.assertIn("COALESCE(t.Yesno,'0') <> '2'", sql, "Yesno 마감 가드 유지")
+        # DEC-091 — 레거시 Subu49 는 WHERE 에 Yesno 절이 없다. 웹이 추가했던 마감
+        # 제외(<> '2')가 실데이터를 전부 제외하던 회귀 → 조회 SQL 에서 제거.
+        self.assertNotIn("<> '2'", sql, "DEC-091: Yesno 마감 제외 제거(레거시 무 Yesno)")
+        # 월키 정규화(레거시 점 표기 '2026.07' 매칭) — 원시 t.Gdate=%s 금지.
+        self.assertNotIn("t.Gdate = %s", sql)
+        self.assertIn("REPLACE(REPLACE(REPLACE(TRIM(t.Gdate)", sql)
 
     def test_chek3_missing_uses_literal(self) -> None:
         """``Chek3`` 부재 → ``'0' AS Chek3`` 정적 리터럴, 1054 회피."""
@@ -71,11 +76,13 @@ class TaxInvoiceChek3OptionalTest(TestCase):
         sql_cnt = _build_sql_count_tax(cols)
         self.assertNotIn("COALESCE(Yesno", sql_cnt)
 
-    def test_count_sql_uses_unaliased_yesno_when_present(self) -> None:
-        """COUNT 는 단일 테이블 — alias 없는 ``COALESCE(Yesno,'0')``."""
+    def test_count_sql_no_yesno_filter_and_month_key(self) -> None:
+        """DEC-091 — COUNT 도 Yesno 절 없음 + 월키 정규화."""
         cols = {"hcode", "sum27", "yesno", "gdate"}
         sql_cnt = _build_sql_count_tax(cols)
-        self.assertIn("COALESCE(Yesno,'0') <> '2'", sql_cnt)
+        self.assertNotIn("<> '2'", sql_cnt)
+        self.assertNotIn("Gdate = %s", sql_cnt)
+        self.assertIn("REPLACE(REPLACE(REPLACE(TRIM(Gdate)", sql_cnt)
 
     def test_all_optional_missing_no_unknown_column(self) -> None:
         """3개 선택 컬럼 모두 부재 — 1054 유발 컬럼 참조가 SQL 안에 없어야."""
@@ -94,7 +101,10 @@ class TaxInvoiceChek3OptionalTest(TestCase):
         }
         sql_f = _build_sql_print_row(cols_full)
         self.assertIn("COALESCE(t.Chek3,'0') AS Chek3", sql_f)
-        self.assertIn("FROM T2_Ssub t WHERE t.Gdate=%s", sql_f)
+        # DEC-091 — 인쇄 1행도 월키 정규화(원시 t.Gdate=%s 금지).
+        self.assertNotIn("WHERE t.Gdate=%s", sql_f)
+        self.assertIn("REPLACE(REPLACE(REPLACE(TRIM(t.Gdate)", sql_f)
+        self.assertIn("AND t.Hcode=%s", sql_f)
 
         cols_min = {"hcode", "sum26", "sum27", "sum28", "gdate"}
         sql_m = _build_sql_print_row(cols_min)

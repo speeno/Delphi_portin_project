@@ -59,6 +59,9 @@ class PeriodSummaryMonthKeyTests(IsolatedAsyncioTestCase):
             # 원컬럼 직접 BETWEEN 회귀 금지 — 'Gdate BETWEEN' 은 월키 표현식
             # 안(TRIM(Gdate))에만 존재해야 한다.
             self.assertNotIn(" Gdate BETWEEN", sql)
+            # DEC-089 — 레거시 Subu47 원문에 없는 Yesno 필터 재도입 금지
+            # (마감 데이터 제외 → 분기 손익 0원 사고).
+            self.assertNotIn("Yesno", sql)
         self.assertIn(f"GROUP BY {_MONTH_KEY}", paged_sql)
         self.assertIn(f"ORDER BY {_MONTH_KEY}", paged_sql)
 
@@ -77,14 +80,20 @@ class PeriodSummaryMonthKeyTests(IsolatedAsyncioTestCase):
             captured.update(kwargs)
             return {"items": [], "totals": {"gsumx": 0, "gsumy": 0, "gssum": 0}, "total": 0}
 
+        async def fake_deposits(server_id, *, month_from, month_to, hcode=None):
+            return {}
+
         old = stats_service.settlement_service.list_period_summary
+        old_dep = stats_service.settlement_service.deposits_by_month
         stats_service.settlement_service.list_period_summary = fake_period_summary
+        stats_service.settlement_service.deposits_by_month = fake_deposits
         try:
             await stats_service.get_quarterly_summary(
                 server_id="srv", hcode="5019", year=2026, quarter=3,
             )
         finally:
             stats_service.settlement_service.list_period_summary = old
+            stats_service.settlement_service.deposits_by_month = old_dep
 
         self.assertEqual(captured["month_from"], "202607")
         self.assertEqual(captured["month_to"], "202609")
@@ -98,31 +107,69 @@ class PeriodSummaryMonthKeyTests(IsolatedAsyncioTestCase):
 
         async def fake_period_summary(**kwargs):
             calls.append((kwargs["month_from"], kwargs["month_to"]))
+            # gssum(Sum28)=60 = 청구. DEC-091 — 손익=청구−입금(T5).
             return {
                 "items": [{"gdate": kwargs["month_from"], "gsumx": 100, "gsumy": 40, "gssum": 60}],
                 "totals": {"gsumx": 100, "gsumy": 40, "gssum": 60},
                 "total": 1,
             }
 
+        async def fake_deposits(server_id, *, month_from, month_to, hcode=None):
+            # 각 분기 첫 달에 입금 10 → 손익 = 청구(60) − 입금(10) = 50.
+            return {month_from: 10}
+
         old = stats_service.settlement_service.list_period_summary
+        old_dep = stats_service.settlement_service.deposits_by_month
         stats_service.settlement_service.list_period_summary = fake_period_summary
+        stats_service.settlement_service.deposits_by_month = fake_deposits
         try:
             res = await stats_service.get_quarterly_summary(
                 server_id="srv", hcode="5019", year=2026, quarter=1, quarters=3,
             )
         finally:
             stats_service.settlement_service.list_period_summary = old
+            stats_service.settlement_service.deposits_by_month = old_dep
 
         # 과거 → 기준 순: 2025-Q3, 2025-Q4, 2026-Q1.
         self.assertEqual(calls, [("202507", "202509"), ("202510", "202512"), ("202601", "202603")])
         comp = res["comparison"]
         self.assertEqual([c["label"] for c in comp], ["2025-Q3", "2025-Q4", "2026-Q1"])
-        self.assertTrue(all(c["profit"] == 60 for c in comp))
-        self.assertEqual(res["totals"]["gsumx"], 300)
-        self.assertEqual(res["totals"]["profit"], 180)
+        # DEC-091 — 청구=Sum28(60), 입금=T5(10), 손익=청구−입금=50.
+        self.assertTrue(all(c["gsumx"] == 60 for c in comp), "청구=Sum28")
+        self.assertTrue(all(c["gsumy"] == 10 for c in comp), "입금=T5")
+        self.assertTrue(all(c["profit"] == 50 for c in comp), "손익=청구−입금")
+        self.assertEqual(res["totals"]["gsumx"], 180)   # 청구 3분기 합 = 60×3
+        self.assertEqual(res["totals"]["profit"], 150)  # (60−10)×3
         self.assertEqual(res["metadata"]["quarters"], 3)
         # 월별 items 는 N개 분기 병합 + 월 오름차순.
         self.assertEqual([i["gdate"] for i in res["items"]], ["202507", "202510", "202601"])
+
+
+class PublisherRowScopeTests(IsolatedAsyncioTestCase):
+    """DEC-090 — T2 정산(행=출판사 코드) 도메인 hcode 해석 가드."""
+
+    def _resolve(self, request_hcode, ctx):
+        from app.core.hcode_isolation import resolve_publisher_row_scope
+        return resolve_publisher_row_scope(request_hcode, ctx)
+
+    async def test_operator_account_defaults_to_all(self) -> None:
+        # 물류/총판(T1) 운영 계정 — 로그인 코드 주입 금지, 미지정=전체(None).
+        ctx = {"hcode": "5019", "account_type": "T1", "account_family": "chul_09",
+               "role": "operator", "permissions": ["admin.stats.quarterly"]}
+        self.assertIsNone(self._resolve(None, ctx))
+        self.assertIsNone(self._resolve("", ctx))
+
+    async def test_operator_optional_filter_passthrough(self) -> None:
+        ctx = {"hcode": "5019", "account_type": "T2_DIST", "account_family": "chul_09",
+               "role": "operator", "permissions": []}
+        self.assertEqual(self._resolve("P001", ctx), "P001")
+
+    async def test_isolated_publisher_forced_to_own_code(self) -> None:
+        # 출판사 계정(T2_PUB) — 타 코드 요청해도 본인 코드 강제.
+        ctx = {"hcode": "P777", "account_type": "T2_PUB", "account_family": "chul_09",
+               "role": "operator", "permissions": []}
+        self.assertEqual(self._resolve(None, ctx), "P777")
+        self.assertEqual(self._resolve("P001", ctx), "P777")
 
 
 if __name__ == "__main__":  # pragma: no cover
