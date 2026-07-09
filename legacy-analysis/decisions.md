@@ -1794,8 +1794,60 @@
 - **참조**: DEC-084 잔여 (a), DEC-081(Yesno='2'=완료), DEC-082/083/091(공통그리드),
   _default_outbound_ocode/h2_gbun_adapt, Base01.pas NewRecord 정본
 
+### DEC-094: 청구서 인쇄(미리보기, Sobo46) 복구 — Sum38/39 유령 컬럼 + 월키 3종 사고
+
+- **증상**(사용자 보고 2026-07-09): 정산관리 청구서 인쇄(미리보기) 작동 안 함.
+- **근본 원인 3종** (레거시 Subu46.pas L648-655/L781-787 원문 대조 —
+  `settlement_print_service` 가 DEC-085/091(월키)·DEC-058(컬럼 어댑터) 사이클에서
+  누락된 모듈이었음):
+  1. **유령 컬럼**: 정적 헤더 SELECT 가 `range(1,49)` 로 Sum38/Sum39 포함 — 레거시
+     원문은 Sum01~37 + **Sum40**~48 로 38/39 를 건너뜀(컬럼 부재) → 1054 (Unknown
+     column) → **전 서버 HTTP 500**. 변형사 T2 는 Sdate/Chek3 등도 부재(DEC-058 계열).
+  2. `WHERE Gdate=%s` 원시 비교 — 레거시 T2.Gdate 점 표기('2026.07') → 404.
+  3. 라인 `LEFT(Gdate,6)` — 점 표기 전체일자('2026.07.15')에서 '2026.0' → 라인 0건.
+- **수정**: `_build_sql_print_header(cols)` 동적 SELECT (`tax_invoice_service._t2_columns`
+  SHOW COLUMNS 캐시 재사용 — 존재 컬럼 IFNULL/COALESCE, 부재 컬럼 정적 리터럴 alias,
+  67개 sum 응답 스키마 보존) + 헤더/라인 WHERE `_t2_month_key()` 정규화 + gdate 입력
+  방어 정규화(`_norm_month`). HTML/PDF 빌더는 동일 데이터 재사용이라 무수정 복구.
+- **회귀**: `test_dec094_billing_print.py` 5건(부재 컬럼 리터럴/월키/라인 정규화/
+  레거시 형태 200+스키마/404) + 정산 인접 72 PASS. TestClient E2E(레거시 형태 mock)
+  print-data·print(html) 200 + 마감 배지·라인 렌더 확인.
+- **결정자**: 메인개발자 (레거시 Subu46 원문 대조)
+- **참조**: DEC-034(인쇄 미리보기 정책), DEC-058(_t2_columns), DEC-085/091(월키),
+  DEC-090(스코프 — 인쇄는 enforce_hcode_identity 키 가드 유지)
+
+### DEC-095: 비-기본 DB 테넌트 전 화면 0건 — 테넌트 DB 요청 컨텍스트 신설
+
+- **증상**(사용자 보고 2026-07-09): 「도서출판 배움」 로그인 시 아무 데이터도 조회·출력
+  안 됨.
+- **근본 원인 — 멀티 DB 라우팅 구조 갭**: 배움 = remote_153 / **chul_05_db** / hcode
+  1002. 로그인은 메타 인덱스가 고른 chul_05_db 의 Id_Logn 으로 검증되고 JWT 에
+  ``rdb=chul_05_db`` 클레임까지 실리지만, 데이터 API 의 ``_effective_database`` 는
+  **inspect 오버레이 또는 서버 프로필 기본 DB(chul_09_db)** 만 반환 — rdb 를 적용하는
+  코드가 없어 모든 조회가 엉뚱한 DB 로 감. 라이브 검증: chul_09_db 의 S1_Ssub
+  (Hcode=1002) **0건** vs chul_05_db **444,262건**. 지금까지 chul_09 계열 계정만
+  테스트되어 잠복(DEC-084 의 "운영 4서버=전부 chul_09_db" 가정도 같은 뿌리).
+- **수정**: `app/core/tenant_db_context.py` 신설 — 요청 범위 ContextVar
+  ``(server_id, db_name)`` (inspect_context 동일 패턴, app 의존 0).
+  `get_current_user` 가 JWT ``rdb`` 를 바인딩, `_effective_database` 우선순위 =
+  **inspect > 테넌트(요청 서버 일치 시) > 프로필 기본**. mysql3/트랜잭션 경로 포함
+  전 쿼리 자동 적용. chul_09 계정(rdb=기본값)·수퍼(rdb='')는 동작 무변화.
+- **회귀**: `test_dec095_tenant_db_context.py` 7건(기본/오버라이드/서버 불일치 미적용/
+  inspect 우선/빈값 미바인딩/JWT 바인딩→유효 DB/무 rdb 기본 유지) + 인증·정산·반품
+  인접 87 PASS. 라이브: 컨텍스트 바인딩 후 화면 동일 쿼리 444,262건 반환 확인.
+- **잔여(후속)**: (a) `user_prefs`/`grid_prefs` 등 Web_* 사이드테이블도 이제 테넌트 DB
+  에 생성됨 — 기존 기본 DB 에 저장된 프리퍼런스의 이관 여부 검토. (b) 배움 외
+  비-기본 DB 계정(book_11_db 등) 광역 실측.
+- **결정자**: 메인개발자 (라이브 교차 검증 — chul_09 0건 vs chul_05 444,262건)
+- **참조**: DSN-DEC-08/12(로그인 라우팅·rdb 해석), inspect_context(패턴 선례),
+  DEC-084(chul_09 단일 가정)
+
 ---
-*최종 업데이트: 2026-07-08 — DEC-093 신규 (반품관리 전면 정비 — Ocode/Yesno/날짜/스코프
+*최종 업데이트: 2026-07-09 — DEC-095 신규 (비-기본 DB 테넌트 0건 — 테넌트 DB 요청
+컨텍스트 신설, rdb 클레임 적용). 직전: DEC-094.*
+*직전: 2026-07-09 — DEC-094 신규 (청구서 인쇄 복구 — Sum38/39 유령 컬럼
+동적화 + 월키 정규화). 직전: DEC-093.*
+*직전: 2026-07-08 — DEC-093 신규 (반품관리 전면 정비 — Ocode/Yesno/날짜/스코프
 데이터 정상화 + inventory 후보목록 신설 + 공통그리드·키보드·엑셀). 직전: DEC-092.*
 *직전: 2026-07-08 — DEC-092 신규 (전자책 판매분석 — Web_Ebook_Sales 사이드
 테이블 + 입력폼/업로드 + 서식 2종(연간/월범위) 엑셀). 직전: DEC-091 보강.*
