@@ -1701,6 +1701,20 @@
     **천원(÷1000)** tick 포매터 + 축 라벨 "천원"(`StatsBarChart valueUnit`/`StatsLineChart
     sumUnit="thousand"` — 분기손익·기간별 매출). 수량/혼합 축은 콤마+축 폭 확대(가독성).
     툴팁은 항상 원 단위 정확값. 출판사통계는 출고수(수량)+금액 혼합축이라 천원 미적용(콤마만).
+  - **발송비 500 핫픽스**(사용자 보고 2026-07-10, 라이브 재현): ① `_txt_sel` 무접두
+    참조가 G7_Ggeo JOIN 에서 1052(Gcode/Gname ambiguous — 양 테이블 공존) → alias
+    한정(`COALESCE(t.Gcode,…)`). ② mysql3(remote_155) 현황 정렬 1111(ORDER BY 집계식)
+    → SELECT alias(`Total_Gssum`) 정렬. 수정 후 4서버 라이브 확인 — chul_05 25,763건/
+    book_kb 207,778건/chul_01 131,577건/book_bs 34,871건 유입.
+  - **입금(T5) 데이터 실측**(사용자 질문 2026-07-10): chul_09_db=0건(정산 모듈 미사용),
+    타 테넌트는 존재하나 대부분 2011~2014 과거 데이터(book_bs 만 2026.06 까지) —
+    기본 90일 조회범위에서는 0건이 정상. 화면 문제 아님(범위 확대 시 표시).
+  - **입금내역 UI 보강**(사용자 요청 2026-07-10): 필터·등록폼의 자유 텍스트 날짜
+    (YYYY.MM.DD/YYYYMM 수기)를 브라우저 date/month 컨트롤로 교체 — **상태·세션·API 는
+    점 표기 유지**(하위호환), 입력 경계에서만 변환(dotToDateInput 등). 검색 패널
+    6열 그리드 → 표준 flex items-end(조회=secondary, 신규=primary 우측 ml-auto),
+    날짜 Enter=조회, 등록폼 거래처코드에 publisher 룩업. 정산 9화면 전부
+    date/month 컨트롤 완비(자유 텍스트 잔존 0).
   - **잔여(B, 후속)**: `POST /billing/recalc-range` + 크론 야간 재집계로 T2 영속화(조회 성능
     + 청구/입금현황/미수 등 전체 T2 화면 일괄 정상화). 폴백(A)의 청구 공식이 recalc 와
     동일하므로, B 도입 시 배지가 자동으로 't2_ssub'(확정)로 전환.
@@ -1842,8 +1856,61 @@
 - **참조**: DSN-DEC-08/12(로그인 라우팅·rdb 해석), inspect_context(패턴 선례),
   DEC-084(chul_09 단일 가정)
 
+### DEC-096: 로그인 조직(소속) 선택 챌린지 — 동일 ID+비밀번호 크로스 DB 672건 해소
+
+- **배경**(사용자 제안 2026-07-09): 동일 아이디+비밀번호가 복수 테넌트 DB 에 등재된
+  계정 실측 **672건**(다중 후보 716 의 94% — DSN-DEC-09 v2 의 "매우 드물다" 가정과
+  정반대). first-match 로 항상 같은 DB 에 고정 진입해 다른 소속 데이터 접근 불가.
+  사용자 제안 = 로그인 시 조직명 선택 → Slack 워크스페이스 선택 패턴으로 채택.
+- **설계 (2단계 로그인)**:
+  1. ID+비밀번호 제출 → **인덱스 유래 고신뢰 후보**(candidate_via ∈ index_single/
+     index_ambiguous — 사용자가 실제 등재된 DB, 716건의 근원)가 복수이고 힌트가
+     없으면 전 후보 비밀번호 검증(probe 2~5개; directory_sweep 등 추측 후보는 제외 —
+     39개 probe 폭주·오염 방지).
+  2. **복수 검증 성공 시 토큰 미발급** + `409 ORG_SELECT_REQUIRED` + choices
+     [{serverId, dbName, tenantId, hcode, label}] — 라벨은 tenants_directory
+     `tenant_label_kor`, 폴백 account_family/db_name. **선택지는 비밀번호가 실제
+     검증된 후보만**(자격 증명 보유자 한정 공개 — 정보 누출 없음). 감사 로그
+     reason='org_select_required'.
+  3. 프론트 선택 UI → `tenantId`(우선)/`dbName`(신규 LoginRequest 필드) 재제출 →
+     후보 단일화 → 정상 발급. 단일 검증/단일 후보는 기존 흐름 그대로(무회귀).
+- **적용**: backend `auth.py`(후보 내로잉 + 챌린지) + `models/auth.py`(`db_name`
+  필드 추가 — 기존 userId/tenantId/hcode AliasChoices 무변경), frontend
+  `auth-context.tsx`(LoginHints.dbName) + `login/page.tsx`(선택 카드 UI, 입력 변경
+  시 초기화). DEC-095 테넌트 DB 컨텍스트와 합쳐져 선택한 소속의 DB 로 전 화면 조회.
+- **회귀**: `test_dec096_org_select_login.py` 5건(복수 검증 409+선택지 2건+스윕 제외/
+  tenantId·dbName 재제출 200/단일 검증 통과/단일 후보 무챌린지) + 로그인 인접
+  23 PASS(스윕 mock 이 챌린지를 오발화하던 1차 구현을 테스트가 검출 → 우주를
+  인덱스 후보로 한정). tsc/next build PASS. (auth-context L168 eslint 는 기존 이슈.)
+- **보강 (같은 날 사용자 지시 — 한글 계열명 + 로그인 기본 처리)**:
+  ① 라벨 해석기 강화 — tenant_id 직결 → `resolve_unique_tenant`(공유 DB hcode
+  격리, 예: chul_09 의 교문사/위러브3 구분) → `find_owning_tenants` 첫 라벨 →
+  계열/DB 폴백. 충돌 라우트 21곳 실측 18곳 한글 라벨(고려물류/중앙라인(한강북)/
+  한국도서유통/한강물류 등), 미등록 3곳(book_gs/book_js/remote_138 chul_09)은
+  디렉터리 라벨 보강 대상. ② **기억된 소속 자동 적용** — 최초 1회 선택을
+  localStorage(`bls_org_pref:<userId>`)에 저장, 이후 로그인은 챌린지 발생 시
+  자동 재제출(=로그인 기본 처리, 선택 UI 생략). ID 입력란 아래 「기본 소속:
+  {라벨} (자동 적용) · 변경」 으로 초기화 수단 제공, 자동 적용 실패(소속 제거
+  등) 시 기억 초기화 후 선택 UI 폴백.
+- **보강 2 (같은 날 — 회사 선택 콤보 상시 노출)**: 사용자 지시로 로그인 폼
+  「고급 옵션(회사 코드 Hcode/테넌트 ID 수기 입력)」 블록 **제거**, ID 위에
+  **회사 선택 콤보**(기본 = 「자동 결정 (통합 로그인)」) 상시 노출. 옵션은 신규
+  공개 엔드포인트 `GET /api/v1/auth/org-options`(tenants_directory 활성 테넌트의
+  한글 라벨+tenant_id 만 — 서버/DB 좌표·비밀 무노출, 40건) 로 로드, 선택 시
+  `tenantId` 힌트로 후보 단일화. DSN-DEC-12 모호(fail-closed) 안내문도 콤보
+  기준으로 갱신. 챌린지(409)·기억된 소속 자동 적용은 콤보 '자동' 경로의
+  폴백으로 유지.
+- **잔여(후속)**: (a) 디렉터리 한글 라벨 미등록 3계열 보강 + '(테스트용)' 류
+  테넌트 is_active=false 정리(콤보 노출 대상 제외). (b) DSN-DEC-09 v2
+  문서의 "드물다" 서술 갱신.
+- **결정자**: 메인개발자 + 사용자 (2026-07-09 — 조직명 선택 제안)
+- **참조**: DSN-DEC-08/09 v2(후보 probe·narrowing), DEC-095(테넌트 DB 컨텍스트),
+  account-hcode-groups.md(672건 실측)
+
 ---
-*최종 업데이트: 2026-07-09 — DEC-095 신규 (비-기본 DB 테넌트 0건 — 테넌트 DB 요청
+*최종 업데이트: 2026-07-09 — DEC-096 신규 (로그인 조직 선택 챌린지 — 동일 ID+PW
+크로스 DB 672건, 409 ORG_SELECT_REQUIRED + tenantId/dbName 재제출). 직전: DEC-095.*
+*직전: 2026-07-09 — DEC-095 신규 (비-기본 DB 테넌트 0건 — 테넌트 DB 요청
 컨텍스트 신설, rdb 클레임 적용). 직전: DEC-094.*
 *직전: 2026-07-09 — DEC-094 신규 (청구서 인쇄 복구 — Sum38/39 유령 컬럼
 동적화 + 월키 정규화). 직전: DEC-093.*
