@@ -1987,8 +1987,21 @@
   자동완성 확정 후 다음 포커스가 패널 안(도서구분/취소포함)으로 이동. 전역 Esc
   (capture) 리스너는 자동완성 패널이 열린 입력(`[role="combobox"][aria-expanded]`)
   이면 양보 — Esc 1회=패널 닫기, 2회=팝업 닫기. IME 조합 Enter 가드. 푸터 힌트 갱신.
+- **보강 3 (2026-07-17 사용자 지시 — 거래명세서 인라인 필터 패널 순차 입력)**:
+  스크린샷 지목 = 거래명세서 목록 화면 본문 필터 패널(Sobo21.Panel001, 검색 팝업이
+  아니라 `sales-statement/page.tsx` 인라인). 보강 2(Sobo20 팝업)와 동형 패턴 이식 —
+  패널에 `data-enter-scope`+`filterPanelRef`, `focusNextFilter`(input/select DOM 순,
+  읽기전용 거래처명·숨김·비활성 종료일(당일만 시) 스킵) + `onFilterKeyDown`:
+  **Enter=다음 칸**(거래구분→거래차수→거래처코드→[지사]→취소포함→[전표번호]→시작일→
+  종료일→당일만), **마지막 칸 Enter=검색**, **Ctrl(⌘)+Enter=즉시 검색**. 종료 검색은
+  조회 버튼과 동일 분기(`runFilterSearch`: 전표번호/거래차수 있으면 commitPrimaryAndSearch,
+  아니면 load). **예외**: 전표번호(Edit109)는 힌트 문구("입력하고 Enter 또는 조회")대로
+  자체 Enter=즉시 조회 유지. 거래처코드 MasterLookupField 는 자동완성 확정 후
+  `focusNextFrom`(data-enter-scope)으로 패널 안 다음 칸 이동, 빈값 Enter 는 onKeyDown
+  위임으로 다음 칸. IME 조합 Enter 가드. **전수 확인**: 인라인 필터 순차 Enter 미적용
+  화면은 이 페이지가 유일(나머지 조회 화면은 단일 필드/DataGrid).
 - **결정자**: 사용자 (2026-07-16 — 고객 수정요청 전달 + 3택 확정: 입력순서 스킵/
-  한줄 팝업 도서 변경/레거시 Enter 순서)
+  한줄 팝업 도서 변경/레거시 Enter 순서; 2026-07-17 — 보강 3 인라인 필터)
 - **참조**: DEC-028/053(레거시 정합), DEC-065(화면 내 신규), Subu21.pas
   DBGrid101KeyPress·KeyDown, `sales_statement_create_service.update_sales_statement`
   (gcode,bcode) diff
