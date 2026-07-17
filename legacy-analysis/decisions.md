@@ -1995,6 +1995,14 @@
   (없으면 % 기본). 너비 조절 제스처 중에는 `suppressColDragRef` 로 순서변경 드래그
   억제(공통 DataGrid 와 동일). 헤더 title 을 "순서변경 · 오른쪽 경계 드래그: 너비
   조절"로 갱신.
+- **보강 9 (2026-07-17 사용자 리포트 — 거래명세서 수정 팝업 구분 select Enter 이동 부재)**:
+  전체수정 팝업(`sales-statement-edit-dialog`, multi-row) 구분(pubun) `<select>` 에서
+  Enter 로 다음 칸(도서코드) 이동 안 됨. 원인 2중: ① select 에 `onKeyDown` 미부여,
+  ② `focusNextFrom` 이 `input` 만 조회(select 제외)라 시작 노드가 select 면 index -1
+  → 첫 행으로 튐. **수정**: `focusNextFrom` 쿼리에 `select:not([disabled])` 추가(다음
+  포커스는 `HTMLInputElement` 일 때만 `.select()`), `focusNextCell` 타입 `HTMLElement`
+  로 확장 + 한글 조합 Enter 가드, 구분 select 에 `onKeyDown={focusNextCell}` 부여.
+  (한줄수정 팝업은 이미 `enterTo(qtyRef)` 보유 — 무변경.)
 - **보강 8 (2026-07-17 — 검색 첫 ↓ 가 둘째 항목 선택 = 한글 IME 이중 keydown)**:
   결정적 단서 "검색 직후 첫 ↓ → 둘째, 좌/우 키 먼저 누르면 그 다음 ↓ → 첫째"로
   원인 확정 — **한글 IME 조합 중 물리적 ↓ 1회가 keydown 2회(IME keyCode 229 +
