@@ -1987,6 +1987,19 @@
   자동완성 확정 후 다음 포커스가 패널 안(도서구분/취소포함)으로 이동. 전역 Esc
   (capture) 리스너는 자동완성 패널이 열린 입력(`[role="combobox"][aria-expanded]`)
   이면 양보 — Esc 1회=패널 닫기, 2회=팝업 닫기. IME 조합 Enter 가드. 푸터 힌트 갱신.
+- **보강 7 (2026-07-17 사용자 리포트 — 신규 출고명세서 그리드 컬럼 너비 조절 부재)**:
+  신규 거래명세서 라인 그리드(수제 `<table>`)가 다른 표준 목록(DataGrid)처럼 컬럼
+  너비 드래그 조절이 안 됨 — 고정 `widthPercent` + 순서 드래그만 있었음. DataGrid
+  의 리사이즈 패턴을 이식: `<th>` 오른쪽 경계에 `cursor-col-resize` 핸들 + `startColResize`
+  (min 40px, `gridPrefs.onColumnResize` → 계정별 서버 저장), 저장된 px 너비 우선 적용
+  (없으면 % 기본). 너비 조절 제스처 중에는 `suppressColDragRef` 로 순서변경 드래그
+  억제(공통 DataGrid 와 동일). 헤더 title 을 "순서변경 · 오른쪽 경계 드래그: 너비
+  조절"로 갱신.
+- **참고(미해결 조사)**: 인라인 자동완성/검색 팝업 첫 ↓ 가 둘째 항목 선택 리포트 —
+  인라인 ArrowDown 산술(`activeIdx -1→0`)은 격리 재현(임시 공개 라우트 + StrictMode
+  이중호출 실측)으로 **정상 확인**(dev StrictMode 함수형 updater 는 체이닝 안 함,
+  -1→0). 팝업 경로는 보강 6 으로 수정. 잔여 리포트는 배포 반영 후 재확인 필요
+  (자동 재현은 로그인 세션 필요).
 - **보강 6 (2026-07-17 사용자 리포트 — 검색 팝업 첫 ↓ 가 둘째 항목 선택)**:
   인라인 결과 상태에서 Enter → 검색 팝업(MasterLookupDialog) → 첫 ↓ 가 **첫 행을
   건너뛰고 둘째 행**을 선택. **원인 2중**: ① `DataGrid.handleKeyDown` 의 ArrowDown 이
