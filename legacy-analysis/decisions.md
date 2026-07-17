@@ -2024,14 +2024,25 @@
      가드를 `settlement.report.read` 로 통일(DEC-083 사이드바 키와 정합). 행 스코프는
      `resolve_publisher_row_scope` 가 별도 강제(테넌트=자기 출판사 고정)라 hcode
      격리 무영향 — admin.stats 는 데이터 격리 장치가 아니라 메뉴 게이트.
-- **보류(승인 필요)**: 교문사 실계정의 `Id_Logn` Fxx(F5x 통계 셀) 실측·부여 —
-  운영 DB(remote_153/chul_09_db) 직접 조회가 권한 정책상 거부되어 미수행.
-  나머지 4개 `admin.stats.*` 메뉴가 교문사에 필요하면 report 읽기 셀 부여(데이터
-  조치)를 사용자 승인 하에 진행.
+- **데이터 조치 완료(사용자 승인 2026-07-17 — "통계관리 하위 전 화면 read 접근")**:
+  교문사 실계정 `Id_Logn`(remote_153/chul_09_db, hcode=5019·gname=교문사·gcode=교문사
+  단일 행) Fxx 실측 후 통계 8셀을 **'R'(Read-Only)** 부여 —
+  **F36**(report.read) **F37**(report.inventory.read) **F43**(settlement.report.read)
+  **F51**(report.kpi.read → admin.stats.* 4종 별칭) **F55**(report.book.read)
+  **F56**(report.cust.read) **F57**(report.month.read) **F58**(report.year.read).
+  근거: 통계 메뉴 requiredPermission 전수 매핑(form-registry ↔ web_admin
+  legacy_permission_map) — **F51 단독은 admin.stats.* 4종만 커버**하고 report.* 계열
+  화면(도서별판매·거래처판매·년말집계·월별·거래처통계·도서통계·출판사통계·전자책판매
+  분석)은 각 report 코드 셀이 별도 필요. `_merge_fxx_to_permissions` 시뮬레이션으로
+  화면 요구 코드 11종 전부 충족 확인(role=operator 유지 → 테넌트 hcode 격리 무영향,
+  전부 read 라 쓰기 미발생). 스크립트 `/tmp/grant_gyomun_stats.py`(단일 행 가드 +
+  셀별 before/after + 재조회 검증 + 멱등). **적용 반영은 재로그인 필요**(권한은 JWT
+  발급 시 합성). 롤백: F36/F37 은 NULL, 나머지는 'X' 로 되돌림.
 - **검증**: `test_c13_stats_phase1.py::test_S_05` 갱신 — stats 라우터 허용 코드
   집합에 `settlement.report.read` 포함 + `/publisher` 본조회·export 2곳에만 부착
   가드. 관련 서브셋 pre/post 비교 신규 회귀 0건.
-- **결정자**: 메인개발자 (2026-07-16 — 교문사 사용자 리포트 기반)
+- **결정자**: 메인개발자 (2026-07-16 — 교문사 사용자 리포트 기반) + 사용자
+  (2026-07-17 — 통계관리 전 화면 read 데이터 조치 승인·실행)
 - **참조**: DEC-083(사이드바 키 완화), DEC-044(admin.stats 권한 4종),
   `frontend/src/lib/permission-aliases.ts`, `resolve_publisher_row_scope`
 
