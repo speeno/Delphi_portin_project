@@ -210,7 +210,12 @@ class StaticGuardC13(TestCase):
             self.assertIn(token, c, f"catalog missing: {token}")
 
     def test_S_05_router_uses_require_permission_4_codes(self):
-        """TC-C13-S-05 — stats.py 가 admin.stats.* 4 권한 모두 require_permission 부착."""
+        """TC-C13-S-05 — stats.py 가 admin.stats.* 4 권한 모두 require_permission 부착.
+
+        DEC-098: /publisher(+export) 는 DEC-083 사이드바 키와 정합하도록
+        settlement.report.read 로 완화 — 허용 코드 집합에 포함(행 스코프는
+        resolve_publisher_row_scope 가 별도 강제).
+        """
         src = _read(STATS_ROUTER)
         used = set(re.findall(r"require_permission\(\s*[\"']([\w\.]+)[\"']\s*\)", src))
         expected = {
@@ -218,10 +223,16 @@ class StaticGuardC13(TestCase):
             "admin.stats.customer",
             "admin.stats.book",
             "admin.stats.quarterly",
+            "settlement.report.read",
         }
         self.assertEqual(
             used, expected,
             f"stats router require_permission codes mismatch: got={used}, want={expected}",
+        )
+        # /publisher 본조회 + export.xlsx 두 라우트만 settlement.report.read 사용 — 불일치 재발 방지.
+        self.assertEqual(
+            src.count('require_permission("settlement.report.read")'), 2,
+            "settlement.report.read 는 /publisher 본조회·export 2곳에만 부착되어야 함",
         )
 
     def test_S_06_dec_044_registered(self):

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T14:27:35.819908+00:00",
+  "generated_at": "2026-07-17T01:37:52.016625+00:00",
   "summary": {
     "files_scanned": 91,
     "sql_literals": 439,
@@ -2413,7 +2413,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/settlement_print_service.py",
       "function": "<module>",
-      "lineno": 87,
+      "lineno": 117,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2474,7 +2474,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/shipping_ledger_service.py",
       "function": "list_shipping_ledger",
-      "lineno": 148,
+      "lineno": 153,
       "tables": [
         "T1_Ssub"
       ],
@@ -2486,7 +2486,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/shipping_ledger_service.py",
       "function": "list_shipping_status",
-      "lineno": 222,
+      "lineno": 229,
       "tables": [
         "T1_Ssub"
       ],

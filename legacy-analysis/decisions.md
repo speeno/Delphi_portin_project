@@ -1907,8 +1907,171 @@
 - **참조**: DSN-DEC-08/09 v2(후보 probe·narrowing), DEC-095(테넌트 DB 컨텍스트),
   account-hcode-groups.md(672건 실측)
 
+### DEC-097: 거래명세서(Sobo21) Enter=저장·선택·진행 정합 — 고객 수정요청 5건 대응
+
+- **배경**(고객 수정요청 2026-07-16, 위러브솔루션 레거시 사용자): ① 신규 등록 시
+  거래처명/도서명 자동완성 팝업이 "떴다 안 떴다" ② Enter 로 옆 칸 이동이 안 되는
+  곳이 있음 ③ 도서 선택 후 공급율·수량으로 포커스가 안 넘어가는 경우 다수
+  ④ 빈 줄에서 Enter 시 줄이 계속 늘어남 ⑤ 거래명세서 목록에서 줄 클릭 팝업이
+  도서명 변경 불가. 총론 = "레거시(Enter=저장·선택 기능) 그대로".
+- **원인 진단**: ① `MasterLookupField` 가 디바운스 200ms 완료 + 결과≥1건일 때만
+  드롭다운을 열고(대기 중/0건 무표시), 디바운스 완료 전 Enter 는 별도 즉시조회
+  경로로 분기(단일건 자동선택/다건 다이얼로그) — 사용자에겐 비결정적으로 보임.
+  추가 발견 2건: Enter 자동확정 후 `onKeyDown(e)` 위임 → 소비자가 stale state 의
+  bcode 로 재조회해 "책을 골랐는데 또 팝업"; Escape 가 stopPropagation 없이 페이지
+  Esc(목록 이탈)와 동시 발화. ③ 마우스/다이얼로그 선택 경로(`onInlineSelect`/
+  `onSelect`)에 포커스 이동 코드 부재(Enter 경로만 이동). ④ `addLine()` 무조건
+  append(저장 시 필터만). ⑤ 한줄 팝업이 도서를 정적 텍스트로 렌더 + `saveLineEdit`
+  가 항상 원본 bcode 재전송(백엔드는 (gcode,bcode) diff 로 이미 변경 지원).
+- **채택**(레거시 Subu21.pas Enter 체인 재현 — Edit111/114KeyPress·DBGrid101KeyPress
+  L1189·KeyDown L1306):
+  1. **자동완성 결정화**: 4상태 패널(idle/loading "검색 중…"/results/empty "결과
+     없음")로 입력 즉시 표시, 응답 순서 가드(seq), Enter 는 디바운스 flush 후 단일
+     경로 — 정확일치/1건 자동확정+다음 칸(레거시 Seek 1건 자동선택), 0건/다건 검색
+     팝업(`handleDialogOpenChange` — 제어형 다이얼로그도 열림). 자동확정 후
+     `onKeyDown` 위임 제거(항상 `focusNextFrom`), Escape `stopPropagation`, 한글
+     IME 조합 중 Enter 무시. props 무변경 — 인라인 사용 45개 화면 공통 수혜,
+     `onKeyDown` 직접 전달처는 신규 페이지 2곳뿐이라 파급 최소.
+  2. **신규 페이지 Enter 체인**: 헤더 거래일자→거래처→지점→그리드(레거시 SetFocus
+     체인), 그리드 `EDIT_COLS` = 구분→도서코드→수량→단가→비율→비고(레거시 컬럼
+     걷기 — 기존 "수량 Enter→바로 새 줄" 단축 제거, 사용자 확정), 비고 Enter→새 행
+     (직전 행 구분 승계, 새 행 구분 열 복귀), 그리드 Esc→헤더(레거시 Edit101),
+     구분 Enter 시 비율 재조회(레거시 SIndexs=0 Grat1 재조회). 저장 후 연속 입력
+     포커스는 거래처로.
+  3. **선택 후 수량 포커스**: 도서 선택 3경로(인라인 클릭/다이얼로그/Enter 자동확정)
+     모두 수량으로 이동. 거래처 선택 시 지점으로 이동.
+  4. **빈 행 가드**: 현재 행 도서코드가 비어 있으면 비고 Enter/"라인 추가" 버튼
+     모두 행을 늘리지 않고 그 행 도서코드로 유도(신규 페이지 + 전체 수정 팝업
+     `addLineFromMemo`/`addLine` 동일). 수량≤0 은 입력 중 차단하지 않음(저장 시
+     validate 가 행 번호로 안내).
+  5. **한줄 팝업 도서 변경**: `sales-statement-line-edit-dialog` 에 도서
+     MasterLookupField 신설(line-defaults 로 도서명·단가·비율 채움+수량 포커스),
+     `saveLineEdit` 이 draft.bcode 전송 — 서버 (gcode,bcode) diff 가 DELETE+INSERT
+     처리(신규 라인 Yesno='0' 접수 초기화). **같은 전표 내 중복 bcode 는 서버
+     desired dict 가 무언 병합(마지막 승리)해 라인이 유실되므로 클라이언트에서
+     차단**(에러 안내). Enter 체인 수량→단가→비율→비고→저장&닫기 + 열릴 때 수량
+     autoFocus.
+- **범위 제외(사용자 확정)**: 라인 입력순서 정렬(현재 `ORDER BY Gcode, Bcode` 로
+  입력순 소실 — 레거시는 auto-increment `ID` 표시 순) — 추후 백엔드 ORDER BY 변경
+  으로 대응 예정. outbound `order-line-grid`/inbound `BookBcodeCell`(동일 결함 보유)
+  개별 수정은 후속 — 공통 컴포넌트 수정 혜택은 자동 적용.
+- **적용**: frontend `master-lookup-field.tsx`(상태기계 재작성),
+  `transactions/sales-statement/new/page.tsx`, `sales-statement/page.tsx`
+  (saveLineEdit draft.bcode + 팝업 props), `sales-statement-line-edit-dialog.tsx`
+  (도서 변경), `sales-statement-edit-dialog.tsx`(빈 행 가드). 백엔드 무변경.
+- **검증**: tsc 0 / eslint 신규 이슈 0(기존 이슈 4건 잔존) / dev 라우트 컴파일 200 /
+  hub pytest `-k sales_statement` 148 PASS·2 FAIL(백엔드 무변경이라 기존 실패).
+  수동 E2E(운영 DB 라 자동 기입 미수행): 팝업 3상태·빠른 Enter 자동확정·빈 행
+  연타·3경로 수량 포커스·한줄 팝업 도서 변경/중복 차단.
+- **보강 (같은 날 사용자 지시 — "모든 검색창에서 결과 선택+Enter=즉시 반영" 전수 점검)**:
+  검색 UI 전수 인벤토리 결과 이미 정상 = `SalesStatementSearchDialog`(↑↓/Enter 확정),
+  `DataGrid enableKeyboardNav` 사용 화면(~11곳), `order-line-grid`(공용 필드).
+  처리 4건: ① **공용 검색 팝업 `MasterLookupDialog` 키보드 흐름 완성** — 검색 입력
+  autoFocus, Enter=검색(결과 1건이면 즉시 확정 — 레거시 Seek 1건 자동선택, 같은
+  키워드 재-Enter 면 강조 행 확정), 검색 직후 **첫 행 자동 선택**, ↓ 로 결과
+  그리드 진입(기존 DataGrid ↑↓/Enter/더블클릭 확정과 연결), IME 조합 가드.
+  ② **입고 수정 그리드 `BookBcodeCell`(마우스 전용 구식 자동완성) 제거** →
+  공용 `MasterLookupField(book)` 교체(키보드 선택·4상태 패널·검색 팝업 자동 획득;
+  `InboundLineGrid` 의 serverId prop 은 인터페이스 유지·내부 미사용). ③ 회원가입
+  `WhitelistPicker` 키보드 선택 추가(↑↓/Enter/Esc + blur 닫힘 + 활성 행 강조).
+  ④ 고아 컴포넌트 `outbound/customer-search.tsx`(CustomerSearchInput, 사용처 0)
+  삭제 — 마우스 전용 구식 패턴 재사용 방지. 잔여(후속): `return-line-grid` 도서코드는
+  결과 목록 자체가 없음(정확 코드 입력만) — 검색 UI 도입은 별도 결정.
+- **보강 2 (같은 날 사용자 지시 — 거래현황(상세) 검색 팝업 필터 순차 입력)**:
+  스크린샷 지목 화면 `sales-statement-search-dialog.tsx`(Sobo20). 기존 "필터 아무
+  칸에서나 Enter=검색"을 레거시 순차 입력 흐름으로 교체 — **Enter=다음 필터 칸**
+  (거래일자 시작→종료→거래구분→전표구분→거래처명→도서구분→도서코드→취소포함,
+  `focusNextFilter` 가 패널 내 input/select 를 DOM 순으로 걷기), **마지막 칸(취소포함)
+  Enter=검색 실행**, **Ctrl(⌘)+Enter=어느 칸에서든 즉시 검색**(버튼 라벨도
+  "검색 (Ctrl+Enter)"). 필터 패널에 `data-enter-scope` 부여 — 거래처명/도서코드
+  자동완성 확정 후 다음 포커스가 패널 안(도서구분/취소포함)으로 이동. 전역 Esc
+  (capture) 리스너는 자동완성 패널이 열린 입력(`[role="combobox"][aria-expanded]`)
+  이면 양보 — Esc 1회=패널 닫기, 2회=팝업 닫기. IME 조합 Enter 가드. 푸터 힌트 갱신.
+- **결정자**: 사용자 (2026-07-16 — 고객 수정요청 전달 + 3택 확정: 입력순서 스킵/
+  한줄 팝업 도서 변경/레거시 Enter 순서)
+- **참조**: DEC-028/053(레거시 정합), DEC-065(화면 내 신규), Subu21.pas
+  DBGrid101KeyPress·KeyDown, `sales_statement_create_service.update_sales_statement`
+  (gcode,bcode) diff
+
+### DEC-098: 교문사(출판사 테넌트) 통계 권한 정합 — 사이드바 별칭 인식 + /stats/publisher 게이트 키 통일
+
+- **배경**(2026-07-16, 교문사 = remote_153/chul_09 공유 DB의 출판사 테넌트): 통계
+  메뉴가 안 보이거나, 보이는 메뉴(출판사 통계)를 열면 403. 조사 결과 권한 체계의
+  두 비대칭이 원인:
+  1. 페이지 `PermissionGuard` 는 `hasAliasedPermission`(별칭 브리지
+     `admin.stats.* ⇐ report.*`)을 쓰는데 **사이드바 `has()` 는 정확 일치만** 판정 —
+     report 권한만 있는 계정은 "페이지는 통과인데 메뉴는 숨김".
+  2. `/stats/publisher` 는 DEC-083 이 **사이드바 키를 `settlement.report.read` 로
+     완화**했으나 페이지 가드/백엔드 `require_permission` 은 `admin.stats.customer`
+     로 남아 — "메뉴는 보이는데 열면 403"(교문사가 본 화면).
+- **채택**:
+  1. `use-permissions.ts` 의 `has`/`hasAny`/화면 caps 리졸버가 `hasAliasedPermission`
+     을 함께 보도록 통일 — 사이드바/페이지/백엔드 3곳이 같은 판정 규칙.
+  2. `/stats/publisher` 본조회 + `export.xlsx` 의 `require_permission` 과 페이지
+     가드를 `settlement.report.read` 로 통일(DEC-083 사이드바 키와 정합). 행 스코프는
+     `resolve_publisher_row_scope` 가 별도 강제(테넌트=자기 출판사 고정)라 hcode
+     격리 무영향 — admin.stats 는 데이터 격리 장치가 아니라 메뉴 게이트.
+- **보류(승인 필요)**: 교문사 실계정의 `Id_Logn` Fxx(F5x 통계 셀) 실측·부여 —
+  운영 DB(remote_153/chul_09_db) 직접 조회가 권한 정책상 거부되어 미수행.
+  나머지 4개 `admin.stats.*` 메뉴가 교문사에 필요하면 report 읽기 셀 부여(데이터
+  조치)를 사용자 승인 하에 진행.
+- **검증**: `test_c13_stats_phase1.py::test_S_05` 갱신 — stats 라우터 허용 코드
+  집합에 `settlement.report.read` 포함 + `/publisher` 본조회·export 2곳에만 부착
+  가드. 관련 서브셋 pre/post 비교 신규 회귀 0건.
+- **결정자**: 메인개발자 (2026-07-16 — 교문사 사용자 리포트 기반)
+- **참조**: DEC-083(사이드바 키 완화), DEC-044(admin.stats 권한 4종),
+  `frontend/src/lib/permission-aliases.ts`, `resolve_publisher_row_scope`
+
+### DEC-099: 전표번호 표기 정본(Idnum) 통일 + 거래현황 컬럼 정렬 + 창 닫기 시 목록 검색세션 초기화 — 고객 리포트(2026-07-16) 대응
+
+- **배경**(고객 리포트 2026-07-16 오후, 위러브솔루션): ① 거래현황(LIST/상세/요약)
+  전표 번호가 화면마다 안 맞음 ② 카테고리(컬럼) 오름차순/내림차순 정렬 요청
+  ③ 거래현황·출고현황 등 창을 닫고 다시 열면 이전 검색 데이터가 그대로 남음
+  ④ 출고접수관리 "전표" 번호 확인 요청.
+- **원인 진단**(①④): `Jubun`(거래처별 차수=키)과 `Idnum`(일자별 전표번호=표시 정본,
+  DEC-064 5자리 zero-pad) 혼용으로 4가지 표기 공존 — 거래현황=raw Jubun,
+  출고접수=Jubun 5-pad(정본 오용), 거래명세서=Idnum 5-pad(정본), 출고현황=raw Idnum.
+  출고접수는 백엔드가 Idnum 을 아예 반환하지 않았음.
+- **채택**:
+  1. **백엔드 order_key.idnum 신설**(표시 전용, 키 불변): `outbound_service.list_orders`
+     슬립 그룹에 `MAX(Idnum+0) AS idnum` SELECT(전 서버 기조회 무가드 패턴),
+     `get_order_detail` 은 라인 Idnum 대표값(MAX, 컬럼 부재 서버 0 폴백). `OrderKey`
+     모델에 `idnum: int | None` 추가. 거래현황 쪽은 `list_sales_statements` 가 이미
+     반환 — 파사드 `/transactions/status` 에 `sortBy/sortDir` 패스스루만 추가.
+  2. **표기 A(Idnum 5-pad) 통일**: 거래현황 LIST/상세, 출고접수 목록/상세,
+     출고현황 슬립/요약, 거래명세서 상세 헤더 — 전부
+     `formatIdnumDisplay(order_key.idnum) || jubun`(Idnum 미반환 서버 폴백),
+     컬럼 라벨 "전표"→"전표번호".
+  3. **거래현황 컬럼 정렬**: 서버 화이트리스트 `_SALES_STATEMENT_SORTS`
+     (gdate/idnum/customer_name/gubun/gjisa/row_count/qty/amount/status) 기반
+     헤더 클릭 토글(오름↔내림, aria-sort) — list/상세/메모=서버 재조회,
+     요약=클라이언트 정렬(정렬 컬럼: 거래처/전표수/수량합/금액합).
+  4. **창 닫기 시 목록 검색세션 초기화**: `clearAllListSessions()` 신설 —
+     워크스페이스 `closeWindow`/`closeAll` 에서 목록 세션 스냅샷(KEY_PREFIX 전체)
+     제거. 닫힌 창을 다시 열면 새 창처럼 시작(사용자 요청). 상세↔목록 왕복(창
+     유지) 복원(DEC-055)은 창이 닫히지 않으므로 영향 없음.
+  5. **부수 정비**(같은 배치): 신규 거래명세서 라인 그리드 컬럼 헤더 드래그 순서
+     변경(`useGridPrefs`, 계정별 서버 저장 — 다른 목록과 동일 UX), 로그인 화면
+     DSN-DEC-08 내부 문구 노출 제거.
+- **범위 제외**: 거래명세서 라인 "입력순서" 정렬(레거시 auto-increment ID 순)은
+  DEC-097 에서 사용자 확정으로 스킵 — 추후 백엔드 ORDER BY 변경으로 별도 대응.
+- **검증**: `test_dec099_slip_number_display.py` 신설(list_orders MAX(Idnum+0)
+  SELECT+반환, get_order_detail 라인 MAX, status 파사드 sortBy/sortDir 패스스루)
+  — 3건 PASS. 프론트 tsc 0, eslint 신규 이슈 0(기존 6건 잔존, stash 비교 동일).
+  관련 서브셋(outbound/sales_statement/stats/permission) pre/post 비교 —
+  **post-only 실패 0건**(33건 전부 기존 실패), pre-only 3건=신규 테스트.
+  정적 감사 4종(routing/hcode/coalesce/login-audit) critical 0.
+- **결정자**: 사용자 (2026-07-16 — 고객 리포트 전달)
+- **참조**: DEC-064(Idnum 표기 정본·5자리 zero-pad), DEC-055(목록 세션 복원),
+  DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
+  `formatIdnumDisplay`
+
 ---
-*최종 업데이트: 2026-07-09 — DEC-096 신규 (로그인 조직 선택 챌린지 — 동일 ID+PW
+*최종 업데이트: 2026-07-16 — DEC-097 신규 + 보강 (거래명세서 Enter=저장·선택·진행
+정합), DEC-098 신규 (교문사 통계 권한 정합 — 사이드바 별칭 인식 + /stats/publisher
+게이트 settlement.report.read 통일), DEC-099 신규 (전표번호 Idnum 표기 통일 +
+거래현황 컬럼 정렬 + 창 닫기 시 목록 검색세션 초기화). 직전: DEC-096.*
+*직전: 2026-07-09 — DEC-096 신규 (로그인 조직 선택 챌린지 — 동일 ID+PW
 크로스 DB 672건, 409 ORG_SELECT_REQUIRED + tenantId/dbName 재제출). 직전: DEC-095.*
 *직전: 2026-07-09 — DEC-095 신규 (비-기본 DB 테넌트 0건 — 테넌트 DB 요청
 컨텍스트 신설, rdb 클레임 적용). 직전: DEC-094.*
