@@ -1995,11 +1995,17 @@
   (없으면 % 기본). 너비 조절 제스처 중에는 `suppressColDragRef` 로 순서변경 드래그
   억제(공통 DataGrid 와 동일). 헤더 title 을 "순서변경 · 오른쪽 경계 드래그: 너비
   조절"로 갱신.
-- **참고(미해결 조사)**: 인라인 자동완성/검색 팝업 첫 ↓ 가 둘째 항목 선택 리포트 —
-  인라인 ArrowDown 산술(`activeIdx -1→0`)은 격리 재현(임시 공개 라우트 + StrictMode
-  이중호출 실측)으로 **정상 확인**(dev StrictMode 함수형 updater 는 체이닝 안 함,
-  -1→0). 팝업 경로는 보강 6 으로 수정. 잔여 리포트는 배포 반영 후 재확인 필요
-  (자동 재현은 로그인 세션 필요).
+- **보강 8 (2026-07-17 — 검색 첫 ↓ 가 둘째 항목 선택 = 한글 IME 이중 keydown)**:
+  결정적 단서 "검색 직후 첫 ↓ → 둘째, 좌/우 키 먼저 누르면 그 다음 ↓ → 첫째"로
+  원인 확정 — **한글 IME 조합 중 물리적 ↓ 1회가 keydown 2회(IME keyCode 229 +
+  실제 키) 발생**하는데, 화살표 핸들러에 `isComposing` 가드가 없어 `activeIdx`
+  -1→0→1 로 두 칸 이동(둘째 선택). 좌/우 키는 조합을 커밋시켜 다음 ↓ 는 1회만
+  발생(첫째). **격리 재현으로 확증**: (1) 순수 로직 복제본은 정상(-1→0), (2) IME
+  이중 keydown(isComposing true→false) 시뮬레이션 시 가드 없음=1(둘째)·가드 있음=0
+  (첫째). **수정**: `MasterLookupField` 인라인 ArrowDown/ArrowUp, `MasterLookupDialog`
+  검색 입력 ArrowDown, `DataGrid` 키보드 네비 ArrowDown/ArrowUp 에 `isComposing`
+  가드 추가(조합 keydown 무시). (보강 6·7 의 첫-항목 관련 조치는 IME 아닌 경로의
+  보강으로 함께 유지.)
 - **보강 6 (2026-07-17 사용자 리포트 — 검색 팝업 첫 ↓ 가 둘째 항목 선택)**:
   인라인 결과 상태에서 Enter → 검색 팝업(MasterLookupDialog) → 첫 ↓ 가 **첫 행을
   건너뛰고 둘째 행**을 선택. **원인 2중**: ① `DataGrid.handleKeyDown` 의 ArrowDown 이
