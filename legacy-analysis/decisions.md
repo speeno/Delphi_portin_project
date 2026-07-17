@@ -1987,6 +1987,16 @@
   자동완성 확정 후 다음 포커스가 패널 안(도서구분/취소포함)으로 이동. 전역 Esc
   (capture) 리스너는 자동완성 패널이 열린 입력(`[role="combobox"][aria-expanded]`)
   이면 양보 — Esc 1회=패널 닫기, 2회=팝업 닫기. IME 조합 Enter 가드. 푸터 힌트 갱신.
+- **보강 6 (2026-07-17 사용자 리포트 — 검색 팝업 첫 ↓ 가 둘째 항목 선택)**:
+  인라인 결과 상태에서 Enter → 검색 팝업(MasterLookupDialog) → 첫 ↓ 가 **첫 행을
+  건너뛰고 둘째 행**을 선택. **원인 2중**: ① `DataGrid.handleKeyDown` 의 ArrowDown 이
+  `cur = focusedIndex>=0 ? focusedIndex : 0; moveTo(cur+1)` 라, 미선택(focusedIndex=-1,
+  자동선택 async 미반영/타이밍) 상태에서 첫 ↓ 가 `moveTo(0+1)=1` → 둘째 행. ② 검색
+  입력 ↓ 는 그리드에 포커스만 주고 첫 행 선택을 명시하지 않음. **채택**: ① DataGrid
+  ArrowDown/ArrowUp 을 `moveTo(focusedIndex<0 ? 0 : focusedIndex±1)` 로 — 미선택 첫 ↓ =
+  첫 행(전 키보드네비 그리드 공통 개선, 표준 동작). ② 검색 입력 ↓ 에서 첫 행
+  (`config.rowKey(rows[0],0)`) 명시 선택 후 그리드 진입 — 자동선택 타이밍과 무관하게
+  결정적. 이후 ↓ 는 둘째 행으로 정상 진행.
 - **보강 5 (2026-07-17 사용자 리포트 — 검색창 브라우저 자동완성 차단)**:
   거래처 MasterLookupField 에서 앱 자동완성 드롭다운(00001…) 위에 브라우저 자체
   입력기록 자동완성("교보"/"교")이 겹쳐 표시됨. 공용 검색 입력에 브라우저 자동완성/
