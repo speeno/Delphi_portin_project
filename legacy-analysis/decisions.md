@@ -1997,14 +1997,24 @@
   로그인/회원가입 등 자동완성이 유용한 폼은 공용 `Input` 기본값 미변경으로 영향 없음.
 - **보강 4 (2026-07-17 사용자 리포트 — 신규 명세서 거래처→지점 포커스 누락)**:
   거래처 확정 시 지점명(지사) 드롭다운이 자동 생성되는데 포커스가 이를 건너뛰고
-  그리드로 넘어감 — 사용자가 지점 선택 불가. **원인**: 지점 목록은 거래처 선택 시
-  `customerBranchList` 로 **비동기 로드**되는데, 확정 직후 동기 `setTimeout(focusGjisa,0)`
-  시점엔 로딩 자리표시자(`<p>지점 목록 불러오는 중…</p>`)만 렌더돼 `gjisaRef`=null →
-  `focusGjisa` 가 그리드로 폴백. **채택**: 경합 없는 state/effect 구동으로 교체 —
-  `focusGjisa` 는 대기 플래그+nonce 만 올리고, effect 가 `branchLoading` 중이면 대기,
-  로드 완료(false 전환) 시 재실행해 지점 있으면 드롭다운 포커스(선택 가능)·없으면
-  그리드. nonce 로 동일 거래처 재확정도 커버. MasterLookupField 내부 `focusNextFrom`
-  은 헤더 `data-enter-scope` 스코프라 로딩 중 그리드로 새지 않음(공존).
+  그리드로 넘어감 — 사용자가 지점 선택 불가. 지점 목록은 거래처 선택 시
+  `customerBranchList` 로 **비동기 로드**되어, 확정 직후 동기 포커스는 로딩
+  자리표시자만 렌더된 상태라 그리드로 샜다.
+  - **1차 시도(nonce+effect) 실패**: 확정과 같은 render 에서 nonce 가 effect 를 즉시
+    실행시키는데, 이 render 의 `branchLoading` 은 아직 false(branch 로드 effect 의
+    setBranchLoading(true)는 다음 render 반영)라 "로딩 아니면 즉시 포커스"가 premature
+    하게 그리드로 폴백 — 여전히 건너뜀(사용자 재리포트).
+  - **2차 rAF 시도 기각**: rAF 는 React passive effect 보다 먼저 실행돼 로딩 상태 미반영
+    → 부분입력→선택 경로를 오히려 깨뜨림.
+  - **확정 채택(순수 state/effect, 경합 제거)**: 지점 로드 완료된 hcode 를
+    `branchesForHcodeRef` 로 추적. 확정 시 플래그+nonce 만 올리고, effect 가:
+    ① 로딩 중이면 대기, ② 지점이 **현재 거래처 기준으로 이미 로드**면 즉시(전체코드
+    입력 후 확정·동일거래처 재확정 경로), ③ **방금 로드 완료(true→false)** 면 반영
+    (부분입력→드롭다운 선택 경로 — hcode 변경으로 새 로드), ④ 새 로드 예정이면 대기
+    (premature 그리드 폴백 방지). rAF/타이머 없음. 지점 있으면 드롭다운 포커스(선택
+    가능)·없으면 그리드. `selectItem` 이 `onValueChange(hcode)` 로 거래처를 바꾸므로
+    부분입력→선택 시 새 로드가 트리거됨을 확인. MasterLookupField 내부 `focusNextFrom`
+    은 헤더 `data-enter-scope` 스코프라 로딩 중 그리드로 새지 않음(공존).
 - **보강 3 (2026-07-17 사용자 지시 — 거래명세서 인라인 필터 패널 순차 입력)**:
   스크린샷 지목 = 거래명세서 목록 화면 본문 필터 패널(Sobo21.Panel001, 검색 팝업이
   아니라 `sales-statement/page.tsx` 인라인). 보강 2(Sobo20 팝업)와 동형 패턴 이식 —
