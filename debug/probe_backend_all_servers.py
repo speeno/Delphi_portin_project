@@ -923,22 +923,7 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200, 422},
         },
-        # ─── DEC-092 — 전자책 판매분석 (Web_Ebook_Sales 사이드 테이블) ───
-        {
-            "group": "stats.ebook_sales",
-            "path": (
-                f"/api/v1/stats/ebook-sales?serverId={sid}&limit=1&offset=0"
-            ),
-            "ok_status": {200},
-        },
-        {
-            "group": "stats.ebook_sales_export",
-            "path": (
-                f"/api/v1/stats/ebook-sales/export.xlsx?serverId={sid}"
-                f"&monthFrom=1&monthTo=3"
-            ),
-            "ok_status": {200},
-        },
+        # 전자책 판매분석(구 DEC-092)은 2026-07-17 제거 — probe 대상에서 삭제.
         {
             "group": "stats.publisher",
             "path": (

@@ -2096,8 +2096,31 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-100: 전자책 판매분석(구 DEC-092) 기능 제거 — 불필요 메뉴
+
+- **배경**(2026-07-17, 사용자 지시): 통계관리 하위 "전자책 판매분석" 메뉴는 불필요 —
+  제거 요청. (DEC-092 로 교문사 전자책 워크북 흡수용으로 신설했던 웹 전용 화면.)
+- **채택**: 기능 전체 제거 — 프론트 페이지(`stats/ebook-sales/page.tsx`) +
+  form-registry 항목(`Stats_ebook_sales`) + stats-api 클라이언트(`ebookSalesApi`
+  + 타입) 삭제; 백엔드 stats 라우터의 `/ebook-sales*` 6개 엔드포인트 +
+  `ebook_sales_service.py` 삭제(미사용된 `UploadFile`/`File` import 정리);
+  회귀 테스트 `test_dec092_ebook_sales.py` 삭제; probe 매트릭스 2개 항목 제거.
+- **데이터 보존**: 사용자 입력분이 있는 사이드 테이블 `Web_Ebook_Sales` 는 **DDL/데이터
+  미변경**(API 만 제거) — 되살릴 경우 데이터 그대로 재연결 가능.
+- **검증**: 백엔드 app import OK(stats 라우트 19개, ebook 0), 프론트 tsc 0(생성
+  `.next/types` stale 정리 후)·eslint 0, 통계/c13 서브셋 63 PASS. 전 스위트 수집
+  오류 0(삭제 서비스/테스트 잔여 참조 없음). 라우터 hcode 감사 critical 0.
+  잔여 참조는 제거 안내 주석 2개(form-registry·stats-api)뿐.
+- **결정자**: 사용자 (2026-07-17 — 불필요 메뉴 제거 지시)
+- **참조**: DEC-092(원 신설), `masters-export-import-ebook.md`(별개 도서 전자책
+  ISBN/가격 `book_ebook_service` — 본 제거와 무관, 유지)
+
 ---
-*최종 업데이트: 2026-07-16 — DEC-097 신규 + 보강 (거래명세서 Enter=저장·선택·진행
+*최종 업데이트: 2026-07-17 — DEC-100 신규 (전자책 판매분석 기능 제거 — 프론트
+페이지/백엔드 라우트/서비스/테스트/probe 삭제, Web_Ebook_Sales 데이터 보존).
+직전: DEC-097 보강3(거래명세서 인라인 필터 Enter) + DEC-098 데이터 조치 완료(교문사
+통계 8셀 read) + DEC-099 보강(정렬 헤더 인디케이터·전표번호 경고 오표시).*
+*직전: 2026-07-16 — DEC-097 신규 + 보강 (거래명세서 Enter=저장·선택·진행
 정합), DEC-098 신규 (교문사 통계 권한 정합 — 사이드바 별칭 인식 + /stats/publisher
 게이트 settlement.report.read 통일), DEC-099 신규 (전표번호 Idnum 표기 통일 +
 거래현황 컬럼 정렬 + 창 닫기 시 목록 검색세션 초기화). 직전: DEC-096.*
