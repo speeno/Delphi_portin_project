@@ -2096,6 +2096,26 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-101: 수량 입력 컨트롤 ↑/↓ 값 증감 — 전 화면 공용 키 처리
+
+- **배경**(2026-07-17, 사용자 지시): 수량 입력 컨트롤이 날짜 입력처럼 키보드 상/하로
+  숫자를 +/− 할 수 있어야 함. 이어서 "모든 수량 컨트롤에 동일하게 적용" 지시.
+- **원인**: 신규 명세서 그리드(Sobo21.NewForm)는 `onCellKeyDown` 이 ↑/↓ 를 **행 이동**
+  으로 가로채(preventDefault) 네이티브 number 스피너를 막고 있었음. 나머지 수량
+  입력들은 `type="number"` 네이티브 +/− 는 되나 증감폭·음수방지 편차가 존재.
+- **채택**: 공용 헬퍼 `lib/qty-input.ts::handleQtyArrowKey(e, current, setValue, min=0)`
+  신설 — ↑ +1 / ↓ −1(min 미만 방지, 기본 0), 처리 시 true 반환(그리드 행 이동 등
+  상위 화살표 동작 스킵), IME 조합 중 무시. **편집 가능한 수량 컨트롤 8곳 전부** 적용:
+  신규 명세서 그리드(gsqut 셀 — 행 이동보다 우선), 출고 order-line-grid,
+  입고 inbound-line-grid, 반품 return-line-grid(min=1), 거래명세서 전체수정/한줄수정
+  팝업, 반품 접수 상세 페이지, 입고 접수 신규 페이지. 기존 Enter 셀 이동 핸들러
+  (focusNextCell/enterTo)는 화살표 미처리 시 그대로 위임돼 공존. 읽기전용 재고 필드
+  (book-detail-form)는 제외.
+- **검증**: tsc 0(helper 타입 `KeyboardEvent<Element>` 로 select/input 공용 셀 핸들러
+  호환), eslint 신규 이슈 0(기존 이슈 잔존), dev 라우트 4종 200. 백엔드 무변경.
+- **결정자**: 사용자 (2026-07-17)
+- **참조**: DEC-097(신규 명세서 그리드 Enter 열 걷기·onCellKeyDown), `lib/qty-input.ts`
+
 ### DEC-100: 전자책 판매분석(구 DEC-092) 기능 제거 — 불필요 메뉴
 
 - **배경**(2026-07-17, 사용자 지시): 통계관리 하위 "전자책 판매분석" 메뉴는 불필요 —
