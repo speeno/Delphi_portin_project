@@ -2161,6 +2161,29 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-103: 사용자 화면 텍스트에서 레거시 참조 제거 — 전 화면 스윕
+
+- **배경**(2026-07-18, 사용자 지시): 화면 부제목·설명 앞의 레거시 화면번호·테이블명
+  (예: "Sobo11 · G1_Ggeo/G1_Gbun ·")이 일반 사용자에게 불필요 — 전 화면에서 제거.
+- **채택**: 화면에 **보이는 텍스트**에서만 레거시 토큰 제거 — 레거시 화면코드
+  (Sobo/Subu/Seep/Menu###), 레거시 테이블/컬럼명(G#_XXX, S#_XXX, T#_XXX, Sg_Csum,
+  Id_Logn, DBGrid### 등), 코어 시나리오 코드(C1~C15), DEC/NAV 참조, .pas/.dfm 파일
+  참조, caps/variant/버전 태그를 부제목·설명·카드 desc·섹션 헤더·탭 라벨·옵션·라벨·
+  placeholder·확인창·헤더 툴팁에서 삭제하고 자연스러운 한국어 설명만 남김. 허브
+  카드의 "레거시: SoboNN" 배지(`<p>레거시:{c.legacy}</p>`) 렌더 제거.
+- **불변 유지(중요)**: 테스트가 의존하는 `data-legacy-id` 속성, DataGrid 컬럼
+  `legacyId`, 코드 주석, form-registry id, `useScreenCaps`, `const LEGACY_ID`,
+  `V_LABEL`/`menuId`, 그리고 master 허브의 `legacy:` 데이터 필드(data-legacy-id 생성에
+  사용)는 **모두 그대로**. admin 전용 계정군 코드(T2_DIST/T2_PUB/dist_hcode)는 실제
+  선택값이라 유지.
+- **범위**: 프론트 ~50개 파일, ~95개 문자열(순수 문자열 편집 + master 허브 `<p>` 1개
+  제거, 로직/구조 변경 0). 4개 병렬 편집 에이전트로 분담 처리.
+- **검증**: 보이는 텍스트 레거시 토큰 grep 0(admin 계정군 코드 제외), tsc 0 에러,
+  eslint 신규 이슈 0(전부 기존), 라우트 6종 200 컴파일. DEC-028 data-legacy-id
+  커버리지 테스트(TC-RT-P2-30 등) 유지.
+- **결정자**: 사용자 (2026-07-18)
+- **참조**: DEC-028(위젯 data-legacy-id 추적성 — 속성은 유지)
+
 ### DEC-102: 기간별 재고원장 상세 — S1_Ssub 재고변동 컬럼 부재 테넌트 500 해소
 
 - **증상**(2026-07-17): 기간별 재고원장 "도서별 누계"에서 도서 행 선택 시
