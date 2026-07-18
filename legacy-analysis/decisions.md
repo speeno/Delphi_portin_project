@@ -2161,6 +2161,25 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-102: 기간별 재고원장 상세 — S1_Ssub 재고변동 컬럼 부재 테넌트 500 해소
+
+- **증상**(2026-07-17): 기간별 재고원장 "도서별 누계"에서 도서 행 선택 시
+  `returns_ledger_failed: OperationalError (1054, "Unknown column 's.Giqut'")` 500.
+- **원인**: 상세 SQL(SQL-RT-29, `SQL_LEDGER_DETAIL`)이 `S1_Ssub` 에서
+  `Giqut/Gisum/Goqut/Gosum/Gjqut/Gjsum/Gbqut/Gbsum` 재고변동 컬럼을 **고정 SELECT** —
+  해당 컬럼이 없는 테넌트(DDL drift)에서 1054. `ORDER BY s.Idnum` 도 Idnum 부재
+  테넌트에서 동일 위험. (마스터/summary 는 core 컬럼만 써서 정상이라 선택 시에만 발현.)
+- **채택**(DEC-033 어댑터 패턴): `_build_ledger_detail_sql(server_id)` 신설 —
+  `s1_column_names` 로 존재 컬럼만 `COALESCE(s.Col,0) AS alias`, 부재는 `0 AS alias`,
+  Idnum 부재 시 ORDER BY 에서 제거. 상세 경로(`detail_for_bcode`)에서만 호출(마스터
+  경로·기존 테스트 무영향). alias 는 전부 유지(프론트 계약 보존). `SQL_LEDGER_DETAIL`
+  상수는 회귀 가드 토큰 매처용으로 잔존.
+- **검증**: `test_dec102_ledger_detail_ddl_drift.py` 신설(부재 컬럼 참조 0·alias 유지·
+  Idnum ORDER BY 제거 / 존재 컬럼 COALESCE 참조). 반품·원장 서브셋 pre/post 비교
+  신규 회귀 0건.
+- **결정자**: 사용자 (2026-07-17 리포트)
+- **참조**: DEC-033(다중 DB/DDL drift 어댑터), `s1_ssub_adapt.s1_column_names`
+
 ### DEC-101: 수량 입력 컨트롤 ↑/↓ 값 증감 — 전 화면 공용 키 처리
 
 - **배경**(2026-07-17, 사용자 지시): 수량 입력 컨트롤이 날짜 입력처럼 키보드 상/하로
