@@ -2179,6 +2179,13 @@
   신규 회귀 0건.
 - **결정자**: 사용자 (2026-07-17 리포트)
 - **참조**: DEC-033(다중 DB/DDL drift 어댑터), `s1_ssub_adapt.s1_column_names`
+- **보강(2026-07-18, 사용자 지시 — 상세/라인 표 표준화)**: 기간별 재고원장
+  "일자별 트랜잭션"(Sobo34_4.DBGrid201)·기간별 반품내역서 "반품 라인"(Sobo58.DBGrid201)
+  디테일 표가 수제 `<table>` 이라 표시/숨김·정렬·컬럼순서·너비 조절 미지원(마스터
+  그리드만 표준). 두 디테일 표를 공용 `DataGrid` + `useGridPrefs`(별도 키
+  `returns.ledger.detail` / `returns.period-report.detail`, 계정별 서버 저장) +
+  `GridColumnSettings` + `useClientSort`(숫자 컬럼 수치 정렬)로 전환. `<th>`
+  data-legacy-id 는 컬럼 `legacyId` 로 1:1 보존(DEC-028 커버리지 TC-RT-P2-30 유지).
 
 ### DEC-101: 수량 입력 컨트롤 ↑/↓ 값 증감 — 전 화면 공용 키 처리
 
