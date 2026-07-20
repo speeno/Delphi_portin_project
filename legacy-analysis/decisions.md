@@ -2161,6 +2161,33 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-109: 출고현황 전표 흡수 버그 — 같은 거래처·Jubun·다른 지점(Gjisa) 전표 분리
+
+- **증상**(2026-07-20 사용자 리포트): 출고현황 요약/상세에 **전표 2가 안 보임**(실재로
+  존재). 라이브 API 검증: 출고현황 idnum=[1,3,4,…] (2·10 누락) vs 거래명세서 idnum=[1,2,3,…]
+  (2 존재).
+- **정확한 원인**: 전표 2=영풍문고(00004) 온라인, 전표 3=영풍문고(00004) **종각 종로점** —
+  거래처·Jubun(11) 같고 **지점(Gjisa)만 다름**. `list_outbound_status_slips` 의
+  `GROUP BY (Gdate,Hcode,Jubun,Gcode)` 가 Gjisa·Idnum 을 빼서, 전표 2가 전표 3에 흡수되고
+  `MAX(Idnum)=3` 만 표시 → 전표 2 소멸. 거래명세서는 `_group_by_stmt_keys` 가
+  (Gdate,Hcode,Idnum,Gubun,Jubun,Gjisa,Gcode) 라 1슬립=1행으로 분리해 정상.
+- **채택**:
+  - GROUP BY 에 `IFNULL(Idnum,0)`·`IFNULL(Gjisa,'')` 추가(1전표=1행, MySQL3 IFNULL —
+    no-coalesce 정책). SELECT/order_key 에 gjisa 노출.
+  - order_key 직렬화 **5-파트**(`{gdate}|{hcode}|{gcode}|{jubun}|{gjisa}`) — 상세/수정/
+    취소/요청/완료 전 경로에 gjisa 스레딩(`_parse_order_key`·`_hdr_where`·`_hdr_params`·
+    `get_order_detail`·`update_order`·`cancel_order`·`_transition_yesno`). 같은 거래처·
+    다른 지점 전표를 편집 시 서로 안 섞이게(DEC-080-class 데이터 안전). gjisa 빈 값은
+    기존 4-파트 backward-compat.
+  - 프론트: OutboundStatus/OrderKey.gjisa, slipKey(행 구분)·toOrderKey·serialize/parse.
+- **검증**: 회귀 `test_group_by_includes_gjisa_and_idnum`(GROUP BY IFNULL(Gjisa/Idnum)),
+  mock/파서 테스트 gjisa 반영. tsc 0. (전체 스위트 customer_name 등은 기존 flake — 격리 통과.)
+- **주의**: stash 왕복 중 백엔드 변경이 2회 유실 → 재적용. 큰 백엔드 변경은 커밋 전
+  git status 로 파일 포함 재확인할 것.
+- **결정자**: 사용자 (2026-07-20)
+- **참조**: [[slip-key-shared-and-binlog-recovery]](DEC-080 (Gdate,Hcode,Jubun) 공유키),
+  [[slip-number-idnum-vs-jubun]], `_group_by_stmt_keys`(거래명세서 그룹키 정본)
+
 ### DEC-108: 전표번호 표시 정본 = Idnum (Jubun 오표시 재발 방지)
 
 - **배경**(2026-07-20 사용자 리포트, "다른 화면에서도 계속 동일 오류 — 정확히 기록해
