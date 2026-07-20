@@ -2161,6 +2161,46 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-111: 거래명세서 즉시 출력(SSE 준실시간) + 출고목록 전표 흡수 해소 + 컬럼 이동 수정
+
+- **요청**(2026-07-20 사용자): ① 경리부(PC1)가 출고현황 상세에서 완료전 항목을 '바로접수'
+  (=출고요청/접수)하면, 프린터+자동출력이 도는 교문사(PC2, 동일 hcode 다른 계정)가 3분 폴
+  대기 없이 그 건만 즉시 인쇄+완료. "3분이 아니라 ~5초 이내 준실시간 감시가 백단에 돌아야."
+  ② 전표 2 누락(DEC-109) 수정을 다른 명세출력 화면에도 반영(출고접수관리에서 여전히 누락).
+  ③ 컬럼 순서 이동이 선택 셀 앞에 안 들어가고 한 칸 건너뜀.
+- **즉시 출력 설계(왜 SSE 자가폴인가)**: Render 백엔드는 현장 프린터 직결 불가(OQ-002)라
+  인쇄 루프는 반드시 브라우저 탭이어야 한다. 기존 자동출력은 이미 접수→인쇄→완료가 맞고
+  **지연만 3분**이었음 — 필요한 건 지연 단축뿐. 서버 푸시 인프라(큐/웹소켓)는 없으나 IoT
+  대시보드용 **SSE 자가폴 제너레이터**(`StreamingResponse`+`asyncio.sleep` 루프)와 그
+  **fetch+ReadableStream 소비자**(EventSource 는 `Authorization` 헤더 불가 → fetch 로 우회)
+  패턴이 검증돼 있어 그대로 재사용.
+  - 백엔드: `GET /transactions/sales-statement/received-stream`(text/event-stream) +
+    `transactions_service.stream_received_statements` — `received-today` 와 동일 로직
+    (`list_sales_statements`+status=='received')으로 ~5초마다 현재 접수 집합을 구해 **직전
+    tick 이후 새로 나타난 전표만** yield(seen=order_key JSON dedup), 신규 없으면 heartbeat.
+    JWT(`get_user_context`)+`enforce_hcode_isolation`, `maxTicks` 로 스모크 바운드.
+  - 프론트: 자동출력 탭이 `subscribeReceivedStatements`(fetch+reader, 백오프 재연결)로 구독
+    → 새 건 즉시 인쇄+완료. **3분 폴은 안전망 유지**, `printedRef` 를 SSE·폴이 공유해 중복
+    인쇄 차단. "● 실시간 감시" 배지 추가.
+- **전표 흡수 해소(출고접수관리 `/outbound/orders`)**: `outbound_service.list_orders`
+  GROUP BY 가 `Gdate,Hcode,Gcode,Jubun` 뿐이라 지점만 다른 전표(영풍문고 온라인 vs 종각
+  종로점)가 한 행으로 합쳐져 MAX(Idnum)=3 만 보이고 전표 2 가 가려짐. GROUP BY 에
+  `Gjisa`·`Idnum` 추가 + SELECT `{gjn} AS gjisa` + **order_key 에 gjisa 노출** +
+  `OrderKey` 모델에 `gjisa` 필드 추가(응답 탈락 방지). 상세/수정/취소는 DEC-109 에서 이미
+  gjisa 필터 지원 → 목록↔상세 정합. DEC-109(outbound-status)와 동일 grouping.
+- **DataGrid 컬럼 이동 버그**: `onHeaderDrop` 이 ① 키 배열을 `c.key` 로 만들어 `id` 있는
+  합성 컬럼(거래현황 일자/전표번호=order_key)은 indexOf 가 첫 동일 key 를 잡아 엉뚱한 컬럼이
+  이동, ② `splice(to,0)` 이라 `from<to` 시 제거로 밀린 인덱스 때문에 타겟 **뒤**에 삽입(한 칸
+  건너뜀). 수정: 키를 `id ?? key`(prefs 규약과 동일), 삽입은 `from<to ? to-1 : to`(타겟 앞).
+- **검증**: `test_dec111_immediate_print_and_slip_split.py` 신설(스트림 신규-키만 방출+
+  heartbeat, list_orders order_key.gjisa 분리) 2건 PASS. `test_list_count_grouped_mysql3`
+  기대 GROUP BY 갱신. 프론트 tsc·eslint 0. 프로브에 received-stream(maxTicks=1) 등록.
+  test_pagination_contracts 9건은 단독 통과=기존 파일간 이벤트루프 격리 순서 flakiness(무관).
+- **결정자**: 사용자 (2026-07-20)
+- **참조**: DEC-109(전표 흡수/gjisa 분리), DEC-071(과거일자 접수 days 창), OQ-002(현장
+  프린터 직결 불가), IoT SSE(`stats.stream_dashboard_iot_events` 패턴),
+  `auto-print-stream.ts`, `use-grid-prefs.ts`(id??key 규약)
+
 ### DEC-110: 거래관리 표 5종 공통그리드 전환 + 팝업 리사이즈
 
 - **요청**(2026-07-20 사용자): ① 거래관리 「기타명세서」·「거래현황 하위 화면들」의 표에

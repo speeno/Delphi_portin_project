@@ -674,6 +674,16 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # DEC-111 — 접수 전표 준실시간 SSE 스트림(자동출력 즉시 트리거). maxTicks=1 로 바운드해
+        # 스모크가 멈추지 않게 한다(IoT 스트림 maxEvents 패턴 동형, text/event-stream).
+        {
+            "group": "transactions.received_stream",
+            "path": (
+                f"/api/v1/transactions/sales-statement/received-stream?serverId={sid}"
+                f"&days=7&intervalSeconds=2&maxTicks=1"
+            ),
+            "ok_status": {200},
+        },
         # C1 입고명세서 facade (Menu202) — inbound_service.list_receipts 재사용.
         {
             "group": "transactions.inbound_statement",

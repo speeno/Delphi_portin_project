@@ -203,7 +203,10 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
             names_value={("H001", "GCUST01"): "거래처A"},
             list_fn_name="list_orders",
             # 거래처(Gcode) 별 슬립 분리 — 출고 키에 Gcode 포함(2026-06-21, DEC 전표 거래처 충돌).
-            expected_group_by="Gdate, Hcode, Gcode, COALESCE(Jubun,'')",
+            # 지점(Gjisa)·전표번호(Idnum) 도 포함 — 지점만 다른 전표 흡수 해소(DEC-111,
+            # outbound-status DEC-109 정합). 지점만 다른 영풍문고 온라인·종각 전표가 한 행으로
+            # 합쳐져 낮은 전표번호가 가려지던 버그 차단.
+            expected_group_by="Gdate, Hcode, Gcode, COALESCE(Jubun,''), COALESCE(Gjisa,''), COALESCE(Idnum,0)",
         )
 
     async def test_inbound_list_receipts(self) -> None:
