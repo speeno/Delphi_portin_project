@@ -2184,9 +2184,19 @@
 - **항목 매핑(고객 8개 세부요구)**: ①거래처Enter→지사, ②지사Enter→구분, ③구분Enter→
   도서코드, ④단독/무지사 거래처도 지사 지나 구분 도달, ⑤단독거래처 키/클릭 먹통 해소,
   ⑥구분 선택 가능(프리패스 제거), ⑦비고Enter 후 새 라인 구분 선택, ⑧도서코드→공급율.
-- **검증**: tsc 0, eslint 신규 이슈 0(기존 2건 잔존), dev 라우트 200. 코드 조사로 4개
-  이슈 근본원인 확정 후 수정(운영 로그인 필요한 E2E 는 미실행 — 자매 화면 동일 패턴이
-  검증됨). 이슈②의 "클릭 먹통"이 포커스 유실 외 별도 오버레이 버그인지 배포 후 재확인.
+- **검증**: tsc 0, eslint 신규 이슈 0(기존 2건 잔존), dev 라우트 200.
+  - **실화면 E2E(2026-07-20, 프로덕션 books-logistics-web.vercel.app, 교문사 계정
+    remote_153/hcode 5019, CDP WebSocket connectOverCDP 로 workspace iframe 구동)**:
+    거래처 "북" 검색 10건→첫 결과 `[X]#(주)월드북센타*`(무지사) 선택 →
+    ① 활성=`gjisa`(지사) ✅, ② 지사 Enter→`Sobo27.Line.Pubun`(구분) ✅,
+    ③ 구분 Enter→`Sobo27.Line.Bcode`(도서코드) ✅, ⑧ 도서 "회계19"(국가회계편람2019)
+    선택→공급율(%) 셀(colIdx 5, value 85) 포커스 ✅. 무지사 거래처인데도 지사(폴백
+    입력)→구분 도달 = ④ 실증, 라인 생성·키/클릭 정상 = ⑤ 실증. ⑦(비고→새 라인 구분)은
+    실 OrderLineGrid 컴포넌트 playwright 검증에서 lines 2→3·새 라인 구분 포커스 PASS.
+  - E2E 도중 공급율 입력만 `data-legacy-id` 누락 발견(포커스 대상이 base-ui 자동 id 로
+    표시) → `Sobo27.Line.Grat1` 보강(속성만 추가, 동작 불변).
+  - playwright-core+Node25 는 `--remote-debugging-pipe` 로 대용량 CDP 이벤트(거대한 JWT
+    헤더 ~7.5KB) 파싱 시 크래시 → **connectOverCDP(WebSocket)** 로 우회해야 함.
 - **결정자**: 사용자 (2026-07-20)
 - **참조**: DEC-097 보강4(거래처→지점 포커스), `order-line-grid.tsx`, Subu27
 
