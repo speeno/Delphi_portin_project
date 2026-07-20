@@ -2161,6 +2161,30 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-104: 출고접수관리 신규주문 Enter/포커스 흐름 정합 (거래처→지사→구분→도서코드→공급율)
+
+- **배경**(2026-07-20 고객 리포트, `/outbound/orders/new` = 출고접수관리 신규주문):
+  ① 거래처명 Enter 시 지사로 이동 안 함, ② 단독/무지사 거래처(예: 알라딘) 선택 후
+  키/클릭 먹통·라인 진입 불가, ③ 구분(pubun)이 건너뛰어져 선택 불가·바로 도서코드로,
+  ④ 도서코드 Enter 후 공급율로 이동 안 함.
+- **원인**(코드 조사): 지사 Enter 핸들러 `focusFirstBcode` 가 **구분을 건너뛰고 도서코드로
+  점프**, 구분 select 에 `onKeyDown` 부재(Enter 무반응), 거래처 확정→지사 포커스 이동
+  로직 부재(+지사 비동기 로드), 헤더에 `data-enter-scope` 부재로 자동완성 내부 포커스도
+  어긋남, 도서 선택 후 공급율 포커스 이동은 키보드 확정 경로만(마우스 클릭 누락).
+- **채택**(거래명세서 신규 DEC-097 보강4 검증 패턴 재사용):
+  1. 거래처 확정(onSelect/onInlineSelect)→`focusGjisa` 비동기 대기 후 지사 포커스
+     (`branchesForHcodeRef`+nonce, 지사 없으면 첫 구분으로 폴백 — 단독/무지사 거래처도
+     흐름 유지). 헤더에 `data-enter-scope` 부여.
+  2. 지사 Enter → `focusFirstPubun`(첫 라인 구분 셀, `Sobo27.Line.Pubun`).
+  3. OrderLineGrid 구분 select `onKeyDown`: Enter → 같은 행 도서코드.
+  4. 도서 확정(onSelect/onInlineSelect 공통)→ 같은 행 공급율(grat1) 포커스
+     (`grat1Refs`+focus 인덱스 effect) — 마우스/키보드 전 경로 커버.
+- **검증**: tsc 0, eslint 신규 이슈 0(기존 2건 잔존), dev 라우트 200. 코드 조사로 4개
+  이슈 근본원인 확정 후 수정(운영 로그인 필요한 E2E 는 미실행 — 자매 화면 동일 패턴이
+  검증됨). 이슈②의 "클릭 먹통"이 포커스 유실 외 별도 오버레이 버그인지 배포 후 재확인.
+- **결정자**: 사용자 (2026-07-20)
+- **참조**: DEC-097 보강4(거래처→지점 포커스), `order-line-grid.tsx`, Subu27
+
 ### DEC-103: 사용자 화면 텍스트에서 레거시 참조 제거 — 전 화면 스윕
 
 - **배경**(2026-07-18, 사용자 지시): 화면 부제목·설명 앞의 레거시 화면번호·테이블명
