@@ -2161,6 +2161,29 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-112: 지사·구분 콤보 → 픽 필드(팝업 선택) + 출고현황 상세 컬럼 기본순서
+
+- **요청**(2026-07-20 사용자): ① 출고 신규주문의 **지사(거래처 지점)·구분(위탁/현매/매절/납품/
+  특별/기타)** 이 네이티브 `<select>` 콤보라 Enter 를 치면 선택 없이 다음 칸으로 넘어간다.
+  거래처/도서 검색 팝업(MasterLookupField)처럼 **"Enter→목록 팝업→선택→Enter"** 방식으로
+  통일. ② 출고현황 상세 목록 컬럼 기본 순서를 **거래일자→전표번호→거래처명→접수** 로.
+- **결정(사용자 확정)**: "항상 팝업(픽 필드)" — 값이 있어도 Enter=팝업 열기. 구분 기본값
+  위탁은 팝업에서 미리 강조(그냥 Enter 두 번이면 위탁 유지). **지사에 지점이 없으면(무지사)
+  기존 Input 유지**로 Enter=바로 통과(엔터 리듬 보존, DEC-104 — 자동 건너뛰기 금지 원칙).
+- **구현**: `components/shared/local-combo-field.tsx`(신규 재사용). API 없는 로컬/고정 옵션용
+  콤보박스 — readOnly Input + **portal(body) fixed 리스트박스**(그리드 overflow 비잘림,
+  MasterLookupField 동형). 닫힘 Enter/↓/클릭=팝업 열기(현재 값 강조), 열림 ↑↓ 이동·Enter/
+  클릭=선택+`onSelectAdvance`(다음 칸)·Esc=닫기(제자리)·타입어헤드. 한글 IME 조합 keydown 무시.
+  적용: 출고 신규주문 지사(`orders/new`, 지점 있을 때만), 라인 구분(`OrderLineGrid`, pubun).
+  포커스 체인 유지 — 지사 선택→첫 구분, 구분 선택→도서코드(`focusFirstPubunEl`/`bcodeRefs`).
+- **컬럼 순서**: `outbound-status` `slipDetailColumns` 정의를 거래일자→전표번호→거래처명→접수로
+  재배열(미설정 시 default; 사용자 서버 저장 순서가 있으면 그게 우선).
+- **검증**: 프론트 tsc·eslint 0(LocalComboField effect 내 setState 제거로 set-state-in-effect
+  해소). 배포 커밋 `2092102`.
+- **결정자**: 사용자 (2026-07-20 — AskUserQuestion "항상 팝업" 선택)
+- **참조**: DEC-104(무지사 Enter 통과·리듬), DEC-107(라인표 컬럼 기능), MasterLookupField
+  (팝업 키보드 흐름 원형), `local-combo-field.tsx`
+
 ### DEC-111: 거래명세서 즉시 출력(SSE 준실시간) + 출고목록 전표 흡수 해소 + 컬럼 이동 수정
 
 - **요청**(2026-07-20 사용자): ① 경리부(PC1)가 출고현황 상세에서 완료전 항목을 '바로접수'
