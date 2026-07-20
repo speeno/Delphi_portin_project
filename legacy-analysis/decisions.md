@@ -2161,6 +2161,61 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-108: 전표번호 표시 정본 = Idnum (Jubun 오표시 재발 방지)
+
+- **배경**(2026-07-20 사용자 리포트, "다른 화면에서도 계속 동일 오류 — 정확히 기록해
+  두 번 실수 말라"): 출고현황 상세에서 전표 00013 더블클릭 → 편집 팝업 헤더가 "전표 11"
+  로 목록과 다르게 표시.
+- **정확한 원인**: 같은 S1_Ssub 전표에 두 값 공존 —
+  - `Idnum` = **(Hcode, Gdate) 일자별 전표번호**(매일 1부터 채번, 슬립 전 라인 공통 1값).
+    목록·거래명세서가 표시하는 **정본 전표번호**(DEC-064/099, 5자리 zero-pad).
+  - `Jubun` = **거래처별 채번 차수**(Idnum 과 무관한 별개 값, 예: 11).
+  일부 상세/편집 팝업이 `order_key.jubun` 을 "전표"로 그대로 표시 → 목록의 Idnum 기반
+  전표번호와 달라 "번호가 틀리다"는 반복 오인.
+- **채택**: 전표/슬립 번호 렌더는 **`formatIdnumDisplay(order_key.idnum) || jubun`**
+  (idnum 우선, 미제공 시만 jubun 폴백)로 통일. 백엔드 detail 응답은 `order_key.idnum`
+  (MAX(Idnum))을 이미 제공. `OrderDetailDialog` 헤더/PDF 요약 정정(a8cca8c).
+- **감사 대상(순차 정정)**: `sales-statement/new:728`(전표 {editKey.jubun}),
+  `returns/receipts:117`·`returns/inventory:195`(`{key:"jubun", label:"전표번호"}`),
+  `settlement/payment-slip:202`, `inbound/receipts/[receiptKey]:271`(입고 체계 확인 요).
+  영구 메모리 `slip-number-idnum-vs-jubun.md` 에 규칙·체크리스트 기록.
+- **결정자**: 사용자 (2026-07-20)
+- **참조**: DEC-064/099(Idnum 5-pad 정본), `sales-statement-jubun.ts` `formatIdnumDisplay`,
+  [[slip-key-shared-and-binlog-recovery]]((Gdate,Hcode,Jubun) 공유키)
+
+### DEC-107: 주문 라인표(OrderLineGrid) — 컬럼 표시·순서·크기 + ESC 포커스 복원 + 품명→도서명
+
+- **배경**(2026-07-20 고객 리포트, 신규 출고 주문/주문 상세 라인표):
+  ① 도서 검색 팝업 ESC 후 커서가 코드칸이 아닌 검색버튼/공백에 있어 엔터·탭 먹통,
+  ② 컬럼 헤더 "품명" → "도서명", ③ 자동완성 선택 시 "코드가 안 들어가고 텍스트만"
+  (재현 결과 정상 — 아래), ④ 라인표에도 표준 목록표의 컬럼 표시·순서·크기 기능,
+  ⑤ 크기조정 세로바가 안 보임. + "롤백됐다" 오인.
+- **조사·판정**:
+  - "롤백" 아님 — 제품 저장소 HEAD=최신 커밋, 모든 작업 존재(sync 커밋은 전부 이전).
+  - "자동완성 코드 미입력" 아님 — 재현 결과 자동완성은 **G4_Book.Gcode(실제 도서코드)**
+    를 입력. 교문사 도서마스터엔 Gcode 가 한글 텍스트인 도서("헤어리베치"=코드,
+    "휴가실태"=코드)와 숫자코드("00001")가 혼재. 시스템 전체가 `Gcode AS bcode` 사용 →
+    데이터 특성이지 화면 버그 아님(필요 시 도서마스터 데이터 점검 별도).
+- **채택**:
+  ① `MasterLookupField`: 검색 팝업이 **선택 없이(ESC/취소)** 닫히면 코드 입력칸으로
+     포커스 복원(`wrapRef` 내 input 조회). 선택으로 닫힌 경우는 호출자가 다음 칸
+     이동 담당이라 제외(`selectedInDialogRef`).
+  ② `column-labels.ts` `product_name`/`pname` "품명"→"도서명"(공용 라벨 → 전 화면).
+  ④ OrderLineGrid 렌더를 **컬럼 id 구동**(`renderCell`)으로 재구성 + `useGridPrefs`
+     (서버 저장, key `outbound.order-line`) + `GridColumnSettings`(⚙) + 헤더 드래그(순서)
+     + 우측 경계 드래그(너비). **행 정렬은 입력 순서 유지 위해 제외**(AskUserQuestion
+     으로 사용자 확정). 인라인 편집·자동완성·키보드 이동 전부 보존, Enter 셀 이동은
+     표시 순서(DOM)를 따름. 헤더/합계(tfoot)도 표시 컬럼 기준 동적 렌더.
+  ⑤ 크기조정 핸들을 hover-only 투명 → **항상 보이는 얇은 세로 구분선**(bg-border,
+     hover 시 primary 강조 + 그립 확대).
+- **검증(실화면, 교문사 remote_153, CDP)**: 헤더 도서명 반영 ✅, 컬럼 설정 버튼 ✅,
+  구분 Enter→도서코드(키보드 유지) ✅, ISBN 표시/숨김 ✅, ESC 후 코드칸 복귀(코드 유지).
+  tsc 0, eslint 0(기존 setMenuRect set-state-in-effect 1건 잔존, empty-state 따옴표
+  정리로 no-unescaped-entities 1건 해소).
+- **결정자**: 사용자 (2026-07-20)
+- **참조**: [[DEC-104]], [[DEC-105]], DEC-028(위젯 data-legacy-id), `use-grid-prefs.ts`,
+  `grid-column-settings.tsx`, `master-lookup-field.tsx`, `column-labels.ts`
+
 ### DEC-106: 출고현황(Sobo24_status) 4개 항목 — 날짜 당일 기본·탭 순서·목록 상하 교체·상세 인라인 수정
 
 - **배경**(2026-07-20 고객 리포트 2번, `/transactions/outbound-status`):
@@ -2173,9 +2228,13 @@
   2. `parseView` 기본값 `list`→`detail`(파라미터 없을 때), 탭 렌더를
      `Object.keys(VIEW_LABELS)` → 명시 `VIEW_ORDER=["detail","summary","list"]`.
   3. 목록 뷰 Fragment 내 두 블록(라인 목록 / 거래처 rollup) 순서 교체.
-  4. 상세 우측 패널에 '수정' 버튼(`Sobo24.EditSlip`) → 선택 전표를 기존
-     `SalesStatementEditDialog`(검증된 편집+저장)로 오픈. 저장 시 `load(0)` +
-     선택 전표 라인 재조회. `row`=선택 slip(구조 호환, order_key/customer_name 만 사용).
+  4. 상세 우측 패널에 '수정' 버튼(`Sobo24.EditSlip`) + 좌측 전표 더블클릭 → 편집 팝업.
+     **팝업 정정(2026-07-20 사용자 리포트: 로딩 실패)**: 처음엔 `SalesStatementEditDialog`
+     를 썼으나 그 팝업은 **StatementKey(gjisa 키)** 기반이고 출고현황 전표는
+     **OutboundStatusOrderKey(gcode 키)** 라 키 불일치로 라인 로딩 실패 →
+     **`OrderDetailDialog`(gcode 키·`outboundApi.detail`, 좌측 라인 조회와 동일 키)** 로
+     교체해 로딩·저장·취소·명세서 PDF 정합. 좌측 DataGrid `onRowDoubleClick`→편집 오픈,
+     `onChanged`→`load(0)`+선택 라인 재조회. 실검증: 더블클릭→라인 49개 로딩+저장버튼 ✅.
 - **판단(사용자 확인)**: ② 기본 탭=상세, ④ 인라인 그리드 대신 **편집 팝업 재사용**
   (기존 팝업 방식과 일관·저위험) — AskUserQuestion 으로 확정.
 - **검증(실화면, 교문사 remote_153, CDP)**: ① from/to=당일 ✅, ② 탭 상세(기본)/요약/
