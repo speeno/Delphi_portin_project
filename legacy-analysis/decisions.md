@@ -2161,6 +2161,60 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-106: 출고현황(Sobo24_status) 4개 항목 — 날짜 당일 기본·탭 순서·목록 상하 교체·상세 인라인 수정
+
+- **배경**(2026-07-20 고객 리포트 2번, `/transactions/outbound-status`):
+  ① 날짜 시작~종료 기본이 1개월 텀 → 접속 당일로, ② 탭 목록/상세/요약 순 →
+  상세/요약/목록 순(+열면 상세가 기본), ③ 목록 뷰 상단 도서세부·하단 거래처집계 →
+  위치 교체, ④ 상세 우측 라인 패널(읽기전용)에서 도서 출고 수정+저장.
+- **채택**:
+  1. `dateFrom` 기본값 `fmtDate(monthAgo)` → `fmtDate(today)` (2곳: 초기 state +
+     reload eDateFrom), `monthAgo` useMemo 제거. snap(리스트 세션) 값이 있으면 우선.
+  2. `parseView` 기본값 `list`→`detail`(파라미터 없을 때), 탭 렌더를
+     `Object.keys(VIEW_LABELS)` → 명시 `VIEW_ORDER=["detail","summary","list"]`.
+  3. 목록 뷰 Fragment 내 두 블록(라인 목록 / 거래처 rollup) 순서 교체.
+  4. 상세 우측 패널에 '수정' 버튼(`Sobo24.EditSlip`) → 선택 전표를 기존
+     `SalesStatementEditDialog`(검증된 편집+저장)로 오픈. 저장 시 `load(0)` +
+     선택 전표 라인 재조회. `row`=선택 slip(구조 호환, order_key/customer_name 만 사용).
+- **판단(사용자 확인)**: ② 기본 탭=상세, ④ 인라인 그리드 대신 **편집 팝업 재사용**
+  (기존 팝업 방식과 일관·저위험) — AskUserQuestion 으로 확정.
+- **검증(실화면, 교문사 remote_153, CDP)**: ① from/to=당일 ✅, ② 탭 상세(기본)/요약/
+  목록 ✅, ③ 목록 거래처집계(상단)→도서세부(하단) ✅, ④ 당일 12전표→전표 선택→'수정'
+  노출→클릭→편집 팝업(Sobo21.EditDialog) 오픈 ✅. tsc 0, eslint 0.
+- **추가 요청**(2026-07-20, 스크린샷): 출고접수관리(`/outbound/orders`, "출고 접수" 목록)
+  도 신규 화면 진입 시 시작일=종료일=당일. `dateFrom` 기본값 `formatDate(lookbackDay)`
+  (today−90일) → `formatDate(today)` (초기 state + reload eDateFrom 2곳), `lookbackDay`
+  useMemo 제거. snap 값 우선은 동일.
+- **결정자**: 사용자 (2026-07-20)
+- **참조**: DEC-097(거래명세서 편집 팝업), `SalesStatementEditDialog`, Sobo24/Subu24, Sobo27
+
+### DEC-105: 키보드 Enter=다음 컴포넌트 이동 공통 정합 (DEC-104 확장)
+
+- **배경**(2026-07-20 사용자 지시): DEC-104(출고 신규주문)에서 쓴 Enter=다음 필드/셀
+  이동 패턴이 공유 컴포넌트라 다른 화면에도 동일 갭 존재 여부 조사·일괄 수정.
+  원칙 "모든 입력은 키보드로 다음 컴포넌트 이동 가능". 브라우저 실검증 기반.
+- **조사 결과**(공유 프리미티브 = `lib/focus-advance.ts` `advanceFocusOnEnter`,
+  컨테이너에 `onKeyDown` 한 줄 부착 → 내부 input/select Enter 시 다음 focusable 이동;
+  textarea·dropdown 열림·`data-enter-advance="off"` opt-out):
+  - **이미 준수**: 출고 수정(`[orderKey]`)·`order-detail-dialog`(OrderLineGrid 상속),
+    `sales-statement/new`(DEC-097 정본), master customer/book/author/inbound-vendor 폼.
+  - **갭 수정 대상**:
+    (a) `etc-customer-detail-form` — 형제 4개와 달리 유일하게 핸들러 누락 → 부착.
+    (b) 입고 신규 — 헤더 `data-enter-scope` 부여(입고처→지사 스코프 견고화),
+        비고 Enter → 새 라인 추가+새 라인 도서코드 포커스(기존 막힘 해소, ref+effect).
+    (c) 반품 신규 — 페이지 단일 `data-enter-scope`+`advanceFocusOnEnter`(헤더→그리드
+        Enter 흐름), `return-line-grid` 비고 Enter → 새 라인+포커스(ref 보관, effect 내
+        setState 회피 — `react-hooks/set-state-in-effect` 대응).
+    (d) 거래명세서 수정 팝업 — 편집 가능한 거래일자 Enter → 첫 라인 구분 셀로 이동.
+- **범위 제외(중요)**: 검색/목록/필터 화면(master 목록, returns 목록, settlement/cash,
+  stats/* 등)은 이미 **Enter=조회/submit** 의도 → `advanceFocusOnEnter` 부착 시 검색을
+  깨는 회귀. 원칙은 데이터 입력 폼에만 적용, 검색창 Enter=조회는 레거시 표준 유지.
+- **검증(실화면, 교문사 remote_153, CDP 워크스페이스 창 주입)**: 입고 비고 Enter 행
+  1→2·새행 도서코드 ✅, 반품 헤더 반품일 Enter→출판사코드·비고 Enter 행 1→2·새행
+  도서코드 ✅, 기타거래처 첫 필드 Enter Edit101→Edit102 ✅. tsc 0, 신규 eslint 에러 0.
+- **결정자**: 사용자 (2026-07-20)
+- **참조**: [[DEC-104]], `lib/focus-advance.ts`, `master-lookup-field.tsx` `focusNextFrom`
+
 ### DEC-104: 출고접수관리 신규주문 Enter/포커스 흐름 정합 (거래처→지사→구분→도서코드→공급율)
 
 - **배경**(2026-07-20 고객 리포트, `/outbound/orders/new` = 출고접수관리 신규주문):
