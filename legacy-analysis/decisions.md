@@ -2185,6 +2185,13 @@
   도 신규 화면 진입 시 시작일=종료일=당일. `dateFrom` 기본값 `formatDate(lookbackDay)`
   (today−90일) → `formatDate(today)` (초기 state + reload eDateFrom 2곳), `lookbackDay`
   useMemo 제거. snap 값 우선은 동일.
+- **추가 요청 3 — 출고접수 전표번호 정렬 불일치**(2026-07-20 스크린샷: ▲ 오름차순인데
+  00014→00003→00007): 전표번호 컬럼 표시=Idnum(DEC-064/099 정본)·정렬키=jubun(거래처별
+  차수) 불일치. 백엔드 `_list_order_by_sql` 화이트리스트에 `"idnum"`→SELECT 별칭
+  (`MAX(Idnum+0) AS idnum`) 정렬 추가(DEC-082 별칭 패턴, MySQL 3.23 안전), 프론트
+  sortKey `jubun`→`idnum`(컬럼 id 불변 — 그리드 프리퍼런스 유지). 회귀:
+  `test_outbound_list_server_sort.py::test_idnum_sort_uses_select_alias`. 실화면 검증:
+  헤더 클릭 → 00001,00003,00004,… 오름차순 PASS.
 - **추가 요청 2 — 거래명세서**(2026-07-20, 고객 리포트 3번, `/transactions/sales-statement`):
   ① 날짜 7일 텀 기본 → 시작=종료=당일 (`weekAgo` 제거, `fmtDate(weekAgo)`→
   `fmtDate(today)` 3곳: 초기 state·reload eDateFrom·저장 후 필터 복원 sFrom).
