@@ -2185,6 +2185,12 @@
   도 신규 화면 진입 시 시작일=종료일=당일. `dateFrom` 기본값 `formatDate(lookbackDay)`
   (today−90일) → `formatDate(today)` (초기 state + reload eDateFrom 2곳), `lookbackDay`
   useMemo 제거. snap 값 우선은 동일.
+- **추가 요청 2 — 거래명세서**(2026-07-20, 고객 리포트 3번, `/transactions/sales-statement`):
+  ① 날짜 7일 텀 기본 → 시작=종료=당일 (`weekAgo` 제거, `fmtDate(weekAgo)`→
+  `fmtDate(today)` 3곳: 초기 state·reload eDateFrom·저장 후 필터 복원 sFrom).
+  ② 조회 버튼(Sobo21.dxButton1) 거래처명 옆(첫줄) → 상세조건 둘째줄 시작일·종료일·
+  당일만 옆으로 이동. 상세조건 접힘 시엔 첫줄에 조건부 렌더(항시 접근 보장, DOM 1개 —
+  DEC-028 위젯 id 커버리지 유지).
 - **결정자**: 사용자 (2026-07-20)
 - **참조**: DEC-097(거래명세서 편집 팝업), `SalesStatementEditDialog`, Sobo24/Subu24, Sobo27
 
