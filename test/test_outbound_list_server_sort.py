@@ -64,6 +64,14 @@ class OutboundListServerSortTest(IsolatedAsyncioTestCase):
         sql = await _capture_list_sql(sort_by="jubun", sort_dir="asc")
         self.assertIn("+0 ASC", sql)
 
+    async def test_idnum_sort_uses_select_alias(self) -> None:
+        """전표번호 컬럼 표시값은 Idnum(DEC-064/099) — 정렬도 idnum 별칭이어야
+        표시=idnum·정렬=jubun 불일치(▲인데 00014→00003 순, 2026-07-20 리포트)가 없다."""
+        sql = await _capture_list_sql(sort_by="idnum", sort_dir="asc")
+        self.assertIn("ORDER BY idnum ASC", sql)
+        # SELECT 에 별칭 소스(MAX(Idnum+0) AS idnum)가 있어야 별칭 정렬이 성립.
+        self.assertIn("MAX(Idnum+0) AS idnum", sql)
+
     async def test_unknown_sort_key_falls_back_to_default(self) -> None:
         sql = await _capture_list_sql(sort_by="__evil__ DROP TABLE", sort_dir="desc")
         # 화이트리스트 밖 → 기본 정렬(주입 차단).
