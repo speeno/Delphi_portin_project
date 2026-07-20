@@ -40,7 +40,7 @@ COMMON = "?serverId=remote_1&dateFrom=2026-04-01&dateTo=2026-04-30&limit=10&offs
 
 def _slip_item() -> dict:
     return {
-        "order_key": {"gdate": "2026.04.18", "hcode": "H0001", "jubun": "11", "gcode": "00001"},
+        "order_key": {"gdate": "2026.04.18", "hcode": "H0001", "jubun": "11", "gjisa": "온라인", "gcode": "00001"},
         "gdate": "2026.04.18",
         "jubun": "11",
         "gcode": "00001",
@@ -55,7 +55,7 @@ def _slip_item() -> dict:
 
 def _line_item() -> dict:
     return {
-        "order_key": {"gdate": "2026.04.18", "hcode": "H0001", "jubun": "11", "gcode": "00001"},
+        "order_key": {"gdate": "2026.04.18", "hcode": "H0001", "jubun": "11", "gjisa": "온라인", "gcode": "00001"},
         "gdate": "2026.04.18",
         "pubun": "위탁",
         "gcode": "00001",
@@ -110,7 +110,7 @@ class OutboundStatusRouterTests(TestCase):
                 "item_count", "qty", "amount", "gbigo", "status",
             },
         )
-        self.assertEqual(set(it["order_key"].keys()), {"gdate", "hcode", "jubun", "gcode"})
+        self.assertEqual(set(it["order_key"].keys()), {"gdate", "hcode", "jubun", "gjisa", "gcode"})
         self.assertEqual(captured[0]["date_from"], "2026-04-01")
         self.assertEqual(captured[0]["store_kind"], "ALL")
 

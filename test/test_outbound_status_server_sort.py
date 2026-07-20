@@ -95,6 +95,19 @@ class OutboundStatusSlipSortTest(IsolatedAsyncioTestCase):
         sql = await _capture_slip_sql(sort_by="qty", sort_dir="asc")
         self.assertNotIn("COALESCE", sql)
 
+    async def test_group_by_includes_gjisa_and_idnum(self) -> None:
+        """1전표=1행 — GROUP BY 에 Idnum·Gjisa 포함(전표 흡수 버그 방지, 2026-07-20).
+
+        같은 거래처·Jubun 이지만 지점(Gjisa)만 다른 전표(예: 영풍문고 온라인/종각)가
+        한 행으로 흡수돼 낮은 Idnum 전표(전표 2)가 누락되던 회귀 차단.
+        """
+        sql = await _capture_slip_sql(sort_by="qty", sort_dir="asc")
+        gb = sql.split("GROUP BY", 1)[1]
+        self.assertIn("IFNULL(Gjisa,'')", gb)
+        self.assertIn("IFNULL(Idnum,0)", gb)
+        # SELECT 에도 gjisa 노출(order_key 구분용).
+        self.assertIn("IFNULL(Gjisa,'') AS gjisa", sql)
+
 
 class OutboundStatusLineSortTest(IsolatedAsyncioTestCase):
     async def test_default_order_by(self) -> None:
