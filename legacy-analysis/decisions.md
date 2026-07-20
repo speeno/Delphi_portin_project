@@ -2161,6 +2161,34 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-110: 거래관리 표 5종 공통그리드 전환 + 팝업 리사이즈
+
+- **요청**(2026-07-20 사용자): ① 거래관리 「기타명세서」·「거래현황 하위 화면들」의 표에
+  공통 목록표 기능(정렬·크기조정·순서·표시·셀선택)을 적용, ② 거래명세서 수정 팝업 폭 확대
+  (카테고리 등 목록 컬럼 모두 보이게), ③ 모든 팝업창 리사이즈 가능.
+- **전환 대상(5종)**: `transactions/other`(기타명세서, 선행), `transactions/withholding`(원천징수),
+  `transactions/author-history`(저자별내역), `transactions/production/statement`(제작명세),
+  `transactions/production/status`(제작현황), `transactions/status`(거래현황 4-view). 손수-작성
+  `<table>` → 표준 `DataGrid` — 헤더 클릭 정렬 + 컬럼 너비/순서/표시(`useGridPrefs`, 계정별
+  서버 저장 + `GridColumnSettings`) + 키보드 셀 선택. **합계(tfoot)는 DataGrid에 tfoot이 없어
+  그리드 하단 별도 peer 요소로 보존**(값·게이팅 동일), `DataGridPager`는 `toolbarTop`로 이동.
+- **거래현황(status) 특수 처리**: 4-view 단일 라우트. 평면 뷰(요약·LIST·메모)는 DataGrid로
+  전환하되 **기존 sort/toggleSort 재사용**(요약=클라이언트, LIST/메모=서버 정렬 DEC-082 허용키)을
+  `DataGrid.onSortChange`로 위임 — 재조회 로직 무변경. 합성 컬럼(일자/전표번호)은 `key`가
+  `string & keyof T` 제약이라 실제 필드(`order_key`) + `id`로 고유식별, 정렬은 `sortKey`
+  (`cid=id??key`, `sid=sortKey??key` DataGrid 규약과 일치). **상세(detail) 뷰는 전표 행
+  인라인 라인 펼침(펼침 행)이라 평면 DataGrid로 표현 불가 → 손수-작성 표 유지**(헤더 클릭
+  서버 정렬은 그대로). 뷰별 컬럼 세트가 달라 gridPrefs 키를 분리(prefs 충돌 방지).
+- **팝업 리사이즈**: 콘텐츠 팝업 패널에 CSS `resize` + min/max 폭·높이 부여(모서리 드래그로
+  크기 조절) — 거래명세서 수정(`sales-statement-edit-dialog`, 폭 `w-[min(1400px,96vw)]`로 확대)/
+  출고 상세(`order-detail-dialog`)/거래현황 검색(`sales-statement-search-dialog`)/Master 검색
+  (`master-lookup-dialog`). 소형 확인·비밀번호 팝업은 리사이즈 무의미 → 제외.
+- **검증**: 프론트 `tsc --noEmit` 0, `eslint` 신규 0. 배포 커밋 `dd737ba`(표 4종+리사이즈)·
+  `b37ce0b`(거래현황).
+- **결정자**: 사용자 (2026-07-20 — "5개 전부 전환" 확정)
+- **참조**: DEC-082(서버 정렬 화이트리스트), DEC-055(목록 세션 복원), DEC-107(OrderLineGrid
+  컬럼 기능), `use-grid-prefs.ts`, `grid-column-settings.tsx`, `data-grid.tsx`(`cid/sid` 규약)
+
 ### DEC-109: 출고현황 전표 흡수 버그 — 같은 거래처·Jubun·다른 지점(Gjisa) 전표 분리
 
 - **증상**(2026-07-20 사용자 리포트): 출고현황 요약/상세에 **전표 2가 안 보임**(실재로
