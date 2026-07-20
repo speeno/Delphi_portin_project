@@ -2219,7 +2219,15 @@
   heartbeat, list_orders order_key.gjisa 분리) 2건 PASS. `test_list_count_grouped_mysql3`
   기대 GROUP BY 갱신. 프론트 tsc·eslint 0. 프로브에 received-stream(maxTicks=1) 등록.
   test_pagination_contracts 9건은 단독 통과=기존 파일간 이벤트루프 격리 순서 flakiness(무관).
-- **결정자**: 사용자 (2026-07-20)
+- **보강(2026-07-21, 사용자 지시 — UI 트리거 누락 보완)**: 최초 요청의 핵심인 **"바로출고"
+  기능 버튼**을 출고현황 상세에 추가(초기 구현은 SSE 백엔드+자동출력 구독만 넣고 명시적 버튼을
+  누락). 완료전(대기/접수) 전표를 즉시 `requestDispatch`(대기→접수)로 전이 → 자동출력 PC 가
+  ~5초 SSE 로 그 건만 인쇄+완료. 경리부(무프린터)에서 눌러도 교문사 PC 에서 출력됨.
+  위치 2곳: ① 상세 tab '선택 전표 라인' 패널 '수정' 옆(`Sobo24.ImmediateDispatch`),
+  ② 거래명세서 상세 팝업 `OrderDetailDialog` 헤더(`Sobo24.Detail.ImmediateDispatch`).
+  둘 다 완료전에만 노출 + 토스트 안내. 기존 배치 '대기 N건 출고요청'과 동일 접수 전이 경로.
+  배포 커밋 `b4cca12`.
+- **결정자**: 사용자 (2026-07-20, 버튼 보강 2026-07-21)
 - **참조**: DEC-109(전표 흡수/gjisa 분리), DEC-071(과거일자 접수 days 창), OQ-002(현장
   프린터 직결 불가), IoT SSE(`stats.stream_dashboard_iot_events` 패턴),
   `auto-print-stream.ts`, `use-grid-prefs.ts`(id??key 규약)
