@@ -2161,6 +2161,38 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-117: 필터 자동조회(마지막 값 Enter=즉시 조회) + 거래처별 판매 마스터-디테일
+
+- **요청**(2026-07-21 사용자): ① 거래처별 판매에서 "모든 값이 정해진 순간 Enter 하면 조회로
+  포커스 이동하면서 **버튼에서 Enter 를 안 쳐도 자동 조회**". ② 레거시 Sobo62 하단 상세
+  목록(DBGrid201)이 포팅 누락 — 출고현황처럼 **1차 목록 행 선택 → 우측 상세 표**.
+- **① 자동 조회**: `advanceFilterOnEnter` — 다음 스톱이 **마지막 스톱이고 버튼**이면 포커스
+  이동 + 30ms 지연 `click()`(방금 값의 React 상태 커밋 후 load 가 읽도록). "마지막 스톱=
+  읽기 전용 조회 버튼" 규약 위에서만 동작(임의 버튼 클릭 아님). **필터 DateFieldYMD 에
+  `onKeyDown={()=>{}}` 일괄(28파일 코드모드 + 신규 배선 7화면)** — 일 세그먼트 Enter 가
+  self-advance 대신 컨테이너로 버블돼 **날짜가 마지막인 화면도 자동 조회**. outbound-status
+  자체 핸들러 동일 반영. 1차 감사 통과로 미배선이던 7화면(월별통계·입고일보/기간별·반품
+  접수/일별/기간별·지불전표)도 배선. 검증: 4개 유형(MLF-마지막/날짜-마지막/radiogroup/체크박스)
+  화면 CDP AUTO_RAN 확인. ※ 검증 함정: fetch 스파이 카운터를 버튼 도달 **후** 리셋하면
+  30ms 지연 클릭의 fetch 를 지워 NO_AUTO 오탐 — pre/post 비교로 판정할 것.
+- **② 마스터-디테일**: 레거시 DBGrid201(도서명·출고수량/금액·증정수량·반품수량/금액·판매
+  수량/금액 8컬럼+footer 합계, Sobo62.md §6 out-of-scope 였음) 구현.
+  - 백엔드 `GET /reports/customer-sales/detail`(`get_customer_sales_detail`) — 선택 거래처
+    **(gcode + COALESCE(Gjisa,'')=gjisa) 고정 + GROUP BY Bcode,Gubun,Pubun**,
+    `get_customer_sales` 와 동일 누적 분기(반품→gbqut/gbsum+판매, 증정→gjqut(판매수량 제외),
+    출고→goqut/gosum+판매). 도서명 G4_Book `in_clause_lookup`(JOIN 금지/DEC-068), totals 합계,
+    BOOK_SALES_MAX 캡. hcode 는 enforce_hcode_isolation.
+  - 프론트: 좌(거래처 집계 DataGrid — rowKey 를 (hcode|gcode|gjisa) 안정키로 변경,
+    enableKeyboardNav/selectedRowKey)·우(상세 표 `Sobo62.DBGrid201`) 2분할(xl 기준),
+    행 클릭/↑↓ 선택 시 지연 조회, 같은 행 재선택=접기, 재조회 시 선택 초기화.
+- **검증**: `test_customer_sales_detail.py` 신설(누적 분기·totals·G4_Book hcode 스코프·
+  WHERE gcode/gjisa 스코프) 2건 PASS. 프로브 `reports.customer_sales_detail` 등록.
+  CDP 라이브: 조회 20행 → 교보문고(인터넷지점) 행 선택 → 도서 3행+합계 실데이터 표시.
+  통합 tsc·eslint 0. 배포 커밋 `14c74e4`.
+- **결정자**: 사용자 (2026-07-21)
+- **참조**: DEC-116(필터 Enter-흐름·스톱 규약), DEC-082(정렬), Sobo62.md §6(DBGrid201
+  out-of-scope 해제), `lib/filter-enter.ts`, `reports_service.get_customer_sales_detail`
+
 ### DEC-116: 전 조회/필터 화면 키보드 Enter-흐름 일괄 적용 (브라우저 감사 기반)
 
 - **요청**(2026-07-21 사용자): "마우스 없이 검색 필드 설정·조회까지 모두 진행" — 이전 적용

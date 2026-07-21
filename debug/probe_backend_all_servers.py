@@ -901,6 +901,15 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200, 422},
         },
+        # 거래처별 판매 도서별 상세(레거시 Sobo62 DBGrid201, 2026-07-21) — 선택 거래처 상세.
+        {
+            "group": "reports.customer_sales_detail",
+            "path": (
+                f"/api/v1/reports/customer-sales/detail?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&gcode=1"
+            ),
+            "ok_status": {200},
+        },
         {
             "group": "reports.year_end_book_export",
             "path": (
