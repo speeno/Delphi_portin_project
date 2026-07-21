@@ -2161,6 +2161,32 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-116: 전 조회/필터 화면 키보드 Enter-흐름 일괄 적용 (브라우저 감사 기반)
+
+- **요청**(2026-07-21 사용자): "마우스 없이 검색 필드 설정·조회까지 모두 진행" — 이전 적용
+  이슈(날짜 입력 방식·Enter 자동 이동)를 **모든 조회/필터 화면**에. 이후 "먼저 검증 후 안된
+  부분만 처리, 브라우저로 확인 후 구현 안 된 부분만 수정" 지시.
+- **방법(감사 우선)**: CDP 스크립트로 53개 필터 화면을 **실측**(첫 필터 칸부터 Enter-only
+  워크, fetch 스파이 병행) → 판정: REACHED(조회 버튼 도달)/QUERY_RAN(Enter=즉시 조회 실행)/
+  POPUP(MLF 빈 Enter 팝업 갇힘)/STUCK(멈춤). 1차: 15개 통과(날짜-only 화면=DateFieldYMD 자동
+  이동 덕, master 검색화면=Enter 즉시조회), **~38개 실패**.
+- **수정(실패분만)**: customer-sales 템플릿(`advanceFilterOnEnter`+`FILTER_STOP_IDS`+
+  `data-enter-scope`) 일괄. 필터 MLF=빈 Enter 통과(`onKeyDown={()=>{}}`)+`refocusAfterSelect`.
+  sales-statement 는 자체 흐름 유지하되 전표번호(Edit109) Enter=즉시조회→다음 필드 이동으로
+  통일(조회=마지막 필드/버튼/Ctrl+Enter). 재감사에서 남은 STUCK 3개(cash·inbound-statement·
+  inbound-status)=**무명 취소포함 체크박스가 날짜 자동이동의 다음 포커서블**이라 멈춤 →
+  `Chk_Cancel` id 부여+스톱 포함. **최종 53/53 통과**(REACHED 또는 설계상 QUERY_RAN).
+- **함정 기록**: ① 날짜(DateFieldYMD) 일-Enter 자동이동은 "래퍼 다음 첫 포커서블"로 가므로,
+  날짜와 조회 버튼 사이의 **모든 포커서블(체크박스 포함)은 스톱이어야** 끊기지 않는다.
+  ② 감사 스크립트의 조회버튼 식별이 MLF 팝업 "검색" 버튼과 겹칠 수 있음(오탐) — 판정은
+  트레일로 재확인. ③ **공유 워킹트리에서 병렬 에이전트의 git stash/reset 은 재앙**(1차 스윕
+  전체가 되돌려짐 — HEAD 는 무사, 워킹트리 복구 후 재실행. 에이전트 지시에 git 전면 금지 명시).
+- **검증**: 통합 tsc 0, eslint 신규 0, CDP 재감사 53/53. 배포 커밋 `d34fff2`(38화면)·
+  `d00c839`(잔여 3) + 같은 배치에 출고관리 전표번호 기본 오름차순(`a79f3dd`).
+- **결정자**: 사용자 (2026-07-21 — "모든 조회/필터 화면 일괄" 확정, "검증 후 안된 부분만")
+- **참조**: DEC-113(필터 Enter 패턴 원형), DEC-115(DateFieldYMD), `lib/filter-enter.ts`,
+  [[keyboard-input-flow]]
+
 ### DEC-115: 모든 날짜 입력 → DateFieldYMD(년 4자리→월 자동이동 + 달력) 앱 전역 전환
 
 - **요청**(2026-07-21 사용자): 네이티브 `<input type="date">` 는 월·일은 입력하면 다음으로
