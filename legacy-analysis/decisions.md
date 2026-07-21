@@ -2161,6 +2161,39 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-118: 기간 조회 날짜 오름차순 기본 + 팝업선택 자동이동/조회 + 년월 세그먼트
+
+- **요청**(2026-07-21 사용자): ① "모든 목록에서 기간 조회 결과는 시작일 날짜가 맨위(오름차순)".
+  ② "팝업 검색 선택 Enter = 값 전달 + **다음 입력창 자동 이동**, 다음 창 없으면 최종 조회
+  자동 실행 — 점검". ③ "년월만 있는 날짜 입력창도 년 4자리→월 자동 이동(일괄 처리 누락)".
+- **① 날짜 오름차순 기본**: 서버정렬 20화면 `useState<DataGridSort>` 초기값을 날짜키 asc
+  (gdate/bucket/last_date — boot load 가 상태를 읽는 것 확인), 클라정렬 12그리드
+  `useClientSort(rows,{initial:{key:'gdate',dir:'asc'}})`. 날짜 컬럼 없는 집계 화면
+  (통합수불장·미수금·재고현황 등)·단일일자 화면은 스킵(에이전트 보고 기준).
+  **출고 화면 조화**: 1차 gdate asc + **백엔드 2차 tiebreak 를 전표번호(idnum alias)로 교정**
+  (`_status_order_by_sql` default "Gdate DESC, idnum"/"Gdate, idnum", outbound
+  `_list_order_by_sql` tiebreak "Gdate DESC, idnum") — 같은 날짜 안 전표번호 오름차순(어제
+  전표번호 정렬 요청과 양립). 백엔드 기본 순서 flip: 신간발행 `Gdate asc`, 지불전표
+  `cash_service` `Gdate asc`(정렬 UI 없는 카드 목록). CDP 검증: 06.01부터·동일일
+  00001→00002→… 확인.
+- **② 팝업 선택 자동 이동/조회**: 기존 `refocusAfterSelect` 는 입력칸 복귀까지만(추가 Enter
+  필요)이어서 사용자 기대 미달 — **선택 확정 시 `advanceAfterConfirm`**: `data-enter-scope`
+  범위에서 자기 루트(자기 검색버튼) 제외 다음 포커서블로 이동, 그것이 조회/검색(`/조회|검색/`)
+  버튼이면 50ms 지연 자동 클릭(읽기 전용 조회만). ESC/취소=입력칸 복귀 유지, 신규 등록 흐름
+  (기본 false)은 무변경. CDP 검증: 거래처코드 시작 팝업 선택→끝 칸 이동, 끝 선택→자동 조회.
+  ※ 검증 함정: 팝업 그리드 단일 클릭=선택 강조만(확정=더블클릭/Enter/선택 버튼).
+- **③ 년월 세그먼트**: `DateFieldYMD monthOnly` 모드 — 값 `YYYY-MM`, 년4→월 자동이동, 월
+  2자리 입력 완료 시 다음 필드 자동 이동, 월이 마지막 세그먼트(Enter=onKeyDown/자동 이동),
+  숨긴 native `type=month` showPicker 로 월 달력 유지. `type="month"` 12개(청구월·조회월·
+  시작/종료월·기준년월·연말도서 년월) 전환 — FILTER_STOP legacyId 보존, 필터 필드는 noop
+  onKeyDown(컨테이너 자동조회 연결), 쓰기 폼(입금 청구월)은 미적용. CDP 검증: 년 2026 입력→
+  월 세그먼트 이동·세그먼트 2개·월 달력.
+- **검증**: 통합 tsc·eslint 0. 기존 outbound 정렬 테스트 20건 PASS(1건 실패=기존 알려진
+  customer_name 키 flake). 배포 커밋 `d5e81f9`.
+- **결정자**: 사용자 (2026-07-21)
+- **참조**: DEC-117(자동조회·스톱 규약), DEC-115(DateFieldYMD), DEC-082(서버 정렬),
+  [[keyboard-input-flow]]
+
 ### DEC-117: 필터 자동조회(마지막 값 Enter=즉시 조회) + 거래처별 판매 마스터-디테일
 
 - **요청**(2026-07-21 사용자): ① 거래처별 판매에서 "모든 값이 정해진 순간 Enter 하면 조회로
