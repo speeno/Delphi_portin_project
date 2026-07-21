@@ -2161,6 +2161,30 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-113: 출고현황 필터 방향키+Enter 전용 흐름 (조회까지 진행)
+
+- **요청**(2026-07-21 사용자): 출고현황 필터를 **방향키+Enter 만으로** 값 선택·조회까지
+  진행할 수 있어야 하는데 누락. (Enter 로 필드 이동/토글 선택/최종 조회가 안 됨.)
+- **원인**: 공용 `advanceFocusOnEnter`(DEC-105)는 input/select/textarea 만 이동 대상이라
+  버튼류(도서구분 토글, 조회)를 건너뛴다. 이 필터엔 그 핸들러조차 미부착이었고, 도서구분은
+  개별 `<button>` 3개라 키보드 그룹 선택도 불가.
+- **구현(재사용 패턴)**: ① 검색 패널에 로컬 `onFilterKeyDown` — `FILTER_STOP_IDS`
+  (data-legacy-id 순서: 거래처→도서코드→전표→시작일→종료일→도서구분→조회)로 **Enter=다음
+  스톱**. 자동완성 팝업 열림(`aria-expanded`) 시 Enter=선택은 가로채지 않고, **마지막 조회
+  버튼은 preventDefault 없이 기본 동작(조회 실행)**으로 둔다(입력/그룹은 preventDefault+이동).
+  ② 도서구분을 **radiogroup**(role/aria-checked, tabIndex 0, 내부 버튼 tabIndex -1)으로 —
+  ←/↑ 이전·→/↓ 다음(순환)·Home/End, Enter 는 컨테이너로 버블돼 조회로 이동. ③ 필터
+  MasterLookupField(거래처/도서코드)는 **빈 값 Enter=팝업 대신 통과**(`onKeyDown={()=>{}}`
+  로 empty-Enter 위임 → 컨테이너 이동; 필터=비우면 전체). `data-enter-scope` 부착으로 MLF
+  자체 focusNextFrom 과 스톱 경로가 일치(멱등).
+- **검증(브라우저 라이브, 백그라운드 탭)**: Enter 워크 포커스 궤적 Edit104→Edit106→Edit109
+  →Edit101→Edit102→Panel102→dxButton1 순 정확 이동, 도서구분 ArrowRight 로 전체→본사 순환,
+  최종 조회 버튼 도달 확인. tsc·eslint 0. 배포 커밋 `1b964cf`.
+- **결정자**: 사용자 (2026-07-21)
+- **참조**: DEC-105(Enter=다음 컴포넌트 공통), DEC-104(무지사 Enter 리듬), `focus-advance.ts`
+  (input 전용 한계), MasterLookupField(aria-expanded 가드). **새 필터 바는 이 패턴
+  (FILTER_STOP_IDS + radiogroup + 빈값 통과)을 따를 것.**
+
 ### DEC-112: 지사·구분 콤보 → 픽 필드(팝업 선택) + 출고현황 상세 컬럼 기본순서
 
 - **요청**(2026-07-20 사용자): ① 출고 신규주문의 **지사(거래처 지점)·구분(위탁/현매/매절/납품/
