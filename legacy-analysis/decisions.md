@@ -2161,6 +2161,28 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-119: 필터 셀렉트 전면 픽 필드 전환 + 년말집계 체크박스/라디오 스톱 편입
+
+- **요청**(2026-07-21 사용자): ① 도서별년말집계의 SCode 체크박스·집계단위(년/월)가 Enter 만으로
+  진행 불가(스톱 누락). ② 도서구분 같은 **셀렉트류 입력은 Enter=목록 팝업→선택 Enter=값 입력+
+  다음 입력창 이동**(픽 필드 — DEC-112 지사/구분 패턴)이어야 한다.
+- **① 년말집계 스톱 편입**: FILTER_STOP_IDS 에 `CheckBox2.Input`(체크=Space)·`GrainGroup`
+  (라디오 그룹 래퍼 div — 진입 시 첫 라디오 포커스, ←→ 네이티브 same-name 라디오 선택) 추가.
+  CDP 검증: 도서구분→SCode→년/월→조회 자동실행 체인.
+- **② 필터 셀렉트 15개 픽 필드 전환**: 필터 바 네이티브 `<select>` → `LocalComboField`
+  (Enter=포털 목록→↑↓→Enter=선택+`onSelectAdvance`). `advanceAfterSelect` 를
+  `filter-enter.ts` 공용으로 승격(MLF 팝업 선택과 동일 규약 — 다음 입력칸 이동, 없으면
+  조회/검색 버튼 자동 실행). `data-legacy-id` 는 내부 input 에 verbatim 보존(스톱 체인 유지).
+  대상: 년말집계 도서구분, 원장 2종 범위, 반품수불 구분, 청구서 변형, 입금현황 변형(동적
+  prefix), 감사 액션, 기초관리 5종 구분, 거래명세서 거래구분·지사(자체 focusNextFilter 체인
+  연동 — combobox input 을 체인 셀렉터에 편입). 제외: 그리드 셀 편집 셀렉트(출판사관리
+  CHEK3/YESNO), 액션 패널(택배사), 페이지당.
+- **검증**: CDP — 년말집계 도서구분 Enter=목록(창고/본사/전체)→선택→SCode 이동 확인. 통합
+  tsc·eslint 0. 배포 커밋 `bb923b1`(스톱 편입)·`68b139b`(픽 필드 전환).
+- **결정자**: 사용자 (2026-07-21)
+- **참조**: DEC-112(LocalComboField 원형), DEC-116(스톱 규약), DEC-118(advanceAfterSelect),
+  [[keyboard-input-flow]]
+
 ### DEC-118: 기간 조회 날짜 오름차순 기본 + 팝업선택 자동이동/조회 + 년월 세그먼트
 
 - **요청**(2026-07-21 사용자): ① "모든 목록에서 기간 조회 결과는 시작일 날짜가 맨위(오름차순)".
