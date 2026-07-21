@@ -2161,6 +2161,30 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-115: 모든 날짜 입력 → DateFieldYMD(년 4자리→월 자동이동 + 달력) 앱 전역 전환
+
+- **요청**(2026-07-21 사용자): 네이티브 `<input type="date">` 는 월·일은 입력하면 다음으로
+  자동 이동하는데 **년도는 4자리를 넣어도 월로 이동 안 해 불편**하다. 년 4자리→월 자동이동을
+  **모든 날짜 컨트롤**에 적용하라.
+- **원인/결정**: 네이티브 date 년도 필드는 연도 자릿수 가변이라 4자리에서 자동 이동 안 함
+  (브라우저 특성). 세그먼트가 DOM 비노출 + 합성 KeyboardEvent isTrusted=false 라 스크립트로
+  제어 불가 → **커스텀 3분할 필요**. 단, 앞서 3분할은 달력 상실로 되돌렸었음 → 이번엔 **숨긴
+  네이티브 date + 달력 버튼(`showPicker`)** 을 붙여 달력 선택도 유지 → 채택.
+- **`DateFieldYMD`**(`components/shared/date-field-ymd.tsx`): 년(4)/월(2)/일(2) 세그먼트 +
+  달력 버튼. 자리수 채우면 자동 다음(년4→월·월2→일), Enter 년→월→일, ↑↓ 값, ←→ 세그먼트,
+  Backspace 빈칸 이전, 값 `YYYY-MM-DD`. props: onChange/legacyId/ariaLabel/disabled/className/
+  **onKeyDown**(일 세그먼트 Enter=다음 필드/조회)·**inputRef**(년 세그먼트, 자동포커스).
+- **전역 전환**: 앱 전역 **82개** date input 을 44개 파일에서 DateFieldYMD 로 일괄 교체
+  (6개 병렬 에이전트 배치). min/max 없음, onChange 어댑트(`(e)=>setX(e.target.value)`→`setX`,
+  cash 는 dot↔date 변환·복합 setter 래핑), 미사용 `Input` import 정리.
+- **후속 보강**: 일부 화면(sales-statement/new·page, edit/search-dialog)이 date input 의
+  onKeyDown(Enter→다음/조회)·ref(자동포커스)를 잃어 DateFieldYMD 의 onKeyDown/inputRef 로 재배선.
+- **검증**: 통합 `tsc --noEmit` 0, 각 배치 eslint 0. CDP 라이브: 출고현황에서 년 "2025" 입력→
+  포커스 월로 자동 이동 확인, 달력 버튼·세그먼트 정상. 배포 커밋 `15be948`(전환).
+- **결정자**: 사용자 (2026-07-21)
+- **참조**: DEC-113(날짜 3분할 1차 시도·되돌림 시행착오 — 이번에 달력 병행으로 재채택),
+  [[keyboard-input-flow]], `date-field-ymd.tsx`
+
 ### DEC-114: 출고현황 상세 배치 바로출고/바로재출고 + 접수유형 필터 + 긴급 출력 큐
 
 - **요청**(2026-07-21 사용자): 출고현황 상세에서 ① 선택 헤더로 **접수유형(접수/대기/완료) 필터
