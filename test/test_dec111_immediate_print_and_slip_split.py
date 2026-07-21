@@ -76,6 +76,31 @@ class StreamReceivedStatementsTests(unittest.IsolatedAsyncioTestCase):
         # tick3 — 신규 없음 → heartbeat
         self.assertEqual(events[2]["type"], "heartbeat")
 
+    async def test_urgent_queue_emitted_and_scoped_by_hcode(self) -> None:
+        """긴급 출력 큐(바로출고/바로재출고) 적재분이 hcode 스코프로 'urgent' 방출된다."""
+        from app.services import transactions_service as tsvc
+
+        # 다른 hcode 적재분은 방출되지 않아야(격리).
+        self.assertEqual(tsvc.enqueue_urgent_print("H001", ["k1", "k2"]), 2)
+        self.assertEqual(tsvc.enqueue_urgent_print("H999", ["z9"]), 1)
+        self.assertEqual(tsvc.enqueue_urgent_print("H001", ["", "  "]), 0)  # 공백 제외
+
+        events: list[dict[str, Any]] = []
+        with patch.object(
+            tsvc, "list_sales_statements", new=AsyncMock(return_value=([_DONE], 1))
+        ), patch.object(tsvc.asyncio, "sleep", new=AsyncMock()):
+            async for ev in tsvc.stream_received_statements(
+                server_id="srv", hcode="H001", today="2026-07-20", max_ticks=2
+            ):
+                events.append(ev)
+
+        # tick1 — 접수 신규 없음 + 긴급 큐 방출(k1,k2). tick2 — 큐 비었으니 heartbeat.
+        self.assertEqual(events[0]["type"], "urgent")
+        self.assertEqual(events[0]["keys"], ["k1", "k2"])
+        self.assertEqual(events[1]["type"], "heartbeat")
+        # H999 적재분은 H001 스트림에 새지 않음(격리 유지).
+        self.assertEqual(tsvc._drain_urgent_print("H999"), ["z9"])
+
 
 class ListOrdersGjisaOrderKeyTests(unittest.IsolatedAsyncioTestCase):
     async def test_order_key_includes_gjisa_and_splits_by_branch(self) -> None:

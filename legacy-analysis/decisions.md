@@ -2161,6 +2161,32 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-114: 출고현황 상세 배치 바로출고/바로재출고 + 접수유형 필터 + 긴급 출력 큐
+
+- **요청**(2026-07-21 사용자): 출고현황 상세에서 ① 선택 헤더로 **접수유형(접수/대기/완료) 필터
+  + 전체선택**, ② 선택 여러 건 **"바로출력 (N건)"** 배치 실행(표 위 버튼), ③ **완료** 건은
+  한/여러 건 선택 시 **"바로재출고 (N건)"** 로 재출력.
+- **UI**: 상세 그리드 toolbarTop 에 접수유형 `<select>`(전체/대기/접수/완료)로 표시 슬립
+  (`filteredSlips`)·전체선택 대상 좁힘 + '전체 선택'/'선택 해제'. 선택 조합에 따라 버튼 노출 —
+  완료전(대기+접수) 있으면 `바로출력 (N건)`(`Sobo24.BatchImmediateDispatch`), 완료 있으면
+  `바로재출고 (N건)`(`Sobo24.BatchReprint`). 기존 '대기 N건 출고요청'은 바로출력에 흡수.
+- **동작**: 바로출력=대기분 `requestDispatchBatch`(→접수, 완료 전이 기준) + **완료전 전체
+  긴급 출력 큐 적재**. 바로재출고=완료분 긴급 출력 큐 적재(상태 무변경).
+- **긴급 출력 큐(핵심, DEC-111 확장)**: `received-stream` 은 접수 신규분만 `seen` dedup 방출해
+  **완료 재출력·이미 접수 건 강제 인쇄를 표현 못함**. → `transactions_service._urgent_print_queue`
+  (hcode별 메모리) + `POST /transactions/sales-statement/urgent-print`(enforce_hcode_isolation)
+  + SSE 제너레이터가 매 tick `_drain_urgent_print(hcode)` → `{type:"urgent",keys}` 방출.
+  자동출력 탭 `subscribeReceivedStatements.onUrgent` → **printedRef dedup 우회 강제 인쇄**(완료
+  재출력 허용), 인쇄 후 printedRef 추가로 일반 경로 중복만 방지. 키=`serializeStatementKey`.
+  **⚠ 단일 인스턴스 가정(Render)** — 다중 인스턴스면 POST/SSE 프로세스 분리로 전달 실패 가능,
+  그 경우 DB 백엔드 큐로 승격 필요. 유실돼도 데이터 손상 없음(재클릭/3분 폴 안전망).
+- **한계**: 배치 바로출고/재출고의 실제 인쇄는 자동출력 PC 탭이 열려 있어야(2-PC/프린터 필요)
+  종단 검증 가능 — 여기선 UI·요청 경로·SSE 방출·hcode 격리만 검증.
+- **검증**: `test_dec111` 에 긴급 큐 방출·hcode 격리·공백 제외 회귀 추가(3건 PASS). 프론트
+  tsc·eslint 0. 배포 커밋 `56353ba`.
+- **결정자**: 사용자 (2026-07-21)
+- **참조**: DEC-111(즉시출력 SSE·바로출고 버튼), DEC-109(gjisa 슬립 분리), [[sse-realtime-pattern]]
+
 ### DEC-113: 출고현황 필터 방향키+Enter 전용 흐름 (조회까지 진행)
 
 - **요청**(2026-07-21 사용자): 출고현황 필터를 **방향키+Enter 만으로** 값 선택·조회까지
