@@ -2180,20 +2180,20 @@
 - **검증(브라우저 라이브, 백그라운드 탭)**: Enter 워크 포커스 궤적 Edit104→Edit106→Edit109
   →Edit101→Edit102→Panel102→dxButton1 순 정확 이동, 도서구분 ArrowRight 로 전체→본사 순환,
   최종 조회 버튼 도달 확인. tsc·eslint 0. 배포 커밋 `1b964cf`.
-- **보강(2026-07-21, 사용자 지시)**: 날짜 입력은 **년→월→일 순으로 세분화되어 이동**되어야
-  하는데 네이티브 `<input type="date">` 는 Enter 가 필드 전체를 건너뛴다. → **`DateFieldYMD`**
-  (`components/shared/date-field-ymd.tsx`, 년4·월2·일2 3입력) 신규. 자리수 채우면 자동 다음
-  세그먼트, Enter 로 년→월→일 이동(**일 Enter 는 stopPropagation 안 함 → 상위 컨테이너가 다음
-  필드로**; 년/월 Enter 는 세그먼트만), ↑/↓ 값 증감(월1~12·일1~31 클램프), ←/→ 세그먼트,
-  Backspace 빈칸 이전. 값은 `YYYY-MM-DD`(세 칸 다 차면 emit). 출고현황 필터 시작일/종료일 적용;
-  `onFilterKeyDown` 은 날짜 스톱(래퍼 div)으로 이동 시 첫 세그먼트(년)로 포커스(`querySelector
-  input`). 브라우저 라이브 검증: 전표→시작일[년월일]→종료일[년월일]→도서구분 궤적 + 타이핑
-  자동이동 확인. 배포 커밋 `1c4aef1`. **새 날짜 입력은 DateFieldYMD 를 쓸 것.**
+- **날짜 입력 시행착오(2026-07-21)**: ① 1차 — "날짜를 년→월→일 세분화 이동" 요청에 년4·월2·
+  일2 **3분할 `DateFieldYMD`** 신규(커밋 `1c4aef1`, 라이브 검증까지 통과). ② **되돌림**(커밋
+  `b5924d6`) — 사용자 지적: **3분할은 달력(calendar) 선택을 잃는다**. 네이티브 `<input
+  type="date">` 유지가 우선. 사용자 요청은 "네이티브 유지 + ↑↓ 값·←→ 세그먼트 + Enter=오른쪽
+  화살표(세그먼트 이동) 대체, 불가하면 기존 복원". **Enter=세그먼트 이동은 네이티브 date 에서
+  불가능**(세그먼트가 DOM 비노출 + 합성 KeyboardEvent 는 isTrusted=false 라 세그먼트 이동을
+  트리거 못함) → 지시대로 **네이티브 date 복원**, `DateFieldYMD` 삭제. 날짜는 필터 Enter 흐름상
+  **한 스톱**(Enter=다음 필드), 세그먼트는 브라우저 기본 ←→/↑↓/타이핑/달력으로.
+  **교훈: 날짜는 네이티브 date 컨트롤을 유지할 것(달력 필요). 커스텀 3분할 금지.**
 - **결정자**: 사용자 (2026-07-21)
 - **참조**: DEC-105(Enter=다음 컴포넌트 공통), DEC-104(무지사 Enter 리듬), DEC-101(수량 ↑↓
-  증감), `focus-advance.ts`(input 전용 한계), MasterLookupField(aria-expanded 가드),
-  `date-field-ymd.tsx`. **새 필터 바는 이 패턴(FILTER_STOP_IDS + radiogroup + 빈값 통과 +
-  DateFieldYMD)을 따를 것.**
+  증감), `focus-advance.ts`(input 전용 한계), MasterLookupField(aria-expanded 가드).
+  **새 필터 바는 이 패턴(FILTER_STOP_IDS + radiogroup + 빈값 통과)을 따르고, 날짜는 네이티브
+  date 유지.**
 
 ### DEC-112: 지사·구분 콤보 → 픽 필드(팝업 선택) + 출고현황 상세 컬럼 기본순서
 
