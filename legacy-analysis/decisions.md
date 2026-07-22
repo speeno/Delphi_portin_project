@@ -2161,6 +2161,36 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-120: 페이징 목록 전면 — 표 하단 우측 공통 페이저(sticky 이전/다음)
+
+- **요청**(2026-07-22 사용자): "페이징이 적용된 모든 목록 표는, 표가 길면 하단에서 다음
+  페이지로 이동이 불가능하다. 표 **하단 오른쪽에 이전/다음 버튼**을 추가하고, UX 유지를 위해
+  페이징된 모든 표에 **공통**으로 적용해달라." (기존 페이저는 표 **위**에만 있어, 긴 표를
+  스크롤해 내려가면 페이지 이동 컨트롤이 화면 밖으로 사라짐.)
+- **공통 컴포넌트 2곳만 손대는 단일 출처 방식**:
+  - `data-grid-pager.tsx` — `DataGridPager` 에 `variant?: "full" | "compact"` 추가.
+    `compact` = **이전 / N·M / 다음** 만(건수 범위·페이지당 select 생략). 단일 페이지
+    (이전·다음 모두 불가, 로딩 무관 원시조건)면 `null` 반환 → 짧은 표엔 미노출.
+  - `data-grid.tsx` — `DataGrid` 에 `pager?: DataGridPagerProps` prop 추가. 있으면 표
+    **하단 footer 우측**에 `compact` 페이저 렌더. **페이지가 2개 이상일 때만**
+    `sticky bottom-0 …bg-card/95 backdrop-blur` 로 고정(긴 표 스크롤 중에도 항상 하단
+    도달) — 빈 sticky 바 방지 위해 `showBottomPager`(offset>0 || has_more || offset+limit<total)
+    로 게이팅. 상단 페이저는 무변경(추가 방식).
+- **호출부 규약**: 각 화면이 상단 `<DataGridPager>` 에 넘기던 **동일 props 를 그대로**
+  `pager={{...}}` 로 DataGrid 에 전달(contextual typing 으로 `next` 자동 타입 — 신규 import·
+  상수 0). `onChange` 인자 순서/함수는 화면별로 상이(`(next)=>load(next.offset,next.limit)`,
+  `({limit,offset})=>load(offset,limit)`, `(next)=>load(next.limit,next.offset)`,
+  `fetchData/loadList`, `lastValues?load(...)` 등) → **화면 원본 verbatim 전사**.
+- **적용 범위**: 목록 화면 63 + 마스터 패널 6 + `simple-master-page` 공통(→ 다수 기초관리).
+  다중 뷰 그리드는 전부 편입 — 출고현황 3그리드(요약/상세마스터/목록), 입고현황·거래상태
+  2그리드. **제외**: `master-lookup-dialog`(이미 표 아래 full 페이저 존재), 상세 미니그리드·
+  집계 미니그리드·수기 master-detail `<table>`(같은 `page` 상태 아님).
+- **검증**: 전체 `tsc --noEmit` 0, `eslint`(공통 컴포넌트) 0, `next build` ✓ Compiled,
+  누락 감사(`<DataGridPager` 있는데 `pager=`/`variant="compact"` 없는 파일) 0건.
+- **결정자**: 사용자 (2026-07-22)
+- **참조**: DEC-024(표준 페이지 응답 `{items, page:{limit,offset,total,has_more}}`),
+  [[keyboard-input-flow]]
+
 ### DEC-119: 필터 셀렉트 전면 픽 필드 전환 + 년말집계 체크박스/라디오 스톱 편입
 
 - **요청**(2026-07-21 사용자): ① 도서별년말집계의 SCode 체크박스·집계단위(년/월)가 Enter 만으로
