@@ -2161,6 +2161,34 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-121: 범용 USB 바코드 스캐너 공용 라이브러리 (화면별 바코드 종류 주입)
+
+- **요청**(2026-07-23 사용자): 신규도서 등록에서 USB 범용 바코드 스캐너로 책을 스캔하면
+  ISBN 이 ISBN 칸에 자동 입력되고 **스캐너 연결 여부가 표시**되어야 함. 범용 스캐너 연동은
+  여러 곳에 쓰이므로 **공용 라이브러리**로 구성하고, **바코드 종류는 화면별로 가변**.
+- **구조(단일 출처)**:
+  - `frontend/src/lib/barcode-scanner.ts` — 공용 훅 `useBarcodeScanner` + `BarcodeFormat`
+    (화면별 바코드 종류 주입 인터페이스) + 내장 포맷 `ISBN_FORMAT`/`EAN13_FORMAT`/
+    `ANY_BARCODE` + `parseIsbn`(978·979 EAN-13/ISBN-13, 부가기호 앞 13자리, ISBN-10).
+  - `frontend/src/components/shared/barcode-scanner-field.tsx` — 즉시 재사용 컴포넌트
+    (스캔 input + 연결상태 배지 + WebHID 장치 연결 버튼 + 최근 스캔 결과).
+- **저수준 감지**: 신규 구현 없이 기존 `useScanner`(DEC-004 키보드 웨지: 연타 <30ms +
+  Enter 종결 버퍼링) 재사용. **전용 스캔 input(`targetRef`)** 사용 — `useScanner` 의
+  전역캡처(captureGlobal)는 각 스캔 첫 글자를 흘리는 한계가 있어 회피.
+- **연결 여부**: 키보드 웨지 스캐너는 브라우저가 연결을 직접 못 보므로 **첫 스캔 인식 시
+  `connected`**("대기 중"→스캔 후 "연결됨"). WebHID(`navigator.hid`) 지원 브라우저 +
+  HID 모드 스캐너면 실제 device 연결/해제 감지 + 장치 승인(progressive enhancement —
+  미지원/키보드모드에서도 웨지 경로로 정상 스캔).
+- **함정**: `eslint-plugin-react-hooks@7`(React Compiler 계열)의 `react-hooks/refs` 규칙이
+  **훅 반환 객체에 ref(`inputRef`)가 섞이면** 그 객체 전 멤버 접근을 ref-접근으로 오탐 →
+  빌드 실패. **ref 는 컴포넌트가 생성해 훅 옵션으로 주입**하고 훅은 상태값만 반환하도록
+  분리해 해결.
+- **적용**: `master/book/new` 에 `BarcodeScannerField(format=ISBN_FORMAT)` 배치 → 스캔 시
+  `update("gisbn", …)` 자동 입력, `autoFocus` 로 스캔 우선. 타 화면은 자기 `format` 주입.
+- **검증·배포**: tsc·eslint·next build 클린 → 커밋 `3afdeb6` → Vercel success.
+- **결정자**: 사용자 (2026-07-23)
+- **참조**: DEC-004(useScanner 웨지 원형), DEC-040(C8 스캔 매칭 분리)
+
 ### DEC-120: 페이징 목록 전면 — 표 하단 우측 공통 페이저(sticky 이전/다음)
 
 - **요청**(2026-07-22 사용자): "페이징이 적용된 모든 목록 표는, 표가 길면 하단에서 다음
