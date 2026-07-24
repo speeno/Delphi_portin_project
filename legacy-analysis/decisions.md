@@ -2161,6 +2161,32 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-122: 신규도서 스캔 심화 — 전역 캡처 + ISBN 중복검사 + 국립중앙도서관 서지 자동채움
+
+- **요청**(2026-07-24 사용자): (1) 스캐너 키 포커스가 다른 곳에 있어도 ISBN 은 **무조건 ISBN
+  필드**에, (2) 스캔 ISBN 이 이미 DB 에 있으면 **중복 안내/기존정보 불러오기(수정)**, (3) 신규면
+  **국립중앙도서관 서지정보 API** 로 도서 필드 자동 입력.
+- **(1) 전역 캡처**: `useBarcodeScanner` 에 `captureGlobal`([[DEC-121]] 라이브러리 확장).
+  `document` keydown 을 잡되 **웨지 연타(평균 간격 ≤30ms)만 스캔**으로 인식(사람 타이핑 무시),
+  **첫 글자 보존**(gap>60ms 새 시퀀스 시작), 후속 연타는 `preventDefault` 로 포커스 필드 오염
+  최소화(스캔 시 최대 1글자만 새고 나머지 차단). 수동 입력은 스캔칸 `onInputKeyDown`(Enter)
+  별도 경로 + 최근값 700ms 디듀프로 이중 처리 방지. 저수준 `useScanner`(웨지, DEC-004)는
+  scoped 경로에서만 사용해 C8 무영향.
+- **(2) 중복검사**: `masters_service.find_book_by_isbn`(G4_Book 을 hcode 스코프에서
+  `REPLACE(...Gisbn...)` 숫자 정규화 비교 — 저장측 하이픈/공백 무관). 라우터
+  `GET /api/v1/masters/book/by-isbn` — **`/book/{gcode}` 보다 먼저** 정의해 경로 충돌
+  (gcode='by-isbn') 회피. 프론트: 스캔 시 조회 → 존재하면 "이미 등록된 도서" 배너 +
+  '기존 도서 수정하기'(상세 라우트 이동).
+- **(3) 서지 자동채움**: 기존 `/api/v1/integrations/nl/isbn`(국중 SEOJI SearchApi,
+  `config.NL_API_KEY`=`BLS_NL_API_KEY`) **재사용** — 스캔 흐름에 연결. `title→도서명(gname)`,
+  `author→저자명(gjeja)`, `pub_date→발행일(date1, YYYY-MM-DD 정규화)`, `price→단가(gdang)`.
+  키 미설정(`config_missing`)/미발견 시 자동채움 건너뛰고 안내만(ISBN 은 입력됨).
+- **검증**: tsc·eslint·next build 클린, 백엔드 py_compile OK, hcode 격리 감사 critical=0,
+  라우터 감사 critical=0, `test/test_book_by_isbn_lookup.py` 5/5, 프로브 `masters.book.by_isbn`
+  등록. 배포 `ff27d90`(Vercel 프론트 + Render 백엔드).
+- **결정자**: 사용자 (2026-07-24)
+- **참조**: [[DEC-121]](스캐너 공용 라이브러리), DEC-004(웨지 useScanner), DEC-033(멀티 DB/3.23 REPLACE·IFNULL)
+
 ### DEC-121: 범용 USB 바코드 스캐너 공용 라이브러리 (화면별 바코드 종류 주입)
 
 - **요청**(2026-07-23 사용자): 신규도서 등록에서 USB 범용 바코드 스캐너로 책을 스캔하면

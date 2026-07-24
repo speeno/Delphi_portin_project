@@ -224,6 +224,11 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "masters.book.by_isbn",
+            "path": f"/api/v1/masters/book/by-isbn?serverId={sid}&isbn=9780000000000",
+            "ok_status": {200},
+        },
+        {
             "group": "masters.export.customer_fields",
             "path": "/api/v1/masters/exports/customer-fields",
             "ok_status": {200},
