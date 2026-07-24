@@ -53,9 +53,10 @@ def _run(qty, pack, g1, hcode="0013"):
 class OutboundStatementTests(TestCase):
     def test_merge_region_and_summary(self) -> None:
         qty = [
-            {"Gcode": "00027", "gjisa": "05", "Jubun": "11", "gsqut": 1},
-            {"Gcode": "00028", "gjisa": "05", "Jubun": "11", "gsqut": 3},
-            {"Gcode": "01016", "gjisa": "05", "Jubun": "11", "gsqut": 3},  # 지방
+            # Jubun(거래처별 차수)=11 이지만 전표번호 표시 정본은 Idnum(일자별) — 별도 값.
+            {"Gcode": "00027", "gjisa": "05", "Jubun": "11", "idnum": 27, "gsqut": 1},
+            {"Gcode": "00028", "gjisa": "05", "Jubun": "11", "idnum": 28, "gsqut": 3},
+            {"Gcode": "01016", "gjisa": "05", "Jubun": "11", "idnum": 116, "gsqut": 3},  # 지방
         ]
         pack = [
             {"Gcode": "00027", "gjisa": "05", "Jubun": "11", "gqut1": 1, "gqut2": 2, "gqut3": 0},
@@ -76,6 +77,10 @@ class OutboundStatementTests(TestCase):
         self.assertEqual(by["00027"]["qty"], 1)
         self.assertEqual(by["00027"]["protector"], 2)
         self.assertEqual(by["01016"]["region"], "지방")  # gubun 02
+        # 전표번호 = Idnum(일자별) 이지 Jubun(=11) 이 아님 (DEC-099/108, 목록↔팝업 불일치 회귀 차단).
+        self.assertEqual(by["00027"]["idnum"], 27)
+        self.assertEqual(by["00028"]["idnum"], 28)
+        self.assertEqual(by["01016"]["idnum"], 116)
 
         s = res["summary"]
         # 시내: 00027(q1,b1,p2)+00028(q3,b1,p2) = q4,b2,p4 ; 지방: 01016 q3,b1,p2 ; 합계 q7,b3,p6
@@ -103,6 +108,7 @@ class OutboundStatementTests(TestCase):
         s1 = [c for c in stub.calls if "S1_Ssub" in c[0]][0]
         self.assertIn("0013", s1[1])  # Hcode=선택 출판사
         self.assertIn("Hcode=%s", s1[0])
+        self.assertIn("Idnum", s1[0])  # 전표번호(Idnum) 를 SELECT — Jubun 만 뽑던 회귀 차단
 
 
 if __name__ == "__main__":

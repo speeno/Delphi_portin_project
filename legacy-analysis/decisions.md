@@ -2200,6 +2200,10 @@
   거래처명=`G1_Ggeo`(Hcode,Gcode)+('',Gcode) 폴백. 거래처·Gjisa·Jubun 단위 **2쿼리(S1/T4)
   + Python 병합**(3.23 파생테이블 회피, IFNULL). ⚠ S1↔T4 를 JOIN 하면 도서 라인 수만큼
   포장 합계가 fan-out 되므로 각기 집계 후 키 병합.
+- **HOTFIX(2026-07-24)**: 상세 "전표" 컬럼이 `Jubun`(거래처별 차수=11)을 표시 → **전표번호
+  표시 정본 = Idnum**([[DEC-108]]/[[slip-number-idnum-vs-jubun]]) 위반. 쿼리에 `MAX(Idnum+0)
+  AS idnum` 추가(슬립 그룹 내 Idnum 공통 1값), 프론트 컬럼 `jubun`→`idnum` +
+  `formatIdnumDisplay(idnum) || jubun`(폴백). 신규 화면 만들며 규약 재발 — 감사목록에 등록.
 - **엔드포인트**: `GET /api/v1/outbound/statement?serverId&date&hcode`(선택 출판사).
   총판 게이트(`resolve_g7_ggeo_list_scope=None`), hcode=선택 출판사로 격리 조회(교차 뷰는
   총판만). S1/T4 쿼리는 Hcode 필터 있어 hcode 감사 critical=0.
