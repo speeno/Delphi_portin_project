@@ -99,6 +99,23 @@ class DistributorBoardTests(TestCase):
         pub_call = [c for c in stub.calls if "G7_Ggeo" in c[0]][0]
         self.assertIn("0007", pub_call[1])  # G7_Ggeo 에 Gcode 필터
 
+    def test_include_counts_false_skips_slip_scan(self) -> None:
+        # 출고내역서 목록 로드용 — 상태 카운트 불필요 → S1_Ssub 전일자 스캔 생략(성능).
+        pubs = [{"code": "0007", "name": "품", "tel1": "", "tel2": ""}]
+        stub = _Stub(pubs, [{"Hcode": "0007", "yesno_max": "1"}])
+        with patch.object(outbound_service, "execute_query", new=stub), patch.object(
+            outbound_service, "mysql3_protocol", new=lambda s: False
+        ), patch.object(outbound_service, "_default_outbound_ocode", new=lambda s: "B"):
+            res = asyncio.run(
+                outbound_service.distributor_board(
+                    server_id="remote_1", gdate="2026-07-22", scope_hcode=None, include_counts=False
+                )
+            )
+        self.assertFalse(any("S1_Ssub" in c[0] for c in stub.calls))  # 슬립 스캔 없음
+        p = res["publishers"][0]
+        self.assertEqual((p["received_count"], p["done_count"], p["pending_count"]), (0, 0, 0))
+        self.assertTrue(p["unused"])  # 카운트 미집계 → 미사용
+
     def test_no_scope_no_hcode_filter(self) -> None:
         pubs = [{"code": "0007", "name": "품", "tel1": "", "tel2": ""}]
         _, stub = _run(pubs, [], scope_hcode=None)

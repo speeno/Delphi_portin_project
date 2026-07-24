@@ -2161,6 +2161,34 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-126: 출고내역서 키보드 자동조회 + 조회 성능 최적화 + 종료 출판사 숨김
+
+- **요청**(2026-07-24 사용자): ① 출고내역서 좌측 목록을 키보드로 이동하면 클릭처럼 조회,
+  ② 조회 쿼리 속도 최적화 검토, ③ 현황판에서 "종료" 출판사 숨김 옵션.
+- **①키보드 자동조회**: 좌측 목록 `onSelectedRowChange`(화살표 이동)에서 **디바운스(250ms)**
+  후 `selectPublisher` 호출(홀드로 매행 조회 폭주 방지), 클릭은 즉시. **요청 시퀀싱**
+  (`reqSeqRef` — 느린 응답 도착 순서역전 시 최신 선택만 반영) + **(date\|hcode) 결과 캐시**
+  (재선택 왕복 0). 날짜 변경 시 캐시 무효화.
+- **②성능 진단**(브라우저 resource timing + 백엔드 per-query 타이밍): distributor-board
+  median 363ms(빠름), outbound_statement median 2.4s·max 9.5s로 느려 보였으나 **웜 쿼리는
+  130~220ms**(Q1 S1=39~140ms, Q2 T4~30ms, Q3 G1~40ms). 2.4s+ 는 전부 **연결 풀 콜드스타트**
+  (uvicorn 리로드/유휴 후 aiomysql 풀 재생성 + SSH 터널 핸드셰이크 ~0.7~6s). 즉 병목은 쿼리가
+  아니라 콜드 연결. **코드 레벨 최적화**: (a) `outbound_statement` Q1(수량)·Q2(포장) 병렬화
+  (`asyncio.gather`, (Gdate,Hcode)만 의존). (b) `_g1_names_and_region` Q3 `OR-of-ANDs
+  (Gcode=A AND (Hcode=H OR '')) OR …` → `Gcode IN (…) AND (Hcode=H OR '')` 등가 재작성
+  (거래처 많은 출판사 조건폭발/인덱스미사용 해소). (c) 출고내역서 목록 로드는 카운트
+  불필요 → `distributor_board(include_counts=False)`(신규 파라미터/`includeCounts` 쿼리)로
+  **전일자 S1 슬립 스캔 생략**. **콜드스타트 근본 완화(풀 프리웜/`pool_recycle`/Render
+  keep-warm/레거시 (Hcode,Gdate) 인덱스)는 권고만** — `lifespan` 이 "풀 lazy 생성"을 의도적
+  설계로 명시해 무단 변경 지양.
+- **③종료 필터**: 현황판·출고내역서에 "종료 출판사 숨기기" 체크박스(**기본 켜짐**) — 출판사명
+  `<종료>` 포함 항목을 `baseRows` 로 목록·요약·카운트에서 일괄 제외(`<정지>` 등은 유지).
+- **검증·배포**: tsc 0·eslint 0, `test_distributor_board` 5/5(+include_counts 가드)·
+  `test_outbound_statement` 4/4. 브라우저: 화살표 이동→우측 자동조회(0017 빈결과/0013 데이터
+  캐시 즉시), 종료필터 650→269. 배포 `ccf0a7c`.
+- **결정자**: 사용자 (2026-07-24)
+- **참조**: [[DEC-124]]/[[DEC-125]](출고내역서), DEC-033(3.23 IN 청크/IFNULL), `grid-page.ts`
+
 ### DEC-125: 총판 신규 화면 표준 목록표 기능(정렬·셀선택·클라이언트 페이징) + 출고내역서 우측 sticky
 
 - **요청**(2026-07-24 사용자): 새로 추가된 총판 화면(현황판 [[DEC-123]]·출고내역서 [[DEC-124]])에
