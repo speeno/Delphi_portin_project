@@ -2161,6 +2161,34 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-125: 총판 신규 화면 표준 목록표 기능(정렬·셀선택·클라이언트 페이징) + 출고내역서 우측 sticky
+
+- **요청**(2026-07-24 사용자): 새로 추가된 총판 화면(현황판 [[DEC-123]]·출고내역서 [[DEC-124]])에
+  표준 목록표 기능(정렬/셀이동/셀선택/페이징) 부여 + 출고내역서에서 **좌측 출판사 목록을
+  스크롤해도 우측(요약+상세) 패널이 계속 보이도록 플로팅**.
+- **정렬/셀선택**: 공통 프롭 재사용 — 헤더 클릭 정렬 `useClientSort`(`grid-sort.ts`),
+  키보드 셀이동/선택 `DataGrid enableKeyboardNav`+`selectedRowKey`/`onSelectedRowChange`.
+  ⚠ `moveTo` 는 `onSelectedRowChange` 가 있어야 동작 → 키보드 네비 그리드마다 필수 제공.
+  좌측 출판사 목록은 "화살표=포커스 이동, Enter/클릭=조회" 패턴(포커스 상태 `pubFocus`
+  분리 → 로드 스팸·in-flight 레이스 회피).
+- **클라이언트 페이징 신규 공용 훅** `lib/grid-page.ts` `useClientPage(rows,{initialLimit,resetKey})`:
+  전량 로딩 데이터(현황판 소속 출판사·내역서 라인)를 서버 왕복 없이 슬라이스, `DataGridPager`
+  `page`/`onChange` 결합(상단 풀 `toolbarTop` + 하단 컴팩트 `pager`). `resetKey`(필터/정렬/
+  선택 전환) 변경 시 1페이지 리셋은 **렌더 중 이전값 비교 setState**(effect 미사용 —
+  `react-hooks/set-state-in-effect` 회피), offset 범위 이탈 시 표시상 첫 페이지 클램프.
+- **sticky 플로팅**: 출고내역서 2열 그리드 우측 패널 `lg:sticky lg:top-0 lg:self-start`.
+  스크롤 조상 = embed 래퍼(`h-screen overflow-auto`, 내부 헤더 없음), 부모
+  `LIST_PAGE_ROOT_CLASS` overflow 없음 → sticky 유효. self-start 로 그리드 stretch 해제
+  (sticky 이동 공간 확보).
+- **검증·배포**: tsc 0 · eslint 0 · dev 서버 `/outbound/orders`·`/statement` 200 컴파일,
+  `test/test_distributor_board.py`+`test/test_outbound_statement.py` 8/8. 배포 `0462b37`.
+  ⚠ **로그인 세션 만료로 07-22 접수/사용중 라이브 UI 재검증은 사용자 재로그인 필요**(비번
+  직접 입력 불가). 접수/사용중 도출 로직은 `test_in_use_pending`(사용중=대기)·
+  `test_counts_and_flags`(접수=Yesno '0') 로 커버, 07-22 는 전건 완료 상태라 접수/사용중=0 이 정상.
+- **결정자**: 사용자 (2026-07-24)
+- **참조**: [[DEC-120]](공통 하단 페이저), [[DEC-123]]/[[DEC-124]](총판 화면),
+  `grid-sort.ts`/`grid-page.ts`/`data-grid-pager.tsx`
+
 ### DEC-124: 총판 출고내역서(Subu39) — 거래처별 수량/덩이/보호대/박스 + 시내/지방
 
 - **요청**(2026-07-24 사용자): 총판(물류) 계정에 **출고관리 하위 '출고내역서'** 화면 추가 —
