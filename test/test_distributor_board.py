@@ -52,9 +52,10 @@ def _run(pubs, slips, scope_hcode=None):
 class DistributorBoardTests(TestCase):
     def test_counts_and_flags(self) -> None:
         pubs = [
-            {"code": "0007", "name": "도서출판 품", "tel1": "031-946-4841", "tel2": ""},
+            # 전화는 분할 저장: Gtel1(앞자리) + Gtel2(나머지) → "031-946-4841" 로 결합돼야 함.
+            {"code": "0007", "name": "도서출판 품", "tel1": "031", "tel2": "946-4841"},
             {"code": "0011", "name": "초타원형", "tel1": "", "tel2": "010-2859-4550"},
-            {"code": "9999", "name": "무활동사", "tel1": "02-000-0000", "tel2": ""},
+            {"code": "9999", "name": "무활동사", "tel1": "02", "tel2": ""},
         ]
         slips = [
             {"Hcode": "0007", "yesno_max": "1"},
@@ -71,10 +72,12 @@ class DistributorBoardTests(TestCase):
         self.assertFalse(by["0007"]["received"])
         self.assertFalse(by["0007"]["unused"])
 
+        self.assertEqual(by["0007"]["tel"], "031-946-4841")  # Gtel1+'-'+Gtel2 결합
+
         self.assertEqual(by["0011"]["received_count"], 1)
         self.assertTrue(by["0011"]["received"])
         self.assertFalse(by["0011"]["done"])
-        self.assertEqual(by["0011"]["tel"], "010-2859-4550")  # tel2 폴백
+        self.assertEqual(by["0011"]["tel"], "010-2859-4550")  # tel2 만 있으면 그대로
 
         self.assertTrue(by["9999"]["unused"])  # 당일 슬립 0 → 미사용
         self.assertFalse(by["9999"]["done"])
