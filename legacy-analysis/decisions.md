@@ -2161,6 +2161,30 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-124: 총판 출고내역서(Subu39) — 거래처별 수량/덩이/보호대/박스 + 시내/지방
+
+- **요청**(2026-07-24 사용자): 총판(물류) 계정에 **출고관리 하위 '출고내역서'** 화면 추가 —
+  소속 출판사 선택 → 거래처별 출고내역(코드/명/전표/지역/장소/수량/덩이/보호대/박스) +
+  시내/지방/합계 요약(레거시 `도서유통-New/Subu39`).
+- **데이터 매핑(레거시 dfm 정본)**: 수량=`S1_Ssub.SUM(Gsqut)`; **덩이/보호대/박스=
+  `T4_Ssub.Gqut1/Gqut2/Gqut3`**(별도 사이드 테이블 — 없으면 0 폴백); 지역 시내/지방=
+  거래처 `G1_Ggeo.Gubun`(`'01'→시내`, else 지방); 장소=`Gjisa`(지점); 전표=`Jubun`;
+  거래처명=`G1_Ggeo`(Hcode,Gcode)+('',Gcode) 폴백. 거래처·Gjisa·Jubun 단위 **2쿼리(S1/T4)
+  + Python 병합**(3.23 파생테이블 회피, IFNULL). ⚠ S1↔T4 를 JOIN 하면 도서 라인 수만큼
+  포장 합계가 fan-out 되므로 각기 집계 후 키 병합.
+- **엔드포인트**: `GET /api/v1/outbound/statement?serverId&date&hcode`(선택 출판사).
+  총판 게이트(`resolve_g7_ggeo_list_scope=None`), hcode=선택 출판사로 격리 조회(교차 뷰는
+  총판만). S1/T4 쿼리는 Hcode 필터 있어 hcode 감사 critical=0.
+- **총판 전용 메뉴**: 메뉴 매트릭스는 **show-first**(계정유형으로 숨기지 않음)이고
+  `requiredPermission` 은 실제 사이드바를 숨기지 않으므로, **`FormMeta.distributorOnly`**
+  플래그 신설 + 사이드바 `isVisibleForm` 게이트로 총판(account_type=T2_DIST **또는**
+  build_role=distributor)에게만 노출. Sobo39 는 `menuId:null`(매트릭스 우회) + 출고관리 하위.
+- **검증·배포**: tsc·eslint·next build·py_compile 클린, hcode 감사 critical=0,
+  `test/test_outbound_statement.py` 4/4, 프로브 `outbound.statement` 등록. 배포 `f8becc0`.
+- **결정자**: 사용자 (2026-07-24)
+- **참조**: [[DEC-123]](총판 현황판·판별), [[slip-number-idnum-vs-jubun]](전표=Jubun vs Idnum),
+  DEC-033(3.23 IFNULL/파생테이블), MENUVIS-DEC-07(show-first)
+
 ### DEC-123: 총판(T2_DIST) 출고접수관리 현황판 — 소속 출판사 접수/완료 상태판
 
 - **요청**(2026-07-24 사용자): 총판(물류) `T2_DIST` 계정(예: 한국도서유통)은 출고접수관리

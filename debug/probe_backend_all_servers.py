@@ -476,6 +476,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200, 403},
         },
         {
+            # 총판 출고내역서 — 비-총판 403, hcode 미존재면 200(빈 rows).
+            "group": "outbound.statement",
+            "path": f"/api/v1/outbound/statement?serverId={sid}&date={df}&hcode=0000",
+            "ok_status": {200, 403},
+        },
+        {
             "group": "shipping.courier_lines",
             "path": (
                 f"/api/v1/shipping/courier/lines?serverId={sid}"
