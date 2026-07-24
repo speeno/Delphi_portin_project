@@ -104,6 +104,8 @@ class DistributorBoardTests(TestCase):
         _, stub = _run(pubs, [], scope_hcode=None)
         slip_call = [c for c in stub.calls if "S1_Ssub" in c[0]][0]
         self.assertNotIn("Hcode = %s", slip_call[0])  # 총판=미필터
+        # Ocode 는 서버기준 기본값이 테넌트 실제값과 달라 제외(DEC-095) — 필터에 없어야 함.
+        self.assertNotIn("Ocode", slip_call[0])
         self.assertEqual(slip_call[1], ("2026.07.22",))  # gdate 만
 
 
