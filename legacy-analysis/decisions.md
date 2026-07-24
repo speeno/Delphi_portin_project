@@ -2161,6 +2161,31 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-123: 총판(T2_DIST) 출고접수관리 현황판 — 소속 출판사 접수/완료 상태판
+
+- **요청**(2026-07-24 사용자): 총판(물류) `T2_DIST` 계정(예: 한국도서유통)은 출고접수관리
+  화면을 **소속 출판사 현황판**으로 제공 — 물류센터가 소속 출판사들의 출고신청 과정을 본다.
+  컬럼: 출판사코드/명/전화 + 접수건/완료건 + 미사용/사용중/접수/완료.
+- **판별·라우팅**: 백엔드 `ctx["account_type"]=="T2_DIST"`, 프론트 `user.account_type`.
+  `/outbound/orders` 진입 시 T2_DIST 면 `DistributorOutboundBoard`, 그 외(출판사)는 기존
+  출고접수 목록(대시보드 라우팅 시임과 동일 패턴, 페이지 레벨 분기).
+- **데이터**: `GET /api/v1/outbound/distributor-board` → `outbound_service.distributor_board`.
+  소속 출판사 = **G7_Ggeo**(출판사 마스터, `Gcode`=코드=`S1_Ssub.Hcode`, `Gname`, `Gtel1/2`).
+  접수/완료 = S1_Ssub 슬립단위(`GROUP BY Gdate,Hcode,Gcode,Jubun,Gjisa,Idnum`) `MAX(Yesno)`
+  → Hcode별 pending/received/done **Python 집계**(3.23 파생테이블 회피, IFNULL).
+- **격리 함정**: `enforce_hcode_isolation` 은 로그인 hcode 를 강제(WHERE Hcode=login)해 교차
+  출판사 뷰가 0행 → **금지**. 대신 `resolve_g7_ggeo_list_scope(ctx)` 가 **None(T1/T2_DIST/
+  super)** 인 계정만 허용(교차 뷰), 격리(T2_PUB/T3)는 403. S1_Ssub 무-Hcode 쿼리는
+  `# noqa: hcode-guard`(총판 게이트 근거).
+- **상태 산출**: 접수(received>0)/완료(done>0)는 데이터로 완전 산출. **미사용/사용중은 한계** —
+  로그인 세션/last-login 저장이 **전무**(login 은 파이썬 logger 만, DB 미기록)라 실시간 로그인
+  여부 불가 → **미사용=당일 슬립 0건(활동 근사)**, **사용중=대기(pending, Yesno='') 슬립 존재**.
+  정밀 로그인/presence 는 net-new 인프라 필요(후속).
+- **검증·배포**: tsc·eslint·next build·py_compile 클린, hcode 격리 감사 critical=0,
+  `test/test_distributor_board.py` 4/4, 프로브 `outbound.distributor_board` 등록. 배포 `37f539b`.
+- **결정자**: 사용자 (2026-07-24)
+- **참조**: DEC-095(테넌트 DB 라우팅), DEC-081(Yesno '1'·'2'=완료), DEC-033(3.23 IFNULL/파생테이블)
+
 ### DEC-122: 신규도서 스캔 심화 — 전역 캡처 + ISBN 중복검사 + 국립중앙도서관 서지 자동채움
 
 - **요청**(2026-07-24 사용자): (1) 스캐너 키 포커스가 다른 곳에 있어도 ISBN 은 **무조건 ISBN

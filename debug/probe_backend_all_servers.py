@@ -470,6 +470,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            # 총판(T2_DIST) 출고접수 현황판 — 비-총판 계정은 403(정상).
+            "group": "outbound.distributor_board",
+            "path": f"/api/v1/outbound/distributor-board?serverId={sid}&date={df}",
+            "ok_status": {200, 403},
+        },
+        {
             "group": "shipping.courier_lines",
             "path": (
                 f"/api/v1/shipping/courier/lines?serverId={sid}"
