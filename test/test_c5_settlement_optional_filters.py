@@ -357,6 +357,9 @@ class BillingMysql3CompatTests(_BaseClient):
         async def fake_execute(server_id, sql, params=()):  # noqa: ARG001
             if sql.lstrip().upper().startswith("SELECT COUNT"):
                 return [{"cnt": 2}]
+            # DEC-127a 병합 — 파생 원천(S1/R3) 쿼리는 빈 결과(전부 집계된 월 시나리오).
+            if "FROM S1_Ssub" in sql or "FROM R3_Ssub" in sql:
+                return []
             return rows
 
         async def fake_helper(server_id, keys):  # noqa: ARG001
