@@ -2190,6 +2190,12 @@
 - **구현**: `settlement_service.billing_invoice`+`compute_invoice_totals`(순수 골든 함수),
   `GET /settlement/billing/{key}/invoice`(_guard_billing_hcode), 프론트
   `/settlement/billing/[key]/invoice` A4 재현+window.print, 청구서관리 [청구서 양식] 버튼.
+- **피드백 반영(2026-07-25)**: ① 13·20일 시내 오분류 — G1.Gubun 에 01/02 없는 거래처
+  (영풍문고 00023)는 **T1_Gbun.Gname('시내'/'지방') 2차 폴백**(''행 우선, 레거시 Locate 체인
+  등가)으로 판정. ② 재고 기본/초과 관리비 항목 추가(stock_base/stock_over, G7 Sum38/41/42) +
+  도서종당 관리비를 물류 파트 위치로. ③ 사용자 참고 이미지 기반 블루 테마 리디자인(수신처
+  정보바·출고내역 좁게/발송비내역 넓게·01~04 섹션·입금계좌) + **발행자 메모 편집**
+  (localStorage `portal_invoice_issuer_v1:{serverId}`). 제품 3c6b5c0.
 - **검증**: 골든(실인쇄물 0013 2026.07, 22일 컷 실측 수량): **당월 491,864 / V.A.T 49,186 /
   합계 541,050 / 전월입금 557,777 / 미수 0 — 정확 일치**. `test_billing_invoice` 5/5
   (골든식·VAT미적용·초과부수·그리드 규칙(0부 제외/G1 폴백/T4 매칭)·검증오류), 라이브 서비스

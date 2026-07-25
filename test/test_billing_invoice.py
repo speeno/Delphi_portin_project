@@ -26,6 +26,8 @@ GOLDEN_RATES = {
     "io_over_rate": 70, "stmt_fee": 25000, "stock_rate": 27, "dismantle_rate": 0,
     "pickup_city_rate": 1500, "pickup_local_rate": 3000, "space_fee": 10000,
     "title_rate": 1000, "program_fee": 30000, "etc_fee": 20000,
+    # 재고 기본/초과 관리비 — 0013 계약 미사용(0). 골든합 불변 가드.
+    "stock_base_qty": 0, "stock_over_rate": 0, "stock_base_rate": 0,
 }
 GOLDEN_QTY = {
     "city": 84, "local": 60, "protector": 56, "box": 4, "pickup_city": 1,
@@ -84,11 +86,14 @@ class _Stub:
             {"dd": "22", "Gcode": "00023", "jb": "11", "gj": "", "q": 2},  # G1 폴백 케이스
         ]
         self.g1 = [
-            # ''행 gu가 01/02 아님 → H행('01')로 폴백해야 시내 (레거시 Locate 체인)
+            # 00023: G1 어디에도 01/02 없음 → T1_Gbun Gname='시내' 2차 폴백 (실데이터 영풍문고)
             {"Hcode": "", "Gcode": "00023", "gu": "", "gname": "영풍문고"},
-            {"Hcode": "0013", "Gcode": "00023", "gu": "01", "gname": "영풍문고"},
             {"Hcode": "", "Gcode": "00027", "gu": "01", "gname": "예스24"},
             {"Hcode": "", "Gcode": "00003", "gu": "02", "gname": "개인택배"},
+        ]
+        self.t1gbun = [
+            {"Hcode": "", "Gcode": "00023", "gname": "시내"},
+            {"Hcode": "x3014", "Gcode": "00023", "gname": "지방"},  # 타출판사 행 — ''행 우선
         ]
         self.t4 = [
             {"Gcode": "00027", "Gdate": "2026.07.22", "gj": "", "jb": "11", "g2": 0, "g3": 1},
@@ -124,6 +129,8 @@ class _Stub:
         return []
 
     async def in_clause(self, server_id: str, *, sql_template: str, keys, prefix_params=(), **kw):  # noqa: ARG002
+        if "T1_Gbun" in sql_template:
+            return self.t1gbun
         return self.g1
 
 
@@ -142,7 +149,7 @@ class BillingInvoiceServiceTests(TestCase):
         # q=0 슬립 제외: 15일은 00027(q2)만 — 시내2, 보호대2(폴백)
         d15 = next(d for d in res["days"] if d["day"] == "15")
         self.assertEqual((d15["city"], d15["protector"]), (2, 2))
-        # G1 폴백: 00023 은 ''행 gu='' → H행 '01' 채택 = 시내
+        # 시내/지방 2차 폴백: 00023 은 G1 01/02 없음 → T1_Gbun ''행 Gname='시내' = 시내
         d22 = next(d for d in res["days"] if d["day"] == "22")
         self.assertEqual(d22["city"], 3)           # 00027(1)+00023(2)
         self.assertEqual(d22["box"], 1)            # T4 매칭 슬립 박스1
