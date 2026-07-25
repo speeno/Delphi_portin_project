@@ -54,15 +54,16 @@ class BillingLiveDeriveTests(TestCase):
         items, total = _run(out, ret)
         self.assertEqual(total, 2)
         by = {i["hcode"]: i for i in items}
-        # 0013: 20000-2000=18000, 세액 round(1800)=1800, 합계 19800
-        self.assertEqual(by["0013"]["sum26"], 18000)
-        self.assertEqual(by["0013"]["sum27"], 1800)
-        self.assertEqual(by["0013"]["sum28"], 19800)
+        # 0013: 당월 20000-2000=18000, 부가세 1800. DEC-128 정확 매핑(2026-07-25 라벨 정정):
+        # sum26=전월미수(파생 0), sum27=당월청구, sum28=VAT.
+        self.assertEqual(by["0013"]["sum26"], 0)
+        self.assertEqual(by["0013"]["sum27"], 18000)
+        self.assertEqual(by["0013"]["sum28"], 1800)
         self.assertEqual(by["0013"]["yesno"], "0")  # 미집계 = 임시
         self.assertEqual(by["0013"]["hname"], "예방의학사")
         self.assertEqual(by["0013"]["total_lines"], 5)  # 활동일수(COUNT DISTINCT Gdate)
-        # 0007: 반품 없음 → 5000, 500, 5500
-        self.assertEqual((by["0007"]["sum26"], by["0007"]["sum27"], by["0007"]["sum28"]), (5000, 500, 5500))
+        # 0007: 반품 없음 → 미수0/당월5000/VAT500
+        self.assertEqual((by["0007"]["sum26"], by["0007"]["sum27"], by["0007"]["sum28"]), (0, 5000, 500))
 
     def test_sort_month_desc_hcode_asc(self) -> None:
         out = [
@@ -81,7 +82,7 @@ class BillingLiveDeriveTests(TestCase):
         out = [{"Gdm": "202607", "Hcode": "0013", "Amt": 9000, "Days": 3}]
         items, total = _run(out, [], ret_raises=True)  # R3_Ssub 부재
         self.assertEqual(total, 1)
-        self.assertEqual(items[0]["sum26"], 9000)  # 반품 0 폴백 → 출고 그대로
+        self.assertEqual(items[0]["sum27"], 9000)  # 반품 0 폴백 → 당월=출고 그대로
 
     def test_empty_source_returns_empty(self) -> None:
         items, total = _run([], [])
@@ -137,7 +138,7 @@ class ListBillingMergeTests(TestCase):
         self.assertEqual(total, 2)  # 집계 0013 + 파생 0007 (취소 0020 은 숨김)
         self.assertEqual(by["0013"]["sum27"], 111)   # 집계행 우선(파생 99,999 로 덮지 않음)
         self.assertEqual(by["0013"]["total_lines"], 14)
-        self.assertEqual(by["0007"]["sum26"], 5000)  # 미집계 → 파생
+        self.assertEqual(by["0007"]["sum27"], 5000)  # 미집계 → 파생(당월청구)
         self.assertNotIn("0020", by)                 # 취소행 숨김 + 파생 부활 금지
 
     def test_cancelled_visible_when_included(self) -> None:
