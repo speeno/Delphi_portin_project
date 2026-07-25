@@ -88,5 +88,64 @@ class BillingLiveDeriveTests(TestCase):
         self.assertEqual((items, total), ([], 0))
 
 
+class ListBillingMergeTests(TestCase):
+    """부분 집계 월 병합(2026-07-25) — 한 출판사만 집계돼도 나머지는 파생으로 표시.
+
+    종전 total==0 전면 게이트는 0013 집계 순간 152개 파생이 전부 사라지는 결함
+    ("7월 조회가 예방의학사만") — 키 단위 병합 + 집계행 우선 회귀 가드.
+    """
+
+    def _run_list(self, include_cancelled=False):
+        async def fake_eq(server_id, sql, params=None):  # noqa: ARG001
+            if "FROM T2_Ssub t" in sql:  # 목록(LIST) — 0013 집계행 + 0020 취소행
+                return [
+                    {"Gdate": "202607", "Hcode": "0013", "Hname": "예방의학사",
+                     "Sum26": 0, "Sum27": 111, "Sum28": 11, "Yesno": "0"},
+                    {"Gdate": "202607", "Hcode": "0020", "Hname": "취소사",
+                     "Sum26": 0, "Sum27": 5, "Sum28": 1, "Yesno": "2"},
+                ]
+            if "FROM S1_Ssub" in sql:  # 파생 출고 — 0013(집계됨)·0020(취소)·0007(미집계)
+                return [
+                    {"Gdm": "202607", "Hcode": "0013", "Amt": 99999, "Days": 9},
+                    {"Gdm": "202607", "Hcode": "0020", "Amt": 777, "Days": 1},
+                    {"Gdm": "202607", "Hcode": "0007", "Amt": 5000, "Days": 2},
+                ]
+            if "FROM R3_Ssub" in sql:
+                return []
+            if "FROM T3_Ssub" in sql:
+                return []
+            return []
+
+        async def fake_ic(server_id, *, sql_template, keys, **kw):  # noqa: ARG001
+            if "T3_Ssub" in sql_template:
+                return [{"Hcode": "0013", "Gdm": "202607", "LineCnt": 14}]
+            return [{"Gcode": "0007", "Gname": "도서출판 품"}]
+
+        with patch.object(settlement_service, "execute_query", new=fake_eq), patch.object(
+            settlement_service, "in_clause_lookup", new=fake_ic
+        ):
+            return asyncio.run(
+                settlement_service.list_billing(
+                    server_id="remote_1", month_from="202607", month_to="202607",
+                    hcode=None, include_cancelled=include_cancelled, limit=50, offset=0,
+                )
+            )
+
+    def test_partial_aggregation_merges_derived(self) -> None:
+        items, total = self._run_list()
+        by = {i["hcode"]: i for i in items}
+        self.assertEqual(total, 2)  # 집계 0013 + 파생 0007 (취소 0020 은 숨김)
+        self.assertEqual(by["0013"]["sum27"], 111)   # 집계행 우선(파생 99,999 로 덮지 않음)
+        self.assertEqual(by["0013"]["total_lines"], 14)
+        self.assertEqual(by["0007"]["sum26"], 5000)  # 미집계 → 파생
+        self.assertNotIn("0020", by)                 # 취소행 숨김 + 파생 부활 금지
+
+    def test_cancelled_visible_when_included(self) -> None:
+        items, _ = self._run_list(include_cancelled=True)
+        by = {i["hcode"]: i for i in items}
+        self.assertEqual(by["0020"]["yesno"], "2")   # 취소 포함 시 T2 취소행 표시
+        self.assertEqual(by["0020"]["sum27"], 5)     # 파생(777)이 아닌 저장값
+
+
 if __name__ == "__main__":
     main()
