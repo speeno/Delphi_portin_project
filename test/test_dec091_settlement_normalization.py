@@ -38,8 +38,10 @@ class MonthKeyReadNormalizationTests(TestCase):
     def test_billing_detail_month_key_normalized(self) -> None:
         self.assertIn(_NORM, ss._SQL_BILLING_HEADER)
         self.assertNotIn("WHERE Gdate=%s", ss._SQL_BILLING_HEADER)
-        self.assertIn(_NORM, ss._SQL_BILLING_LINES)
-        self.assertNotIn("LEFT(Gdate,6)=%s", ss._SQL_BILLING_LINES)
+        # 상수 → 빌더 전환(T3 Idx DDL drift 어댑터) — 양쪽 변형 모두 정규화 월키 유지.
+        self.assertIn(_NORM, ss._build_sql_billing_lines(True))
+        self.assertIn(_NORM, ss._build_sql_billing_lines(False))
+        self.assertNotIn("LEFT(Gdate,6)=%s", ss._build_sql_billing_lines(True))
 
     def test_cash_status_no_yesno_and_month_key(self) -> None:
         for sql in (

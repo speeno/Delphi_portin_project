@@ -21,6 +21,7 @@ BACKEND = ROOT / "도서물류관리프로그램" / "backend"
 sys.path.insert(0, str(BACKEND))
 
 from app.services import settlement_print_service as ps  # noqa: E402
+from app.services import settlement_service as ss  # noqa: E402
 from app.services import tax_invoice_service as tx  # noqa: E402
 
 _NORM = "REPLACE(REPLACE(REPLACE(TRIM(Gdate)"
@@ -48,16 +49,20 @@ class HeaderSqlBuilderTests(TestCase):
         self.assertNotIn("WHERE Gdate=%s", sql, "원시 Gdate 비교 금지(점 표기 404)")
 
     def test_lines_sql_normalized(self) -> None:
-        self.assertIn(_NORM, ps._SQL_PRINT_LINES)
-        self.assertNotIn("LEFT(Gdate,6)", ps._SQL_PRINT_LINES)
+        # 상수 → 빌더 전환(T3 Idx DDL drift 어댑터) — 양쪽 변형 모두 정규화 월키 유지.
+        self.assertIn(_NORM, ps._build_sql_print_lines(True))
+        self.assertIn(_NORM, ps._build_sql_print_lines(False))
+        self.assertNotIn("LEFT(Gdate,6)", ps._build_sql_print_lines(True))
 
 
 class GetPrintDataTests(IsolatedAsyncioTestCase):
     def setUp(self) -> None:
         tx.clear_t2_column_cache_for_tests()
+        ss.clear_table_column_cache_for_tests()
 
     def tearDown(self) -> None:
         tx.clear_t2_column_cache_for_tests()
+        ss.clear_table_column_cache_for_tests()
 
     async def test_legacy_shape_returns_full_schema(self) -> None:
         """레거시 형태(점 표기·Sum38/39 부재)에서 200 + 67개 sum 키 전부 직렬화."""
@@ -81,7 +86,8 @@ class GetPrintDataTests(IsolatedAsyncioTestCase):
 
         # _t2_columns 는 tax 모듈 전역 execute_query 를 쓰므로 양쪽 모두 패치(밀폐형).
         with patch.object(ps, "execute_query", side_effect=fake), \
-             patch.object(tx, "execute_query", side_effect=fake):
+             patch.object(tx, "execute_query", side_effect=fake), \
+             patch.object(ss, "execute_query", side_effect=fake):
             data = await ps.get_print_data(
                 server_id="remote_138", gdate="2026.07", hcode="P001",
             )
@@ -100,7 +106,8 @@ class GetPrintDataTests(IsolatedAsyncioTestCase):
             return []
 
         with patch.object(ps, "execute_query", side_effect=fake), \
-             patch.object(tx, "execute_query", side_effect=fake):
+             patch.object(tx, "execute_query", side_effect=fake), \
+             patch.object(ss, "execute_query", side_effect=fake):
             with self.assertRaises(ps.PrintDataNotFoundError):
                 await ps.get_print_data(
                     server_id="remote_138", gdate="202607", hcode="NOPE",
