@@ -2161,6 +2161,31 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-130: 날짜 수기입력 한자리 인식 교정 — DateFieldYMD emit 에코 클로버 (2026-07-27)
+
+- **증상(2026-07-26 사용자)**: 통계관리 도서별판매/거래처별판매 종료일 수기 입력 시
+  `2026. 06. 30` → `2026.01.01` 류(월/일 첫 자리만 인식). 전수 조사 결과 개별 화면이 아니라
+  **`date-field-ymd.tsx` 공용 컴포넌트 결함 — 사용 화면 48개 전부 해당**(네이티브 date input
+  잔존 0). 필터 기본값이 채워진 날짜에서만 발현(빈 값 신규 입력은 emit 조건 미충족으로 잠복,
+  DEC-115 도입 이후 미발견 사유). jsdom 키입력 시뮬 재현: `2026. 06. 30` → `2026-01-03`,
+  12월 `12` → `01`.
+- **원인 3연쇄**: ① `emit()` 이 세그먼트 1자리 시점부터 부분 입력을 정규화("0"→clamp→"01")해
+  부모로 올림 → ② 부모 value **에코**를 동기화 useEffect 가 세그먼트 state 에 되씀("0"→"01")
+  → ③ 다음 키가 `onlyDigits` slice(0,2) 에서 잘림("016"→"01" — 두 번째 자리 소실).
+- **교정(공용 1곳)**: (A) `segsRef` 미러 + `composeEmitted(segsRef.current) === value` 이면
+  동기화 스킵 — 자기 emit 에코만 무시, 외부 변경(달력 선택/세션 복원/부모 리셋)은 기존대로
+  동기화. (B) blur 표시 정규화 `normalizeSeg`("6"→"06", "13"→"12") 신설 — 단 **이벤트 대상
+  DOM 값(`e.currentTarget.value`)을 읽어야 함**: 월 2자리 완성 자동이동(월→일 focus)이
+  onChange 와 같은 이벤트에서 blur 를 동기 발생시켜 state 클로저는 한 키 이전 값("0")이라
+  클로저 판 1차 수정은 같은 함정으로 실패(시뮬로 검출 후 재수정).
+- **검증**: 실컴포넌트 jsdom 키입력 시뮬 red/green — HEAD 재현 FAIL(01-03) → 수정 후
+  `2026-06-30`·`2026-12-30`·blur "6"→"06" 3종 PASS. tsc 0, eslint 0. 회귀 가드
+  `test/test_date_field_ymd_manual_typing_guard.py` 10 PASS(에코 스킵 존재·미러 선언 순서·
+  blur DOM 값 시그니처 정적 가드 + composeEmitted 파이썬 미러).
+- **결정자**: 사용자 증상 보고 → 원인 확정 후 즉시 교정 (2026-07-27)
+- **참조**: [[DEC-115]](DateFieldYMD 3분할 도입), [[keyboard-input-flow]],
+  `도서물류관리프로그램/frontend/src/components/shared/date-field-ymd.tsx`
+
 ### DEC-128: 청구서 양식 인쇄 — 레거시 Subu45 일자그리드+4-카테고리 요율 계산 완전 포팅
 
 - **요청**(2026-07-24 사용자): 청구서관리에서 레거시 청구서 인쇄물(첨부 이미지, 0013 2026.07)
