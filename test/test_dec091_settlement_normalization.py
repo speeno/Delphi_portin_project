@@ -3,8 +3,8 @@
 검증 축
 ------
 1) 월키 정규화(DEC-085 확대): 정산 조회 SQL 은 레거시 점 표기 월('2026.07')과 웹
-   6자리('202607')를 모두 매칭하는 정규화 키를 쓴다. 단, 쓰기 키(마감/확정/취소)는
-   원시 'YYYYMM' 그대로(레거시 행 오매칭 방지).
+   6자리('202607')를 모두 매칭하는 정규화 키를 쓴다. 쓰기·가드 키도 DEC-131 부터
+   정규화(확정 '1' 보존 가드 내장) — 종전 원시 키는 레거시 확정 행을 못 보던 결함.
 2) Yesno 제외 제거(DEC-089/081 계열): 레거시 Subu42/47/49 원본에 없던
    ``COALESCE(Yesno,'0') <> '2'`` 를 입금현황·미수·세금계산서 조회에서 제거.
 3) 출판사 행 스코프(DEC-090 확대): 라우터가 enforce_hcode_isolation 대신
@@ -58,18 +58,31 @@ class MonthKeyReadNormalizationTests(TestCase):
         self.assertNotIn("LEFT(Gdate, 6)", ss._SQL_BILLING_LINE_COUNTS)
 
 
-class WriteKeysStayRawTests(TestCase):
-    """DEC-085 주의 — 쓰기 키는 원시 'YYYYMM' 그대로(정규화 금지)."""
+class WriteKeysNormalizedTests(TestCase):
+    """DEC-131 — 쓰기·가드 키도 월키 정규화 (DEC-091 '원시 키' 정책 폐기).
 
-    def test_check_yesno_raw(self) -> None:
-        self.assertIn("WHERE Gdate=%s AND Hcode=%s", ss._SQL_CHECK_YESNO)
-        self.assertNotIn(_NORM, ss._SQL_CHECK_YESNO)
+    DEC-091 은 쓰기 키를 원시 'YYYYMM' 으로 남겼지만, DEC-129 자동 집계의 T2/T3
+    DELETE 가 정규화 키로 레거시 행을 지우는 반면 마감 가드만 원시 키라 레거시
+    확정('2026.07', Yesno='1') 행을 못 보는 최악 조합이 됨 — 확정 청구서의 라인이
+    웹 재집계로 덮인 사고(2026-07-30)의 구조적 원인. 이제 가드·확정·취소 모두
+    정규화 키 + LIMIT 1 제거(중복 행 전수 검사)여야 한다.
+    """
 
-    def test_confirm_cancel_raw(self) -> None:
-        self.assertIn("WHERE Gdate=%s AND Hcode=%s", ss._SQL_CONFIRM_BILLING)
-        self.assertIn("WHERE Gdate=%s AND Hcode=%s", ss._SQL_CANCEL_BILLING)
-        self.assertNotIn(_NORM, ss._SQL_CONFIRM_BILLING)
-        self.assertNotIn(_NORM, ss._SQL_CANCEL_BILLING)
+    def test_check_yesno_normalized_no_limit(self) -> None:
+        self.assertIn(_NORM, ss._SQL_CHECK_YESNO)
+        self.assertNotIn("LIMIT 1", ss._SQL_CHECK_YESNO)
+
+    def test_confirm_cancel_normalized(self) -> None:
+        self.assertIn(_NORM, ss._SQL_CONFIRM_BILLING)
+        self.assertIn(_NORM, ss._SQL_CANCEL_BILLING)
+        self.assertIn(_NORM, ss._SQL_CONFIRM_LOCK_LINES)
+
+    def test_rebuild_deletes_preserve_confirmed_and_locked(self) -> None:
+        # 재구성 DELETE 는 확정 헤더('1')·잠금 라인('1')을 절대 지우지 않는다.
+        self.assertIn("<> '1'", ss._SQL_DELETE_T2_UNCONFIRMED)
+        self.assertIn("<> '1'", ss._SQL_DELETE_T3_UNLOCKED)
+        self.assertIn(_NORM, ss._SQL_DELETE_T2_UNCONFIRMED)
+        self.assertIn(_NORM, ss._SQL_DELETE_T3_UNLOCKED)
 
 
 class OutstandingSqlTests(IsolatedAsyncioTestCase):

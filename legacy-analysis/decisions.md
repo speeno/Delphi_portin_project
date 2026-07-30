@@ -2161,6 +2161,58 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-131: 청구서 확정 체크(T2.Yesno='1') 보존 — 쓰기·가드 키 월키 정규화 전환 (2026-07-30)
+
+- **보고(2026-07-30 사용자)**: 총판(물류) 청구서관리의 "명세표를 수정해도 청구서 금액이
+  변경되지 않도록 하는 확인 체크박스"의 체크 정보가 웹 포팅 후 날아가는 것 같다 —
+  레거시 상태를 훼손하지 않도록 레거시 코드 확인 후 보완 지시.
+- **정본 해석**(WeLove_FTP/도서유통-New/Subu45.pas): 해당 체크박스 = 상세 패널
+  **CheckBox1 ↔ T2_Ssub.Yesno='1'**(dfm 캡션은 '출판사Show' 로 오기돼 있으나 기능은 확정).
+  ① 행 더블클릭(DBGrid101DblClick L3807~)이 T2.Yesno='1' 이면 체크 + **재계산
+  (Button811 출고내역/812 발송비) 전부 스킵** — 저장자료(Button803)만 로드. 인쇄
+  (Button016 L460~)도 체크 시 재계산 스킵. ② 저장(Button301) 시 체크면 T2.Yesno='1'
+  (미체크 '') + **T3 전 라인 Yesno='1' 잠금**(L2916~/2958~, 미체크는 라인별 기존값 유지).
+  ③ 일자 그리드 '저장' 체크 컬럼 = T3.Yesno 라인 잠금, 재계산 루틴은 `Yesno<>'1'` 만
+  갱신(L840/979/1051/1231/1501).
+- **웹 결함(구조 원인)**: DEC-091 이 "쓰기 키는 원시 'YYYYMM' 정확 매칭(레거시 행
+  오매칭 회피)"로 정했으나, DEC-129 자동 집계의 T2/T3 DELETE 는 **정규화 월키**로
+  레거시 점 표기('2026.07') 행까지 지우는 반면 **마감 가드(_SQL_CHECK_YESNO)만 원시
+  키 + LIMIT 1** 이라 레거시 확정 행·중복 행(T2 유니크 키 부재, DEC-127a)을 못 봄 —
+  확정 월의 T3 라인이 웹 재집계로 재구성(=확정 청구서 금액 변경). 부수 결함:
+  ① 091d9ce(2026-07-25 자동집계 최초판)는 T3 DELETE 에 잠금 가드 자체가 없어 배포
+  구간에 열람된 월의 잠금 라인이 실제 삭제됨(bb35cab 에서 가드 추가). ② 수동 lines
+  집계 경로 `LEFT(Gdate,6)` DELETE(점 표기 불일치로 사문) + 무가드 UPSERT(유니크 키
+  부재로 매 호출 중복 '0' 헤더 삽입). ③ confirm/cancel 원시 키 UPDATE — 레거시 행만
+  있는 월에서 0행 갱신(웹은 확정으로 알고 레거시는 미확정으로 재계산). ④ recalc
+  ON DUPLICATE KEY 무력(중복 삽입) + 대상 조회 원시 키(레거시 확정을 closed_set 에서
+  누락). ⑤ 상세 헤더 LIMIT 1 임의 행 — 미확정 중복 행 반환 시 프론트 자동집계 게이트
+  (yesno=='0') 관통. ⑥ tax_invoice Chek3/Sdate UPDATE 원시 키(레거시 행 무음 no-op).
+- **교정(정책 전환)**: 쓰기·가드도 월키 정규화하되 **Yesno='1'(확정 헤더·잠금 라인)은
+  어떤 경로도 삭제/갱신 금지**를 SQL 에 내장(fail-closed):
+  - `_SQL_CHECK_YESNO` 정규화 + LIMIT 제거, `assert_period_open` = 전 행 중 '1' 존재
+    시 423(`_yesno_states` — 레거시 '' 는 '0' 정규화).
+  - 공용 상수 `_SQL_DELETE_T2_UNCONFIRMED`/`_SQL_DELETE_T3_UNLOCKED`(`<> '1'` 가드)/
+    `_SQL_SELECT_T3_LOCKED_GDATES` — 자동·수동 집계 공용. 수동 경로도 잠금 일자
+    재삽입 스킵. 잠금 조회 실패 시 전량 재구성하던 fail-open 제거(전파).
+  - `confirm_billing` = 레거시 Button301 체크 저장 동등: T2 '1'(월 전체) +
+    **T3 전 라인 잠금**(`_SQL_CONFIRM_LOCK_LINES`). cancel 도 정규화 키.
+  - `recalc_billing`: 대상 조회 정규화, 기존 헤더는 UPDATE(`<> '1'` 가드)·미존재만
+    INSERT — 중복 삽입 제거.
+  - 상세 헤더 `ORDER BY IF(IFNULL(Yesno,'0')='1',0,1)` — 확정 행 우선(목록 dedupe 와
+    동일 우선순위). tax_invoice Chek3/Sdate UPDATE 월키 정규화.
+- **데이터 복구 백로그**: 091d9ce~bb35cab 배포 구간에 웹에서 열람된 (월,출판사)의
+  T3 잠금 라인 삭제분은 코드로 복구 불가 — 필요 시 binlog 복원(DEC-080 절차) 검토.
+  T2 확정('1') 헤더는 전 기간 DELETE 가드가 있어 코드상 삭제된 적 없음.
+- **검증**: `test_dec131_billing_confirm_check_preserved.py` 신설 12 PASS(점 표기
+  확정 감지·중복 행 전수 검사·수동집계 잠금 보존·확정 라인 잠금·recalc 중복 방지·
+  상세 확정 우선). `test_dec091_settlement_normalization.py` WriteKeysStayRaw →
+  WriteKeysNormalized 로 정책 갱신. settlement/billing/cash 계열 141 PASS(기존 실패
+  1건=계약 버전 정적 검사, 무관). 정적 감사 critical 은 pre/post 동일(기존 2건).
+- **결정자**: 사용자 (2026-07-30)
+- **참조**: [[DEC-129]]⑥(일자 잠금), [[DEC-127a]](T2 중복·dedupe), [[DEC-091]](월키
+  정규화 — 쓰기 키 원시 정책 본 DEC 로 폐기), DEC-031(마감 가드), DEC-080(binlog 복원),
+  Subu45.pas DBGrid101DblClick/Button301/Button016/Button821
+
 ### DEC-130: 날짜 수기입력 한자리 인식 교정 — DateFieldYMD emit 에코 클로버 (2026-07-27)
 
 - **증상(2026-07-26 사용자)**: 통계관리 도서별판매/거래처별판매 종료일 수기 입력 시
