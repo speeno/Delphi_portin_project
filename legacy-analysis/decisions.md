@@ -2161,6 +2161,38 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-132: 영업팀 의견 1차 반영(A 배치) — 도서별판매 오라벨 교정·검색 팝업 클릭 확정·단일 코드 필터 (2026-08-03)
+
+- **요청**: 영업팀(북이오웍스) 수정의견(2026-07-31 접수, `docs/sales-team-feedback-plan-2026-07-31.md`)
+  중 표준 티어 A3→A1→A2/A4 진행 승인(2026-08-03 사용자).
+- **A3 오라벨 교정(핵심 발견)**: 레거시 Subu61.dfm 그리드 캡션 정본 대조 결과 웹
+  도서별판매의 **gjqut "재고수"(stats/book "잔량")는 오라벨 — GJQUT=증정수량**이며
+  백엔드 `_apply_book_sales_branch` 도 증정(Pubun='증정')을 gjqut 에 누적한다.
+  영업팀이 신규 요청한 "증정수"는 라벨 정정만으로 충족. 함께 **gpqut "파지수"→
+  "폐기수"(레거시 캡션 폐기수량), gpsum "파지액"→"폐기액"** 정정, 컬럼 순서도
+  레거시(입고→출고→증정→반품→폐기)로 정렬. 화면 2곳(reports/book-sales,
+  stats/book) + XLSX `_BOOK_SALES_EXPORT_COLUMNS` 동시 반영. ⚠ 수불원장
+  (inventory/ledger)의 "재고수/파지수"는 수불 누적 도메인의 정당 라벨 — 미변경.
+- **A1**: 검색 팝업(master-lookup-dialog) 행 **단일 클릭 = 즉시 확정**(DataGrid
+  기존 onRowClick 활용). 키보드 흐름(↓/Enter/같은 키워드 재-Enter 확정) 불변,
+  [선택] 버튼은 Q2(제거 여부) 회신까지 유지.
+- **A2/A4 단일 코드 필터**: 도서별판매 "도서코드 시작/끝" → **도서 검색 1개 +
+  "전체" 체크박스**(거래처판매 동형). 백엔드 `get_book_sales(bcode=)` /
+  `get_customer_sales(gcode=)` 단일 필터 신설 — **지정 시 range 보다 우선**,
+  기존 bcodeFrom/To·gcodeFrom/To 는 수불장 등 공유 호출자 호환으로 유지.
+  Sg_Csum 후처리도 동일 필터. 라우터·XLSX 4곳 패스스루. 프론트: 입력/선택 시
+  "전체" 자동 해제, "전체" 체크 시 코드 클리어, 체크박스 Enter 스톱 편입
+  (DEC-116, `Sobo61.Chk_AllBooks`/`Sobo62.Chk_AllCustomers`), 세션 스냅
+  bcode/bookAll·gcode/customerAll 로 이행(구 range 스냅 무시, 기본 전체).
+- **검증**: `test_sales_team_a_batch.py` 신설 10 PASS(단일 필터 SQL·range 우선순위·
+  라벨 정적·클릭 확정 정적). tsc 0·eslint 0. 전체 스위트 pre/post 비교 —
+  신규 실패 0건(116건 동일, 차이는 기존 flaky 1건의 출력 포맷). 배포 (제품 커밋).
+- **후속(승인 대기)**: B1(기간 전체 거래 내역+우측 상세 — 출판 변형 Subu61 분석
+  선행), B2(본사/창고/재고합계 — Q1 재고 정의 회신 필요), Q2/Q3.
+- **결정자**: 사용자 (2026-08-03)
+- **참조**: `docs/sales-team-feedback-plan-2026-07-31.md`, [[DEC-116]](체크박스 스톱),
+  DEC-068(D)(그리드 정렬), Subu61.dfm 632~702(그리드 캡션 정본)
+
 ### DEC-131: 청구서 확정 체크(T2.Yesno='1') 보존 — 쓰기·가드 키 월키 정규화 전환 (2026-07-30)
 
 - **보고(2026-07-30 사용자)**: 총판(물류) 청구서관리의 "명세표를 수정해도 청구서 금액이

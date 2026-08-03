@@ -1,7 +1,7 @@
 # 영업팀(북이오웍스) 수정의견 정리·수정안 계획 — 2026-07-31
 
-> 상태: **계획 단계 — 구현 금지 지시**(2026-07-31 사용자: "수정은 하지말고 정리해서
-> 수정안을 계획해라"). 승인/우선순위 확정 후 착수.
+> 상태: **A 배치(A3→A1→A2/A4) 반영 완료**(2026-08-03 사용자 승인, DEC-132).
+> B1/B2 는 확인 질문(Q1~Q3) 회신 대기 — 회신 후 착수.
 > 티어 구분은 `planning-model-tiers.mdc` 규약(표준 / 고급 모델 권장 — 인간이 선택).
 
 ## 접수 의견 원문 요약
@@ -35,19 +35,19 @@
 
 ## 수정안 계획
 
-### A. 표준 티어 (즉시 착수 가능, 소~중 규모)
+### A. 표준 티어 — ✅ 반영 완료 (2026-08-03, DEC-132)
 
 | # | 항목 | 수정안 | 터치 포인트 |
-|---|------|--------|------------|
-| A1 | 검색 팝업 클릭 즉시선택 (의견1) | 행 단일 클릭 → 즉시 확정(chooseRow). 키보드 흐름(↓/Enter, 같은 키워드 재-Enter 확정)은 불변. [선택] 버튼 제거 여부는 확인 질문 Q2 | `master-lookup-dialog.tsx`, `data-grid.tsx`(onRowClick 확정 콜백) |
-| A2 | 도서별판매 검색조건 단일화 (의견2) | 도서코드 시작/끝 → `MasterLookupField` 1개 + "전체" 체크박스(체크 시 도서 필터 미전송). Enter 흐름(DEC-104/116) 스톱 편입 | `reports/book-sales/page.tsx`; 백엔드 `get_book_sales` 에 단일 `bcode` 파라미터 추가(기존 bcodeFrom/To 는 수불장 공유라 호환 유지) |
-| A3 | 라벨 정정 (의견2) | gjqut "재고수/잔량" → **"증정수"**(레거시 GJQUT=증정수량 — 오라벨 교정), gpqut "파지수" → **"폐기수"**, gpsum "파지액" → **"폐기액"**. XLSX 헤더·stats/book 화면 동시 반영. C14 동등성 캡처 라벨 주석 갱신 + DEC 기록 | `reports/book-sales/page.tsx`, `stats/book/page.tsx`, `routers/reports.py` export 컬럼 |
-| A4 | 거래처판매 검색조건 단일화 (의견3) | A2 와 동형(거래처 lookup + 전체 체크박스) | `reports/customer-sales/page.tsx`, `get_customer_sales` |
+| --- | --- | --- | --- |
+| A1 ✅ | 검색 팝업 클릭 즉시선택 (의견1) | 행 단일 클릭 → 즉시 확정(chooseRow). 키보드 흐름(↓/Enter, 같은 키워드 재-Enter 확정)은 불변. [선택] 버튼은 Q2 회신까지 유지 | `master-lookup-dialog.tsx` (DataGrid 기존 onRowClick 활용) |
+| A2 ✅ | 도서별판매 검색조건 단일화 (의견2) | 도서코드 시작/끝 → `MasterLookupField` 1개 + "전체" 체크박스(체크 시 도서 필터 미전송). Enter 흐름(DEC-104/116) 스톱 편입 | `reports/book-sales/page.tsx`; 백엔드 `get_book_sales` 단일 `bcode` 파라미터(기존 bcodeFrom/To 는 수불장 공유라 호환 유지) |
+| A3 ✅ | 라벨 정정 (의견2) | gjqut "재고수/잔량" → **"증정수"**(레거시 GJQUT=증정수량 — 오라벨 교정), gpqut "파지수" → **"폐기수"**, gpsum "파지액" → **"폐기액"**. 컬럼 순서도 레거시(입고→출고→증정→반품→폐기)로. XLSX 헤더·stats/book 동시 반영 | `reports/book-sales/page.tsx`, `stats/book/page.tsx`, `routers/reports.py` export 컬럼 |
+| A4 ✅ | 거래처판매 검색조건 단일화 (의견3) | A2 와 동형(거래처 lookup + 전체 체크박스, 단일 `gcode`) | `reports/customer-sales/page.tsx`, `get_customer_sales` |
 
 ### B. 고급 모델 권장 티어 (구조 변경, 레거시 원본 분석 선행)
 
 | # | 항목 | 수정안 | 비고 |
-|---|------|--------|------|
+| --- | --- | --- | --- |
 | B1 | 기간 전체 거래 내역 + 우측 상세 (의견2) | 목록 축을 도서 요약 → **일자별 내역**으로 전환(모드 파라미터 신설: S1_Ssub GROUP BY Gdate[,Bcode] — 기존 by_book 집계·C14 캡처는 보존), 행 클릭 시 우측 sticky 상세 패널(청구서관리 DEC-125/129 패턴 재사용). 착수 전 **도서유통-출판 트리 Subu61 변형(출판 프로그램 방식)의 우측 상세 UI 원본 분석** 필요 | 신규 mode API + 화면 리레이아웃 |
 | B2 | 본사재고/창고재고/재고합계 (의견2) | 원천·의미 확정(Q1) 후: G4_Book jego\* lookup 동승(단순) 또는 수불 누적(기간말 재고, 무거움) 중 택1 | 레거시 Subu61 에 없던 신규 요구 — Q1 회신 전 보류 |
 
@@ -63,6 +63,6 @@
 
 ## 순서 제안
 
-1. A3(라벨 정정 — 오라벨 교정이라 우선) → A1 → A2/A4 (같은 패턴 묶음)
+1. ✅ A3(라벨 정정 — 오라벨 교정이라 우선) → A1 → A2/A4 — **완료(2026-08-03, DEC-132)**
 2. Q1~Q3 회신 수령 → B1(화면 구조) → B2(재고)
 3. 각 단계 완료 시 DEC 기록 + 회귀 테스트(`test/`) + C14 캡처 영향 검토.
