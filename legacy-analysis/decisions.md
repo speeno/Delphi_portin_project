@@ -2161,6 +2161,25 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-135: 도서 검색 다이얼로그 '출고정지 제외' 옵션 — 계정별 기억 (2026-08-09)
+
+- **요청**: 도서 검색 창에서 출고정지 도서를 목록에서 제외하는 옵션 + 사용자
+  선택 기억.
+- **정본**: 출고정지 = **G4_Book.Grat9**(레거시 Sobo14.CheckBox2, 도서 마스터
+  편집 폼과 동일 필드). 백엔드는 도서 마스터 목록에 이미 있던
+  `excludeShippingStop`(`IFNULL(Grat9,'') NOT IN ('1','True','true')`) 재사용 —
+  신규 SQL 0.
+- **구현**: `MasterLookupConfig.filterOption`(범용 선택형 필터 슬롯) 신설 —
+  book kind 에 "출고정지 제외" 체크박스. 기억 = `mlf_book_exclude_stop_v1:{serverId}`
+  localStorage(계정별). 열 때 저장값을 읽어 **첫 검색 호출에 직접 전달**(setState
+  반영 지연으로 첫 검색이 필터 없이 나가는 레이스 방지), 토글 시 즉시 재검색.
+  **강제 아님** — 반품 입력/마스터 편집 등 정지 도서가 필요한 업무 보존(인라인
+  자동완성에는 미적용, 다이얼로그 전용).
+- **검증**: `test_dec135_book_lookup_exclude_stop.py` 7 PASS(설정·파라미터
+  패스스루·계정별 영속·오픈 레이스 방지·토글 재검색·백엔드 절). tsc 0·eslint 0.
+- **결정자**: 사용자 (2026-08-09)
+- **참조**: [[DEC-134]](다이얼로그 공용), Sobo14.CheckBox2, `masters_service.list_books`
+
 ### DEC-134: 검색 Enter 확정 최종형 — 다건 정확코드 자동확정 제거(한글 단어형 코드) + 신규 컬럼 기본위치 삽입 (2026-08-09)
 
 - **3차 보고(2026-08-08 밤)**: 새 번들에서도 "기계" Enter 임의선택 재현 스크린샷 —
