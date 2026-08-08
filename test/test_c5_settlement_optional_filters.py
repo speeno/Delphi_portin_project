@@ -38,7 +38,12 @@ from app.services import settlement_service, tax_invoice_service  # noqa: E402
 
 
 def _override_auth() -> dict:
-    return {"user_id": "hong01", "server_id": "remote_1", "role": "manager"}
+    # account_type 명시 — DEC-136 이후 미분류(account_type·family 모두 없음) 계정은
+    # fail-closed(SCOPE_DENIED). 본 파일은 운영(T1) 계정의 hcode 옵셔널 흐름을 검증.
+    return {
+        "user_id": "hong01", "server_id": "remote_1", "role": "manager",
+        "account_type": "T1",
+    }
 
 
 app.dependency_overrides[get_current_user] = _override_auth

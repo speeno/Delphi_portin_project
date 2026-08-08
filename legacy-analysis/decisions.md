@@ -2161,6 +2161,44 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-136: 공유 DB 좌표 정산 스코프 fail-closed — 교문사 타사 자료 노출 교정 (2026-08-09)
+
+- **보고**: 교문사-경리부 — 정산관리 하위 화면 값들이 "본인들 자료가 아니다".
+- **원인(구조)**: `resolve_g7_ggeo_list_scope`(정산·출판사 lookup·통계 공용 스코프)가
+  **T2_PUB / T3+chul_09 만 격리하고 나머지는 전체 합산(fail-open)**. 그런데
+  remote_153 의 `chul_09_db` 는 **위러브3 + 교문사가 hcode 로만 구분해 공유**
+  (welove-login-tenant-audit B3/B4, 위험도 높음). 교문사 계정의 account_type 이
+  T3 가 아니면(미분류/T1/T2_DIST 오분류) 전체 스코프 → **위러브3 데이터가 그대로
+  노출**. 로그인 인덱스에서 remote_153 에 로그인 ID '경리부'(hcode 5019,
+  chul_09_db, family chul_09) 실재 확인 — 리포트 계정으로 추정.
+- **레거시 정본**: 출판 빌드(도서유통-출판 Base01.pas)는 공유 테이블 전 쿼리에
+  자사 Hcode(`Hnnnn`)를 강제 — 공유 DB 에서 전체 합산은 레거시에 존재하지 않는
+  동작. DSN-DEC-12 fail-closed 원칙과 동일 계열.
+- **교정 규칙**(`hcode_isolation.py`):
+  - `_SHARED_DB_COORDS = {(remote_153, chul_09)}` — 이 좌표는 **계정 유형 불문**
+    (슈퍼 제외) 본인 hcode 강제. `_SHARED_DB_SERVERS = {remote_153}` — 공유 서버
+    에서 family 미상 로그인도 격리(어느 회사인지 모호).
+  - **미분류**(account_type·family 모두 없음) 계정도 격리 — "모르면 전체" 폐기.
+  - 격리 필요 + hcode 신뢰 불가(빈값) → `SCOPE_DENIED_HCODE`(실존 불가 sentinel,
+    전 조회 0건) + audit 경고 로그 — 데이터 노출 대신 0건.
+  - **보존**: 단일 테넌트 좌표의 운영(T1/T2_DIST) 전체 합산·T3 비 chul_09 전체·
+    T2_PUB 본인 강제·슈퍼 전체 (DEC-085/090 동작, 위러브1/2 remote_154/155 포함).
+  - 적용 면: settlement(16)·masters(11)·outbound(5)·stats(4) 라우터가 공유하는
+    단일 리졸버라 정산 하위 화면 전체 + 출판사 lookup 이 일괄 교정.
+- **잔여 리스크(백로그)**: ① `hcode='0000'` 은 `_is_super_ctx` 레거시 규약상 슈퍼
+  (C10) — 공유 서버에 0000 로그인은 인덱스상 현재 없음(전수 2건 확인) 이나 규약
+  자체는 별도 논의. ② book_07/book_11 은 DB명 공유·서버 좌표 분리라 제외 —
+  hcode 격리 키 보강은 감사 리포트 장기 백로그. ③ '경리부' 계정의 account_type
+  실값 정비(웹 가입 승인 row) 는 운영 조치 필요.
+- **검증**: `test_dec136_shared_db_scope_fail_closed.py` 10 PASS(공유 좌표 유형
+  불문 격리·요청 필터 무시·hcode 부재 0건·미분류 fail-closed·DEC-085/090 보존
+  매트릭스). 기존 스코프·정산 스위트 112 PASS(phase1 픽스처에 account_type=T1
+  명시 — 미분류 모델은 이제 의도적으로 격리됨). 전체 스위트 pre/post 비교.
+- **결정자**: 사용자 보고 → fail-closed 원칙 적용 (2026-08-09)
+- **참조**: DSN-DEC-12(fail-closed), [[DEC-090]](운영 계정 전체 합산),
+  [[DEC-085]], `docs/welove-login-tenant-audit-samples.md` B1~B4,
+  도서유통-출판 `Base01.pas`(Hnnnn), [[settlement-domain-semantics]]
+
 ### DEC-135: 도서 검색 다이얼로그 '출고정지 제외' 옵션 — 계정별 기억 (2026-08-09)
 
 - **요청**: 도서 검색 창에서 출고정지 도서를 목록에서 제외하는 옵션 + 사용자
