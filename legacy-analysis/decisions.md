@@ -2161,6 +2161,38 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-133: 낡은 번들 진단 규약 + 새 배포 감지 배너 (2026-08-08)
+
+- **보고**: "도서코드 '기계' Enter 임의선택(7/31 수정분)이 여전히 재현된다" —
+  스크린샷 재현 포함 재수정 요청.
+- **진단(3중 검증 — 코드/번들/클라이언트 구분)**:
+  ① 코드: jsdom+esbuild 실컴포넌트 시뮬(모킹: outbound-api/auth/dialog) —
+  "기계" 타이핑+무방향키 Enter → **검색 팝업 열림(seed=기계), 임의선택 없음**.
+  ② 프로덕션 번들: `/outbound/orders/new` HTML 의 청크 24개 다운로드,
+  MLF 마커("결과 없음 — Enter 로 검색 팝업") 청크에서 수정 로직의 minified
+  시그니처 `(r&&r.startsWith(t)||i&&i===t)&&(o=0)` 확인 — 수정 전 파일은
+  startsWith 0회. 배포본 정상.
+  ③ 클라이언트: 8/8 스크린샷의 주문일자가 여전히 **2026.07.30**(신규 화면 기본값은
+  당일) — 워크스페이스 창(iframe)이 7/30 부터 열려 있던 **수정 이전 번들** 실행 중.
+  창(iframe)은 다시 열 때만 새 번들을 받는다.
+- **재발 방지**: `NewVersionBanner`(셸 전용, embed 분기 제외) — 빌드 스탬프
+  `public/version.json`(`scripts/write-version.mjs`, package.json prebuild 훅,
+  gitignore) 을 부팅 기준으로 창 포커스+10분 폴링, 변경 감지 시 "새 버전 배포 —
+  지금 새로고침" 배너. **자동 리로드 금지**(입력 중 데이터 보호), version.json
+  부재(로컬 dev)·오류는 fail-silent.
+- **부수 발견**: ⚠ `frontend/.git` **중첩 저장소 잔재**(2026-04-17 initial,
+  create-next-app git init 추정 + 7/21 커밋 1건) — 제품 저장소가 frontend 파일을
+  정상 추적하므로 배포 무영향이나, frontend/ 안에서 실행되는 스크립트의
+  `git rev-parse` 를 가로챈다(버전 스크립트는 VERCEL_GIT_COMMIT_SHA 우선으로 회피).
+  제거 여부는 사용자 결정 대기.
+- **검증**: `test_dec133_new_version_banner.py` 6 PASS(prebuild 배선·no-store 폴링·
+  자동리로드 금지·셸 전용 마운트·MLF Enter 가드 앵커). tsc 0, eslint 신규 0
+  (layout 기존 1건 stash 대조 동일).
+- **결정자**: 사용자 보고 → 진단 후 재발 방지 장치 (2026-08-08)
+- **참조**: [[DEC-132]](A1 원 수정), [[prod-deploy-gap-and-suite-flakes]](배포본≠
+  로컬 HEAD 계열 — 본 건은 "배포본≠**클라이언트 실행본**" 신규 유형), Vercel
+  청크 정적 검증 절차(스크래치 chunks grep)
+
 ### DEC-132: 영업팀 의견 1차 반영(A 배치) — 도서별판매 오라벨 교정·검색 팝업 클릭 확정·단일 코드 필터 (2026-08-03)
 
 - **요청**: 영업팀(북이오웍스) 수정의견(2026-07-31 접수, `docs/sales-team-feedback-plan-2026-07-31.md`)
