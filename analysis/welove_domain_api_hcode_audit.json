@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-11T04:27:13.971734+00:00",
+  "generated_at": "2026-08-11T05:02:11.809577+00:00",
   "summary": {
     "files_scanned": 91,
-    "sql_literals": 473,
+    "sql_literals": 482,
     "critical": 1,
     "warn": 3,
-    "info": 232,
-    "skipped_noqa": 42,
+    "info": 233,
+    "skipped_noqa": 50,
     "multi_tenant_tables_seen": [
       "G4_Book",
       "G7_Ggeo",
@@ -2171,8 +2171,20 @@
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
+      "function": "_fetch_stock_asof",
+      "lineno": 208,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT MAX(Gdate) AS d FROM Sv_Ghng WHERE",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_book_sales",
-      "lineno": 334,
+      "lineno": 487,
       "tables": [
         "Sg_Csum"
       ],
@@ -2184,7 +2196,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_customer_sales_detail",
-      "lineno": 673,
+      "lineno": 1073,
       "tables": [
         "S1_Ssub"
       ],
@@ -2196,7 +2208,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_customer_sales_detail",
-      "lineno": 698,
+      "lineno": 1098,
       "tables": [
         "G4_Book"
       ],
@@ -2208,7 +2220,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_year_end_book_aggregate",
-      "lineno": 1001,
+      "lineno": 1401,
       "tables": [
         "Sg_Csum"
       ],

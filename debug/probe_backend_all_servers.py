@@ -1026,6 +1026,25 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            # DEC-138 — 일자×도서 내역 축 + 기간말 재고 3종 동승.
+            "group": "reports.book_sales_daily",
+            "path": (
+                f"/api/v1/reports/book-sales?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&hcode=%25&groupMode=daily"
+                "&includeStock=1&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            # DEC-138 — 우측 상세(거래처별). 존재하지 않는 조합이어도 200 + 빈 rows.
+            "group": "reports.book_sales_day_detail",
+            "path": (
+                f"/api/v1/reports/book-sales/day-detail?serverId={sid}"
+                f"&date={df}&bcode=0000&hcode=%25"
+            ),
+            "ok_status": {200},
+        },
+        {
             "group": "ledger.publisher_settings",
             "path": (
                 f"/api/v1/ledger/comparison?serverId={sid}"
