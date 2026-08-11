@@ -47,5 +47,21 @@ class FilterBarEnterGuards(TestCase):
         )
 
 
+class BookTurnoverMeasureGuards(TestCase):
+    def test_items_and_export_order(self) -> None:
+        # 입고, 출고, 반품, 증정, 폐기 순 (2026-08-11 영업팀).
+        from app.routers.stats import _BOOK_TURNOVER_EXPORT_COLUMNS
+
+        labels = [h for h, _ in _BOOK_TURNOVER_EXPORT_COLUMNS]
+        want = ["입고", "출고", "반품", "증정", "폐기"]
+        idx = [labels.index(w) for w in want]
+        self.assertEqual(idx, sorted(idx), "표기 순서 회귀 — DEC-144")
+        page = (FRONT / "app" / "(app)" / "stats" / "book-turnover" / "page.tsx").read_text(
+            encoding="utf-8"
+        )
+        for key in ("return_qut", "gift_qut", "discard_qut"):
+            self.assertIn(key, page, f"{key} 컬럼 누락 — DEC-144")
+
+
 if __name__ == "__main__":
     main()

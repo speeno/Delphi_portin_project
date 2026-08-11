@@ -2179,9 +2179,13 @@
     통과" 위반 지점). → no-op ``onKeyDown={() => {}}`` 전달(검증된 화면들과
     동일). 확정값 Enter 이동은 DEC-134 정확일치 자동확정(confirmEnter →
     focusNext)이 기존 배포분에서 이미 담당.
-- **검증**: `test_dec144_stats_filter_enter_combo.py` 2 PASS(픽 필드·native
-  select 부활 금지·no-op onKeyDown ≥5). 전체 스위트 실패 집합 = 기존 120건
-  (신규 회귀 0). tsc 0.
+- **추가(같은 날 3차 — 도서 회전율)**: "입고, 출고, 반품, 증정, 폐기 순으로
+  표기" — get_book_turnover 항목에 return_qut/gift_qut/discard_qut(음수 관례
+  그대로) + FE 컬럼·XLSX 헤더를 요청 순서로 추가. Enter 이동·도서명 표기는
+  공용 StatsFilterBar 라 본 DEC ①②로 함께 해결됨.
+- **검증**: `test_dec144_stats_filter_enter_combo.py` 3 PASS(픽 필드·native
+  select 부활 금지·no-op onKeyDown ≥5·회전율 표기 순서/컬럼). 전체 스위트
+  실패 집합 = 기존 120건(신규 회귀 0). tsc 0.
 - **결정자**: 영업팀 보고 전달 (2026-08-11)
 - **참조**: [[DEC-140]](필터바 Enter 스톱), [[DEC-134]](정확일치 자동확정),
   DEC-104/105(빈값 Enter 통과), [[keyboard-input-flow]], `local-combo-field.tsx`
