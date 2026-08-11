@@ -2161,6 +2161,39 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-140: 기간별 매출분석 단일 패스(30s 타임아웃 교정) + 필터바 도서명·Enter 흐름 (2026-08-11)
+
+- **보고**: 교문사-경리부 — 기간별 매출분석 ① "서버 응답이 30000ms 를 초과했습니다"
+  (도서 90008, 01.01~08.10, 일 단위), ② 도서명도 표기 요청, ③ 도서코드 선택 후
+  Enter 로 다음 탭 이동 안 됨.
+- **원인(①)**: `get_sales_period` 가 슬라이스(일 단위 = 222구간)마다
+  `get_book_sales` 를 반복 호출(N+1) — 구간당 S1_Ssub 풀 집계+도서명 lookup+
+  Sg_Csum 까지 실행되어 FE 30s 타임아웃 초과. 슬라이스당 limit=2000 절단으로
+  합계가 깎일 잠재 오차도 있었다.
+- **교정(①)**: `reports_service.get_daily_sales_cells` 신설 — S1_Ssub 를 기간
+  전체 **단일 쿼리**(GROUP BY Gdate,Scode,Gubun,Pubun)로 사전 집계하고
+  `_apply_book_sales_branch` 로 일자 셀 구성(매출=goqut/gosum·매입=giqut/gisum
+  의미 불변, DEC-084 Ocode 절 없음). stats 는 bisect 로 슬라이스 버킷에 합산만 —
+  SQL 은 reports 계층에 배치해 "stats 계층 신규 SQL 0"(DEC-040,
+  TC-C13-S-03) 아키텍처 가드 준수. 비정형 Gdate 는 warn 후 스킵.
+  **라이브: 동일 조건 30s 타임아웃 → 1.1s**(도서 지정), 전체 0.2s. 90008 실적
+  0 은 데이터 사실(기간 내 0행/전 기간 39행 — 원시 COUNT 재확인).
+  부수 교정: 도서코드 한쪽만 지정 시 종전엔 무시(양끝 필수) → 단일 도서 필터로
+  동작(화면 라벨에 명시).
+- **교정(②③, StatsFilterBar 공용 — sales-period·book-turnover 등)**:
+  도서 선택 시 도서명 표기(수기 수정 시 이름 해제), 필터 Enter=다음 이동
+  (DEC-104/116 규약 — 노출 순서대로 스톱 구성: hcode→거래처→도서→시작/종료일→
+  집계단위→분기→조회). `refocusAfterSelect` 로 팝업 선택 후 원위치 복귀.
+- **검증**: `test_dec140_sales_period_single_pass.py` 4 PASS(일/주 버킷 합산·
+  비정형 일자 스킵·단일 bcode 절·필터바 소스 가드). 구계약(N+1 위임) 테스트
+  5건 + 정적 가드 정합: dec084 위임→단일패스, dec086 3건, sort_params,
+  buckets 2건 갱신 — 스탯 계열 48 PASS. 전체 스위트 실패 집합 = 기존 120건
+  그대로(신규 회귀 0). tsc 0·변경 컴포넌트 eslint 0.
+- **결정자**: 사용자 (2026-08-11 — 교문사-경리부 확인 요청 전달)
+- **참조**: [[DEC-137]](분기표 공유), [[DEC-138]](일자 셀 패턴), DEC-084(Ocode),
+  DEC-040/TC-C13-S-03(stats 계층 SQL 0), `stats-filter-bar.tsx`,
+  `reports_service.get_daily_sales_cells`
+
 ### DEC-139: 거래처판매 수금액 — H1_Ssub 입출금 집계 구현 (2026-08-11)
 
 - **보고**: 교문사-경리부 — "거래처판매: 수금액이 안 잡힙니다"(스크린샷: 00431

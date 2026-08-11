@@ -48,22 +48,27 @@ class SalesPeriodSliceHelpers(TestCase):
         self.assertEqual(rng[1][1], d2)
 
 
+def _cell(goqut=0, gosum=0, giqut=0, gisum=0):
+    return {"giqut": giqut, "gisum": gisum, "gbqut": 0, "gpqut": 0,
+            "gjqut": 0, "goqut": goqut, "gosum": gosum, "gpsum": 0}
+
+
 class SalesPeriodBucketAggregation(IsolatedAsyncioTestCase):
-    async def test_daily_calls_once_per_day_and_sums(self):
+    async def test_daily_single_pass_and_sums(self):
+        """DEC-140 — 종전 '일자당 1회 호출(N+1)' 계약 폐기: 기간 전체 1회 호출."""
         from app.services.stats_service import get_sales_period
 
         calls: list[tuple[str, str]] = []
 
-        async def fake_get_book_sales(**kwargs):
-            ds_from = kwargs["date_from"]
-            ds_to = kwargs["date_to"]
-            calls.append((ds_from, ds_to))
-            # 각 일자별로 다른 합계 시뮬레이션
-            day = ds_from.replace(".", "")
-            q = int(day[-2:]) if len(day) >= 2 else 1
-            return {"rows": [{"goqut": q, "gosum": q * 100}], "total": 1}
+        async def fake_daily_cells(**kwargs):
+            calls.append((kwargs["date_from"], kwargs["date_to"]))
+            return {
+                "2026.05.01": _cell(goqut=1, gosum=100),
+                "2026.05.02": _cell(goqut=2, gosum=200),
+            }
 
-        with patch("app.services.stats_service.reports_service.get_book_sales", new=fake_get_book_sales):
+        with patch("app.services.stats_service.reports_service.get_daily_sales_cells",
+                   new=fake_daily_cells):
             out = await get_sales_period(
                 server_id="remote_138",
                 hcode=None,
@@ -74,19 +79,23 @@ class SalesPeriodBucketAggregation(IsolatedAsyncioTestCase):
                 offset=0,
             )
 
-        self.assertEqual(len(calls), 2)
-        self.assertEqual(calls[0], ("2026.05.01", "2026.05.01"))
-        self.assertEqual(calls[1], ("2026.05.02", "2026.05.02"))
+        self.assertEqual(calls, [("2026.05.01", "2026.05.02")], "단일 패스(N+1 금지)")
         self.assertEqual(len(out["items"]), 2)
         self.assertEqual(out["items"][0]["group_by"], "daily")
+        self.assertEqual(out["items"][0]["qut_total"], 1)
+        self.assertEqual(out["items"][1]["qut_total"], 2)
 
-    async def test_weekly_single_slice_same_totals_as_one_call(self):
+    async def test_weekly_single_slice_rolls_up_days(self):
         from app.services.stats_service import get_sales_period
 
-        async def fake_get_book_sales(**kwargs):
-            return {"rows": [{"goqut": 5, "gosum": 500}], "total": 1}
+        async def fake_daily_cells(**kwargs):
+            return {
+                "2026.05.04": _cell(goqut=2, gosum=200),
+                "2026.05.06": _cell(goqut=3, gosum=300),
+            }
 
-        with patch("app.services.stats_service.reports_service.get_book_sales", new=fake_get_book_sales):
+        with patch("app.services.stats_service.reports_service.get_daily_sales_cells",
+                   new=fake_daily_cells):
             out = await get_sales_period(
                 server_id="remote_138",
                 hcode=None,
@@ -98,6 +107,7 @@ class SalesPeriodBucketAggregation(IsolatedAsyncioTestCase):
             )
 
         self.assertEqual(len(out["items"]), 1)
+        self.assertEqual(out["items"][0]["qut_total"], 5)
         self.assertEqual(out["items"][0]["qut_total"], 5)
         self.assertEqual(out["items"][0]["group_by"], "weekly")
 

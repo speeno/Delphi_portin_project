@@ -184,14 +184,17 @@ class StatsServiceFilterSortTests(IsolatedAsyncioTestCase):
 
         captured_bcodes: list[tuple[Any, Any]] = []
 
-        async def fake_book_sales(**kwargs):
-            captured_bcodes.append((kwargs.get("bcode_from"), kwargs.get("bcode_to")))
-            # 날짜 구간 시작일에 비례하는 출고 수량.
-            day = int(kwargs["date_from"].split(".")[-1])
-            return {"rows": [{"goqut": day, "gosum": day * 10}], "total": 1}
+        def _c(q: int) -> dict[str, int]:
+            return {"giqut": 0, "gisum": 0, "gbqut": 0, "gpqut": 0,
+                    "gjqut": 0, "goqut": q, "gosum": q * 10, "gpsum": 0}
 
-        old = stats_service.reports_service.get_book_sales
-        stats_service.reports_service.get_book_sales = fake_book_sales
+        async def fake_daily_cells(**kwargs):
+            # DEC-140 — 단일 패스: bcode 필터는 1회 호출에 그대로 전달돼야 한다.
+            captured_bcodes.append((kwargs.get("bcode_from"), kwargs.get("bcode_to")))
+            return {"2026.01.01": _c(1), "2026.01.02": _c(2), "2026.01.03": _c(3)}
+
+        old = stats_service.reports_service.get_daily_sales_cells
+        stats_service.reports_service.get_daily_sales_cells = fake_daily_cells
         try:
             res = await stats_service.get_sales_period(
                 server_id="srv", hcode=None,
@@ -200,9 +203,9 @@ class StatsServiceFilterSortTests(IsolatedAsyncioTestCase):
                 sort_by="qut_total", sort_dir="desc",
             )
         finally:
-            stats_service.reports_service.get_book_sales = old
+            stats_service.reports_service.get_daily_sales_cells = old
 
-        self.assertTrue(all(b == ("B0", "B9") for b in captured_bcodes))
+        self.assertEqual(captured_bcodes, [("B0", "B9")], "단일 호출 + bcode 전달")
         vals = [i["qut_total"] for i in res["items"]]
         self.assertEqual(vals, sorted(vals, reverse=True))
 

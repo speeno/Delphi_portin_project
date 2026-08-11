@@ -152,25 +152,28 @@ class IntegratedLedgerParamOrderTests(IsolatedAsyncioTestCase):
 
 
 class StatsDelegationScopeTests(IsolatedAsyncioTestCase):
-    async def test_sales_period_delegates_full_scope(self) -> None:
+    async def test_sales_period_single_pass_no_ocode(self) -> None:
+        """DEC-140 — 슬라이스별 get_book_sales 위임(N+1) 제거.
+
+        일 단위 다구간이어도 S1_Ssub **단일 쿼리**여야 하고(30s 타임아웃 원인),
+        DEC-084 정본대로 Ocode 절이 없어야 한다(도서구분 전체)."""
         from app.services import stats_service
-        captured: list[Any] = []
 
-        async def fake_book_sales(**kwargs):
-            captured.append(kwargs.get("scope"))
-            return {"rows": [], "total": 0}
+        captured: list[str] = []
 
-        old = stats_service.reports_service.get_book_sales
-        stats_service.reports_service.get_book_sales = fake_book_sales
-        try:
+        async def fake_exec(server_id, sql, params=()):
+            captured.append(sql)
+            return []
+
+        with patch("app.services.reports_service.execute_query", new=fake_exec):
             await stats_service.get_sales_period(
                 server_id="srv", hcode=None,
-                date_from="2026-01-01", date_to="2026-01-02", group_by="daily",
+                date_from="2026-01-01", date_to="2026-01-31", group_by="daily",
             )
-        finally:
-            stats_service.reports_service.get_book_sales = old
-        self.assertTrue(captured)
-        self.assertTrue(all(s is None for s in captured))
+        s1 = [s for s in captured if "FROM S1_Ssub" in s]
+        self.assertEqual(len(s1), 1, "일 단위 31구간이어도 단일 쿼리(N+1 금지)")
+        self.assertNotIn("Ocode", s1[0])
+        self.assertIn("GROUP BY Gdate", s1[0])
 
 
 if __name__ == "__main__":  # pragma: no cover

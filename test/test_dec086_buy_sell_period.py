@@ -54,26 +54,40 @@ class BookSalesGisumTests(IsolatedAsyncioTestCase):
 
 
 class SalesPeriodBuySellTests(IsolatedAsyncioTestCase):
+    # DEC-140 — 단일 패스 전환: 슬라이스별 get_book_sales 위임 대신
+    # get_daily_sales_cells(일자→분기표 셀) 1회 호출을 모킹한다.
+    # 구간별 2/200/1/100 이 나오도록 각 버킷에 하루씩 실적을 배치.
+    _CELLS = {
+        "2026.01.15": {"giqut": 1, "gisum": 100, "gbqut": 0, "gpqut": 0,
+                       "gjqut": 0, "goqut": 2, "gosum": 200, "gpsum": 0},
+        "2026.04.15": {"giqut": 1, "gisum": 100, "gbqut": 0, "gpqut": 0,
+                       "gjqut": 0, "goqut": 2, "gosum": 200, "gpsum": 0},
+        "2026.07.15": {"giqut": 1, "gisum": 100, "gbqut": 0, "gpqut": 0,
+                       "gjqut": 0, "goqut": 2, "gosum": 200, "gpsum": 0},
+        "2025.06.01": {"giqut": 1, "gisum": 100, "gbqut": 0, "gpqut": 0,
+                       "gjqut": 0, "goqut": 2, "gosum": 200, "gpsum": 0},
+    }
+
     async def _run(self, *, group_by: str, date_from: str, date_to: str) -> dict[str, Any]:
         from app.services import stats_service
 
-        async def fake_book_sales(**kwargs):
-            return {
-                "rows": [
-                    {"goqut": 2, "gosum": 200, "giqut": 1, "gisum": 100},
-                ],
-                "total": 1,
-            }
+        cells = self._CELLS
 
-        old = stats_service.reports_service.get_book_sales
-        stats_service.reports_service.get_book_sales = fake_book_sales
+        async def fake_daily_cells(**kwargs):
+            # 조회 범위 안의 일자만 반환(실제 SQL 의 Gdate BETWEEN 동등).
+            df = kwargs["date_from"]
+            dt = kwargs["date_to"]
+            return {k: v for k, v in cells.items() if df <= k <= dt}
+
+        old = stats_service.reports_service.get_daily_sales_cells
+        stats_service.reports_service.get_daily_sales_cells = fake_daily_cells
         try:
             return await stats_service.get_sales_period(
                 server_id="srv", hcode=None,
                 date_from=date_from, date_to=date_to, group_by=group_by,
             )
         finally:
-            stats_service.reports_service.get_book_sales = old
+            stats_service.reports_service.get_daily_sales_cells = old
 
     async def test_quarterly_buckets_and_buy_fields(self) -> None:
         res = await self._run(group_by="quarterly", date_from="2026-01-01", date_to="2026-09-30")
