@@ -2161,6 +2161,31 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-144: 통계 필터바 Enter 흐름 마감 — 집계단위 픽 필드화 + 룩업 빈값 Enter 통과 (2026-08-11)
+
+- **보고**: 영업팀 — ① 기간별 매출분석 "집계단위 선택 후 '엔터' 조회가
+  안 됩니다", ② 거래처별 판매분석 "거래처코드 선택 후 '엔터'로 다음탭이
+  안 넘어갑니다" (두 스크린샷 모두 08.10 구 창이지만 ①은 현 배포분에도 실재,
+  ②는 빈값 Enter 경로가 실재).
+- **원인/교정**:
+  - ① 집계단위가 **네이티브 `<select>`** — macOS 드롭다운의 옵션 확정 Enter 는
+    OS 메뉴가 소비해 DOM 에 도달하지 않아 advanceFilterOnEnter(자동 조회
+    클릭)가 못 받는다. → 확립된 **LocalComboField(픽 필드)** 로 교체(DEC-112/134
+    패턴): Enter=팝업→↑↓ 선택→Enter=값+다음 칸, 마지막이면 `advanceAfterSelect`
+    가 조회 버튼 자동 실행. 스톱 id(Combo_GroupBy) 유지.
+  - ② StatsFilterBar 의 MasterLookupField 5개(hcode·거래처 2·도서 2)가
+    ``onKeyDown`` 미전달 — MLF 규약상 빈값 Enter 는 onKeyDown 제공 시 통과
+    (버블 → 다음 스톱), 미제공 시 검색 팝업을 연다(DEC-104/105 "빈값 Enter
+    통과" 위반 지점). → no-op ``onKeyDown={() => {}}`` 전달(검증된 화면들과
+    동일). 확정값 Enter 이동은 DEC-134 정확일치 자동확정(confirmEnter →
+    focusNext)이 기존 배포분에서 이미 담당.
+- **검증**: `test_dec144_stats_filter_enter_combo.py` 2 PASS(픽 필드·native
+  select 부활 금지·no-op onKeyDown ≥5). 전체 스위트 실패 집합 = 기존 120건
+  (신규 회귀 0). tsc 0.
+- **결정자**: 영업팀 보고 전달 (2026-08-11)
+- **참조**: [[DEC-140]](필터바 Enter 스톱), [[DEC-134]](정확일치 자동확정),
+  DEC-104/105(빈값 Enter 통과), [[keyboard-input-flow]], `local-combo-field.tsx`
+
 ### DEC-143: 거래처별 판매분석 반품·판매 표기 + 거래처명 표기 + 단일 거래처 필터 (2026-08-11)
 
 - **보고**: 영업팀 — "출고관련 자료만 잡힙니다. 반품수, 반품금액, 판매부수,
