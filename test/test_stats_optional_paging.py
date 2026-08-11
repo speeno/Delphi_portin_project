@@ -164,7 +164,8 @@ class StatsFrontendStaticPaging(TestCase):
         self.assertIn('hcode: eHcode.trim() || undefined', src)
         self.assertIn("DataGridPager", src)
         self.assertIn("<DataGridPager", src)
-        dg_idx = src.find("<DataGrid<BookSalesRow>")
+        # DEC-141 — 그리드 행 타입이 파생 필드(매출부수/매출액) 포함 GridRow 로 확장됨.
+        dg_idx = src.find("<DataGrid<BookSalesGridRow>")
         pager_idx = src.find("<DataGridPager")
         self.assertGreaterEqual(pager_idx, 0)
         self.assertGreaterEqual(dg_idx, 0)
