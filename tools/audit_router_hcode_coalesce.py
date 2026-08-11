@@ -55,6 +55,12 @@ _ALLOWED_HELPERS = frozenset(
         # DEC-090 — 행=출판사(G7.Gcode) 도메인(T2 정산): 격리 계정만 강제,
         # 물류/총판은 선택 필터(기본 전체 합산 — 레거시 Subu47 동등).
         "resolve_publisher_row_scope",
+        # DEC-136/137 — 공유 DB fail-closed 스코프 리졸버(격리=자사 강제,
+        # 총판/슈퍼=None, 신뢰불가=SCOPE_DENIED 0건). 원장(거래처 축=Gcode)
+        # 라우트와 총판 게이트가 이 리졸버로 스코프를 산출한다.
+        "resolve_g7_ggeo_list_scope",
+        # settlement 라우터 내부 thin wrapper (resolve_g7_ggeo_list_scope 게이트).
+        "_guard_distributor",
     }
 )
 _PATH_HCODE_KEY_MARKERS = (

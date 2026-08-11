@@ -59,7 +59,10 @@ scope:
       - Subu32.pas#L303 (Sv_Ghng — 이월 기준일)
     permission: ledger.customer.read
     query_params:
-      customer_code: { type: string, required: true, legacy: "Edit107.Text (Hcode)" }
+      # DEC-137 축 교정 — 거래처 축은 S1_Ssub.Gcode (총판 Subu31 Gcode=Edit103).
+      # 종전 "Edit107(Hcode)" 매핑은 오독: Edit107 라벨은 '출판사명'(출판사 축)이며,
+      # 격리 계정의 출판사 스코프는 라우터 resolve_g7_ggeo_list_scope 가 별도 주입.
+      customer_code: { type: string, required: true, legacy: "Edit103.Text (Gcode=거래처)" }
       from_date:     { type: ISO date, required: true, legacy: "Edit101 → 'YYYY.MM.DD' 정규화" }
       to_date:       { type: ISO date, required: true, legacy: "Edit102" }
       bcode_from:    { type: string, required: false, legacy: "Edit103" }
@@ -68,7 +71,8 @@ scope:
       limit:         { type: int, default: 100, max: 500 }
       offset:        { type: int, default: 0, ge: 0 }
     response:
-      opening_date: { type: ISO date, source: "Sv_Ghng.Max(Gdate) where Hcode=customer_code (이월 기준일)" }
+      # DEC-137 — 이월 기준일의 Hcode 는 출판사 축: 격리 계정=자사 스코프, 총판/슈퍼=전체 max.
+      opening_date: { type: ISO date, source: "Sv_Ghng.Max(Gdate) [where Hcode=publisher_scope]" }
       rows:         # 일자 단위 페이지 — DEC-033(g) 페이저
         - gdate:       string
           gpsum:       int   # 이동

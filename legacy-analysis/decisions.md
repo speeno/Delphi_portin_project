@@ -2161,6 +2161,65 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-137: 원장 축 정본 교정(Gcode=거래처·Hcode=출판사) + 도서별판매 0권 제외 + 재고 메뉴 통합 (2026-08-11)
+
+- **보고**: 교문사-경리부 스크린샷 5매 — ① 도서별판매: 기간 검색 시 해당 기간
+  판매 0권(전 컬럼 0) 도서까지 전부 노출, ② 거래처원장: "조회" 시
+  `HCODE_FORBIDDEN` 403, ③ 거래처원장에 도서코드 필터 불필요, ④ 수불 관련
+  카테고리 3개 → 1개 + 재고관리·재고원장 그룹 통합 제안. 사용자 지시: "이를
+  기준으로 전체 계정에 대해서 화면 출력 쿼리 등을 맞춰라".
+- **원인(구조 — 축 오배선)**: C6 포팅 계약(customer_book_ledger_phase2.yaml)이
+  Subu32 의 Edit107 을 `customer_code` 로 오독 — 그러나 Edit107 라벨은 전 트리
+  공통 **'출판사명'** 이고 legacy Subu32 캡션은 '도서별수불원장'(거래처원장은
+  Subu31). 레거시 정본은 전 빌드 공통 `S1_Ssub` **Gcode=거래처 / Hcode=출판사 /
+  Bcode=도서**: 총판 Subu31 L283~305 `Gcode=Edit103 (+옵션 Hcode=Edit107)`,
+  출판 Subu31 L404~406 `Gcode=거래처 and Hcode=Hnnnn(자사 강제)`. 이 오배선으로
+  모던 거래처원장이 거래처 코드를 hcode 신원검사(`enforce_hcode_identity`)+
+  `Hcode` SQL 축에 바인딩 → 격리 계정(교문사)은 무조건 403, 총판 계정도 잘못된
+  축으로 조회(슈퍼 외 실사용 불능). [[slip-key-shared-and-binlog-recovery]]
+  (전표키 공유)·DEC-136 실증(S1_Ssub Hcode=출판사코드 수십 개)과 정합.
+- **교정 규칙**:
+  - 원장 라우터(ledger/customer·customer-integrated): 거래처 식별자에 대한
+    403 제거. 격리는 출판사 축 — `resolve_g7_ggeo_list_scope` 산출값(격리=자사
+    강제/총판·슈퍼=None/신뢰불가=`SCOPE_DENIED`→자연 0건)을 서비스로 전달.
+  - `customer_ledger_service`: 메인 WHERE `Gcode=거래처`(+격리 시 `Hcode=자사`),
+    통합 원장 페이지네이션 축 `COUNT/DISTINCT/GROUP BY Hcode→Gcode`(응답 필드명
+    hcode/hname 은 표시 키로 유지 — FE 호환), 이월 기준일(Sv_Ghng)·이월 잔량
+    (Sb_Csum — Hcode 컬럼 보유 테넌트 한정, SHOW COLUMNS 어댑트)·거래처명
+    (G1_Ggeo — 자사 행 우선) 모두 스코프 동반. `_build_filter_where` 에
+    `has_gcode` 슬롯 신설(기존 호출자 무영향).
+  - 도서별판매(`get_book_sales`): `_BOOK_SALES_MEASURE_KEYS`(입고/매입액/반품/
+    폐기/증정/출고/출고액/폐기액) 전부 0 인 도서 행 제외 — 분기표 밖
+    Gubun/Pubun(이동·변경 등)·수량 0 행이 만들던 전 컬럼 0 노이즈. 반품 등
+    하나라도 비0 이면 유지(과도 제외 방지).
+  - 프론트: 거래처원장 도서코드(시작/끝) 필터 제거(스냅샷 스키마 포함),
+    도서별수불원장·재고현황·통합 도서수불장의 '거래처/지사' 오라벨 →
+    '출판사코드'(`lookupKind="publisher"`). 메뉴: 재고관리+재고원장 그룹 통합
+    (원장 4폼은 폼 단위 `menuId: NAV-03` 로 기존 매트릭스 게이트 유지),
+    `INVENTORY_SIDEBAR_LAYOUT` 화이트리스트로 도서수불장·통합 도서수불장 감춤
+    (레지스트리/라우트/등가 매트릭스 보존 — Sobo15 감춤 선례).
+  - 감사 allowlist: `resolve_g7_ggeo_list_scope`/`_guard_distributor` 를
+    `audit_router_hcode_coalesce` 허용 헬퍼에 등재 — 종전 outbound `/statement`·
+    settlement `/publisher-contract` CRITICAL 2건도 동일 원인의 오탐으로 해소
+    (라우터 감사 critical 0).
+- **검증**: `test_dec137_ledger_axis_book_sales_menu.py` 12 PASS 신설(0권 제외
+  2·단일/통합 축·SCOPE_DENIED 0건·라우터 배선 3·프론트 소스 가드 3). 기존 계약
+  테스트 축 갱신: C6 25 PASS, dec084 param-order·ledger_sort·ledger_courier_scan
+  (403→스코프 계약) 갱신 후 원장 계열 74 PASS. 전체 스위트 pre/post 실패 집합
+  **완전 동일(기존 120건, 신규 회귀 0)**. tsc 0, eslint 신규 0(기존 21 오류
+  잔존 — 미변경 파일). 도메인 hcode 감사 증감 없음(기존 critical 1·warn 3).
+- **잔여(백로그)**: ① 거래처원장 그리드가 수불형(수량 흐름)으로 남아 있어
+  레거시 Subu31(거래처거래원장 — 미수금/수금액형)과 화면 구성이 다름 — 미수금
+  원장 별도 과제. ② `delphi_form_screen_matrix --check` 기존 FAIL
+  (Sobo_author_history/Subu26_1 LEGACY_MISSING) 별도 정리. ③ 위러브 운영 계정의
+  수불원장 '출판사코드' 필터는 비슈퍼 자사 강제(enforce_hcode_isolation) 정책
+  유지 — 총판 실사용 피드백 시 재논의.
+- **결정자**: 사용자 (2026-08-11 — 교문사-경리부 요청 전달)
+- **참조**: [[DEC-136]](fail-closed·공유 좌표), DEC-090/085(총판 전체 합산
+  보존), DEC-033(f)(동적 WHERE), DEC-084(Ocode 바인딩 순서), 총판/출판
+  `Subu31.pas`·`Subu32.pas`(Edit107='출판사명'),
+  `migration/contracts/customer_book_ledger_phase2.yaml`(축 주석 정정)
+
 ### DEC-136: 공유 DB 좌표 정산 스코프 fail-closed — 교문사 타사 자료 노출 교정 (2026-08-09)
 
 - **보고**: 교문사-경리부 — 정산관리 하위 화면 값들이 "본인들 자료가 아니다".

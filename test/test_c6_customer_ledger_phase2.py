@@ -467,12 +467,14 @@ class IntegratedCustomerLedgerServiceTest(TestCase):
             sql_lower = sql.lower().strip()
             if "max(gdate)" in sql_lower and "sv_ghng" in sql_lower:
                 return [{"opening_date": "2026.03.31"}]
-            if "count(distinct hcode)" in sql_lower:
+            # DEC-137 — 통합 원장 페이지네이션 축 = 거래처(Gcode). 종전 Hcode
+            # (출판사 축) 오배선 교정에 맞춰 픽스처도 정본 축으로 갱신.
+            if "count(distinct gcode)" in sql_lower:
                 return [{"cnt": len(hcodes)}]
-            if "select distinct hcode" in sql_lower:
+            if "select distinct gcode" in sql_lower:
                 lim, off = params[-2], params[-1]
                 window = hcodes[off : off + lim]
-                return [{"Hcode": h} for h in window]
+                return [{"Gcode": h} for h in window]
             return []
 
         async def fake_in_clause(server_id, *, sql_template, keys, prefix_params=()):
@@ -482,16 +484,16 @@ class IntegratedCustomerLedgerServiceTest(TestCase):
                     {"hcode": k, "qty": opening_map.get(k, 0)}
                     for k in keys
                 ]
-            if "from g7_ggeo" in tpl_lower:
+            if "from g1_ggeo" in tpl_lower:
                 return [
-                    {"hcode": k, "hname": name_map.get(k, "")}
+                    {"gcode": k, "gname": name_map.get(k, "")}
                     for k in keys
                 ]
-            # _integrated_rows_sql — Hcode IN
-            return [r for r in raw_rows if r.get("Hcode") in keys]
+            # _integrated_rows_sql — Gcode IN (DEC-137 거래처 축)
+            return [r for r in raw_rows if r.get("Gcode") in keys]
 
-        # G7_Ggeo 룩업은 inbound_service._fetch_publisher_names 가 수행 →
-        # in_clause_lookup 모듈은 inbound_service 내부 alias 도 monkeypatch 필요.
+        # 거래처명 룩업은 G1_Ggeo(_fetch_customer_names → inbound._fetch_vendor_names)
+        # 가 수행 → in_clause_lookup 은 inbound_service 내부 alias 도 monkeypatch 필요.
         from app.services import inbound_service as inb
         return patch.multiple(
             svc,
@@ -504,12 +506,12 @@ class IntegratedCustomerLedgerServiceTest(TestCase):
         hcodes = ["H001", "H002"]
         raw_rows = [
             # H001: in 10, out 3
-            {"Hcode": "H001", "Scode": "Y", "Gubun": "입고", "Pubun": "신간",
+            {"Gcode": "H001", "Scode": "Y", "Gubun": "입고", "Pubun": "신간",
              "Gsqut": 10, "Gssum": 0},
-            {"Hcode": "H001", "Scode": "X", "Gubun": "출고", "Pubun": "신간",
+            {"Gcode": "H001", "Scode": "X", "Gubun": "출고", "Pubun": "신간",
              "Gsqut": 3,  "Gssum": 21000},
             # H002: in 5
-            {"Hcode": "H002", "Scode": "Y", "Gubun": "입고", "Pubun": "신간",
+            {"Gcode": "H002", "Scode": "Y", "Gubun": "입고", "Pubun": "신간",
              "Gsqut": 5,  "Gssum": 0},
         ]
         ctx_svc, ctx_inb = self._patch_db(
@@ -541,9 +543,9 @@ class IntegratedCustomerLedgerServiceTest(TestCase):
         """AC-LDG-3 — integrated.row[H].closing == 단일 호출의 closing."""
         hcodes = ["H001"]
         raw_rows = [
-            {"Hcode": "H001", "Scode": "Y", "Gubun": "입고", "Pubun": "신간",
+            {"Gcode": "H001", "Scode": "Y", "Gubun": "입고", "Pubun": "신간",
              "Gsqut": 7, "Gssum": 0},
-            {"Hcode": "H001", "Scode": "X", "Gubun": "출고", "Pubun": "신간",
+            {"Gcode": "H001", "Scode": "X", "Gubun": "출고", "Pubun": "신간",
              "Gsqut": 2, "Gssum": 14000},
         ]
         # integrated 호출
@@ -561,7 +563,7 @@ class IntegratedCustomerLedgerServiceTest(TestCase):
         # 단일 호출 — 동일 raw + grand summary 동일.
         single_dates = ["2026.04.01"]
         single_raw = [
-            {"Gdate": "2026.04.01", **{k: v for k, v in r.items() if k != "Hcode"}}
+            {"Gdate": "2026.04.01", **{k: v for k, v in r.items() if k != "Gcode"}}
             for r in raw_rows
         ]
         grand = [
@@ -602,10 +604,10 @@ class IntegratedCustomerLedgerServiceTest(TestCase):
         )
 
     def test_integrated_pager_passthrough(self) -> None:
-        """R3 — DISTINCT Hcode LIMIT/OFFSET 작동."""
+        """R3 — DISTINCT Gcode LIMIT/OFFSET 작동 (DEC-137 거래처 축)."""
         hcodes = [f"H{i:03d}" for i in range(1, 21)]
         raw_rows = [
-            {"Hcode": h, "Scode": "Y", "Gubun": "입고", "Pubun": "신간",
+            {"Gcode":h, "Scode": "Y", "Gubun": "입고", "Pubun": "신간",
              "Gsqut": 1, "Gssum": 0}
             for h in hcodes
         ]

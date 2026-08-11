@@ -99,14 +99,19 @@ class LedgerHcodeIsolationTests(_BaseRouterTest):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(svc.call_args.kwargs.get("customer_code"), "9001")
 
-    def test_customer_ledger_other_code_returns_403(self) -> None:
+    def test_customer_ledger_other_code_scoped_not_403(self) -> None:
+        """DEC-137 축 교정 — customerCode 는 거래처(Gcode) 선택값이라 403 대상이
+        아니다(교문사-경리부 HCODE_FORBIDDEN 사고의 원인). 격리는 출판사 축:
+        publisher_scope_hcode 에 자사 hcode 가 강제로 실려야 한다."""
         from app.services import customer_ledger_service
 
         with patch.object(
             customer_ledger_service,
             "get_customer_ledger",
-            new=AsyncMock(return_value={"rows": [], "summary": {}}),
-        ):
+            new=AsyncMock(
+                return_value={"rows": [], "summary": {}, "page": {}, "truncated": False}
+            ),
+        ) as svc:
             res = self.client.get(
                 "/api/v1/ledger/customer",
                 params={
@@ -116,17 +121,20 @@ class LedgerHcodeIsolationTests(_BaseRouterTest):
                     "dateTo": "2026.01.31",
                 },
             )
-        self.assertEqual(res.status_code, 403)
-        self.assertEqual(res.json().get("detail", {}).get("code"), "HCODE_FORBIDDEN")
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(svc.call_args.kwargs.get("customer_code"), "OTHER")
+        self.assertEqual(svc.call_args.kwargs.get("publisher_scope_hcode"), "9001")
 
-    def test_integrated_other_pattern_returns_403(self) -> None:
+    def test_integrated_other_pattern_scoped_not_403(self) -> None:
+        """DEC-137 — customerPattern 은 거래처(Gcode) LIKE. 격리 계정은 Hcode=자사
+        스코프가 항상 동반되므로 패턴 자체는 자유(타사 노출 없음)."""
         from app.services import customer_ledger_service
 
         with patch.object(
             customer_ledger_service,
             "get_integrated_customer_ledger",
             new=AsyncMock(return_value={"rows": [], "page": {}}),
-        ):
+        ) as svc:
             res = self.client.get(
                 "/api/v1/ledger/customer-integrated",
                 params={
@@ -136,7 +144,9 @@ class LedgerHcodeIsolationTests(_BaseRouterTest):
                     "dateTo": "2026.01.31",
                 },
             )
-        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(svc.call_args.kwargs.get("customer_pattern"), "00")
+        self.assertEqual(svc.call_args.kwargs.get("scope_hcode"), "9001")
 
     def test_integrated_empty_pattern_binds_scope(self) -> None:
         from app.services import customer_ledger_service
@@ -191,14 +201,16 @@ class LedgerDistScopedTests(_BaseRouterTest):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(svc.call_args.kwargs.get("scope_hcode"), "9001")
 
-    def test_integrated_dist_other_pattern_returns_403(self) -> None:
+    def test_integrated_dist_pattern_global_scope(self) -> None:
+        """DEC-137 — 단일 테넌트 좌표의 총판(T2_DIST)은 출판사 스코프 None(전체,
+        레거시 총판 Subu31 정본). 거래처 패턴은 그대로 전달된다."""
         from app.services import customer_ledger_service
 
         with patch.object(
             customer_ledger_service,
             "get_integrated_customer_ledger",
             new=AsyncMock(return_value={"rows": [], "page": {}}),
-        ):
+        ) as svc:
             res = self.client.get(
                 "/api/v1/ledger/customer-integrated",
                 params={
@@ -208,7 +220,9 @@ class LedgerDistScopedTests(_BaseRouterTest):
                     "dateTo": "2026.01.31",
                 },
             )
-        self.assertEqual(res.status_code, 403)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(svc.call_args.kwargs.get("customer_pattern"), "00")
+        self.assertIsNone(svc.call_args.kwargs.get("scope_hcode"))
 
 
 class CourierHcodeIsolationTests(_BaseRouterTest):

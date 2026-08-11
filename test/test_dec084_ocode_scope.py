@@ -137,7 +137,8 @@ class IntegratedLedgerParamOrderTests(IsolatedAsyncioTestCase):
     async def test_ocode_binds_before_hcode(self) -> None:
         """종전 버그 — ocode 파라미터가 마지막에 append 되어 Hcode 절에 '%B%' 바인딩."""
         cap = await self._run(scope="B", scope_hcode="5019")
-        count_sql, count_params = [c for c in cap.calls if "COUNT(DISTINCT Hcode)" in c[0]][0]
+        # DEC-137 — 통합 원장 페이지네이션 축 = 거래처(Gcode). Hcode 는 격리 스코프 절.
+        count_sql, count_params = [c for c in cap.calls if "COUNT(DISTINCT Gcode)" in c[0]][0]
         # 절 순서: Gdate, Gdate, (Bdate), Ocode LIKE, Hcode = — 파라미터도 동일 순서.
         self.assertLess(count_sql.index("Ocode LIKE %s"), count_sql.index("Hcode = %s"))
         self.assertEqual(count_params[2], "%B%")
@@ -145,7 +146,7 @@ class IntegratedLedgerParamOrderTests(IsolatedAsyncioTestCase):
 
     async def test_all_scope_drops_ocode(self) -> None:
         cap = await self._run(scope="ALL", scope_hcode="5019")
-        count_sql, count_params = [c for c in cap.calls if "COUNT(DISTINCT Hcode)" in c[0]][0]
+        count_sql, count_params = [c for c in cap.calls if "COUNT(DISTINCT Gcode)" in c[0]][0]
         self.assertNotIn("Ocode", count_sql)
         self.assertEqual(count_params[2], "5019")
 

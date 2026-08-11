@@ -274,15 +274,17 @@ class CustomerLedgerSortTests(IsolatedAsyncioTestCase):
         captured_sql: list[str] = []
         hcodes = [f"H{i:03d}" for i in range(4)]
 
+        # DEC-137 — 통합 원장 페이지네이션 축 = 거래처(Gcode). 응답 필드명(hcode)은
+        # 표시 키로 유지되지만 SQL 축은 Gcode 가 정본.
         async def fake_exec(server_id: str, sql: str, params: tuple) -> list[dict[str, Any]]:
             captured_sql.append(sql)
             if "Sv_Ghng" in sql:
                 return [{"opening_date": "2026.03.31"}]
-            if "COUNT(DISTINCT Hcode)" in sql:
+            if "COUNT(DISTINCT Gcode)" in sql:
                 return [{"cnt": len(hcodes)}]
-            if sql.lstrip().startswith("SELECT DISTINCT Hcode"):
-                ordered = list(reversed(hcodes)) if "ORDER BY Hcode DESC" in sql else hcodes
-                return [{"Hcode": h} for h in ordered]
+            if sql.lstrip().startswith("SELECT DISTINCT Gcode"):
+                ordered = list(reversed(hcodes)) if "ORDER BY Gcode DESC" in sql else hcodes
+                return [{"Gcode": h} for h in ordered]
             return []
 
         async def fake_in_lookup(
@@ -293,7 +295,7 @@ class CustomerLedgerSortTests(IsolatedAsyncioTestCase):
                 return []
             return [
                 {
-                    "Hcode": h, "Scode": "X", "Gubun": "출고", "Pubun": "",
+                    "Gcode": h, "Scode": "X", "Gubun": "출고", "Pubun": "",
                     "Gsqut": (i % 3) + 1, "Gssum": 100,
                 }
                 for i, h in enumerate(list(keys))
@@ -301,7 +303,7 @@ class CustomerLedgerSortTests(IsolatedAsyncioTestCase):
 
         with patch("app.services.customer_ledger_service.execute_query", new=fake_exec), \
              patch("app.services.customer_ledger_service.in_clause_lookup", new=fake_in_lookup), \
-             patch("app.services.customer_ledger_service._fetch_publisher_names",
+             patch("app.services.customer_ledger_service._fetch_customer_names",
                    new=fake_in_lookup_names):
             result = await cls_.get_integrated_customer_ledger(
                 server_id="srv", date_from="2026-01-01", date_to="2026-12-31",
@@ -311,20 +313,22 @@ class CustomerLedgerSortTests(IsolatedAsyncioTestCase):
 
     async def test_integrated_hcode_desc_is_sql_level(self) -> None:
         result, captured = await self._run_integrated(sort_by="hcode", sort_dir="desc")
-        page_sqls = [s for s in captured if s.lstrip().startswith("SELECT DISTINCT Hcode")]
-        self.assertTrue(any("ORDER BY Hcode DESC" in s for s in page_sqls))
+        page_sqls = [s for s in captured if s.lstrip().startswith("SELECT DISTINCT Gcode")]
+        self.assertTrue(any("ORDER BY Gcode DESC" in s for s in page_sqls))
         codes = [r["hcode"] for r in result["rows"]]
         self.assertEqual(codes, sorted(codes, reverse=True))
 
     async def test_integrated_qty_sort_within_page(self) -> None:
         result, captured = await self._run_integrated(sort_by="period_out", sort_dir="desc")
-        page_sqls = [s for s in captured if s.lstrip().startswith("SELECT DISTINCT Hcode")]
+        page_sqls = [s for s in captured if s.lstrip().startswith("SELECT DISTINCT Gcode")]
         self.assertTrue(all("DESC" not in s for s in page_sqls))
         vals = [r["period_out"] for r in result["rows"]]
         self.assertEqual(vals, sorted(vals, reverse=True))
 
 
-async def fake_in_lookup_names(server_id: str, hcodes: list[str]) -> dict[str, str]:
+async def fake_in_lookup_names(
+    server_id: str, hcodes: list[str], scope_hcode: str | None = None
+) -> dict[str, str]:
     return {}
 
 
