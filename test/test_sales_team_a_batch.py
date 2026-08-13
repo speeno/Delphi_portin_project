@@ -87,11 +87,15 @@ class LabelCorrectionTests(TestCase):
     """A3 — 레거시 Subu61 정본 라벨 (GJQUT=증정수량, GPQUT=폐기수량)."""
 
     def test_xlsx_export_labels(self) -> None:
+        # DEC-147 — 수량 컬럼 표기 "○○수" → "○○수량" (2026-08-13 영업팀).
         from app.routers.reports import _BOOK_SALES_EXPORT_COLUMNS
 
         cols = dict((k, label) for label, k in _BOOK_SALES_EXPORT_COLUMNS)
-        self.assertEqual(cols["gjqut"], "증정수")
-        self.assertEqual(cols["gpqut"], "폐기수")
+        self.assertEqual(cols["giqut"], "입고수량")
+        self.assertEqual(cols["goqut"], "출고수량")
+        self.assertEqual(cols["gbqut"], "반품수량")
+        self.assertEqual(cols["gjqut"], "증정수량")
+        self.assertEqual(cols["gpqut"], "폐기수량")
         self.assertEqual(cols["gpsum"], "폐기액")
         labels = [label for label, _ in _BOOK_SALES_EXPORT_COLUMNS]
         self.assertNotIn("재고수", labels)
@@ -99,11 +103,20 @@ class LabelCorrectionTests(TestCase):
         self.assertNotIn("파지액", labels)
 
     def test_book_sales_page_labels(self) -> None:
+        # DEC-147 — 화면 그리드도 "○○수량" 표기 (XLSX 헤더와 1:1).
         src = (FRONTEND / "src/app/(app)/reports/book-sales/page.tsx").read_text("utf-8")
-        for needle in ('label: "증정수"', 'label: "폐기수"', 'label: "폐기액"'):
+        for needle in (
+            'label: "입고수량"',
+            'label: "출고수량"',
+            'label: "반품수량"',
+            'label: "증정수량"',
+            'label: "폐기수량"',
+            'label: "폐기액"',
+        ):
             self.assertIn(needle, src)
         self.assertNotIn('label: "재고수"', src)
         self.assertNotIn('label: "파지수"', src)
+        self.assertNotIn('label: "입고수"', src)
 
     def test_stats_book_page_labels(self) -> None:
         src = (FRONTEND / "src/app/(app)/stats/book/page.tsx").read_text("utf-8")
