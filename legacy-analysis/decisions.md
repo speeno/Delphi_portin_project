@@ -2161,6 +2161,34 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-153: 지점 공급율 전용 칸(H2_Gbun.Gsum1) + 전표 라인 실반영 (2026-08-13)
+
+- **보고**: 사용자 — "지사관리에 공급율 기입 칸 별도 추가 + 반영되게" (지점명에
+  '75%' 기입했으나 신규 출고 라인 공급율이 거래처 위탁율 85 그대로라는 보고 —
+  DEC-150 분석대로 레거시·웹 모두 지점명 % 는 표시용이었음). **웹 신규 확장**
+  (레거시에 없던 자동 반영 — 사용자 명시 요청으로 결정).
+- **저장소**: `H2_Gbun.Gsum1`(double) 채택 — 레거시 전 빌드 소스 참조 0건 +
+  라이브 전 테넌트 비영 0행 확인한 여유 컬럼. 스키마 변경 0. 컬럼 부재
+  테넌트는 자동 비활성(select 0 리터럴·insert/update 스킵).
+- **구현**:
+  - **CRUD**: h2_gbun_adapt select 에 `grate`(COALESCE(Gsum1,0)) + row_to_api,
+    create/update 서비스 수치 배선, 모델·프론트 타입, 지점 패널에
+    "공급율(%)" 입력(비우면 거래처 비율)·그리드 컬럼.
+  - **반영(거래명세서)**: `resolve_line_defaults` 2.5단계 신설 — gjisa 선택 +
+    지점율>0 이면 G1(거래처)/G4(도서) 비율을 덮어쓰고(source=H2_Gbun:branch),
+    **특가(G6)·직전거래가(4단계)는 계속 상위**. sales-statement/new 는 기존에
+    gjisa 를 전달하고 있어 백엔드만으로 적용.
+  - **반영(출고접수 신규)**: 선택 지사 grate>0 → effectiveRate/RateMap 으로
+    라인 기본 공급율·구분별 맵 전면 대체 + 지사 변경 시 기존 라인 grat1/gssum
+    일괄 재계산(수기 수정은 이후 가능).
+- **검증**: `test_dec153_branch_rate_field.py` 11 PASS(어댑터 select/row·CRUD
+  SQL 캡처·resolver 오버라이드/0율 폴백/특가 우선/무지사 스킵·화면 배선 2종).
+  sales-statement 스위트 pre/post 동일(기존 실패 1건 — Sobo21.Edit106 목록
+  페이지 가드, 본 변경 무관). tsc 0. 사용법 PDF 5장 자동 반영 기준으로 갱신.
+- **결정자**: 사용자 (2026-08-13)
+- **참조**: [[DEC-150]](지점관리 정본·% 표시용 분석), DEC-065(비율 자동 적용
+  체인), `sales_statement_create_service.resolve_line_defaults`, `h2_gbun_adapt.py`
+
 ### DEC-152: 출고검증 메뉴 총판(물류) 전용 노출 (2026-08-13)
 
 - **보고**: 사용자 — 출고검증(1)/(2)/(개별) 메뉴는 총판(물류) 계정에만 표시.
