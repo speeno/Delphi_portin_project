@@ -2161,6 +2161,26 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-157: 거래명세서 PDF 20초 병목 실측 — weasyprint CPU(렌더 인스턴스) (2026-08-13)
+
+- **보고**: 영업팀 — 신규 명세서 출력 미작동 + 레거시 대비 느림. 사용자 정정:
+  "출력 시작이 아니라 시작→완료까지 속도".
+- **실측(프로덕션 curl + X-Print-Timing)**: 단건 삼련 PDF 총 ~20-23s =
+  detail(DB) 1.2s · seal 0.5s · html 0.3s · **pdf(weasyprint) 20.0s** · log 0.2s.
+  PDF 자체는 최경량(1페이지·텍스트 전용·이미지 0·서브셋 폰트 2종·190KB).
+- **조치**: ① render_pdf 5개 호출부 run_in_threadpool(렌더 중 이벤트 루프
+  블로킹 제거 — 동시 사용자·SSE 응답성), ② FontConfiguration 전역 캐시
+  (실측 효과 미미 — 병목은 폰트 스캔이 아니라 렌더 CPU), ③ X-Print-Timing
+  계측 헤더 상설(재발 시 즉시 분해 측정).
+- **결론**: 20s 는 Render 인스턴스 CPU 에서의 weasyprint 렌더 자체.
+  후속 선택지: (a) Render 인스턴스 업그레이드(즉효, 운영 결정),
+  (b) 명세서 인쇄를 서버 PDF 대신 **HTML 직접 window.print** 로 전환(클라이언트
+  CPU 렌더 — 구조 개선), (c) 물리 인쇄(시작→완료) 속도는 프린터 기종 확인 필요
+  (레거시=텍스트 직접출력 vs 웹=PDF 그래픽 인쇄 — 도트/삼련 프린터면 구조 차).
+- **결정자**: 진행 중 (2026-08-13 — 실측 완료, 후속 선택 대기)
+- **참조**: [[sse-realtime-pattern]](브라우저=프린터 드라이버), DEC-064(삼련 양식),
+  `print_service.render_pdf`, `routers/print.py` X-Print-Timing
+
 ### DEC-155: 특가(G6) 출고 자동반영 + 할인율 메뉴 숨김 — 특별관리 확인 회신 (2026-08-13)
 
 - **보고**: 영업팀 — ① 특별관리(비율관리) 스크린샷 "기존과 동일하게"(거래처×도서
