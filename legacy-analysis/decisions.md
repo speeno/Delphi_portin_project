@@ -2161,6 +2161,37 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-149: 거래처관리 목록 = 세부내역 전면 + Gpper 오라벨 교정(담당자1) (2026-08-13)
+
+- **보고**: 사용자 — "거래처 관리 화면의 모든 정보가 기본적으로 표에 추가"(누락
+  확인 지시) + 기본 순서 확정: 거래처구분(거래처구분2 삭제)→지역→코드→명→
+  사업자등록번호→대표자→사업자주소→업태→종목→전화→팩스→이메일→담당자1→담당자2→비고1.
+- **정본 교정(레거시 대사)**: Subu11.pas 전 빌드(출판/위러브/New) 동일 —
+  **Gpper=담당자(Edit110, 텍스트)** · **Gssum=한도액(Edit131)** ·
+  **Gphon=핸드폰번호(Edit132)**. 라이브(00004 영풍문고): Gpper='인터넷, 총판'
+  Gphon='02-399-6412' Gssum=20,000,000 = 레거시 화면 정확 일치. 종전 웹은
+  gpper 를 "한도액" **숫자**로 취급 — 담당자 실데이터가 0 으로 소실(저장 시
+  파괴 위험)되고 진짜 한도액·핸드폰번호는 미노출이었다.
+- **구현**:
+  - **백엔드**: `list_customer_master` 에 세부 필드 전면 추가(gfax2·gpper·gphon·
+    name1·name2·yesno·grat7·gqut1·grat9·gssum — 존재-컬럼 기반 ''/0 안전).
+    `customer_detail_select_sql` gpper 텍스트화 + gphon/gssum 추가,
+    update/create 경로 gpper·gphon=텍스트, gssum=숫자로 배선.
+    `CustomerListItem/Detail/Update/Create` 모델 확장(gpper: float→str).
+  - **엑셀**: `CUSTOMER_FULL_COLUMNS` ("한도액",gpper)→("담당자1",gpper) +
+    핸드폰번호(gphon)·한도액(gssum) 추가(32→34컬럼), NUMERIC_KEYS gpper 제거·
+    gssum 추가(역반영 텍스트 보존).
+  - **프론트**: 목록 컬럼 = 확정 순서 15종 + 나머지 상세(비고2·핸드폰·우편번호·
+    한도액·비율 7종·신간수량·계산서구분·발행유무✓·출고정지✓). 전화/팩스는
+    1·2 합침. ocode(거래처코드2) 목록 제외(삭제 요청). 상세 폼 "한도액"(gpper)
+    → "담당자1" 정정 + 핸드폰번호/한도액(진짜) 필드 신설.
+- **검증**: `test_dec149_customer_list_detail_columns.py` 6 PASS(정본 시맨틱·
+  텍스트 표현식·모델·엑셀 카탈로그·화면 순서/제외·상세 폼 라벨). 인접 40 PASS
+  (customer export 32→34 기대치 갱신), tsc 0.
+- **결정자**: 사용자 (2026-08-13 — 순서 확정 포함)
+- **참조**: [[DEC-148]](도서 동형), [[DEC-146]](minWidthPx·가로 스크롤),
+  [[g1-ggeo-column-semantics]](컬럼명≠의미 선례), `g1_ggeo_adapt.py`
+
 ### DEC-148: 도서관리 목록 = 도서 세부내역 컬럼 전면 (2026-08-13)
 
 - **보고**: 영업팀 — "기초관리-도서관리: 컬럼에 도서세부내역으로 보여지는 내용

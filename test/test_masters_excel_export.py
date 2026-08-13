@@ -170,7 +170,11 @@ class MastersExcelExportRouterTests(TestCase):
             r = self.client.get(f"/api/v1/masters/exports/customer.xlsx?serverId={_SID}")
         ws, header = _read_sheet(self._assert_xlsx(r))
         self.assertEqual(header[:3], ["거래처코드", "거래처코드2", "거래처명"])
-        self.assertEqual(len(header), 32)
+        # DEC-149 — 담당자1(gpper 정본)·핸드폰번호(gphon)·한도액(gssum) 32→34.
+        self.assertEqual(len(header), 34)
+        self.assertIn("담당자1", header)
+        self.assertIn("핸드폰번호", header)
+        self.assertIn("한도액", header)
         self.assertIn("대표자", header)  # Gposa=대표자 (의미 정정 반영)
         self.assertIn("업태", header)  # Guper=업태
         self.assertEqual(ws.max_row, 1101)  # 헤더 + 1100
