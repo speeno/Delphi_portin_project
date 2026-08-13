@@ -2161,6 +2161,23 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-152: 출고검증 메뉴 총판(물류) 전용 노출 (2026-08-13)
+
+- **보고**: 사용자 — 출고검증(1)/(2)/(개별) 메뉴는 총판(물류) 계정에만 표시.
+- **구현**: form-registry 4개 항목(Sobo59_1/59_2/59_3 + shipment 별칭
+  Sobo59_verification_shipment_alias)에 `distributorOnly: true` — 확립된
+  Sobo39 출고내역서 패턴 재사용(사이드바 isVisibleForm 이
+  `distributorOnly && !isDistributorViewer` 면 숨김; isDistributorViewer =
+  account_type T2_DIST | build_role distributor | 슈퍼유저). 매트릭스/권한
+  (licenseFkey F59)은 기존 그대로 — 노출 게이트만 추가(라우트 직접 접근 차단은
+  범위 밖, 선례 동일).
+- **검증**: `test_dec152_verification_distributor_only.py` 3 PASS(4항목 게이팅·
+  사이드바 강제·선례 유지 — id "Sobo39" 가 할인율 화면과 중복 사용 중이라
+  캡션으로 특정) + 메뉴 매트릭스 가시성 스위트 PASS, tsc 0.
+- **결정자**: 사용자 (2026-08-13)
+- **참조**: DEC-RBAC-02/03(메뉴 매트릭스), `distributor-view.ts`,
+  Sobo39 출고내역서(2026-07-24 — distributorOnly 선례)
+
 ### DEC-151: 도서 목록 전 컬럼 정렬·기본 순서·재고금액 + 전 목록 sticky 헤더 (2026-08-13)
 
 - **보고**: 사용자 — ① 도서 마스터 목록 "모든 셀에 정렬 기능", ② 기본 표시
