@@ -2161,6 +2161,37 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-151: 도서 목록 전 컬럼 정렬·기본 순서·재고금액 + 전 목록 sticky 헤더 (2026-08-13)
+
+- **보고**: 사용자 — ① 도서 마스터 목록 "모든 셀에 정렬 기능", ② 기본 표시
+  순서 확정(도서분류→도서처리→도서코드→도서명→저자명→ISBN→정가→재고→재고금액→
+  서가위치→판형→위탁→쪽수→판수→발행일→비고 — 원문 "판형" 2회는 중복으로 1회
+  처리), 나머지는 "컬럼에서 개별 선택", ③ (**중요**) 모든 목록표에서 스크롤 시
+  헤더가 플로팅되어 필드명 항상 확인 가능하게.
+- **구현**:
+  - **전 컬럼 정렬(백엔드)**: `_BOOK_SORTS_ALL`(전 세부 필드 + 파생
+    `stock_amount`=(COALESCE(Gsqut,0)*COALESCE(Gdang,0))) 신설,
+    `_book_sorts_for_columns` 가 SHOW COLUMNS 존재 컬럼으로 필터해 부재 컬럼
+    ORDER BY 1054 를 원천 차단(빈 메타=종전 7종 폴백). 라이브: gdang desc
+    실정렬·부재 키 안전 폴백 확인.
+  - **기본 표시·순서(프론트)**: 확정 16종 표시 + 재고금액 파생 컬럼(id/sortKey
+    `stock_amount`), 라벨 정비(제목→도서명·저자→저자명·단가→정가). 나머지
+    25종은 `BOOK_DEFAULT_HIDDEN` 기본 숨김 — 저장 키 `master.book.v2` 승격.
+  - **useGridPrefs `defaultHidden`**: 저장 prefs 없을 때 코드 기본 숨김 적용,
+    resetAll 도 기본 복원. 기본 숨김 그리드는 빈 hidden 도 명시 저장해
+    "전부 표시" 선택을 보존(hasStored 판정에 빈 배열 포함).
+  - **sticky 헤더(DataGrid 공통 — 63+ 목록 일괄)**: 카드에
+    `max-h-[calc(100dvh-14rem)] + overflow-y-auto`(내부 세로 스크롤, DEC-146
+    가로 스크롤과 동일 컨테이너 — sticky 축 유효 조건), `th` sticky top-0
+    불투명 bg(thead sticky 브라우저 버그 회피), 합계행(tfoot·DEC-146) sticky
+    bottom-0. 하단 페이저(sticky bottom, 페이지 스크롤 기준)는 기존 유지.
+- **검증**: `test_dec151_book_sort_sticky_header.py` 13 PASS(화이트리스트 필터·
+  파생식·부재 키 무시 SQL 캡처·기본 순서/전 컬럼 sortable 정규식·v2 키·sticky
+  클래스·prefs 기본숨김). 그리드 인접 가드 27 PASS, tsc 0.
+- **결정자**: 사용자 (2026-08-13)
+- **참조**: [[DEC-148]](세부내역 컬럼), [[DEC-146]](minWidthPx·가로 스크롤·합계),
+  [[DEC-141]](저장 키 승격 선례), `use-grid-prefs.ts`, `data-grid.tsx`
+
 ### DEC-150: 지점관리(H2_Gbun) 패널 라벨 정본화 — "지점별 공급율" 확인 회신 (2026-08-13)
 
 - **보고**: 영업팀 — 레거시(출판관리프로그램-교문사 전자책) "기초관리-거래처관리-
