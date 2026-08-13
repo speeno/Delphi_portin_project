@@ -2179,8 +2179,14 @@
     시 th 기본 폭으로도 사용) + DEC-146 가로 스크롤. 불필요 컬럼은 컬럼 설정으로
     계정별 숨김. **gpost 라벨 "출판사"→"서가위치" 정정**(상세 폼·라이브 값
     'H13, 25' 기준 오라벨).
-- **검증**: `test_dec148_book_list_detail_columns.py` 4 PASS(세부 필드 반환·
-  JOIN 0·폴백·화면 라벨/모델). 인접 스위트 31+19(excel export) PASS, tsc 0,
+- **확장(같은 날 2차 — 엑셀)**: 사용자 보고 "엑셀 저장 헤더도 추가" —
+  `BOOK_COLUMNS`(export)를 목록 화면과 1:1(40컬럼, "출판사"→"서가위치" 헤더
+  정정)로, `BOOK_IMPORT_MAP`(역반영)을 편집 가능 필드 전면으로 확장(구 헤더
+  "출판사" 하위호환 별칭 유지, 읽기전용 재고 5종 import 제외, 수치 필드
+  `BOOK_NUMERIC_KEYS` 14종 — 플래그는 텍스트 유지).
+- **검증**: `test_dec148_book_list_detail_columns.py` 6 PASS(세부 필드 반환·
+  JOIN 0·폴백·화면 라벨/모델·export 카탈로그·import 별칭/읽기전용 제외).
+  인접 스위트 31+19(excel export, book_export 기대치 신 헤더 갱신) PASS, tsc 0,
   hcode 감사 변동 없음. **라이브 대사**(교문사 5019, 00004): 41키 — 서가위치
   H13,25 · 도서구분 A · 출고정지 ✓ · 단가 13,000 = 상세 화면 일치. 기존실패
   2건(gbun 분리 가드·book-code scope_hcode)은 HEAD 재현 확인 — 본 변경과 무관.

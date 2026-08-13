@@ -212,13 +212,21 @@ class MastersExcelExportRouterTests(TestCase):
         self.assertEqual(header, ["코드", "저자명", "저자구분", "직장명", "전화", "등록일자", "직책"])
 
     def test_book_export(self) -> None:
+        # DEC-148 — 헤더 = 목록 화면 세부내역 컬럼 1:1 (gpost 라벨 "서가위치" 정정).
         dataset = [{"gcode": "B1", "gname": "책제목", "gjeja": "저자", "gisbn": "978",
-                    "date1": "20260101", "gdang": 15000, "gpost": "출판사"}]
+                    "date1": "20260101", "gdang": 15000, "gpost": "H13, 25"}]
         with patch.object(masters_service, "list_books", side_effect=_make_fake_list(dataset)):
             r = self.client.get(f"/api/v1/masters/exports/book.xlsx?serverId={_SID}")
         ws, header = _read_sheet(self._assert_xlsx(r))
-        self.assertEqual(header, ["도서코드", "제목", "저자", "ISBN", "발행일", "단가", "출판사"])
+        self.assertEqual(
+            header[:7],
+            ["도서코드", "제목", "저자", "ISBN", "발행일", "단가", "서가위치"],
+        )
+        for h in ("도서분류", "판형", "원가", "위탁", "한도", "재고", "출고정지"):
+            self.assertIn(h, header)
+        self.assertNotIn("출판사", header)
         self.assertEqual(ws.cell(row=2, column=6).value, 15000)  # 단가 숫자 보존
+        self.assertEqual(ws.cell(row=2, column=7).value, "H13, 25")
 
 
 class MastersExcelStatic(TestCase):

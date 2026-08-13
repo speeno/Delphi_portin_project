@@ -126,5 +126,41 @@ class ScreenAndModelGuard(TestCase):
             self.assertIn(k, fields)
 
 
+class ExcelCatalogGuard(TestCase):
+    """DEC-148 확장 — 엑셀 저장 헤더 = 목록 화면 컬럼 1:1 (2026-08-13 후속 보고)."""
+
+    def test_book_export_columns_cover_detail_fields(self) -> None:
+        from app.services.masters_excel import BOOK_COLUMNS
+
+        headers = [h for h, _ in BOOK_COLUMNS]
+        keys = [k for _, k in BOOK_COLUMNS]
+        self.assertEqual(headers[0], "도서코드", "PK 첫 컬럼(업로드 행 식별)")
+        self.assertIn("서가위치", headers)
+        self.assertNotIn("출판사", headers, "gpost 오라벨 정정 — export 는 신 헤더만")
+        for h in ("도서분류", "도서처리", "판형", "원가", "매입가", "위탁", "한도",
+                  "재고", "본사재고 정품", "창고재고 비품", "세액유무", "출고정지"):
+            self.assertIn(h, headers)
+        for k in ("sname", "jubun", "name2", "price", "odang", "grat1",
+                  "grat7", "gsqut", "jego1", "jego4", "bigo1", "grat9"):
+            self.assertIn(k, keys)
+
+    def test_book_import_map_extended_with_legacy_alias(self) -> None:
+        from app.services.masters_excel import BOOK_IMPORT_MAP, BOOK_NUMERIC_KEYS
+
+        # 신/구 헤더 모두 gpost — 구 서식 재업로드 하위호환.
+        self.assertEqual(BOOK_IMPORT_MAP["서가위치"], "gpost")
+        self.assertEqual(BOOK_IMPORT_MAP["출판사"], "gpost")
+        self.assertEqual(BOOK_IMPORT_MAP["판형"], "name2")
+        self.assertEqual(BOOK_IMPORT_MAP["한도"], "grat7")
+        self.assertEqual(BOOK_IMPORT_MAP["기타"], "grat6")
+        # 읽기전용 재고는 역반영 금지.
+        for ro in ("gsqut", "jego1", "jego2", "jego3", "jego4"):
+            self.assertNotIn(ro, BOOK_IMPORT_MAP.values())
+        # 수치 필드 파싱 — 비율/가격/물성. 플래그(grat9)는 텍스트 유지.
+        for k in ("price", "odang", "gpage", "grat1", "grat7"):
+            self.assertIn(k, BOOK_NUMERIC_KEYS)
+        self.assertNotIn("grat9", BOOK_NUMERIC_KEYS)
+
+
 if __name__ == "__main__":
     main()
