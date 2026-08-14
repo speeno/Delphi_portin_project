@@ -2161,7 +2161,7 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
-### DEC-165: 거래처거래원장 레거시(Subu31) 동형 재작성 — 진행 중 (2026-08-14)
+### DEC-165: 거래처거래원장 레거시(Subu31) 동형 재작성 + 데이터 대사 (2026-08-14)
 
 - **보고**: 거래처원장 화면을 레거시(거래처거래원장)와 동일 구성 + 검색 데이터 검증.
 - **정본(Subu31.pas 출판 빌드 — L500~640 판독 완료)**:
@@ -2183,9 +2183,26 @@
   3.16 수금 2,326,625 → 6,217,730 · 3.26 반품 -34/-1,003,740 → 5,213,990 ·
   합계 189/6,496,910/-120/-3,773,700/4,950,475. 상세(2.20): 리빙토픽 22,000·85%·
   20·374,000 부터 8라인.
-- **상태**: 분석 완료 — 구현(Sv_Chng 전일미수 서비스 + 일자별/상세 API + 프론트
-  마스터-디테일)은 다음 배치에서 DEC-164 book_ledger_service 패턴 복제로 진행.
-- **참조**: [[DEC-164]](동형 구현 패턴), Subu31.pas, /inventory/customer-ledger
+- **구현(제품 dc13d6e)**: `customer_txn_ledger_service` 신설 —
+  `_opening_receivable`(Tong04._Sv_Chng_ (+)경로: Sv_Chng 최근 스냅샷
+  Σ(Gssum−Gsusu) + 스냅샷~시작일 S1 Σ Gssum − H1 입금 + H1 출금 + Sg_Gsum
+  Σ Gbsum, Scode='X'), `customer_ledger_daily`(전표 그룹 key=(Gdate,Jubun,
+  Gjisa,출고성1/반품성2) — 라벨=첫 도서명(비고)-지사, 외N, H1 수금 행
+  kind=3(입금+/출금−, 라벨 Pubun-Oname-Gbigo), running=전일미수+출고금액
+  +반품금액(음수)−수금액, 합계), `customer_ledger_slip_detail`(kind 필터
+  + G4 정가·Grat1% + 라인 running). 라우터 `/inventory/customer-ledger/
+  daily·slip-detail`(enforce_hcode_isolation, opening 쿼리 전달). 프론트
+  `/ledger/customer` 전면 재작성 — 구 수량원장 페이지를 Subu31 마스터-
+  디테일로 교체(전일미수 행 + 합계 tfoot + 수금 행 청색 + 전표 클릭 상세,
+  MLF onSelect/onInlineSelect(거래처 인라인 코드=hcode 필드)).
+- **검증**: 위 앵커 전 수치 실데이터 일치(전일미수 2,227,265 · 2.20
+  112(외7)/3,793,020→6,020,285 · 3.16 수금 2,326,625→6,217,730 · 3.26
+  −34/−1,003,740→5,213,990 · 합계 189/6,496,910/−120/−3,773,700/수금
+  4,950,475 · 최종 미수 0) + 상세 8라인(리빙토픽 22,000·85%·20·374,000→
+  closing 6,020,285) + 로컬 브라우저 실화면 확인(자동완성→조회→전표 클릭).
+  회귀 가드 `test_dec165_customer_txn_ledger.py` 3 PASS, probe 매트릭스에
+  book/customer-ledger daily 2종 등록(DEC-164 누락분 소급 포함).
+- **참조**: [[DEC-164]](동형 구현 패턴), Subu31.pas, Tong04.pas _Sv_Chng_
 
 ### DEC-164: 도서별수불원장 레거시(Subu32) 동형 재작성 + 데이터 대사 (2026-08-14)
 

@@ -852,6 +852,23 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # ─── DEC-164/165 — 원장 재현 (도서별수불 · 거래처거래) ───────────────
+        {
+            "group": "inventory.book_ledger_daily",
+            "path": (
+                f"/api/v1/inventory/book-ledger/daily?serverId={sid}"
+                f"&bcode=1&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "inventory.customer_ledger_daily",
+            "path": (
+                f"/api/v1/inventory/customer-ledger/daily?serverId={sid}"
+                f"&gcode=1&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
         {
             "group": "stats.sales_period",
             "path": (
