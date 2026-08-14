@@ -870,6 +870,14 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "inventory.customer_ledger_summary",
+            "path": (
+                f"/api/v1/inventory/customer-ledger/summary?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
+        {
             "group": "stats.sales_period",
             "path": (
                 f"/api/v1/stats/sales-period?serverId={sid}"

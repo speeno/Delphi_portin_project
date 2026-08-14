@@ -2161,6 +2161,34 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-166: 통합 거래처원장 — 전 거래처 미수 요약 + 전표별 드릴다운 (2026-08-14)
+
+- **보고**: "통합 거래처원장 화면도 동일하게 수정" (DEC-165 후속).
+- **전제**: 레거시에 통합 거래처원장 전용 폼은 없음 — form-registry 의 folder
+  `Subu32_1` 실물 캡션은 '출판사별 재고 현황'(다른 화면)이라 매핑이 어긋나
+  있고, 기존 웹 화면은 수량 축(이동/입고/출고/잔량) 합산 뷰였음. 통합 화면의
+  산식·컬럼 정본을 [[DEC-165]](Subu31 거래처거래원장)와 단일 공유하는 웹
+  확장으로 재정의.
+- **구현(제품 b0ad7c9)**: `customer_txn_ledger_service.customer_ledger_summary`
+  — `_opening_receivable_map`(전일미수 GROUP BY Gcode set 판: Sv_Chng 스냅샷
+  Σ(Gssum−Gsusu) + 기간전 S1 Σ Gssum − H1 입금 + H1 출금 + Sg_Gsum, 모두
+  GROUP BY Gcode 4쿼리) + 기간 S1(GROUP BY Gcode,Gubun,Pubun → 출고/반품
+  버킷)·H1(입금−출금=수금) 집계, 행 미수 = 전일미수+출고금액+반품금액(음수)
+  −수금액(DEC-165 running 기말값과 동치), **'-전자책' 거래처 미수 0 고정
+  특례**, G1 거래처명 300 청크 lookup + 이름/코드 부분일치 필터, 전부 0 행
+  제외. 라우터 `/inventory/customer-ledger/summary`. 프론트
+  `/ledger/customer-integrated` 전면 재작성 — 상단 거래처별 요약(전일미수·
+  출고수량/금액·반품수량/금액·수금액·미수+합계 tfoot) + 거래처 클릭 시 하단
+  전표별 목록(거래처원장 상단 동형, daily API 재사용, 지사 라벨·수금 청색).
+- **검증**: remote_153/5019 실데이터 571 거래처(4.6s) — 1015 행이 DEC-165
+  단일 화면 수치와 완전 일치(2,227,265/189/6,496,910/−120/−3,773,700/
+  4,950,475/0), 임의 2곳(00437 밀알서적·3255 한남대) summary↔daily 교차
+  대사 MATCH, 로컬 브라우저 실화면(검색→교보문고 드릴다운 전일미수
+  94,231,895 + running 일치) 확인. 회귀 가드
+  `test_dec166_customer_ledger_integrated.py` 2 PASS(미수 산식·전자책 특례·
+  필터), probe 매트릭스 `inventory.customer_ledger_summary` 등록.
+- **참조**: [[DEC-165]](산식 정본), Subu31.pas, Tong04.pas _Sv_Chng_
+
 ### DEC-165: 거래처거래원장 레거시(Subu31) 동형 재작성 + 데이터 대사 (2026-08-14)
 
 - **보고**: 거래처원장 화면을 레거시(거래처거래원장)와 동일 구성 + 검색 데이터 검증.
