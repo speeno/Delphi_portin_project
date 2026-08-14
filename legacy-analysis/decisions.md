@@ -2161,6 +2161,19 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-159: 삼련 양식지 인쇄 위치 이탈 — 행번호 이중 인쇄 수리 + 배율 진단 (2026-08-14)
+
+- **보고**: 양식지(미리 인쇄 용지) 출력 시 칸 이탈(실물 사진 IMG_9855).
+- **사진 분석**: ① 행번호 1~10 이중 인쇄(양식지에 이미 있는데 우리도 인쇄 —
+  빈 행 포함 전부) → `.preprinted` 에서 LineNo(첫 td) 숨김 수리. ② 헤더 필드
+  (거래처코드/발행일/거래처명) 값이 칸 좌하단으로 이탈(~5mm↓) — field_margin_top
+  과보정 의심. ③ 하단 련일수록 위로 당김(누적) — **브라우저 인쇄 배율 <100%**
+  (Chrome PDF '맞춤') 시그니처. ②③은 배율 100% 확정 후 재촬영 기반으로
+  YAML 캘리브레이션(preprinted_calibration) 정밀 보정 예정 — 배율 섞인 상태의
+  오프셋 튜닝은 무의미.
+- **참조**: [[DEC-158]], print_sales_statement.yaml(preprinted_calibration),
+  analysis/print_specs/sales_statement_triplicate_form.md(2026-07-04 실측)
+
 ### DEC-158: 자동출력 미동작 — 일괄 인쇄 타임아웃 + 선마킹 영구 스킵 (2026-08-13)
 
 - **보고**: 경리부가 접수(출력 큐) 생성 → 자동출력 켜진 교문사 계정에서 미출력.
