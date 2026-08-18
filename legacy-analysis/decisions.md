@@ -2161,6 +2161,35 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-169: 도서명 목록 전 화면 정가·ISBN 공통 컬럼 + 거래처원장 상세 합계 (2026-08-18)
+
+- **보고**: "도서명이 목록에 포함되는 리스트에 도서가격·ISBN 이 없으면 모두 공통 추가" →
+  대상 조사(`docs/book-list-price-isbn-targets-2026-08-18.md`, A 정가·ISBN 둘 다 12 / B ISBN 만 20)
+  → 사용자 결정 "정가는 전표 단가로 충분, 숨김 화면 제외, 기본 표시로 A/B 전부 진행".
+  같은 요청에서 거래처원장(Sobo32_ledger) 하단 상세 합계행(수량/출고금액/반품금액) 추가.
+- **원칙**: ① ISBN 정본 = G4_Book.Gisbn, 정가 = 전표 단가(GDANG=전표 시점 정가, DEC-065)이며
+  단가 컬럼이 없는 화면(재고현황·년말집계·회전율·반품후보·재고원장 등)만 마스터 정가(G4_Book.Gdang)
+  로 채움. ② **목록 SQL JOIN 금지** — 행 완성 후 bcode 집합으로 공통 헬퍼
+  `services/book_meta_lookup.py`(`fetch_book_meta`/`attach_book_meta`/`attach_book_meta_by_row_hcode`)
+  청크 lookup(DEC-033 in_clause_lookup), Hcode 일치 → Hcode='' 공용 폴백(Subu24 2단계 동등),
+  Gdang/Gisbn 컬럼 드리프트는 `g4_book_adapt` 메타로 SQL 조각만 분기, IFNULL, fail-soft(실패 시
+  gisbn='' 로 표시만 비움). ③ 프론트는 도서명 바로 뒤 ISBN(font-mono) → 정가 순, 기본 표시,
+  useGridPrefs 로 계정별 숨김 가능. 서버 정렬 화이트리스트에는 미추가.
+- **제외(숨김 화면)**: 도서수불장·통합 도서수불장(DEC-137 숨김), 도서코드(Sobo38), 배본처관리.
+- **구현(제품 3bb3f59)**: 백엔드 12 서비스 + 4 모델 + 3 라우터(XLSX 카탈로그), 프론트 29 페이지 +
+  5 공유 컴포넌트(신규 명세서·입고·반품 입력 그리드는 읽기전용 ISBN 셀 — Enter/화살표 흐름 불변,
+  DEC-104/156/168). 출고검증(A11)은 도서코드만 있던 컬럼을 도서명(코드)+ISBN+단가로 보강.
+  거래처원장 slip-detail 은 관리자 무-hcode 조회 시 공용 마스터만 조회돼 ISBN 공란 가능(테넌트
+  로그인은 정상 — 후속 시 행별 hcode 그룹 lookup 으로 보강 가능).
+- **검증**: tsc 0 · eslint 신규 오류 0(기존 2건: special useEffect setState, [orderKey] hooks 순서)
+  · 신규 가드 `test_book_meta_lookup.py` + `test_dec169_book_meta_group1~4.py` 17 PASS ·
+  전체 스위트 126 실패는 기존/순서의존(격리 재실행 시 관련 파일 전부 PASS, outbound_status ORDER BY
+  ·special legacy_alignment 은 DEC-099/155 이후 기존 실패) · hcode 감사 critical 신규 0 ·
+  라이브(remote_153/5019) 재고현황·도서별판매·년말집계·반품후보·입고일별·명세서상세·특별관리
+  gisbn 실값, 거래처원장 상세 합계 3/73,525/0/306,985.
+- **결정자**: 사용자 (2026-08-18)
+- **참조**: [[DEC-148]](도서 목록 컬럼), [[DEC-065]](단가=정가 산식), [[DEC-033]], `book_meta_lookup.py`
+
 ### DEC-168: 라인 그리드 공통 ↑/↓/←/→ 셀 이동 — 신규 출고 주문·입고·반품 라인표 (2026-08-18)
 
 - **보고**: 신규 출고 주문(`/outbound/orders/new`, `order-line-grid`) 스크린샷 — "키보드 상하좌우로

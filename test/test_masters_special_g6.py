@@ -64,7 +64,14 @@ class _TxCapture:
 class MastersSpecialG6Tests(TestCase):
     def test_list_builds_join_and_paging(self) -> None:
         cap = _ExecCapture()
-        with patch.object(masters_service, "execute_query", new=cap):
+
+        async def _fake_meta(server_id, hcode, bcodes, **kw):  # DEC-169 공통 메타 lookup 격리
+            return {"B01": {"gname": "Bn", "gdang": 12000, "gisbn": "9788900000001"}}
+
+        from app.services import book_meta_lookup
+
+        with patch.object(masters_service, "execute_query", new=cap), \
+             patch.object(book_meta_lookup, "fetch_book_meta", new=_fake_meta):
             out = asyncio.run(
                 masters_service.list_special_master(
                     server_id="remote_1",
@@ -78,6 +85,7 @@ class MastersSpecialG6Tests(TestCase):
         self.assertEqual(len(out["items"]), 1)
         self.assertEqual(out["items"][0]["id"], 42)
         self.assertEqual(out["items"][0]["gname"], "Gn")
+        self.assertIn("gisbn", out["items"][0])  # DEC-169 — ISBN 공통 컬럼
         sqls = [c[0] for c in cap.calls]
         self.assertTrue(any("COUNT(*)" in s.upper() for s in sqls))
         self.assertTrue(any("LEFT JOIN G4_Book" in s for s in sqls))

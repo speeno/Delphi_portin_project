@@ -143,7 +143,8 @@ class OutboundStatusRouterTests(TestCase):
         self.assertEqual(
             set(body["lines"][0].keys()),
             {
-                "order_key", "gdate", "idnum", "pubun", "gcode", "bcode", "bname",
+                "order_key", "gdate", "idnum", "pubun", "gcode", "customer_name", "bcode",
+                "bname", "gisbn",  # DEC-169 — ISBN 동봉
                 "gsqut", "gdang", "grat1", "gssum", "gbigo", "status",
             },
         )
