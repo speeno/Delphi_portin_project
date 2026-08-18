@@ -59,6 +59,33 @@ class JubunFilterSqlTest(IsolatedAsyncioTestCase):
         transactions_service.count_grouped = fake_count
         h2bl.assert_sales_statement_search_allowed = noop_assert
         h2a.gjisa_search_variants = fake_gjisa
+
+        # 어댑터(SHOW COLUMNS 캐시) 는 자체 import 한 execute_query 를 쓰므로 함께 fake 로
+        # 대체 — 미대체 시 servers.yaml 라이브 DB 로 나가 스위트 실행 순서(이벤트 루프)
+        # 에 따라 실패하던 순서 의존을 제거한다.
+        import app.services.s1_ssub_adapt as s1a
+        import app.services.h2_gbun_adapt as h2a
+
+        async def fake_adapter_query(_server_id, sql, params=None):
+            up = sql.strip().upper()
+            if up.startswith("SHOW COLUMNS FROM S1_SSUB"):
+                return [{"Field": f} for f in (
+                    "Gdate", "Hcode", "Jubun", "Gjisa", "Gcode", "Bcode", "Gubun",
+                    "Scode", "Ocode", "Yesno", "Gsqut", "Gssum", "Gbigo", "Idnum",
+                )]
+            if up.startswith("SHOW COLUMNS FROM H2_GBUN"):
+                return [{"Field": f} for f in (
+                    "id", "Scode", "Gcode", "Hcode", "Gname", "oname", "gdate",
+                    "gnum1", "jubun", "gbigo",
+                )]
+            return []
+
+        old_s1_q = s1a.execute_query
+        old_h2_q = h2a.execute_query
+        s1a.execute_query = fake_adapter_query
+        h2a.execute_query = fake_adapter_query
+        s1a.clear_s1_column_cache_for_tests()
+        h2a.clear_h2_column_cache_for_tests()
         try:
             await transactions_service.list_sales_statements(
                 server_id="remote_138",
@@ -76,6 +103,10 @@ class JubunFilterSqlTest(IsolatedAsyncioTestCase):
             transactions_service.count_grouped = old_cg
             h2bl.assert_sales_statement_search_allowed = old_assert
             h2a.gjisa_search_variants = old_gj
+            s1a.execute_query = old_s1_q
+            h2a.execute_query = old_h2_q
+            s1a.clear_s1_column_cache_for_tests()
+            h2a.clear_h2_column_cache_for_tests()
 
         list_sql, list_params = next(
             (s, p) for s, p in captured if "FROM S1_Ssub" in s and "GROUP BY" in s

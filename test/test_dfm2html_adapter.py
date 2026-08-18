@@ -12,7 +12,15 @@ sys.path.insert(0, str(_REPO / "tools"))
 
 from dfm_parser import parse_dfm_layout  # noqa: E402
 
+# 선택 엔진 — 외부 dfm2html_project(별도 체크아웃, 허브 저장소 미포함) 가 없으면 어댑터
+# import 자체가 ModuleNotFoundError. 실행 환경에 프로젝트가 있을 때만 검증한다.
+_DFM2HTML_PROJECT = _REPO / "tools" / "dfm2html_project"
 
+
+@unittest.skipUnless(
+    _DFM2HTML_PROJECT.is_dir(),
+    "tools/dfm2html_project 미체크아웃 — dfm2html 선택 엔진 테스트 건너뜀",
+)
 class TestDfm2HtmlAdapter(unittest.TestCase):
     def test_engine_dfm2html_matches_form_meta(self):
         from dfm2html_layout_adapter import parse_dfm_layout_via_dfm2html  # noqa: E402

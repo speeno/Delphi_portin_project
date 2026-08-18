@@ -92,8 +92,14 @@ class SlipsSqlTests(IsolatedAsyncioTestCase):
         # --- SQL 골격 ---
         _, sql, params = captured[0]
         self.assertIn("FROM S1_Ssub", sql)
-        self.assertIn("GROUP BY Gdate, Hcode, IFNULL(Jubun,''), Gcode", sql)
-        self.assertIn("ORDER BY Gdate DESC", sql)
+        # 1전표=1행 — GROUP BY 에 Idnum·Gjisa 포함(지점만 다른 전표 흡수 버그 수정,
+        # 2026-07-20; s1_column_names 모킹에 idnum 포함 → IFNULL(Idnum,0)).
+        self.assertIn(
+            "GROUP BY Gdate, Hcode, IFNULL(Idnum,0), IFNULL(Jubun,''), IFNULL(Gjisa,''), Gcode",
+            sql,
+        )
+        # 2차 정렬 = 전표번호(idnum) — DEC-118(2026-07-21)/DEC-099·108(전표번호 정본=Idnum).
+        self.assertIn("ORDER BY Gdate DESC, idnum", sql)
         self.assertIn("Gubun = '출고'", sql)
         self.assertIn("Scode = 'X'", sql)
         self.assertIn("Ocode = %s", sql)   # storeKind A → 본사
@@ -113,14 +119,19 @@ class SlipsSqlTests(IsolatedAsyncioTestCase):
 
         # --- 거래처명 매핑(G1_Ggeo 배치) ---
         self.assertEqual(items[0]["customer_name"], "교보문고")
+        # order_key 에 gjisa 포함 — 같은 (jubun,gcode) 인데 지점만 다른 전표 구분(2026-07-20).
         self.assertEqual(items[0]["order_key"],
-                         {"gdate": "2026.04.18", "hcode": "H0001", "jubun": "11", "gcode": "00001"})
+                         {"gdate": "2026.04.18", "hcode": "H0001", "jubun": "11",
+                          "gjisa": "", "gcode": "00001"})
 
         # --- count_grouped 가 동일 테이블/그룹으로 호출(파생테이블 우회) ---
         cg.assert_awaited_once()
         ckw = cg.await_args.kwargs
         self.assertEqual(ckw["table"], "S1_Ssub")
-        self.assertEqual(ckw["group_by"], "Gdate, Hcode, IFNULL(Jubun,''), Gcode")
+        self.assertEqual(
+            ckw["group_by"],
+            "Gdate, Hcode, IFNULL(Idnum,0), IFNULL(Jubun,''), IFNULL(Gjisa,''), Gcode",
+        )
         self.assertIn("Gubun = '출고'", ckw["where_sql"])
 
     async def test_slips_store_kind_all_omits_ocode(self) -> None:
@@ -185,7 +196,8 @@ class LinesSqlTests(IsolatedAsyncioTestCase):
         # --- 라인 쿼리 SQL ---
         line_sql = next(s for s, _ in calls if "COUNT(*) AS cnt" not in s)
         self.assertIn("FROM S1_Ssub", line_sql)
-        self.assertIn("ORDER BY Gdate, IFNULL(Jubun,'')", line_sql)
+        # 2차 정렬 = 전표번호(idnum alias) — DEC-118(2026-07-21)/DEC-099·108.
+        self.assertIn("ORDER BY Gdate, idnum", line_sql)
         self.assertIn("Gubun = '출고'", line_sql)
         self.assertIn("Scode = 'X'", line_sql)
         self.assertIn("Ocode = %s", line_sql)   # storeKind B → 창고

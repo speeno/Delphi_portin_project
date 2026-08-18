@@ -2161,6 +2161,42 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-173: 허브 회귀 스위트 부채 청산 — 128 실패 → 0 (2026-08-19)
+
+- **배경**: 전체 스위트가 126~128건 기존 실패를 안고 있어 CI 신호가 죽어 있었음(DEC-169 검증 시 "격리 재실행"으로 우회).
+- **원인 3계층**: ① 21개 파일이 모듈 import 시 `app.dependency_overrides` 인증 오버라이드를 설치 → 먼저 실행된
+  테스트의 pop/clear 로 401(순서 의존) → 각 `setUp` 에서 재설치(기존 `test_c4_returns_phase2` 패턴). ② 서비스
+  `execute_query` 만 패치하고 어댑터(`t5_ssub/s1_ssub/h2_gbun/g1_ggeo/g4_book_adapt`) 는 실 DB 로 나가던 9건
+  (라이브 SSH/MySQL 접속!) → 어댑터 모킹, `test_sales_statement_jubun_primary_search` 의 라이브 remote_153 질의는
+  모킹 테스트로 전환. ③ `sys.modules`/monkeypatch 누수(`h2_gbun_column_meta` 미복원, `app` 패키지 pop, 허브
+  프로토타입 `backend/` 의 `test_nav_api` 가 제품 app 로드) → finally 복원/격리.
+- **낡은 가드 갱신(결정 인용)**: Sobo39 숨김(DEC-155/124), 특별관리 legacy-id(DEC-155/170/171), 출고현황
+  ORDER BY idnum(DEC-099/108/118), 필터 픽필드 `LocalComboField`(DEC-119), 도서별수불원장 재작성(DEC-164),
+  인쇄 base 레이아웃 재사용·DEC-158, admin inspect(DEC-056), 로그인 org-select(DEC-096), 등. `test_screen_caps_static`
+  는 `distributorOnly+menuId:null` 블록만 면제(판단 — 대안은 registry 에 requiredPermission 부여).
+  `test_dfm2html_adapter`/`test_res_string_bridge` 는 외부 프로젝트 부재 시 skip.
+- **정적 감사 3종**: `delphi_form_screen_matrix.py` 에 보조 DFM 루트(출판 MySQL/New) — 레지스트리가 참조하는 스템만
+  보충(고아 집계 불변 41), `coverage-allowlist.yaml` 캡션 불일치 20건 사유·기한 등재(서브폼/별칭·빌드 변형·웹 캡션
+  정책), `list-state-allowlist.yaml` 7화면 deferred(후속 일괄 도입, 2026-09).
+- **결과**: 2131 passed / 0 failed / 48 skipped, 순서 무관(정·역·셔플 동일), 라이브 DB 접속 0.
+- **결정자**: 사용자 (2026-08-19 "1,2,3,7 순서로 진행")
+- **참조**: `test/` 63파일, `tools/delphi_form_screen_matrix.py`, 두 allowlist
+
+### DEC-172: 입고처관리 = 거래처관리 동형 + 기타거래처 상세폼 정본 라벨 (2026-08-19)
+
+- **보고**: 영업팀 기초관리 요청서(260813) "[입고처 관리] 거래처관리와 동일하게 작업 요청" + DEC-149 잔여(기타거래처·
+  입고처 상세폼 `gpper` 를 "한도액" 숫자로 취급 → 담당자 텍스트 소실 위험).
+- **정본(레거시 New/출판 빌드 Subu12/Subu15 + DB 스키마 G1/G2/G5 동일)**: Edit110 '담 당 자'→Gpper(TEXT),
+  한도액→Gssum, 핸드폰→Gphon, 한도(율)→Grat7, 비고2→Name1, 계산서 거래처명→Name2, 정지사유→Email,
+  발행유무→Yesno, 정지유무→Grat9; Sobo15 는 계산서구분→Pubun(Edit128). `gjomo1` 은 실컬럼 아님(제거).
+- **구현(제품 259a2d3)**: g2_ggwo/g5_ggeo 어댑터 타입 정정, 입고처 목록=세부내역 전면(요청 순서, G2_Gbun 1회 조회
+  맵), 필드 카탈로그/선택 export(33열)+역반영, 상세폼 정본 라벨(입고처·기타거래처), 프로브 매트릭스 등록.
+- **참고(라이브)**: 교문사 5019 입고처 82행, `80014 센게이지러닝코리아` 담당자 '박현수' — 구 매핑이면 0 으로 소실됐을 값.
+  잔여: `list_etc_customers` G5_Gbun LEFT JOIN 행 증식(04641 3배, 숨김 화면) · `get_inbound_vendor` gbun_name 스칼라
+  서브쿼리(3.23 미지원) — 후속.
+- **결정자**: 사용자/영업팀 (2026-08-19)
+- **참조**: [[DEC-149]], `docs/masters-request-260813-reconciliation.md`
+
 ### DEC-171: 특별관리 계정(빌드)별 비율 프로필 — 총판 비율 1개 / 출판 판매유형별 Grat1~6 (2026-08-18)
 
 - **보고**: 사용자 — "총판 계정과 (수정요청을 반영하는) 교문사 독립 출판사 계정들 별로 계정별 적용이

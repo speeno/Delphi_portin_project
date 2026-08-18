@@ -18,8 +18,27 @@ from unittest import TestCase, main
 ROOT = Path(__file__).resolve().parents[1]
 APP_PAGES = ROOT / "도서물류관리프로그램" / "frontend" / "src" / "app" / "(app)"
 
-# 예외적으로 순서 검사에서 제외할 상대 경로 (POSIX). 현재 없음.
-ALLOWLIST: set[str] = set()
+# 예외적으로 순서 검사에서 제외할 상대 경로 (POSIX).
+ALLOWLIST: set[str] = {
+    # DEC-088(2026-07-08) 분기 비교 — 페이징 없는 보조 그리드(Grid_QuarterCompare)가 페이징
+    # 대상인 월별 그리드보다 파일 앞쪽에 있어 "첫 DataGrid" 휴리스틱이 오탐. 페이저는
+    # 월별(페이징) 그리드 바로 위에 있다.
+    "도서물류관리프로그램/frontend/src/app/(app)/stats/quarterly-summary/page.tsx",
+}
+
+# 주석 안의 ``<table``/``<DataGrid`` 언급(예: "손수 만든 <table> → 공통 DataGrid" 정비 노트)
+# 이 위치 판정을 오염시키지 않도록 블록/라인 주석을 걷어낸 뒤 검사한다.
+_BLOCK_COMMENT_RX = re.compile(r"/\*[\s\S]*?\*/")
+_LINE_COMMENT_RX = re.compile(r"(?m)^\s*//[^\n]*$")
+
+
+def _strip_comments(src: str) -> str:
+    """주석 본문을 같은 길이의 공백으로 치환 — 오프셋(위치 비교) 보존."""
+    def _blank(m: re.Match[str]) -> str:
+        return "".join(ch if ch == "\n" else " " for ch in m.group(0))
+
+    src = _BLOCK_COMMENT_RX.sub(_blank, src)
+    return _LINE_COMMENT_RX.sub(_blank, src)
 
 
 def _posix_rel(p: Path) -> str:
@@ -38,7 +57,7 @@ class ListTopPagerOrder(TestCase):
         failures: list[str] = []
         for page in pages:
             rel = _posix_rel(page)
-            src = page.read_text(encoding="utf-8")
+            src = _strip_comments(page.read_text(encoding="utf-8"))
             if "<DataGridPager" not in src:
                 continue
             if rel in ALLOWLIST:

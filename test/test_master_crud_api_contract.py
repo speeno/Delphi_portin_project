@@ -21,9 +21,20 @@ sys.path.insert(0, str(BACKEND))
 class MasterCrudServiceUnit(IsolatedAsyncioTestCase):
     async def test_customer_create_checks_duplicate_then_inserts(self):
         from app.services import masters_service
+        from app.services import g1_ggeo_adapt
 
         queries: list[tuple[str, tuple]] = []
         txs: list[list[tuple[str, tuple]]] = []
+
+        # create_customer_master 는 g1_ggeo_adapt.g1_geo_column_meta(SHOW COLUMNS) 를
+        # 먼저 거치며, 그 어댑터는 자체 import 한 execute_query 를 쓴다 → 함께 fake 로
+        # 대체(미대체 시 servers.yaml 라이브 DB 접근 → 스위트 실행 순서 의존 실패).
+        g1_cols = ["Hcode", "Gubun", "Gcode", "Gname", "Gadd1", "Gtel1", "Grat1", "Yesno"]
+
+        async def fake_adapter_query(_server_id, sql, params=None):
+            if "SHOW COLUMNS" in sql:
+                return [{"Field": c} for c in g1_cols]
+            return []
 
         async def fake_query(_server_id, sql, params=None):
             queries.append((sql, tuple(params or ())))
@@ -35,8 +46,11 @@ class MasterCrudServiceUnit(IsolatedAsyncioTestCase):
 
         old_query = masters_service.execute_query
         old_tx = masters_service.execute_in_transaction
+        old_adapter_query = g1_ggeo_adapt.execute_query
         masters_service.execute_query = fake_query
         masters_service.execute_in_transaction = fake_tx
+        g1_ggeo_adapt.execute_query = fake_adapter_query
+        g1_ggeo_adapt.clear_g1_column_cache_for_tests()
         try:
             res = await masters_service.create_customer_master(
                 server_id="remote_138",
@@ -45,6 +59,8 @@ class MasterCrudServiceUnit(IsolatedAsyncioTestCase):
         finally:
             masters_service.execute_query = old_query
             masters_service.execute_in_transaction = old_tx
+            g1_ggeo_adapt.execute_query = old_adapter_query
+            g1_ggeo_adapt.clear_g1_column_cache_for_tests()
 
         self.assertEqual(res["gcode"], "C001")
         self.assertIn("SELECT Gcode FROM G1_Ggeo", queries[0][0])

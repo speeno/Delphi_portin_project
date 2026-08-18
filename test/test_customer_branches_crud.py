@@ -159,6 +159,7 @@ class CustomerBranchServiceTest(IsolatedAsyncioTestCase):
             )
 
         old_q = masters_service.execute_query
+        old_meta = masters_service.h2_gbun_column_meta
         masters_service.execute_query = fake_query
         masters_service.h2_gbun_column_meta = fake_meta
         try:
@@ -168,6 +169,9 @@ class CustomerBranchServiceTest(IsolatedAsyncioTestCase):
             )
         finally:
             masters_service.execute_query = old_q
+            # 복원 누락 시 fake 메타(gsum1 없음)가 이후 파일(test_dec153_branch_rate_field)
+            # 까지 새어 나가 스위트 순서 의존 실패를 만들었다.
+            masters_service.h2_gbun_column_meta = old_meta
 
         self.assertEqual(res["items"][0]["gjisa_value"], "J1|강남")
         self.assertEqual(res["items"][0]["label"], "J1|강남")
@@ -201,6 +205,7 @@ class CustomerBranchServiceTest(IsolatedAsyncioTestCase):
             )
 
         old_q = masters_service.execute_query
+        old_meta = masters_service.h2_gbun_column_meta
         masters_service.execute_query = fake_query
         masters_service.h2_gbun_column_meta = fake_meta
         try:
@@ -210,6 +215,7 @@ class CustomerBranchServiceTest(IsolatedAsyncioTestCase):
             )
         finally:
             masters_service.execute_query = old_q
+            masters_service.h2_gbun_column_meta = old_meta
 
         list_sql = next(s for s, _ in captured if "FROM H2_Gbun h" in s and "COUNT" not in s)
         self.assertIn("Gcode IN", list_sql)

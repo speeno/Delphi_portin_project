@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BACKEND = ROOT / "도서물류관리프로그램" / "backend"
 sys.path.insert(0, str(BACKEND))
 
+import app.core.db  # noqa: F401 — monkeypatch 문자열 경로("app.core.db.execute_query") 해석 보장
 from app.services import login_id_index_service
 
 

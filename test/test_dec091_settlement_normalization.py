@@ -23,6 +23,7 @@ BACKEND = ROOT / "도서물류관리프로그램" / "backend"
 sys.path.insert(0, str(BACKEND))
 
 from app.services import settlement_service as ss  # noqa: E402
+from app.services import t5_ssub_adapt  # noqa: E402
 
 _NORM = "REPLACE(REPLACE(REPLACE(TRIM("  # 정규화 월키 시그니처
 
@@ -88,6 +89,12 @@ class WriteKeysNormalizedTests(TestCase):
 class OutstandingSqlTests(IsolatedAsyncioTestCase):
     """미수 청구(T2)/입금(T5) SQL 캡처 — Yesno 없음 + 청구측 월키 정규화."""
 
+    def setUp(self) -> None:
+        t5_ssub_adapt.clear_t5_column_cache_for_tests()
+
+    def tearDown(self) -> None:
+        t5_ssub_adapt.clear_t5_column_cache_for_tests()
+
     async def test_no_yesno_and_billed_month_key(self) -> None:
         captured: list[str] = []
 
@@ -97,7 +104,11 @@ class OutstandingSqlTests(IsolatedAsyncioTestCase):
                 return [{"Field": "Gdate"}, {"Field": "Hcode"}, {"Field": "Gssum"}]
             return []
 
-        with patch.object(ss, "execute_query", side_effect=fake_execute):
+        # compute_outstanding_by_customer 는 t5_ssub_adapt.t5_column_names(SHOW COLUMNS)
+        # 를 거치며 그 어댑터는 자체 import 한 execute_query 를 쓰므로 함께 패치
+        # (미패치 시 servers.yaml 라이브 DB 접근 → 스위트 실행 순서 의존 실패).
+        with patch.object(ss, "execute_query", side_effect=fake_execute), \
+             patch.object(t5_ssub_adapt, "execute_query", side_effect=fake_execute):
             await ss.compute_outstanding_by_customer(
                 server_id="remote_138", month_from="2026.01", month_to="2026.12",
                 hcode="",
@@ -115,7 +126,8 @@ class OutstandingSqlTests(IsolatedAsyncioTestCase):
                 return [{"Field": "Gdate"}, {"Field": "Hcode"}, {"Field": "Gssum"}]
             return []
 
-        with patch.object(ss, "execute_query", side_effect=fake_execute):
+        with patch.object(ss, "execute_query", side_effect=fake_execute), \
+             patch.object(t5_ssub_adapt, "execute_query", side_effect=fake_execute):
             res = await ss.compute_outstanding_by_customer(
                 server_id="remote_138", month_from="2026.01", month_to="2026.12",
                 hcode="", sort_by="balance); DROP TABLE", sort_dir="desc",

@@ -2,6 +2,13 @@
 
 DEC-028 — `Subu16/TSobo16`. 레거시 WRITE 는 `G6_Ggeo` (`Base01.pas` `T1_Sub61BeforePost`). G1 `Special_*` 컬럼과 무관.
 
+> **2026-08-18 갱신 (DEC-155 / DEC-170 / DEC-171)** — 본 노트의 초기본은 **총판 빌드**(`도서유통-총판/Subu16`:
+> 비율 1개+단가) 기준이었다. 교문사 등 출판·자체물류 계정의 정본은 **`WeLove_FTP/도서유통-New/Subu16.pas/.dfm`**
+> (판매유형별 Grat1~6 + 단가, `Base01.pas` INSERT/UPDATE Grat1~9+Gssum, 출고 적용 `Tong02.pas` `PrinRat1`).
+> 두 빌드 차이는 **코드 분기 없이** `migration/contracts/special_master.yaml` `rate_profiles`(single/by_pubun) +
+> `customer_variants`(build_role) 데이터로 갈리며(DEC-171), 화면은 서버가 돌려주는 `rate_profile.columns` 로 컬럼을 파생한다.
+> 상세 비교: `docs/special-mgmt-legacy-vs-web-2026-08-18.md`.
+
 ## 0. 입력 산출물
 
 - 원 dfm/pas: [`legacy_delphi_source/legacy_source/Subu16.dfm`](../../legacy_delphi_source/legacy_source/Subu16.dfm), [`Subu16.pas`](../../legacy_delphi_source/legacy_source/Subu16.pas)
@@ -22,9 +29,11 @@ DEC-028 — `Subu16/TSobo16`. 레거시 WRITE 는 `G6_Ggeo` (`Base01.pas` `T1_Su
 | `Button201Click` | G6 `Bcode`+`Hcode`, Order `Gcode` | `book` |
 | `Button301Click` | `Hcode` 전체(레거시는 `Bcode=''` 필터; 모던 API 는 동일 출판사 전체 행) | `publisher` |
 
-모던 `publisher` 모드는 운영 편의상 **`Hcode` 만으로 G6 전체** 조회 (레거시 Button301 의 빈 도서코드 필터와 완전 일치하지 않을 수 있음 — 계약 notes).
+모던 `publisher` 모드는 API 에만 남아 있고(Hcode 전체 조회) **화면에서는 DEC-155 로 제거** — 레거시 New 빌드의
+Button301 은 `Bcode=''`(거래처별 기본 특별비율 행) 모드라 의미가 다르며 미이식(DEC-170 D3, 신간 배본 Seek07 폴백과 묶어 후속).
 
-저장 컬럼: **`Grat1`**, **`Gssum`** (레거시 BeforePost). 스키마 사전의 `grat5`(특별) 라벨과 혼동 금지.
+저장 컬럼: **`Grat1`~`Grat6`(프로필 by_pubun) / `Grat1`(single)** + **`Gssum`(단가)** — 레거시 New 빌드 BeforePost 는
+Grat1~9+Gssum 전부를 쓴다(Grat7~9 는 웹 미사용=0). 스키마 사전의 `grat5`(특별) 라벨과 혼동 금지.
 
 ## 2. dfm 영역 인벤토리 (요약)
 
@@ -48,50 +57,49 @@ DEC-028 — `Subu16/TSobo16`. 레거시 WRITE 는 `G6_Ggeo` (`Base01.pas` `T1_Su
 | 도서코드 | `bcode` | G6.Bcode |
 | 도서명 | `bname` | G4_Book.Gname 조인 |
 | 거래처명 | `gname` | G1_Ggeo.Gname 조인 |
-| 비율1(위탁) | `grat1` | G6.Grat1 — 레거시 저장 |
-| 금액/한도 | `gssum` | G6.Gssum |
-| ID | `id` | G6.ID — PATCH 경로 |
+| 위탁 / 비율 | `grat1` | G6.Grat1 — single 프로필은 "비율" 1개 |
+| 현매·매절·납품·특별·기타 | `grat2`~`grat6` | G6.Grat2~6 — by_pubun 프로필(출판·자체물류)만 표시/편집 (DEC-171) |
+| 단가 | `gssum` | G6.Gssum — 신규 등록 시 도서 정가 자동 채움(레거시 Seek40 확정과 동등, DEC-170) |
+| ISBN | `gisbn` | G4_Book.Gisbn 공통 메타(DEC-169, 거래처축 그리드) |
+| ID | `id` | G6.ID — PATCH/DELETE 경로 |
 
-## 5. 모던 컴포넌트 · `data-legacy-id`
+## 5. 모던 컴포넌트 · `data-legacy-id` (DEC-155/170/171 현행)
 
 | 모던 UI | `data-legacy-id` |
 | --- | --- |
-| 검색 패널 래퍼 | `Sobo16.searchPanel` |
-| 모드 라디오 그룹 | `Sobo16.mode` / `Sobo16.mode.publisher` 등 |
-| 검색축(거래처 기준) | `Sobo16.searchAxis.customer` |
-| 검색축(도서 기준) | `Sobo16.searchAxis.book` |
-| 조회 버튼 | `Sobo16.ButtonSearch` |
-| 출판사 코드 입력 | `Sobo16.Edit107` (customer 패널 기준; 공용 시 `Sobo16.EditHcode`) |
-| 거래처 코드 | `Sobo16.Edit101` |
-| 도서 코드 | `Sobo16.Edit201` |
-| 코드 검색 팝업 버튼 | `Sobo16.LookupHcode` / `Sobo16.LookupGcode` / `Sobo16.LookupBcode` |
-| 데이터 그리드 테이블 | `Sobo16.DBGrid101` |
-| 그리드 컬럼 헤더 | `Sobo16.DBGrid101.HCODE`, `.GCODE`, `.BCODE`, `.BNAME`, `.GNAME`, `.GRAT1`, `.GSSUM` |
-| 편집 패널 래퍼 | `Sobo16.editPanel` |
-| 편집 Grat1 | `Sobo16.EditGrat1` |
-| 편집 Gssum | `Sobo16.EditGssum` |
-| 저장 PATCH | `Sobo16.ButtonSave` |
+| 거래처축 패널 / 도서축 패널 (상·하 동시 표시) | `Sobo16.PaneCustomer` / `Sobo16.PaneBook` |
+| 거래처 검색(자동완성 MLF) / 도서 검색 | `Sobo16.Edit101` / `Sobo16.Edit201` |
+| 출판사 코드(관리자만) | `Sobo16.Edit107` |
+| 거래처축 그리드 / 도서축 그리드 | `Sobo16.DBGrid101` / `Sobo16.DBGrid201` |
+| 그리드 비율 컬럼 | `Sobo16.DBGrid101.GRAT1`~`.GRAT6`(프로필 컬럼만), `.GSSUM`, `.BCODE`, `.BNAME`, `.GCODE`, `.GNAME` |
+| 선택 행 편집 블록(선택 해제/Esc) | `Sobo16.DBGrid101.Edit` / `Sobo16.DBGrid201.Edit` — 입력 `…GRATn.edit` |
+| 신규 등록 블록(레거시 Append 동등, 거래처축 항상 표시·도서축 접힘) | `Sobo16.DBGrid101.Append` / `Sobo16.DBGrid201.Append` — 입력 `…GRATn.new` |
 
 ## 6. out-of-scope (1차)
 
 - `Button001`~`003` 빈 스텁 — 미구현
 - `Gcode`/`Bcode` 키 변경 저장 — 후속
-- 인쇄/CSV/진행바 — 미포함
+- 인쇄/HTML 저장(Button010~017)/진행바 — 미포함(엑셀 export 공통 정책 시 후속)
+- 거래처별 기본행(`Bcode=''`, Panel005 모드)·`최근공급율저장하기`(Button401, 숨김) — 미이식(DEC-170 D3/D9)
 
 ## 7. deltas
 
 - 서버 페이징 `DataGridPager`, `useListSession` — 레거시 무한 스크롤 아님
-- 모던 UX 유지형 보강: 레거시 상/하 검색축을 `searchAxis.customer`/`searchAxis.book` 2블록으로 재배치
-- 코드/명칭 검색은 공통 `MasterLookupButton`(`publisher/customer/book`) 팝업으로 보강
+- 레거시 상/하 두 축을 `PaneCustomer`/`PaneBook` 두 패널로 동시 표시(DEC-155, 모드 라디오 제거)
+- 그리드 내 편집(Enter 셀 이동·마지막 칸 Append) 대신 선택 행 편집 블록 + 항상 표시되는 신규 등록 블록(DEC-170);
+  신규 도서 확정 시 단가=정가·비율=거래처 기본 공급율(컬럼별) 자동 채움
+- 코드/명칭 검색은 공통 `MasterLookupField`(인라인 자동완성 + 팝업)로 보강, 선택 즉시 조회 후 조회 버튼 포커스
+- 비율 컬럼 집합은 서버 `rate_profile`(계약 special_master.yaml customer_variants) 로 계정별 파생(DEC-171)
 
 ## 8. 이벤트 → REST
 
 | 레거시 | REST |
 | --- | --- |
-| `Button101/201/301Click` | `GET /api/v1/masters/special` |
-| 신규 링크 등록 | `POST /api/v1/masters/special` |
-| 그리드에서 행 편집 후 저장 | `PATCH /api/v1/masters/special/{id}` |
-| 선택 행 삭제 | `DELETE /api/v1/masters/special/{id}` |
+| `Button101/201Click` | `GET /api/v1/masters/special?mode=customer|book` (응답 `rate_profile` 동봉) |
+| 그리드 Append + 코드 Enter(Seek) → BeforePost INSERT | `POST /api/v1/masters/special` (grat1~6·gssum) |
+| 그리드 셀 편집 → BeforePost UPDATE | `PATCH /api/v1/masters/special/{id}` (grat1~6·gssum) |
+| Delete 키 → AfterDelete | `DELETE /api/v1/masters/special/{id}` |
+| 출고 적용(`Subu21` G6 + `PrinRat1`) | `GET /transactions/sales-statement/line-defaults` — 프로필 by_pubun 이면 판매유형 컬럼, 0 이면 Grat1 폴백(DEC-171) |
 
 ## 9. 변형
 
@@ -99,7 +107,8 @@ DEC-028 — `Subu16/TSobo16`. 레거시 WRITE 는 `G6_Ggeo` (`Base01.pas` `T1_Su
 
 ## 10. 회귀 가드
 
-- 매핑 표 §5 의 `data-legacy-id` 집합과 DOM 일치 검사 (T7)
+- `test/test_masters_special_g6.py`(CRUD·페이징), `test/test_dec171_special_rate_profile.py`(프로필·pubun 매핑·번들 동기·드리프트),
+  `test/test_special_discount_legacy_alignment.py`(§5 legacy-id 정합 — DEC-155 이후 id 로 갱신 필요 시 본 표가 정본)
 
 ## 11. 모바일웹
 

@@ -51,7 +51,8 @@ class BookGbunResolveTests(TestCase):
         list_src = (FRONT / "app/(app)/master/book/page.tsx").read_text(encoding="utf-8")
         self.assertNotIn("BookCategoryPanel", list_src)
         self.assertNotIn("setTab(", list_src)
-        self.assertNotIn(">도서분류<", list_src)
+        # 종전 `">도서분류<" 부재` 검사는 탭 UI 부재를 뜻했으나, DEC-151(2026-08-13) 이후
+        # 목록 필터/컬럼 라벨 "도서분류" 가 정상적으로 존재하므로 탭 표식(setTab/Panel)만 본다.
         for rel in (
             "app/(app)/master/book/[gcode]/page.tsx",
             "app/(app)/master/book/new/page.tsx",

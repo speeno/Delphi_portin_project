@@ -107,6 +107,9 @@ class C6SalesStatementTests(TestCase):
     """SQL-INQ-1 ~ SQL-INQ-4 라우터 검증."""
 
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
         self.handler = CapturingHandler()
         self.audit_logger = logging.getLogger("audit.outbound")
@@ -348,6 +351,9 @@ class C6InventoryLedgerTests(TestCase):
     """SQL-INQ-5 + SQL-INQ-6 + 누적 로직."""
 
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     # -- TC-INQ-005 정상 응답 ---------------------------------------------
@@ -414,6 +420,9 @@ class C6ReportsTests(TestCase):
     """SQL-INQ-7 + SQL-INQ-8 + SQL-INQ-9."""
 
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     # -- TC-INQ-006 도서별 판매 -------------------------------------------
@@ -482,6 +491,9 @@ class C6DeferralsTests(TestCase):
     """1차 제외 결정 (권한키/인쇄/바코드) 의 코드 부재 확인."""
 
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     def test_dec_016_no_permission_branch(self) -> None:

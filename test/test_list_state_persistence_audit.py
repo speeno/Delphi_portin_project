@@ -49,7 +49,9 @@ EXPECTED_COVERED_KEYS = {
     "master.discount",
     # C2/C3/C4/C6 — 5
     "outbound.orders",
-    "outbound.status",
+    # 출고현황은 `/outbound/status` 중복 스텁 제거 후 `Sobo67_status`
+    # (`/transactions/outbound-status`) 단일 라우트로 통합됨(form-registry 주석).
+    "transactions.outbound-status",
     "inbound.receipts",
     "returns.receipts",
     "transactions.sales-statement",

@@ -80,6 +80,9 @@ def _list_item(
 
 class StatusViewListTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     def test_view_list_equivalent(self) -> None:
@@ -123,6 +126,9 @@ class StatusViewListTests(TestCase):
 
 class StatusViewDetailTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     def test_view_detail_equivalent(self) -> None:
@@ -159,6 +165,9 @@ class StatusViewDetailTests(TestCase):
 
 class StatusViewDefaultTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     def test_view_default_list(self) -> None:
@@ -184,6 +193,9 @@ class StatusViewDefaultTests(TestCase):
 
 class StatusViewSummaryTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     def test_view_summary_aggregation(self) -> None:
@@ -248,6 +260,9 @@ class StatusViewSummaryTests(TestCase):
 
 class StatusViewMemoTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     def test_view_memo_filter(self) -> None:
@@ -311,6 +326,9 @@ class StatusViewMemoTests(TestCase):
 
 class CanonicalEquivalenceTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     def test_canonical_memo_equivalent(self) -> None:
@@ -353,6 +371,9 @@ class CanonicalEquivalenceTests(TestCase):
 
 class StatusViewValidationTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     def test_invalid_view_returns_422(self) -> None:

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-08T03:12:48.022494+00:00",
+  "generated_at": "2026-08-18T15:59:55.514125+00:00",
   "summary": {
-    "registry_forms": 93,
-    "legacy_dfm_subu_stems": 91,
+    "registry_forms": 94,
+    "legacy_dfm_subu_stems": 92,
     "orphan_legacy_stems": 41,
     "subu_caption_diff": 13,
-    "subu_legacy_missing": 1
+    "subu_legacy_missing": 0
   },
   "rows": [
     {
@@ -60,8 +60,8 @@
       "legacy_form_object": "Sobo39",
       "legacy_caption": "출고내역서",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu39.dfm",
-      "status": "CAPTION_DIFF",
-      "note": "DFM「출고내역서」↔모던「할인율(대표)」 (r=0.00)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo12",
@@ -148,6 +148,17 @@
       "legacy_form_object": "Sobo27",
       "legacy_caption": "출고접수관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu27.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo39",
+      "folder": "Subu39",
+      "route": "/outbound/statement",
+      "modern_caption": "출고내역서",
+      "legacy_form_object": "Sobo39",
+      "legacy_caption": "출고내역서",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu39.dfm",
       "status": "MULTI_MAP",
       "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
@@ -330,7 +341,7 @@
     {
       "modern_id": "Sobo46_billing",
       "folder": "Subu46",
-      "route": "",
+      "route": "/settlement/billing?view=print",
       "modern_caption": "청구서 인쇄(미리보기)",
       "legacy_form_object": "Sobo46",
       "legacy_caption": "청구서출력",
@@ -849,11 +860,11 @@
       "folder": "Subu26_1",
       "route": "/transactions/author-history",
       "modern_caption": "내역조회(저자)",
-      "legacy_form_object": "",
-      "legacy_caption": "",
-      "legacy_dfm": "",
-      "status": "LEGACY_MISSING",
-      "note": "DFM `Subu26_1.dfm` 없음 또는 루트 Caption 추출 실패"
+      "legacy_form_object": "Sobo26_1",
+      "legacy_caption": "내역조회(저자)-거래현황",
+      "legacy_dfm": "WeLove_FTP/도서유통-출판/MySQL/Subu26_1.dfm",
+      "status": "CAPTION_DIFF",
+      "note": "포함 관계·수동검토: DFM「내역조회(저자)-거래현황」↔「내역조회(저자)」 (r=0.76)"
     },
     {
       "modern_id": "Sobo29_new_release",

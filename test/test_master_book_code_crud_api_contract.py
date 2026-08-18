@@ -76,7 +76,10 @@ class BookCodeAliasCrudTests(TestCase):
             app.dependency_overrides.pop(get_user_context, None)
 
     def test_post_book_code_delegates_to_create_book(self) -> None:
-        async def fake_create(*, server_id: str, payload: dict) -> dict:  # noqa: ARG001
+        # ACC-DATA-03(M4 행격리) 이후 라우터는 create_book(..., scope_hcode=resolve_scope_hcode(current))
+        # 로 호출한다 — 시그니처를 맞추지 않으면 TypeError → 500 MASTER_CREATE_FAILED (publisher/
+        # discount 별칭 계약 테스트와 동일 형태).
+        async def fake_create(*, server_id: str, payload: dict, scope_hcode=None) -> dict:  # noqa: ARG001
             self.assertEqual(payload.get("gcode"), "B888")
             return {"gcode": "B888", "created_at": "2026-05-08T00:00:00Z"}
 

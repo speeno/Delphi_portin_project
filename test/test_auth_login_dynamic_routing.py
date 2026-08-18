@@ -340,7 +340,11 @@ class DynamicLoginRoutingTests(TestCase):
             )
 
         self.assertEqual(res.status_code, 200, res.text)
-        self.assertEqual(mock_auth.await_count, 2, "narrow 위해 양쪽 후보 모두 시도해야 함")
+        # narrow 위해 양쪽 후보 모두 시도(2회) + DEC-096 조직 선택 챌린지가 hit 이외의
+        # 인덱스 후보(chul_05_db)를 한 번 더 probe 해 복수 테넌트 일치 여부를 확인(3회째).
+        self.assertGreaterEqual(mock_auth.await_count, 2, "narrow 위해 양쪽 후보 모두 시도해야 함")
+        tried_dbs = {c.kwargs.get("db_name") for c in mock_auth.await_args_list}
+        self.assertEqual(tried_dbs, {"chul_05_db", "chul_09_db"})
         payload = decode_token(res.json()["access_token"])
         self.assertEqual(payload["sid"], "remote_153")
 

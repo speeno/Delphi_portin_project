@@ -1,156 +1,15 @@
 {
-  "generated_at": "2026-07-08T13:39:20.729112+00:00",
+  "generated_at": "2026-08-18T15:59:56.697101+00:00",
   "summary": {
     "total_dfm_candidates": 118,
     "registry_entries": 94,
-    "ok": 27,
+    "ok": 28,
     "missing_forms": 0,
-    "caption_mismatches": 20,
-    "allowed": 99
+    "caption_mismatches": 0,
+    "allowed": 119
   },
   "missing_forms": [],
-  "caption_mismatches": [
-    {
-      "form_name": "Sobo11_gbun",
-      "dfm_form_name": "Sobo11",
-      "registry_caption": "거래처구분",
-      "dfm_caption": "거래처관리-통합",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu11.dfm"
-    },
-    {
-      "form_name": "Sobo12",
-      "dfm_form_name": "Sobo12",
-      "registry_caption": "입고처관리(마스터)",
-      "dfm_caption": "입고처관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu12.dfm"
-    },
-    {
-      "form_name": "Sobo13",
-      "dfm_form_name": "Sobo13",
-      "registry_caption": "저자관리(마스터)",
-      "dfm_caption": "지역분류(시내+지방)",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu13.dfm"
-    },
-    {
-      "form_name": "Sobo14_gbun",
-      "dfm_form_name": "Sobo14",
-      "registry_caption": "도서분류",
-      "dfm_caption": "도서관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu14.dfm"
-    },
-    {
-      "form_name": "Sobo15",
-      "dfm_form_name": "Sobo15",
-      "registry_caption": "기타거래처관리(마스터)",
-      "dfm_caption": "거래처관리-개별",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu15.dfm"
-    },
-    {
-      "form_name": "Sobo16_baebon",
-      "dfm_form_name": "Sobo16",
-      "registry_caption": "배본처관리",
-      "dfm_caption": "특별관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu16.dfm"
-    },
-    {
-      "form_name": "Sobo21_status_detail",
-      "dfm_form_name": "Sobo21",
-      "registry_caption": "거래현황(상세)",
-      "dfm_caption": "거래명세서",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm"
-    },
-    {
-      "form_name": "Sobo25_status_detail",
-      "dfm_form_name": "Sobo25",
-      "registry_caption": "입고현황(상세)",
-      "dfm_caption": "반품재고(반품입고)-해체",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm"
-    },
-    {
-      "form_name": "Sobo25_status_list",
-      "dfm_form_name": "Sobo25",
-      "registry_caption": "입고현황",
-      "dfm_caption": "반품재고(반품입고)-해체",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm"
-    },
-    {
-      "form_name": "Sobo25_status_summary",
-      "dfm_form_name": "Sobo25",
-      "registry_caption": "입고현황(요약)",
-      "dfm_caption": "반품재고(반품입고)-해체",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm"
-    },
-    {
-      "form_name": "Sobo26_production_stmt",
-      "dfm_form_name": "Sobo26",
-      "registry_caption": "제작명세서",
-      "dfm_caption": "출고접수현황",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu26.dfm"
-    },
-    {
-      "form_name": "Sobo27_production_status",
-      "dfm_form_name": "Sobo27",
-      "registry_caption": "제작현황",
-      "dfm_caption": "출고접수관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu27.dfm"
-    },
-    {
-      "form_name": "Sobo28_delivery",
-      "dfm_form_name": "Sobo28",
-      "registry_caption": "택배관리",
-      "dfm_caption": "출고택배관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu28.dfm"
-    },
-    {
-      "form_name": "Sobo28_withholding",
-      "dfm_form_name": "Sobo28",
-      "registry_caption": "원천징수",
-      "dfm_caption": "출고택배관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu28.dfm"
-    },
-    {
-      "form_name": "Sobo29_new_release",
-      "dfm_form_name": "Sobo29",
-      "registry_caption": "신간발행",
-      "dfm_caption": "신간명세서",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu29.dfm"
-    },
-    {
-      "form_name": "Sobo29_new_release_shipment_alias",
-      "dfm_form_name": "Sobo29",
-      "registry_caption": "신간발행",
-      "dfm_caption": "신간명세서",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu29.dfm"
-    },
-    {
-      "form_name": "Sobo59_1",
-      "dfm_form_name": "Sobo59_1",
-      "registry_caption": "출고검증(1)",
-      "dfm_caption": "일별 내역서(요약)",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_1.dfm"
-    },
-    {
-      "form_name": "Sobo59_2",
-      "dfm_form_name": "Sobo59_2",
-      "registry_caption": "출고검증(2)",
-      "dfm_caption": "출고 검증관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_2.dfm"
-    },
-    {
-      "form_name": "Sobo59_3",
-      "dfm_form_name": "Sobo59_3",
-      "registry_caption": "출고검증(개별)",
-      "dfm_caption": "출고 검증관리(개별)",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_3 - 복사본.dfm"
-    },
-    {
-      "form_name": "Sobo59_verification_shipment_alias",
-      "dfm_form_name": "Sobo59",
-      "registry_caption": "출고검증",
-      "dfm_caption": "기간별택배내역서",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59.dfm"
-    }
-  ],
+  "caption_mismatches": [],
   "allowed": [
     {
       "form_name": "Exls10",
@@ -406,6 +265,36 @@
       "until": "Phase 3 audit"
     },
     {
+      "form_name": "Sobo11_gbun",
+      "dfm_form_name": "Sobo11",
+      "registry_caption": "거래처구분",
+      "dfm_caption": "거래처관리-통합",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu11.dfm",
+      "category": "caption_mismatch",
+      "reason": "거래처관리(Sobo11) 하단 거래처구분 패널을 별도 화면으로 등록 — base 폴더 공유(DEC-023) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo12",
+      "dfm_form_name": "Sobo12",
+      "registry_caption": "입고처관리(마스터)",
+      "dfm_caption": "입고처관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu12.dfm",
+      "category": "caption_mismatch",
+      "reason": "웹 캡션 접미 '(마스터)' 정책 — 기초관리 6폼 공통(DEC-023, Sobo11/14 baseline 과 동일) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo13",
+      "dfm_form_name": "Sobo13",
+      "registry_caption": "저자관리(마스터)",
+      "dfm_caption": "지역분류(시내+지방)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu13.dfm",
+      "category": "caption_mismatch",
+      "reason": "legacy_source 트리의 Subu13.dfm 은 '지역분류' 빌드 변형 — 저자관리 정본은 도서유통-New/출판 빌드 Subu13(DEC-154) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
       "form_name": "Sobo13_1",
       "form_class": "TSobo13_1",
       "dfm_caption": "출고증정렬",
@@ -431,6 +320,36 @@
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu14_1.dfm",
       "category": "missing",
       "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo14_gbun",
+      "dfm_form_name": "Sobo14",
+      "registry_caption": "도서분류",
+      "dfm_caption": "도서관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu14.dfm",
+      "category": "caption_mismatch",
+      "reason": "도서관리(Sobo14) 하단 도서분류 패널을 별도 화면으로 등록 — base 폴더 공유(DEC-023) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo15",
+      "dfm_form_name": "Sobo15",
+      "registry_caption": "기타거래처관리(마스터)",
+      "dfm_caption": "거래처관리-개별",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu15.dfm",
+      "category": "caption_mismatch",
+      "reason": "웹 캡션 접미 '(마스터)' + 빌드 변형('거래처관리-개별'/'기타거래처관리') — 메뉴 숨김 화면(2026-06-20) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo16_baebon",
+      "dfm_form_name": "Sobo16",
+      "registry_caption": "배본처관리",
+      "dfm_caption": "특별관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu16.dfm",
+      "category": "caption_mismatch",
+      "reason": "배본처관리는 Subu16 폴더 공유 별칭 등록(특별관리와 base 공유) — 메뉴 숨김(DEC-155) (2026-08-19 정리, 테스트 부채 청산)",
       "until": "Phase 3 audit"
     },
     {
@@ -495,6 +414,16 @@
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu20.dfm",
       "category": "missing",
       "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo21_status_detail",
+      "dfm_form_name": "Sobo21",
+      "registry_caption": "거래현황(상세)",
+      "dfm_caption": "거래명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
+      "category": "caption_mismatch",
+      "reason": "거래명세서(Subu21) 폴더를 거래현황(상세) 뷰가 공유(MULTI_MAP, DEC-053) (2026-08-19 정리, 테스트 부채 청산)",
       "until": "Phase 3 audit"
     },
     {
@@ -583,6 +512,96 @@
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm",
       "category": "caption_mismatch",
       "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo25_status_detail",
+      "dfm_form_name": "Sobo25",
+      "registry_caption": "입고현황(상세)",
+      "dfm_caption": "반품재고(반품입고)-해체",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm",
+      "category": "caption_mismatch",
+      "reason": "legacy_source Subu25.dfm 은 '반품재고-해체' 빌드 변형 — 입고현황 정본은 출판 빌드 Subu25(3뷰 별칭) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo25_status_list",
+      "dfm_form_name": "Sobo25",
+      "registry_caption": "입고현황",
+      "dfm_caption": "반품재고(반품입고)-해체",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm",
+      "category": "caption_mismatch",
+      "reason": "legacy_source Subu25.dfm 은 '반품재고-해체' 빌드 변형 — 입고현황 정본은 출판 빌드 Subu25(3뷰 별칭) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo25_status_summary",
+      "dfm_form_name": "Sobo25",
+      "registry_caption": "입고현황(요약)",
+      "dfm_caption": "반품재고(반품입고)-해체",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm",
+      "category": "caption_mismatch",
+      "reason": "legacy_source Subu25.dfm 은 '반품재고-해체' 빌드 변형 — 입고현황 정본은 출판 빌드 Subu25(3뷰 별칭) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo26_production_stmt",
+      "dfm_form_name": "Sobo26",
+      "registry_caption": "제작명세서",
+      "dfm_caption": "출고접수현황",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu26.dfm",
+      "category": "caption_mismatch",
+      "reason": "legacy_source Subu26.dfm 은 '출고접수현황' 빌드 변형 — 제작명세서 정본은 출판 빌드 Subu26 (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo27_production_status",
+      "dfm_form_name": "Sobo27",
+      "registry_caption": "제작현황",
+      "dfm_caption": "출고접수관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu27.dfm",
+      "category": "caption_mismatch",
+      "reason": "legacy_source Subu27.dfm 은 '출고접수관리' 빌드 변형 — 제작현황 정본은 출판 빌드 Subu27 (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo28_delivery",
+      "dfm_form_name": "Sobo28",
+      "registry_caption": "택배관리",
+      "dfm_caption": "출고택배관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu28.dfm",
+      "category": "caption_mismatch",
+      "reason": "택배관리 웹 캡션 축약('출고택배관리'→'택배관리', 사이드바 그룹명 중복 회피) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo28_withholding",
+      "dfm_form_name": "Sobo28",
+      "registry_caption": "원천징수",
+      "dfm_caption": "출고택배관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu28.dfm",
+      "category": "caption_mismatch",
+      "reason": "원천징수는 Subu28 폴더 공유 별칭 등록(택배관리 base 공유, DEC-124) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo29_new_release",
+      "dfm_form_name": "Sobo29",
+      "registry_caption": "신간발행",
+      "dfm_caption": "신간명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu29.dfm",
+      "category": "caption_mismatch",
+      "reason": "신간명세서(Subu29) → 웹 '신간발행' 캡션 결정(DEC-053 신간발행 화면) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo29_new_release_shipment_alias",
+      "dfm_form_name": "Sobo29",
+      "registry_caption": "신간발행",
+      "dfm_caption": "신간명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu29.dfm",
+      "category": "caption_mismatch",
+      "reason": "출고관리 그룹 별칭 등록(신간발행 동일 화면, DEC-124) (2026-08-19 정리, 테스트 부채 청산)",
       "until": "Phase 3 audit"
     },
     {
@@ -895,6 +914,46 @@
       "until": "Phase 3 audit"
     },
     {
+      "form_name": "Sobo59_1",
+      "dfm_form_name": "Sobo59_1",
+      "registry_caption": "출고검증(1)",
+      "dfm_caption": "일별 내역서(요약)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_1.dfm",
+      "category": "caption_mismatch",
+      "reason": "legacy_source Subu59_1.dfm 은 '일별 내역서(요약)' 빌드 변형 — 출고검증(1) 정본은 출판 빌드(DEC-152) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo59_2",
+      "dfm_form_name": "Sobo59_2",
+      "registry_caption": "출고검증(2)",
+      "dfm_caption": "출고 검증관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_2.dfm",
+      "category": "caption_mismatch",
+      "reason": "출고검증(2) 웹 캡션 축약('출고 검증관리'→'출고검증(2)', DEC-152 3뷰 명명) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo59_3",
+      "dfm_form_name": "Sobo59_3",
+      "registry_caption": "출고검증(개별)",
+      "dfm_caption": "출고 검증관리(개별)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59_3 - 복사본.dfm",
+      "category": "caption_mismatch",
+      "reason": "출고검증(개별) 웹 캡션 축약('출고 검증관리(개별)'→'출고검증(개별)', DEC-152) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo59_verification_shipment_alias",
+      "dfm_form_name": "Sobo59",
+      "registry_caption": "출고검증",
+      "dfm_caption": "기간별택배내역서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu59.dfm",
+      "category": "caption_mismatch",
+      "reason": "출고관리 그룹 별칭 등록(출고검증 대표, Subu59 base 공유; legacy_source Subu59 는 '기간별택배내역서' 빌드 변형) (2026-08-19 정리, 테스트 부채 청산)",
+      "until": "Phase 3 audit"
+    },
+    {
       "form_name": "Sobo60",
       "form_class": "TSobo60",
       "dfm_caption": "Sobo60",
@@ -1113,6 +1172,11 @@
       "caption": "도서별수불원장"
     },
     {
+      "form_name": "Sobo39",
+      "dfm_form_name": "Sobo39",
+      "caption": "출고내역서"
+    },
+    {
       "form_name": "Sobo41_cash",
       "dfm_form_name": "Sobo41",
       "caption": "입금내역"
@@ -1215,10 +1279,23 @@
   ],
   "stale_allowlist": [],
   "intentional_new_forms": [
+    "Sobo11_gbun",
+    "Sobo14_gbun",
+    "Sobo16_baebon",
+    "Sobo21_status_detail",
     "Sobo21_status_list",
     "Sobo21_status_memo",
     "Sobo21_status_summary",
     "Sobo22_import",
+    "Sobo25_status_detail",
+    "Sobo25_status_list",
+    "Sobo25_status_summary",
+    "Sobo26_production_stmt",
+    "Sobo27_production_status",
+    "Sobo28_delivery",
+    "Sobo28_withholding",
+    "Sobo29_new_release",
+    "Sobo29_new_release_shipment_alias",
     "Sobo29_other",
     "Sobo32_1_ledger",
     "Sobo32_ledger",
@@ -1238,6 +1315,7 @@
     "Sobo51_stats",
     "Sobo52_stats",
     "Sobo53_stats",
+    "Sobo59_verification_shipment_alias",
     "Sobo67_status",
     "Sobo67_yearbook"
   ]

@@ -99,6 +99,9 @@ class C2OutboundPhase1Tests(TestCase):
     """C2 phase1 라우터 단위 검증."""
 
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
         self.handler = CapturingHandler()
         self.audit_logger = logging.getLogger("audit.outbound")

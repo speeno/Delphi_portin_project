@@ -113,8 +113,11 @@ class PagesStaticGuards(TestCase):
         self.assertIn('it.status === "pending"', src)  # 대기 전표만 대상
 
     def test_outbound_status_page_has_bulk_request(self) -> None:
+        # DEC-114(2026-07-21): 종전 '대기 N건 출고요청'(`Sobo24.BulkRequestDispatch`)은
+        # 배치 '바로출력 (N건)'(`Sobo24.BatchImmediateDispatch`)에 흡수 — 대기분은 여전히
+        # requestDispatchBatch(→접수) 로 보내고 완료전 전체를 긴급 출력 큐에 적재한다.
         src = (ROOT / "도서물류관리프로그램" / "frontend" / "src" / "app" / "(app)"
                / "transactions" / "outbound-status" / "page.tsx").read_text(encoding="utf-8")
-        self.assertIn("Sobo24.BulkRequestDispatch", src)
+        self.assertIn("Sobo24.BatchImmediateDispatch", src)
         self.assertIn("requestDispatchBatch", src)
-        self.assertIn('it.status === "pending"', src)
+        self.assertIn('s.status === "pending"', src)  # 대기분만 출고요청(접수) 전이

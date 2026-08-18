@@ -67,8 +67,10 @@ class Sobo14WidgetTraceability(TestCase):
     def test_list_search_filter_bar(self) -> None:
         """목록 검색 필터 확장(minimal): 구분 select·처리 input·출고정지 제외 체크."""
         list_src = _read(FRONT / "app" / "(app)" / "master" / "book" / "page.tsx")
+        # 도서구분 필터는 DEC-119(2026-07-21)로 <select id="f-gubun"> → LocalComboField 전환.
         for kw in (
-            "f-gubun",
+            "LocalComboField",
+            'inputLegacyId="Sobo14.Filter.Gubun"',
             "f-jubun",
             "f-exship",
             "excludeShippingStop",

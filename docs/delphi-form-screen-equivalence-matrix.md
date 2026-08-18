@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-07-08T03:12:48Z
+> **생성 시각 (UTC)**: 2026-08-18T15:59:55Z
 
 ## 목적
 
@@ -44,7 +44,7 @@
 | MULTI_MAP | `Sobo25_status_list` | `Subu25` | 입고현황 | 반품재고(반품입고)-해체 | `Sobo25` | `/transactions/inbound-status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo25_status_summary` | `Subu25` | 입고현황(요약) | 반품재고(반품입고)-해체 | `Sobo25` | `/transactions/inbound-status?view=summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | CAPTION_DIFF | `Sobo26_production_stmt` | `Subu26` | 제작명세서 | 출고접수현황 | `Sobo26` | `/transactions/production/statement` | DFM「출고접수현황」↔모던「제작명세서」 (r=0.00) |
-| LEGACY_MISSING | `Sobo_author_history` | `Subu26_1` | 내역조회(저자) | — | `—` | `/transactions/author-history` | DFM `Subu26_1.dfm` 없음 또는 루트 Caption 추출 실패 |
+| CAPTION_DIFF | `Sobo_author_history` | `Subu26_1` | 내역조회(저자) | 내역조회(저자)-거래현황 | `Sobo26_1` | `/transactions/author-history` | 포함 관계·수동검토: DFM「내역조회(저자)-거래현황」↔「내역조회(저자)」 (r=0.76) |
 | MULTI_MAP | `Sobo27` | `Subu27` | 출고접수관리 | 출고접수관리 | `Sobo27` | `/outbound/orders` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo27_production_status` | `Subu27` | 제작현황 | 출고접수관리 | `Sobo27` | `/transactions/production/status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo28_delivery` | `Subu28` | 택배관리 | 출고택배관리 | `Sobo28` | `/shipping/courier` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
@@ -62,7 +62,8 @@
 | CAPTION_DIFF | `Sobo37_stats_route` | `Subu37` | 도서통계(목록) | 담당자판매원장 | `Sobo37` | `/stats/book` | DFM「담당자판매원장」↔모던「도서통계(목록)」 (r=0.00) |
 | MULTI_MAP | `Sobo22_import` | `Subu38` | 입고 파일 업로드 | Sobo38 | `Sobo38` | `/inbound/import` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo38` | `Subu38` | 도서코드(마스터) | Sobo38 | `Sobo38` | `/master/book-code` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| CAPTION_DIFF | `Sobo39` | `Subu39` | 할인율(대표) | 출고내역서 | `Sobo39` | `/master/discount` | DFM「출고내역서」↔모던「할인율(대표)」 (r=0.00) |
+| MULTI_MAP | `Sobo39` | `Subu39` | 할인율(대표) | 출고내역서 | `Sobo39` | `/master/discount` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo39` | `Subu39` | 출고내역서 | 출고내역서 | `Sobo39` | `/outbound/statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo41_cash` | `Subu41` | 입금내역 | 입금내역 | `Sobo41` | `/settlement/cash` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo41_cash_bill` | `Subu41` | 입금내역 | 입금내역 | `Sobo41` | `/settlement/cash` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo41_slip` | `Subu41` | 입금전표 | 입금내역 | `Sobo41` | `/settlement/payment-slip` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
@@ -77,7 +78,7 @@
 | MULTI_MAP | `Sobo45_billing` | `Subu45` | 청구서관리 | 청구서관리 | `Sobo45` | `/settlement/billing` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo45_billing_bill` | `Subu45` | 청구서관리 | 청구서관리 | `Sobo45` | `/settlement/billing` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MATCH | `Sobo45_1_billing_bill` | `Subu45_1` | 청구서관리-택배 | 청구서관리-택배 | `Sobo45_1` | `/settlement/billing?variant=takbae` |  |
-| MULTI_MAP | `Sobo46_billing` | `Subu46` | 청구서 인쇄(미리보기) | 청구서출력 | `Sobo46` | `—` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo46_billing` | `Subu46` | 청구서 인쇄(미리보기) | 청구서출력 | `Sobo46` | `/settlement/billing?view=print` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo46_billing_bill` | `Subu46` | 청구서출력 | 청구서출력 | `Sobo46` | `/settlement/billing?view=print` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo47_billing` | `Subu47` | 청구금액(년월) | 청구금액(년월) | `Sobo47` | `/settlement/period` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo47_billing_bill` | `Subu47` | 청구금액(년월) | 청구금액(년월) | `Sobo47` | `/settlement/period` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |

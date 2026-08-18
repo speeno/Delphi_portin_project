@@ -124,6 +124,9 @@ class CapturingHandler(logging.Handler):
 # ──────────────────────────────────────────────
 class C4ReturnCRUDTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
         self.handler = CapturingHandler()
         self.audit_logger = logging.getLogger("audit.returns")
@@ -250,6 +253,9 @@ class C4ReturnCRUDTests(TestCase):
 # ──────────────────────────────────────────────
 class C4ReturnDisposeTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
         self.handler = CapturingHandler()
         self.audit_logger = logging.getLogger("audit.returns")
@@ -381,6 +387,9 @@ class C4ReturnDisposeTests(TestCase):
 # ──────────────────────────────────────────────
 class C4ReturnReportTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     # TC-RT-011 일별 보고서 -----------------------------------------------------
@@ -435,6 +444,9 @@ class C4ReturnReportTests(TestCase):
 # ──────────────────────────────────────────────
 class C4AuditPasswordTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
         self.handler = CapturingHandler()
         self.audit_logger = logging.getLogger("audit.audit")
@@ -506,6 +518,9 @@ class C4AuditPasswordTests(TestCase):
 # ──────────────────────────────────────────────
 class C4ImportTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     # TC-RT-014 임포트 미리보기 -------------------------------------------------
@@ -579,6 +594,9 @@ class C4ImportTests(TestCase):
 # ──────────────────────────────────────────────
 class C4AuditLogTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
         self.handler = CapturingHandler()
         self.audit_logger = logging.getLogger("audit.returns")
@@ -763,6 +781,9 @@ class C4LegacyIdCoverageTests(TestCase):
 # ──────────────────────────────────────────────
 class C4DECComplianceTests(TestCase):
     def setUp(self) -> None:
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     # DEC-009 RBAC 미수행 — 인증된 사용자는 권한 분기 없이 접근 가능

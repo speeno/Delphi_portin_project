@@ -108,6 +108,9 @@ class C7PrintRuntimeTestCase(TestCase):
 
     def setUp(self) -> None:
         assert app is not None and TestClient is not None
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도
+        # (전체 스위트 실행 순서 의존) 인증 우회가 유지되도록 매 테스트마다 재설치.
+        app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
     # ────── P1-A 청구서 (settlement_billing.yaml v1.2.0) ──────
@@ -177,15 +180,26 @@ class C7PrintRuntimeTestCase(TestCase):
         self.assertTrue(_pdf_signature_ok(res.content))
 
     def test_TC_PR_P1_03c_outbound_statement_style_param_routes_renderer(self) -> None:
-        """style=legacy|modern 은 렌더러에 전달되고, 생략 시 modern 기본값을 유지한다."""
+        """style=legacy|modern 은 렌더러에 전달되고, 생략 시 modern 기본값을 유지한다.
+
+        2026-07-07 사용자 요청 이후 기본 양식(base+modern)은 거래명세서(Sobo21) default
+        레이아웃 ``transactions_service.render_sales_statement_html(layout="default")`` 를
+        재사용해 출력하고, 거래처별 변형(v0..v9)·legacy 스타일만 출고 전용 렌더러
+        ``outbound_service.render_outbound_statement_html`` 로 간다(라우터 주석 정본).
+        """
         from unittest.mock import AsyncMock
-        from app.services import outbound_service, print_service
+        from app.services import outbound_service, print_service, transactions_service
 
         captured: list[dict] = []
+        captured_default: list[dict] = []
 
         def _capture_html(detail, *, variant="base", style="modern"):
             captured.append({"variant": variant, "style": style, "detail": detail})
             return f"<html><body>{style}</body></html>"
+
+        def _capture_default_html(detail, *, layout="default", **kwargs):
+            captured_default.append({"layout": layout, "detail": detail, **kwargs})
+            return "<html><body>default</body></html>"
 
         with patch.object(
             outbound_service, "get_order_detail",
@@ -193,6 +207,9 @@ class C7PrintRuntimeTestCase(TestCase):
         ), patch.object(
             outbound_service, "render_outbound_statement_html",
             side_effect=_capture_html,
+        ), patch.object(
+            transactions_service, "render_sales_statement_html",
+            side_effect=_capture_default_html,
         ), patch.object(print_service, "render_pdf", return_value=SAMPLE_PDF):
             res_default = self.client.get(
                 f"/api/v1/print/outbound-statement/{ORDER_KEY_URL}.pdf",
@@ -205,11 +222,15 @@ class C7PrintRuntimeTestCase(TestCase):
 
         self.assertEqual(res_default.status_code, 200)
         self.assertEqual(res_legacy.status_code, 200)
-        self.assertEqual(captured[0]["style"], "modern")
-        self.assertEqual(captured[0]["variant"], "base")
-        self.assertEqual(captured[1]["style"], "legacy")
-        self.assertEqual(captured[1]["variant"], "v1")
+        # 기본(base/modern) → 거래명세서 default 레이아웃 재사용(출고 전용 렌더러 미호출)
+        self.assertEqual(len(captured_default), 1)
+        self.assertEqual(captured_default[0]["layout"], "default")
+        # legacy + v1 → 출고 전용 렌더러에 style/variant 전달
+        self.assertEqual(len(captured), 1)
+        self.assertEqual(captured[0]["style"], "legacy")
+        self.assertEqual(captured[0]["variant"], "v1")
         self.assertIn("_v1_legacy.pdf", res_legacy.headers["content-disposition"])
+        self.assertNotIn("_legacy", res_default.headers["content-disposition"])
 
     def test_TC_PR_P1_03d_outbound_statement_invalid_style_returns_422(self) -> None:
         """지원하지 않는 출력 style 은 PR_STYLE_UNSUPPORTED 로 차단한다."""
@@ -531,7 +552,11 @@ class C7PrintStaticTestCase(TestCase):
         contract = (ROOT / "migration" / "contracts" / "settlement_billing.yaml").read_text(
             encoding="utf-8"
         )
-        self.assertIn("version: 1.3.0", contract)
+        # PDF 엔드포인트가 들어온 1.2.0 이후 버전이면 된다(1.3.0 → 1.3.1 발송비입금 422
+        # 핫픽스 등 후속 소수점 갱신은 본 가드의 관심사가 아님) — 하한만 고정.
+        ver_m = re.search(r"^version:\s*(\d+)\.(\d+)\.(\d+)", contract, re.MULTILINE)
+        self.assertIsNotNone(ver_m, "settlement_billing.yaml: version 누락")
+        self.assertGreaterEqual(tuple(int(x) for x in ver_m.groups()), (1, 3, 0))
         for path in (
             "/billing/{billing_key}/print.pdf",
             "/tax-invoice/{billing_key}/print.pdf",
@@ -742,7 +767,7 @@ class C7PrintStaticTestCase(TestCase):
             "공급자보관용",
             "사업자등록",
             "합계금액",
-            "총 부 수",
+            "총부수",  # 합계금액/총부수 박스 — 좌·중단 아래 테두리 셀 그룹(기존 서식, 공백 없는 라벨)
             "Sobo21.Header.Gjisa",
             "G1",
         ):

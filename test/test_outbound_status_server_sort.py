@@ -74,8 +74,10 @@ async def _capture_line_sqls(*, sort_by, sort_dir) -> list[str]:
 
 class OutboundStatusSlipSortTest(IsolatedAsyncioTestCase):
     async def test_default_order_by(self) -> None:
+        # 기본 2차 정렬 = 전표번호(idnum alias) — DEC-118(2026-07-21)/DEC-099·108
+        # (전표번호 정본=Idnum, Jubun 은 거래처별 차수라 정렬키로 쓰지 않음).
         sql = await _capture_slip_sql(sort_by=None, sort_dir=None)
-        self.assertIn("ORDER BY Gdate DESC, IFNULL(Jubun,'')", sql)
+        self.assertIn("ORDER BY Gdate DESC, idnum", sql)
         self.assertIn("LIMIT %s OFFSET %s", sql)
 
     async def test_amount_desc(self) -> None:
@@ -88,7 +90,7 @@ class OutboundStatusSlipSortTest(IsolatedAsyncioTestCase):
 
     async def test_unknown_key_falls_back(self) -> None:
         sql = await _capture_slip_sql(sort_by="__evil__ DROP", sort_dir="desc")
-        self.assertIn("ORDER BY Gdate DESC, IFNULL(Jubun,'')", sql)
+        self.assertIn("ORDER BY Gdate DESC, idnum", sql)  # DEC-118 기본 정렬로 폴백
         self.assertNotIn("DROP", sql)
 
     async def test_no_coalesce_anywhere(self) -> None:
@@ -113,7 +115,8 @@ class OutboundStatusLineSortTest(IsolatedAsyncioTestCase):
     async def test_default_order_by(self) -> None:
         sqls = await _capture_line_sqls(sort_by=None, sort_dir=None)
         joined = " ".join(sqls)
-        self.assertIn("ORDER BY Gdate, IFNULL(Jubun,'')", joined)
+        # 라인 기본 정렬도 전표번호(idnum alias) 2차 — DEC-118/DEC-099·108.
+        self.assertIn("ORDER BY Gdate, idnum", joined)
 
     async def test_gssum_desc(self) -> None:
         sqls = await _capture_line_sqls(sort_by="gssum", sort_dir="desc")

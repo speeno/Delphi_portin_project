@@ -27,13 +27,21 @@ class G5GgeoAdaptUnit(TestCase):
         # 존재 텍스트 → COALESCE … '' / 존재 숫자 → COALESCE … 0.
         self.assertIn("COALESCE(g.Gname,'') AS gname", sql)
         self.assertIn("COALESCE(g.Gtel1,'') AS gtel1", sql)
-        self.assertIn("COALESCE(g.Gpper,0) AS gpper", sql)
+        # DEC-172 — Gpper=담당자(Subu15 Edit110, 텍스트) 정본. 구 숫자 취급("한도액" 오라벨) 금지.
+        self.assertIn("COALESCE(g.Gpper,'') AS gpper", sql)
+        self.assertNotIn("COALESCE(g.Gpper,0)", sql)
         self.assertIn("COALESCE(g.Grat1,0) AS grat1", sql)
         # 누락 텍스트 → '' fallback / 누락 숫자 → 0 fallback.
         self.assertIn("'' AS gposa", sql)
         self.assertIn("'' AS name2", sql)
         self.assertIn("0 AS grat6", sql)
         self.assertIn("0 AS gqut1", sql)
+        # DEC-172 — 핸드폰번호 Gphon·계산서구분 Pubun·정지사유 Email(텍스트) / 한도액 Gssum·정지유무 Grat9(숫자).
+        self.assertIn("'' AS gphon", sql)
+        self.assertIn("'' AS pubun", sql)
+        self.assertIn("'' AS email", sql)
+        self.assertIn("0 AS gssum", sql)
+        self.assertIn("0 AS grat9", sql)
         # gbun_name 기본 표현식.
         self.assertIn("'' AS gbun_name", sql)
 

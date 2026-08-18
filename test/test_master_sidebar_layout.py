@@ -32,9 +32,11 @@ class MasterSidebarLayoutTest(TestCase):
                 "Sobo13",
                 "Sobo14",
                 "Sobo16_special",
-                "Sobo39",
             ],
         )
+        # 할인율(Sobo39)은 운영 요청(2026-08-13, DEC-155)으로 사이드바에서 숨김 —
+        # route(/master/discount)·API·구현은 유지(배본처관리 숨김 선례와 동일 방식).
+        self.assertNotIn("Sobo39", form_ids)
         # 배본처관리(Sobo16_baebon)는 운영 요청으로 사이드바에서 감춤 (2026-05).
         self.assertNotIn("Sobo16_baebon", form_ids)
         # 기타거래처(Sobo15)는 거래처관리(Sobo11)와 중복(평행 G5_Ggeo 마스터)이라

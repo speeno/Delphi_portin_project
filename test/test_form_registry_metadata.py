@@ -182,11 +182,19 @@ class FormRegistryInventoryBaselineTests(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         entries = _parse_entries(_registry_text())
+        # 같은 id 가 복수 라우트로 등록될 수 있다(DEC-124: 총판 출고내역서가 할인율과 같은
+        # 레거시 폴더 Subu39 를 공유해 `id: "Sobo39"` 두 건 — 매트릭스 MULTI_MAP). 마지막
+        # 항목이 앞 항목을 덮어쓰지 않도록 route 별 사전을 함께 둔다.
         cls.by_id = {e["id"]: e for e in entries if e.get("id")}
+        cls.by_route = {e["route"]: e for e in entries if e.get("route")}
 
-    def _assert(self, form_id: str, *, wave: str | None, crud: str) -> None:
-        e = self.by_id.get(form_id)
+    def _assert(
+        self, form_id: str, *, wave: str | None, crud: str, route: str | None = None
+    ) -> None:
+        e = self.by_route.get(route) if route else self.by_id.get(form_id)
         self.assertIsNotNone(e, f"{form_id} 가 form-registry 에서 사라졌다")
+        if route:
+            self.assertEqual(e.get("id"), form_id, f"{route} 의 id")
         self.assertEqual(e.get("roadmapWave"), wave, f"{form_id}.roadmapWave")
         self.assertEqual(e.get("crudParity"), crud, f"{form_id}.crudParity")
 
@@ -204,7 +212,9 @@ class FormRegistryInventoryBaselineTests(TestCase):
         self._assert("Sobo16_special", wave="p2", crud="CRUD")
 
     def test_discount_master_crud(self) -> None:
-        self._assert("Sobo39", wave=None, crud="CRUD")
+        # 할인율(마스터) 항목 — 같은 id 의 총판 출고내역서(/outbound/statement, DEC-124)와
+        # 구분하기 위해 route 로 선택. 사이드바 숨김(DEC-155)과 무관하게 CRUD 구현은 유지.
+        self._assert("Sobo39", wave=None, crud="CRUD", route="/master/discount")
 
     def test_delivery_management_courier_ru(self) -> None:
         """내부 라인/메모 API 구현 — 외부 택배사 API는 STUB 아님(courier_management.yaml 일정 분리)."""

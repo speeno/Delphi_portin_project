@@ -79,9 +79,14 @@ class Sobo21LayoutMappingTest(TestCase):
     def test_layout_two_column_with_sticky_right_aside(self) -> None:
         """좌·우 한 화면 + 우측 sticky — 거래처참조·메모 동시 노출."""
         text = PAGE_PATH.read_text(encoding="utf-8")
-        # tailwind utilities 가 명시돼야 한다 (디자인 토큰 위반 0).
-        self.assertIn("lg:grid-cols-[minmax(0,2fr)_minmax(360px,1fr)]", text)
-        self.assertIn("lg:sticky", text)
+        # tailwind utilities 가 명시돼야 한다 (디자인 토큰 위반 0). 정확한 비율/브레이크포인트는
+        # UI 조정 대상(2026-07-07 제품 커밋 585b0de: lg→sm, 2fr/360px→1.7fr/320px)이라 고정하지
+        # 않고 "좌 가변 + 우 최소폭 2열 그리드 + 우측 sticky" 구조만 가드한다.
+        self.assertRegex(
+            text,
+            r"(?:sm|md|lg):grid-cols-\[minmax\(0,[\d.]+fr\)_minmax\(\d+px,1fr\)\]",
+        )
+        self.assertRegex(text, r"(?:sm|md|lg):sticky")
         # 우측 패널은 두 카드(참조·메모) 모두 포함.
         self.assertIn("SalesStatementReferencePanel", text)
         self.assertIn("SalesStatementMemoPanel", text)

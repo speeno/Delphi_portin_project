@@ -45,7 +45,8 @@ class AuthorGbunResolveTests(TestCase):
         )
         self.assertNotIn("AuthorCategoryPanel", list_src)
         self.assertNotIn("setTab(", list_src)
-        self.assertIn("f-gubun", list_src)
+        # 목록 저자구분 필터 — DEC-119(2026-07-21) 픽 필드(LocalComboField) 전환 이후 정본.
+        self.assertIn('inputLegacyId="Sobo13.Filter.Gubun"', list_src)
         for rel in (
             "app/(app)/master/author/[gcode]/page.tsx",
             "app/(app)/master/author/new/page.tsx",

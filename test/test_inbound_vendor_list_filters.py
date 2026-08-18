@@ -137,19 +137,29 @@ class InboundVendorListFilterTests(TestCase):
         self.assertIn("PUB01", select_params)
         self.assertIn("PUB01", count_params)
 
-    def test_list_select_uses_scalar_gbun_subquery_not_join(self) -> None:
-        """Sobo12 — G2_Ggwo 단독 목록. Gubun 단독 JOIN 시 행 곱셈(82→574) 회귀 방지."""
+    def test_list_select_uses_gbun_map_not_join_or_subquery(self) -> None:
+        """Sobo12 — G2_Ggwo 단독 목록. Gubun 단독 JOIN 시 행 곱셈(82→574) 회귀 방지.
+
+        DEC-172 — 구분명은 G2_Gbun 1회 조회 Python 맵으로 해석(거래처 DEC-149 동형):
+        JOIN 도, 스칼라 서브쿼리(MySQL 3.23 154/155 미지원)도 목록 SELECT 에 넣지 않는다.
+        """
         cap = _run()
         select_sql, count_sql = cap.select[0], cap.count[0]
         self.assertNotIn("LEFT JOIN G2_Gbun", select_sql)
         self.assertNotIn("LEFT JOIN G2_Gbun", count_sql)
+        self.assertNotIn("(SELECT", select_sql)
         self.assertIn("FROM G2_Ggwo g", select_sql)
         self.assertIn("FROM G2_Ggwo g", count_sql)
         self.assertIn("gbun_name", select_sql)
-        self.assertIn("(SELECT COALESCE(b.Gname,'') FROM G2_Gbun b", select_sql)
-        self.assertIn("b.Gcode=g.Gubun", select_sql)
-        self.assertIn("b.Hcode=g.Hcode", select_sql)
         self.assertIn("gjuso", select_sql)
+        # 세부내역 전면(DEC-172): 담당자 gpper 는 텍스트 표현식, 한도액 gssum·한도율 grat7 노출.
+        self.assertIn("AS gpper", select_sql)
+        self.assertIn("AS gssum", select_sql)
+        self.assertIn("AS grat7", select_sql)
+        # 3번째 쿼리 = G2_Gbun 코드→명 맵 (JOIN/서브쿼리 대체).
+        gbun_calls = [sql for sql, _ in cap.calls if "FROM G2_Gbun" in sql]
+        self.assertEqual(len(gbun_calls), 1)
+        self.assertNotIn("JOIN", gbun_calls[0])
 
 
 if __name__ == "__main__":

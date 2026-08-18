@@ -325,7 +325,11 @@ class FrontendSourceGuards(TestCase):
             encoding="utf-8"
         )
         self.assertNotIn("거래처/지사 hcode", src, "S1_Ssub.Hcode=출판사 축 오라벨 회귀")
-        self.assertIn('lookupKind="publisher"', src)
+        # DEC-164(2026-08-14) 레거시 Subu32 동형 재작성 이후 검색축 = 기간 + 도서(정가 표시)
+        # 이며 출판사(Hcode) 는 세션 스코프로 고정된다 — 화면에 출판사/거래처 룩업이 없다.
+        # DEC-137 의 본질(거래처 축 오배선 금지)만 유지: 거래처 룩업 부재 + 도서 룩업 존재.
+        self.assertIn('lookupKind="book"', src)
+        self.assertNotIn('lookupKind="customer"', src, "도서별수불원장에 거래처 축 재유입 — DEC-137 회귀")
 
     def test_menu_groups_merged_and_ledger_forms_gated(self) -> None:
         src = (FRONT / "lib" / "form-registry.ts").read_text(encoding="utf-8")

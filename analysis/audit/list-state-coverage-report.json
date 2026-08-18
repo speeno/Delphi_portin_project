@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-08T14:29:29.805638+00:00",
+  "generated_at": "2026-08-18T15:59:57.006211+00:00",
   "summary": {
-    "total_pages": 120,
-    "covered": 50,
-    "violations": 7,
-    "allowed": 0,
-    "skipped": 63
+    "total_pages": 121,
+    "covered": 45,
+    "violations": 0,
+    "allowed": 7,
+    "skipped": 69
   },
   "covered": [
     {
@@ -19,10 +19,6 @@
     {
       "route_key": "inbound.reports.period",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/reports/period/page.tsx"
-    },
-    {
-      "route_key": "inventory.ledger",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/ledger/page.tsx"
     },
     {
       "route_key": "inventory.status",
@@ -39,14 +35,6 @@
     {
       "route_key": "ledger.comparison",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/comparison/page.tsx"
-    },
-    {
-      "route_key": "ledger.customer",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer/page.tsx"
-    },
-    {
-      "route_key": "ledger.customer-integrated",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer-integrated/page.tsx"
     },
     {
       "route_key": "master.author",
@@ -83,10 +71,6 @@
     {
       "route_key": "master.publisher",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/publisher/page.tsx"
-    },
-    {
-      "route_key": "master.special",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/special/page.tsx"
     },
     {
       "route_key": "outbound.orders",
@@ -165,10 +149,6 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/customer-analysis/page.tsx"
     },
     {
-      "route_key": "stats.ebook-sales",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/ebook-sales/page.tsx"
-    },
-    {
       "route_key": "stats.monthly",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/stats/monthly/page.tsx"
     },
@@ -209,37 +189,51 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/status/page.tsx"
     }
   ],
-  "violations": [
+  "violations": [],
+  "allowed": [
     {
       "route_key": "shipping.courier",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/shipping/courier/page.tsx"
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/shipping/courier/page.tsx",
+      "reason": "택배관리 목록 — 필터 스냅샷 미도입(DEC-124 등록 화면), 후속 일괄 도입",
+      "until": "list-state 후속 사이클(2026-09)"
     },
     {
       "route_key": "transactions.new-release",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/new-release/page.tsx"
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/new-release/page.tsx",
+      "reason": "신간발행 목록 — 필터 스냅샷 미도입, 후속 일괄 도입",
+      "until": "list-state 후속 사이클(2026-09)"
     },
     {
       "route_key": "transactions.other",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/other/page.tsx"
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/other/page.tsx",
+      "reason": "기타명세서 목록 — 필터 스냅샷 미도입, 후속 일괄 도입",
+      "until": "list-state 후속 사이클(2026-09)"
     },
     {
       "route_key": "transactions.production.statement",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/production/statement/page.tsx"
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/production/statement/page.tsx",
+      "reason": "제작명세서 목록 — 필터 스냅샷 미도입, 후속 일괄 도입",
+      "until": "list-state 후속 사이클(2026-09)"
     },
     {
       "route_key": "transactions.production.status",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/production/status/page.tsx"
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/production/status/page.tsx",
+      "reason": "제작현황 목록 — 필터 스냅샷 미도입, 후속 일괄 도입",
+      "until": "list-state 후속 사이클(2026-09)"
     },
     {
       "route_key": "transactions.verification",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/verification/page.tsx"
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/verification/page.tsx",
+      "reason": "출고검증 목록 — 필터 스냅샷 미도입(DEC-152 총판 전용), 후속 일괄 도입",
+      "until": "list-state 후속 사이클(2026-09)"
     },
     {
       "route_key": "transactions.withholding",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/withholding/page.tsx"
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/transactions/withholding/page.tsx",
+      "reason": "원천징수 목록 — 필터 스냅샷 미도입, 후속 일괄 도입",
+      "until": "list-state 후속 사이클(2026-09)"
     }
   ],
-  "allowed": [],
   "skipped": [
     {
       "route_key": "admin",
@@ -358,6 +352,18 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/receipts/new/page.tsx"
     },
     {
+      "route_key": "inventory.ledger",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/ledger/page.tsx"
+    },
+    {
+      "route_key": "ledger.customer",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer/page.tsx"
+    },
+    {
+      "route_key": "ledger.customer-integrated",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer-integrated/page.tsx"
+    },
+    {
       "route_key": "master",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/page.tsx"
     },
@@ -414,6 +420,10 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/inbound-vendor/new/page.tsx"
     },
     {
+      "route_key": "master.special",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/special/page.tsx"
+    },
+    {
       "route_key": "outbound.orders",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/[orderKey]/page.tsx"
     },
@@ -424,6 +434,10 @@
     {
       "route_key": "outbound.orders.print",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/orders/[orderKey]/print/page.tsx"
+    },
+    {
+      "route_key": "outbound.statement",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/outbound/statement/page.tsx"
     },
     {
       "route_key": "print.label",
@@ -448,6 +462,10 @@
     {
       "route_key": "settings.my-profile",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/settings/my-profile/page.tsx"
+    },
+    {
+      "route_key": "settlement.billing.invoice",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/billing/[billingKey]/invoice/page.tsx"
     },
     {
       "route_key": "settlement.billing.print",

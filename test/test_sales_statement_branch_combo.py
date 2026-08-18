@@ -16,10 +16,12 @@ def _read(path: Path) -> str:
 
 class SalesStatementBranchComboTest(TestCase):
     def test_list_page_uses_branch_select(self) -> None:
+        # 지사(Edit106)는 DEC-119(2026-07-21)로 네이티브 <select> → LocalComboField(픽 필드,
+        # data-legacy-id 는 내부 input 에 `inputLegacyId` 로 보존) 전환 — 자유 입력 회귀 금지.
         src = _read(FRONT / "app" / "(app)" / "transactions" / "sales-statement" / "page.tsx")
         self.assertIn("customerBranchList", src)
-        self.assertIn('data-legacy-id="Sobo21.Edit106"', src)
-        self.assertIn("<select", src)
+        self.assertIn('inputLegacyId="Sobo21.Edit106"', src)
+        self.assertIn("LocalComboField", src)
         self.assertNotIn('placeholder="Gjisa 일치"', src)
 
     def test_list_page_shows_branch_load_error(self) -> None:

@@ -26,6 +26,13 @@ _INJECTED_MODULES = (
     "verify_login_routing_matrix",
 )
 
+# fake 주입 직전의 실제 모듈 객체(제품 ``app`` 패키지 등)를 보관했다가 정리 시 **복원**한다.
+# 종전처럼 pop 만 하면 이후 ``import app`` 이 새 ``app`` 모듈 객체를 만들고, 이미
+# sys.modules 에 남아 있던 ``app.core``/``app.services`` 하위 모듈은 새 부모에 속성으로
+# 다시 묶이지 않아 ``monkeypatch.setattr("app.core.db.execute_query", ...)`` 류가
+# ``AttributeError: module 'app' has no attribute 'core'`` 로 깨진다(실행 순서 의존).
+_SAVED_MODULES: dict[str, types.ModuleType | None] = {}
+
 
 def _install_fake_backend(
     *,
@@ -45,6 +52,8 @@ def _install_fake_backend(
 
     mod_tds.resolve_login_route = _resolve_login_route
     mod_tds.resolve_unique_tenant = _resolve_unique_tenant
+    for name in _INJECTED_MODULES:
+        _SAVED_MODULES.setdefault(name, sys.modules.get(name))
     sys.modules["app"] = pkg_app
     sys.modules["app.services"] = pkg_services
     sys.modules["app.services.tenants_directory_service"] = mod_tds
@@ -52,9 +61,14 @@ def _install_fake_backend(
 
 def _cleanup_injected_modules() -> None:
     """본 모듈의 fake 주입은 다음 테스트 모듈(``app.main`` 등 실제 앱) 에 누수되면
-    ``ModuleNotFoundError`` 를 일으킨다 — 매 테스트 종료 시 제거."""
+    ``ModuleNotFoundError`` 를 일으킨다 — 매 테스트 종료 시 제거하고, 주입 전에 있던
+    실제 모듈 객체는 그대로 복원한다."""
     for name in _INJECTED_MODULES:
-        sys.modules.pop(name, None)
+        original = _SAVED_MODULES.pop(name, None)
+        if original is not None:
+            sys.modules[name] = original
+        else:
+            sys.modules.pop(name, None)
 
 
 def _load_script() -> types.ModuleType:

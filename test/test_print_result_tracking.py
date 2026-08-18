@@ -226,7 +226,12 @@ class MonitorStaticGuards(TestCase):
         self.assertIn("days: 7", self.src)  # 과거 일자 일괄 접수 전표 포착
 
     def test_completes_only_printed_keys(self) -> None:
-        self.assertIn("printed ?? fresh", self.src)
+        # DEC-158 — 일괄 1요청(`printed ?? fresh`)이 N건×~20s 렌더로 통째 실패하던 원인 →
+        # 1건씩 순차 인쇄로 분할, 건별 실제 인쇄 키만 완료(`printed ?? [key]`) + 실패 키는
+        # printedRef 롤백(다음 주기 재시도).
+        self.assertIn("printed ?? [key]", self.src)
+        self.assertIn("printedRef.current.delete(k)", self.src)
+        self.assertNotIn("printed ?? fresh", self.src)
         self.assertIn('source: "auto"', self.src)
 
     def test_history_panel_present(self) -> None:

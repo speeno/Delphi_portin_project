@@ -18,6 +18,7 @@ sys.path.insert(0, str(BACKEND))
 
 from app.services import settlement_service as ss  # noqa: E402
 from app.services import stats_service as stx  # noqa: E402
+from app.services import t5_ssub_adapt  # noqa: E402
 
 _NORM = "REPLACE(REPLACE(REPLACE(TRIM("
 
@@ -80,10 +81,18 @@ class PeriodSourceFallbackTests(IsolatedAsyncioTestCase):
                 return [{"Field": "Gdate"}, {"Field": "Hcode"}, {"Field": "Gssum"}]
             return [{"Gdm": "202601", "Amt": 700}, {"Gdm": "202602", "Amt": 300}]
 
-        with patch.object(ss, "execute_query", side_effect=fake):
-            dep = await ss.deposits_by_month(
-                "remote_138", month_from="202601", month_to="202603", hcode="",
-            )
+        # deposits_by_month 는 t5_ssub_adapt.t5_column_names(SHOW COLUMNS) 를 거치며,
+        # 그 어댑터는 자체 import 한 execute_query 를 쓰므로 함께 패치해야 실 DB
+        # (servers.yaml 라이브 터널) 접근 없이 fake 의 SHOW COLUMNS 분기가 쓰인다.
+        t5_ssub_adapt.clear_t5_column_cache_for_tests()
+        try:
+            with patch.object(ss, "execute_query", side_effect=fake), \
+                 patch.object(t5_ssub_adapt, "execute_query", side_effect=fake):
+                dep = await ss.deposits_by_month(
+                    "remote_138", month_from="202601", month_to="202603", hcode="",
+                )
+        finally:
+            t5_ssub_adapt.clear_t5_column_cache_for_tests()
         self.assertEqual(dep, {"202601": 700, "202602": 300})
 
 

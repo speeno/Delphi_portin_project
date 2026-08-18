@@ -29,8 +29,11 @@ class MasterLookupDialogStaticTest(TestCase):
 
     def test_dialog_has_mobile_responsive_classes(self) -> None:
         src = _read(FRONT / "components" / "master" / "master-lookup-dialog.tsx")
-        for cls in ("fixed inset-x-2 top-8 bottom-2", "sm:w-[min(960px,96vw)]", "sm:max-h-[88vh]", "overflow-auto"):
+        # DEC-110(2026-07-19 팝업 리사이즈) 이후 데스크톱 높이는 sm:h-[80vh]+sm:max-h-[92vh]
+        # (+sm:resize) — 정확한 vh 값은 UI 조정 대상이라 max-h 유틸 존재만 가드한다.
+        for cls in ("fixed inset-x-2 top-8 bottom-2", "sm:w-[min(960px,96vw)]", "overflow-auto"):
             self.assertIn(cls, src)
+        self.assertRegex(src, r"sm:max-h-\[\d+vh\]")
 
     def test_master_lookup_field_exists(self) -> None:
         src = _read(FRONT / "components" / "master" / "master-lookup-field.tsx")

@@ -40,6 +40,9 @@ class ShipmentSidebarLayoutTest(TestCase):
             [
                 # 자체 물류 화면
                 "Sobo27",
+                # 총판(물류) 전용 출고내역서 — DEC-124(2026-07-24): 출고관리 하위에 배치,
+                # 노출은 distributorOnly 로만 게이팅(menuId:null 매트릭스 우회).
+                "Sobo39",
                 "Sobo67_status",
                 # 거래관리(NAV-02) 공유 화면 별칭
                 "Sobo21_shipment_alias",

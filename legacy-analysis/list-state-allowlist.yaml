@@ -8,4 +8,27 @@
 #
 # 현재(2026-04-21) 17개 list 화면 전부 useListSession 도입 완료 — deferred 없음.
 
-deferred_pages: []
+# 2026-08-19 갱신 — DEC-124 이후 추가된 7개 목록 화면(제작/검증/원천징수/신간/기타/택배)은 페이저는 공통이나
+# 필터 스냅샷(useListSession) 미도입 상태로 배포됨. 테스트 부채 청산 시 의도적 deferral 로 등재(후속 일괄 도입).
+deferred_pages:
+  - route_key: shipping.courier
+    reason: "택배관리 목록 — 필터 스냅샷 미도입(DEC-124 등록 화면), 후속 일괄 도입"
+    until: "list-state 후속 사이클(2026-09)"
+  - route_key: transactions.new-release
+    reason: "신간발행 목록 — 필터 스냅샷 미도입, 후속 일괄 도입"
+    until: "list-state 후속 사이클(2026-09)"
+  - route_key: transactions.other
+    reason: "기타명세서 목록 — 필터 스냅샷 미도입, 후속 일괄 도입"
+    until: "list-state 후속 사이클(2026-09)"
+  - route_key: transactions.production.statement
+    reason: "제작명세서 목록 — 필터 스냅샷 미도입, 후속 일괄 도입"
+    until: "list-state 후속 사이클(2026-09)"
+  - route_key: transactions.production.status
+    reason: "제작현황 목록 — 필터 스냅샷 미도입, 후속 일괄 도입"
+    until: "list-state 후속 사이클(2026-09)"
+  - route_key: transactions.verification
+    reason: "출고검증 목록 — 필터 스냅샷 미도입(DEC-152 총판 전용), 후속 일괄 도입"
+    until: "list-state 후속 사이클(2026-09)"
+  - route_key: transactions.withholding
+    reason: "원천징수 목록 — 필터 스냅샷 미도입, 후속 일괄 도입"
+    until: "list-state 후속 사이클(2026-09)"

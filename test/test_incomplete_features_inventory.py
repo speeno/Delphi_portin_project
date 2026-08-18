@@ -51,27 +51,31 @@ class IncompleteFeaturesInventoryTests(TestCase):
         ):
             self.assertIn(key, src, msg=f"missing source key: {key}")
 
+    # 2026-05-15 해소(placeholder 제거, docs/crud-backlog.md §2.6): 매트릭스 placeholder
+    # 3건(MenuBillingStatements·MenuYearMonthStats·MenuShippingReturnsInventory)은
+    # ScreenPlaceholder → 허브 MVP 페이지로 전환됐다. 인벤토리는 그 상태를 반영해야 하며,
+    # placeholder 로 되돌아가는 회귀를 막는 방향으로 가드한다.
+    _HUB_MVP_ROUTES = ("/billing/statements", "/year-month-stats", "/shipping/returns-inventory")
+    _HUB_MVP_IDS = ("MenuBillingStatements", "MenuShippingReturnsInventory", "MenuYearMonthStats")
+
     def test_ui_placeholder_pages_has_known_routes(self) -> None:
-        hints = {x["route_hint"] for x in self.data["sources"]["ui_placeholder_pages"]}
-        for expected in (
-            "/billing/statements",
-            "/year-month-stats",
-            "/shipping/returns-inventory",
-        ):
-            self.assertIn(expected, hints)
+        pages = self.data["sources"]["ui_placeholder_pages"]
+        self.assertIsInstance(pages, list)
+        hints = {x["route_hint"] for x in pages}
+        for route in self._HUB_MVP_ROUTES:
+            self.assertNotIn(route, hints, f"{route} 가 다시 ScreenPlaceholder 로 회귀")
 
     def test_form_registry_placeholder_matrix_three(self) -> None:
-        ids = sorted(
-            x["id"] for x in self.data["sources"]["form_registry_preview_or_stub"]
-        )
-        self.assertEqual(
-            ids,
-            ["MenuBillingStatements", "MenuShippingReturnsInventory", "MenuYearMonthStats"],
-        )
-        # 캡션·crudNotes 도 함께 잡혔는지
-        for entry in self.data["sources"]["form_registry_preview_or_stub"]:
-            self.assertTrue(entry["caption"], msg=entry)
-            self.assertTrue(entry["crudNotes"], msg=entry)
+        stub_ids = {x["id"] for x in self.data["sources"]["form_registry_preview_or_stub"]}
+        for fid in self._HUB_MVP_IDS:
+            self.assertNotIn(fid, stub_ids, f"{fid} 가 preview/STUB 으로 회귀")
+        # 허브 MVP 로 남은 부분 동등(R) 항목은 phase1 partial 쪽에 caption·crudNotes 와 함께 잡힌다.
+        partial = {x["id"]: x for x in self.data["sources"]["form_registry_phase1_partial"]}
+        for fid in ("MenuBillingStatements", "MenuShippingReturnsInventory"):
+            self.assertIn(fid, partial)
+            self.assertEqual(partial[fid]["crudParity"], "R")
+            self.assertTrue(partial[fid]["caption"], msg=partial[fid])
+            self.assertTrue(partial[fid]["crudNotes"], msg=partial[fid])
 
     def test_phase1_partial_groups_by_parity(self) -> None:
         partial = self.data["sources"]["form_registry_phase1_partial"]

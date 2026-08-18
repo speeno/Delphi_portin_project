@@ -58,7 +58,15 @@ class Sobo13WidgetTraceability(TestCase):
 
     def test_list_search_filter_bar(self) -> None:
         list_src = _read(FRONT / "app" / "(app)" / "master" / "author" / "page.tsx")
-        for kw in ("f-gubun", "f-workplace", "workplace", "resetFilters", "gbun_name"):
+        # 저자구분 필터는 DEC-119(2026-07-21)로 <select id="f-gubun"> → LocalComboField 전환.
+        for kw in (
+            "LocalComboField",
+            'inputLegacyId="Sobo13.Filter.Gubun"',
+            "f-workplace",
+            "workplace",
+            "resetFilters",
+            "gbun_name",
+        ):
             self.assertIn(kw, list_src, kw)
 
     def test_list_grid_extra_columns(self) -> None:

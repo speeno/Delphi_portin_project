@@ -200,12 +200,40 @@ class MastersExcelExportRouterTests(TestCase):
         self.assertEqual(by_key.get("gjomo"), "종목")
 
     def test_inbound_vendor_export(self) -> None:
+        # DEC-172 — 헤더 = 입고처 세부내역 전면 카탈로그(거래처 DEC-149 동형, 목록 화면 순서).
         dataset = [{"gcode": "I1", "gname": "입고가", "gbun_name": "구분", "jubun": "서울",
-                    "guper": "대표", "gtel1": "031", "gtel2": "1", "gpost": "1", "gjuso": "경기"}]
+                    "gposa": "대표", "guper": "업태", "gtel1": "031", "gtel2": "1", "gpost": "1",
+                    "gadd1": "경기", "gadd2": "", "gpper": "홍길동", "gphon": "010-1", "gssum": 500}]
         with patch.object(masters_service, "list_inbound_vendors", side_effect=_make_fake_list(dataset)):
             r = self.client.get(f"/api/v1/masters/exports/inbound-vendors.xlsx?serverId={_SID}")
+        ws, header = _read_sheet(self._assert_xlsx(r))
+        self.assertEqual(header[:5], ["입고처구분", "입고처지역", "입고처코드", "입고처코드2", "입고처명"])
+        for h in ("담당자", "핸드폰번호", "한도액", "한도", "계산서 거래처명", "정지사유", "전화번호1", "주소1"):
+            self.assertIn(h, header)
+        self.assertNotIn("코드", header)  # 구 8컬럼 헤더 폐기(PK 헤더 = 입고처코드)
+        self.assertEqual(ws.cell(row=2, column=header.index("담당자") + 1).value, "홍길동")
+        self.assertEqual(ws.cell(row=2, column=header.index("한도액") + 1).value, 500)
+
+    def test_inbound_vendor_export_fields_subset_keeps_pk(self) -> None:
+        # DEC-172 — fields 선택 시 카탈로그 순서 유지 + PK(입고처코드) 항상 포함.
+        dataset = [{"gcode": "I1", "gname": "입고가", "gpper": "홍길동"}]
+        with patch.object(masters_service, "list_inbound_vendors", side_effect=_make_fake_list(dataset)):
+            r = self.client.get(
+                f"/api/v1/masters/exports/inbound-vendors.xlsx?serverId={_SID}&fields=gpper,gname"
+            )
         _ws, header = _read_sheet(self._assert_xlsx(r))
-        self.assertEqual(header[:3], ["코드", "입고처명", "입고처구분"])
+        self.assertEqual(header, ["입고처코드", "입고처명", "담당자"])
+
+    def test_inbound_vendor_fields_catalog(self) -> None:
+        r = self.client.get("/api/v1/masters/exports/inbound-vendor-fields")
+        self.assertEqual(r.status_code, 200, r.text)
+        by_key = {f["key"]: f["label"] for f in r.json()["fields"]}
+        self.assertEqual(by_key.get("gpper"), "담당자")
+        self.assertEqual(by_key.get("gssum"), "한도액")
+        self.assertEqual(by_key.get("gphon"), "핸드폰번호")
+        self.assertEqual(by_key.get("grat7"), "한도")
+        self.assertEqual(by_key.get("name2"), "계산서 거래처명")
+        self.assertEqual(by_key.get("email"), "정지사유")
 
     def test_author_export(self) -> None:
         dataset = [{"gcode": "Z1", "gposa": "홍길동", "gbun_name": "소설", "gname": "직장",

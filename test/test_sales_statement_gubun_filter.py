@@ -33,6 +33,8 @@ class SalesStatementGubunFilterTest(TestCase):
             captured.update(kwargs)
             return [], 0
 
+        # 다른 테스트 파일이 공유 app 의 dependency_overrides 를 pop/clear 해도 인증 우회 유지.
+        app.dependency_overrides[get_current_user] = _override_auth
         with patch.object(
             transactions_service, "list_sales_statements", side_effect=fake_list
         ):

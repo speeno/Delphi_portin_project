@@ -41,6 +41,14 @@ class ScreenCapsStaticTest(TestCase):
             if not id_m:
                 continue
             fid = id_m.group(1)
+            # DEC-124(2026-07-24) — 총판 전용 출고내역서(Sobo39 /outbound/statement)는
+            # 메뉴 매트릭스를 우회(`menuId: null`)하고 `distributorOnly` 플래그로만 노출을
+            # 게이팅하는 읽기 전용 화면(caps 소비 없음, 백엔드 총판 게이트 별도). 그 두
+            # 표식이 함께 있는 블록만 예외 — 나머지 라우트 폼은 종전대로 필수.
+            if re.search(r"distributorOnly:\s*true", block) and re.search(
+                r"menuId:\s*null", block
+            ):
+                continue
             if "requiredPermission:" not in block:
                 missing.append(fid)
         self.assertEqual(

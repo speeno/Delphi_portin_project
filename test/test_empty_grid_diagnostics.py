@@ -15,10 +15,13 @@ class EmptyGridDiagnosticsStaticTest(TestCase):
         self.assertIn("DB 서버 정보가 없습니다. 다시 로그인해 주세요.", src)
         self.assertIn("선택한 기간/조건에 데이터가 없습니다.", src)
 
-    def test_outbound_orders_uses_banner_and_90day_default(self) -> None:
+    def test_outbound_orders_uses_banner_and_today_default(self) -> None:
+        # 날짜 기본값 — 2026-07-20 사용자 요청(출고현황 DEC-106 과 같은 날 '접속 당일' 정책):
+        # 출고접수 목록 진입 시 시작=종료=오늘(종전 90일 전 → today). snap 값이 있으면 우선.
         src = (FE / "app" / "(app)" / "outbound" / "orders" / "page.tsx").read_text(encoding="utf-8")
         self.assertIn("ListDiagnosticsBanner", src)
-        self.assertIn("d.setDate(d.getDate() - 90)", src)
+        self.assertIn("useState(snap.dateFrom || formatDate(today))", src)
+        self.assertNotIn("d.setDate(d.getDate() - 90)", src)
 
     def test_settlement_cash_uses_banner_and_90day_default(self) -> None:
         src = (FE / "app" / "(app)" / "settlement" / "cash" / "page.tsx").read_text(encoding="utf-8")

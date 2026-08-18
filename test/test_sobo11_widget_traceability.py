@@ -90,5 +90,14 @@ class Sobo11WidgetTraceability(TestCase):
         list_src = _read(
             FRONT / "app" / "(app)" / "master" / "customer" / "page.tsx"
         )
-        for kw in ("f-gubun", "f-jubun", "f-exterm", "excludeTerminated", "resetFilters"):
+        # 거래처구분 필터는 DEC-119(2026-07-21)로 네이티브 <select id="f-gubun"> →
+        # LocalComboField(픽 필드, data-legacy-id 는 내부 input 에 보존) 로 전환됨.
+        for kw in (
+            "LocalComboField",
+            'inputLegacyId="Sobo11.Filter.Gubun"',
+            "f-jubun",
+            "f-exterm",
+            "excludeTerminated",
+            "resetFilters",
+        ):
             self.assertIn(kw, list_src, kw)

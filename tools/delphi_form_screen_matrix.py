@@ -33,6 +33,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LEGACY_DFM_ROOT = ROOT / "legacy_delphi_source" / "legacy_source"
+# 보조 루트 — 정본 루트에 없는 스템만 여기서 보충한다(예: Subu26_1 내역조회(저자) 는 출판 빌드 MySQL
+# 폴더에만 존재). 정본 루트 우선, 보조 루트 간 순서 = 아래 나열 순.
+LEGACY_DFM_FALLBACK_ROOTS = (
+    ROOT / "WeLove_FTP" / "도서유통-출판" / "MySQL",
+    ROOT / "WeLove_FTP" / "도서유통-New" / "도서유통",
+)
 FORM_REGISTRY_TS = ROOT / "도서물류관리프로그램" / "frontend" / "src" / "lib" / "form-registry.ts"
 OUT_MD = ROOT / "docs" / "delphi-form-screen-equivalence-matrix.md"
 OUT_JSON = ROOT / "analysis" / "audit" / "delphi-form-screen-matrix.json"
@@ -84,8 +90,12 @@ def _skip_path(p: Path) -> bool:
     return bool(parts & SKIP_SUBPATH_PARTS) or "복사본" in p.name
 
 
-def scan_legacy_dfms() -> dict[str, dict]:
-    """키 = dfm 스템 (예: Subu45_1). 값 = form_object, caption_utf8, path."""
+def scan_legacy_dfms(only_fallback_stems: "set[str] | None" = None) -> dict[str, dict]:
+    """키 = dfm 스템 (예: Subu45_1). 값 = form_object, caption_utf8, path.
+
+    ``only_fallback_stems`` — 보조 루트에서는 이 집합(레지스트리가 참조하는 folder)에 속하는 스템만
+    보충한다(고아 스템 집계가 타 빌드 사본으로 부풀지 않도록). None 이면 보조 루트 전체.
+    """
     inv: dict[str, dict] = {}
     for dfm in sorted(LEGACY_DFM_ROOT.rglob("*.dfm")):
         if _skip_path(dfm):
@@ -99,6 +109,26 @@ def scan_legacy_dfms() -> dict[str, dict]:
             "form_object": form_obj or "",
             "caption": cap,
         }
+    # 보조 루트 — 정본에 없는 스템만(레지스트리 folder 가 가리키는데 정본 루트에 누락된 경우) 보충.
+    # rglob 대신 최상위 파일만 본다(하위 고객 복사본 트리 대량 스캔·중복 방지).
+    for root in LEGACY_DFM_FALLBACK_ROOTS:
+        if not root.is_dir():
+            continue
+        for dfm in sorted(root.glob("*.dfm")):
+            stem = dfm.stem
+            if not stem.startswith("Subu") or stem in inv or _skip_path(dfm):
+                continue
+            if only_fallback_stems is not None and stem not in only_fallback_stems:
+                continue
+            form_obj, cap = extract_root_form_and_caption(dfm)
+            if not form_obj:
+                continue
+            inv[stem] = {
+                "dfm_path": str(dfm.relative_to(ROOT)),
+                "form_object": form_obj or "",
+                "caption": cap,
+                "fallback_root": True,
+            }
     return inv
 
 
@@ -397,8 +427,8 @@ def main() -> int:
         print("ERROR: form-registry.ts not found", file=sys.stderr)
         return 2
 
-    legacy = scan_legacy_dfms()
     modern = parse_form_registry_entries(FORM_REGISTRY_TS)
+    legacy = scan_legacy_dfms(only_fallback_stems={m["folder"] for m in modern})
     rows, orphans = build_rows(legacy, modern)
 
     # --check: Subu* 트랙에서 DFM 누락 또는 심한 제목 불일치만 실패

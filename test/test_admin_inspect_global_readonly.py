@@ -121,7 +121,9 @@ class AdminInspectContextTests(IsolatedAsyncioTestCase):
             self.assertEqual(params[0], "u1")
             return [{"gcode": "u1", "hcode": "BR01", "hname": "지점", "gname": "사용자"}]
 
-        async def fake_role(user_id: str, hcode: str, server_id: str):
+        # DEC-056 Wave A(Id_Logn Fxx 어댑터 합류) 이후 deps 는 db_name/fxx_preloaded 키워드
+        # 인자를 함께 넘긴다 — 시그니처를 맞추지 않으면 TypeError 로 점검 컨텍스트 합성 실패.
+        async def fake_role(user_id: str, hcode: str, server_id: str, **kwargs):
             return "operator", ["report.read"]
 
         def fake_account(user_id: str, hcode: str, server_id: str, **kwargs):
