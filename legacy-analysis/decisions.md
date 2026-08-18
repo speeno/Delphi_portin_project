@@ -2161,6 +2161,33 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-171: 특별관리 계정(빌드)별 비율 프로필 — 총판 비율 1개 / 출판 판매유형별 Grat1~6 (2026-08-18)
+
+- **보고**: 사용자 — "총판 계정과 (수정요청을 반영하는) 교문사 독립 출판사 계정들 별로 계정별 적용이
+  가능하면 그렇게 수정" (DEC-170 분석의 A안을 계정 변형으로 채택).
+- **결정**: 코드 분기 없이 **계약 데이터**로 분기 — `migration/contracts/special_master.yaml` v1.3.0
+  `rate_profiles`(single: 총판 빌드 원형 Grat1+단가 / by_pubun: 출판·자체물류 빌드 Grat1~6+단가) +
+  `customer_variants`(match `build_role` ∈ {publisher, warehouse_publisher} → by_pubun, 그 외 기본 single).
+  런타임은 허브 정본 → 백엔드 번들 사본(`backend/data/contracts/special_master.yaml`) 순(DEC-069 패턴,
+  동기화 가드 테스트).
+- **적용 규칙(by_pubun)**: `Tong20.PrinRat1` 동등 — 위탁·신간·반품→Grat1, 현매→Grat2, 매절→Grat3, 납품→Grat4,
+  특별→Grat5, 한도→Grat6, 증정→0, 단가=Gssum. 명시 이탈 2건: ① '기타'는 레거시 분기 부재(Grat1 잔존) 대신
+  그리드 라벨(기타=Grat6)대로 Grat6, ② 판매유형 컬럼이 0(미입력)이면 **Grat1 폴백** — 웹 기존 특가 행은
+  Grat1 만 채워져 있어 현매 전표가 0% 로 계산되는 사고 방지(레거시는 0 그대로).
+- **구현(제품 323733e)**: `services/special_rate_profile.py`(프로필 해석·pubun→컬럼), `services/g6_ggeo_adapt.py`
+  (SHOW COLUMNS 캐시로 Grat2~9 드리프트 대응, IFNULL), 목록 응답 `rate_profile`+행 `grat2~6`, POST/PATCH
+  grat2~6, line-defaults 라우터가 로그인 컨텍스트로 프로필 해석 후 `resolve_line_defaults(special_profile=)`.
+  화면은 프로필 컬럼에서 그리드/편집/신규 입력 파생(총판 계정 = 기존 "비율" 1칸 그대로), 거래처 기본 공급율
+  컬럼별 자동 채움. 출고접수(`resolveSpecial`)는 같은 line-defaults 경로라 자동 반영.
+- **검증**: `test_dec171_special_rate_profile.py` 9 PASS(프로필 해석·pubun 매핑·번들 동기·드리프트 조각·
+  create/update 컬럼·by_pubun/single/0-폴백) + 인접 30 PASS, tsc 0, hcode 감사 신규 0, 라이브(remote_153,
+  G6 Grat1~9 존재 확인) create(grat2/4)→patch(grat3)→delete 라운드트립 정상(잔여 0), line-defaults 실측
+  위탁 75 / 현매(미입력)→폴백 75 / 증정 0 / 총판 프로필 현매 75, 화면 6컬럼(위탁~기타)+단가 렌더.
+- **잔여**: 거래처별 기본행(Bcode='') 모드·신간 배본 폴백(Seek07)은 신간발행 이식과 묶어 별도(DEC-170 D3),
+  `analysis/layout_mappings/Sobo16.md` 총판 기준 서술 갱신 필요.
+- **결정자**: 사용자 (2026-08-18)
+- **참조**: [[DEC-170]], [[DEC-155]], [[DEC-069]](번들 사본), `docs/special-mgmt-legacy-vs-web-2026-08-18.md`
+
 ### DEC-170: 특별관리 — 행 선택 후 신규 등록 유지 + 정가/기본비율 자동 채움 + 레거시 절차 재검토 (2026-08-18)
 
 - **보고**: 영업팀 스크린샷 4건 — ① 기존 도서 클릭 시 추가 방법 소실 ② 신규 도서 추가 시 비율/단가 수기
