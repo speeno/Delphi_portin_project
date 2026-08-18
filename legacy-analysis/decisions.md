@@ -2161,6 +2161,25 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-168: 라인 그리드 공통 ↑/↓/←/→ 셀 이동 — 신규 출고 주문·입고·반품 라인표 (2026-08-18)
+
+- **보고**: 신규 출고 주문(`/outbound/orders/new`, `order-line-grid`) 스크린샷 — "키보드 상하좌우로
+  입력창 이동을 수정했던 것 같은데 원복됐으면 다시". **확인 결과 원복이 아님**: 화살표 셀 이동은
+  DEC-156(2026-08-13)에서 **신규 거래명세서**(`sales-statement/new`) 그리드에만 구현됐고, 출고 주문
+  라인표·입고 라인표·반품 라인표에는 애초에 없었다(git -S 이력 0건). 수량 ↑/↓=±1(`handleQtyArrowKey`)만 있었음.
+- **구현(제품)**: 공통 헬퍼 `lib/grid-arrow-nav.ts` `handleGridArrowKey` — `<tbody onKeyDown>` 1곳 부착,
+  DOM(tr/td)만으로 동작해 컬럼 순서·숨김(useGridPrefs)과 무관.
+  ①↑/↓ = 같은 열(td index) 이웃 행 입력(입력 없는 열이면 다음 행 계속 탐색) ②←/→ = 같은 행 이웃 입력,
+  DEC-156 규약대로 **캐럿이 값 처음/끝일 때만**(전체 선택·빈값·number 입력은 항상 이동)
+  ③이미 소비된 이벤트(`defaultPrevented`: 자동완성 목록 ↑↓, 수량 ±1, 구분 픽필드 ↓=팝업 열기)와
+  IME 조합 중은 불간섭 ④픽 필드(readOnly+role=combobox)도 이동 대상. 부착: `order-line-grid`,
+  `inbound-line-grid`, `return-line-grid`.
+- **검증(로컬 dev, Chrome, /outbound/orders/new 3행)**: 공급율 r0 →↓ r1 →↓ r2 →↑ r1 →→ 수량 →→ 금액(단가
+  읽기전용 건너뜀) →→ 비고 →← 금액 →← 수량 →← 공급율 →← 도서코드 →← 구분 →↑ r0 구분; 구분 ↓ = 팝업
+  열기 유지. tsc 0.
+- **결정자**: 사용자 (2026-08-18)
+- **참조**: [[DEC-156]], [[DEC-104]]/[[DEC-105]](Enter 흐름), `lib/grid-arrow-nav.ts`
+
 ### DEC-167: 도서별수불원장 하단 상세 합계행 — 입고/출고/반품/금액 합계 표기 (2026-08-18)
 
 - **보고**: 스크린샷(3411, 2026.03.05 상세) — 하단 거래처별 상세의 합계 행이 현재고(256)만
