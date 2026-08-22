@@ -75,12 +75,19 @@ class NewReceiptLayoutTests(TestCase):
         """순서 보장 — 먼저 이동 시도, 이동 못 했을 때만 스핀 차단.
 
         (역순이면 defaultPrevented 로 인해 셀 이동이 영영 동작하지 않는다.)
+
+        2026-08-22 전 화면 통일로 스핀 억제가 이 페이지의 래퍼에서 공용 헬퍼
+        `grid-arrow-nav` 안으로 옮겨졌다 — 페이지는 헬퍼에 그대로 위임하므로
+        순서 검증도 헬퍼 본문에서 한다.
         """
-        body = self.src[self.src.index("function handleLineGridKeyDown") :][:900]
-        nav_at = body.index("handleGridArrowKey(e)")
-        guard_at = body.index("e.defaultPrevented")
-        self.assertLess(nav_at, guard_at, "handleGridArrowKey 가 먼저 호출돼야 한다")
-        self.assertIn('t.type === "number"', body)
+        # 페이지는 자체 스핀 처리 없이 공용 헬퍼에 위임한다.
+        self.assertIn("handleGridArrowKey", self.src)
+        body = NAV_TS.read_text(encoding="utf-8")
+        body = body[body.index("export function handleGridArrowKey") :]
+        move_at = body.index("nextElementSibling")  # ↑/↓ 이웃 행 탐색
+        guard_at = body.rindex('type === "number"')  # 이동 대상이 없을 때만 스핀 차단
+        self.assertLess(move_at, guard_at, "스핀 억제는 행 이동 시도 뒤에 와야 한다")
+        self.assertIn("e.preventDefault()", body[guard_at:])
 
 
 HARNESS_JS = r"""
@@ -106,15 +113,9 @@ Object.defineProperty(dom.window.HTMLElement.prototype, "offsetParent", {
   get() { return this.hasAttribute("data-hidden") ? null : document.body; },
 });
 
-// page.tsx 의 handleLineGridKeyDown 과 동일한 순서/조건.
-function handleLineGridKeyDown(e) {
-  handleGridArrowKey(e);
-  if (e.defaultPrevented) return;
-  if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
-  if (e.nativeEvent.isComposing) return;
-  const t = e.target;
-  if (t instanceof HTMLInputElement && t.type === "number") e.preventDefault();
-}
+// page.tsx 는 `handleLineGridKeyDown = handleGridArrowKey` 로 위임한다 —
+// 하니스도 실제 배송 경로 그대로 공통 헬퍼를 직접 호출한다(래퍼 복제 금지).
+const handleLineGridKeyDown = handleGridArrowKey;
 
 function press(el, key, opts) {
   const isComposing = !!(opts && opts.isComposing);

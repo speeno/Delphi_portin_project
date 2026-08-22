@@ -153,6 +153,21 @@ dfm `OnXxx` 와 모던 컴포넌트 핸들러를 1:1 로 매핑한다. 변형 �
     종전 페이지 로컬 `padStart` 인라인 제거.
 - 라인 그리드(DBGrid101) 9컬럼은 무변경 — 본 변경은 상단 **전표 목록** 한정.
 
+## 7.2 상세/수정 화면 정합 + 전 화면 상하키 규약 (2026-08-22, DEC-175/176)
+
+- **상세·수정(`/inbound/receipts/[receiptKey]`) = 신규 화면 동일 구성**:
+  - 헤더 `거래일자 · 입고처 코드 · 입고처 · 전표번호`(출판사 제외 — 목록·신규와 동일).
+  - 라인 컬럼에서 `구분`(Pubun)·`상태` 제거, `비고` 추가 → 읽기 표·편집 그리드
+    (`inbound-line-grid`) 둘 다 동일. **`ISBN` 은 유지** — DEC-169 대상 목록의 B10
+    (`/inbound/receipts/[receiptKey]` 라인 + `inbound-line-grid`) 이라 유지가 정합.
+  - `Pubun` 값은 계속 저장된다(편집 UI 만 제거). 라인 `상태`는 상단 전표 배지로 갈음 —
+    종전 `Yesno='2' → "취소"` 표기는 RISK-009(완료/취소 이중 의미) 상 오도 소지가 있었다.
+- **상하키 규약(전 화면)**: number 입력의 ↑/↓ 는 값 ±1 이 아니라 **입력칸 이동**.
+  공용 `handleGridArrowKey` 가 이동 + 스피너 억제까지 담당하며, 종전 `lib/qty-input.ts`
+  (`handleQtyArrowKey`) 는 **삭제**했다. 표가 아닌 단건 편집 다이얼로그
+  (`sales-statement-line-edit-dialog`) 는 ref 기반 이전/다음 칸 이동으로 동일 규약 적용.
+- **전표번호**: 상세는 `formatIdnumDisplay(idnum) || "—"` — `jubun` 폴백 금지(DEC-175).
+
 ## 8. 참조
 
 - DEC-028: dfm→html 산출물 영구 입력 동결.

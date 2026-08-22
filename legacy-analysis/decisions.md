@@ -2161,6 +2161,56 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-176: 검색 팝업 자동 선택 제거 — 무심코 친 Enter 가 1번째 결과를 입력하던 오입력 (2026-08-22)
+
+- **보고**: 사용자 — "검색 팝업이 뜰 때 사용자가 명시적으로 선택하지 않았는데 첫 항목이 자동
+  선택돼 있어, 무의식적으로 Enter 를 치면 무조건 1번째 검색 항목이 입력된다."
+- **원인**: `master-lookup-dialog.tsx` 가 검색 직후 `initIdx = exactIdx >= 0 ? exactIdx : 0`
+  으로 **항상 첫 행을 강조**했고, 검색창에서 같은 키워드로 Enter 를 다시 치면
+  (`term === lastTermRef.current && selectedRow`) 그 강조 행을 확정했다. 즉 "검색하려고 친
+  Enter" 가 "1번째 결과 확정" 이 됐다.
+- **결정**: 자동 강조는 **정확 코드 일치 행에만** 남긴다.
+  - 유지: 전체 코드를 입력한 경우의 Enter 1회 확정(DEC-134) — 사용자 표현의
+    "값을 입력해서 항목 선택" 에 해당하는 명시적 행동.
+  - 제거: 그 외 미일치 시 `setSelectedKey("")` — 어떤 행도 강조하지 않는다.
+  - 선택은 **↓ / 클릭 / 정확 코드 입력** 같은 명시적 행동에서만 생긴다. `↓` 가 첫 행을
+    선택하고 그리드로 진입하는 흐름은 그대로.
+- **점검 결과(무변경)**: 인라인 자동완성(`master-lookup-field` `activeIdx=-1`), 거래명세서
+  검색 팝업(`selectedIdx=-1`), 공용 `DataGrid`(`selectedRowKey` 비면 -1) 는 원래부터
+  미선택 시작이라 손대지 않았다 — 회귀 가드로만 고정.
+- **회귀 가드**: `test/test_lookup_dialog_no_auto_select.py` 7건.
+- **결정자**: 사용자 (2026-08-22)
+- **참조**: DEC-134(Enter 자동확정 조건), DEC-097(팝업 폴백)
+
+### DEC-175: 입고 상세/수정/취소 SQL 행 스코프(`Scode='Y'`) 누락 — 전표번호 오표시·출고 전표 오염 (2026-08-22)
+
+- **보고**: 사용자 — "입고 접수 상세 화면의 전표 번호 이상하여 확인 필요".
+- **근본 원인(백엔드)**: 입고 상세/수정/취소 SQL 이 헤더키
+  `(Gdate, Hcode, Gcode, Jubun)` 만 조건으로 썼다. 이 좌표는 **거래처 간 공유 키**라
+  (DEC-080 SLIP_KEY_AMBIGUOUS) 같은 키에 출고(`Scode='X'`) 행이 함께 존재할 수 있다.
+  목록은 `Scode='Y'` 로 입고만 집계하는데 상세 계열은 이 조건이 없어서:
+  1. 상세 `MAX(Idnum+0)` 가 **출고 전표의 Idnum** 을 집어 목록과 다른 전표번호 표시,
+  2. 상세 라인에 출고 라인이 섞이고,
+  3. **소프트 취소(`Yesno='2'`)·라인 UPDATE/DELETE 가 출고 전표를 함께 건드릴 수** 있었다
+     (데이터 훼손 위험 — 실제 사고 보고는 없으나 경로가 열려 있었다).
+- **수정**: `_SQL_INBOUND_ROW_WHERE = 헤더키 + " AND Scode='Y'"` 신설, `S1_Ssub` 를 건드리는
+  6개 SQL(상세 라인 / MAX(Idnum) / 취소 전 Yesno 조회 / 취소 UPDATE / 라인 UPDATE·DELETE)
+  전부 교체. **`S1_Memo` 는 Scode 컬럼이 없어 헤더키 그대로** 둔다(붙이면 1054).
+  `Gubun` 은 넣지 않는다 — 입고현황은 반품입고 전표도 함께 보여준다(DEC-174).
+  목록에 보이는 행은 정의상 `Scode='Y'` 이므로 이 조건은 결과를 좁히기만 한다.
+- **증상 증폭(프론트)**: 상세가 `formatIdnumDisplay(idnum) || receipt_key.jubun` 으로
+  폴백해 Idnum 이 0 이면 12자리 **Jubun(거래처별 차수)** 을 전표번호 자리에 노출했다.
+  이는 **DEC-108 이 감사 대상으로 남긴 "`inbound/receipts/[receiptKey]:271`
+  (입고 체계 확인 요)" 미해결 항목**이다. 레거시 정본 Sobo22 는
+  `Edit109 = Format('%05s', Idnum)` 이므로 Idnum 이 정본 — 없으면 목록과 동일하게 `—`.
+  신규 화면 저장 배너의 `savedKey.jubun` 노출도 같은 결함이라 서버 채번 `idnum` 으로 교체.
+  → **DEC-108 감사 항목 중 입고 건 종결.**
+- **회귀 가드**: `test/test_inbound_detail_slip_number_scope.py` 7건
+  (S1_Ssub 6종 SQL 의 Scode 스코프 / S1_Memo 는 Scode 금지 / 상세 Idnum·라인 조회 스코프 /
+  취소가 출고 행 미접촉 / 프론트 Jubun 폴백 제거).
+- **결정자**: 사용자 리포트 (2026-08-22)
+- **참조**: DEC-080(공유키 fail-closed), DEC-099/108(전표번호=Idnum), DEC-174
+
 ### DEC-174: 입고현황 교문사 정합 — 입고처명 정본 G2_Ggwo·요약 hcode 격리·Gubun 무필터 + 입고접수 6컬럼 (2026-08-22)
 
 - **보고**: 사용자 — "교문사 계정에서 조회되는 입고처 데이터가 기존 프로그램 입고현황 화면과 다르다"
