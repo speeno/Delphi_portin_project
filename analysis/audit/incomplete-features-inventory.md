@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-08-22T01:52:51.612657+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-08-22T03:14:12.280941+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -42,11 +42,11 @@
   - 거래현황 기간 요약 집계 조회 — GET /transactions/status?view=summary
 - `Sobo22_inbound_statement` (입고명세서) `/transactions/inbound-statement`
   - C1 phase1 — Menu202 입고명세서(조회·출력). GET /transactions/inbound-statement 는 inbound_service.list_receipts 재사용 facade(신규 SQL 0). 라인 펼침은 /inbound/receipts/{key} 지연 조회. C3 입고접수(/inbound/receipts)와 동일 Subu22 — variant 는 inbound_receipt.yaml 에만
-- `Sobo25_status_detail` (입고현황(상세)) `/transactions/inbound-status?view=detail`
+- `Sobo25_status_detail` (입고 현황(상세)) `/transactions/inbound-status?view=detail`
   - C2 phase1 — 입고현황 상세(view=detail). 목록은 list 와 동일 facade, 행 펼침 시 /inbound/receipts/{key} 라인 지연 조회(신규 SQL 0)
-- `Sobo25_status_list` (입고현황) `/transactions/inbound-status`
+- `Sobo25_status_list` (입고 현황) `/transactions/inbound-status`
   - C2 phase1 — Menu205 입고현황(F25, 조회). Publisher 정본 publisher_source_root/Subu25(caption 입고현황) 재추출로 P0 해제. GET /transactions/inbound-status?view=list 는 inbound_service.list_receipts 재사용 facade(신규 SQL 0). Sobo25_inbound_status.md
-- `Sobo25_status_summary` (입고현황(요약)) `/transactions/inbound-status?view=summary`
+- `Sobo25_status_summary` (입고 현황(요약)) `/transactions/inbound-status?view=summary`
   - C2 phase1 — 입고현황 요약(view=summary). inbound_service.period_report(기간 출판사/거래처 집계) 재사용 facade(신규 SQL 0)
 - `Sobo26_production_stmt` (제작명세서) `/transactions/production/statement`
   - C6 phase1 — Menu206 제작명세서(F26, 조회). Publisher 정본 publisher_source_root/Subu26(caption 제작명세서) 재추출로 P0 해제. GET /transactions/production/statement = production_service.list_production_statement(S2_Ssub, Ycode=출판사). 인쇄 OOS(DEC-017). Sobo26_production_stmt.md

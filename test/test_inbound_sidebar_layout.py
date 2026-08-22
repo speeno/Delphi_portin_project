@@ -41,11 +41,13 @@ class InboundSidebarLayoutTest(TestCase):
                 "Sobo22",
                 "Sobo22_inbound_statement",
                 "Sobo25_status_list",
-                "Sobo54",
+                # Sobo54(일별 입고내역서)는 2026-08-22 운영 요청 "임시 사용 보류" 로
+                # 사이드바에서 제외 — 라우트/화면은 유지. 재노출 시 여기 되돌린다.
                 "Sobo57",
                 "Sobo22_import",
             ],
         )
+        self.assertNotIn("Sobo54", ids, "일별 입고내역서는 사이드바에 노출되지 않는다")
         # 단일 레벨 보증 — 입고현황 children 서브그룹이 없어야 한다.
         self.assertNotIn("Sobo25_status_detail", ids)
         self.assertNotIn("Sobo25_status_summary", ids)

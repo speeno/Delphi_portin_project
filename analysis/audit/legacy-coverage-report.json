@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T01:52:51.777028+00:00",
+  "generated_at": "2026-08-22T03:14:12.498366+00:00",
   "summary": {
     "total_dfm_candidates": 118,
     "registry_entries": 94,
@@ -459,7 +459,7 @@
     {
       "form_name": "Sobo22",
       "dfm_form_name": "Sobo22",
-      "registry_caption": "입고접수",
+      "registry_caption": "입고 접수",
       "dfm_caption": "입고명세서",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu22.dfm",
       "category": "caption_mismatch",
@@ -517,7 +517,7 @@
     {
       "form_name": "Sobo25_status_detail",
       "dfm_form_name": "Sobo25",
-      "registry_caption": "입고현황(상세)",
+      "registry_caption": "입고 현황(상세)",
       "dfm_caption": "반품재고(반품입고)-해체",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm",
       "category": "caption_mismatch",
@@ -527,7 +527,7 @@
     {
       "form_name": "Sobo25_status_list",
       "dfm_form_name": "Sobo25",
-      "registry_caption": "입고현황",
+      "registry_caption": "입고 현황",
       "dfm_caption": "반품재고(반품입고)-해체",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm",
       "category": "caption_mismatch",
@@ -537,7 +537,7 @@
     {
       "form_name": "Sobo25_status_summary",
       "dfm_form_name": "Sobo25",
-      "registry_caption": "입고현황(요약)",
+      "registry_caption": "입고 현황(요약)",
       "dfm_caption": "반품재고(반품입고)-해체",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu25.dfm",
       "category": "caption_mismatch",
