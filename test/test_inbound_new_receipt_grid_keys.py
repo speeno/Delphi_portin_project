@@ -137,6 +137,35 @@ class PubunComboOptionsTests(TestCase):
                 self.assertIn("PUBUN_COMBO_OPTIONS", src)
                 self.assertIn("LocalComboField", src)
 
+    def test_statement_screens_use_the_shared_list(self) -> None:
+        """거래 명세서 3화면도 공용 목록 — 종전엔 9종이 각자 하드코딩(「개정」 누락)."""
+        for rel in (
+            "src/components/transactions/sales-statement-line-edit-dialog.tsx",
+            "src/components/transactions/sales-statement-edit-dialog.tsx",
+            "src/app/(app)/transactions/sales-statement/new/page.tsx",
+        ):
+            src = (FRONTEND / rel).read_text(encoding="utf-8")
+            with self.subTest(file=rel):
+                self.assertIn("PUBUN_OPTIONS_FULL", src)
+                self.assertNotIn('const PUBUN_OPTIONS = [', src)
+
+    def test_no_hardcoded_list_outside_shared_module(self) -> None:
+        """어느 화면에서도 구분 목록을 다시 하드코딩하지 않는다(재발 방지)."""
+        import re
+        src_root = FRONTEND / "src"
+        offenders = []
+        for path in list(src_root.rglob("*.tsx")) + list(src_root.rglob("*.ts")):
+            if path.name == "pubun-options.ts":
+                continue
+            text = path.read_text(encoding="utf-8", errors="replace")
+            for m in re.finditer(r'\[\s*"위탁"[\s\S]{0,300}?\]', text):
+                if len(re.findall(r'"([가-힣]{2})"', m.group(0))) >= 5:
+                    offenders.append(str(path.relative_to(src_root)))
+        self.assertEqual(
+            [], sorted(set(offenders)),
+            "구분 목록은 lib/pubun-options.ts 한 곳에서만 정의한다",
+        )
+
 
 HARNESS_JS = r"""
 const { JSDOM } = require("jsdom");
