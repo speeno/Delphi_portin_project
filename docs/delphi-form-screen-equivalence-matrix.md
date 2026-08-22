@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-08-18T15:59:55Z
+> **생성 시각 (UTC)**: 2026-08-22T01:52:51Z
 
 ## 목적
 
@@ -34,7 +34,7 @@
 | MULTI_MAP | `Sobo21_status_list` | `Subu21` | 거래현황(LIST) | 거래명세서 | `Sobo21` | `/transactions/status?view=list` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo21_status_memo` | `Subu21` | 거래현황(메모) | 거래명세서 | `Sobo21` | `/transactions/status?view=memo` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo21_status_summary` | `Subu21` | 거래현황(요약) | 거래명세서 | `Sobo21` | `/transactions/status?view=summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MULTI_MAP | `Sobo22` | `Subu22` | 입고접수관리 | 입고명세서 | `Sobo22` | `/inbound/receipts` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo22` | `Subu22` | 입고접수 | 입고명세서 | `Sobo22` | `/inbound/receipts` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo22_inbound_statement` | `Subu22` | 입고명세서 | 입고명세서 | `Sobo22` | `/transactions/inbound-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MATCH | `Sobo23` | `Subu23` | 반품명세서 | 반품명세서 | `Sobo23` | `/returns/receipts` |  |
 | MULTI_MAP | `Sobo21_status_detail` | `Subu24` | 거래현황(상세) | 반품재고(정품입고)-재생 | `Sobo24` | `/transactions/status?view=detail` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |

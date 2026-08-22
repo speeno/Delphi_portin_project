@@ -36,6 +36,11 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, TabOrder, DBGrid 
 고정 조건: `Scode = 'Y'`(입고), `Hcode = '<로그인 hcode>'`, `Gcode <> ''`.  
 정렬: `ORDER BY Gdate, Gcode, Gubun, Jubun, Gjisa, ID` · `LIMIT 0,3000`.
 
+> **DEC-174 (2026-08-22)** — 고정 조건에 **`Gubun` 은 없다**. Gubun 은 검색 콤보(Edit103)라
+> 무입력 시 입고·반품이 함께 나온다. 모던도 `list_receipts(gubun=None, require_vendor=True)`
+> 로 맞췄다(입고접수/입고명세서는 `Gubun='입고'` 기본 유지). `Yesno` 도 무필터 —
+> 2는 접수완료 잠금이지 취소가 아니므로 프론트 `includeCancelled` 기본 true.
+
 ### 2.1 2026-06 공통 검색창 보강
 
 - LIST/상세 필터의 `hcode`(`Sobo25.Edit106`)는 `lookupKind="publisher"`로,
@@ -61,7 +66,7 @@ registry: `Sobo25_status_list` / `Sobo25_status_detail` / `Sobo25_status_summary
 | --- | --- | --- |
 | `Button101Click` | `SELECT * FROM S1_Ssub WHERE ...`(L380) | `view=list/detail` → `list_receipts` |
 | 본사/창고 토글 | `Edit107` → `Ocode A/B` | store_kind(기본 B 창고, 현행 회귀 보존) |
-| 입고처명 lookup | `G2_Ggwo.Locate` 행별 Gname 보강 | `list_receipts` 의 `_fetch_vendor_names` (in_clause_lookup 청크) |
+| 입고처명 lookup | `G2_Ggwo.Locate('Hcode;Gcode')` → 실패 시 `Hcode=''` 폴백 (L455~L475) | `_fetch_vendor_names` — **G2_Ggwo** `Hcode IN (<scope>,'')` 청크 lookup, 정확 일치 우선 (DEC-174) |
 
 ## 5. Out-of-scope (§6)
 

@@ -141,6 +141,18 @@ dfm `OnXxx` 와 모던 컴포넌트 핸들러를 1:1 로 매핑한다. 변형 �
 - 매핑: `hcode -> lookupKind="publisher"`, `gcode -> lookupKind="inboundVendor"`, 라인 `bcode -> lookupKind="book"`.
 - 기존 `Sobo22.Edit103/104` data-legacy-id 는 유지하고 검색 버튼(`Sobo22.LookupHcode/Gcode`)을 추가했다.
 
+## 7.1 운영 요청 반영 — 메뉴 표기·목록 컬럼 (2026-08-22, DEC-174)
+
+- 메뉴/페이지 제목: `입고접수관리` → **`입고접수`** (`form-registry.ts` Sobo22 caption, 페이지 `<h1>`).
+  레거시 Menu208 원 표기(`입고접수관리`)는 registry 주석에 보존. Sobo22 는 `MULTI_MAP`
+  (Subu22 폴더 → 접수·입고명세서 2라우트) 이라 캡션 매트릭스 `--check` 영향 없음.
+- **전표 목록 컬럼 = 전표번호 · 거래일자 · 입고처 · 라인 · 수량 · 금액** 6종 고정.
+  - 제외: `출판사`(hcode) — 대응 필터가 이미 UI 에서 빠져 있어 열만 남아 있었다.
+  - 제외: `상태`(Yesno 3-state) — 접수 잠금 여부는 상세 화면에서 확인.
+  - 전표번호는 공용 `formatIdnumDisplay`(Idnum 5자리 zero-pad, DEC-099/108) 사용 —
+    종전 페이지 로컬 `padStart` 인라인 제거.
+- 라인 그리드(DBGrid101) 9컬럼은 무변경 — 본 변경은 상단 **전표 목록** 한정.
+
 ## 8. 참조
 
 - DEC-028: dfm→html 산출물 영구 입력 동결.

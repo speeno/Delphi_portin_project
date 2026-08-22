@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T15:59:55.514125+00:00",
+  "generated_at": "2026-08-22T01:52:51.152850+00:00",
   "summary": {
     "registry_forms": 94,
     "legacy_dfm_subu_stems": 92,
@@ -100,7 +100,7 @@
       "modern_id": "Sobo22",
       "folder": "Subu22",
       "route": "/inbound/receipts",
-      "modern_caption": "입고접수관리",
+      "modern_caption": "입고접수",
       "legacy_form_object": "Sobo22",
       "legacy_caption": "입고명세서",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu22.dfm",

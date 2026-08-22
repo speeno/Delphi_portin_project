@@ -2161,6 +2161,51 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-174: 입고현황 교문사 정합 — 입고처명 정본 G2_Ggwo·요약 hcode 격리·Gubun 무필터 + 입고접수 6컬럼 (2026-08-22)
+
+- **보고**: 사용자 — "교문사 계정에서 조회되는 입고처 데이터가 기존 프로그램 입고현황 화면과 다르다"
+  (레거시 스크린샷: 2026.07.01~08.22, 중원아트(랩핑)·태성제책사·(주)디북 등 13행 / 상세 2행 합계 1,792).
+- **정본**: `WeLove_FTP/도서유통-New/도서유통/한국도서유통/출판/MySQL/도서유통/chul_09(위러브)/Subu25_2.pas`
+  (교문사 = chul_09 공유 DB, `BLD-PUB-WAREHOUSE-WELOVE` 빌드). `Button101Click` L396~L427.
+- **원인 4건 / 수정**:
+  1. **요약 뷰 hcode 미전달(보안)** — `/transactions/inbound-status?view=summary` facade 가
+     `period_report(hcode=...)` 를 넘기지 않아 `chul_09_db` 공유 4테넌트(교문사·위러브1·2·3)
+     입고가 합산됐다. `_effective_hcode` 전달로 격리(OQ-TENDIR-1 계열, DEC-136 fail-closed 동형).
+  2. **입고처명 테이블 오선택** — `inbound_service._fetch_vendor_names` 가 거래처 마스터
+     `G1_Ggeo` 를 무스코프 조회. 입고처 마스터 정본은 **`G2_Ggwo`** 이고, 레거시는 행별
+     `G2_Ggwo.Locate('Hcode;Gcode', [로그인hcode, Gcode])` → 실패 시 `Hcode=''` 폴백(L455~L475).
+     → `Hcode IN (<scope>, '')` 청크 lookup + **정확 일치 행 우선** 병합으로 재현.
+     입고처 자동완성(`/masters/inbound-vendors-search`) 도 동일 스코프 적용.
+  3. **`Gubun='입고'` 하드필터** — 레거시 입고현황 고정 조건은 `Scode='Y'` + `Gcode<>''` 뿐이고
+     Gubun(입고/반품)은 검색 콤보(Edit103)다. `list_receipts(gubun=None, require_vendor=True)`
+     로 입고현황 facade 만 무필터 전환(입고접수/입고명세서는 `Gubun='입고'` 기본 유지).
+  4. **`Yesno='2'` 전표 기본 제외** — 프론트 `includeCancelled` 기본 false → `HAVING MAX(Yesno)<>'2'`.
+     레거시 입고현황은 Yesno 를 **전혀 필터하지 않는다**. 입고현황(조회 전용) 만 기본 true·라벨
+     "완료·취소 포함" 으로 전환. 입고접수(Sobo22, CRUD)의 기본 false 는 **무변경** — 웹 소프트취소
+     전표는 계속 숨긴다.
+     - ⚠ **`Yesno='2'` 는 이중 의미다(알려진 위험).** 레거시 기록에서는 **완료/확정**
+       (`_line_status_from_yesno_max` — Subu21.pas L1395/L1444 삭제 잠금 조건 `Yesno<>'1' and <>'2'`,
+       레거시의 취소는 행 DELETE), 모던 웹에서는 **소프트취소** 마커(`SQL_CANCEL_RECEIPT`, DEC-012).
+       같은 컬럼 값이라 **행만 보고는 구분 불가** — 이것이 "레거시엔 보이는데 웹엔 없다" 의 직접 원인이다.
+       구분이 필요해지면 별도 취소 마커(Time3/Time4 또는 전용 컬럼) 도입이 선행돼야 한다.
+- **부수 정합(회귀 차단)**: `_fetch_vendor_names` 는 원장(`customer_ledger_service._fetch_customer_names`)
+  과 공유 중이었다. 원장 축의 `Gcode` 는 **거래처(G1_Ggeo)** 라(DEC-137) 테이블이 다르므로,
+  원장 폴백을 G1_Ggeo 인라인 조회로 되돌리고 공유 import 를 끊었다. **두 도메인의 `Gcode` 동음이의
+  (입고=입고처/원장=거래처)가 공용 헬퍼로 묶이면 안 된다.**
+- **입고접수 화면(운영 요청 동시 반영)**: 메뉴/제목 표기 `입고접수관리` → **`입고접수`**,
+  목록 컬럼 = **전표번호·거래일자·입고처·라인·수량·금액** 6종 고정(출판사·상태 제외 —
+  출판사 필터는 이미 UI 제거됨, 접수 잠금은 상세에서 확인). 전표번호는 공용
+  `formatIdnumDisplay`(5-pad, DEC-099/108) 로 통일. Sobo22 는 MULTI_MAP 이라 캡션 매트릭스 무영향.
+- **회귀 가드**: `test/test_inbound_status_gyomunsa_parity.py` 10건 신규(요약 hcode 전달 / facade
+  레거시 스코프 / WHERE 조립·파라미터 순서 / G2_Ggwo+Hcode 폴백·정확일치 우선 / 자동완성 스코프 /
+  프론트 기본값). `test_inbound_ocode_detail_robust.py` 의 `Gubun='입고'` 리터럴 단언은
+  바인딩 파라미터 형태로 갱신(의도 보존). 전체 `test/` **2141 passed / 0 failed / 48 skipped**, tsc 0.
+- **미해결**: 레거시 화면의 본사/창고 토글(Edit107 → `Ocode A/B`) 은 여전히 미노출(현행 NULL/A/B 전부 허용).
+  교문사 실데이터 대조는 라이브 DB 스모크(`RUN_DB_SMOKE`) 로 별도 확인 필요.
+- **결정자**: 사용자 (2026-08-22 리포트 + 입고접수 컬럼 지정)
+- **참조**: DEC-136(공유좌표 hcode 격리), DEC-137(원장 도메인 축), DEC-172(G2_Ggwo 컬럼 의미),
+  DEC-099/108(Idnum 표기), `analysis/layout_mappings/Sobo25_inbound_status.md`
+
 ### DEC-173: 허브 회귀 스위트 부채 청산 — 128 실패 → 0 (2026-08-19)
 
 - **배경**: 전체 스위트가 126~128건 기존 실패를 안고 있어 CI 신호가 죽어 있었음(DEC-169 검증 시 "격리 재실행"으로 우회).

@@ -22,11 +22,12 @@ import app.services.inbound_service as inb  # noqa: E402
 
 class InboundListOcodeTest(TestCase):
     def test_list_where_accepts_null_a_b_ocode(self) -> None:
-        captured: dict[str, str] = {}
+        captured: dict[str, object] = {}
 
         async def fake_eq(server_id, sql, params=()):  # noqa: ANN001
             if "FROM S1_Ssub WHERE" in sql and "GROUP BY" in sql:
                 captured["sql"] = sql
+                captured["params"] = tuple(params)
             return []
 
         with patch.object(inb, "execute_query", new=AsyncMock(side_effect=fake_eq)), \
@@ -37,7 +38,10 @@ class InboundListOcodeTest(TestCase):
                 server_id="remote_153", date_from="2026.06.01", date_to="2026.06.21",
             ))
         sql = captured.get("sql", "")
-        self.assertIn("Gubun = '입고'", sql)
+        # 기본 호출(입고접수/입고명세서) 은 Gubun='입고' 유지 — 2026-08-22 부터 바인딩 파라미터.
+        # (입고현황 facade 만 gubun=None 으로 레거시 Subu25 무필터를 재현한다.)
+        self.assertIn("Gubun = %s", sql)
+        self.assertIn("입고", captured.get("params", ()))
         self.assertIn("Scode = 'Y'", sql)
         # NULL/'A'/'B' 전부 허용 — 단일 Ocode 강제 금지
         self.assertIn("IFNULL(Ocode,'') IN ('', 'A', 'B')", sql)
