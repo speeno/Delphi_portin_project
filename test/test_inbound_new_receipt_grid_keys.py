@@ -47,8 +47,11 @@ class NewReceiptLayoutTests(TestCase):
         self.assertNotIn('htmlFor="gjisa"', self.src)
 
     def test_line_columns_in_order(self) -> None:
-        """라인 컬럼 = 도서코드 · 도서명 · 수량 · 단가 · 비율 · 금액 · 비고 (이 순서)."""
-        wanted = ["도서코드", "도서명", "수량", "단가", "비율", "금액", "비고"]
+        """라인 컬럼 = 구분 · 도서코드 · 도서명 · 수량 · 단가 · 비율 · 금액 · 비고 (이 순서).
+
+        2026-08-22 2차 요청으로 「구분」(Pubun)이 **맨 앞에 복원**됐다.
+        """
+        wanted = ["구분", "도서코드", "도서명", "수량", "단가", "비율", "금액", "비고"]
         positions = []
         for label in wanted:
             marker = f">{label}</th>"
@@ -56,9 +59,9 @@ class NewReceiptLayoutTests(TestCase):
             self.assertNotEqual(idx, -1, f"컬럼 헤더 누락: {label}")
             positions.append(idx)
         self.assertEqual(positions, sorted(positions), f"컬럼 순서 불일치: {wanted}")
-        # '구분'(pubun) 컬럼은 제거 — 값은 입고처 기본값으로 계속 전송한다.
-        self.assertNotIn(">구분</th>", self.src)
+        # '구분'(pubun) 은 화면 입력 + 전송 모두 유지 — 입고처 기본값이 자동으로 채워진다.
         self.assertIn("pubun", self.src, "pubun 전송 자체는 유지돼야 한다")
+        self.assertIn('aria-label="구분"', self.src)
 
     def test_bname_is_display_only(self) -> None:
         """도서명은 표기 전용 — 입력/이동 대상에서 제외(readOnly + tabIndex -1)."""
