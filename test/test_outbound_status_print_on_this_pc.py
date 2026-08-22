@@ -12,9 +12,10 @@
 
 추가 동작
 --------
-- 거래 명세서 목록의 단건/일괄 인쇄와 **같은 엔드포인트·같은 양식**
-  (`salesStatementPdfUrl`/`salesStatementBatchPdfUrl`, `layout=legacy_triplicate`,
-  테두리는 사용자 설정 `sales_statement_print_borders`)을 써서
+- 거래 명세서 목록의 단건/일괄 인쇄와 **같은 엔드포인트**
+  (`salesStatementPdfUrl`/`salesStatementBatchPdfUrl`)를 쓰되, 양식은
+  **2단 일반**(`layout=default` — A4 1장에 공급자·공급받는자 상·하 블록, 절취선)이다
+  (2026-08-22 운영 요청. 종전 레거시 삼련에서 변경. `borders` 는 삼련 전용이라 미전달).
   `printPdfFromUrl` 로 브라우저 인쇄 대화상자를 띄운다.
 - 2건 이상은 batch PDF 1개로 묶어 대화상자가 1회만 뜬다.
 - **상태 전이 없음** — 바로재출고와 동일하게 출력 수단만 추가한 것이다.
@@ -60,11 +61,26 @@ class PrintOnThisPcTests(TestCase):
         self.assertIn("salesStatementPdfUrl(keys[0], sid, opts)", self.fn)
         self.assertIn("salesStatementBatchPdfUrl(keys, sid, opts)", self.fn)
 
-    def test_same_form_layout_as_statement_list(self) -> None:
-        self.assertIn('layout: "legacy_triplicate"', self.fn)
-        self.assertIn("borders: printBorders", self.fn)
-        # 테두리 기본값은 내정보 설정에서 읽어온다(거래 명세서 목록과 동일 키).
-        self.assertIn("sales_statement_print_borders", self.src)
+    def test_uses_two_tier_default_form(self) -> None:
+        """양식 = 2단 일반(`layout=default`) — A4 1장에 공급자·공급받는자 상·하 블록(절취선).
+
+        2026-08-22 운영 요청. 종전에는 거래 명세서 목록과 같은 레거시 삼련
+        (`legacy_triplicate`)이었다. `borders`(양식지 테두리)는 삼련 전용 옵션이라
+        이 경로에서는 넘기지 않는다.
+        """
+        # 주석에 등장하는 단어는 제외 — 실제 코드만 본다.
+        code = "\n".join(
+            ln for ln in self.fn.splitlines() if not ln.strip().startswith("//")
+        )
+        self.assertIn('layout: "default"', code)
+        self.assertNotIn("legacy_triplicate", code)
+        self.assertNotIn("borders", code)
+
+    def test_immediate_dispatch_untouched(self) -> None:
+        """「바로출고」/「바로재출고」는 원래 기능 그대로 — 원격 큐(urgentPrint) 유지."""
+        self.assertIn("doBatchImmediateDispatch", self.src)
+        self.assertIn("doBatchReprint", self.src)
+        self.assertIn("urgentPrint", self.src)
 
     def test_uses_statement_key_not_slip_key(self) -> None:
         """인쇄 API 키는 serializeStatementKey — 화면 선택키(slipKey)와 혼용 금지."""
