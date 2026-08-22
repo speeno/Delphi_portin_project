@@ -219,6 +219,21 @@ Vercel dashboard 절차:
 
 ### 4.2 Vercel 환경변수
 
+> **현재 운영 좌표(2026-08-22 확인)** — 아래 `<backend-service>` 자리표시자의 실제 값.
+>
+> | 구분 | 값 |
+> | --- | --- |
+> | 프론트(Vercel) | `https://books-logistics-web.vercel.app` (project `books-logistics-web`) |
+> | 백엔드(Render) | `https://books-logistics-web.onrender.com` (service **`books-logistics-web`**, Docker, free, Auto-Deploy, repo `speeno/books-logistics-web` @ `main`) |
+> | 연결 방식 | 프록시 — Vercel `BLS_API_PROXY_TARGET` 에 백엔드 URL 등록(암호화), `NEXT_PUBLIC_API_URL` 미등록 |
+>
+> 주의 1 — Render 서비스는 **프론트와 이름이 같다**(`books-logistics-web`). `render.yaml` 이
+> 한때 `books-logistics-api` 로 어긋나 있어 서비스를 못 찾는 일이 있었다(2026-08-22 정정).
+> 주의 2 — 백엔드가 **다른 Render 워크스페이스**("My Workspace")에 있어, 다른 워크스페이스로
+> 로그인한 `render` CLI 에서는 `render services` 목록에 보이지 않는다.
+> 주의 3 — free 플랜이라 유휴 시 spin down → **첫 요청이 50초 이상** 걸릴 수 있다.
+> 로그인/첫 조회가 멈춘 것처럼 보이면 대개 이 현상이다.
+
 권장 프록시 방식:
 
 | 변수 | 값 |
