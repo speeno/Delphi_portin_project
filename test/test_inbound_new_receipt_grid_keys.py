@@ -61,7 +61,13 @@ class NewReceiptLayoutTests(TestCase):
         self.assertEqual(positions, sorted(positions), f"컬럼 순서 불일치: {wanted}")
         # '구분'(pubun) 은 화면 입력 + 전송 모두 유지 — 입고처 기본값이 자동으로 채워진다.
         self.assertIn("pubun", self.src, "pubun 전송 자체는 유지돼야 한다")
-        self.assertIn('aria-label="구분"', self.src)
+        # 자유 입력이 아니라 **픽 필드(LocalComboField)** — 레거시 Sobo40 콤보 동형.
+        self.assertIn('ariaLabel="구분"', self.src)
+        self.assertIn("PUBUN_COMBO_OPTIONS", self.src)
+
+
+
+
 
     def test_bname_is_display_only(self) -> None:
         """도서명은 표기 전용 — 입력/이동 대상에서 제외(readOnly + tabIndex -1)."""
@@ -91,6 +97,45 @@ class NewReceiptLayoutTests(TestCase):
         guard_at = body.rindex('type === "number"')  # 이동 대상이 없을 때만 스핀 차단
         self.assertLess(move_at, guard_at, "스핀 억제는 행 이동 시도 뒤에 와야 한다")
         self.assertIn("e.preventDefault()", body[guard_at:])
+
+
+class PubunComboOptionsTests(TestCase):
+    """구분 목록 = 레거시 정본 10종 (Subu40.dfm Sobo40.Edit101)."""
+
+    LEGACY = ["위탁", "현매", "매절", "납품", "증정", "특별", "한도", "개정", "기타", "신간"]
+
+    def setUp(self) -> None:
+        self.src = (FRONTEND / "src" / "lib" / "pubun-options.ts").read_text(encoding="utf-8")
+
+    def test_full_list_matches_legacy_order(self) -> None:
+        import re
+        # 배열 리터럴만 잡는다 — 앞선 docstring 언급이나 `string[]` 의 대괄호에 걸리지 않게.
+        m = re.search(r"PUBUN_OPTIONS_FULL[^=]*=\s*\[([\s\S]*?)\]", self.src)
+        self.assertIsNotNone(m, "PUBUN_OPTIONS_FULL 배열을 찾지 못했다")
+        found = re.findall(r'"([가-힣]{2})"', m.group(1))
+        self.assertEqual(found, self.LEGACY, "레거시 Sobo40 콤보 순서와 달라졌다")
+
+    def test_default_is_wital(self) -> None:
+        self.assertIn('PUBUN_DEFAULT = "위탁"', self.src)
+
+    def test_outbound_six_option_list_kept_separate(self) -> None:
+        """출고 라인 그리드는 공급율(Grat1~6) 연동이라 6종 유지 — 통합 금지."""
+        grid = (
+            FRONTEND / "src" / "components" / "outbound" / "order-line-grid.tsx"
+        ).read_text(encoding="utf-8")
+        self.assertIn("rateIndex", grid)
+        for v in ("증정", "한도", "개정", "신간"):
+            self.assertNotIn(f'value: "{v}"', grid, f"출고 6종에 {v} 가 섞이면 비율 계산이 깨진다")
+
+    def test_inbound_screens_use_the_shared_list(self) -> None:
+        for rel in (
+            "src/app/(app)/inbound/receipts/new/page.tsx",
+            "src/components/inbound/inbound-line-grid.tsx",
+        ):
+            src = (FRONTEND / rel).read_text(encoding="utf-8")
+            with self.subTest(file=rel):
+                self.assertIn("PUBUN_COMBO_OPTIONS", src)
+                self.assertIn("LocalComboField", src)
 
 
 HARNESS_JS = r"""
