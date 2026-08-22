@@ -2161,6 +2161,28 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-180: 메뉴 진입점 분리 — `menuRoute` (출고 접수 → 신규 주문 직행) (2026-08-22)
+
+- **요청**: "출고 접수 메뉴를 누르면 목록 말고 **바로 신규 주문 화면**이 뜨도록."
+- **함정(왜 `route` 를 바꾸면 안 되나)**: `getFormByRoute` 는 **접두 매칭**이다
+  (`path === routePath || path.startsWith(routePath + "/")`, 가장 긴 매치 우선).
+  `Sobo27.route` 를 `/outbound/orders/new` 로 바꾸면
+  `/outbound/orders`(목록)·`/outbound/orders/{key}`(상세) 가 **어떤 폼에도 매칭되지 않아
+  권한 caps 매핑에서 빠진다.**
+- **결정**: `FormMeta.menuRoute?: string` 신설 — `route` 는 화면의 대표 경로(접두 매칭 기준)로
+  두고, **메뉴 클릭 시 열 라우트만** 덮어쓴다. 사이드바는 `openRouteOf(form) = menuRoute || route`
+  로 **열기와 활성 표시 두 곳 모두** 같은 값을 쓴다(한쪽만 바꾸면 메뉴 하이라이트가 죽는다).
+  Sobo27 에 `menuRoute: "/outbound/orders/new"` 부여. 목록은 신규 화면의 「목록」 버튼으로 유지.
+- **총판 회귀 차단**: `/outbound/orders` 는 총판이면 `DistributorOutboundBoard`, 그 외는 목록을
+  렌더한다. 메뉴가 `/outbound/orders/new` 를 직접 열게 되면서 **총판도 이 경로로 들어오므로**
+  신규 화면에도 같은 분기를 뒀다 — 총판 화면은 진입 경로와 무관하게 동일.
+- **회귀 가드**: `test/test_outbound_menu_opens_new_order.py` 9건 — `menuRoute` 필드 선언,
+  Sobo27 의 route/menuRoute 값, **접두 매칭 미러**(목록·상세가 여전히 해석되는지 + route 를
+  `/new` 로 바꿨다면 빠진다는 반증), `getFormByRoute` 가 접두 매칭이라는 전제 검증,
+  사이드바가 열기·활성 두 곳에서 같은 resolver 를 쓰는지, 총판 분기 2페이지, 목록 복귀 링크.
+- **결정자**: 사용자 (2026-08-22)
+- **참조**: DEC-179(출고 접수 성격·컬럼), `form-registry.getFormByRoute`
+
 ### DEC-179: 화면 표기 띄어쓰기 규칙 + 출고 접수 목록 컬럼·개별 출력 (2026-08-22)
 
 - **표기 규칙(확정)**: 「<도메인><기능>」 합성어는 **띄어 쓰고 「관리」 접미는 뗀다.**
