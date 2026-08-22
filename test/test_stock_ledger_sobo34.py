@@ -101,7 +101,8 @@ class StockLedgerAggregationTests(TestCase):
         "B3": {"Gcode": "B3", "Gname": "도서3", "Ocode": "", "Gubun": "C2", "Gdang": 5000},
     }
 
-    def _call(self, *, opening=None, ret_seed=None, meta=None, bcode=None):
+    def _call(self, *, opening=None, ret_seed=None, meta=None, bcode=None,
+             snapshot_bcodes=None):
         meta = meta or self.META
 
         async def fake_exec(server_id, sql, params=()):  # noqa: ANN001
@@ -122,6 +123,8 @@ class StockLedgerAggregationTests(TestCase):
 
         with patch.object(inv, "execute_query", new=AsyncMock(side_effect=fake_exec)), \
              patch.object(inv, "in_clause_lookup", new=AsyncMock(side_effect=fake_in)), \
+             patch.object(inv, "_fetch_snapshot_bcodes",
+                          new=AsyncMock(return_value=list(snapshot_bcodes or []))), \
              patch.object(inv, "_fetch_return_stock_asof", new=AsyncMock(side_effect=fake_ret)), \
              patch("app.services.reports_service._fetch_stock_asof",
                    new=AsyncMock(side_effect=fake_stock)):
@@ -203,6 +206,24 @@ class StockLedgerAggregationTests(TestCase):
         self.assertEqual(
             [r["bcode"] for r in self._call(bcode="도서2")["by_book"]], ["B2"],
             "도서명으로도 찾을 수 있어야 한다")
+
+    def test_snapshot_books_appear_without_period_movement(self) -> None:
+        """기간 거래가 없어도 재고를 들고 있는 도서는 행에 남는다 (Subu34 L1046~1055).
+
+        2026-08-22 리포트: "시작일=기준일 로 맞추면 분류 수가 3개로 급감" —
+        행 집합을 S1_Ssub 기간 거래로만 시드해 재고 보유 도서가 통째로 빠졌던 회귀.
+        """
+        meta = dict(self.META)
+        meta["B9"] = {"Gcode": "B9", "Gname": "무거래도서", "Ocode": "",
+                      "Gubun": "C3", "Gdang": 3000}
+        out = self._call(meta=meta, snapshot_bcodes=["B9"], opening={"B9": 55})
+        b9 = next((r for r in out["by_book"] if r["bcode"] == "B9"), None)
+        self.assertIsNotNone(b9, "스냅샷 도서가 행에서 사라졌다")
+        self.assertEqual(b9["gsumx"], 55, "전재고는 살아 있어야 한다")
+        self.assertEqual(b9["giqut"], 0, "기간 거래는 0")
+        self.assertEqual(b9["gsumy"], 55, "현재고 = 전재고 + 증감 0")
+        self.assertIn("C3", {c["class_code"] for c in out["by_class"]},
+                      "그 도서의 분류도 상단에 나와야 한다")
 
     def test_totals_match_book_sum(self) -> None:
         out = self._call(opening={"B1": 1000, "B2": 200})
