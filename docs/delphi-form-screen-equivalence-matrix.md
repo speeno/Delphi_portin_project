@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-08-22T03:14:29Z
+> **생성 시각 (UTC)**: 2026-08-22T04:10:41Z
 
 ## 목적
 
@@ -45,7 +45,7 @@
 | MULTI_MAP | `Sobo25_status_summary` | `Subu25` | 입고 현황(요약) | 반품재고(반품입고)-해체 | `Sobo25` | `/transactions/inbound-status?view=summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | CAPTION_DIFF | `Sobo26_production_stmt` | `Subu26` | 제작명세서 | 출고접수현황 | `Sobo26` | `/transactions/production/statement` | DFM「출고접수현황」↔모던「제작명세서」 (r=0.00) |
 | CAPTION_DIFF | `Sobo_author_history` | `Subu26_1` | 내역조회(저자) | 내역조회(저자)-거래현황 | `Sobo26_1` | `/transactions/author-history` | 포함 관계·수동검토: DFM「내역조회(저자)-거래현황」↔「내역조회(저자)」 (r=0.76) |
-| MULTI_MAP | `Sobo27` | `Subu27` | 출고접수관리 | 출고접수관리 | `Sobo27` | `/outbound/orders` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo27` | `Subu27` | 출고 접수 | 출고접수관리 | `Sobo27` | `/outbound/orders` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo27_production_status` | `Subu27` | 제작현황 | 출고접수관리 | `Sobo27` | `/transactions/production/status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo28_delivery` | `Subu28` | 택배관리 | 출고택배관리 | `Sobo28` | `/shipping/courier` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo28_withholding` | `Subu28` | 원천징수 | 출고택배관리 | `Sobo28` | `/transactions/withholding` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |

@@ -108,6 +108,7 @@ const dom = new JSDOM(`<table><tbody id="tb">${rows}</tbody></table>`, { pretend
 const { document, HTMLInputElement } = dom.window;
 global.HTMLInputElement = HTMLInputElement;
 global.HTMLTextAreaElement = dom.window.HTMLTextAreaElement;
+global.HTMLSelectElement = dom.window.HTMLSelectElement;
 // jsdom 은 offsetParent 미구현(항상 null) → 가시성 판정 통과용 stub.
 Object.defineProperty(dom.window.HTMLElement.prototype, "offsetParent", {
   get() { return this.hasAttribute("data-hidden") ? null : document.body; },

@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-22T03:14:12.498366+00:00",
+  "generated_at": "2026-08-22T04:10:29.545417+00:00",
   "summary": {
     "total_dfm_candidates": 118,
     "registry_entries": 94,
-    "ok": 28,
+    "ok": 27,
     "missing_forms": 0,
     "caption_mismatches": 0,
-    "allowed": 119
+    "allowed": 120
   },
   "missing_forms": [],
   "caption_mismatches": [],
@@ -553,6 +553,16 @@
       "category": "caption_mismatch",
       "reason": "legacy_source Subu26.dfm 은 '출고접수현황' 빌드 변형 — 제작명세서 정본은 출판 빌드 Subu26 (2026-08-19 정리, 테스트 부채 청산)",
       "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo27",
+      "dfm_form_name": "Sobo27",
+      "registry_caption": "출고 접수",
+      "dfm_caption": "출고접수관리",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu27.dfm",
+      "category": "caption_mismatch",
+      "reason": "운영 표기 정리(2026-08-22 사용자) — 입고 접수/입고 현황과 동일 규칙으로 「관리」 접미 제거 + 띄어쓰기. 레거시 Menu207 원 표기는 registry 주석 보존",
+      "until": "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
     },
     {
       "form_name": "Sobo27_production_status",
@@ -1160,11 +1170,6 @@
       "form_name": "Sobo23",
       "dfm_form_name": "Sobo23",
       "caption": "반품명세서"
-    },
-    {
-      "form_name": "Sobo27",
-      "dfm_form_name": "Sobo27",
-      "caption": "출고접수관리"
     },
     {
       "form_name": "Sobo31",

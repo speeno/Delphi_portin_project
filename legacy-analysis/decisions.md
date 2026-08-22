@@ -2161,6 +2161,37 @@
   DEC-082(서버 정렬 화이트리스트 패턴), `sales-statement-jubun.ts`
   `formatIdnumDisplay`
 
+### DEC-178: 콤보(픽 필드) 키 규약 — Enter=목록, 방향키=입력 컨트롤 이동 (2026-08-22)
+
+- **보고**: 사용자(스크린샷 — 신규 출고 주문 라인의 「구분」 콤보) — "콤보 입력은 Enter 를
+  치면 목록이 나와서 선택하게 하고, 그렇지 않으면 상하좌우 키가 입력 컨트롤 이동이 되도록
+  **모든 화면에서** 수정 필요."
+- **원인**: `LocalComboField` 닫힘 상태 핸들러가 `Enter || ArrowDown` 을 **둘 다 "팝업 열기"**
+  로 처리하고 `stopPropagation()` 까지 했다(DEC-119 규약). 그래서 라인 그리드에서 ↓ 로 다음
+  행에 가려 하면 표의 `handleGridArrowKey` 가 이벤트를 **아예 보지 못하고** 콤보 목록이
+  펼쳐졌다.
+- **결정(DEC-119 의 "닫힘 ↓=열기" 철회)**:
+  1. 닫힘 상태에서 목록을 여는 키는 **Enter(및 클릭) 뿐**.
+  2. 닫힘 상태 ↑↓←→ — 표 안(`closest("td")`)이면 `preventDefault`/`stopPropagation` 없이
+     **버블링만** 시켜 `grid-arrow-nav` 의 열 기준 셀 이동에 양보. 표 밖(검색 필터 바·상세
+     폼)이면 신설 `focus-advance.moveFocusBy(el, ±1)` 로 이전/다음 컨트롤 이동.
+  3. `moveFocusBy` 의 이동 대상 셀렉터에는 **픽 필드**(readOnly + `role="combobox"`)를 포함
+     — 그렇지 않으면 콤보로 되돌아올 수 없다(`grid-arrow-nav.isNavTarget` 과 같은 기준).
+  4. 네이티브 `<select>` 도 동일 규약 — `grid-arrow-nav` 가 이동할 행이 없는 첫/마지막 행에서
+     `HTMLSelectElement` 의 기본 동작(항목 변경)을 막는다(number 스피너와 같은 처리).
+- **적용 범위**: `LocalComboField` 는 **16개 화면이 공유**하므로 이 한 곳 수정으로 전 화면에
+  적용된다(신규 출고 주문 라인 그리드 포함).
+- **회귀 가드**: `test/test_combo_arrow_moves_not_opens.py` 7건 — 닫힘 상태 Enter만 열기,
+  표 안 양보, 표 밖 `moveFocusBy`, 방향키 분기 `stopPropagation` 금지, 픽 필드가 이동 대상에
+  포함, 사용처 breadth. jsdom 8항목(닫힌 콤보 ↓ 가 목록을 열지 않고 다음 행 콤보로 이동,
+  ←/→ 행 내 이동, 수량↔콤보 왕복, Enter 는 그리드로 전파 안 됨). ↓=열기로 되돌리면 실제로
+  실패하는 것(red)까지 확인.
+- **부수**: 표기 「출고접수관리」 → **「출고 접수」**(입고 접수/입고 현황과 동일 규칙).
+  단일 map 폼이라 legacy-coverage 캡션 감사에 걸려 `coverage-allowlist.yaml`
+  `caption_mismatches` 에 사유·기한과 함께 등재(Sobo22/Sobo25 는 MULTI_MAP 이라 무영향).
+- **결정자**: 사용자 (2026-08-22)
+- **참조**: DEC-119(픽 필드 도입), DEC-168(그리드 방향키), DEC-054(캡션 감사 allowlist)
+
 ### DEC-177: 출고현황 상세 — 응답 모델이 ISBN 을 잘라내던 결함 + 좌측 전표 목록 기본 컬럼 (2026-08-22)
 
 - **보고**: 사용자 — "출고현황 상세 우측 목록에 ISBN 값이 나타나지 않는다" + 좌측 목록

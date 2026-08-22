@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T03:14:29.895030+00:00",
+  "generated_at": "2026-08-22T04:10:41.415990+00:00",
   "summary": {
     "registry_forms": 94,
     "legacy_dfm_subu_stems": 92,
@@ -144,7 +144,7 @@
       "modern_id": "Sobo27",
       "folder": "Subu27",
       "route": "/outbound/orders",
-      "modern_caption": "출고접수관리",
+      "modern_caption": "출고 접수",
       "legacy_form_object": "Sobo27",
       "legacy_caption": "출고접수관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu27.dfm",

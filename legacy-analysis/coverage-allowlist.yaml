@@ -328,6 +328,11 @@ missing_forms:
     until: "Phase 3 audit"
 
 caption_mismatches:
+  - form_name: Sobo27
+    dfm_caption: "출고접수관리"
+    registry_caption: "출고 접수"
+    reason: "운영 표기 정리(2026-08-22 사용자) — 입고 접수/입고 현황과 동일 규칙으로 「관리」 접미 제거 + 띄어쓰기. 레거시 Menu207 원 표기는 registry 주석 보존"
+    until: "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
   - form_name: Sobo11
     dfm_caption: "거래처관리-통합"
     registry_caption: "거래처관리(마스터)"
