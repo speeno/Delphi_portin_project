@@ -79,7 +79,7 @@ class LegacyCoverageAuditTests(TestCase):
             "비교가 어떤 카테고리에도 surface 되지 않음.",
         )
         self.assertEqual("도서별년말집계", sobo67["dfm_caption"])
-        self.assertEqual("출고현황", sobo67["registry_caption"])
+        self.assertEqual("출고 현황", sobo67["registry_caption"])
 
     # ── 추가 보조 (코어 helper · 회귀 안전망) ─────────────────────
 
@@ -142,7 +142,7 @@ class LegacyCoverageAuditTests(TestCase):
         entries = parse_form_registry()
         captions = {e.id: e.caption for e in entries}
         self.assertIn("Sobo67_status", captions)
-        self.assertEqual("출고현황", captions["Sobo67_status"])
+        self.assertEqual("출고 현황", captions["Sobo67_status"])
         self.assertIn("Sobo67_yearbook", captions)
         self.assertEqual("도서별년말집계", captions["Sobo67_yearbook"])
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T04:10:41.415990+00:00",
+  "generated_at": "2026-08-22T04:33:16.397080+00:00",
   "summary": {
     "registry_forms": 94,
     "legacy_dfm_subu_stems": 92,
@@ -573,7 +573,7 @@
       "modern_id": "Sobo67_status",
       "folder": "Subu67",
       "route": "/transactions/outbound-status",
-      "modern_caption": "출고현황",
+      "modern_caption": "출고 현황",
       "legacy_form_object": "Sobo67",
       "legacy_caption": "도서별년말집계",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu67.dfm",

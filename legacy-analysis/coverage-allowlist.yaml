@@ -500,7 +500,7 @@ caption_mismatches:
     until: "Phase 3 audit"
   - form_name: Sobo67_status
     dfm_caption: "도서별년말집계"
-    registry_caption: "출고현황"
+    registry_caption: "출고 현황"
     reason: "baseline (도서별년말집계 vs 출고현황 라벨 붕괴 — DEC-033 (k+1) 신규 포팅으로 의미 분리, 본 entry 는 출고현황 별도 화면이라 caption 차이 의도)"
     until: "Sobo67_status caption 정정 또는 legacy_form 재매핑"
   - form_name: Sobo11_gbun

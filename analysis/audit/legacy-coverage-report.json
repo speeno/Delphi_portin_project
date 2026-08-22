@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T04:10:29.545417+00:00",
+  "generated_at": "2026-08-22T04:33:13.935252+00:00",
   "summary": {
     "total_dfm_candidates": 118,
     "registry_entries": 94,
@@ -1011,7 +1011,7 @@
     {
       "form_name": "Sobo67_status",
       "dfm_form_name": "Sobo67",
-      "registry_caption": "출고현황",
+      "registry_caption": "출고 현황",
       "dfm_caption": "도서별년말집계",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu67.dfm",
       "category": "caption_mismatch",
