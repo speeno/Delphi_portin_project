@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-08-22T04:33:13.773326+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-08-22T04:48:30.650156+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -32,13 +32,13 @@
   - 허브 MVP (2026-05-15) — 입고·반품·거래·출고·택배·판매 리포트로 링크. 8종 단일 SQL은 후속
 - `MenuShippingReturnsInventory` (반품재고관리(통합)) `/shipping/returns-inventory`
   - 허브 MVP (2026-05-15) — 정본 /returns/inventory 로 안내. 통합 전용 SQL 그리드는 후속
-- `Sobo21` (거래명세서) `/transactions/sales-statement`
+- `Sobo21` (거래 명세서) `/transactions/sales-statement`
   - 거래명세서 조회(Subu21). 메모 쓰기는 거래현황(메모) Sobo21_status_memo RU(PATCH /transactions/sales-statement/{key}/memo)로 분리
-- `Sobo21_status_detail` (거래현황(상세)) `/transactions/status?view=detail`
+- `Sobo21_status_detail` (거래 현황(상세)) `/transactions/status?view=detail`
   - 레거시 Sobo24 거래현황 상세 — 전표 단위 라인(도서·수량·금액) 펼침. GET /transactions/status?view=detail
-- `Sobo21_status_list` (거래현황(LIST)) `/transactions/status?view=list`
+- `Sobo21_status_list` (거래 현황(LIST)) `/transactions/status?view=list`
   - 거래현황 목록 조회 — GET /transactions/status?view=list
-- `Sobo21_status_summary` (거래현황(요약)) `/transactions/status?view=summary`
+- `Sobo21_status_summary` (거래 현황(요약)) `/transactions/status?view=summary`
   - 거래현황 기간 요약 집계 조회 — GET /transactions/status?view=summary
 - `Sobo22_inbound_statement` (입고명세서) `/transactions/inbound-statement`
   - C1 phase1 — Menu202 입고명세서(조회·출력). GET /transactions/inbound-statement 는 inbound_service.list_receipts 재사용 facade(신규 SQL 0). 라인 펼침은 /inbound/receipts/{key} 지연 조회. C3 입고접수(/inbound/receipts)와 동일 Subu22 — variant 는 inbound_receipt.yaml 에만
@@ -74,7 +74,7 @@
 ### RU (11건)
 - `Sobo16_baebon` (배본처관리) `/master/baebon`
   - Sobo16 G6_Ggeo를 배본처(거래처/도서/물류코드) 중심으로 재표기
-- `Sobo21_status_memo` (거래현황(메모)) `/transactions/status?view=memo`
+- `Sobo21_status_memo` (거래 현황(메모)) `/transactions/status?view=memo`
   - 거래현황 메모 조회+편집 — PATCH /transactions/sales-statement/{key}/memo (S1_Memo UPSERT, Subu21.pas L1452 동등)
 - `Sobo28_delivery` (택배관리) `/shipping/courier`
   - 내부 S1_Ssub 라인 조회 + S1_Memo 조회/저장 완료 — 외부 택배사 API는 별도 후속

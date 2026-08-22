@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T04:33:13.773326+00:00",
+  "generatedAt": "2026-08-22T04:48:30.650156+00:00",
   "criteria": "본 인벤토리는 계획서 「구현되지 못한 기능 목록」에 따라 **원천별 합집합** 을 기록한다. 단일 정의가 아니라 (A) UI placeholder (B) T-파이프라인 비완료 (C) form-registry preview/STUB (D) phase1 이지만 R/RU/STUB 인 부분 동등 (E) 백엔드 stub grep (F) crud-backlog §2.6 참조 를 모두 포함한다.",
   "sources": {
     "ui_placeholder_pages": [],
@@ -61,7 +61,7 @@
       {
         "kind": "crud_phase1_partial",
         "id": "Sobo21",
-        "caption": "거래명세서",
+        "caption": "거래 명세서",
         "route": "/transactions/sales-statement",
         "crudParity": "R",
         "crudNotes": "거래명세서 조회(Subu21). 메모 쓰기는 거래현황(메모) Sobo21_status_memo RU(PATCH /transactions/sales-statement/{key}/memo)로 분리",
@@ -70,7 +70,7 @@
       {
         "kind": "crud_phase1_partial",
         "id": "Sobo21_status_detail",
-        "caption": "거래현황(상세)",
+        "caption": "거래 현황(상세)",
         "route": "/transactions/status?view=detail",
         "crudParity": "R",
         "crudNotes": "레거시 Sobo24 거래현황 상세 — 전표 단위 라인(도서·수량·금액) 펼침. GET /transactions/status?view=detail",
@@ -79,7 +79,7 @@
       {
         "kind": "crud_phase1_partial",
         "id": "Sobo21_status_list",
-        "caption": "거래현황(LIST)",
+        "caption": "거래 현황(LIST)",
         "route": "/transactions/status?view=list",
         "crudParity": "R",
         "crudNotes": "거래현황 목록 조회 — GET /transactions/status?view=list",
@@ -88,7 +88,7 @@
       {
         "kind": "crud_phase1_partial",
         "id": "Sobo21_status_summary",
-        "caption": "거래현황(요약)",
+        "caption": "거래 현황(요약)",
         "route": "/transactions/status?view=summary",
         "crudParity": "R",
         "crudNotes": "거래현황 기간 요약 집계 조회 — GET /transactions/status?view=summary",
@@ -241,7 +241,7 @@
       {
         "kind": "crud_phase1_partial",
         "id": "Sobo21_status_memo",
-        "caption": "거래현황(메모)",
+        "caption": "거래 현황(메모)",
         "route": "/transactions/status?view=memo",
         "crudParity": "RU",
         "crudNotes": "거래현황 메모 조회+편집 — PATCH /transactions/sales-statement/{key}/memo (S1_Memo UPSERT, Subu21.pas L1452 동등)",

@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-08-22T04:33:16Z
+> **생성 시각 (UTC)**: 2026-08-22T04:48:29Z
 
 ## 목적
 
@@ -29,15 +29,15 @@
 | MULTI_MAP | `Sobo16_baebon` | `Subu16` | 배본처관리 | 특별관리 | `Sobo16` | `/master/baebon` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo16_special` | `Subu16` | 특별관리 | 특별관리 | `Sobo16` | `/master/special` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | OK_EXEMPT | `Sobo17` | `Subu17` | 출판사·출고거래처(마스터) | 출판사관리 | `Sobo17` | `/master/publisher` | DEC-023 표기 통일(allowlist) |
-| MULTI_MAP | `Sobo21` | `Subu21` | 거래명세서 | 거래명세서 | `Sobo21` | `/transactions/sales-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MULTI_MAP | `Sobo21_shipment_alias` | `Subu21` | 거래명세서 | 거래명세서 | `Sobo21` | `/transactions/sales-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MULTI_MAP | `Sobo21_status_list` | `Subu21` | 거래현황(LIST) | 거래명세서 | `Sobo21` | `/transactions/status?view=list` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MULTI_MAP | `Sobo21_status_memo` | `Subu21` | 거래현황(메모) | 거래명세서 | `Sobo21` | `/transactions/status?view=memo` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MULTI_MAP | `Sobo21_status_summary` | `Subu21` | 거래현황(요약) | 거래명세서 | `Sobo21` | `/transactions/status?view=summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo21` | `Subu21` | 거래 명세서 | 거래명세서 | `Sobo21` | `/transactions/sales-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo21_shipment_alias` | `Subu21` | 거래 명세서 | 거래명세서 | `Sobo21` | `/transactions/sales-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo21_status_list` | `Subu21` | 거래 현황(LIST) | 거래명세서 | `Sobo21` | `/transactions/status?view=list` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo21_status_memo` | `Subu21` | 거래 현황(메모) | 거래명세서 | `Sobo21` | `/transactions/status?view=memo` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo21_status_summary` | `Subu21` | 거래 현황(요약) | 거래명세서 | `Sobo21` | `/transactions/status?view=summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo22` | `Subu22` | 입고 접수 | 입고명세서 | `Sobo22` | `/inbound/receipts` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo22_inbound_statement` | `Subu22` | 입고명세서 | 입고명세서 | `Sobo22` | `/transactions/inbound-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MATCH | `Sobo23` | `Subu23` | 반품명세서 | 반품명세서 | `Sobo23` | `/returns/receipts` |  |
-| MULTI_MAP | `Sobo21_status_detail` | `Subu24` | 거래현황(상세) | 반품재고(정품입고)-재생 | `Sobo24` | `/transactions/status?view=detail` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo21_status_detail` | `Subu24` | 거래 현황(상세) | 반품재고(정품입고)-재생 | `Sobo24` | `/transactions/status?view=detail` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo24` | `Subu24` | 반품재고(재생) | 반품재고(정품입고)-재생 | `Sobo24` | `/returns/inventory?tab=regen` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo25` | `Subu25` | 반품재고(해체) | 반품재고(반품입고)-해체 | `Sobo25` | `/returns/inventory?tab=disassemble` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo25_status_detail` | `Subu25` | 입고 현황(상세) | 반품재고(반품입고)-해체 | `Sobo25` | `/transactions/inbound-status?view=detail` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |

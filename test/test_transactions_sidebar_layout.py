@@ -72,7 +72,8 @@ class TransactionsSidebarLayoutTest(TestCase):
             self.src,
         )
         body = block.group("body")
-        self.assertIn('label: "거래현황"', body)
+        # 2026-08-22 표기 통일(입고 접수/현황·출고 접수/현황과 동일 규칙): 거래현황 → 거래 현황.
+        self.assertIn('label: "거래 현황"', body)
         self.assertNotIn('label: "입고현황"', body)
         self.assertGreaterEqual(body.count('kind: "separator"'), 3)
 

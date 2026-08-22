@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T04:33:13.935252+00:00",
+  "generated_at": "2026-08-22T04:48:30.823125+00:00",
   "summary": {
     "total_dfm_candidates": 118,
     "registry_entries": 94,
@@ -419,7 +419,7 @@
     {
       "form_name": "Sobo21_status_detail",
       "dfm_form_name": "Sobo21",
-      "registry_caption": "거래현황(상세)",
+      "registry_caption": "거래 현황(상세)",
       "dfm_caption": "거래명세서",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
       "category": "caption_mismatch",
@@ -429,7 +429,7 @@
     {
       "form_name": "Sobo21_status_list",
       "dfm_form_name": "Sobo21",
-      "registry_caption": "거래현황(LIST)",
+      "registry_caption": "거래 현황(LIST)",
       "dfm_caption": "거래명세서",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
       "category": "caption_mismatch",
@@ -439,7 +439,7 @@
     {
       "form_name": "Sobo21_status_memo",
       "dfm_form_name": "Sobo21",
-      "registry_caption": "거래현황(메모)",
+      "registry_caption": "거래 현황(메모)",
       "dfm_caption": "거래명세서",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
       "category": "caption_mismatch",
@@ -449,7 +449,7 @@
     {
       "form_name": "Sobo21_status_summary",
       "dfm_form_name": "Sobo21",
-      "registry_caption": "거래현황(요약)",
+      "registry_caption": "거래 현황(요약)",
       "dfm_caption": "거래명세서",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
       "category": "caption_mismatch",
