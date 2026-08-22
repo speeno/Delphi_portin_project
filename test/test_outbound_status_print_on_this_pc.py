@@ -76,6 +76,28 @@ class PrintOnThisPcTests(TestCase):
         for forbidden in ("completeSalesStatement", "requestDispatch", "batchRequest"):
             self.assertNotIn(forbidden, self.fn, f"{forbidden} 가 이 PC 출력 경로에 있으면 안 된다")
 
+    def test_selected_slip_can_print_in_place(self) -> None:
+        """선택 → 상세 → 수정 → 저장 → **출력** 을 한 자리에서 끝낼 수 있어야 한다.
+
+        상단 일괄 버튼은 체크박스(checkedKeys) 기반이라, 행을 클릭만 한 전표는
+        대상이 아니었다(2026-08-22 사용자 확인 요청). 우측 상세 액션 줄의 「출력」이
+        지금 보고 있는 전표 1건을 명시 대상으로 넘긴다.
+        """
+        self.assertIn('data-legacy-id="Sobo24.PrintSelected"', self.src)
+        self.assertIn("doPrintOnThisPc([selectedSlip])", self.src)
+        # 핸들러가 명시 대상을 받도록 열려 있어야 한다(없으면 체크박스 선택만 인쇄됨).
+        self.assertIn("doPrintOnThisPc(targets?: OutboundStatusSlipItem[])", self.src)
+        self.assertIn("targets ?? slips.filter", self.src)
+
+    def test_edit_then_save_refreshes_selected_lines(self) -> None:
+        """수정 팝업 저장 후 목록·선택 라인이 재조회돼야 출력이 최신 내용을 담는다."""
+        self.assertIn('data-legacy-id="Sobo24.EditSlip"', self.src)
+        self.assertIn("onChanged={() => {", self.src)
+        i = self.src.index("onChanged={() => {")
+        block = self.src[i : i + 700]
+        self.assertIn("void load(0)", block)
+        self.assertIn("outboundApi", block)
+
     def test_remote_queue_buttons_still_present(self) -> None:
         """기존 바로출고/바로재출고(자동출력 PC 큐)는 그대로 남아 있어야 한다."""
         self.assertIn('data-legacy-id="Sobo24.BatchImmediateDispatch"', self.src)
