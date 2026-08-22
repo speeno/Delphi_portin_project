@@ -245,5 +245,56 @@ class StockLedgerEndpointTests(TestCase):
         self.assertIn("enforce_hcode_isolation(hcode, current)", block)
 
 
+
+class SnapshotSeedQueryTests(TestCase):
+    """§행 시드 쿼리 자체 — 컬럼/스코프 (DEC-183).
+
+    `_fetch_snapshot_bcodes` 는 예외를 삼키고 빈 목록을 돌려주므로, 컬럼명이 틀리면
+    수정이 **조용히 무효화**된다(증상은 원래 버그와 동일). 그래서 쿼리 문자열을 고정한다.
+    검증 기준은 `reports_service._fetch_stock_asof` — 라이브 대사를 마친 동일 테이블 접근.
+    """
+
+    def _capture(self, **kw):
+        seen: list[tuple] = []
+
+        async def fake_exec(server_id, sql, params=()):  # noqa: ANN001
+            seen.append((sql, params))
+            return [{"d": "2026.07.31"}] if "MAX(Gdate)" in sql else [{"Gcode": "B7"}]
+
+        with patch.object(inv, "execute_query", new=AsyncMock(side_effect=fake_exec)):
+            out = _run(inv._fetch_snapshot_bcodes(
+                "remote_153", hcode="5019", asof="2026.07.31", **kw))
+        return out, seen
+
+    def test_columns_match_verified_stock_reader(self) -> None:
+        out, seen = self._capture()
+        self.assertEqual(out, ["B7"])
+        self.assertIn("MAX(Gdate)", seen[0][0])
+        self.assertIn("FROM Sv_Ghng", seen[1][0])
+        self.assertIn("Gcode", seen[1][0], "도서코드 컬럼은 Gcode (Sv_Ghng)")
+        self.assertIn("Gdate = %s", seen[1][0], "스냅샷 일자 고정")
+        self.assertIn("Hcode = %s", seen[1][0], "테넌트 격리 필수")
+
+    def test_scope_filters_on_scode(self) -> None:
+        """본사/창고 축은 Sv_Ghng.Scode — 빠지면 반대 축 도서가 0 행으로 딸려 나온다."""
+        _, seen = self._capture(axis_like="%A%")
+        self.assertIn("Scode LIKE %s", seen[1][0])
+        self.assertIn("%A%", seen[1][1])
+
+    def test_no_snapshot_returns_empty(self) -> None:
+        async def fake_exec(server_id, sql, params=()):  # noqa: ANN001
+            return [{"d": None}]
+
+        with patch.object(inv, "execute_query", new=AsyncMock(side_effect=fake_exec)):
+            self.assertEqual(
+                _run(inv._fetch_snapshot_bcodes("r", hcode="5019", asof="2026.07.31")), [])
+
+    def test_missing_table_degrades_quietly(self) -> None:
+        """Sv_Ghng 부재 테넌트 — 예외를 던지지 않고 기간 거래만으로 진행한다."""
+        with patch.object(inv, "execute_query",
+                          new=AsyncMock(side_effect=RuntimeError("no such table"))):
+            self.assertEqual(
+                _run(inv._fetch_snapshot_bcodes("r", hcode="5019", asof="2026.07.31")), [])
+
 if __name__ == "__main__":
     main()

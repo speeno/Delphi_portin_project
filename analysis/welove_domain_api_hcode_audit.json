@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T15:19:25.918023+00:00",
+  "generated_at": "2026-08-22T15:24:29.596539+00:00",
   "summary": {
     "files_scanned": 97,
     "sql_literals": 518,
@@ -851,7 +851,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
       "function": "_fetch_snapshot_bcodes",
-      "lineno": 652,
+      "lineno": 657,
       "tables": [
         "Sv_Ghng"
       ],
