@@ -39,12 +39,17 @@ class InboundSidebarLayoutTest(TestCase):
             ids,
             [
                 "Sobo22",
-                "Sobo22_inbound_statement",
+                # 2026-08-22 운영 요청: 입고 현황을 입고 명세서 **위**로.
                 "Sobo25_status_list",
+                "Sobo22_inbound_statement",
                 # Sobo54(일별 입고내역서)는 2026-08-22 운영 요청 "임시 사용 보류" 로
                 # 사이드바에서 제외 — 라우트/화면은 유지. 재노출 시 여기 되돌린다.
                 "Sobo57",
                 "Sobo22_import",
+                # 신간발행 — 출고관리에서 입고관리 맨 아래로 이동(2026-08-22).
+                # id 의 `_shipment_alias` 는 최초 배치 흔적 — contracts/allowlist 가
+                # 이 id 를 참조해 개명하지 않았다.
+                "Sobo29_new_release_shipment_alias",
             ],
         )
         self.assertNotIn("Sobo54", ids, "일별 입고내역서는 사이드바에 노출되지 않는다")

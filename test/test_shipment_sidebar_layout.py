@@ -45,9 +45,10 @@ class ShipmentSidebarLayoutTest(TestCase):
                 "Sobo39",
                 "Sobo67_status",
                 # 거래관리(NAV-02) 공유 화면 별칭
-                "Sobo21_shipment_alias",
+                # 2026-08-22 운영 요청 — 「거래 명세서」(Sobo21_shipment_alias)는 출고관리에서
+                # 제거(거래관리 정본 메뉴만 노출), 「신간발행」은 입고관리 맨 아래로 이동.
+                # 두 registry 항목 자체는 유지 — route 별칭이라 caps 해석에 쓰인다.
                 "Sobo59_verification_shipment_alias",
-                "Sobo29_new_release_shipment_alias",
             ],
         )
 
@@ -79,7 +80,7 @@ class ShipmentSidebarLayoutTest(TestCase):
         ):
             with self.subTest(form_id=fid):
                 m = re.search(
-                    r'id:\s*"' + re.escape(fid) + r'"[\s\S]{0,200}?route:\s*"' + re.escape(route) + r'"',
+                    r'id:\s*"' + re.escape(fid) + r'"[\s\S]{0,700}?route:\s*"' + re.escape(route) + r'"',
                     self.src,
                 )
                 self.assertIsNotNone(m, f"{fid} → route {route} 별칭이 필요합니다.")
@@ -93,7 +94,7 @@ class ShipmentSidebarLayoutTest(TestCase):
         ):
             with self.subTest(form_id=fid):
                 m = re.search(
-                    r'id:\s*"' + re.escape(fid) + r'"[\s\S]{0,200}?menuId:\s*"ACC-MENU-NAV-09"',
+                    r'id:\s*"' + re.escape(fid) + r'"[\s\S]{0,700}?menuId:\s*"ACC-MENU-NAV-09"',
                     self.src,
                 )
                 self.assertIsNotNone(m, f"{fid} 는 menuId ACC-MENU-NAV-09 로 게이트해야 합니다.")

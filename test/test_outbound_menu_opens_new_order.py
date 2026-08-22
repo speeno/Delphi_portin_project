@@ -78,6 +78,27 @@ class MenuRouteRegistryTests(TestCase):
         self.assertIn("startsWith(`${routePath}/`)", fn)
 
 
+class InboundMenuRouteTests(TestCase):
+    """입고 접수도 출고 접수와 동일하게 메뉴 → 신규 입력 화면 (2026-08-22 2차 요청)."""
+
+    def setUp(self) -> None:
+        self.src = REGISTRY.read_text(encoding="utf-8")
+
+    def test_sobo22_menu_opens_new_receipt(self) -> None:
+        i = self.src.index('id: "Sobo22",')
+        block = self.src[i : self.src.index("},", i)]
+        self.assertIn('menuRoute: "/inbound/receipts/new"', block)
+        # route 는 대표 경로 유지 — 목록·상세 caps 접두 매칭 기준(DEC-180 함정).
+        self.assertIn('route: "/inbound/receipts"', block)
+        self.assertNotIn('route: "/inbound/receipts/new"', block)
+
+    def test_new_receipt_page_keeps_back_link(self) -> None:
+        page = (
+            SRC / "app" / "(app)" / "inbound" / "receipts" / "new" / "page.tsx"
+        ).read_text(encoding="utf-8")
+        self.assertIn('href="/inbound/receipts"', page)
+
+
 class SidebarUsesMenuRouteTests(TestCase):
     def setUp(self) -> None:
         self.src = SIDEBAR.read_text(encoding="utf-8")
