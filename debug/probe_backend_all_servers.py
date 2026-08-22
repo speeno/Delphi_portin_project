@@ -858,6 +858,15 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # ─── Sobo34 기간별재고원장 (분류/도서 2단) ─────────────────────────
+        {
+            "group": "inventory.stock_ledger",
+            "path": (
+                f"/api/v1/inventory/stock-ledger?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
         # ─── DEC-164/165 — 원장 재현 (도서별수불 · 거래처거래) ───────────────
         {
             "group": "inventory.book_ledger_daily",
