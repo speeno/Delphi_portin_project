@@ -55,8 +55,9 @@ EXPECTED_COVERED_KEYS = {
     "inbound.receipts",
     "returns.receipts",
     "transactions.sales-statement",
-    # inquiry 6
-    "inventory.status",
+    # inquiry 5 (구 6 — inventory.status 는 2026-08-22 Sobo34 2단 재구성으로
+    #   DataGridPager 를 걷어내 audit 분류가 covered → skipped 가 됐다. 세션 복원
+    #   자체는 유지되므로 아래 test_inventory_status_still_persists_filters 로 별도 고정.)
     "ledger.book",
     "ledger.book-integrated",
     "reports.book-sales",
@@ -83,6 +84,16 @@ class ListStatePersistenceAuditTests(TestCase):
             f"list-state-allowlist.yaml 에 reason+until 등록 필요: "
             f"{[e['route_key'] for e in v]}",
         )
+
+    def test_inventory_status_still_persists_filters(self) -> None:
+        """재고현황(Sobo34 2단)은 페이저가 없어 covered 집계에서 빠지지만,
+        검색조건 세션 복원(DEC-055)은 그대로여야 한다 — 이 가드가 본체다."""
+        page = (
+            REPO_ROOT / "도서물류관리프로그램" / "frontend" / "src" / "app" / "(app)"
+            / "inventory" / "status" / "page.tsx"
+        ).read_text(encoding="utf-8")
+        self.assertIn("useListSession", page)
+        self.assertIn('"inventory.status"', page)
 
     def test_baseline_17_pages_covered(self) -> None:
         covered_keys = {e["route_key"] for e in self.report["covered"]}
