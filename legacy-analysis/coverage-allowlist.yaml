@@ -324,6 +324,16 @@ missing_forms:
     until: "Phase 3 audit"
 
 caption_mismatches:
+  - form_name: Sobo23_scrap_status
+    dfm_caption: "반품명세서"
+    registry_caption: "폐기 현황"
+    reason: "2026-08-23 사용자 — 폐기 현황 신설(DEC-192). 입력한 폐기 접수 확인·수정. 레거시엔 폐기 전용 폼이 없어 folder 는 반품 계열(Subu23) 을 빌린다"
+    until: "폐기 전용 레거시 폼 확인 시 재검토"
+  - form_name: Sobo23_scrap
+    dfm_caption: "반품명세서"
+    registry_caption: "폐기 접수"
+    reason: "2026-08-23 사용자 — 폐기 접수 신설(DEC-190). 레거시엔 폐기 전용 폼이 없어 「기타명세서」+기타거래처 「애플2」 관례를 써 왔고, 웹은 같은 저장 규칙을 유지하되 전용 화면을 둔다. folder 는 반품 계열(Subu23) 을 빌린다"
+    until: "폐기 전용 레거시 폼 확인 시 재검토"
   - form_name: Sobo23_status
     dfm_caption: "반품명세서"
     registry_caption: "반품 현황"

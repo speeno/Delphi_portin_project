@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-23T08:10:40.541053+00:00",
+  "generated_at": "2026-08-23T23:01:55.751558+00:00",
   "summary": {
     "files_scanned": 98,
-    "sql_literals": 522,
+    "sql_literals": 528,
     "critical": 1,
     "warn": 12,
-    "info": 254,
-    "skipped_noqa": 60,
+    "info": 255,
+    "skipped_noqa": 64,
     "multi_tenant_tables_seen": [
       "G4_Book",
       "G7_Ggeo",
@@ -2520,7 +2520,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "_fetch_stock_asof",
-      "lineno": 225,
+      "lineno": 349,
       "tables": [
         "Sv_Ghng"
       ],
@@ -2532,7 +2532,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_book_sales",
-      "lineno": 504,
+      "lineno": 628,
       "tables": [
         "Sg_Csum"
       ],
@@ -2544,7 +2544,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_customer_sales_detail",
-      "lineno": 1235,
+      "lineno": 1382,
       "tables": [
         "S1_Ssub"
       ],
@@ -2556,7 +2556,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_customer_sales_detail",
-      "lineno": 1260,
+      "lineno": 1407,
       "tables": [
         "G4_Book"
       ],
@@ -2568,7 +2568,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/reports_service.py",
       "function": "get_year_end_book_aggregate",
-      "lineno": 1573,
+      "lineno": 1720,
       "tables": [
         "Sg_Csum"
       ],
@@ -2580,7 +2580,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 178,
+      "lineno": 196,
       "tables": [
         "G4_Book"
       ],
@@ -2592,7 +2592,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 195,
+      "lineno": 213,
       "tables": [
         "Sg_Csum"
       ],
@@ -2604,7 +2604,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 198,
+      "lineno": 216,
       "tables": [
         "Sg_Csum"
       ],
@@ -2616,7 +2616,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 202,
+      "lineno": 220,
       "tables": [
         "Sg_Csum"
       ],
@@ -2628,7 +2628,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 219,
+      "lineno": 237,
       "tables": [
         "Sv_Ghng"
       ],
@@ -2640,7 +2640,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 223,
+      "lineno": 241,
       "tables": [
         "Sv_Ghng"
       ],
@@ -2652,7 +2652,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 226,
+      "lineno": 244,
       "tables": [
         "Sv_Ghng"
       ],
@@ -2664,7 +2664,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 229,
+      "lineno": 247,
       "tables": [
         "Sg_Csum"
       ],
@@ -2676,7 +2676,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 232,
+      "lineno": 250,
       "tables": [
         "Sg_Csum"
       ],
@@ -2687,8 +2687,20 @@
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
+      "function": "resolve_scrap_customer",
+      "lineno": 654,
+      "tables": [
+        "G5_Ggeo"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode, Gname FROM G5_Ggeo WHERE Hcode = %s AND Gname = %s LIMIT 1",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "_txn",
-      "lineno": 848,
+      "lineno": 952,
       "tables": [
         "Sv_Ghng"
       ],
@@ -2700,7 +2712,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "process_change",
-      "lineno": 889,
+      "lineno": 993,
       "tables": [
         "Sv_Ghng"
       ],
@@ -2712,7 +2724,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "audit_returns_query",
-      "lineno": 1969,
+      "lineno": 2073,
       "tables": [
         "audit_returns"
       ],
@@ -2724,7 +2736,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "audit_returns_query",
-      "lineno": 1982,
+      "lineno": 2086,
       "tables": [
         "audit_returns"
       ],
@@ -2736,7 +2748,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/returns_service.py",
       "function": "<module>",
-      "lineno": 2177,
+      "lineno": 2281,
       "tables": [
         "S1_Ssub"
       ],

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-23T13:45:07.740013+00:00",
+  "generated_at": "2026-08-23T23:02:50.598690+00:00",
   "summary": {
-    "registry_forms": 96,
+    "registry_forms": 98,
     "legacy_dfm_subu_stems": 92,
     "orphan_legacy_stems": 40,
     "subu_caption_diff": 13,
@@ -233,6 +233,28 @@
       "folder": "Subu23",
       "route": "/returns/status",
       "modern_caption": "반품 현황",
+      "legacy_form_object": "Sobo23",
+      "legacy_caption": "반품명세서",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu23.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo23_scrap",
+      "folder": "Subu23",
+      "route": "/returns/scrap/new",
+      "modern_caption": "폐기 접수",
+      "legacy_form_object": "Sobo23",
+      "legacy_caption": "반품명세서",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu23.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo23_scrap_status",
+      "folder": "Subu23",
+      "route": "/returns/scrap/status",
+      "modern_caption": "폐기 현황",
       "legacy_form_object": "Sobo23",
       "legacy_caption": "반품명세서",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu23.dfm",

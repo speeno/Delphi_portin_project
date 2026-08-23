@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-23T13:45:10.856737+00:00",
+  "generated_at": "2026-08-23T15:39:47.168216+00:00",
   "summary": {
-    "total_pages": 123,
-    "covered": 45,
+    "total_pages": 125,
+    "covered": 46,
     "violations": 0,
     "allowed": 7,
-    "skipped": 71
+    "skipped": 72
   },
   "covered": [
     {
@@ -99,6 +99,10 @@
     {
       "route_key": "returns.receipts",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/receipts/page.tsx"
+    },
+    {
+      "route_key": "returns.scrap.status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/scrap/status/page.tsx"
     },
     {
       "route_key": "returns.status",
@@ -466,6 +470,10 @@
     {
       "route_key": "returns.reports",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/reports/page.tsx"
+    },
+    {
+      "route_key": "returns.scrap.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/returns/scrap/new/page.tsx"
     },
     {
       "route_key": "settings.my-profile",

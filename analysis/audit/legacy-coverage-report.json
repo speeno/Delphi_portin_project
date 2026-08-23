@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-23T13:45:10.530867+00:00",
+  "generated_at": "2026-08-23T23:02:50.903281+00:00",
   "summary": {
     "total_dfm_candidates": 118,
-    "registry_entries": 96,
+    "registry_entries": 98,
     "ok": 26,
     "missing_forms": 0,
     "caption_mismatches": 0,
-    "allowed": 122
+    "allowed": 124
   },
   "missing_forms": [],
   "caption_mismatches": [],
@@ -503,6 +503,26 @@
       "category": "caption_mismatch",
       "reason": "2026-08-23 사용자 — 명칭 「반품명세서」→「반품 접수」. 용도가 «반품 입고 시 반품 거래명세서 입력»이라 출고 접수·입고 접수와 같은 «접수» 어휘로 통일. 화면·라우트·dfm 불변",
       "until": "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
+    },
+    {
+      "form_name": "Sobo23_scrap",
+      "dfm_form_name": "Sobo23",
+      "registry_caption": "폐기 접수",
+      "dfm_caption": "반품명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu23.dfm",
+      "category": "caption_mismatch",
+      "reason": "2026-08-23 사용자 — 폐기 접수 신설(DEC-190). 레거시엔 폐기 전용 폼이 없어 「기타명세서」+기타거래처 「애플2」 관례를 써 왔고, 웹은 같은 저장 규칙을 유지하되 전용 화면을 둔다. folder 는 반품 계열(Subu23) 을 빌린다",
+      "until": "폐기 전용 레거시 폼 확인 시 재검토"
+    },
+    {
+      "form_name": "Sobo23_scrap_status",
+      "dfm_form_name": "Sobo23",
+      "registry_caption": "폐기 현황",
+      "dfm_caption": "반품명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu23.dfm",
+      "category": "caption_mismatch",
+      "reason": "2026-08-23 사용자 — 폐기 현황 신설(DEC-192). 입력한 폐기 접수 확인·수정. 레거시엔 폐기 전용 폼이 없어 folder 는 반품 계열(Subu23) 을 빌린다",
+      "until": "폐기 전용 레거시 폼 확인 시 재검토"
     },
     {
       "form_name": "Sobo23_status",
@@ -1308,6 +1328,8 @@
     "Sobo21_status_memo",
     "Sobo21_status_summary",
     "Sobo22_import",
+    "Sobo23_scrap",
+    "Sobo23_scrap_status",
     "Sobo23_status",
     "Sobo25_status_detail",
     "Sobo25_status_list",
