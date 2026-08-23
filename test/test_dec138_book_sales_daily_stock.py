@@ -218,14 +218,26 @@ class RouterWiringTests(IsolatedAsyncioTestCase):
 
 
 class FrontendSourceGuards(TestCase):
-    def test_page_uses_daily_axis_and_stock_columns(self) -> None:
+    def test_page_keeps_stock_columns_and_detail_drilldown(self) -> None:
+        """DEC-187 로 목록 축은 daily→book 으로 바뀌었지만 DEC-138 산출물은 보존한다.
+
+        운영 요청(2026-08-23) "레거시 도서별판매 구성으로 맞춰라" — 레거시엔 날짜
+        컬럼이 없어 축을 도서 집계로 되돌렸다. 재고 3종은 **삭제하지 않고**
+        기본 숨김(컬럼 설정에서 복구)으로 남긴다.
+        """
         src = (FRONT / "app" / "(app)" / "reports" / "book-sales" / "page.tsx").read_text(
             encoding="utf-8"
         )
-        self.assertIn('groupMode: "daily"', src)
+        self.assertIn('groupMode: "book"', src, "DEC-187 — 레거시와 같은 도서 집계 축")
         self.assertIn("includeStock: true", src)
         for label in ("본사재고", "창고재고", "재고합계"):
-            self.assertIn(label, src, f"재고 컬럼 {label} 누락 — DEC-138 회귀")
+            self.assertIn(label, src, f"재고 컬럼 {label} 삭제 — DEC-138 산출물 소실")
+        # 기본 숨김이되 «존재»는 유지 — 컬럼 설정에서 켤 수 있어야 한다.
+        self.assertIn("BOOK_SALES_DEFAULT_HIDDEN", src)
+        # 상수 «선언부» 를 집어서 확인(주석 언급이 아니라).
+        decl = src.split("const BOOK_SALES_DEFAULT_HIDDEN")[1][:200]
+        for key in ('"hqStock"', '"whStock"', '"totalStock"'):
+            self.assertIn(key, decl, f"{key} 가 기본 숨김 목록에 없음")
         self.assertIn("bookSalesDayDetail", src)
         self.assertIn("onRowClick", src)
 

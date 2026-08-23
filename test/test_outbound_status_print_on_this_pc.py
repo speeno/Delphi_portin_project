@@ -33,7 +33,7 @@ from unittest import TestCase, main
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = (
     ROOT / "도서물류관리프로그램" / "frontend" / "src"
-    / "app" / "(app)" / "transactions" / "outbound-status" / "page.tsx"
+    / "components" / "transactions" / "transaction-status-screen.tsx"
 )
 
 

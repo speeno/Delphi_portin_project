@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-08-22T15:24:06Z
+> **생성 시각 (UTC)**: 2026-08-23T13:45:07Z
 
 ## 목적
 
@@ -36,7 +36,8 @@
 | MULTI_MAP | `Sobo21_status_summary` | `Subu21` | 거래 현황(요약) | 거래명세서 | `Sobo21` | `/transactions/status?view=summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo22` | `Subu22` | 입고 접수 | 입고명세서 | `Sobo22` | `/inbound/receipts` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo22_inbound_statement` | `Subu22` | 입고명세서 | 입고명세서 | `Sobo22` | `/transactions/inbound-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MATCH | `Sobo23` | `Subu23` | 반품명세서 | 반품명세서 | `Sobo23` | `/returns/receipts` |  |
+| MULTI_MAP | `Sobo23` | `Subu23` | 반품 접수 | 반품명세서 | `Sobo23` | `/returns/receipts` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo23_status` | `Subu23` | 반품 현황 | 반품명세서 | `Sobo23` | `/returns/status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo21_status_detail` | `Subu24` | 거래 현황(상세) | 반품재고(정품입고)-재생 | `Sobo24` | `/transactions/status?view=detail` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo24` | `Subu24` | 반품재고(재생) | 반품재고(정품입고)-재생 | `Sobo24` | `/returns/inventory?tab=regen` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo25` | `Subu25` | 반품재고(해체) | 반품재고(반품입고)-해체 | `Sobo25` | `/returns/inventory?tab=disassemble` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
@@ -57,6 +58,7 @@
 | CAPTION_DIFF | `Sobo32_1_ledger` | `Subu32_1` | 통합 거래처원장 | 출판사별 재고 현황 | `Sobo32_1` | `/ledger/customer-integrated` | DFM「출판사별 재고 현황」↔모던「통합 거래처원장」 (r=0.00) |
 | MULTI_MAP | `Sobo33_1_ledger` | `Subu33` | 통합 도서수불장 | 기간별재고원장 | `Sobo33` | `/ledger/book-integrated` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo33_ledger` | `Subu33` | 도서수불장 | 기간별재고원장 | `Sobo33` | `/ledger/book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| OK_EXEMPT | `Sobo34_1_value` | `Subu34_1` | 재고금액 | 재고 및 재고금액 | `Sobo34_1` | `/inventory/value` | DEC-023 표기 통일(allowlist) |
 | NEAR_MATCH | `Sobo34_4` | `Subu34_4` | 기간별재고원장(상세) | 기간별재고원장(상세)-폐기 | `Sobo34_4` | `/returns/ledger` | 유사도 0.88 (≥0.78) |
 | CAPTION_DIFF | `Sobo36_stats_route` | `Subu36` | 거래처통계(목록) | 도서별원장총괄 | `Sobo36` | `/stats/customer` | DFM「도서별원장총괄」↔모던「거래처통계(목록)」 (r=0.00) |
 | CAPTION_DIFF | `Sobo37_stats_route` | `Subu37` | 도서통계(목록) | 담당자판매원장 | `Sobo37` | `/stats/book` | DFM「담당자판매원장」↔모던「도서통계(목록)」 (r=0.00) |
@@ -67,8 +69,8 @@
 | MULTI_MAP | `Sobo41_cash` | `Subu41` | 입금내역 | 입금내역 | `Sobo41` | `/settlement/cash` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo41_cash_bill` | `Subu41` | 입금내역 | 입금내역 | `Sobo41` | `/settlement/cash` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo41_slip` | `Subu41` | 입금전표 | 입금내역 | `Sobo41` | `/settlement/payment-slip` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo42_cash` | `Subu41` | 입출금전표 | 입금내역 | `Sobo41` | `/settlement/cash-status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Settle_outstanding` | `Subu42` | 미수현황 | 입금현황(1) | `Sobo42` | `/settlement/outstanding` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MULTI_MAP | `Sobo42_cash` | `Subu42` | 입금현황 | 입금현황(1) | `Sobo42` | `/settlement/cash-status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo42_cash_bill` | `Subu42` | 입금현황(거래처별) | 입금현황(1) | `Sobo42` | `/settlement/cash-status?variant=hcode` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | CAPTION_DIFF | `Sobo42_1_cash_bill` | `Subu42_1` | 입금현황(일자별) | 입금현황(2) | `Sobo42_1` | `/settlement/cash-status?variant=sdate` | DFM「입금현황(2)」↔모던「입금현황(일자별)」 (r=0.75) |
 | MULTI_MAP | `Sobo43_shipping_ledger` | `Subu43` | 발송비내역 | 발송비내역 | `Sobo43` | `/settlement/shipping-ledger` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
@@ -136,7 +138,6 @@
 | `Subu30` | Sobo30 | `legacy_delphi_source/legacy_source/Subu30.dfm` |
 | `Subu32_9` | 도서별수불원장 | `legacy_delphi_source/legacy_source/Subu32_9.dfm` |
 | `Subu34` | 기간별재고원장 | `legacy_delphi_source/legacy_source/Subu34.dfm` |
-| `Subu34_1` | 재고 및 재고금액 | `legacy_delphi_source/legacy_source/Subu34_1.dfm` |
 | `Subu34_2` | 기간별재고원장(상세)-정품 | `legacy_delphi_source/legacy_source/Subu34_2.dfm` |
 | `Subu34_3` | 기간별재고원장(상세)-비품 | `legacy_delphi_source/legacy_source/Subu34_3.dfm` |
 | `Subu35` | 거래처원장총괄 | `legacy_delphi_source/legacy_source/Subu35.dfm` |

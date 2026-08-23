@@ -198,10 +198,6 @@ missing_forms:
     dfm_caption: "기간별재고원장"
     reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
     until: "Phase 3 audit"
-  - form_name: Sobo34_1
-    dfm_caption: "재고 및 재고금액"
-    reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
-    until: "Phase 3 audit"
   - form_name: Sobo34_2
     dfm_caption: "기간별재고원장(상세)-정품"
     reason: "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)"
@@ -328,6 +324,21 @@ missing_forms:
     until: "Phase 3 audit"
 
 caption_mismatches:
+  - form_name: Sobo23_status
+    dfm_caption: "반품명세서"
+    registry_caption: "반품 현황"
+    reason: "2026-08-23 사용자 — 「반품 접수」 다음 메뉴로 «반품 현황» 신설(DEC-189). 용도 = 입력한 반품 접수 확인·수정. 레거시 Subu23 한 폼에서 접수/현황 두 화면으로 분리한 것이라 dfm caption 과 다르다"
+    until: "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
+  - form_name: Sobo23
+    dfm_caption: "반품명세서"
+    registry_caption: "반품 접수"
+    reason: "2026-08-23 사용자 — 명칭 「반품명세서」→「반품 접수」. 용도가 «반품 입고 시 반품 거래명세서 입력»이라 출고 접수·입고 접수와 같은 «접수» 어휘로 통일. 화면·라우트·dfm 불변"
+    until: "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
+  - form_name: Sobo34_1_value
+    dfm_caption: "재고 및 재고금액"
+    registry_caption: "재고금액"
+    reason: "2026-08-23 운영 요청 — 「원장관리-재고현황 다음에 재고금액 메뉴 신설」. 같은 화면·같은 dfm(Subu34_1), 메뉴 표기만 축약"
+    until: "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
   - form_name: Sobo27
     dfm_caption: "출고접수관리"
     registry_caption: "출고 접수"

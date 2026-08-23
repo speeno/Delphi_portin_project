@@ -45,18 +45,21 @@ class FrontendColumnGuards(TestCase):
             encoding="utf-8"
         )
         cols = src.split("BOOK_SALES_COLUMNS")[1]
-        # ① 증정수가 폐기수 앞 (입고→출고→반품→증정→폐기).
-        self.assertLess(cols.index('"gbqut"'), cols.index('"gjqut"'))
-        self.assertLess(cols.index('"gjqut"'), cols.index('"gpqut"'))
-        # ② 반품액이 출고액 뒤.
-        self.assertLess(cols.index('label: "출고액"'), cols.index('label: "반품액"'))
-        # ③④ 매출부수/매출액 파생 컬럼.
-        for label in ("매출부수", "매출액"):
-            self.assertIn(label, cols, f"{label} 컬럼 누락 — DEC-141")
+        # DEC-187 (운영 요청 2026-08-23) — 레거시 Subu61 순서로 갱신:
+        #   입고→출고→**증정→반품**→폐기 (DEC-141 의 반품→증정에서 뒤바뀜),
+        #   라벨도 출고액/반품액/매출부수/매출액 → 출고금액/반품금액/판매수량/판매금액.
+        # 파생 산식(출고+반품 / 출고금액+반품금액)은 DEC-141 그대로 유지된다.
+        self.assertLess(cols.index('"gjqut"'), cols.index('"gbqut"'))
+        self.assertLess(cols.index('"gbqut"'), cols.index('"gpqut"'))
+        # 반품금액이 출고금액 뒤.
+        self.assertLess(cols.index('label: "출고금액"'), cols.index('label: "반품금액"'))
+        # 판매수량/판매금액 파생 컬럼 (구 매출부수/매출액).
+        for label in ("판매수량", "판매금액"):
+            self.assertIn(label, cols, f"{label} 컬럼 누락 — DEC-187")
         self.assertIn("sellQut: (r.goqut ?? 0) + (r.gbqut ?? 0)", src)
         self.assertIn("sellSum: (r.gosum ?? 0) + (r.gbsum ?? 0)", src)
-        # 저장 컬럼순서 리셋 — 확정 순서를 전 계정 기본 적용(v2 키).
-        self.assertIn('"reports.book-sales.v2"', src)
+        # 저장 컬럼순서 리셋 — 확정 순서를 전 계정 기본 적용(DEC-187 로 v3).
+        self.assertIn('"reports.book-sales.v3"', src)
 
 
 if __name__ == "__main__":

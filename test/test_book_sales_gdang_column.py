@@ -61,10 +61,13 @@ class BookSalesGdangTests(IsolatedAsyncioTestCase):
         self.assertEqual(row["gname"], "기계산업마케팅총람")
 
     async def test_gdang_missing_column_falls_back_to_names_only(self) -> None:
+        # DEC-187 로 도서분류(G4_Gbun) lookup 이 추가돼 «전체» 호출 수를 세면 흔들린다.
+        # 도서명/정가 lookup(= `Gname AS gname` 템플릿)만 세어 폴백 1회를 고정한다.
         calls = {"n": 0}
 
         async def lookup(sql_template, keys):  # noqa: ARG001
-            calls["n"] += 1
+            if "Gname AS gname" in sql_template:
+                calls["n"] += 1
             if "Gdang" in sql_template:
                 raise RuntimeError("1054 Unknown column 'Gdang'")
             return [{"bcode": "B0001", "gname": "기계산업마케팅총람"}]

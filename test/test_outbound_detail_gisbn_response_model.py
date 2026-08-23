@@ -96,7 +96,7 @@ class OutboundStatusDetailGridTests(TestCase):
 
     def setUp(self) -> None:
         self.src = (
-            FRONT / "app" / "(app)" / "transactions" / "outbound-status" / "page.tsx"
+            FRONT / "components" / "transactions" / "transaction-status-screen.tsx"
         ).read_text(encoding="utf-8")
 
     def test_detail_line_table_renders_gisbn(self) -> None:

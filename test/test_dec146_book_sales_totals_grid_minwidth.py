@@ -106,13 +106,17 @@ class ScreenWiringGuard(TestCase):
         self.assertIn("totals.goqut + totals.gbqut", src)
         self.assertIn("totals.gosum + totals.gbsum", src)
 
-    def test_customer_sales_detail_panel_renders_only_when_selected(self) -> None:
+    def test_customer_sales_detail_pane_gated_by_selection(self) -> None:
+        """DEC-188 — 하단 상세는 거래처를 고르기 전엔 «안내»만 보인다.
+
+        종전(우측 패널)은 미선택 시 아예 렌더하지 않았으나, 하단 2단에서는 자리가
+        고정돼 있어 빈 그리드 대신 안내 문구를 둔다(재고금액·도서별판매와 동형).
+        """
         src = (FRONTEND / "app" / "(app)" / "reports" / "customer-sales"
                / "page.tsx").read_text(encoding="utf-8")
-        panel_at = src.index('data-legacy-id="Sobo62.DBGrid201"')
-        guard_at = src.rindex("selectedKey !== null && (", 0, panel_at)
-        self.assertGreater(guard_at, 0, "상세 패널은 행 선택 시에만 렌더")
-        self.assertNotIn("좌측 거래처 행을 선택하면", src, "빈 안내 패널 제거")
+        self.assertIn("selectedKey === null ?", src, "선택 전 분기 없음")
+        self.assertIn("위에서 거래처를 선택하면", src, "선택 전 안내 문구 누락")
+        self.assertNotIn("좌측 거래처 행을 선택하면", src, "좌우 분할 시절 문구 잔존")
 
 
 if __name__ == "__main__":

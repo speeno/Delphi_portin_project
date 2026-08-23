@@ -4555,3 +4555,150 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **상한**: 시드는 `LEDGER_MAX`(기본 10,000) 로 제한한다. 도달 시 조용히 잘리므로,
   카탈로그가 그보다 큰 테넌트가 생기면 상한을 올리거나 검색어를 요구해야 한다.
 - **회귀**: `test/test_stock_ledger_sobo34.py::test_snapshot_books_appear_without_period_movement`
+
+## DEC-184 — 재고금액(Sobo34_1 「재고 및 재고금액」) 신설 — 재고현황 수량축 재사용 + 정가×기준율 파생
+
+- **일자**: 2026-08-23
+- **요청**: "원장관리-재고현황 메뉴 다음에 재고금액 메뉴를 신설해라. 재고현황 화면과 거의
+  동일한데 수량보다는 **금액 관점**에서 정보를 제공하는 화면이다. 첨부 이미지(레거시)와
+  같은 역할인데 포팅 시 누락되어 있다. 검색 데이터는 교문사-경리부 계정 검색 결과와 같아야 한다."
+- **정본 확정**: 레거시 폼 = **`Subu34_1` / `TSobo34_1`, caption 「재고 및 재고금액」**.
+  메뉴는 `한국도서유통/유통/Chul.dfm` `Menu300`(재고원장) → `Menu304_1` — 재고현황(Sobo34 =
+  `Menu303` 기간별재고원장)과 **같은 대메뉴**라 사용자 요청 위치와 정확히 맞는다.
+  코드 정본은 재고현황과 같은 경로 `한국도서유통/출판/MySQL/Subu34_1.{pas,dfm}` 로 잡았다.
+  - dfm 두 그리드 9컬럼(분류코드/도서코드·분류명/도서명·정가·정품재고·재고금액·반품재고·
+    재고금액·재고합계·금액합계)이 요청 컬럼 목록과 **정확히 일치**한다.
+  - 변형 주의: `도서유통-New/Subu34_1` 은 필터 패널이 다르고(출판사명·「반품재고 제로」 추가,
+    `Edit102`/`Panel102` 숨김) 분류 롤업에 `mSqry.Gjqut` **이중 가산 버그**가 있다.
+    출판 빌드는 그 줄이 주석 처리돼 있어 재고합계가 단일 가산 — **출판 빌드를 따른다**.
+- **핵심 결정 — 재구현하지 않고 `get_stock_ledger` 를 재사용한다.**
+  `Subu34_1.pas` Button102Click 의 누적 분기표(L451~633)와 마감 산식은 `Subu34.pas` 와
+  **같은 코드**다. 다른 것은 두 가지뿐이다.
+  1. 조회축이 기간이 아니라 **거래일자 1일** — L369~370 `Gdate >= Edit101 and Gdate <= Edit101`
+     (`Edit102` 는 `Visible=False`). 그 날 **마감 시점** 재고다.
+  2. 마지막에 정가를 곱해 금액 4컬럼을 파생(L1189~1213).
+
+  따라서 `get_stock_value_ledger` 는 `get_stock_ledger(date_from=date_to=거래일자)` 를
+  호출하고 금액만 얹는다 — DEC-138(전·현재고 라이브 대사) / DEC-182(합계 행) /
+  DEC-183(행 집합 = 거래 ∪ 스냅샷) 의 검증 자산을 그대로 승계한다. 900줄 누적 로직 재이식 없음.
+  이것이 "교문사 계정 검색 결과와 같아야 한다"는 요구를 만족시키는 가장 안전한 경로다 —
+  재고현황이 이미 그 계정으로 대사된 축이기 때문.
+- **금액 산식** (`Edit109` = 기준율 %, 기본 100):
+  ```
+  재고금액(GOSUM)     = 정가(GSQUT) × 정품재고(GSUMY) × 기준율/100
+  반품 재고금액(GBSUM) = 정가(GSQUT) × 반품재고(GSSUM) × 기준율/100
+  CheckBox3(반품재고 제로) → GSSUM := 0, GBSUM := 0   ※ 금액 산출 **후** 덮어쓰기
+  재고합계(GJQUT)     = GSUMY + GSSUM
+  금액합계(GJSUM)     = GOSUM + GBSUM
+  ```
+- **상단 「정가」는 공란이 정답**: 분류 롤업 루프(L1219~1252)가 `mSqry.Gsqut` 를 **누적하지
+  않는다**. 레거시 상단 그리드의 정가 칸은 항상 비어 있으므로 웹도 `gdang: null` 로 두고
+  빈 칸으로 렌더한다 — 임의 합산은 레거시와 어긋나는 값을 만든다.
+- **합계 대상**: dfm `Footer.ValueType = fvtSum` 인 6컬럼(GSUMY/GOSUM/GSSUM/GBSUM/GJQUT/GJSUM).
+  정가는 합계 대상이 아니다(DEC-182 와 같은 이유).
+- **반올림 안 함**: 기준율 ≠ 100 이면 금액이 소수가 될 수 있다. 백엔드는 float 그대로
+  반환하고 표시에서만 원 단위로 반올림한다 — 행별 반올림 후 합산하면 합계가 어긋난다.
+- **UI 결정**:
+  - 도서 검색은 재고현황 선례대로 **「도서명 또는 코드」 한 칸**(레거시 `Edit103/105` 구간 폐지),
+    비우면 전체 도서.
+  - 「반품재고 제로」(`CheckBox3`)는 New 빌드 전용 컨트롤이라 노출하되 **기본 해제** —
+    출판 정본(컨트롤 없음)의 동작과 같고, 요청 컬럼인 반품재고/반품 재고금액이 채워진다.
+- **구현**
+  - `backend/app/services/inventory_service.py` `get_stock_value_ledger`
+  - `backend/app/routers/inventory.py` `GET /api/v1/inventory/stock-value`
+    (`enforce_hcode_isolation` — 비-슈퍼는 로그인 출판사만)
+  - `frontend/src/app/(app)/inventory/value/page.tsx` (route `/inventory/value`)
+  - `form-registry.ts` `Sobo34_1_value` (`menuId: ACC-MENU-NAV-03`) —
+    `INVENTORY_SIDEBAR_LAYOUT` 에서 `Sobo44_inv`(재고현황) **바로 다음**
+  - 매핑 노트 `analysis/layout_mappings/Sobo34_1_stock_value.md` (DEC-028)
+  - DB 스모크 매트릭스 `debug/probe_backend_all_servers.py` `inventory.stock_value` 등록
+  - 표기 축약(「재고 및 재고금액」→「재고금액」)은 `tools/delphi_form_screen_matrix.py`
+    `CAPTION_ALLOWLIST_MISMATCH` + `legacy-analysis/coverage-allowlist.yaml`
+    `caption_mismatches` 에 등록(같은 화면·같은 dfm, 메뉴 표기만 축약).
+- **회귀**: `test/test_stock_value_sobo34_1.py` (19건 — 위임축/금액산식/제로옵션/분류 롤업/
+  라우터·스모크 등록/사이드바 위치·dfm 위젯 id·9컬럼)
+- **미해결**: 금액 4컬럼의 **라이브 대사 미완**. 수량 축은 DEC-138 검증 자산 승계지만
+  교문사(5019, remote_153/chul_09) 실화면과 금액을 대조하지 않았다 — `RUN_DB_SMOKE` 필요.
+
+## DEC-185 — 사이드바 대메뉴 순서 업무 흐름순 재배치
+
+- **일자**: 2026-08-23
+- **요청**(사용자 지정 순서): 기초관리 / 입고관리 / 출고관리 / 반품관리 — 원장관리 / 정산관리 /
+  통계관리 — 거래관리 / 택배관리 / 발송비·입금 / 웹관리.
+- **결정**: `form-registry.ts` `MENU_GROUPS` 배열 순서만 바꾼다. 사이드바(`sidebar.tsx`)가
+  이 배열을 그대로 순회하므로 그룹 id·라우트·RBAC 게이트(`MENU_GROUP_MENU_ID`)는 **불변**이다.
+- **내역서관리(NAV-15)**: 요청 목록에 없었다. 삭제 근거가 없어 **제거하지 않고** 레거시
+  인접 관계(NAV-14 발송비 → NAV-15 내역서)대로 발송비/입금 바로 뒤에 뒀다. 숨김/이동은
+  운영 확인 후 재조정.
+- **요청의 빈 줄(3블록)** 은 순서 구분으로만 반영했다 — 대메뉴 레벨 구분선 UI 는 미도입.
+
+## DEC-186 — 입금 도메인 테이블 오배선 정정: 입금현황 → 입출금전표(H1_Ssub) 전면 교체
+
+- **일자**: 2026-08-23
+- **보고**: 사용자 — 레거시 「입출금전표-거래처」 스크린샷 첨부 + "이 화면이 **일자별 입금
+  금액 기입용**으로 활용됐다. 이 기능을 입금현황 화면에 적용해서 기능을 다시 확인하고
+  화면의 데이터가 적절하게 검색되는지 확인해달라." / 후속 지시 "항목을 화면과 맞추고,
+  입력은 **명세서 라인 입력하듯 목록에 항목을 추가하는 방식**으로."
+- **진단 — 화면이 빈 테이블을 보고 있었다** (라이브 확인):
+
+  | 서버 | `T5_Ssub` (종전 배선) | `H1_Ssub` (레거시 실제) |
+  | --- | --- | --- |
+  | remote_138 | **0** | 131,254 |
+  | remote_153 | **0** | 1,145,482 |
+  | 교문사 5019 | **0** | 1,515 (2026년) |
+
+  `cash_service`(입금내역·입금전표)와 `settlement_service.cash_status`(입금현황+변형 2종)가
+  모두 `T5_Ssub` 를 읽어 **어떤 계정에서도 항상 0건**이었다. 실화면에서도 입금내역이
+  "조회 결과가 없습니다"로 재현됐다. 단일 화면 버그가 아니라 **입금 도메인 5화면 전체**의
+  데이터원 오배선이다.
+- **정본 재확정**: 레거시 폼 = **`Subu41`/`TSobo41` 「입출금전표-거래처」**
+  (`Chul.dfm` `Menu400`(회계관리) → `Menu401`, 라이선스 F41), 출판 빌드
+  `한국도서유통출판/출판/Subu41.{dfm,pas}`.
+  - 종전 포팅(`Sobo41_cash.md`)은 **다른 빌드 변형**(`도서유통-New`/유통 계열, 컬럼
+    `입금일자·청구월·출판사코드·출판사명·금액·결재·메모` 7개)을 따라갔다. 사용자
+    스크린샷과 컬럼이 일치하는 것은 **출판 빌드**(10컬럼)뿐이다.
+- **결정**:
+  1. `/settlement/cash-status` 를 **입출금전표**로 전면 교체(`H1_Ssub`). 캡션 「입금현황」→
+     「입출금전표」, registry `folder` 도 `Subu42`→`Subu41` 로 정정.
+  2. 입금내역(`/settlement/cash`)·입금전표(`/settlement/payment-slip`)·입금현황 변형 2종
+     (`?variant=hcode|sdate`)은 **입출금전표로 통합**하고 사이드바에서 숨긴다
+     (`menuId: ACC-MENU-HIDDEN-SETTLE-CASH-T5`). route/API/회귀는 보존.
+- **이식한 레거시 규칙** (`analysis/layout_mappings/Sobo41_cash_slip.md` 전문):
+  - **금액은 DB 에 `Gssum` 한 칸**이고 `Gubun`('입금'/'출금')이 화면 열을 정한다. 조회 시
+    분리(L414~421), 저장 시 역변환(L1336~1352). **입고처(Y)만 분기 순서가 뒤집혀 있다** — 원문 보존.
+  - 조회 WHERE 에 `Scode<>'A' and Scode<>'B'`(재고 축 배제), 거래처 범위는 **끝 코드가
+    있을 때만** 적용(`if Edit106.Text<>''`), 정렬은 입력순 `Gdate,ID` / 기본
+    `Gdate,Gubun,Scode,Gcode`, 상한 2,000행.
+  - **잔액 `Gsumy` 는 저장 컬럼**이다. 레거시는 거래처를 고르는 순간에만 `Tong40.SetTring03`
+    으로 계산해 저장하고 목록은 저장값을 읽는다 — 조회에서 재계산하면 값이 갈린다.
+  - 결재 `Pubun` = 현금·어음·은행·카드·공제·기타 (dfm PickList = 사용자 콤보 스크린샷).
+  - 신규 기본값(`T4_Sub11NewRecord`): `Gubun='입금'`, `Pubun='현금'`, `Gsumy=0`.
+- **모던 강화 (레거시와 의도적 차이)**: 레거시 UPDATE/DELETE 는 `ID`(+`Gdate`)만 쓰지만
+  `H1_Ssub` 는 chul_09 4테넌트 **공유 테이블**이라 모던은 `Hcode` 를 WHERE 에 반드시
+  포함한다 — 교차 테넌트 수정/삭제 차단.
+- **입력 방식**: 레거시도 별도 입력 폼 없이 `DBGrid101` **인라인 편집**이다
+  (`DBGrid101KeyPress`/`T4_Sub11BeforePost`). 운영 지시와 같아 모던도 목록 하단에
+  «신규 행»을 띄우는 인라인 입력으로 구현했다.
+- **라이브 대조 (교문사 5019 / remote_153, 2026.08.03, 거래구분 거래처)** — 사용자 제공
+  레거시 스크린샷과 **완전 일치**(백엔드 서비스 + 브라우저 실화면 양쪽 확인):
+
+  | 코드 | 거래처명 | 잔액 | 입금 | 출금 | 결재 |
+  | --- | --- | --- | --- | --- | --- |
+  | 3292 | #자유서적[파주] | 48,000 | 48,000 | 0 | 현금 |
+  | 3315 | 네이버 스마트스토어 | 17,757,360 | 76,290 | 0 | 현금 |
+  | **합계** | | | **124,290** | **0** | |
+
+  교문사 실사용 분포: `Pubun` 현금 1,389/공제 108/어음 12/카드 6, `Scode` 는 X 만,
+  `Ocode`·`Oname`·`Tcode` 는 전부 공란(스크린샷의 빈 계정과목 칸과 일치).
+- **구현**: `backend/app/services/cash_slip_service.py` 신설 /
+  `backend/app/routers/settlement.py` `GET·POST·PUT·DELETE /cash-slip` /
+  `frontend/src/app/(app)/settlement/cash-status/page.tsx` 재작성 /
+  `frontend/src/lib/settlement-api.ts` `cashSlipApi` /
+  `debug/probe_backend_all_servers.py` `settlement.cash_slip` 등록
+- **회귀**: `test/test_cash_slip_sobo41.py` (31건). 기존
+  `test_c5_settlement_phase1.py::test_p1_32_...` 는 화면 정체가 바뀌어 검증 대상
+  legacy id 를 Sobo42→Sobo41 로 갱신.
+- **미해결**:
+  1. 어음(`H4_Iyeo`)·은행(`H5_Bang`) 부가정보 `Sname` 후처리 미구현(교문사 어음 12건).
+  2. 인라인 **수정**(PUT)은 API 만 있고 화면은 신규 추가·삭제까지 — 셀 편집 UI 는 후속.
+  3. 형제 폼 `Subu42` 「입출금전표-사무실」 미포팅.

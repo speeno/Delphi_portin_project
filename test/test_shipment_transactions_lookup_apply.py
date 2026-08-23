@@ -17,7 +17,7 @@ class ShipmentTransactionsLookupApplyTest(TestCase):
         # 출고현황은 `/outbound/status` 중복 스텁이 제거되고 `Sobo67_status`
         # (`/transactions/outbound-status`) 한 건으로 통합됐다(form-registry 주석).
         status = _read(
-            FRONT / "app" / "(app)" / "transactions" / "outbound-status" / "page.tsx"
+            FRONT / "components" / "transactions" / "transaction-status-screen.tsx"
         )
         receipts = _read(FRONT / "app" / "(app)" / "inbound" / "receipts" / "page.tsx")
         new_orders = _read(

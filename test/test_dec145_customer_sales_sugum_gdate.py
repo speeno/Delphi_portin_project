@@ -97,13 +97,23 @@ class DetailPanelStickyGuard(TestCase):
     PAGE = (ROOT / "도서물류관리프로그램" / "frontend" / "src" / "app" / "(app)"
             / "reports" / "customer-sales" / "page.tsx")
 
-    def test_detail_panel_is_sticky_with_inner_scroll(self) -> None:
+    def test_detail_pane_moved_below_master_grid(self) -> None:
+        """DEC-188 (운영 요청 2026-08-23) — 상세를 **우측 sticky 패널 → 하단**으로 옮겼다.
+
+        레거시 Subu62 가 상·하단 2단이라 그 구성에 맞춘다. sticky 는 이제 공통
+        `DataGrid` 가 헤더/합계행에 제공하므로 패널 자체 sticky 클래스는 불필요하다.
+        """
         src = self.PAGE.read_text(encoding="utf-8")
-        panel = src.split('data-legacy-id="Sobo62.DBGrid201"')[0].rsplit("<div", 1)[1]
-        self.assertIn("xl:sticky", panel)
-        self.assertIn("xl:top-4", panel)
-        self.assertIn("xl:self-start", panel, "grid stretch 해제 없이는 sticky 무력화")
-        self.assertIn("xl:overflow-y-auto", panel, "긴 상세는 패널 내부 스크롤")
+        # 상세가 상단 그리드 «뒤»에 온다(좌우 분할이 아니라 세로 배치).
+        self.assertLess(
+            src.index('legacyId="Sobo62.DBGrid101"'),
+            src.index('legacyId="Sobo62.DBGrid201"'),
+            "상세가 상단 목록보다 앞에 오면 2단 배치가 깨진 것",
+        )
+        self.assertNotIn("xl:grid-cols-[minmax(0,1.15fr)", src, "좌우 2분할 잔존")
+        # 공통 DataGrid 로 렌더 — 정렬·컬럼설정·sticky 헤더/합계를 함께 얻는다.
+        self.assertIn("<DataGrid<CustomerDetailGridRow>", src)
+        self.assertIn("totals={detailTotals}", src)
 
 
 if __name__ == "__main__":

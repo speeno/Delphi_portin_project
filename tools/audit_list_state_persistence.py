@@ -82,10 +82,42 @@ def _route_key_from_path(rel: Path) -> str:
     return ".".join(parts) if parts else "root"
 
 
+# 얇은 래퍼 page.tsx 가 본문을 위임한 공용 컴포넌트 import (`@/components/...`).
+# 예: /transactions/outbound-status, /returns/status 는 TransactionStatusScreen 공유
+# (DEC-189) — 파일이 갈렸을 뿐 화면은 그대로라 컴포넌트 본문을 감사 대상으로 삼는다.
+_WRAPPER_IMPORT_RE = re.compile(r'from\s+"@/(components/[A-Za-z0-9_\-/]+)"')
+_SRC_DIR = APP_DIR.parent.parent  # .../frontend/src
+
+
+def _resolve_wrapper_text(path: Path, text: str) -> str:
+    """page.tsx 가 공용 컴포넌트에 본문을 위임했으면 그 컴포넌트 본문을 합쳐 돌려준다.
+
+    래퍼는 스스로 DataGridPager/useListSession 을 import 하지 않으므로, 이 보정이
+    없으면 목록 화면이 통째로 감사에서 빠진다(= 회귀를 못 잡는다).
+    """
+    if _PAGER_RE.search(text):
+        return text  # 자체 구현 페이지 — 그대로 검사
+    # «얇은 래퍼» 만 따라간다: 본문이 짧고(주석 제외 실코드 ≤ 12줄) 컴포넌트 import 가
+    # 정확히 1개. 컴포넌트를 곁들여 쓰는 일반 페이지까지 끌어오면 무관한 화면이
+    # list 화면으로 오분류된다.
+    code_lines = [
+        ln for ln in text.splitlines()
+        if ln.strip() and not ln.strip().startswith(("*", "/*", "//", "*/"))
+    ]
+    imports = _WRAPPER_IMPORT_RE.findall(text)
+    if len(code_lines) > 12 or len(imports) != 1:
+        return text
+    for suffix in (".tsx", ".ts"):
+        cand = _SRC_DIR / (imports[0] + suffix)
+        if cand.is_file():
+            return text + "\n" + cand.read_text(encoding="utf-8")
+    return text
+
+
 def discover_pages(app_dir: Path = APP_DIR) -> list[PageEntry]:
     entries: list[PageEntry] = []
     for path in sorted(app_dir.rglob("page.tsx")):
-        text = path.read_text(encoding="utf-8")
+        text = _resolve_wrapper_text(path, path.read_text(encoding="utf-8"))
         has_pager = bool(_PAGER_RE.search(text))
         has_hook = bool(_HOOK_RE.search(text))
         rel_app = path.relative_to(app_dir)

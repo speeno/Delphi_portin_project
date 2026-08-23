@@ -42,6 +42,19 @@ def _main_row(bcode: str = "B0001") -> dict[str, Any]:
     }
 
 
+def _book_name_lookup_kwargs(spy):
+    """도서명(G4_Book Gname) lookup 호출의 kwargs.
+
+    DEC-187 로 도서분류(G4_Book Gubun / G4_Gbun) lookup 이 **뒤에** 추가돼
+    `spy.await_args`(마지막 호출) 는 더 이상 도서명 조회가 아니다. 검사 대상 호출을
+    SQL 로 특정한다 — 새 lookup 이 늘어도 가드가 흔들리지 않게.
+    """
+    for call in spy.await_args_list:
+        if "Gname AS gname" in (call.kwargs.get("sql_template") or ""):
+            return call.kwargs
+    raise AssertionError("도서명 lookup 호출을 찾지 못했습니다")
+
+
 class BookSalesOptionalHcodeTests(IsolatedAsyncioTestCase):
     async def _run(
         self,
@@ -81,19 +94,19 @@ class BookSalesOptionalHcodeTests(IsolatedAsyncioTestCase):
         self.assertIn("Sg_Csum", sg_sql)
         self.assertNotIn("Hcode = %s", sg_sql)
         # 도서명 lookup
-        kwargs = spy.await_args.kwargs
+        kwargs = _book_name_lookup_kwargs(spy)
         self.assertEqual(kwargs.get("prefix_params"), ())
         self.assertNotIn("Hcode=%s", kwargs.get("sql_template", ""))
 
     async def test_hcode_blank_treated_as_none(self) -> None:
         captured, spy = await self._run(hcode="   ")
         self.assertNotIn("Hcode = %s", captured[0][0])
-        self.assertEqual(spy.await_args.kwargs.get("prefix_params"), ())
+        self.assertEqual(_book_name_lookup_kwargs(spy).get("prefix_params"), ())
 
     async def test_hcode_percent_treated_as_none(self) -> None:
         captured, spy = await self._run(hcode="%")
         self.assertNotIn("Hcode = %s", captured[0][0])
-        self.assertEqual(spy.await_args.kwargs.get("prefix_params"), ())
+        self.assertEqual(_book_name_lookup_kwargs(spy).get("prefix_params"), ())
 
     async def test_hcode_present_keeps_clause(self) -> None:
         # 회귀 가드 — 정상 경로에서는 기존 SQL 모양 보존.
@@ -104,7 +117,7 @@ class BookSalesOptionalHcodeTests(IsolatedAsyncioTestCase):
         sg_sql, sg_params = captured[1]
         self.assertIn("Hcode = %s", sg_sql)
         self.assertIn("H001", sg_params)
-        kwargs = spy.await_args.kwargs
+        kwargs = _book_name_lookup_kwargs(spy)
         self.assertEqual(kwargs.get("prefix_params"), ("H001",))
         self.assertIn("Hcode=%s", kwargs.get("sql_template", ""))
 

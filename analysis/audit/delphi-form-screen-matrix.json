@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-22T15:24:06.705363+00:00",
+  "generated_at": "2026-08-23T13:45:07.740013+00:00",
   "summary": {
-    "registry_forms": 94,
+    "registry_forms": 96,
     "legacy_dfm_subu_stems": 92,
-    "orphan_legacy_stems": 41,
+    "orphan_legacy_stems": 40,
     "subu_caption_diff": 13,
     "subu_legacy_missing": 0
   },
@@ -221,12 +221,23 @@
       "modern_id": "Sobo23",
       "folder": "Subu23",
       "route": "/returns/receipts",
-      "modern_caption": "반품명세서",
+      "modern_caption": "반품 접수",
       "legacy_form_object": "Sobo23",
       "legacy_caption": "반품명세서",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu23.dfm",
-      "status": "MATCH",
-      "note": ""
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo23_status",
+      "folder": "Subu23",
+      "route": "/returns/status",
+      "modern_caption": "반품 현황",
+      "legacy_form_object": "Sobo23",
+      "legacy_caption": "반품명세서",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu23.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo24",
@@ -329,12 +340,12 @@
     },
     {
       "modern_id": "Sobo42_cash",
-      "folder": "Subu42",
+      "folder": "Subu41",
       "route": "/settlement/cash-status",
-      "modern_caption": "입금현황",
-      "legacy_form_object": "Sobo42",
-      "legacy_caption": "입금현황(1)",
-      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu42.dfm",
+      "modern_caption": "입출금전표",
+      "legacy_form_object": "Sobo41",
+      "legacy_caption": "입금내역",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu41.dfm",
       "status": "MULTI_MAP",
       "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
@@ -590,6 +601,17 @@
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu44.dfm",
       "status": "MULTI_MAP",
       "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo34_1_value",
+      "folder": "Subu34_1",
+      "route": "/inventory/value",
+      "modern_caption": "재고금액",
+      "legacy_form_object": "Sobo34_1",
+      "legacy_caption": "재고 및 재고금액",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu34_1.dfm",
+      "status": "OK_EXEMPT",
+      "note": "DEC-023 표기 통일(allowlist)"
     },
     {
       "modern_id": "Sobo32_ledger",
@@ -1133,12 +1155,6 @@
       "dfm_path": "legacy_delphi_source/legacy_source/Subu34.dfm",
       "form_object": "Sobo34",
       "caption": "기간별재고원장"
-    },
-    {
-      "folder": "Subu34_1",
-      "dfm_path": "legacy_delphi_source/legacy_source/Subu34_1.dfm",
-      "form_object": "Sobo34_1",
-      "caption": "재고 및 재고금액"
     },
     {
       "folder": "Subu34_2",

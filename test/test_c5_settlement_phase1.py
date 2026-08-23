@@ -753,14 +753,18 @@ class SettlementPhase1TestCase(TestCase):
                     return True
             return False
 
-        # cash-status: variant=hcode (Sobo42) + variant=sdate (Sobo42_1) 모두
+        # cash-status: DEC-186 (2026-08-23) 으로 화면 정체가 바뀌었다.
+        #   (구) Sobo42/42_1 「입금현황」 = T5_Ssub 월합계 — 라이브 전 서버 0건이라 항상 빈 화면
+        #   (신) Sobo41 「입출금전표-거래처」 = H1_Ssub 일자별 전표 (레거시 Chul.dfm Menu401)
+        # 따라서 검증 대상 legacy id 도 Sobo41 그리드 10컬럼 + 검색 패널로 교체한다.
         cs_required = [
-            "Sobo42.DBGrid.HCODE", "Sobo42.DBGrid.HNAME",
-            "Sobo42.DBGrid.GSUMX", "Sobo42.DBGrid.GOSUM", "Sobo42.DBGrid.GBSUM",
-            "Sobo42.DBGrid.GSSUM", "Sobo42.DBGrid.GDATE", "Sobo42.DBGrid.GSUSU",
-            "Sobo42.DBGrid.GSUMY",
-            "Sobo42_1.DBGrid.GPSUM",  # 변형 핵심 차이 (리터럴)
-            "Sobo42_1.DBGrid.SDATE",
+            "Sobo41.Edit101", "Sobo41.Edit102", "Sobo41.Edit103",
+            "Sobo41.Edit104", "Sobo41.Edit106", "Sobo41.CheckBox2", "Sobo41.dxButton1",
+            "Sobo41.DBGrid101",
+            "Sobo41.DBGrid101.GDATE", "Sobo41.DBGrid101.GCODE", "Sobo41.DBGrid101.GNAME",
+            "Sobo41.DBGrid101.OCODE", "Sobo41.DBGrid101.ONAME", "Sobo41.DBGrid101.GSUMY",
+            "Sobo41.DBGrid101.GSSUM", "Sobo41.DBGrid101.GBSUM", "Sobo41.DBGrid101.PUBUN",
+            "Sobo41.DBGrid101.GBIGO",
         ]
         missing_cs = [r for r in cs_required if not _has_legacy(cs_text, r)]
         self.assertEqual(missing_cs, [], f"missing data-legacy-id in cash-status: {missing_cs}")

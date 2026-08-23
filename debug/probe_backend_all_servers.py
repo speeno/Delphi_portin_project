@@ -867,6 +867,24 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # ─── Sobo34_1 재고 및 재고금액 (거래일자 1일, 분류/도서 2단) ────────
+        {
+            "group": "inventory.stock_value",
+            "path": (
+                f"/api/v1/inventory/stock-value?serverId={sid}"
+                f"&date={dt}&rate=100"
+            ),
+            "ok_status": {200},
+        },
+        # ─── Sobo41 입출금전표 (H1_Ssub) — DEC-186 ────────────────────────
+        {
+            "group": "settlement.cash_slip",
+            "path": (
+                f"/api/v1/settlement/cash-slip?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&scope=%EA%B1%B0%EB%9E%98%EC%B2%98"
+            ),
+            "ok_status": {200, 400},  # 400 = 출판사 스코프 없는 계정(ST_HCODE_REQUIRED)
+        },
         # ─── DEC-164/165 — 원장 재현 (도서별수불 · 거래처거래) ───────────────
         {
             "group": "inventory.book_ledger_daily",

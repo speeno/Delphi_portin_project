@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-22T15:24:09.421909+00:00",
+  "generated_at": "2026-08-23T13:45:10.530867+00:00",
   "summary": {
     "total_dfm_candidates": 118,
-    "registry_entries": 94,
-    "ok": 27,
+    "registry_entries": 96,
+    "ok": 26,
     "missing_forms": 0,
     "caption_mismatches": 0,
-    "allowed": 120
+    "allowed": 122
   },
   "missing_forms": [],
   "caption_mismatches": [],
@@ -495,6 +495,26 @@
       "until": "Phase 3 audit"
     },
     {
+      "form_name": "Sobo23",
+      "dfm_form_name": "Sobo23",
+      "registry_caption": "반품 접수",
+      "dfm_caption": "반품명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu23.dfm",
+      "category": "caption_mismatch",
+      "reason": "2026-08-23 사용자 — 명칭 「반품명세서」→「반품 접수」. 용도가 «반품 입고 시 반품 거래명세서 입력»이라 출고 접수·입고 접수와 같은 «접수» 어휘로 통일. 화면·라우트·dfm 불변",
+      "until": "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
+    },
+    {
+      "form_name": "Sobo23_status",
+      "dfm_form_name": "Sobo23",
+      "registry_caption": "반품 현황",
+      "dfm_caption": "반품명세서",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu23.dfm",
+      "category": "caption_mismatch",
+      "reason": "2026-08-23 사용자 — 「반품 접수」 다음 메뉴로 «반품 현황» 신설(DEC-189). 용도 = 입력한 반품 접수 확인·수정. 레거시 Subu23 한 폼에서 접수/현황 두 화면으로 분리한 것이라 dfm caption 과 다르다",
+      "until": "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
+    },
+    {
       "form_name": "Sobo24",
       "dfm_form_name": "Sobo24",
       "registry_caption": "반품재고(재생)",
@@ -673,13 +693,14 @@
       "until": "Phase 3 audit"
     },
     {
-      "form_name": "Sobo34_1",
-      "form_class": "TSobo34_1",
+      "form_name": "Sobo34_1_value",
+      "dfm_form_name": "Sobo34_1",
+      "registry_caption": "재고금액",
       "dfm_caption": "재고 및 재고금액",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_1.dfm",
-      "category": "missing",
-      "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
-      "until": "Phase 3 audit"
+      "category": "caption_mismatch",
+      "reason": "2026-08-23 운영 요청 — 「원장관리-재고현황 다음에 재고금액 메뉴 신설」. 같은 화면·같은 dfm(Subu34_1), 메뉴 표기만 축약",
+      "until": "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
     },
     {
       "form_name": "Sobo34_2",
@@ -799,7 +820,7 @@
     {
       "form_name": "Sobo42_cash",
       "dfm_form_name": "Sobo42",
-      "registry_caption": "입금현황",
+      "registry_caption": "입출금전표",
       "dfm_caption": "입금현황(1)",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu42.dfm",
       "category": "caption_mismatch",
@@ -1167,11 +1188,6 @@
       "caption": "입고명세서"
     },
     {
-      "form_name": "Sobo23",
-      "dfm_form_name": "Sobo23",
-      "caption": "반품명세서"
-    },
-    {
       "form_name": "Sobo31",
       "dfm_form_name": "Sobo31",
       "caption": "도서별수불원장"
@@ -1292,6 +1308,7 @@
     "Sobo21_status_memo",
     "Sobo21_status_summary",
     "Sobo22_import",
+    "Sobo23_status",
     "Sobo25_status_detail",
     "Sobo25_status_list",
     "Sobo25_status_summary",
@@ -1305,6 +1322,7 @@
     "Sobo32_1_ledger",
     "Sobo32_ledger",
     "Sobo33_ledger",
+    "Sobo34_1_value",
     "Sobo36_stats_route",
     "Sobo37_stats_route",
     "Sobo41_slip",
