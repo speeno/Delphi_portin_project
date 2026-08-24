@@ -260,6 +260,8 @@ class ListUsesCountGroupedTests(IsolatedAsyncioTestCase):
         with patch("app.services.returns_service.execute_query", new=fake_exec), \
              patch("app.services.returns_service.in_clause_lookup",
                    new=AsyncMock(return_value=[{"hcode": "H001", "hname": "출판사A"}])), \
+             patch("app.services.returns_service.s1_idnum_group_expr",
+                   new=AsyncMock(return_value="COALESCE(Idnum,0)")), \
              patch("app.services.returns_service.count_grouped", new=AsyncMock(return_value=99)) as cg_mock:
             await rs.list_returns(
                 server_id="srv",

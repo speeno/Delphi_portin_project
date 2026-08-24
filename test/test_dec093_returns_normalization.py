@@ -16,7 +16,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 from unittest import IsolatedAsyncioTestCase, TestCase, main
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 ROOT = Path(__file__).resolve().parents[1]
 BACKEND = ROOT / "도서물류관리프로그램" / "backend"
@@ -73,6 +73,8 @@ class ListReturnsTests(IsolatedAsyncioTestCase):
 
         with patch.object(svc, "execute_query", side_effect=fake), \
              patch.object(svc, "count_grouped", return_value=1), \
+             patch.object(svc, "s1_idnum_group_expr",
+                          new=AsyncMock(return_value="COALESCE(Idnum,0)")), \
              patch.object(svc, "in_clause_lookup", return_value=[]):
             return await svc.list_returns(
                 server_id="remote_138", date_from="2026-07-01", date_to="2026-07-31", **kw,

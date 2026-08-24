@@ -380,6 +380,8 @@ class LookupCallersUseHelperTests(IsolatedAsyncioTestCase):
         spy = AsyncMock(return_value=[])
         with patch("app.services.returns_service.execute_query", new=fake_exec), \
              patch("app.services.returns_service.count_grouped", new=AsyncMock(return_value=1)), \
+             patch("app.services.returns_service.s1_idnum_group_expr",
+                   new=AsyncMock(return_value="COALESCE(Idnum,0)")), \
              patch("app.services.returns_service.in_clause_lookup", new=spy):
             await rs.list_returns(
                 server_id="srv",
