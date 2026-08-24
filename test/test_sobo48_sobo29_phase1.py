@@ -86,11 +86,12 @@ class Sobo29OtherStatementRouterTests(TestCase):
         with patch.object(transactions_service, "list_other_statements", side_effect=fake):
             res = self.client.get(
                 "/api/v1/transactions/other?serverId=remote_1"
-                "&dateFrom=2026-04-01&dateTo=2026-04-30&hcode=H001&jubun=신간&limit=25"
+                "&dateFrom=2026-04-01&dateTo=2026-04-30&hcode=H001&pubun=신간&limit=25"
             )
         self.assertEqual(res.status_code, 200, res.text)
         self.assertEqual(captured["hcode"], "H001")
-        self.assertEqual(captured["jubun"], "신간")
+        # 필터 컬럼은 Pubun — 종전 Jubun 배선은 신간발행이 항상 0건이었다(2026-08-24).
+        self.assertEqual(captured["pubun"], "신간")
         self.assertEqual(res.json()["page"]["total"], 1)
 
     def test_upsert_other_memo_route(self) -> None:

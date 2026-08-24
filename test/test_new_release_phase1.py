@@ -44,7 +44,7 @@ class NewReleaseFacadeTests(TestCase):
         app.dependency_overrides[get_current_user] = _override_auth
         self.client = TestClient(app)
 
-    def test_facade_pins_jubun_singan(self) -> None:
+    def test_facade_pins_pubun_singan(self) -> None:
         captured: dict = {}
 
         async def fake(**kwargs):
@@ -61,11 +61,14 @@ class NewReleaseFacadeTests(TestCase):
             )
         self.assertEqual(res.status_code, 200, res.text)
         # 신간발행은 기타명세서 서비스를 재사용하되 전표구분을 신간으로 고정한다.
-        self.assertEqual(captured["jubun"], "신간")
+        # 전표구분 정본 컬럼은 Pubun (Subu29 Edit102). Jubun 은 전표번호라
+        # 문자열 '신간' 이 들어가지 않는다 — 2026-08-24 라이브: Jubun 0건 / Pubun 81건.
+        self.assertEqual(captured["pubun"], "신간")
+        self.assertNotIn("jubun", captured)
         self.assertEqual(captured["hcode"], "H001")
         self.assertEqual(res.json()["page"]["total"], 1)
 
-    def test_facade_ignores_client_jubun_override(self) -> None:
+    def test_facade_ignores_client_pubun_override(self) -> None:
         # 쿼리로 다른 전표구분을 넘겨도 신간 고정 (신간 전용 IA).
         captured: dict = {}
 
@@ -76,10 +79,13 @@ class NewReleaseFacadeTests(TestCase):
         with patch.object(transactions_service, "list_other_statements", side_effect=fake):
             res = self.client.get(
                 "/api/v1/transactions/new-release?serverId=remote_1"
-                "&dateFrom=2026-04-01&dateTo=2026-04-30&jubun=기타"
+                "&dateFrom=2026-04-01&dateTo=2026-04-30&pubun=기타"
             )
         self.assertEqual(res.status_code, 200, res.text)
-        self.assertEqual(captured["jubun"], "신간")
+        # 전표구분 정본 컬럼은 Pubun (Subu29 Edit102). Jubun 은 전표번호라
+        # 문자열 '신간' 이 들어가지 않는다 — 2026-08-24 라이브: Jubun 0건 / Pubun 81건.
+        self.assertEqual(captured["pubun"], "신간")
+        self.assertNotIn("jubun", captured)
 
 
 class NewReleaseWidgetTraceability(TestCase):
