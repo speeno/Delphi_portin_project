@@ -118,7 +118,7 @@ class StockLedgerAggregationTests(TestCase):
         async def fake_stock(server_id, *, hcode, asof, axis_like, bcodes):  # noqa: ANN001
             return dict(opening or {})
 
-        async def fake_ret(server_id, *, hcode, asof, bcodes):  # noqa: ANN001
+        async def fake_ret(server_id, *, hcode, asof, bcodes, axis_like=None):  # noqa: ANN001
             return dict(ret_seed or {})
 
         with patch.object(inv, "execute_query", new=AsyncMock(side_effect=fake_exec)), \
@@ -295,6 +295,119 @@ class SnapshotSeedQueryTests(TestCase):
                           new=AsyncMock(side_effect=RuntimeError("no such table"))):
             self.assertEqual(
                 _run(inv._fetch_snapshot_bcodes("r", hcode="5019", asof="2026.07.31")), [])
+
+class ThreeSourceStockTests(TestCase):
+    """§재고 3소스 정합 (2026-08-24 재고금액 불일치).
+
+    레거시 정본은 `Tong04.pas TTong40._Sv_Ghng_` 하나이고, 재고는 **세 소스**의 합이다.
+      ① Sv_Ghng 스냅샷  ② S1_Ssub 델타  ③ Sg_Csum 합계
+    웹은 ③이 통째로 빠져 있었고, 반품 축은 스냅샷에서 `Obqut` 대신 `Gbqut` 를 읽었다.
+    교문사(5019) 2026.08.24 라이브 대사: 반품재고가 -694,399(= SUM(Gbqut)) 로 나왔고
+    레거시 화면은 473 이었다. 세 함수 모두 예외를 삼키므로 **쿼리 문자열을 고정**한다
+    — 컬럼명이 되돌아가면 증상만 조용히 재발한다.
+    """
+
+    # ── ① 반품 시드: Obqut + 3소스 ──────────────────────────────────
+    def _ret_capture(self, **kw):
+        seen: list[str] = []
+
+        async def fake_exec(server_id, sql, params=()):  # noqa: ANN001
+            seen.append(sql)
+            return [{"d": "2026.07.31"}]
+
+        async def fake_in(server_id, *, sql_template, keys, prefix_params=(), chunk_size=None):  # noqa: ANN001
+            seen.append(sql_template)
+            return []
+
+        with patch.object(inv, "execute_query", new=AsyncMock(side_effect=fake_exec)), \
+             patch.object(inv, "in_clause_lookup", new=AsyncMock(side_effect=fake_in)):
+            out = _run(inv._fetch_return_stock_asof(
+                "remote_153", hcode="5019", asof="2026.07.31", bcodes=["B1"], **kw))
+        return out, seen
+
+    def test_return_seed_reads_obqut_not_gbqut(self) -> None:
+        """Tong04 L9612/9633 — 반품재고 시드는 Sv_Ghng.Obqut 이다."""
+        _, seen = self._ret_capture()
+        sv = [q for q in seen if "FROM Sv_Ghng" in q and "MAX(Gdate)" not in q]
+        self.assertTrue(sv, "Sv_Ghng 스냅샷 조회가 있어야 한다")
+        self.assertIn("SUM(Obqut)", sv[0], "반품 시드 컬럼은 Obqut (Gbqut 아님)")
+        self.assertNotIn("SUM(Gbqut)", sv[0])
+
+    def test_return_seed_applies_all_three_sources(self) -> None:
+        """스냅샷만으로는 16년치 델타가 반영되지 않는다 — S1_Ssub·Sg_Csum 도 돈다."""
+        _, seen = self._ret_capture()
+        joined = " | ".join(seen)
+        self.assertIn("FROM S1_Ssub", joined, "S1_Ssub 반품 델타 누락")
+        self.assertIn("FROM Sg_Csum", joined, "Sg_Csum 반품 축(C/D) 누락")
+        for q in seen:
+            if "MAX(Gdate)" not in q:
+                self.assertIn("Hcode = %s", q, f"테넌트 격리 필수: {q[:60]}")
+
+    def test_return_branch_table_matches_tong04(self) -> None:
+        """Tong04 L9661~9721 반품 버킷 분기표."""
+        f = inv._apply_return_branch
+        self.assertEqual(f("Y", "출고", "반품", 5), -5)   # L9666~9670
+        self.assertEqual(f("Y", "반품", "반품", 5), 0)    # 정품만 증가
+        self.assertEqual(f("X", "폐기", "비품", 5), 5)    # L9686~9688
+        self.assertEqual(f("X", "입고", "비품", 5), -5)   # L9698~9705
+        self.assertEqual(f("Z", "입고", "비품", 5), -5)
+        self.assertEqual(f("X", "출고", "위탁", 5), 0)    # 정품 축 전용
+
+    # ── ② 정품 시드에 Sg_Csum 합류 ─────────────────────────────────
+    def test_stock_asof_includes_sg_csum(self) -> None:
+        """`_fetch_stock_asof` 는 Sg_Csum 을 반드시 읽는다 (없으면 재고가 모자란다)."""
+        import app.services.reports_service as rep
+
+        seen: list[str] = []
+
+        async def fake_exec(server_id, sql, params=()):  # noqa: ANN001
+            return [{"d": "2026.07.31"}]
+
+        async def fake_in(server_id, *, sql_template, keys, prefix_params=(), chunk_size=None):  # noqa: ANN001
+            seen.append(sql_template)
+            return []
+
+        with patch.object(rep, "execute_query", new=AsyncMock(side_effect=fake_exec)), \
+             patch.object(rep, "in_clause_lookup", new=AsyncMock(side_effect=fake_in)):
+            _run(rep._fetch_stock_asof(
+                "remote_153", hcode="5019", asof="2026.07.31",
+                axis_like=None, bcodes=["B1"]))
+        joined = " | ".join(seen)
+        self.assertIn("FROM Sg_Csum", joined, "Sg_Csum 합계 누락 — 재고가 모자라진다")
+        sg = [q for q in seen if "FROM Sg_Csum" in q][0]
+        self.assertIn("SUM(Gbsum)", sg)
+        self.assertIn("Hcode = %s", sg, "테넌트 격리 필수")
+        self.assertIn("Scode <> %s", sg, "C/D(반품 축)는 정품재고에서 제외")
+
+    # ── ③ 행 집합에 이월 도서 합류 ─────────────────────────────────
+    def test_carryover_seed_unions_both_tables(self) -> None:
+        """스냅샷 이후 신간 — S1_Ssub·Sg_Csum 에서 도서코드를 모은다."""
+        async def fake_exec(server_id, sql, params=()):  # noqa: ANN001
+            if "FROM S1_Ssub" in sql:
+                return [{"Bcode": "B2"}, {"Bcode": "B1"}]
+            return [{"Gcode": "B3"}]
+
+        with patch.object(inv, "execute_query", new=AsyncMock(side_effect=fake_exec)):
+            out = _run(inv._fetch_carryover_bcodes(
+                "r", hcode="5019", snap_date="2009.12.31", asof="2026.08.23"))
+        self.assertEqual(out, ["B1", "B2", "B3"])
+
+    def test_carryover_seed_needs_snapshot(self) -> None:
+        """스냅샷이 없으면 기간 전체가 델타라 별도 시드가 필요 없다."""
+        with patch.object(inv, "execute_query",
+                          new=AsyncMock(side_effect=AssertionError("불필요한 조회"))):
+            self.assertEqual(
+                _run(inv._fetch_carryover_bcodes(
+                    "r", hcode="5019", snap_date="", asof="2026.08.23")), [])
+
+    def test_carryover_seed_degrades_quietly(self) -> None:
+        """Sg_Csum 부재 테넌트 — 예외 없이 진행."""
+        with patch.object(inv, "execute_query",
+                          new=AsyncMock(side_effect=RuntimeError("no such table"))):
+            self.assertEqual(
+                _run(inv._fetch_carryover_bcodes(
+                    "r", hcode="5019", snap_date="2009.12.31", asof="2026.08.23")), [])
+
 
 if __name__ == "__main__":
     main()
