@@ -343,6 +343,24 @@ class ThreeSourceStockTests(TestCase):
             if "MAX(Gdate)" not in q:
                 self.assertIn("Hcode = %s", q, f"테넌트 격리 필수: {q[:60]}")
 
+    def test_stock_branch_scrap_z_hits_stock_bucket(self) -> None:
+        """Tong04 L9706~9710 — Pubun '폐기' + Scode 'Z' 는 **정품재고**에 가산한다.
+
+        폐기 수량은 음수 저장 관례라 실제로는 재고가 줄어든다. 이 한 줄을 0 으로 두면
+        재고가 그만큼 **과다**해진다 — 교문사(5019) 2026.08.24 기준 Z·반품·폐기 조합
+        Σ = -22,859 가 통째로 빠져 합계가 +22,859 어긋났다(부호 정규화 금지).
+        """
+        import app.services.reports_service as rep
+
+        f = rep._apply_stock_branch
+        self.assertEqual(f("Z", "반품", "폐기", -22_859), -22_859)
+        self.assertEqual(f("Z", "입고", "폐기", 5), 5)
+        # 비품은 반품 버킷 전용 — 정품재고 무영향.
+        self.assertEqual(f("Z", "입고", "비품", 5), 0)
+        self.assertEqual(f("X", "입고", "비품", 5), 0)
+        # 'X' 축 폐기는 분기 밖(레거시도 Z 만 가산).
+        self.assertEqual(f("X", "반품", "폐기", 5), 0)
+
     def test_return_branch_table_matches_tong04(self) -> None:
         """Tong04 L9661~9721 반품 버킷 분기표."""
         f = inv._apply_return_branch
