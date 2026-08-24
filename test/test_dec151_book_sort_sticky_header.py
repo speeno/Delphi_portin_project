@@ -127,8 +127,34 @@ class StickyHeaderGuard(TestCase):
     PREFS = FRONTEND / "components" / "data-grid" / "use-grid-prefs.ts"
 
     def test_card_scrolls_vertically_with_cap(self) -> None:
+        """기본(단일 목록)은 종전대로 뷰포트 상한 + 내부 세로 스크롤."""
         src = self.GRID.read_text(encoding="utf-8")
-        self.assertIn("max-h-[calc(100dvh-14rem)] overflow-y-auto", src)
+        self.assertIn("overflow-y-auto", src)
+        self.assertIn("max-h-[calc(100dvh-14rem)]", src)
+
+    def test_fill_height_yields_parent_height(self) -> None:
+        """2단 화면(`SplitListPanes`)에서는 뷰포트 상한 대신 부모 높이를 채운다.
+
+        상한을 그대로 쓰면 위 표가 화면을 다 먹어 아래 표를 보려면 페이지를 스크롤해야
+        한다(사용자 요청 2026-08-24 "두 목록을 반씩 화면에서"). `fillHeight` 가
+        빠지거나 flex 축이 끊기면 증상만 조용히 되돌아오므로 클래스 축을 고정한다.
+        """
+        src = self.GRID.read_text(encoding="utf-8")
+        self.assertIn("fillHeight?: boolean;", src)
+        self.assertIn("fillHeight = false,", src)
+        # 카드: 상한 대신 남은 높이를 먹는다(min-h-0 없으면 내용이 부모를 밀어낸다).
+        self.assertIn('fillHeight ? "min-h-0 flex-1" : "max-h-[calc(100dvh-14rem)]"', src)
+        # 래퍼: 부모 높이를 카드까지 흘려보내는 flex 축.
+        self.assertIn('fillHeight ? " flex min-h-0 flex-1 flex-col" : ""', src)
+
+    def test_split_panes_component_contract(self) -> None:
+        """공용 상하 분할 컨테이너 — 모든 2단 화면이 같은 컴포넌트를 쓴다."""
+        comp = FRONTEND / "components" / "shared" / "split-list-panes.tsx"
+        src = comp.read_text(encoding="utf-8")
+        self.assertIn("export function SplitListPanes", src)
+        self.assertIn("storageKey", src, "비율은 화면별로 기억한다")
+        self.assertIn("cursor-row-resize", src, "구분선 드래그로 비율 조절")
+        self.assertIn("max-md:", src, "좁은 화면은 분할하지 않고 스택")
 
     def test_header_cells_sticky_opaque(self) -> None:
         src = self.GRID.read_text(encoding="utf-8")
