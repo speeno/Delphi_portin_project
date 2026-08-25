@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-25T02:54:59.843273+00:00",
+  "generated_at": "2026-08-25T03:04:51.155445+00:00",
   "summary": {
     "total_dfm_candidates": 118,
     "registry_entries": 98,
-    "ok": 26,
+    "ok": 25,
     "missing_forms": 0,
     "caption_mismatches": 0,
-    "allowed": 124
+    "allowed": 125
   },
   "missing_forms": [],
   "caption_mismatches": [],
@@ -1014,6 +1014,16 @@
       "until": "Phase 3 audit"
     },
     {
+      "form_name": "Sobo62",
+      "dfm_form_name": "Sobo62",
+      "registry_caption": "거래처별판매",
+      "dfm_caption": "거래처판매",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu62.dfm",
+      "category": "caption_mismatch",
+      "reason": "2026-08-25 사용자 요청 — 통계관리 화면명 「거래처판매」→「거래처별판매」(DEC-196). 같은 화면·같은 dfm(Subu62), 메뉴 표기만",
+      "until": "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
+    },
+    {
       "form_name": "Sobo63",
       "form_class": "TSobo63",
       "dfm_caption": "도서별집계",
@@ -1306,11 +1316,6 @@
       "form_name": "Sobo61",
       "dfm_form_name": "Sobo61",
       "caption": "도서별판매"
-    },
-    {
-      "form_name": "Sobo62",
-      "dfm_form_name": "Sobo62",
-      "caption": "거래처판매"
     },
     {
       "form_name": "Sobo67_yearbook",

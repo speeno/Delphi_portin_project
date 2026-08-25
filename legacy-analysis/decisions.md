@@ -4872,3 +4872,35 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   (래퍼 추적) / `test_outbound_status_print_on_this_pc.py`(저장 후 재조회 경로 = `onSlipChanged`).
   DB 스모크 `transactions.new_release{,_detail,_summary}`.
 - **미해결**: 컬럼 설정(grid-prefs) 키는 5개 현황이 `transactions.outbound-status.*` 공용(DEC-194 잔여).
+
+## DEC-196 — 거래처별판매(Sobo62): 기본 집계는 거래처(Gcode) 단위 — 「지점별검색」 체크 시에만 지점 분리
+
+- **일자**: 2026-08-25
+- **리포트**(사용자): "통계관리-거래처판매 검색 자료값 중 일부 거래처의 자료들이 미반영된 것
+  같다. 상단=거래처판매내용 / 하단=지정 거래처 세부내용이 출력되어야 하는데 지금은
+  거래처세부내용들이 보인다." + 화면명 「거래처별판매」로 변경.
+- **원인**: 모던 `get_customer_sales` 가 **항상** `(Hcode, Gcode, Gjisa)` 로 행을 만들었다.
+  레거시 `Subu62.Button101Click`(L330~335)은 `CheckBox1`「지점별검색」이 켜졌을 때만
+  `St6:=Gjisa` 이고 아니면 `''` 로 `Locate('Gcode;Gjisa')` → **기본은 거래처 단위 합산**.
+  교문사(5019) 2026-08 실측: 교보문고(00001)가 「본사 0부/0원(수금만) · 부곡리(매장) 30 ·
+  부곡리(본관) 458」 3행으로 갈려 **거래처 행이 0 으로 보였다** — "미반영"의 정체. 같은 식으로
+  6개 거래처(영풍문고 5지점, 예스24, 전남대생협, 고성도서유통, 연세대생협)가 쪼개져 있었다.
+  하단 상세(`get_customer_sales_detail`)도 `COALESCE(Gjisa,'')=%s` 로 지점 하나만 보여
+  거래처 전체 세부가 아니었다(레거시 `Button201Click` 은 `Gcode=St3 and Scode=St2` — Gjisa 절 없음).
+- **결정**:
+  1. `by_branch`(API `byBranch`, 기본 False) 도입 — False 면 지점을 거래처 행으로 합산,
+     True 면 종전처럼 (Gcode, Gjisa) 행. 집계·상세·엑셀 세 경로 동일 파라미터.
+  2. 상세는 `by_branch` 일 때만 `Gjisa` 로 좁힌다(기본 = 거래처 전체).
+  3. 화면에 레거시 `CheckBox1` 동등 「지점별검색」 체크박스(`Sobo62.CheckBox1`, 기본 해제,
+     세션 스냅샷 보존). 지사 컬럼은 종전대로 기본 숨김.
+  4. 집계 분기에 `Gubun='입고'` 추가(입고처 Y 모드 대비, Subu62 L365~369) — X 모드 영향 없음.
+  5. 화면명 「거래처별판매」(사이드바 caption·h1). 레거시 Menu602 caption 은 「거래처판매」라
+     매트릭스 `CAPTION_ALLOWLIST_MISMATCH` 에 등재(OK_EXEMPT).
+- **실측**(교문사 5019, 2026-08-01~25): 기본 155행(거래처 수와 동일) — 교보문고 1행
+  **488부 / 14,411,450원 / 수금 85,629,320**; 하단 상세 167종·출고 488 (거래처 합과 일치).
+  지점별검색 ON → 168행, 교보문고 3행(종전 형상). 거래처 단위 합은 SQL 직접 집계와 152/152 일치.
+- **구현**: `backend/app/services/reports_service.py`(`by_branch`) / `backend/app/routers/reports.py`
+  (`byBranch` ×3) / `frontend/src/app/(app)/reports/customer-sales/page.tsx` / `frontend/src/lib/inquiry-api.ts`
+  / `frontend/src/lib/form-registry.ts` / `tools/delphi_form_screen_matrix.py`(allowlist)
+- **회귀**: `test/test_customer_sales_detail.py`(기본=거래처 전체 / by_branch=지점) +
+  `test/test_dec196_customer_sales_branch_merge.py`(신규).

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-25T02:54:58.386510+00:00",
+  "generated_at": "2026-08-25T03:04:49.766202+00:00",
   "summary": {
     "registry_forms": 98,
     "legacy_dfm_subu_stems": 92,
@@ -199,12 +199,12 @@
       "modern_id": "Sobo62",
       "folder": "Subu62",
       "route": "/reports/customer-sales",
-      "modern_caption": "거래처판매",
+      "modern_caption": "거래처별판매",
       "legacy_form_object": "Sobo62",
       "legacy_caption": "거래처판매",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu62.dfm",
-      "status": "MATCH",
-      "note": ""
+      "status": "OK_EXEMPT",
+      "note": "DEC-023 표기 통일(allowlist)"
     },
     {
       "modern_id": "Sobo67_yearbook",

@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-08-25T02:54:58Z
+> **생성 시각 (UTC)**: 2026-08-25T03:04:49Z
 
 ## 목적
 
@@ -104,7 +104,7 @@
 | CAPTION_DIFF | `Sobo59_2` | `Subu59_2` | 출고검증(2) | 출고 검증관리 | `Sobo59_2` | `/transactions/verification?v=2` | DFM「출고 검증관리」↔모던「출고검증(2)」 (r=0.62) |
 | NEAR_MATCH | `Sobo59_3` | `Subu59_3` | 출고검증(개별) | 출고 검증관리(개별) | `Sobo59_3` | `/transactions/verification?v=individual` | 유사도 0.89 (≥0.78) |
 | MATCH | `Sobo61` | `Subu61` | 도서별판매 | 도서별판매 | `Sobo61` | `/reports/book-sales` |  |
-| MATCH | `Sobo62` | `Subu62` | 거래처판매 | 거래처판매 | `Sobo62` | `/reports/customer-sales` |  |
+| OK_EXEMPT | `Sobo62` | `Subu62` | 거래처별판매 | 거래처판매 | `Sobo62` | `/reports/customer-sales` | DEC-023 표기 통일(allowlist) |
 | MULTI_MAP | `Sobo67_status` | `Subu67` | 출고 현황 | 도서별년말집계 | `Sobo67` | `/transactions/outbound-status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo67_yearbook` | `Subu67` | 도서별년말집계 | 도서별년말집계 | `Sobo67` | `/reports/year-end-book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | WEB_ONLY | `MenuBillingStatements` | `_Matrix` | 내역서관리 | — | `—` | `/billing/statements` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |

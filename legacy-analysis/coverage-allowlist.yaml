@@ -344,6 +344,11 @@ caption_mismatches:
     registry_caption: "반품 접수"
     reason: "2026-08-23 사용자 — 명칭 「반품명세서」→「반품 접수」. 용도가 «반품 입고 시 반품 거래명세서 입력»이라 출고 접수·입고 접수와 같은 «접수» 어휘로 통일. 화면·라우트·dfm 불변"
     until: "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
+  - form_name: Sobo62
+    dfm_caption: "거래처판매"
+    registry_caption: "거래처별판매"
+    reason: "2026-08-25 사용자 요청 — 통계관리 화면명 「거래처판매」→「거래처별판매」(DEC-196). 같은 화면·같은 dfm(Subu62), 메뉴 표기만"
+    until: "운영 표기 정책 확정 시 재검토 (해제 예정 없음)"
   - form_name: Sobo34_1_value
     dfm_caption: "재고 및 재고금액"
     registry_caption: "재고금액"

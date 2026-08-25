@@ -49,7 +49,7 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, **TabOrder**, DBG
 | 10 | `Panel102` | TFlatPanel | "거래처명" 라벨 | `<Label htmlFor="hcode">거래처 hcode (선택)</Label>` (line 130) | label(hcode) — `data-legacy-id="Sobo62.Panel102"` |
 | 11 | `Button101` | TFlatButton (HIDDEN, OnClick) | 조회(보조) | `<Button onClick=load>조회` (line 175~184) | button(조회) | dxButton1 동일 핸들러 |
 | 12 | `Button201` | TFlatButton (HIDDEN) | 신규 | **out-of-scope** | — | 보고서는 read-only |
-| 13 | `CheckBox1` | TFlatCheckBox ("지점별검색") | 지점 분배 | **out-of-scope** | — | scope 파라미터로 흡수 |
+| 13 | `CheckBox1` | TFlatCheckBox ("지점별검색") | 지점 분배 | 「지점별검색」 체크박스 (DEC-196, 2026-08-25) | `data-legacy-id="Sobo62.CheckBox1"` | API `byBranch`. **기본 해제 = 거래처(Gcode) 단위 합산**(레거시 L330~335 `St6:=''`). 켜면 (Gcode,Gjisa) 행 |
 | 14 | `DateEdit1` | TDateEdit | 캘린더 시작 | (HTML5 date input) | — | §7 deltas |
 | 15 | `DateEdit2` | TDateEdit | 캘린더 끝 | (HTML5 date input) | — | §7 deltas |
 | 16 | `Button700` | TFlatButton | 캘린더 트리거 1 | (HTML5 picker) | — | |

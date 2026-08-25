@@ -73,8 +73,8 @@ class CustomerSalesDetailTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("G4_Book", tmpl)
         self.assertIn("Hcode='H001'", tmpl)
 
-    async def test_where_includes_gcode_and_gjisa_scope(self) -> None:
-        """WHERE 에 거래처(Gcode)·지점(Gjisa) 고정 스코프가 실린다(선택 행 단위 상세)."""
+    async def test_where_includes_gcode_and_gjisa_scope_when_by_branch(self) -> None:
+        """지점별검색(by_branch)일 때만 WHERE 에 지점(Gjisa) 스코프가 실린다."""
         from app.services import reports_service as rsvc
 
         exec_mock = AsyncMock(return_value=[])
@@ -86,6 +86,7 @@ class CustomerSalesDetailTests(unittest.IsolatedAsyncioTestCase):
                 date_to="2026-07-21",
                 gcode="00004",
                 gjisa="종각 종로점",
+                by_branch=True,
             )
         sql, params = exec_mock.await_args.args[1], exec_mock.await_args.args[2]
         self.assertIn("Gcode = %s", sql)
@@ -93,6 +94,26 @@ class CustomerSalesDetailTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("GROUP BY Bcode, Gubun, Pubun", sql)
         self.assertIn("00004", params)
         self.assertIn("종각 종로점", params)
+
+    async def test_default_detail_is_whole_customer(self) -> None:
+        """기본(지점별검색 해제) = 거래처 전체 — 레거시 Button201Click 은 Gjisa 절이 없다.
+
+        2026-08-25 사용자 리포트("일부 거래처 자료 미반영")의 상세 쪽 — 상단이 거래처
+        단위로 합산되면 하단도 같은 범위여야 한다(DEC-196).
+        """
+        from app.services import reports_service as rsvc
+
+        exec_mock = AsyncMock(return_value=[])
+        with patch.object(rsvc, "execute_query", new=exec_mock):
+            await rsvc.get_customer_sales_detail(
+                server_id="srv", hcode=None,
+                date_from="2026-07-01", date_to="2026-07-21",
+                gcode="00004", gjisa="종각 종로점",
+            )
+        sql, params = exec_mock.await_args.args[1], exec_mock.await_args.args[2]
+        self.assertIn("Gcode = %s", sql)
+        self.assertNotIn("Gjisa", sql)
+        self.assertNotIn("종각 종로점", params)
 
 
 if __name__ == "__main__":
