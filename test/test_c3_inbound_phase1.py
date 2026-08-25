@@ -352,13 +352,15 @@ class C3InboundPhase1Tests(TestCase):
             )
         self.assertEqual(res.status_code, 201)
 
-    # -- DEC-012 물리 삭제 미지원 ---------------------------------------------
+    # -- DEC-012 물리 삭제 미지원 → DEC-204(2026-08-25) 사용자 요청으로 통째 삭제 도입 ---------
 
-    def test_dec_012_no_delete_http_method(self) -> None:
+    def test_dec_204_delete_route_exists_supersedes_dec_012(self) -> None:
+        """1차(DEC-012)엔 DELETE 가 없었다. 2026-08-25 「입고 명세서 통째 선택 삭제」 요청으로
+        DELETE 가 생겼다 — 라우트가 없을 때의 405 는 더 이상 정답이 아니다."""
         res = self.client.delete(
             "/api/v1/inbound/receipts/2026.04.25%7CH0001%7CV0001%7C1?serverId=remote_1",
         )
-        self.assertIn(res.status_code, (404, 405))
+        self.assertNotEqual(res.status_code, 405)
 
 
 class InboundServiceUnitTests(TestCase):
