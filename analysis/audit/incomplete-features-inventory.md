@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-08-25T03:24:47.801166+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-08-25T03:41:43.722019+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -102,8 +102,8 @@
 - `도서물류관리프로그램/backend/app/routers/_stub.py:27` — `"""이름이 무엇이든 503 응답. 프론트는 NOT_IMPLEMENTED 로 인식."""`
 - `도서물류관리프로그램/backend/app/routers/_stub.py:29` — `status_code=status.HTTP_503_SERVICE_UNAVAILABLE,`
 - `도서물류관리프로그램/backend/app/routers/_stub.py:31` — `"code": "NOT_IMPLEMENTED",`
-- `도서물류관리프로그램/backend/app/routers/returns.py:742` — `status_code=status.HTTP_501_NOT_IMPLEMENTED,`
-- `도서물류관리프로그램/backend/app/routers/settlement.py:1173` — `result = await tax_invoice_service.issue_external_stub(`
+- `도서물류관리프로그램/backend/app/routers/returns.py:755` — `status_code=status.HTTP_501_NOT_IMPLEMENTED,`
+- `도서물류관리프로그램/backend/app/routers/settlement.py:1174` — `result = await tax_invoice_service.issue_external_stub(`
 
 ## 6. `docs/crud-backlog.md` §2.6 참조 (문서 불릿)
 
