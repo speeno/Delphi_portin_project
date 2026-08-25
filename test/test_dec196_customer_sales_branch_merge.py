@@ -103,7 +103,8 @@ class ScreenWiringTests(IsolatedAsyncioTestCase):
         src = self.PAGE.read_text(encoding="utf-8")
         self.assertIn('data-legacy-id="Sobo62.CheckBox1"', src)     # 레거시 지점별검색
         self.assertIn("지점별검색", src)
-        self.assertIn(">거래처별판매<", src)
+        # DEC-200(2026-08-25)부터 제목은 <PageHeader title="…"> prop.
+        self.assertTrue('title="거래처별판매"' in src or ">거래처별판매<" in src)
         # 조회·상세·엑셀 세 경로 모두 같은 플래그를 싣는다.
         self.assertGreaterEqual(src.count("byBranch,"), 3)
 

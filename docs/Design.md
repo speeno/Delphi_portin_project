@@ -304,6 +304,23 @@ PDF 에 다크 변형 명시 없음. 본 가이드 Phase 에서는 **라이트 �
 - 미적용(후속): 페이지 제목 밑줄 스타일(각 화면 h1), 메뉴명 띄어쓰기(「출고 관리」 등 표기 정책),
   계정별 `[data-theme]` 테마들의 사이드바 톤 재정렬, CMS 워드마크 SVG 자산.
 
+### 7.4 화면 상단 흰 띠 — DEC-200 (2026-08-25 「도서별 수불원장 디폴트」 목업)
+
+대표 화면 목업에서 추출해 **모든 화면**에 같은 방식으로 반영한 요소. 구현은 공용
+`components/shared/page-header.tsx` (`PageHeader`, `EmptyHint`) 하나로 모으고 106개 화면을 일괄 이관했다.
+
+- **띠**: 흰 배경(`bg-card`) 전폭(임베드 래퍼 `px-[5px]` 를 `-mx-[5px]` 로 상쇄), 아래 `border-b`. 카드
+  프레임(둥근 모서리·그림자) 없음. md 이상 `grid-cols-[auto_minmax(0,1fr)]` — 제목 좌, 필터·액션 우.
+- **제목**: 22px Bold(`text-[22px] font-bold`). 부제는 제목 옆 12px Secondary(좁으면 숨김) — 목업엔
+  없지만 운영 설명이라 유지. 「목록」 뒤로가기(`leading`)·상태 배지(`titleAside`)는 제목 줄에.
+- **필터**: 라벨은 입력 **옆**(인라인) — 띠 안의 `.space-y-1` 세로 묶음을 `globals.css` 에서 가로로
+  눕힌다(띠 밖 등록 폼은 그대로). 컨테이너의 `onKeyDown`(Enter 이동)·`data-legacy-id` 는
+  `display:contents` 래퍼로 보존.
+- **검색/조회 버튼**: Bukio Black 채움(Button 기본 variant, 기본 크기). secondary/outline/sm 금지.
+  라임(brand-primary)은 화면당 1개 규칙 그대로(신규 등록 등).
+- **조회 전 안내**: 회색 캔버스 위 프레임 없는 가운데 회색 글자(`EmptyHint`). 조회 후 표 카드는 그대로.
+- 미적용(후속): 날짜 범위를 한 알약으로(3분할 DateFieldYMD 규약 DEC-115 우선), 라벨을 입력 안 칩으로.
+
 ## 8. 금지 사항
 
 1. **Vivid Lime/Sky 의 무분별한 사용 금지** — 알림·핵심 CTA 외 사용은 PR 차단 사유. 특히 CMS 에서는 `--primary` / `--sidebar-primary` / 텍스트 링크 토큰에 Vivid Lime 을 배치하지 않는다.

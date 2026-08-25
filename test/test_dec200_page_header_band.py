@@ -1,0 +1,135 @@
+"""DEC-200 — 화면 상단 흰 띠(PageHeader) 전 화면 일괄 반영 가드 (2026-08-25 13:18 목업 「도서별 수불원장 디폴트」).
+
+목업에서 추출해 모든 화면에 같은 방식으로 반영한 요소
+----------------------------------------------
+1. 제목(굵게) 왼쪽 + 필터·「검색」 오른쪽이 **한 흰 띠**(전폭, 아래 경계선) — 카드 프레임 없음.
+2. 필터 라벨은 입력 옆(인라인) — 띠 안의 `.space-y-1` 세로 묶음을 CSS 로 가로로.
+3. 「검색/조회」는 Bukio Black 채움(Button 기본 variant) — secondary/outline/sm 제거.
+4. 회색 캔버스 위 조회 전 안내문은 프레임 없이 가운데(`EmptyHint`).
+
+이관은 scratch 스크립트(JSX-lite 스캐너)로 106개 파일을 일괄 변환했다. 아래는 그 결과가
+되돌아가지 않도록 잡는 구조 가드다.
+"""
+
+from __future__ import annotations
+
+import re
+from pathlib import Path
+from unittest import TestCase, main
+
+ROOT = Path(__file__).resolve().parents[1]
+FRONT = ROOT / "도서물류관리프로그램" / "frontend" / "src"
+APP = FRONT / "app" / "(app)"
+
+
+def _read(rel: str) -> str:
+    return (FRONT / rel).read_text(encoding="utf-8")
+
+
+def _app_pages() -> list[Path]:
+    return sorted(p for p in APP.glob("**/page.tsx") if "/print/" not in str(p))
+
+
+class PageHeaderComponentContract(TestCase):
+    def test_component_shape(self) -> None:
+        src = _read("components/shared/page-header.tsx")
+        # 전폭 흰 띠 — 임베드 래퍼 px-[5px] 상쇄, 아래 경계선, 카드 프레임(rounded/shadow) 없음
+        self.assertIn("-mx-[5px]", src)
+        self.assertIn("border-b border-border bg-card", src)
+        self.assertNotIn("rounded-2xl", src)
+        self.assertNotIn("shadow-sm", src)
+        # 제목 좌 / 필터·액션 우 (md 이상 2열 그리드)
+        self.assertIn("md:grid-cols-[auto_minmax(0,1fr)]", src)
+        self.assertIn('data-slot="page-header-filters"', src)
+        for prop in ("leading", "titleAside", "actions", "children", "subtitle"):
+            self.assertIn(prop, src, prop)
+        # 조회 전 안내 — 프레임 없는 가운데 회색 글자
+        self.assertIn("export function EmptyHint", src)
+        self.assertNotIn('data-slot="empty-hint"\n      className={cn(\n        "rounded', src)
+
+    def test_portal_screen_title_delegates(self) -> None:
+        src = _read("components/shared/portal-screen-title.tsx")
+        self.assertIn("<PageHeader", src)
+        self.assertNotIn("<h1", src)
+
+    def test_inline_label_css_scoped_to_band(self) -> None:
+        css = _read("app/globals.css")
+        self.assertIn(".page-header :is(.space-y-1, .space-y-1\\.5, .space-y-2)", css)
+        self.assertIn("flex-direction: row", css)
+        # 띠 밖(등록 폼 등)의 space-y-1 은 건드리지 않는다 — 선택자는 반드시 .page-header 로 시작
+        for ln in css.splitlines():
+            if "space-y-1" in ln and "{" in ln:
+                self.assertTrue(ln.strip().startswith(".page-header"), ln)
+
+
+class MigrationCoverage(TestCase):
+    def test_most_screens_use_page_header(self) -> None:
+        pages = _app_pages()
+        using = [p for p in pages if "<PageHeader" in p.read_text(encoding="utf-8")]
+        self.assertGreaterEqual(len(using), 95, f"PageHeader 사용 화면 {len(using)}/{len(pages)}")
+
+    def test_no_legacy_title_block_left(self) -> None:
+        """종전 81개 화면이 복제하던 제목 블록(h1.text-xl + p.text-sm.text-muted-foreground)이 남아 있으면 안 된다."""
+        legacy = re.compile(
+            r'<h1 className="text-xl font-semibold tracking-tight">[^<]*</h1>\s*<p className="text-sm text-muted-foreground'
+        )
+        left = [str(p.relative_to(APP)) for p in _app_pages() if legacy.search(p.read_text(encoding="utf-8"))]
+        self.assertEqual(left, [], left)
+
+    def test_no_filter_card_frame_directly_under_page_header(self) -> None:
+        """띠 안(PageHeader children)에는 카드 프레임 문자열이 없어야 한다."""
+        frame = "flex flex-wrap items-end gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm"
+        bad = []
+        for p in _app_pages():
+            src = p.read_text(encoding="utf-8")
+            i = src.find("<PageHeader")
+            if i == -1:
+                continue
+            j = src.find("</PageHeader>", i)
+            if j != -1 and frame in src[i:j]:
+                bad.append(str(p.relative_to(APP)))
+        self.assertEqual(bad, [], bad)
+
+    def test_filter_container_attributes_preserved(self) -> None:
+        """필터 컨테이너의 onKeyDown(Enter 이동, DEC-104/105)·data-legacy-id 는 display:contents 래퍼로 보존된다."""
+        src = _read("app/(app)/inventory/status/page.tsx")
+        i = src.index("<PageHeader")
+        j = src.index("</PageHeader>", i)
+        band = src[i:j]
+        self.assertIn('className="contents"', band)
+        self.assertIn("onKeyDown=", band)
+        self.assertIn("advanceFilterOnEnter", src)
+
+    def test_search_button_is_dark_filled(self) -> None:
+        """대표 화면 3곳 — 띠 안의 조회/검색 버튼에 secondary/outline/sm 이 남아 있지 않다."""
+        for rel in (
+            "app/(app)/inventory/ledger/page.tsx",
+            "app/(app)/master/customer/page.tsx",
+            "app/(app)/reports/book-sales/page.tsx",
+        ):
+            src = _read(rel)
+            i = src.index("<PageHeader")
+            j = src.index("</PageHeader>", i)
+            band = src[i:j]
+            for m in re.finditer(r"<Button\b([^>]*?)>\s*(?:<RefreshCw[^>]*/>\s*)?(조회|검색)\s*</Button>", band, re.DOTALL):
+                attrs = m.group(1)
+                self.assertNotIn('variant="secondary"', attrs, rel)
+                self.assertNotIn('variant="outline"', attrs, rel)
+                self.assertNotIn('size="sm"', attrs, rel)
+
+
+class ReferenceScreenDefaultState(TestCase):
+    """도서별 수불원장(Sobo31, /inventory/ledger) — 목업의 기본 상태."""
+
+    def test_ledger_default_state(self) -> None:
+        src = _read("app/(app)/inventory/ledger/page.tsx")
+        self.assertIn('title="도서별수불원장"', src)
+        self.assertIn("<EmptyHint>거래일자와 도서명으로 검색하세요</EmptyHint>", src)
+        # 조회 전엔 하단 상세 카드도 숨김 — 캔버스에 안내문 하나만
+        self.assertIn("{!data ? null : selDate === null ? (", src)
+        # 조회 후 표 카드(프레임)는 그대로
+        self.assertIn("max-h-[46vh] w-full min-w-0 overflow-auto rounded-2xl border border-border bg-card shadow-sm", src)
+
+
+if __name__ == "__main__":
+    main()

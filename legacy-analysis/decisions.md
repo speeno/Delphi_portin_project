@@ -5034,3 +5034,37 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   토큰을 추가했는데 화면에 안 보이면 먼저
   `getComputedStyle(document.documentElement).getPropertyValue('--토큰')` 을 본다.
 - 가드: `test_dec199_base_design_shell.py`(12) — 플라이아웃 구조·nav-active 토큰·시계 위젯 클래스.
+
+### DEC-200 — 화면 상단 흰 띠(PageHeader) 전 화면 일괄 반영 (2026-08-25 13:18)
+
+- **요청**: 「도서별 수불원장 디폴트」 목업 — "반영할 요소 추출해서 모든 화면에 동일하게 반영".
+- **추출 요소**: ① 제목 좌 + 필터·「검색」 우가 한 흰 띠(전폭, 아래 경계선, 카드 프레임 없음) ② 필터
+  라벨 인라인 ③ 「검색」 Bukio Black 채움 ④ 회색 캔버스 위 프레임 없는 가운데 안내문(조회 전).
+- **방식**: 공용 컴포넌트가 없어(81개 화면이 같은 `<h1>`+부제 블록, 46개가 같은 필터 카드 문자열 복제)
+  `components/shared/page-header.tsx` 를 신설하고 scratch 스크립트(JSX-lite 스캐너 — 속성 안
+  `{…}`/`=>`/문자열을 건너뛰며 요소 짝 맞춤)로 106개 파일을 일괄 이관: 제목 블록(`<div>`/`<header>`
+  래퍼, bare h1, 뒤로가기 링크 행, `justify-between` 액션 행) + 인접 액션 행 + 인접 필터 카드 →
+  `<PageHeader title subtitle leading titleAside actions>{필터}</PageHeader>`. 40개는 필터까지 병합,
+  66개는 띠만(필터가 인접하지 않거나 등록 폼 패널 — `h2` 있는 패널은 필터로 보지 않음).
+- **보존 규약**: 필터 컨테이너의 `onKeyDown`(DEC-104/105 Enter 이동)·`data-legacy-id`·`ref` 는
+  `display:contents` 래퍼로 남긴다(첫 시도에서 버려져 `advanceFilterOnEnter` 미사용 경고로 발각 →
+  되돌리고 재적용). `PortalScreenTitle` 은 `PageHeader` 위임.
+- **부제 유지**: 목업엔 없으나 운영 설명이라 제목 옆 작은 글자로(좁으면 숨김) — 내용 삭제는 설계 범위 밖.
+- **대표 화면 기본 상태**: `/inventory/ledger` 조회 전엔 하단 상세 카드까지 숨기고 「거래일자와
+  도서명으로 검색하세요」 한 줄(`EmptyHint`).
+- **미적용(후속)**: 날짜 범위 한 알약(DEC-115 3분할 우선), 라벨을 입력 안 칩으로, 다른 화면의 조회 전
+  표 카드 숨김(화면별 상태 판단 필요).
+- 가드: `test_dec200_page_header_band.py`(컴포넌트 계약·이관 커버리지≥95·프레임 잔존 0·속성 보존·검정
+  버튼·대표 화면). 전체 스위트 2366 통과, tsc 클린.
+
+### DEC-201 — 시계·날짜·날씨는 브라우저 위치 권한 후 위치 반영 (2026-08-25)
+
+- **규칙(사용자)**: "시간, 날짜 정보 관련해서는 현재 브라우저 위치 정보 접근 허가를 득한 뒤 위치정보를
+  반영해야한다."
+- **원인**: 헤더 위젯이 「서울」 고정 — 계정 지역이 `source: "manual"`(구 프리셋 키 이관 시 일괄
+  manual)이라 `setGeolocationRegion` 이 조기 반환, 브라우저 권한이 granted 인데도 미반영. 「나중에」는
+  localStorage 영구 dismissed 라 재요청도 없었다.
+- **결정**: 권한 허용 시 **위치 우선**(manual 가드 제거, 수동 프리셋은 권한 없는 동안의 폴백).
+  `navigator.permissions.query` 로 granted → 묻지 않고 반영(+`onchange` 재반영), denied → 조용히 유지,
+  prompt → 배너. 「나중에」는 sessionStorage(이번 접속만). effect 본문 setState 는 마이크로태스크.
+- 가드: `test_dec201_location_permission_first.py`.
