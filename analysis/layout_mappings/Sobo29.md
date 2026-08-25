@@ -1,5 +1,12 @@
 # Sobo29 layout mapping — 기타명세서 / 신간명세서
 
+> **신간발행 이관 (DEC-195, 2026-08-25)**: `/transactions/new-release` 는 더 이상 이 폼(Sobo29)
+> 의 매핑을 따르지 않는다. 사용자 요청("입고현황과 동일한 폼")에 따라 입고현황과 같은 3뷰
+> 공용 축(`TransactionStatusScreen` `NEW_RELEASE_AXIS`, 위젯 ID 는 Sobo24.*)이 되었고, 서버
+> 축은 「입고 + Pubun='신간'」(`Sobo25_inbound_status.md` §3 표 + `_GUBUN_IN_NEW_RELEASE`).
+> 근거: 교문사 실데이터의 「신간」은 입고처축 입고 라인 1,155행이고 이 폼의 거래처축(Scode='X')
+> 신간은 2007~2015 구데이터뿐. 아래 매핑은 **기타명세서(/transactions/other)** 에만 유효하다.
+
 > **모던 라우트 분리 (C9, 2026-05-31)**: 한 Subu29 dfm 이 두 IA 로 쓰인다 — 기타명세서
 > (`/transactions/other`, 전표구분 자유)와 신간발행(`/transactions/new-release`, Menu209,
 > 전표구분 「신간」 고정). 코드 분기 금지 — 두 페이지는 동일 위젯/컬럼 매핑을 공유하고 jubun 값만

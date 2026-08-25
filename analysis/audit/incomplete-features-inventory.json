@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25T01:20:50.667036+00:00",
+  "generatedAt": "2026-08-25T02:54:59.684305+00:00",
   "criteria": "본 인벤토리는 계획서 「구현되지 못한 기능 목록」에 따라 **원천별 합집합** 을 기록한다. 단일 정의가 아니라 (A) UI placeholder (B) T-파이프라인 비완료 (C) form-registry preview/STUB (D) phase1 이지만 R/RU/STUB 인 부분 동등 (E) 백엔드 stub grep (F) crud-backlog §2.6 참조 를 모두 포함한다.",
   "sources": {
     "ui_placeholder_pages": [],
@@ -262,7 +262,7 @@
         "caption": "신간발행",
         "route": "/transactions/new-release",
         "crudParity": "RU",
-        "crudNotes": "C9 phase1 — Menu209 신간발행. GET /transactions/new-release 는 list_other_statements(jubun='신간') 재사용 facade(신규 SQL 0) + 전체메모는 /transactions/other/memo 재사용. 기타명세서(Sobo29_other)와 전표구분만 다른 단일 폼(코드 분기 금지)",
+        "crudNotes": "Menu209 신간발행 — 2026-08-25(DEC-195) 입고현황과 같은 3뷰 공용 축(TransactionStatusScreen NEW_RELEASE_AXIS, kind=inbound). GET /transactions/new-release?view=summary|detail|list 는 _status_axis_facade(입고 + Pubun='신간', Scode='Y'+Gcode<>'', 표시명 G2_Ggwo). 편집은 ReceiptDetailDialog(PUT /inbound/receipts/{key}). 종전 기타명세서 facade·전체메모 편집은 폐기.",
         "registry_line": 1601
       },
       {

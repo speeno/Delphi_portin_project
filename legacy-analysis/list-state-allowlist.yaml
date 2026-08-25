@@ -14,9 +14,6 @@ deferred_pages:
   - route_key: shipping.courier
     reason: "택배관리 목록 — 필터 스냅샷 미도입(DEC-124 등록 화면), 후속 일괄 도입"
     until: "list-state 후속 사이클(2026-09)"
-  - route_key: transactions.new-release
-    reason: "신간발행 목록 — 필터 스냅샷 미도입, 후속 일괄 도입"
-    until: "list-state 후속 사이클(2026-09)"
   - route_key: transactions.other
     reason: "기타명세서 목록 — 필터 스냅샷 미도입, 후속 일괄 도입"
     until: "list-state 후속 사이클(2026-09)"

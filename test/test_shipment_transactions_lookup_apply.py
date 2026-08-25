@@ -93,12 +93,11 @@ class ShipmentTransactionsLookupApplyTest(TestCase):
             / "transactions"
             / "author-history"
             / "page.tsx",
+            # 신간발행(2026-08-25 공용 축 이관) — 얇은 래퍼라 공용 컴포넌트를 검사한다.
             "new_release": FRONT
-            / "app"
-            / "(app)"
+            / "components"
             / "transactions"
-            / "new-release"
-            / "page.tsx",
+            / "transaction-status-screen.tsx",
             "other": FRONT / "app" / "(app)" / "transactions" / "other" / "page.tsx",
         }
 
@@ -122,6 +121,10 @@ class ShipmentTransactionsLookupApplyTest(TestCase):
         self.assertIn('lookupKind="customer"', _read(pages["prod_statement"]))
         self.assertIn('lookupKind="author"', _read(pages["withholding"]))
         self.assertIn('lookupKind="book"', _read(pages["new_release"]))
+        self.assertIn(
+            "NEW_RELEASE_AXIS",
+            _read(FRONT / "app" / "(app)" / "transactions" / "new-release" / "page.tsx"),
+        )
 
     def test_g7_filter_pages_do_not_use_customer_lookup_kind(self) -> None:
         # Sobo21 거래명세서는 Edit104=Gcode(거래처) — customer lookup 예외 (DEC-028 §3).

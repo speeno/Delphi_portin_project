@@ -108,11 +108,16 @@ class PrintOnThisPcTests(TestCase):
     def test_edit_then_save_refreshes_selected_lines(self) -> None:
         """수정 팝업 저장 후 목록·선택 라인이 재조회돼야 출력이 최신 내용을 담는다."""
         self.assertIn('data-legacy-id="Sobo24.EditSlip"', self.src)
-        self.assertIn("onChanged={() => {", self.src)
-        i = self.src.index("onChanged={() => {")
-        block = self.src[i : i + 700]
+        # 2026-08-25(DEC-195) — 저장 후 재조회는 축별 상세 API 를 타는 onSlipChanged 하나로
+        # 모였다(출고축 outboundApi.detail / 입고축 inboundApi.detail). 팝업 두 종 모두 이를 쓴다.
+        self.assertEqual(self.src.count("onChanged={onSlipChanged}"), 2)
+        i = self.src.index("function onSlipChanged()")
+        block = self.src[i : i + 500]
         self.assertIn("void load(0)", block)
-        self.assertIn("outboundApi", block)
+        self.assertIn("fetchDetailLines(it, user.server_id)", block)
+        fn = self.src[self.src.index("async function fetchDetailLines") :][:700]
+        self.assertIn("outboundApi.detail(key, sid)", fn)
+        self.assertIn("inboundApi.detail(key, sid)", fn)
 
     def test_remote_queue_buttons_still_present(self) -> None:
         """기존 바로출고/바로재출고(자동출력 PC 큐)는 그대로 남아 있어야 한다."""

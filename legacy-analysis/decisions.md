@@ -4835,3 +4835,40 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   입고처명 전부 G2_Ggwo 정답, 콘솔 에러 0.
 - **미해결**: 컬럼 설정(grid-prefs) 키는 아직 `transactions.outbound-status.*` 공용이라
   4개 현황이 컬럼 표시/순서를 공유한다. 같은 표라 무해하지만 화면별 분리 여지는 남는다.
+
+## DEC-195 — 신간발행(Menu209)을 입고현황과 «같은 3뷰 공용 축»으로 + 공용 화면의 접수 도메인(kind) 분리
+
+- **일자**: 2026-08-25
+- **요청**(사용자): "신간발행 화면을 입고현황 (목록, 상세 …) 화면과 동일한 폼으로 수정해줘".
+- **축 결정 — 신간발행 = 입고현황 ∩ 전표구분 「신간」**.
+  레거시 `Subu29`(신간명세서)는 거래처축(`Scode='X'`) 명세 폼이지만, 교문사(5019, remote_153)
+  실데이터의 「신간」은 **입고처축 입고 라인**이다:
+  `Scode='Y'`+`Gubun='입고'`+`Pubun='신간'` **1,155행**(2011~2026.08, 현행) vs
+  `Scode='X'`+`Gubun='출고'`+`Pubun='신간'` 314행은 **전부 2007~2015 구데이터**.
+  메뉴 위치도 입고관리 아래(form-registry 별칭, 2026-08-22 운영 요청)라 업무 의미와 맞는다.
+  → `_GUBUN_IN_NEW_RELEASE = "Gubun = '입고' AND Pubun = '신간'"` 한 절만 입고현황과 다르고,
+  고정 조건(`Scode='Y' AND Gcode<>''`)·표시명 원천(G2_Ggwo)·집계 주 거래구분('입고')은 동일.
+- **폐기된 것**: 기타명세서 facade(`list_other_statements(pubun='신간')`)·Sobo29 위젯 ID 부착·
+  전체메모(S1_Memo) 편집. 전체메모는 기타명세서(`/transactions/other`)에 그대로 남는다.
+  종전 API 응답 형태(OtherStatementsResponse)도 사라진다 — 호출자는 이 화면뿐이었다.
+- **공용 화면에 접수 도메인(`TransactionStatusAxis.kind`)을 도입** — 이관 중 발견한 결함.
+  `TransactionStatusScreen` 의 상세 우측 라인·편집 팝업·바로출고·바로재출고·거래명세서 출력이
+  전부 **출고 전용**(`outboundApi.detail`, `OrderDetailDialog`, `requestDispatch`, 거래명세서 PDF)
+  이었다. DEC-194 로 입고현황이 이 화면에 합류했을 때 그대로 물려받아, 입고 전표의 「수정」이
+  **출고 주문 팝업**(PUT `/outbound/orders`)을 열고 바로출고 버튼이 입고 전표에 노출되는 상태였다.
+  - `kind: "outbound"`(기본, 출고/반품/폐기) — 종전 그대로.
+  - `kind: "inbound"`(입고현황·신간발행) — 상세 라인 `inboundApi.detail`(라인 `bname` →
+    `product_name` 으로 맞춰 같은 표), 편집 `ReceiptDetailDialog`(PUT `/inbound/receipts/{key}`),
+    출고 전용 버튼 3종(배치 툴바·단건 바로출고·단건 출력)은 렌더하지 않는다.
+  - 저장 후 재조회는 `onSlipChanged` 하나로 모아 축별 상세 API 를 탄다.
+- **구현**: `backend/app/routers/transactions.py`(`/new-release` 3뷰 축 라우트) /
+  `backend/app/services/transactions_service.py`(`_GUBUN_IN_NEW_RELEASE`) /
+  `frontend/src/components/transactions/transaction-status-screen.tsx`(`kind`·`fetchDetailLines`·
+  `onSlipChanged`·`NEW_RELEASE_AXIS`) / `frontend/src/app/(app)/transactions/new-release/page.tsx`
+  (래퍼 17줄) / `frontend/src/lib/inquiry-api.ts`(`newRelease`) / `frontend/src/lib/form-registry.ts`
+  (crudNotes) / `migration/contracts/new_release.yaml`(variant)
+- **회귀**: `test/test_new_release_phase1.py`(재작성 — 축 계약 5 + 화면 5) /
+  `test_inbound_status_phase1.py`(`kind: "inbound"` 가드) / `test_shipment_transactions_lookup_apply.py`
+  (래퍼 추적) / `test_outbound_status_print_on_this_pc.py`(저장 후 재조회 경로 = `onSlipChanged`).
+  DB 스모크 `transactions.new_release{,_detail,_summary}`.
+- **미해결**: 컬럼 설정(grid-prefs) 키는 5개 현황이 `transactions.outbound-status.*` 공용(DEC-194 잔여).

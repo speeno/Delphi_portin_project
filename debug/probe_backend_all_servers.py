@@ -716,12 +716,29 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
-        # C9 신간발행 facade (Menu209) — list_other_statements(jubun='신간') 재사용.
+        # 신간발행 (Menu209) — 2026-08-25 부터 입고현황과 같은 3뷰 공용 축
+        # (입고 + Pubun='신간', 입고처축). 응답 형태도 입고현황과 동일.
         {
             "group": "transactions.new_release",
             "path": (
                 f"/api/v1/transactions/new-release?serverId={sid}"
-                f"&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+                f"&view=list&dateFrom={df}&dateTo={dt}&storeKind=ALL&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.new_release_detail",
+            "path": (
+                f"/api/v1/transactions/new-release?serverId={sid}"
+                f"&view=detail&dateFrom={df}&dateTo={dt}&storeKind=ALL&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.new_release_summary",
+            "path": (
+                f"/api/v1/transactions/new-release?serverId={sid}"
+                f"&view=summary&dateFrom={df}&dateTo={dt}&storeKind=ALL&limit=1&offset=0"
             ),
             "ok_status": {200},
         },

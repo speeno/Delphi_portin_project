@@ -197,6 +197,8 @@ class InboundStatusScreenTests(TestCase):
         self.assertIn('partyLabel: "입고처"', axis)
         self.assertIn('partyLookupKind: "inboundVendor"', axis)
         self.assertIn('rollupPrimaryLabel: "입고"', axis)
+        # 상세 라인·편집 팝업이 입고 API/팝업을 타야 한다(2026-08-25, 신간발행 이관 때 발견).
+        self.assertIn('kind: "inbound"', axis)
 
     def test_shared_screen_has_no_hardcoded_party_labels(self) -> None:
         """표/집계 헤더가 「거래처」 리터럴이면 입고현황에서 잘못된 라벨이 뜬다."""

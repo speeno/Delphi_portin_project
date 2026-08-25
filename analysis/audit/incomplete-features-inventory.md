@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-08-25T01:20:50.667036+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-08-25T02:54:59.684305+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -79,7 +79,7 @@
 - `Sobo28_delivery` (택배관리) `/shipping/courier`
   - 내부 S1_Ssub 라인 조회 + S1_Memo 조회/저장 완료 — 외부 택배사 API는 별도 후속
 - `Sobo29_new_release` (신간발행) `/transactions/new-release`
-  - C9 phase1 — Menu209 신간발행. GET /transactions/new-release 는 list_other_statements(jubun='신간') 재사용 facade(신규 SQL 0) + 전체메모는 /transactions/other/memo 재사용. 기타명세서(Sobo29_other)와 전표구분만 다른 단일 폼(코드 분기 금지)
+  - Menu209 신간발행 — 2026-08-25(DEC-195) 입고현황과 같은 3뷰 공용 축(TransactionStatusScreen NEW_RELEASE_AXIS, kind=inbound). GET /transactions/new-release?view=summary|detail|list 는 _status_axis_facade(입고 + Pubun='신간', Scode='Y'+Gcode<>'', 표시명 G2_Ggwo). 편집은 ReceiptDetailDialog(PUT /inbound/receipts/{key}). 종전 기타명세서 facade·전체메모 편집은 폐기.
 - `Sobo29_other` (기타명세서) `/transactions/other`
   - S1_Ssub 신간/기타 명세 조회 + S1_Memo 전체메모 저장
 - `Sobo48_compare` (출판사관리(설정)) `/ledger/comparison`
