@@ -56,8 +56,12 @@ class TokenTests(TestCase):
         self.assertIn("0.97", self._tok("background"))
         self.assertIn("oklch(1 0 0)", self._tok("card"))
 
-    def test_active_tab_uses_vivid_lime_token_only(self) -> None:
-        self.assertEqual(self._tok("tab-active"), "var(--vivid-lime)")
+    def test_active_nav_uses_vivid_lime_token_only(self) -> None:
+        """«현재 화면» 하이라이트(활성 탭·활성 메뉴)는 --nav-active 한 토큰 — Vivid Lime 예외 지점."""
+        self.assertEqual(self._tok("nav-active"), "var(--vivid-lime)")
+        self.assertEqual(self._tok("tab-active"), "var(--nav-active)")
+        for t in ("nav-active", "nav-active-foreground"):
+            self.assertIn(f"--color-{t}: var(--{t});", self.css)
 
 
 class ShellStructureTests(TestCase):
@@ -82,6 +86,37 @@ class ShellStructureTests(TestCase):
         self.assertIn("bg-sidebar-header", src)
         self.assertIn("ChevronsLeft", src)
 
+    def test_sidebar_is_flyout_menu_with_active_highlight(self) -> None:
+        """사이드바 목업(2026-08-25 13:03): 대메뉴 클릭 → 오른쪽 플라이아웃, 현재 화면 라임, 열린 창 ✓.
+
+        메뉴 순서·구성은 MENU_GROUPS/SIDEBAR_LAYOUTS 그대로(사용자: 순서 수정 금지).
+        """
+        src = _read("components/app-shell/sidebar.tsx")
+        self.assertIn('role="menu"', src)
+        self.assertIn("bg-nav-active text-nav-active-foreground", src)      # 활성 대메뉴
+        self.assertIn("bg-nav-active font-semibold text-nav-active-foreground", src)  # 활성 서브메뉴
+        self.assertIn("<Check className", src)                                # 열린 창 ✓
+        self.assertIn("renderFlyoutBody(", src)
+        self.assertIn("SIDEBAR_LAYOUTS[group.id]", src)                       # 레이아웃 순서 그대로
+        self.assertIn("MENU_GROUPS.map((group)", src)
+        self.assertNotIn("ChevronDown", src, "아코디언 잔재")
+        # 바깥 클릭·Esc·iframe 포커스 이동(blur)으로 닫힘
+        for ev in ('"mousedown"', '"keydown"', '"blur"'):
+            self.assertIn(ev, src)
+
+    def test_clock_weather_widget_fits_white_header(self) -> None:
+        """사용자 요청(2026-08-25 13:04): 검정 박스+라임 글로우 → 흰 헤더 + 검정 계열 텍스트.
+
+        13:12 추가 요청 「테두리 제거」— 카드 윤곽선(border-border)·그림자(shadow-sm)도 없앤다.
+        흰 헤더 위에 텍스트만 얹힌다.
+        """
+        src = _read("components/app-shell/header-clock-weather.tsx")
+        for bad in ("bg-zinc-950", "text-lime-", "textShadow", "rgba(",
+                    "border-border", "shadow-sm"):
+            self.assertNotIn(bad, src, bad)
+        self.assertIn("text-foreground", src)
+        self.assertIn("text-muted-foreground", src)
+
     def test_tabbar_is_one_gray_row_with_lime_active_pill(self) -> None:
         toolbar = _read("components/workspace/workspace-toolbar.tsx")
         canvas = _read("components/workspace/workspace-canvas.tsx")
@@ -90,6 +125,26 @@ class ShellStructureTests(TestCase):
         self.assertIn('<WorkspaceToolbar left={mode === "tabs" ? <TabStrip /> : null} />', canvas)
         self.assertIn("bg-tab-active font-semibold text-tab-active-foreground", canvas)
         self.assertIn("rounded-full", canvas)
+
+    def test_header_and_login_use_transparent_cms_wordmark(self) -> None:
+        """사용자 제공 「bukio WORKS」 이미지 → 배경·격자 제거한 투명 PNG(DEC-199 로고)."""
+        pub = FRONT.parent / "public" / "brand"
+        for f in ("bukioworks-wordmark.png", "bukioworks-wordmark-light.png"):
+            self.assertTrue((pub / f).exists(), f)
+        try:
+            from PIL import Image
+        except ImportError:  # pragma: no cover
+            Image = None
+        if Image is not None:
+            im = Image.open(pub / "bukioworks-wordmark.png").convert("RGBA")
+            px = im.load(); w, h = im.size
+            self.assertEqual(px[0, 0][3], 0, "배경은 투명(alpha 0)")
+            self.assertEqual(px[w - 1, h - 1][3], 0)
+        logo = _read("components/brand/Logo.tsx")
+        self.assertIn('variant === "wordmark" && appearance === "cms"', logo)
+        self.assertIn("/brand/bukioworks-wordmark.png", logo)
+        self.assertIn('<Logo variant="wordmark" appearance="cms"', _read("components/app-shell/header.tsx"))
+        self.assertIn('<Logo appearance="cms"', _read("app/(public)/login/page.tsx"))
 
     def test_no_hardcoded_hex_in_shell_tsx(self) -> None:
         for rel in ("components/app-shell/sidebar.tsx", "components/app-shell/header.tsx",

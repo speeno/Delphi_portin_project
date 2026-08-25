@@ -107,10 +107,11 @@ class SidebarUsesMenuRouteTests(TestCase):
         """열 때와 활성 표시가 같은 라우트를 써야 메뉴 하이라이트가 죽지 않는다."""
         self.assertIn("function openRouteOf(form: FormMeta)", self.src)
         self.assertIn("form.menuRoute || form.route", self.src)
+        # DEC-199 플라이아웃 이후 «현재 화면» 판정(isFormFocused)도 같은 리졸버를 쓴다 — 3곳.
         self.assertEqual(
-            2,
+            3,
             len(re.findall(r"openRouteOf\(form\)", self.src)),
-            "openRouteOf 는 handleFormClick·isFormActive 두 곳에서 쓰여야 한다",
+            "openRouteOf 는 handleFormClick·isFormActive·isFormFocused 세 곳에서 쓰여야 한다",
         )
 
 

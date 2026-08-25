@@ -5004,3 +5004,33 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   `[data-theme]` 10종의 사이드바 톤 재정렬, CMS 워드마크 SVG 자산.
 - **검증**: `test/test_dec199_base_design_shell.py`(9) + `test_theme_contrast_guard`(사이드바 대비) +
   브라우저 실측(교문사 계정, 워크스페이스).
+
+### DEC-199 보강 — 로고 투명화 (2026-08-25, 사용자 제공 「bukio WORKS」 이미지)
+
+- 사용자 이미지(흰 바탕 + 연회색 격자 위 진회색 워드마크, 1572×386)를 명도 기반 알파
+  (gray ≥205 → 투명, ≤90 → 불투명, 사이 선형 램프)로 배경·격자 제거 → 잉크를 Bukio Black
+  `#282828` 로 통일한 투명 PNG `public/brand/bukioworks-wordmark.png`(1459×245, 격자 잔여 alpha 0)
+  + 어두운 배경용 `-light.png`(Inverse Text 잉크).
+- `Logo` 에 `variant="wordmark" appearance="cms"`(+`tone`) 분기 신설 — 앱 셸 헤더·로그인 페이지가
+  사용. 마케팅 랜딩·공지·풋터의 라임 바탕 워드마크는 그대로(마케팅 자산).
+- 가드: `test_dec199_base_design_shell.py::test_header_and_login_use_transparent_cms_wordmark`
+  (자산 존재·모서리 alpha 0·분기·헤더/로그인 배선).
+
+
+### DEC-199 보강 — 사이드바 플라이아웃 · 시계/날씨 위젯 (2026-08-25 13:03~13:04)
+
+- **사이드바 목업**: 대메뉴 행(아이콘·라벨·›)을 누르면 오른쪽에 서브메뉴 패널. 현재 화면(포커스
+  창)이 속한 대메뉴·항목 = 라임(`--nav-active` 신설, `--tab-active` 도 이를 참조), 열린 다른 창 = ✓.
+  사용자 제약 "메뉴 순서 등은 수정 금지" — `MENU_GROUPS`/`SIDEBAR_LAYOUTS`(항목·구분선·서브그룹
+  순서)를 그대로 그리고 렌더링만 아코디언→플라이아웃으로. 닫힘 = 바깥 클릭·Esc·iframe 포커스 이동
+  (window blur — 캔버스가 iframe 이라 document mousedown 이 오지 않는다). 접힘 모드도 같은 패널.
+  `position: fixed`+`z-50` 으로 aside 의 overflow-hidden 과 iframe 위를 넘는다.
+- **시계·날씨 위젯**: 흰 헤더에 맞춰 검정 박스·라임 글로우·rgba 그림자 제거 → `text-foreground`/
+  `text-muted-foreground`. 13:12 「테두리 제거」— 카드 `border-border`·`shadow-sm` 도 제거(텍스트만).
+- **함정**: Next(Turbopack) dev 서버가 globals.css 의 두 번째 토큰 추가(`--nav-active`)를 반영하지
+  않아 클래스는 붙는데 배경이 투명이었다. `./restart.sh frontend` 만으로는 **안 낫고** 서빙 CSS 에
+  첫 편집본(`--tab-active: var(--vivid-lime)`)이 그대로 남았다 — `.next` 캐시를 지우고 재기동해야
+  했다(`./stop.sh frontend && rm -rf 도서물류관리프로그램/frontend/.next && ./start.sh frontend`).
+  토큰을 추가했는데 화면에 안 보이면 먼저
+  `getComputedStyle(document.documentElement).getPropertyValue('--토큰')` 을 본다.
+- 가드: `test_dec199_base_design_shell.py`(12) — 플라이아웃 구조·nav-active 토큰·시계 위젯 클래스.
