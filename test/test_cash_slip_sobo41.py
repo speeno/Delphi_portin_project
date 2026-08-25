@@ -418,4 +418,4 @@ class DataGridStickyCollisionTests(TestCase):
     def test_header_row_stays_sticky(self) -> None:
         """제목 줄도 항상 보이게 — DEC-151."""
         src = self.GRID.read_text(encoding="utf-8")
-        self.assertIn("sticky top-0 z-10 bg-muted", src)
+        self.assertIn("sticky top-0 z-10 bg-table-head", src)  # DEC-203 헤더행 토큰

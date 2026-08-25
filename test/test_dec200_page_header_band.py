@@ -125,10 +125,16 @@ class ReferenceScreenDefaultState(TestCase):
         src = _read("app/(app)/inventory/ledger/page.tsx")
         self.assertIn('title="도서별수불원장"', src)
         self.assertIn("<EmptyHint>거래일자와 도서명으로 검색하세요</EmptyHint>", src)
-        # 조회 전엔 하단 상세 카드도 숨김 — 캔버스에 안내문 하나만
-        self.assertIn("{!data ? null : selDate === null ? (", src)
-        # 조회 후 표 카드(프레임)는 그대로
-        self.assertIn("max-h-[46vh] w-full min-w-0 overflow-auto rounded-2xl border border-border bg-card shadow-sm", src)
+        # 조회 전엔 분할 영역(상단 표·하단 상세) 전체를 숨김 — 캔버스에 안내문 하나만
+        self.assertIn("<SplitListPanes", src)
+        self.assertIn('storageKey="inventory.ledger"', src)
+        # 2단 분할(사용자 요청 2026-08-25 14:29) — 일자 미선택(하단 안내문)일 땐 분할 off
+        self.assertIn("disabled={selDate === null || showAll}", src)  # DEC-203 전체 보기면 분할 off
+        # DEC-203 — 표는 프레임 없이(회색 캔버스 위 흰 행), 분할 칸을 채우도록 flex-1 + 높이 상한
+        self.assertNotIn("rounded-2xl border border-border bg-card shadow-sm", src)
+        self.assertIn("max-h-[calc(100dvh-14rem)]", src)
+        self.assertNotIn("max-h-[46vh]", src)
+        self.assertNotIn("max-h-[38vh]", src)
 
 
 if __name__ == "__main__":

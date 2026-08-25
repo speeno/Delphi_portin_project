@@ -5081,3 +5081,25 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   다음 입력칸, 36개 화면 유지). 스코프가 없는 두 화면은 빈 핸들러를 제거 → MLF 기본(빈값 Enter=검색
   팝업, 레거시 Seek 폼과 동일). 가드: `test_dec202_lookup_empty_enter_popup.py` — 빈 핸들러가 있는
   화면은 반드시 스코프를 가져야 한다(죽은 Enter 0).
+
+### DEC-203 — 표(목록) 공통 디자인 · 섹션 헤더 · 「내용 전체 보기」/엑셀/출력 (2026-08-25 14:30~14:42)
+
+- **요청**: 도서별 수불원장 결과 목업(14:30) + 「내용 전체 보기」 정의(14:31: 체크하면 거래일자 표가
+  스크롤 없이 모두 보이도록 영역 자동 확장) + 거래처 원장 디폴트(14:34)·상세(14:41) 목업 —
+  "표(목록) 등에 대한 부분은 모든 화면에 공통 적용".
+- **공통 반영**(Design.md §7.5): 표 프레임 제거(`LIST_TABLE_SCROLL_CARD_CLASS`·DataGrid·인라인 12파일),
+  회색 헤더행 `--table-head`, 선택 행 `--row-selected`(민트), 포커스 행 `--row-focus`(파랑, DataGrid
+  `group/dg` + `group-focus-within`), 합계행 회색·굵게, 표 제목 h2 상향(27파일).
+- **섹션 헤더** `components/shared/section-header.tsx` — 제목+메타+액션. 「내용 전체 보기」 = `showAll`
+  → 표 `overflow-visible`·높이 상한 해제 + `SplitListPanes disabled` (스택). 
+- **엑셀/출력**: 범용 `POST /api/v1/export/table-xlsx`(`routers/export_table.py`, 인증만, 행 상한
+  50,000, 화면 표시 컬럼 순서 그대로 — 엑셀 규칙 정합) + `api.postBlob` + `lib/table-export.ts`
+  (`exportTableXlsx`/`printTable`). 새 창 인쇄는 표만.
+- **거래처 원장 표 컬럼**(14:41 목업): 「외N」 컬럼을 거래내역 「… 외」로 접고 출고종수(=1+외N),
+  판매수량/판매금액(=출고+반품, 반품 음수 관례 가산 → 목업 합계 14,739−1,115=13,624 일치) 추가.
+  상세 「%」→「공급률(%)」(두 원장 공통).
+- **2단 분할**(14:29 요청): 두 원장 화면 `SplitListPanes`(구분선 드래그) — 일자/전표 미선택·전체 보기면
+  스택.
+- **함정 재발**: 새 CSS 토큰이 Turbopack 캐시로 비어 나옴 → `.next` 삭제 재기동(메모리 기록 그대로).
+- 가드: `test_dec203_table_design_common.py`(토큰·상수·DataGrid·프레임 잔존 0·섹션 헤더·두 원장 화면·
+  컬럼 순서·백엔드 라우트 xlsx 생성/행 상한).
