@@ -5068,3 +5068,16 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   `navigator.permissions.query` 로 granted → 묻지 않고 반영(+`onchange` 재반영), denied → 조용히 유지,
   prompt → 배너. 「나중에」는 sessionStorage(이번 접속만). effect 본문 setState 는 마이크로태스크.
 - 가드: `test_dec201_location_permission_first.py`.
+
+### DEC-202 — 검색 필드 빈값 Enter: 이동 스코프 없는 화면은 팝업 (2026-08-25)
+
+- **확인 요청**: "도서 검색 창에서 빈입력창 또는 키워드 입력해서 엔터 → 검색창이 떠야 / 값을 선택하면
+  코드·도서명이 자동 입력돼야."
+- **점검 결과**: 키워드 Enter → 팝업(다건)/자동확정(1건 정확 일치, DEC-134), 선택 → 입력창에 코드 +
+  옆에 도서명·정가 + 즉시 조회 — 모두 정상. **빈값 Enter 만** 도서별수불원장·거래처거래원장에서 죽어
+  있었다: MLF 에 빈 `onKeyDown={() => {}}` 를 넘겨 「통과」 경로를 타는데 패널에 Enter 이동
+  스코프(`advanceFilterOnEnter`/`data-enter-scope`)가 없어 아무 데도 가지 않았다.
+- **결정**: 빈 핸들러는 **패널 Enter 이동 스코프가 있을 때만** 쓴다(DEC-104/105/144 = 빈값 Enter →
+  다음 입력칸, 36개 화면 유지). 스코프가 없는 두 화면은 빈 핸들러를 제거 → MLF 기본(빈값 Enter=검색
+  팝업, 레거시 Seek 폼과 동일). 가드: `test_dec202_lookup_empty_enter_popup.py` — 빈 핸들러가 있는
+  화면은 반드시 스코프를 가져야 한다(죽은 Enter 0).
