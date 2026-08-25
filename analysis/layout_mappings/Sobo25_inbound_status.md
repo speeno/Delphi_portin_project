@@ -39,10 +39,12 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, TabOrder, DBGrid 
 > **DEC-174 (2026-08-22)** — 고정 조건에 **`Gubun` 은 없다**. Gubun 은 검색 콤보(Edit103)라
 > 무입력 시 입고·반품이 함께 나온다. `Yesno` 도 무필터 — 2는 접수완료 잠금이지 취소가 아니다.
 >
-> **DEC-194 (2026-08-24)** — 화면·API 가 출고현황과 같은 공용 축으로 이관되며 이 조건들은
-> 축 상수로 옮겨갔다: `_GUBUN_IN_VENDOR = "Gubun IN ('입고','반품')"` +
-> `_INBOUND_STATUS_FIXED = "Scode = 'Y' AND Gcode <> ''"`. `list_receipts(require_vendor=)`
-> 는 호출자가 사라져 제거됐다(입고접수/입고명세서는 `Gubun='입고'` 기본 그대로).
+> **DEC-194 (2026-08-24/25)** — 화면·API 가 출고현황과 같은 공용 축으로 이관되며 고정
+> 조건은 축 상수 `_INBOUND_STATUS_FIXED = "Scode = 'Y' AND Gcode <> ''"` 로 옮겨갔다.
+> **거래구분만은 레거시와 다르게 입고로 고정**한다(`_GUBUN_IN = "Gubun = '입고'"`) —
+> 모던은 출고·반품·폐기 현황이 각각 한 구분을 맡는 분할이라는 사용자 결정(2026-08-25).
+> 그 결과 「입고처 반품」은 모던 어느 화면에서도 조회되지 않는다(DEC-194 «감수하는 것»).
+> `list_receipts(require_vendor=)` 는 호출자가 사라져 제거됐다.
 
 ### 2.1 2026-06 공통 검색창 보강
 
@@ -58,7 +60,7 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, TabOrder, DBGrid 
 
 | 축 파라미터 | 값 | 이유 |
 | --- | --- | --- |
-| `slip_gubun`/`rollup_gubun` | `Gubun IN ('입고','반품')` | 레거시 고정 조건에 Gubun 이 없다(§2). 하드필터하면 「입고처 반품」이 웹 어디서도 안 보인다(반품현황은 `Scode='X'` 축) |
+| `slip_gubun`/`rollup_gubun` | `Gubun = '입고'` | 출고·반품·폐기 현황과 같이 한 구분을 맡는다(사용자 결정 2026-08-25). 레거시는 선택 콤보라 무입력 시 입고처 반품도 나왔다 — 의도된 차이 |
 | `scode_clause` | `Scode = 'Y' AND Gcode <> ''` | 레거시 고정 조건 그대로 |
 | `name_source` / `primary_gubun` | `vendor` / `입고` | 표시명은 **G2_Ggwo**(§4), 하단 집계 `out_*` 버킷이 입고 |
 
@@ -71,7 +73,7 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, TabOrder, DBGrid 
 화면: `app/(app)/transactions/inbound-status/page.tsx` (17줄 래퍼) →
 `components/transactions/transaction-status-screen.tsx` `INBOUND_STATUS_AXIS`.
 표시 라벨도 축 파생 — 「입고처」(레거시 `Panel104.Caption='입고처명'`) ·
-거래구분 「입고·반품」 · 집계 「입고수량/입고금액/순입고수량」.
+거래구분 「입고」 · 집계 「입고수량/입고금액/순입고수량」.
 
 레거시에는 있으나 종전 구현에 없던 **본사/창고(`Ocode`, Edit107) · 전표(`Jubun`, Edit104) ·
 도서코드(`Bcode`, Edit108)** 필터가 이관과 함께 생겼다.

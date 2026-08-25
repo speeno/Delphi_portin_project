@@ -128,21 +128,20 @@ class InboundStatusAxisTests(TestCase):
                 for call in captured:
                     self.assertEqual(call["scode_clause"], "Scode = 'Y' AND Gcode <> ''")
 
-    def test_axis_keeps_vendor_returns(self) -> None:
-        """거래구분은 IN ('입고','반품') — 「입고처 반품」을 지우지 않는다.
+    def test_axis_is_inbound_gubun_only(self) -> None:
+        """거래구분은 **입고만** — 라인·전표·집계 전부 동일 축.
 
-        Gubun='입고' 하드필터를 걸면 Scode='Y' & Gubun='반품' 행이 웹 어느 화면에서도
-        조회되지 않는다(반품현황 축은 Scode='X'). remote_153 실측 2026-08-25 기준
-        해당 행 99건(5093/5101/5072 는 2026년 현행 데이터).
+        사용자 결정 2026-08-25 "입고 현황에 입고반품 모두 포함하지 말고 입고만
+        대상으로". 출고/반품/폐기 현황이 각각 한 구분을 맡는 모던 분할과 같다.
+        (레거시 Sobo25_2 는 거래구분이 선택 콤보라 무입력 시 「입고처 반품」도
+        함께 나왔다 — 의도된 차이, DEC-194.)
         """
         for view in ("detail", "list"):
             with self.subTest(view=view):
                 captured: list[dict] = []
                 self._get(view, captured)
                 for call in captured:
-                    clause = call["gubun_clause"]
-                    self.assertEqual(clause, "Gubun IN ('입고','반품')")
-                    self.assertNotIn("Gubun = '입고'", clause)
+                    self.assertEqual(call["gubun_clause"], "Gubun = '입고'")
 
     def test_names_come_from_vendor_master(self) -> None:
         """표시명 = 입고처 G2_Ggwo. G1_Ggeo 를 쓰면 거래처명이 입고처명 자리에 뜬다."""

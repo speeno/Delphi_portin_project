@@ -10,8 +10,9 @@
 2. `_fetch_vendor_names` 가 입고처 마스터 G2_Ggwo 가 아닌 거래처 G1_Ggeo 를,
    그것도 Hcode 무스코프로 조회 — 코드 충돌 시 타 테넌트/거래처 명이 입고처명 자리에 표시.
    레거시 정본: `G2_Ggwo.Locate(Hcode=로그인)` → 실패 시 `Hcode=''` 폴백 (Subu25_2 L455-475).
-3. 입고현황 LIST 가 `Gubun='입고'` 하드필터 — 레거시 고정 조건은 `Scode='Y'`+`Gcode<>''` 뿐
-   (Subu25_2 Button101Click L396-420), Gubun(입고/반품)은 검색 콤보.
+3. 입고현황 LIST 의 고정 조건이 레거시(`Scode='Y'`+`Gcode<>''`, Subu25_2
+   Button101Click L396-420)와 어긋남. 거래구분은 2026-08-25 사용자 결정으로
+   **입고 고정**(레거시 선택 콤보와의 의도된 차이 — DEC-194).
 4. `HAVING MAX(Yesno)<>'2'` 기본 제외 — 레거시는 Yesno 무필터(2=접수완료 잠금, 취소 아님).
 
 2026-08-24 이후
@@ -97,10 +98,16 @@ class StatusAxisScopeTests(TestCase):
                 for call in self._capture(view):
                     self.assertEqual(call.get("hcode"), "K0001")
 
-    def test_legacy_status_scope_kept(self) -> None:
-        """원인 3 — Gubun 하드필터 없음 + Gcode<>'' 유지."""
+    def test_legacy_fixed_scope_kept(self) -> None:
+        """원인 3 잔여 — 레거시 고정 조건 Scode='Y' + Gcode<>'' 는 그대로 유지.
+
+        거래구분은 2026-08-25 사용자 결정으로 **입고 하나로 고정**했다(레거시는
+        선택 콤보라 무입력 시 입고처 반품도 나왔다 — 의도된 차이, DEC-194).
+        고정 조건 쪽이 풀리면 다시 타 축 데이터가 섞이므로 여기서 못 박는다.
+        """
         for call in self._capture("list"):
-            self.assertEqual(call["gubun_clause"], "Gubun IN ('입고','반품')")
+            self.assertEqual(call["gubun_clause"], "Gubun = '입고'")
+            self.assertIn("Scode = 'Y'", call["scode_clause"])
             self.assertIn("Gcode <> ''", call["scode_clause"])
 
     def test_no_yesno_filter_in_where(self) -> None:
@@ -108,7 +115,7 @@ class StatusAxisScopeTests(TestCase):
         where_sql, _params = transactions_service._build_outbound_status_where(
             date_from="2026-07-01",
             date_to="2026-08-22",
-            gubun_clause=transactions_service._GUBUN_IN_VENDOR,
+            gubun_clause=transactions_service._GUBUN_IN,
             scode_clause=transactions_service._INBOUND_STATUS_FIXED,
             hcode="K0001",
         )
