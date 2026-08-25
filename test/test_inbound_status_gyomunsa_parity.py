@@ -14,6 +14,13 @@
    (Subu25_2 Button101Click L396-420), Gubun(입고/반품)은 검색 콤보.
 4. `HAVING MAX(Yesno)<>'2'` 기본 제외 — 레거시는 Yesno 무필터(2=접수완료 잠금, 취소 아님).
 
+2026-08-24 이후
+--------------
+입고현황 화면·API 는 출고현황과 같은 3뷰 공용 축(`_status_axis_facade`)으로 옮겼다.
+위 4건의 «계약»은 그대로 유지되어야 하므로 검증 대상 함수만 새 축으로 갱신한다
+(원인 1·3·4 → `transactions_service`, 원인 2 → 그대로 `inbound_service._fetch_vendor_names`).
+`list_receipts` 는 이제 입고접수/입고명세서 전용이라 그 기본 경로만 가드한다.
+
 사용자 규칙: test 폴더에 저장.
 """
 
@@ -34,7 +41,7 @@ from fastapi.testclient import TestClient  # noqa: E402
 
 from app.main import app  # noqa: E402
 from app.routers.auth import get_current_user  # noqa: E402
-from app.services import inbound_service, masters_service  # noqa: E402
+from app.services import inbound_service, masters_service, transactions_service  # noqa: E402
 
 
 def _tenant_auth() -> dict:
@@ -48,8 +55,8 @@ COMMON_QUERY = "?serverId=remote_1&dateFrom=2026-07-01&dateTo=2026-08-22&limit=1
 _G2_META = ({"gcode", "gname", "hcode"}, {"gcode": "Gcode", "gname": "Gname", "hcode": "Hcode"})
 
 
-class SummaryHcodeIsolationTests(TestCase):
-    """원인 1 — 요약 뷰 hcode 전달."""
+class StatusAxisScopeTests(TestCase):
+    """원인 1·3·4 — 공용 축으로 옮긴 뒤에도 hcode 격리·레거시 스코프가 유지되는지."""
 
     def setUp(self) -> None:
         app.dependency_overrides[get_current_user] = _tenant_auth
@@ -58,46 +65,61 @@ class SummaryHcodeIsolationTests(TestCase):
     def tearDown(self) -> None:
         app.dependency_overrides[get_current_user] = _tenant_auth
 
-    def test_summary_view_passes_tenant_hcode(self) -> None:
+    def _capture(self, view: str) -> list[dict]:
         captured: list[dict] = []
 
-        async def fake_period(**kwargs):
-            captured.append(kwargs)
-            return {
-                "by_publisher": [], "by_vendor": [],
-                "totals": {"qty": 0, "amount": 0},
-                "page": {"limit": 10, "offset": 0, "total": 0, "has_more": False},
-            }
-
-        with patch.object(inbound_service, "period_report", side_effect=fake_period):
-            res = self.client.get(
-                "/api/v1/transactions/inbound-status" + COMMON_QUERY + "&view=summary"
-            )
-        self.assertEqual(res.status_code, 200, res.text)
-        self.assertEqual(len(captured), 1)
-        self.assertEqual(captured[0].get("hcode"), "K0001")
-
-    def test_list_view_uses_legacy_status_scope(self) -> None:
-        """원인 3 — facade 는 Gubun 무필터 + Gcode<>'' (레거시 고정 조건)."""
-        captured: list[dict] = []
-
-        async def fake_list(**kwargs):
+        async def fake_slips(**kwargs):
             captured.append(kwargs)
             return [], 0
 
-        with patch.object(inbound_service, "list_receipts", side_effect=fake_list):
+        async def fake_lines(**kwargs):
+            captured.append(kwargs)
+            return [], 0, {"qty": 0, "amount": 0}
+
+        async def fake_rollup(**kwargs):
+            captured.append(kwargs)
+            return []
+
+        with patch.object(transactions_service, "list_outbound_status_slips", side_effect=fake_slips), \
+             patch.object(transactions_service, "list_outbound_status_lines", side_effect=fake_lines), \
+             patch.object(transactions_service, "outbound_status_customer_rollup", side_effect=fake_rollup):
             res = self.client.get(
-                "/api/v1/transactions/inbound-status" + COMMON_QUERY + "&view=list"
+                "/api/v1/transactions/inbound-status" + COMMON_QUERY + f"&view={view}"
             )
         self.assertEqual(res.status_code, 200, res.text)
-        self.assertEqual(len(captured), 1)
-        self.assertIsNone(captured[0].get("gubun"))
-        self.assertTrue(captured[0].get("require_vendor"))
-        self.assertEqual(captured[0].get("hcode"), "K0001")
+        self.assertTrue(captured)
+        return captured
+
+    def test_all_views_pass_tenant_hcode(self) -> None:
+        """빈 hcode 요청 → JWT 스코프 자동 주입. 공유 chul_09 4테넌트 합산 방지."""
+        for view in ("summary", "detail", "list"):
+            with self.subTest(view=view):
+                for call in self._capture(view):
+                    self.assertEqual(call.get("hcode"), "K0001")
+
+    def test_legacy_status_scope_kept(self) -> None:
+        """원인 3 — Gubun 하드필터 없음 + Gcode<>'' 유지."""
+        for call in self._capture("list"):
+            self.assertEqual(call["gubun_clause"], "Gubun IN ('입고','반품')")
+            self.assertIn("Gcode <> ''", call["scode_clause"])
+
+    def test_no_yesno_filter_in_where(self) -> None:
+        """원인 4 — 완료(Yesno='2') 전표를 기본 제외하지 않는다 (레거시 무필터)."""
+        where_sql, _params = transactions_service._build_outbound_status_where(
+            date_from="2026-07-01",
+            date_to="2026-08-22",
+            gubun_clause=transactions_service._GUBUN_IN_VENDOR,
+            scode_clause=transactions_service._INBOUND_STATUS_FIXED,
+            hcode="K0001",
+        )
+        self.assertNotIn("Yesno", where_sql)
+        self.assertIn("Scode = 'Y'", where_sql)
+        self.assertIn("Gcode <> ''", where_sql)
+        self.assertIn("Hcode = %s", where_sql)
 
 
 class ListReceiptsScopeSqlTests(TestCase):
-    """원인 3 — list_receipts WHERE 조립 (기본/입고현황 스코프)."""
+    """list_receipts WHERE 조립 — 입고접수/입고명세서 경로(입고현황은 공용 축으로 이관)."""
 
     def _run_list(self, **kwargs) -> list[tuple[str, tuple]]:
         calls: list[tuple[str, tuple]] = []
@@ -134,12 +156,12 @@ class ListReceiptsScopeSqlTests(TestCase):
         self.assertIn("입고", params)
         self.assertNotIn("Gcode <> ''", sql)
 
-    def test_status_scope_drops_gubun_and_requires_vendor(self) -> None:
-        calls = self._run_list(gubun=None, require_vendor=True)
+    def test_gubun_none_drops_filter(self) -> None:
+        """Gubun 무필터 옵션은 유지(입고접수 화면 밖 재사용 여지) — Scode='Y' 는 고정."""
+        calls = self._run_list(gubun=None)
         sql, params = calls[0]
         self.assertNotIn("Gubun", sql)
         self.assertNotIn("입고", params)
-        self.assertIn("Gcode <> ''", sql)
         self.assertIn("Scode = 'Y'", sql)
 
     def test_param_order_with_hcode_filter(self) -> None:
@@ -241,12 +263,15 @@ class InboundVendorSearchScopeTests(TestCase):
 
 
 class FrontendDefaultsTests(TestCase):
-    """원인 4 — 입고현황 페이지는 완료(Yesno=2) 전표 기본 포함."""
+    """원인 2 — 화면의 입고처 축 배선(거래처 룩업으로 되돌아가는 것 차단)."""
 
-    def test_include_cancelled_defaults_true(self) -> None:
-        page = FRONT / "app" / "(app)" / "transactions" / "inbound-status" / "page.tsx"
-        src = page.read_text(encoding="utf-8")
-        self.assertIn("includeCancelled: true", src)
+    def test_screen_uses_vendor_lookup_for_inbound_axis(self) -> None:
+        screen = FRONT / "components" / "transactions" / "transaction-status-screen.tsx"
+        src = screen.read_text(encoding="utf-8")
+        # 필터 룩업 종류가 축에서 온다 — customer 하드코딩이면 입고처 자동완성이
+        # 거래처(G1_Ggeo)를 물어와 저장/표시 축이 어긋난다.
+        self.assertIn('lookupKind={axis.partyLookupKind ?? "customer"}', src)
+        self.assertIn("applyInboundVendorToGcode", src)
 
 
 if __name__ == "__main__":

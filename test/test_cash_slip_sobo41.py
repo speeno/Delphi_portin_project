@@ -340,7 +340,8 @@ class RouteAndScreenTests(TestCase):
         """DEC-186 — T5_Ssub 화면 4종은 사이드바에서 숨긴다(route 는 유지)."""
         src = (FRONT / "lib" / "form-registry.ts").read_text(encoding="utf-8")
         self.assertEqual(src.count('menuId: "ACC-MENU-HIDDEN-SETTLE-CASH-T5"'), 4)
-        self.assertIn('caption: "입출금전표"', src)
+        # 2026-08-24 제품 7699c9d — 레거시 메뉴명 「입출금전표-거래처」에 맞춰 개명.
+        self.assertIn('caption: "입출금전표 거래처"', src)
 
     def test_new_row_scrolls_into_view_and_focuses(self) -> None:
         """행 추가 시 화면이 그 행으로 이동해야 한다 (2026-08-23 사용자 리포트).

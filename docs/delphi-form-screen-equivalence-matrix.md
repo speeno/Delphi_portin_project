@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-08-23T23:02:50Z
+> **생성 시각 (UTC)**: 2026-08-25T01:20:49Z
 
 ## 목적
 
@@ -71,7 +71,7 @@
 | MULTI_MAP | `Sobo41_cash` | `Subu41` | 입금내역 | 입금내역 | `Sobo41` | `/settlement/cash` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo41_cash_bill` | `Subu41` | 입금내역 | 입금내역 | `Sobo41` | `/settlement/cash` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo41_slip` | `Subu41` | 입금전표 | 입금내역 | `Sobo41` | `/settlement/payment-slip` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MULTI_MAP | `Sobo42_cash` | `Subu41` | 입출금전표 | 입금내역 | `Sobo41` | `/settlement/cash-status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo42_cash` | `Subu41` | 입출금전표 거래처 | 입금내역 | `Sobo41` | `/settlement/cash-status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Settle_outstanding` | `Subu42` | 미수현황 | 입금현황(1) | `Sobo42` | `/settlement/outstanding` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo42_cash_bill` | `Subu42` | 입금현황(거래처별) | 입금현황(1) | `Sobo42` | `/settlement/cash-status?variant=hcode` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | CAPTION_DIFF | `Sobo42_1_cash_bill` | `Subu42_1` | 입금현황(일자별) | 입금현황(2) | `Sobo42_1` | `/settlement/cash-status?variant=sdate` | DFM「입금현황(2)」↔모던「입금현황(일자별)」 (r=0.75) |

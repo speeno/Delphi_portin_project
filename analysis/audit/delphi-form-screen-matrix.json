@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T23:02:50.598690+00:00",
+  "generated_at": "2026-08-25T01:20:49.441758+00:00",
   "summary": {
     "registry_forms": 98,
     "legacy_dfm_subu_stems": 92,
@@ -364,7 +364,7 @@
       "modern_id": "Sobo42_cash",
       "folder": "Subu41",
       "route": "/settlement/cash-status",
-      "modern_caption": "입출금전표",
+      "modern_caption": "입출금전표 거래처",
       "legacy_form_object": "Sobo41",
       "legacy_caption": "입금내역",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu41.dfm",

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T23:02:50.903281+00:00",
+  "generated_at": "2026-08-25T01:20:50.826151+00:00",
   "summary": {
     "total_dfm_candidates": 118,
     "registry_entries": 98,
@@ -840,7 +840,7 @@
     {
       "form_name": "Sobo42_cash",
       "dfm_form_name": "Sobo42",
-      "registry_caption": "입출금전표",
+      "registry_caption": "입출금전표 거래처",
       "dfm_caption": "입금현황(1)",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu42.dfm",
       "category": "caption_mismatch",

@@ -107,10 +107,13 @@ class OutboundStatusDetailGridTests(TestCase):
 
         2026-08-22 2차 요청으로 전표번호가 거래일자 앞으로 이동 — 입고 현황·출고 접수
         목록과 동일하게 전표번호가 선두다.
+
+        거래처 칸은 2026-08-24 입고축 합류 후 축 파생 라벨(`party`)이다 —
+        입고현황에서는 「입고처」로 렌더된다.
         """
         start = self.src.index("const slipDetailColumns")
         block = self.src[start : self.src.index("const lineColumns")]
-        wanted = ['"전표번호"', '"거래일자"', '"거래처"', '"수량"', '"금액"', '"접수"']
+        wanted = ['"전표번호"', '"거래일자"', "party", '"수량"', '"금액"', '"접수"']
         pos = []
         for label in wanted:
             idx = block.find(f"label: {label}")

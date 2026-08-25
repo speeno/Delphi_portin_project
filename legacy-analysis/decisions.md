@@ -4753,3 +4753,73 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   5019 / remote_153): 도서 자동완성 선택 → 도서명·ISBN·정가 자동 + 수량 포커스, 수량 4 →
   금액 154,000·합계 정합, 비고 Enter → 새 라인+도서코드 포커스, 직접 입력 코드 blur 보충,
   컬럼 숨김 시 합계 정렬 유지.
+
+## DEC-194 — 입고현황(Sobo25_2)을 출고현황과 «같은 3뷰 공용 축»으로 + 입고처축 정합 3건
+
+- **일자**: 2026-08-24 (구현) / 2026-08-25 (축 정합 보정·회귀·기록)
+- **요청**(사용자): "입고현황 레이아웃·기능을 출고현황과 동일하게".
+- **바뀐 것**: 입고현황 화면(600여 줄 별도 구현)과 API(입고접수 목록 재사용)를 폐기하고
+  출고/반품/폐기와 **같은** `TransactionStatusScreen` + `_status_axis_facade` 의 한 축으로
+  이관했다. 화면은 얇은 래퍼 17줄, 백엔드는 축 상수 3개만 다르다. 덤으로 레거시에는 있으나
+  종전 구현에 없던 **본사/창고(Ocode)·전표(Jubun)·도서코드(Bcode)** 필터가 생겼다.
+
+### 축 정의 — 거래처축을 그대로 복사하면 안 되는 3가지
+
+레거시 `Sobo25_2.Button101Click`(L396-420) 고정 조건은 `Scode='Y'` + `Gcode<>''` 뿐이고,
+거래구분(Edit103)은 **선택 콤보**다. 여기서 세 가지가 갈린다.
+
+1. **거래구분을 `Gubun='입고'` 로 못 박지 않는다** (`_GUBUN_IN_VENDOR = "Gubun IN ('입고','반품')"`).
+   못 박으면 「입고처 반품」(`Scode='Y'` & `Gubun='반품'`)이 **웹 어느 화면에서도 조회
+   불가**가 된다 — 반품현황은 거래처축(`Scode='X'`)이라 그 행을 잡지 않기 때문이다.
+   `remote_153` 실측(2026-08-25, S1_Ssub 전 기간): `Scode='Y'` 행의 Gubun 은 입고 9,376 /
+   반품 99 두 값뿐. 반품 최근분은 5093(140행 ~2026.05) · 5101(20행 ~2026.07) ·
+   5072(12행 2026.06) 로 **현행 운영 데이터**다(교문사 5019 는 128행 2002~2009 구데이터).
+   합계는 반품 음수 저장 관례(Tong02 PrinYing L6176-6182)로 자연히 **순입고**가 된다.
+2. **표시명 원천은 입고처 `G2_Ggwo`** (`name_source='vendor'`). 공용 축이 쓰던
+   `fetch_g1_customer_gnames`(거래처 G1_Ggeo)를 그대로 두면 **같은 Gcode 가 전혀 다른
+   거래처명으로 뒤바뀐다.** 교문사 5019 실측 — 조회된 입고처 코드 10개가 **10개 모두 충돌**:
+
+   | Gcode | G2_Ggwo (정답) | G1_Ggeo (오표시) |
+   | --- | --- | --- |
+   | 00062 | 중원아트(랩핑) | 서울여대[서울] |
+   | 00060 | 태성제책사 | 덕성여대평생교육원 |
+   | 80012 | (주)아트인 | [X][파][폐업]청주대일(일선) |
+
+   2026-08-22 교문사 리포트(원인 2)에서 이미 고쳤던 결함이라, 공용 축 이관이 되살릴
+   뻔했다. 리졸버는 `_party_name_resolver(name_source=)` 하나로 축을 가르고, vendor 축은
+   기존 `inbound_service._fetch_vendor_names`(레거시 `Hcode=로그인 → '' 폴백`)를 재사용한다.
+3. **하단 집계의 주 거래구분은 '입고'** (`primary_gubun='입고'`). 집계 SQL 의 `out_*`
+   버킷이 `Gubun='출고'` 하드코딩이라 그대로 두면 **입고수량이 통째로 0** 이었다.
+   축 파라미터로 바꿔 `out_*`=입고 / `return_*`=입고처 반품 / `sales_*`=순입고가 된다.
+   화면 헤더도 축 파생(`rollupPrimaryLabel`/`rollupNetLabel`) — 「입고수량·입고금액·순입고수량」.
+
+### 화면
+
+- 「거래처」 리터럴을 전부 축 파생 `party` 로 교체(필터 라벨·표 컬럼·집계 제목/헤더) →
+  입고현황은 **「입고처」**(레거시 `Panel104.Caption='입고처명'` 동등).
+- 필터 룩업도 축에서: `partyLookupKind='inboundVendor'`(G2_Ggwo). `customer` 로 두면
+  인라인 자동완성이 거래처를 물어와 축이 어긋난다(DEC-155 계열).
+- 「거래구분」 읽기전용 표시 = **입고·반품**(축이 두 구분을 포함하므로 사실대로).
+- 세션 스냅샷 키는 축별 분리(`transactions.status.<route>`) — 하나면 4개 현황이 서로의
+  기간·거래처 필터를 덮어쓴다.
+
+### 정리
+
+- `inbound_service.list_receipts(require_vendor=)` 제거 — 유일한 호출자였던 입고현황이
+  공용 축으로 떠나 죽은 파라미터가 됐다.
+
+- **구현**: `backend/app/routers/transactions.py`(축 라우트 + facade 파라미터) /
+  `backend/app/services/transactions_service.py`(`_GUBUN_IN_VENDOR`·`_INBOUND_STATUS_FIXED`·
+  `_party_name_resolver`·`primary_gubun`) / `backend/app/services/inbound_service.py` /
+  `frontend/src/components/transactions/transaction-status-screen.tsx`(축 필드 4개) /
+  `frontend/src/app/(app)/transactions/inbound-status/page.tsx`(래퍼) /
+  `frontend/src/lib/inquiry-api.ts`
+- **회귀**: `test/test_inbound_status_phase1.py`(13, 축 계약 재작성) /
+  `test/test_inbound_status_gyomunsa_parity.py`(11, 2026-08-22 4원인을 새 축에서 재고정) /
+  `test_shipment_transactions_lookup_apply.py`·`test_outbound_detail_gisbn_response_model.py`
+  (공용 컴포넌트 이관 반영). DB 스모크에 `inbound_status_detail` 추가.
+- **브라우저 실측**(교문사 5019 / remote_153, 2026.08.01~08.25): 상세 11전표 ·
+  요약 11행 · 목록 19라인 + 입고처 집계 5행(중원아트 7,483 / (주)디북 900 …),
+  입고처명 전부 G2_Ggwo 정답, 콘솔 에러 0.
+- **미해결**: 컬럼 설정(grid-prefs) 키는 아직 `transactions.outbound-status.*` 공용이라
+  4개 현황이 컬럼 표시/순서를 공유한다. 같은 표라 무해하지만 화면별 분리 여지는 남는다.

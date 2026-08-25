@@ -37,9 +37,12 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, TabOrder, DBGrid 
 정렬: `ORDER BY Gdate, Gcode, Gubun, Jubun, Gjisa, ID` · `LIMIT 0,3000`.
 
 > **DEC-174 (2026-08-22)** — 고정 조건에 **`Gubun` 은 없다**. Gubun 은 검색 콤보(Edit103)라
-> 무입력 시 입고·반품이 함께 나온다. 모던도 `list_receipts(gubun=None, require_vendor=True)`
-> 로 맞췄다(입고접수/입고명세서는 `Gubun='입고'` 기본 유지). `Yesno` 도 무필터 —
-> 2는 접수완료 잠금이지 취소가 아니므로 프론트 `includeCancelled` 기본 true.
+> 무입력 시 입고·반품이 함께 나온다. `Yesno` 도 무필터 — 2는 접수완료 잠금이지 취소가 아니다.
+>
+> **DEC-194 (2026-08-24)** — 화면·API 가 출고현황과 같은 공용 축으로 이관되며 이 조건들은
+> 축 상수로 옮겨갔다: `_GUBUN_IN_VENDOR = "Gubun IN ('입고','반품')"` +
+> `_INBOUND_STATUS_FIXED = "Scode = 'Y' AND Gcode <> ''"`. `list_receipts(require_vendor=)`
+> 는 호출자가 사라져 제거됐다(입고접수/입고명세서는 `Gubun='입고'` 기본 그대로).
 
 ### 2.1 2026-06 공통 검색창 보강
 
@@ -47,16 +50,31 @@ DEC-028 의무 — dfm→html 산출물의 (영역, 위젯 ID, TabOrder, DBGrid 
   `gcode`(`Sobo25.Edit105`)는 `lookupKind="inboundVendor"`로 보강했다.
 - 검색 입력은 기존 `data-legacy-id` 를 유지하며 보조 버튼(`Sobo25.LookupHcode/Gcode`)만 추가했다.
 
-## 3. 모던 라우트·facade (구현)
+## 3. 모던 라우트·facade (구현 — DEC-194, 2026-08-24 재작성)
 
-거래현황(`/transactions/status`) facade 와 동형. 입고는 입고접수(`/inbound/receipts`)·입고명세서(C1)와
-동일 `S1_Ssub` 입고 데이터(`Gubun='입고'`, `Scode='Y'`)이므로 **신규 SQL 0** 으로 재사용한다.
+**출고현황(Subu24)과 같은 컴포넌트·같은 facade** 를 «입고처 축»으로 탄다
+(사용자 요청 "입고현황 레이아웃·기능을 출고현황과 동일하게"). 화면은 얇은 래퍼이고,
+축이 다른 부분은 아래 3개뿐이다 — 나머지는 출고/반품/폐기와 완전히 공유한다.
 
-| 뷰 | route | 백엔드 | 재사용 |
-| --- | --- | --- | --- |
-| LIST | `/transactions/inbound-status?view=list` | `GET /api/v1/transactions/inbound-status?view=list` | `inbound_service.list_receipts` |
-| 상세 | `?view=detail` | `?view=detail` | 동일 + 행 펼침 시 `/inbound/receipts/{key}` 지연 조회 |
-| 요약 | `?view=summary` | `?view=summary` | `inbound_service.period_report` (기간 출판사/거래처 집계) |
+| 축 파라미터 | 값 | 이유 |
+| --- | --- | --- |
+| `slip_gubun`/`rollup_gubun` | `Gubun IN ('입고','반품')` | 레거시 고정 조건에 Gubun 이 없다(§2). 하드필터하면 「입고처 반품」이 웹 어디서도 안 보인다(반품현황은 `Scode='X'` 축) |
+| `scode_clause` | `Scode = 'Y' AND Gcode <> ''` | 레거시 고정 조건 그대로 |
+| `name_source` / `primary_gubun` | `vendor` / `입고` | 표시명은 **G2_Ggwo**(§4), 하단 집계 `out_*` 버킷이 입고 |
+
+| 뷰 | route | 백엔드 서비스 |
+| --- | --- | --- |
+| 상세(기본) | `/transactions/inbound-status?view=detail` | `list_outbound_status_slips` + 행 선택 시 `outboundApi.detail` 지연 조회 |
+| 요약 | `?view=summary` | `list_outbound_status_slips` (동일 형태) |
+| 목록 | `?view=list` | `list_outbound_status_lines` + `outbound_status_customer_rollup` |
+
+화면: `app/(app)/transactions/inbound-status/page.tsx` (17줄 래퍼) →
+`components/transactions/transaction-status-screen.tsx` `INBOUND_STATUS_AXIS`.
+표시 라벨도 축 파생 — 「입고처」(레거시 `Panel104.Caption='입고처명'`) ·
+거래구분 「입고·반품」 · 집계 「입고수량/입고금액/순입고수량」.
+
+레거시에는 있으나 종전 구현에 없던 **본사/창고(`Ocode`, Edit107) · 전표(`Jubun`, Edit104) ·
+도서코드(`Bcode`, Edit108)** 필터가 이관과 함께 생겼다.
 
 registry: `Sobo25_status_list` / `Sobo25_status_detail` / `Sobo25_status_summary` (3 id → 1 페이지).
 
@@ -64,11 +82,12 @@ registry: `Sobo25_status_list` / `Sobo25_status_detail` / `Sobo25_status_summary
 
 | 트리거 | 레거시 | 모던 |
 | --- | --- | --- |
-| `Button101Click` | `SELECT * FROM S1_Ssub WHERE ...`(L380) | `view=list/detail` → `list_receipts` |
-| 본사/창고 토글 | `Edit107` → `Ocode A/B` | store_kind(기본 B 창고, 현행 회귀 보존) |
-| 입고처명 lookup | `G2_Ggwo.Locate('Hcode;Gcode')` → 실패 시 `Hcode=''` 폴백 (L455~L475) | `_fetch_vendor_names` — **G2_Ggwo** `Hcode IN (<scope>,'')` 청크 lookup, 정확 일치 우선 (DEC-174) |
+| `Button101Click` | `SELECT * FROM S1_Ssub WHERE ...`(L380) | `_status_axis_facade` 3뷰 (DEC-194) |
+| 본사/창고 토글 | `Edit107` → `Ocode A/B` | `storeKind` A/B/ALL — 기본 ALL(본사·창고 합산) |
+| 입고처명 lookup | `G2_Ggwo.Locate('Hcode;Gcode')` → 실패 시 `Hcode=''` 폴백 (L455~L475) | `_party_name_resolver(name_source='vendor')` → `_fetch_vendor_names` — **G2_Ggwo** `Hcode IN (<scope>,'')` 청크 lookup, 정확 일치 우선 (DEC-174/194). 거래처 G1_Ggeo 를 쓰면 교문사 실측 기준 조회 코드 10개가 10개 모두 다른 이름으로 뒤바뀐다 |
 
 ## 5. Out-of-scope (§6)
 
 - `Button201`(신규 입력)·전표 편집·인쇄(`CornerButton1~3,9`) — 입고현황은 조회 화면(`crudParity: R`). 입력은 입고접수(Sobo22 `/inbound/receipts`).
-- 본사/창고 토글의 본사(A) 데이터: 현행 `list_receipts` 는 창고(B) 고정. 본사 노출이 필요하면 Sobo67 `store_kind` 패턴으로 후속 확장(deltas).
+- ~~본사/창고 토글의 본사(A) 데이터~~ — DEC-194 로 `storeKind` A/B/ALL 지원(해소).
+- 컬럼 설정(grid-prefs) 키는 4개 현황이 `transactions.outbound-status.*` 를 공유한다(DEC-194 미해결).

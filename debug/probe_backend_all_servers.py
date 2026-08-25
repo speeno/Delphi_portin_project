@@ -725,12 +725,22 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
-        # C2 입고현황 facade (Menu205) — list_receipts / period_report 재사용.
+        # C2 입고현황 facade (Menu205 / Sobo25_2) — 2026-08-24 부터 출고현황과 같은
+        # 3뷰 공용 축(_status_axis_facade). 입고처축(Scode='Y' + Gcode<>'')이라
+        # 표시명 원천이 G2_Ggwo, 하단 집계 주 거래구분이 '입고' 다.
         {
             "group": "transactions.inbound_status",
             "path": (
                 f"/api/v1/transactions/inbound-status?serverId={sid}"
-                f"&view=list&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+                f"&view=list&dateFrom={df}&dateTo={dt}&storeKind=ALL&limit=1&offset=0"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "transactions.inbound_status_detail",
+            "path": (
+                f"/api/v1/transactions/inbound-status?serverId={sid}"
+                f"&view=detail&dateFrom={df}&dateTo={dt}&storeKind=ALL&limit=1&offset=0"
             ),
             "ok_status": {200},
         },
@@ -738,7 +748,7 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "group": "transactions.inbound_status_summary",
             "path": (
                 f"/api/v1/transactions/inbound-status?serverId={sid}"
-                f"&view=summary&dateFrom={df}&dateTo={dt}&limit=1&offset=0"
+                f"&view=summary&dateFrom={df}&dateTo={dt}&storeKind=ALL&limit=1&offset=0"
             ),
             "ok_status": {200},
         },

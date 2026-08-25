@@ -35,7 +35,9 @@ class ShipmentTransactionsLookupApplyTest(TestCase):
         # 좁힌다(applyCustomerToHcode 2026-06-20 회귀 주의 + DEC-137 Gcode=거래처 축).
         self.assertIn('lookupKind="customer"', orders)
         self.assertIn("applyCustomerToHcode", orders)
-        self.assertIn('lookupKind="customer"', status)
+        # 공용 현황 화면은 룩업 종류를 **축**에서 받는다 — 입고현황(Scode='Y')만 입고처
+        # 마스터(G2_Ggwo)를 타야 해서 리터럴로 못 박을 수 없다(기본값은 거래처).
+        self.assertIn('lookupKind={axis.partyLookupKind ?? "customer"}', status)
         # receipts 출판사코드 필터 — 불필요 항목으로 제거 (R11)
         self.assertIn('lookupKind="inboundVendor"', receipts)
         self.assertIn('lookupKind="book"', new_receipts)
@@ -56,11 +58,9 @@ class ShipmentTransactionsLookupApplyTest(TestCase):
             / "page.tsx",
             "status": FRONT / "app" / "(app)" / "transactions" / "status" / "page.tsx",
             "inbound_status": FRONT
-            / "app"
-            / "(app)"
+            / "components"
             / "transactions"
-            / "inbound-status"
-            / "page.tsx",
+            / "transaction-status-screen.tsx",
             "verification": FRONT
             / "app"
             / "(app)"
@@ -109,6 +109,14 @@ class ShipmentTransactionsLookupApplyTest(TestCase):
         self.assertIn("Sobo21.Edit104", _read(pages["sales"]))
         self.assertIn("Sobo21.Edit102", _read(pages["sales"]))
         self.assertIn('lookupKind="inboundVendor"', _read(pages["inbound_statement"]))
+        # 입고현황(2026-08-24 공용 축 이관) — 화면은 얇은 래퍼라 축 선언에서 검증한다.
+        inbound_status_page = _read(
+            FRONT / "app" / "(app)" / "transactions" / "inbound-status" / "page.tsx"
+        )
+        self.assertIn("INBOUND_STATUS_AXIS", inbound_status_page)
+        self.assertIn(
+            'partyLookupKind: "inboundVendor"', _read(pages["inbound_status"])
+        )
         self.assertIn('lookupKind="publisher"', _read(pages["status"]))
         self.assertIn('lookupKind="publisher"', _read(pages["verification"]))
         self.assertIn('lookupKind="customer"', _read(pages["prod_statement"]))
