@@ -4904,3 +4904,53 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   / `frontend/src/lib/form-registry.ts` / `tools/delphi_form_screen_matrix.py`(allowlist)
 - **회귀**: `test/test_customer_sales_detail.py`(기본=거래처 전체 / by_branch=지점) +
   `test/test_dec196_customer_sales_branch_merge.py`(신규).
+
+## DEC-197 — 거래처별판매·도서별판매 합계 행(전체 결과) + 거래처별판매 하단은 검색 직후 «전체 거래처» 도서별
+
+- **일자**: 2026-08-25
+- **레거시 엑셀 대조**(사용자 제공 「통계관리_거래처판매(260824).xlsx」, 교문사 5019):
+  조회 기간은 파일에 없어 교보문고 행(출고 3,087 / 80,960,430)과 거래처 수 140 을 재현하는
+  기간을 탐색 → **2026-07-24 ~ 08-24** 확정. 결과:
+  - 상단 140/140 거래처 존재, 불일치 7건 = 전부 export 이후 입력분(계명문화대 +12부는 8/25
+    10:49 입력(Gdate 8/24), 수금 6건은 8/24자 입금 ID 1187837~1187844 연속 배치). 모던에만 있는
+    1건(경화서점 수금 85,500)도 같은 배치.
+  - 하단 시트 「지정거래처-하단출력(내용 전체)」는 **전체 거래처의 도서별 합**(합계가 상단
+    합계와 동일 12,558 / 315,328,625) — 레거시 `Button201Click` 의 `T00=1` 모드(검색 직후
+    하단 DBGrid201 은 전체, 거래처를 고르면 `Gcode=` 로 좁힘). SQL 동등 집계와 682/682 도서
+    일치, 불일치 1건(공중보건학 5판 +12)은 위 계명문화대 입력분.
+  → **기간이 같으면 상단·하단 100% 일치.**
+- **요청**(사용자): "각각 레거시 화면처럼 하단에 합계가 보이도록" / "도서별 판매 화면에 대해서도
+  합계 출력 필요".
+- **결정**:
+  1. `get_customer_sales` 가 `totals`(goqut/gosum/gjqut/gbqut/gbsum/gsusu/gjsum/gssum, 검색 결과
+     전체·페이지 무관)를 돌려주고 상단 DataGrid 에 합계 행(레거시 DBGrid101 Footer fvtSum).
+  2. `get_book_sales`(목록)에도 `totals` — 종전엔 일별 API 에만 있어 화면 합계 행이 비어 있었다.
+  3. 거래처별판매 하단 = 검색 직후 **전체 거래처 도서별**(`gcode` 생략), 거래처 선택 시 그
+     거래처(재선택 시 전체로 복귀). `get_customer_sales_detail` 의 `gcode` 옵션화.
+- **구현**: `reports_service.get_customer_sales/get_book_sales/get_customer_sales_detail`,
+  `routers/reports.py`, `models/inquiry.py`(`CustomerSalesResponse.totals`),
+  `reports/customer-sales/page.tsx`(`topTotals`·`loadDetail`).
+- **회귀**: `test/test_dec197_customer_sales_totals_all_detail.py`(8).
+
+## DEC-198 — 엑셀 내보내기 = 화면에 보이는 컬럼·순서 / 도서별판매 도서분류 응답 누락 수정
+
+- **일자**: 2026-08-25
+- **원칙**(사용자): "엑셀 출력은 화면에 보이도록 설정된 필드가 동일한 순서로 출력되어야 한다."
+- **리포트**: "도서별판매 엑셀 다운 시 누락 출력 컬럼이 있다" / "도서별판매 화면에 도서분류가
+  출력되지 않는다".
+- **원인**:
+  1. 엑셀은 서버 고정 목록(`_BOOK_SALES_EXPORT_COLUMNS` 등)이라 화면의 도서분류·판매수량·
+     판매금액·재고 3종이 빠지고, 사용자가 컬럼 설정으로 바꾼 숨김/순서도 반영되지 않았다.
+  2. `BookSalesRow` 응답 모델에 `sname`/`gubun_code` 가 없어 서비스가 부착한 도서분류를
+     FastAPI `response_model` 이 잘라냈다(DEC-169 ISBN 누락과 같은 유형 — **부착 필드는 반드시
+     모델에도 선언**).
+- **결정**: 내보내기 라우트가 `columns`(JSON `[{key,label}]`)를 받아 **그 키·라벨·순서 그대로**
+  쓴다. 화면은 `visibleColumns`(컬럼 설정 반영)를 넘긴다. 키는 화이트리스트(임의 필드 유출
+  방지, 위반 시 422), 화면 파생 키(판매수량/판매금액/재고 3종)는 서버가 같은 산식으로 채우고
+  재고 키가 있을 때만 기간말 재고를 부착한다. `columns` 미전달(구 클라이언트)은 종전 목록.
+  대상: 도서별판매·거래처별판매. (년말집계 등 다른 내보내기는 후속.)
+- **구현**: `routers/reports.py`(`_parse_export_columns`·`_derive_book_sales_export_fields`),
+  `models/inquiry.py`(`BookSalesRow.sname/gubun_code`), `lib/inquiry-api.ts`(`ExportColumn`),
+  두 page.tsx.
+- **회귀**: `test/test_dec198_export_follows_visible_columns.py`(7) — 헤더 순서·숨김 반영·
+  파생값·화이트리스트 422·기본 목록 호환·모델 필드·화면 배선.

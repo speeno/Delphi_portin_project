@@ -106,16 +106,16 @@ class ScreenWiringGuard(TestCase):
         self.assertIn("totals.goqut + totals.gbqut", src)
         self.assertIn("totals.gosum + totals.gbsum", src)
 
-    def test_customer_sales_detail_pane_gated_by_selection(self) -> None:
-        """DEC-188 — 하단 상세는 거래처를 고르기 전엔 «안내»만 보인다.
+    def test_customer_sales_detail_pane_gated_by_first_search(self) -> None:
+        """DEC-188 — 하단 상세 자리는 고정, 첫 조회 전엔 «안내»만 보인다.
 
-        종전(우측 패널)은 미선택 시 아예 렌더하지 않았으나, 하단 2단에서는 자리가
-        고정돼 있어 빈 그리드 대신 안내 문구를 둔다(재고금액·도서별판매와 동형).
+        DEC-197(2026-08-25)부터 조회 직후 하단은 **전체 거래처** 도서별(레거시 T00=1)이
+        자동으로 뜨므로 게이트는 «선택 여부»가 아니라 «조회 여부»(detail === null)다.
         """
         src = (FRONTEND / "app" / "(app)" / "reports" / "customer-sales"
                / "page.tsx").read_text(encoding="utf-8")
-        self.assertIn("selectedKey === null ?", src, "선택 전 분기 없음")
-        self.assertIn("위에서 거래처를 선택하면", src, "선택 전 안내 문구 누락")
+        self.assertIn("detail === null ?", src, "첫 조회 전 분기 없음")
+        self.assertIn("위에서 거래처를 선택하면", src, "안내 문구 누락")
         self.assertNotIn("좌측 거래처 행을 선택하면", src, "좌우 분할 시절 문구 잔존")
 
 
