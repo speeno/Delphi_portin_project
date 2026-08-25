@@ -25,6 +25,16 @@
 from __future__ import annotations
 
 import asyncio
+import os
+import tempfile
+
+# 2026-08-25 — 로그인 ID 인덱스(login_id_index_service)는 모듈 로드 시 경로를 읽어 실제
+# backend/data/login_id_index.json 에 쓴다. 테스트가 운영 시드 파일을 덮어써 pre-push sync 커밋에
+# 실려 나간 사고(13k행 → 5행) 재발 방지: 앱 모듈 import 전에 임시 경로로 고정한다.
+os.environ.setdefault(
+    "BLS_LOGIN_ID_INDEX_PATH",
+    os.path.join(tempfile.gettempdir(), "bls_test_login_id_index.json"),
+)
 import sys
 import warnings
 from pathlib import Path

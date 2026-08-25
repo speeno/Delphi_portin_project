@@ -29,8 +29,9 @@ class InventoryStatusScreen(TestCase):
         self.assertIn('const BOOK_DEFAULT_HIDDEN = ["gsumx", "gisum", "gjqut", "gpsum", "gssum"];', self.src)
         self.assertIn('"inventory.status.book.v2"', self.src, "저장 설정이 새 기본을 덮지 않도록 키 v2")
         self.assertIn('key: "gisbn",\n    label: "ISBN"', self.src)
-        self.assertIn('label: "잔량"', self.src)
-        self.assertNotIn('label: "현재고"', self.src)
+        # 2026-08-25 17:08 사용자: 목업의 「잔량」 대신 레거시 용어 「현재고」 유지
+        self.assertIn('label: "현재고"', self.src)
+        self.assertNotIn('label: "잔량"', self.src)
 
     def test_empty_hint_section_header_and_class_toggle(self) -> None:
         self.assertIn("<EmptyHint>거래일자와 도서명으로 검색하세요</EmptyHint>", self.src)

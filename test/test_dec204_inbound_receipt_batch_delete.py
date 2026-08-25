@@ -106,16 +106,17 @@ class ScreenWiring(TestCase):
 
     def test_button_only_on_inbound_axis(self) -> None:
         self.assertIn('data-legacy-id="Sobo24.BatchDelete"', self.src)
-        self.assertIn("{!isOutbound && checkedKeys.size > 0 && (", self.src)
+        # DEC-207(2026-08-25 17:00) — 출고축도 같은 버튼(거래명세서 DELETE, 완료·확정 잠금)
+        self.assertIn("{checkedKeys.size > 0 && (", self.src)
         self.assertIn('variant="destructive"', self.src)
         self.assertIn("선택 삭제 (${checkedKeys.size}건)", self.src)
 
     def test_confirm_dialog_is_danger_and_batch_deletes(self) -> None:
-        self.assertIn('title="입고 명세서 삭제"', self.src)
+        self.assertIn('title={isOutbound ? "출고 명세서 삭제" : "입고 명세서 삭제"}', self.src)
         i = self.src.index("async function doBatchDelete()")
         fn = self.src[i : self.src.index("async function doBatchReprint()")]
         self.assertIn("inboundApi.delete(key, sid)", fn)
-        self.assertIn("if (!sid || isOutbound) return;", fn, "출고축 차단")
+        self.assertIn("transactionsApi.deleteSalesStatement(s.order_key, sid)", fn, "출고축 = 거래명세서 DELETE")
         self.assertIn("void load(0);", fn, "삭제 후 목록 재조회")
         self.assertIn("setCheckedKeys(new Set())", fn)
         api = (FRONT / "lib" / "inbound-api.ts").read_text(encoding="utf-8")

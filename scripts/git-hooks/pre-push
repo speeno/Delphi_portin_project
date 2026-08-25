@@ -33,9 +33,10 @@ PARENT_SHA=$(git -C "$TOPLEVEL" rev-parse --short HEAD 2>/dev/null || echo "?")
 PARENT_BRANCH=$(git -C "$TOPLEVEL" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "?")
 BRANCH=$(git -C "$PRODUCT_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")
 
-# 변경·미추적 파일이 있으면 스테이징 후 커밋
+# 변경·미추적 파일이 있으면 스테이징 후 커밋 — 런타임 산출물은 제외(2026-08-25: 테스트가 덮어쓴
+# login_id_index.json 과 dev 서버 로그가 sync 커밋에 실려 나간 사고). 작업 트리엔 그대로 둔다.
 if [[ -n $(git -C "$PRODUCT_DIR" status --porcelain 2>/dev/null) ]]; then
-  git -C "$PRODUCT_DIR" add -A
+  git -C "$PRODUCT_DIR" add -A -- . ':(exclude).run/logs' ':(exclude)backend/data/login_id_index.json'
   if ! git -C "$PRODUCT_DIR" diff --cached --quiet 2>/dev/null; then
     if ! git -C "$PRODUCT_DIR" commit -m "chore(sync): Delphi_porting ${PARENT_BRANCH}@${PARENT_SHA}"; then
       printf '%s\n' "[git-hooks/pre-push] 도서물류관리프로그램: 자동 커밋 실패(무시하고 상위 push 계속)." >&2
