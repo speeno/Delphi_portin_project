@@ -5243,3 +5243,12 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   뷰 전환은 화면 최하단 `sticky bottom-0` 바(라임 활성 알약, role=tablist). 루트 `min-h-full` + `mt-auto` 로
   내용이 짧아도 바닥에 붙는다.
 - 가드: `test_dec200_page_header_band.py::StatusScreenHeadBlock`.
+
+### DEC-215 — 특별관리(Sobo16) 목업 결 레이아웃 (2026-08-26 10:27)
+
+- **요청**: 특별관리 화면을 제공된 목업 디자인과 결이 맞게 재구성.
+- **조치**: 제목 띠를 전폭으로(종전엔 justify-between 행 안에 갇혀 제목만큼만 흰 상자) + 관리자 출판사 필터를
+  띠 안에; 거래처/도서 두 축 패널의 카드 프레임·설명 문단 제거 → `SectionHeader`(제목 + 선택 이름·비율 방식
+  메타 + 검색·조회·컬럼 액션) + 프레임 없는 DataGrid(fillHeight); 두 축은 `SplitListPanes`(구분선 드래그);
+  선택 행 편집 블록은 민트 톤 행으로. 등록·수정·삭제·자동완성·Enter 흐름·legacy id 는 그대로.
+- 가드: `test_dec200_page_header_band.py::SpecialScreenLayout`, 표 기능 기준선 `--check`.

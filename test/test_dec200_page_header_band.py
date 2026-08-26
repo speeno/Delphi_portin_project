@@ -188,5 +188,25 @@ class StatusScreenHeadBlock(TestCase):
         self.assertIn("min-h-full", src, "루트가 뷰포트 높이를 채워야 mt-auto 로 바가 바닥에 붙는다")
 
 
+class SpecialScreenLayout(TestCase):
+    """DEC-215 (2026-08-26 10:27) — 특별관리(Sobo16)를 목업 결로: 띠(관리자 필터 포함) + 2단 분할 + 섹션 헤더 +
+    프레임 없는 표. 패널 카드 프레임·설명 문단 제거, 검색·조회·컬럼은 섹션 헤더 액션."""
+
+    def test_special_page_mockup_layout(self) -> None:
+        src = (APP / "master" / "special" / "page.tsx").read_text(encoding="utf-8")
+        i = src.index("<PageHeader")
+        j = src.index("</PageHeader>", i)
+        self.assertIn('data-legacy-id="Sobo16.Edit107"', src[i:j], "관리자 출판사 필터는 띠 안")
+        self.assertIn('storageKey="master.special"', src)
+        self.assertEqual(src.count("<SectionHeader"), 1, "AxisPane 공용 렌더 1곳(거래처·도서 두 축이 재사용)")
+        self.assertNotIn("rounded-2xl border border-border bg-card p-4 shadow-sm", src)
+        self.assertIn("fillHeight", src)
+        # 검색·조회·컬럼이 섹션 헤더 액션에 함께 있다
+        k = src.index("<SectionHeader")
+        block = src[k : src.index("/>", src.index("<GridColumnSettings", k))]
+        self.assertIn("<MasterLookupField", block)
+        self.assertIn("조회", block)
+
+
 if __name__ == "__main__":
     main()
