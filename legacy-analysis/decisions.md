@@ -5189,3 +5189,11 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   수량 자동 재계산, Enter 흐름 포함).
 - 가드: `test_dec209_detail_dialog_price_rate_memo_persist.py`(공급율·비고 저장, 단가만 변경, 무변경, DDL
   드리프트, 그리드 단가 입력).
+
+### DEC-210 — 도서별 판매 「내용 전체 보기」 (2026-08-26 09:25)
+
+- **요청**: 도서별 판매 화면에 「내용 전체 보기」 체크·기능 추가(재고현황·원장과 같은 의미).
+- **결정**: DataGrid 에 `unbounded` 모드(뷰포트 상한·내부 스크롤 해제, fillHeight 우선) 신설 → 도서별 판매
+  상단 표는 체크 시 `unbounded` + `SplitListPanes disabled`(스택). 서버 페이지는 그대로(현재 페이지 행을
+  모두 펼침 — 행 수는 「페이지당」으로 조절). 다른 DataGrid 화면도 같은 두 prop 으로 붙인다.
+- 가드: `test_dec210_book_sales_show_all.py`.
