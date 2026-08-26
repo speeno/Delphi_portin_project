@@ -85,14 +85,17 @@ class LedgerScreens(TestCase):
         self.assertIn(f"disabled={{{sel_var} === null || showAll}}", src, "전체 보기면 분할 off")
         self.assertIn('data-legacy-id="ShowAll"', src)
         self.assertIn("내용 전체 보기", src)
-        # 전체 보기 = 스크롤 없이 펼침 / 아니면 분할 칸을 채우고 내부 스크롤
-        self.assertIn('showAll ? "overflow-visible" : "min-h-0 flex-1 overflow-auto max-h-[calc(100dvh-14rem)]"', src)
+        # 전체 보기 = DataGrid unbounded(스크롤 없이 펼침) / 아니면 분할 칸을 채우고 내부 스크롤(DEC-212)
+        self.assertIn("fillHeight={!showAll}", src)
+        self.assertIn("unbounded={showAll}", src)
         self.assertEqual(src.count("<SectionHeader"), 2)
         self.assertIn("엑셀 다운로드", src)
         self.assertIn("exportTableXlsx", src)
         self.assertIn("printTable", src)
-        self.assertIn("LIST_TABLE_ROW_SELECTED_CLASS", src)
-        self.assertIn("<tr className={LIST_TABLE_FOOTER_STICKY_CLASS}>", src)
+        # DEC-212(2026-08-26) — 수동 <table> → DataGrid: 선택 행 민트·합계 푸터는 DataGrid 가 담당
+        self.assertGreaterEqual(src.count("<DataGrid<"), 2)
+        self.assertIn("<GridColumnSettings", src)
+        self.assertIn("onColumnReorder=", src)
         self.assertNotIn("bg-primary/10", src)
         self.assertNotIn("bg-primary/5", src)
 
@@ -107,7 +110,7 @@ class LedgerScreens(TestCase):
     def test_export_columns_follow_visible_order(self) -> None:
         """엑셀 컬럼 = 화면 표 헤더 순서 (2026-08-25 사용자 규칙)."""
         src = _read("app/(app)/inventory/ledger/page.tsx")
-        i = src.index("const TOP_COLUMNS = [")
+        i = src.index("const TOP_COLUMNS")
         block = src[i : src.index("];", i)]
         labels = re.findall(r'label: "([^"]+)"', block)
         self.assertEqual(labels, ["거래일자", "입고", "반입", "출고", "증정", "반품", "폐기", "변경", "현재고", "재고(반)"])

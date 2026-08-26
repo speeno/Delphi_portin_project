@@ -130,9 +130,9 @@ class ReferenceScreenDefaultState(TestCase):
         self.assertIn('storageKey="inventory.ledger"', src)
         # 2단 분할(사용자 요청 2026-08-25 14:29) — 일자 미선택(하단 안내문)일 땐 분할 off
         self.assertIn("disabled={selDate === null || showAll}", src)  # DEC-203 전체 보기면 분할 off
-        # DEC-203 — 표는 프레임 없이(회색 캔버스 위 흰 행), 분할 칸을 채우도록 flex-1 + 높이 상한
+        # DEC-203/212 — 표는 프레임 없이, 공용 DataGrid 가 분할 칸 채움·높이 상한을 담당
         self.assertNotIn("rounded-2xl border border-border bg-card shadow-sm", src)
-        self.assertIn("max-h-[calc(100dvh-14rem)]", src)
+        self.assertIn("<DataGrid<DayGridRow>", src)
         self.assertNotIn("max-h-[46vh]", src)
         self.assertNotIn("max-h-[38vh]", src)
 

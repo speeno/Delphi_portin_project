@@ -5207,3 +5207,17 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   SectionHeader pb-2→1·18→16px; 표 셀 py-3→py-2(DataGrid·list-table-card·원장 2화면), DataGrid 툴바 간격
   space-y-3→2, 빈 행 py-6→4.
 - 가드: 기존 표 스타일 가드의 py 값 갱신(test_dec203/151/cash_slip).
+
+### DEC-212 — 원장 2화면 DataGrid 전환 + 표 기능 기준선 가드 (2026-08-26 09:48)
+
+- **보고**: "디자인이 변경되면서 각 목록표의 필드 추가삭제·정렬·좌우이동 기능이 누락됐다" (도서별수불원장
+  스크린샷). **규칙(사용자)**: 디자인 변경으로 기존 기능이 누락·제거되지 않았는지 이후 꼭 확인 과정을 거친다.
+- **조사**: 디자인 커밋(1d5d151~)에서 DataGrid 화면들의 컬럼 설정/정렬/이동/리사이즈 지표가 줄어든 파일은
+  0. 도서별수불원장·거래처원장은 DEC-164(2026-08-14) 재작성 때부터 **수동 `<table>`** 이라 그 기능이 원래
+  없던 화면 — 이번에 눈에 띈 것.
+- **조치**: 두 화면의 상·하단 4개 표를 공용 DataGrid 로 전환(컬럼 설정 `GridColumnSettings`, 정렬
+  `useClientSort`, 리사이즈·드래그 이동 `useGridPrefs`, 키보드 행 이동·Enter 상세, 합계 푸터). 전일재고/
+  전일미수 행은 정렬과 충돌하지 않게 표 위 스트립(`toolbarTop`)으로. 엑셀/출력 컬럼 = 표시 컬럼 순서.
+- **재발 방지**: `tools/grid_feature_baseline.py` — 화면별 표 기능 지표(DataGrid·컬럼설정·정렬·이동·리사이즈·
+  키보드·페이저)를 `analysis/audit/grid-feature-baseline.json` 에 기록, `--check` 가 어느 화면이든 지표가
+  줄면 실패(테스트 `test_grid_feature_baseline.py` 로 CI 게이트). 의도한 변경은 기준선 재생성으로 승인.
