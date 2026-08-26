@@ -161,5 +161,32 @@ class RemainingFilterCardsMerged(TestCase):
             self.assertNotIn("rounded-2xl border border-border bg-card", band, f"{rel}: 띠 안 카드 프레임")
 
 
+class StatusScreenHeadBlock(TestCase):
+    """DEC-214 (2026-08-26 10:14) — 공용 현황 화면(출고·입고·신간발행·반품·폐기·거래 현황) 상단 3블록 통합.
+
+    제목 띠 / 뷰 탭 / 필터 카드 → 필터는 띠 안(contents 래퍼로 Enter 스코프·legacy id 보존),
+    뷰 전환(상세/요약/목록)은 화면 최하단 sticky 바.
+    """
+
+    def test_filter_panel_inside_band_and_view_tabs_at_bottom(self) -> None:
+        src = (FRONT / "components" / "transactions" / "transaction-status-screen.tsx").read_text(encoding="utf-8")
+        i = src.index("<PageHeader")
+        j = src.index("</PageHeader>", i)
+        band = src[i:j]
+        self.assertIn('data-legacy-id="Sobo24.SearchPanel"', band)
+        self.assertIn("data-enter-scope", band)
+        self.assertIn("onKeyDown={onFilterKeyDown}", band)
+        self.assertIn('className="contents"', band)
+        self.assertNotIn("rounded-2xl border border-border bg-card", band)
+        # 뷰 탭은 띠 뒤(최하단 바)에만
+        k = src.index('aria-label="화면 보기"')
+        self.assertGreater(k, j)
+        bar = src[k - 200 : k + 900]
+        self.assertIn("sticky bottom-0", bar)
+        self.assertIn("mt-auto", bar)
+        self.assertIn("Sobo24_status.tab.${v}", bar)
+        self.assertIn("min-h-full", src, "루트가 뷰포트 높이를 채워야 mt-auto 로 바가 바닥에 붙는다")
+
+
 if __name__ == "__main__":
     main()

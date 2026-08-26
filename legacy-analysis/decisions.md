@@ -5233,3 +5233,13 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **고정**: DataGrid `unbounded` 모드에서 카드의 overflow 를 전부 빼 스크롤 컨테이너가 되지 않게 함 → th
   `sticky top-0`·tfoot `sticky bottom-0` 이 페이지 스크롤(임베드 래퍼)에 붙어 헤더·합계가 고정된다.
 - 가드: `test_dec200_page_header_band.py::RemainingFilterCardsMerged`, 표 기능 기준선 `--check` 통과.
+
+### DEC-214 — 공용 현황 화면 상단 3블록 → 한 헤드 블록 + 뷰 탭 최하단 (2026-08-26 10:14)
+
+- **요청**(신간발행 스크린샷): 제목 띠 / 상세·요약·목록 탭 / 필터 카드로 나뉜 3블록을 하나의 헤드 블록으로
+  통합, 화면 상태 전환(상세/목록/요약)은 가장 하단으로, 검색 필터는 화면명 우측·하단에(다른 목업 참조).
+- **조치**: `transaction-status-screen.tsx`(출고·입고·신간발행·반품·폐기·거래 현황 공유) — 검색 패널을
+  PageHeader children 으로(contents 래퍼가 `data-enter-scope`/`onKeyDown`/legacy id 보존, 카드 프레임 제거),
+  뷰 전환은 화면 최하단 `sticky bottom-0` 바(라임 활성 알약, role=tablist). 루트 `min-h-full` + `mt-auto` 로
+  내용이 짧아도 바닥에 붙는다.
+- 가드: `test_dec200_page_header_band.py::StatusScreenHeadBlock`.
