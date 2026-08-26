@@ -53,7 +53,7 @@ class CommonTableStyle(TestCase):
 
     def test_data_grid_uses_common_style(self) -> None:
         src = _read("components/data-grid/data-grid.tsx")
-        self.assertIn("sticky top-0 z-10 bg-table-head px-4 py-3 text-sm font-semibold", src)
+        self.assertIn("sticky top-0 z-10 bg-table-head px-4 py-2 text-sm font-semibold", src)
         self.assertIn("LIST_TABLE_ROW_SELECTED_CLASS} ${LIST_TABLE_ROW_FOCUS_CLASS}", src)
         self.assertNotIn('"bg-primary/10 ring-1 ring-primary/40"', src)
         self.assertIn("<tr className={LIST_TABLE_FOOTER_ROW_CLASS}>", src)
@@ -71,7 +71,7 @@ class CommonTableStyle(TestCase):
     def test_section_header_component(self) -> None:
         src = _read("components/shared/section-header.tsx")
         self.assertIn('data-slot="section-header"', src)
-        self.assertIn("text-lg font-bold tracking-tight", src)
+        self.assertIn("text-base font-bold tracking-tight", src)  # DEC-211 밀도: 18→16px
         self.assertIn("SECTION_ACTION_BUTTON_CLASS", src)
 
 

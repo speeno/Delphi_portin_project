@@ -159,7 +159,7 @@ class StickyHeaderGuard(TestCase):
     def test_header_cells_sticky_opaque(self) -> None:
         src = self.GRID.read_text(encoding="utf-8")
         # DEC-203(2026-08-25) — 헤더행 회색 토큰 table-head
-        self.assertIn('"sticky top-0 z-10 bg-table-head px-4 py-3', src)
+        self.assertIn('"sticky top-0 z-10 bg-table-head px-4 py-2', src)
 
     def test_totals_row_sticky_bottom(self) -> None:
         src = self.GRID.read_text(encoding="utf-8")
