@@ -5304,3 +5304,11 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   합계 행, prefs `transactions.inbound-statement.lines`, 레거시 DBGrid101 FieldName 은 컬럼 `legacyId` 유지, ISBN 유지).
   상단 표 툴바에 「내용 전체 보기」(`Sobo22.ShowAll`) — DEC-210 도서별 판매 동형(`unbounded`, 분할 해제).
 - 가드: `test/test_dec220_inbound_statement_lines_grid.py`, 표 기능 기준선 재생성.
+
+### DEC-221 — 폐기·반품 접수 신규 입력: 헤더 입력 카드를 제목 띠로 병합 (2026-08-27 00:28)
+
+- **지적**: "화면 명칭과 검색 필터 등 구성이 목업 디자인과 달리 나눠져 있다" (폐기 접수 신규 입력 스크린샷).
+- **조치**: DEC-216(신규 입고 접수 등) 과 같은 방식 — 띠 아래 `SurfacePanel` 헤더 카드(폐기일/출판사코드/출판사/거래처/비고,
+  반품일/출판사코드/지사/비고)를 `PageHeader` children(`Panel201` contents 래퍼, `data-enter-scope`)으로 이동.
+  라벨 회색·h-8 압축 클래스는 띠 공통 규칙에 맡겨 제거. 같은 유형인 반품 접수 신규 입력도 함께.
+- 가드: `test/test_dec221_returns_forms_band.py`.
