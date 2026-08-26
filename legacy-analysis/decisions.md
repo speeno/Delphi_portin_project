@@ -5263,3 +5263,13 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   등록 폼 3화면(신규 입고 접수·신규 출고 주문·거래 명세서 신규)의 헤더 입력 카드(`Panel_header`,
   `data-enter-scope`)를 띠 children 으로(contents 래퍼로 Enter 스코프·legacy id 보존).
 - 가드: `test_dec200_page_header_band.py::NoTrappedBand`.
+
+### DEC-217 — 제목 띠 전수 점검: 남은 3화면 (2026-08-26 10:40)
+
+- **요청**: "모든 화면 제목 영역 디자인 목업에 맞게 — 수정 안 된 화면만".
+- **전수 조사**: (app) 120개 page.tsx 중 띠 100 / PortalScreenTitle 2 / 없음 18. 없음 18 = 리다이렉트·래퍼
+  (공용 현황·대시보드 컴포넌트가 띠를 가짐)·워크스페이스 15 + 실제 내용 화면 3.
+- **조치**: 일별 반품내역서(검색 패널을 띠 children 으로, 조회 검정 버튼), 내 정보(띠 추가), 청구서 인쇄 화면
+  (뒤로가기·메모 편집·새로고침·인쇄를 띠 leading/actions 로, `print:hidden`).
+- 가드: `test_dec200_page_header_band.py::EveryContentScreenHasBand` — 래퍼 예외 목록 밖의 화면에 띠가 없으면
+  실패(새 화면 추가 시 자동 점검).

@@ -237,5 +237,30 @@ class NoTrappedBand(TestCase):
             self.assertNotIn("rounded-2xl border border-border bg-card", band, rel)
 
 
+class EveryContentScreenHasBand(TestCase):
+    """DEC-217 (2026-08-26 10:40) — "모든 화면 제목 영역을 목업에 맞게, 수정 안 된 화면만".
+
+    내용이 있는 (app) 화면은 전부 `<PageHeader`(또는 그 위임 `PortalScreenTitle`)를 가진다.
+    예외 = 리다이렉트/래퍼(공용 화면 컴포넌트를 렌더)/워크스페이스/인쇄 라우트.
+    """
+
+    WRAPPERS = {
+        "admin", "dashboard", "dashboard/distributor", "dashboard/iot", "dashboard/pub", "dashboard/super",
+        "dashboard/t3", "delivery/management", "master/discount/[type]", "returns/scrap/status", "returns/status",
+        "transactions/inbound-status", "transactions/new-release", "transactions/outbound-status", "workspace",
+    }
+
+    def test_all_pages_have_band(self) -> None:
+        missing = []
+        for p in _app_pages():
+            rel = str(p.relative_to(APP)).replace("/page.tsx", "")
+            if rel in self.WRAPPERS:
+                continue
+            src = p.read_text(encoding="utf-8")
+            if "<PageHeader" not in src and "<PortalScreenTitle" not in src:
+                missing.append(rel)
+        self.assertEqual(missing, [], missing)
+
+
 if __name__ == "__main__":
     main()
