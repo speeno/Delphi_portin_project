@@ -5352,3 +5352,12 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   행 삭제 후 `extract_rbac_matrix.py` 재생성(yaml/json), 폼 매트릭스·list-state 리포트 재생성.
   `welove_screen_contract_coverage.json` 은 재생성 시 무관한 드리프트(매핑 노트 40→55, 미커버 1)가 섞여 HEAD 유지.
 - 가드: `test/test_dec225_returns_reports_band_and_menu.py`. `check_menu_rbac_consistency.py` 의 HIDDEN-* 6건 FAIL 은 기존 상태.
+
+### DEC-226 — 띠 화면 루트 패딩 제거(13화면): 제목 띠가 화면 가장자리까지 (2026-08-27 03:45)
+
+- **지적**: 기간별 재고원장 "이 부분에 왜 여백이 들어가지? 다른 부분(화면)과 다르다".
+- **원인**: 페이지 루트가 `p-4`/`p-6` — 띠(`-mx-[5px]`)가 루트 패딩 안쪽에 갇혀 양옆·위에 회색 여백. 정본 루트는
+  `flex w-full min-w-0 flex-col gap-3 pb-4`(좌우·상단 패딩 없음).
+- **조치**: 띠가 있는 화면 전수 스캔 → 루트 좌우/상단 패딩 제거·`w-full min-w-0`·`pb-4` 통일 13화면
+  (반품 3, 반품 접수 2, 반품 재고 처리, 정산 3, 관리자 4).
+- 가드: `test_dec200_page_header_band.py::NoPaddedRootAroundBand`.

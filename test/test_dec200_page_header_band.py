@@ -264,3 +264,26 @@ class EveryContentScreenHasBand(TestCase):
 
 if __name__ == "__main__":
     main()
+
+
+class NoPaddedRootAroundBand(TestCase):
+    """DEC-226 — 띠 화면의 루트 래퍼에 좌우/상단 패딩이 있으면 띠가 가장자리에 못 붙는다(회색 여백)."""
+
+    def test_no_root_padding(self) -> None:
+        import re
+        bad: list[str] = []
+        for f in sorted((FRONT / "app" / "(app)").glob("**/page.tsx")):
+            src = f.read_text(encoding="utf-8")
+            if "<PageHeader" not in src:
+                continue
+            m = re.search(r"\n  return \(\n\s*<(div|section|main)\b([^>]*)>", src)
+            if not m:
+                continue
+            cm = re.search(r'className="([^"]*)"', m.group(2))
+            if not cm:
+                continue
+            pads = [t for t in cm.group(1).split() if re.fullmatch(r"p[xytlr]?-(\d+|\[.*\])", t)]
+            if pads:
+                bad.append(f"{f.relative_to(FRONT)}: {pads}")
+        self.assertEqual(bad, [], "루트 좌우/상단 패딩 제거 — pb-* 만 허용")
+
