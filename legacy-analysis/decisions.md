@@ -5273,3 +5273,16 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   (뒤로가기·메모 편집·새로고침·인쇄를 띠 leading/actions 로, `print:hidden`).
 - 가드: `test_dec200_page_header_band.py::EveryContentScreenHasBand` — 래퍼 예외 목록 밖의 화면에 띠가 없으면
   실패(새 화면 추가 시 자동 점검).
+
+### DEC-218 — 목록표 가로 스크롤 힌트(가려진 컬럼 표시) (2026-08-26 23:26)
+
+- **요청**: "모든 화면에 대해서 목록표의 필드 항목이 많아서 좌우 스크롤이 생겼을 때 좌우로 감춰진 필드가
+  존재한다는 것을 간단한 애니메이션으로 사용자에게 표시".
+- **구현**: `components/shared/h-scroll-hint.tsx` — `useHorizontalOverflowHint(ref)` 가 스크롤 컨테이너의
+  scroll/ResizeObserver/MutationObserver 로 `{left,right}` 를 계산, `<HScrollEdgeHints>` 가 가려진 쪽 가장자리에
+  카드색 그라데이션 + 흔들리는 화살표 배지(`.hscroll-hint-badge`, 1.2s nudge, 감속 선호 시 정지)를 띄운다.
+  배지 클릭 = 그쪽으로 폭의 2/3 스크롤. 끝에 닿으면 그쪽 힌트는 사라진다.
+- **적용 범위**: 공용 `DataGrid` 스크롤 카드(전 화면) + 수동 `<table>` 래퍼 10곳을 `<HScrollBox>` 로 교체
+  (통합 거래처원장 2, 감사 로그, 가입 신청, 계정 관리 2, 거래 현황, 입고 접수 신규/상세, 반품 접수 상세,
+  일별 반품내역서 상세, 현황 공용 메모 표). `unbounded`(내용 전체 보기) 모드는 페이지가 스크롤하므로 제외.
+- 가드: `test/test_dec218_hscroll_hint.py`.
