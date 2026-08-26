@@ -60,9 +60,6 @@ class ManualTablesWrapped(TestCase):
             if rel.startswith("components/data-grid/") or rel.startswith("components/shared/h-scroll-hint"):
                 continue
             src = f.read_text(encoding="utf-8")
-            # returns/reports 마스터 목록은 안에 DataGrid 가 있어 자체 힌트를 가진다
-            if rel == "app/(app)/returns/reports/page.tsx":
-                src = src.replace('className="flex w-80 flex-col overflow-auto bg-card"', "")
             if pat.search(src):
                 bare.append(rel)
         self.assertEqual(bare, [], "HScrollBox 로 감싸세요")
@@ -77,7 +74,6 @@ class ManualTablesWrapped(TestCase):
             "app/(app)/inbound/receipts/new/page.tsx",
             "app/(app)/inbound/receipts/[receiptKey]/page.tsx",
             "app/(app)/returns/receipts/[returnKey]/page.tsx",
-            "app/(app)/returns/reports/page.tsx",
         ):
             src = _read(rel)
             self.assertIn('import { HScrollBox } from "@/components/shared/h-scroll-hint";', src, rel)

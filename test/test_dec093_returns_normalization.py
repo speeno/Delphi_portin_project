@@ -142,13 +142,15 @@ class DailyDetailScopeTests(IsolatedAsyncioTestCase):
             return []
 
         with patch.object(svc, "execute_query", side_effect=fake), \
-             patch.object(svc, "in_clause_lookup", return_value=[]):
+             patch.object(svc, "in_clause_lookup", return_value=[]), \
+             patch.object(svc, "s1_column_names", new=AsyncMock(return_value={"idnum", "jubun"})):
             await svc.daily_report(
                 server_id="remote_138", date_from="2026-07-01", date_to="2026-07-31",
                 hcode="5019", gcode=None, detail_for_hcode=None,
             )
+        # DEC-223 — 전표번호는 Idnum(Jubun 아님)
         detail_sql, detail_params = next(
-            (s, p) for s, p in cap if "s.Jubun AS idnum" in s
+            (s, p) for s, p in cap if "s.Idnum AS idnum" in s
         )
         self.assertIn("s.Hcode=%s", detail_sql, "상세 무필터 크로스테넌트 차단")
         self.assertIn("5019", detail_params)

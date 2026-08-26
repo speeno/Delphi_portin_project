@@ -253,13 +253,13 @@
       "sortable": 8
     },
     "app/(app)/returns/reports/page.tsx": {
-      "column_settings": 1,
-      "data_grid": 1,
-      "keyboard": 2,
+      "column_settings": 2,
+      "data_grid": 2,
+      "keyboard": 3,
       "pager": 0,
-      "reorder": 1,
-      "resize": 2,
-      "sortable": 5
+      "reorder": 2,
+      "resize": 4,
+      "sortable": 16
     },
     "app/(app)/settlement/billing/page.tsx": {
       "column_settings": 1,
