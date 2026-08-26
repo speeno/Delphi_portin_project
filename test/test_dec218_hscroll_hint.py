@@ -30,6 +30,11 @@ class SharedHint(TestCase):
         self.assertIn("hscroll-hint-badge", src)
         self.assertIn("scrollBy({ left: dir *", src, "배지 클릭 = 그쪽으로 스크롤")
         self.assertIn("export function HScrollBox", src)
+        # DEC-224 — 배지는 카드 전체가 아니라 뷰포트 가시 구간의 세로 중앙(페이지 스크롤로 길어진 표에서도 보이게)
+        self.assertIn("function useVisibleBand(", src)
+        self.assertIn('document.addEventListener("scroll", schedule, { capture: true, passive: true })', src)
+        self.assertIn("const band = useVisibleBand(scrollRef, hint.left || hint.right);", src)
+        self.assertIn('(band ? "" : " inset-y-0")', src)
 
     def test_animation_css(self) -> None:
         css = _read("app/globals.css")
