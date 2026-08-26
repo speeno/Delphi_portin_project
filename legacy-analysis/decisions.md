@@ -5286,3 +5286,12 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   (통합 거래처원장 2, 감사 로그, 가입 신청, 계정 관리 2, 거래 현황, 입고 접수 신규/상세, 반품 접수 상세,
   일별 반품내역서 상세, 현황 공용 메모 표). `unbounded`(내용 전체 보기) 모드는 페이지가 스크롤하므로 제외.
 - 가드: `test/test_dec218_hscroll_hint.py`.
+
+### DEC-219 — 거래 현황 공용 화면: 우측 라인·집계 표도 DataGrid, 컬럼 설정 전 축 공통 (2026-08-27 00:05)
+
+- **지적**: "입고현황 양쪽 목록표 필드 정렬, 이동, 보이기옵션 처리 등이 누락된 부분이 존재한다."
+- **원인**: ① 좌측 전표 표의 `GridColumnSettings` 가 `{isOutbound && …}` 블록 안에 있어 입고·신간 축에서 숨겨짐.
+  ② 우측 「선택 전표 라인」(`Sobo24.DBGrid102`)과 목록 뷰 「거래처 집계」(`Sobo24.DBGrid202`)는 수동 `<table>`.
+- **조치**: 컬럼 설정을 축 공통 슬롯으로 이동; 두 표를 `DataGrid` + `useGridPrefs`(`transactions.outbound-status.detail-lines` / `.rollup`)
+  + `useClientSort` 로 전환(정렬·컬럼 이동/폭/표시·키보드·합계 행 유지, ISBN 컬럼 유지). 가로 스크롤 힌트는 DataGrid 가 제공.
+- 가드: `test/test_dec219_status_screen_grids.py`, 표 기능 기준선 재생성.

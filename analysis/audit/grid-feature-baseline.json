@@ -622,13 +622,13 @@
       "sortable": 0
     },
     "components/transactions/transaction-status-screen.tsx": {
-      "column_settings": 3,
-      "data_grid": 8,
-      "keyboard": 1,
+      "column_settings": 5,
+      "data_grid": 12,
+      "keyboard": 3,
       "pager": 3,
-      "reorder": 3,
-      "resize": 6,
-      "sortable": 29
+      "reorder": 5,
+      "resize": 10,
+      "sortable": 44
     }
   },
   "metrics": {

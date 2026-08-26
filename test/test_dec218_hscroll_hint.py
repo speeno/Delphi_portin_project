@@ -78,7 +78,6 @@ class ManualTablesWrapped(TestCase):
             "app/(app)/inbound/receipts/[receiptKey]/page.tsx",
             "app/(app)/returns/receipts/[returnKey]/page.tsx",
             "app/(app)/returns/reports/page.tsx",
-            "components/transactions/transaction-status-screen.tsx",
         ):
             src = _read(rel)
             self.assertIn('import { HScrollBox } from "@/components/shared/h-scroll-hint";', src, rel)

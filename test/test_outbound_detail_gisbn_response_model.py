@@ -100,7 +100,8 @@ class OutboundStatusDetailGridTests(TestCase):
         ).read_text(encoding="utf-8")
 
     def test_detail_line_table_renders_gisbn(self) -> None:
-        self.assertIn("ln.gisbn", self.src)
+        # DEC-219 — 우측 라인 표가 DataGrid 로 바뀌어 ISBN 은 컬럼 정의(key: "gisbn")로 렌더된다
+        self.assertIn('{ key: "gisbn", label: "ISBN", sortable: true', self.src)
 
     def test_left_slip_columns_default_order(self) -> None:
         """좌측 전표 목록 기본 순서 = (선택) 전표번호 · 거래일자 · 거래처 · 수량 · 금액 · 접수.
