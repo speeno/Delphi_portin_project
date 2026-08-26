@@ -47,7 +47,6 @@
 | `ACC-MENU-NAV-09` | `/(app)/shipping/orders` | 출고관리 | ✓ | ✓ | — | — | ✓ | ✓ | — | D-KBT, WH-WL, WH-MS, WH-BB (자체 물류) |
 | `ACC-MENU-NAV-10` | `/(app)/shipping/inventory-ledger` | 재고원장 | ✓ | ✓ | — | — | ✓ | ✓ | — | D-KBT, WH-WL, WH-MS, WH-BB |
 | `ACC-MENU-NAV-11` | `/(app)/shipping/inventory` | 재고관리 (분리) | ✓ | ✓ | — | — | — | ✓ | — | D-KBT, WH-MS, WH-BB |
-| `ACC-MENU-NAV-12` | `/(app)/shipping/returns-inventory` | 반품재고관리 (통합) | ✓ | — | — | — | ✓ | — | — | WH-WL 단독 |
 | `ACC-MENU-NAV-13` | `/(app)/shipping/returns` | 반품관리 (분리) | ✓ | ✓ | — | — | — | ✓ | — | D-KBT, WH-MS, WH-BB |
 | `ACC-MENU-NAV-14` | `/(app)/billing` | 발송비/입금관리 | ✓ | ✓ | — | — | ✓ | ✓ | — | D-KBT, WH-WL, WH-MS, WH-BB |
 | `ACC-MENU-NAV-15` | `/(app)/billing/statements` | 내역서관리 | ✓ | ✓ | — | — | ✓ | ✓ | — | D-KBT, WH-WL, WH-MS, WH-BB |

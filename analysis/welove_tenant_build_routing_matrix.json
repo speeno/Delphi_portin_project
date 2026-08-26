@@ -38,9 +38,7 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
         "ACC-MENU-MASTERS-04",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
         "ACC-MENU-NAV-03",
@@ -155,8 +153,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -190,9 +186,7 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
         "ACC-MENU-MASTERS-04",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
         "ACC-MENU-NAV-03",
@@ -224,9 +218,7 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
         "ACC-MENU-MASTERS-04",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
         "ACC-MENU-NAV-03",
@@ -258,9 +250,7 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
         "ACC-MENU-MASTERS-04",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
         "ACC-MENU-NAV-03",
@@ -293,7 +283,6 @@
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-09",
         "ACC-MENU-NAV-10",
-        "ACC-MENU-NAV-12",
         "ACC-MENU-NAV-14",
         "ACC-MENU-NAV-15"
       ],
@@ -323,7 +312,6 @@
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-09",
         "ACC-MENU-NAV-10",
-        "ACC-MENU-NAV-12",
         "ACC-MENU-NAV-14",
         "ACC-MENU-NAV-15"
       ],
@@ -435,8 +423,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -553,8 +539,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -671,8 +655,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -789,8 +771,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -907,8 +887,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -1025,8 +1003,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -1143,8 +1119,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -1261,8 +1235,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -1434,8 +1406,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -1552,8 +1522,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -1670,8 +1638,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -1706,7 +1672,6 @@
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-09",
         "ACC-MENU-NAV-10",
-        "ACC-MENU-NAV-12",
         "ACC-MENU-NAV-14",
         "ACC-MENU-NAV-15"
       ],
@@ -1818,8 +1783,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -1853,9 +1816,7 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
         "ACC-MENU-MASTERS-04",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
         "ACC-MENU-NAV-03",
@@ -1887,9 +1848,7 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
         "ACC-MENU-MASTERS-04",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
         "ACC-MENU-NAV-03",
@@ -1921,9 +1880,7 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
         "ACC-MENU-MASTERS-04",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
         "ACC-MENU-NAV-03",
@@ -1955,9 +1912,7 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
         "ACC-MENU-MASTERS-04",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
         "ACC-MENU-NAV-03",
@@ -2072,8 +2027,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -2108,7 +2061,6 @@
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-09",
         "ACC-MENU-NAV-10",
-        "ACC-MENU-NAV-12",
         "ACC-MENU-NAV-14",
         "ACC-MENU-NAV-15"
       ],
@@ -2220,8 +2172,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -2338,8 +2288,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -2456,8 +2404,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -2574,8 +2520,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -2692,8 +2636,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -2810,8 +2752,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -2928,8 +2868,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -3101,8 +3039,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -3188,7 +3124,6 @@
         "ACC-MENU-NAV-15"
       ],
       "forced_hidden_acc_menu_ids": [
-        "ACC-MENU-NAV-06",
         "ACC-MENU-NAV-10",
         "ACC-MENU-NAV-11",
         "ACC-MENU-NAV-13",
@@ -3302,8 +3237,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",
@@ -3420,8 +3353,6 @@
       ],
       "menu_source_builds": [
         "ACC-MENU-MASTERS-01",
-        "ACC-MENU-MASTERS-03",
-        "ACC-MENU-MASTERS-06",
         "ACC-MENU-MASTERS-13",
         "ACC-MENU-NAV-01",
         "ACC-MENU-NAV-02",

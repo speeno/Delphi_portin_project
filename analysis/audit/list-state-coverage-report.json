@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-08-25T03:41:44.064285+00:00",
+  "generated_at": "2026-08-26T18:26:00.665973+00:00",
   "summary": {
-    "total_pages": 125,
-    "covered": 47,
+    "total_pages": 124,
+    "covered": 48,
     "violations": 0,
     "allowed": 6,
-    "skipped": 72
+    "skipped": 70
   },
   "covered": [
     {
@@ -19,6 +19,10 @@
     {
       "route_key": "inbound.reports.period",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inbound/reports/period/page.tsx"
+    },
+    {
+      "route_key": "inventory.status",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/status/page.tsx"
     },
     {
       "route_key": "ledger.book",
@@ -358,10 +362,6 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/ledger/page.tsx"
     },
     {
-      "route_key": "inventory.status",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/status/page.tsx"
-    },
-    {
       "route_key": "inventory.value",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/value/page.tsx"
     },
@@ -496,10 +496,6 @@
     {
       "route_key": "settlement.tax-invoice.print",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/tax-invoice/[billingKey]/print/page.tsx"
-    },
-    {
-      "route_key": "shipping.returns-inventory",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/shipping/returns-inventory/page.tsx"
     },
     {
       "route_key": "transactions.sales-statement",

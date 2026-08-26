@@ -130,16 +130,6 @@ menus:
     build_roles: [distributor, warehouse_publisher]
     license_keys: []
     source_builds: [D-KBT, WH-MS, WH-BB]
-  - id: ACC-MENU-NAV-12
-    section: nav
-    route: "/(app)/shipping/returns-inventory"
-    caption: "반품재고관리 (통합)"
-    account_types: [T1, T3]
-    warehouse_menu_tiers: [lite]
-    login_profiles: []
-    build_roles: [warehouse_publisher]
-    license_keys: []
-    source_builds: [WH-WL]
   - id: ACC-MENU-NAV-13
     section: nav
     route: "/(app)/shipping/returns"

@@ -55,8 +55,8 @@ class IncompleteFeaturesInventoryTests(TestCase):
     # 3건(MenuBillingStatements·MenuYearMonthStats·MenuShippingReturnsInventory)은
     # ScreenPlaceholder → 허브 MVP 페이지로 전환됐다. 인벤토리는 그 상태를 반영해야 하며,
     # placeholder 로 되돌아가는 회귀를 막는 방향으로 가드한다.
-    _HUB_MVP_ROUTES = ("/billing/statements", "/year-month-stats", "/shipping/returns-inventory")
-    _HUB_MVP_IDS = ("MenuBillingStatements", "MenuShippingReturnsInventory", "MenuYearMonthStats")
+    _HUB_MVP_ROUTES = ("/billing/statements", "/year-month-stats")
+    _HUB_MVP_IDS = ("MenuBillingStatements", "MenuYearMonthStats")
 
     def test_ui_placeholder_pages_has_known_routes(self) -> None:
         pages = self.data["sources"]["ui_placeholder_pages"]
@@ -71,7 +71,8 @@ class IncompleteFeaturesInventoryTests(TestCase):
             self.assertNotIn(fid, stub_ids, f"{fid} 가 preview/STUB 으로 회귀")
         # 허브 MVP 로 남은 부분 동등(R) 항목은 phase1 partial 쪽에 caption·crudNotes 와 함께 잡힌다.
         partial = {x["id"]: x for x in self.data["sources"]["form_registry_phase1_partial"]}
-        for fid in ("MenuBillingStatements", "MenuShippingReturnsInventory"):
+        # DEC-225 (2026-08-27) — MenuShippingReturnsInventory 는 메뉴·레지스트리에서 제거(정본 /returns/inventory 로 대체)
+        for fid in ("MenuBillingStatements",):
             self.assertIn(fid, partial)
             self.assertEqual(partial[fid]["crudParity"], "R")
             self.assertTrue(partial[fid]["caption"], msg=partial[fid])

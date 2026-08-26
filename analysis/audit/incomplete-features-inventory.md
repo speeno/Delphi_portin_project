@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-08-25T03:41:43.722019+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-08-26T18:26:59.588916+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -27,11 +27,9 @@
 
 > 레거시 화면은 풀 CRUD 였지만 모던 화면이 조회·부분쓰기에 머문 항목.
 
-### R (21건)
+### R (20건)
 - `MenuBillingStatements` (내역서관리) `/billing/statements`
   - 허브 MVP (2026-05-15) — 입고·반품·거래·출고·택배·판매 리포트로 링크. 8종 단일 SQL은 후속
-- `MenuShippingReturnsInventory` (반품재고관리(통합)) `/shipping/returns-inventory`
-  - 허브 MVP (2026-05-15) — 정본 /returns/inventory 로 안내. 통합 전용 SQL 그리드는 후속
 - `Sobo21` (거래 명세서) `/transactions/sales-statement`
   - 거래명세서 조회(Subu21). 메모 쓰기는 거래현황(메모) Sobo21_status_memo RU(PATCH /transactions/sales-statement/{key}/memo)로 분리
 - `Sobo21_status_detail` (거래 현황(상세)) `/transactions/status?view=detail`
@@ -102,7 +100,7 @@
 - `도서물류관리프로그램/backend/app/routers/_stub.py:27` — `"""이름이 무엇이든 503 응답. 프론트는 NOT_IMPLEMENTED 로 인식."""`
 - `도서물류관리프로그램/backend/app/routers/_stub.py:29` — `status_code=status.HTTP_503_SERVICE_UNAVAILABLE,`
 - `도서물류관리프로그램/backend/app/routers/_stub.py:31` — `"code": "NOT_IMPLEMENTED",`
-- `도서물류관리프로그램/backend/app/routers/returns.py:755` — `status_code=status.HTTP_501_NOT_IMPLEMENTED,`
+- `도서물류관리프로그램/backend/app/routers/returns.py:758` — `status_code=status.HTTP_501_NOT_IMPLEMENTED,`
 - `도서물류관리프로그램/backend/app/routers/settlement.py:1174` — `result = await tax_invoice_service.issue_external_stub(`
 
 ## 6. `docs/crud-backlog.md` §2.6 참조 (문서 불릿)

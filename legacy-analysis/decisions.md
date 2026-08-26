@@ -5341,3 +5341,14 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **조치**: `useVisibleBand` — 카드 `getBoundingClientRect` × 뷰포트 교집합을 조상 스크롤(캡처)·리사이즈·RO 로 추적해
   오버레이 `top/height` 를 가시 구간으로 두고 그 중앙에 배지. 측정 전엔 종전(inset-y-0) 폴백.
 - 검증: 로컬 하네스(카드 2,300px, 뷰포트 949px) 에서 배지 y=575 가시 구간 중앙 확인. 가드 `test_dec218_hscroll_hint.py` 보강.
+
+### DEC-225 — 기간별 재고원장·기간별 반품내역서 띠 정합 + 「반품재고관리(통합)」 메뉴 제거 (2026-08-27 03:20)
+
+- **지적**: 반품 메뉴 하단 화면들의 "화면 명칭 영역이 목업 디자인에 따르지 않았다. 수정하고, 마지막 메뉴는 제거".
+- **띠**: 두 화면 모두 띠 안 필터 묶음이 `flex flex-wrap items-end` 블록 래퍼라 제목 옆 인라인 정렬이 깨졌다 →
+  `className="contents"` 래퍼(다른 화면과 동일), 조회 버튼 래퍼 제거.
+- **메뉴 제거**: `MenuShippingReturnsInventory`(ACC-MENU-NAV-12, `/shipping/returns-inventory`) 는 정본 `/returns/inventory`
+  로 안내만 하던 허브 MVP 스텁 → form-registry 항목·페이지 삭제, RBAC 단일 원천 `docs/onboarding-rbac-menu-matrix.md`
+  행 삭제 후 `extract_rbac_matrix.py` 재생성(yaml/json), 폼 매트릭스·list-state 리포트 재생성.
+  `welove_screen_contract_coverage.json` 은 재생성 시 무관한 드리프트(매핑 노트 40→55, 미커버 1)가 섞여 HEAD 유지.
+- 가드: `test/test_dec225_returns_reports_band_and_menu.py`. `check_menu_rbac_consistency.py` 의 HIDDEN-* 6건 FAIL 은 기존 상태.
