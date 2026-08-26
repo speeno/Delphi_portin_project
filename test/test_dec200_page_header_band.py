@@ -208,5 +208,34 @@ class SpecialScreenLayout(TestCase):
         self.assertIn("조회", block)
 
 
+class NoTrappedBand(TestCase):
+    """DEC-216 (2026-08-26 10:30) — 띠가 `flex … justify-between` 래퍼 행에 갇혀 제목만큼만 흰 상자로
+    보이던 20개 화면 해제 + 등록 폼(신규 입고 접수·신규 출고 주문·거래 명세서 신규)의 헤더 입력을 띠 안으로."""
+
+    WRAPPER = re.compile(r'^<div className="flex[^"]*(justify-between|items-center|items-start)[^"]*">$')
+
+    def test_page_header_is_not_sole_child_of_a_flex_row(self) -> None:
+        trapped = []
+        for p in _app_pages():
+            src = p.read_text(encoding="utf-8")
+            i = src.find("<PageHeader")
+            if i == -1:
+                continue
+            prev = src[:i].rstrip().split("\n")[-1].strip()
+            if self.WRAPPER.match(prev):
+                trapped.append(str(p.relative_to(APP)))
+        self.assertEqual(trapped, [], trapped)
+
+    def test_slip_form_header_fields_inside_band(self) -> None:
+        for rel in ("inbound/receipts/new", "outbound/orders/new", "transactions/sales-statement/new"):
+            src = (APP / rel / "page.tsx").read_text(encoding="utf-8")
+            i = src.index("<PageHeader")
+            j = src.index("</PageHeader>", i)
+            band = src[i:j]
+            self.assertIn("data-enter-scope", band, rel)  # 헤더 카드의 Enter 스코프가 띠 안 contents 래퍼로
+            self.assertIn("<DateFieldYMD", band, rel)
+            self.assertNotIn("rounded-2xl border border-border bg-card", band, rel)
+
+
 if __name__ == "__main__":
     main()

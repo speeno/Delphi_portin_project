@@ -5252,3 +5252,14 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   메타 + 검색·조회·컬럼 액션) + 프레임 없는 DataGrid(fillHeight); 두 축은 `SplitListPanes`(구분선 드래그);
   선택 행 편집 블록은 민트 톤 행으로. 등록·수정·삭제·자동완성·Enter 흐름·legacy id 는 그대로.
 - 가드: `test_dec200_page_header_band.py::SpecialScreenLayout`, 표 기능 기준선 `--check`.
+
+### DEC-216 — 띠 래퍼 행 해제(20화면) + 등록 폼 헤더 입력 띠 병합 (2026-08-26 10:30)
+
+- **보고**(신규 입고 접수·신규 출고 주문 스크린샷): 띠가 제목만큼만 흰 상자로 보이고 헤더 입력(거래일자·거래처·
+  지사)이 별도 카드.
+- **원인**: DEC-200 이관이 제목 블록만 `<PageHeader>` 로 바꾸고, 원래 액션 버튼을 오른쪽에 두던 바깥
+  `flex … justify-between` 행을 남겨 띠가 그 행 안에서 shrink-wrap 됐다(자식이 PageHeader 하나뿐).
+- **조치**: 자식이 PageHeader 뿐인 래퍼 행 20개 해제(스캐너 재사용, 다른 자식이 있으면 건너뜀 — 0건).
+  등록 폼 3화면(신규 입고 접수·신규 출고 주문·거래 명세서 신규)의 헤더 입력 카드(`Panel_header`,
+  `data-enter-scope`)를 띠 children 으로(contents 래퍼로 Enter 스코프·legacy id 보존).
+- 가드: `test_dec200_page_header_band.py::NoTrappedBand`.
