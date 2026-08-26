@@ -23,8 +23,9 @@ class DataGridUnbounded(TestCase):
         src = _read("components/data-grid/data-grid.tsx")
         self.assertIn("unbounded?: boolean;", src)
         self.assertIn("unbounded = false,", src)
-        self.assertIn('unbounded ? "overflow-visible" : fillHeight ?', src)
-        self.assertIn('${unbounded ? "" : "overflow-y-auto"}', src)
+        # DEC-213 — unbounded 면 카드가 스크롤 컨테이너가 아니어야 th/tfoot sticky 가 페이지 스크롤에 붙는다
+        self.assertIn('(unbounded\n            ? "w-full min-w-0 bg-card"', src)
+        self.assertIn(": `${LIST_TABLE_SCROLL_CARD_CLASS} overflow-y-auto ` +", src)
 
 
 class BookSalesShowAll(TestCase):

@@ -5221,3 +5221,15 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **재발 방지**: `tools/grid_feature_baseline.py` — 화면별 표 기능 지표(DataGrid·컬럼설정·정렬·이동·리사이즈·
   키보드·페이저)를 `analysis/audit/grid-feature-baseline.json` 에 기록, `--check` 가 어느 화면이든 지표가
   줄면 실패(테스트 `test_grid_feature_baseline.py` 로 CI 게이트). 의도한 변경은 기준선 재생성으로 승인.
+
+### DEC-213 — 남은 필터 카드 11개 화면 띠 병합 + 「내용 전체 보기」 헤더·합계 고정 (2026-08-26 09:50)
+
+- **요청**: 입고처관리처럼 상단 띠(제목+액션) 아래에 조회 필터 카드가 따로 남은 화면을 다른 화면처럼 통합.
+  + 도서별 판매 「내용 전체 보기」 상태에서 스크롤 시 헤더·합계행 고정.
+- **병합**: DEC-200 스크립트가 제목 블록 뒤 액션 행/표현식 때문에 놓친 11개(입고 접수·저자·도서·할인·기타거래처·
+  입고처·출고 접수·입금전표·세금계산서·청구·거래명세서)를 스캐너 재사용으로 병합(컨테이너 onKeyDown·
+  data-legacy-id 는 contents 래퍼 보존, grid 변형은 `flex flex-wrap items-end gap-3`). 등록 폼·관리자
+  설정 패널(rbac/settings/super/menu-policy/platform-portal/courier)은 필터가 아니라 제외.
+- **고정**: DataGrid `unbounded` 모드에서 카드의 overflow 를 전부 빼 스크롤 컨테이너가 되지 않게 함 → th
+  `sticky top-0`·tfoot `sticky bottom-0` 이 페이지 스크롤(임베드 래퍼)에 붙어 헤더·합계가 고정된다.
+- 가드: `test_dec200_page_header_band.py::RemainingFilterCardsMerged`, 표 기능 기준선 `--check` 통과.

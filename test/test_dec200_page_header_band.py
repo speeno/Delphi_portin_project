@@ -137,5 +137,29 @@ class ReferenceScreenDefaultState(TestCase):
         self.assertNotIn("max-h-[38vh]", src)
 
 
+class RemainingFilterCardsMerged(TestCase):
+    """DEC-213 (2026-08-26 09:50) — 띠 아래에 따로 남아 있던 조회 필터 카드 11개 화면을 띠로 병합.
+
+    사용자: "레이아웃을 신규 적용된 다른 화면의 상단 레이아웃처럼 통합해서 정리해" (입고처관리 스크린샷).
+    등록 폼·관리자 설정 패널은 필터가 아니라 제외.
+    """
+
+    PAGES = (
+        "inbound/receipts", "master/author", "master/book", "master/discount", "master/etc-customer",
+        "master/inbound-vendor", "outbound/orders", "settlement/payment-slip", "settlement/tax-invoice",
+        "settlement/billing", "transactions/sales-statement",
+    )
+
+    def test_filter_lives_inside_band(self) -> None:
+        for rel in self.PAGES:
+            src = (APP / rel / "page.tsx").read_text(encoding="utf-8")
+            i = src.index("<PageHeader")
+            j = src.find("</PageHeader>", i)
+            self.assertNotEqual(j, -1, f"{rel}: PageHeader 에 children(필터) 없음")
+            band = src[i:j]
+            self.assertRegex(band, r"<(Label|Input|Select|DateFieldYMD|MasterLookupField|LocalComboField)\b", rel)
+            self.assertNotIn("rounded-2xl border border-border bg-card", band, f"{rel}: 띠 안 카드 프레임")
+
+
 if __name__ == "__main__":
     main()
