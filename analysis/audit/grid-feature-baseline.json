@@ -424,13 +424,13 @@
       "sortable": 8
     },
     "app/(app)/transactions/inbound-statement/page.tsx": {
-      "column_settings": 1,
-      "data_grid": 3,
-      "keyboard": 1,
+      "column_settings": 2,
+      "data_grid": 4,
+      "keyboard": 2,
       "pager": 1,
-      "reorder": 1,
-      "resize": 2,
-      "sortable": 8
+      "reorder": 2,
+      "resize": 4,
+      "sortable": 18
     },
     "app/(app)/transactions/other/page.tsx": {
       "column_settings": 1,

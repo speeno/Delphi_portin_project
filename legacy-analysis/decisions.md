@@ -5295,3 +5295,12 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **조치**: 컬럼 설정을 축 공통 슬롯으로 이동; 두 표를 `DataGrid` + `useGridPrefs`(`transactions.outbound-status.detail-lines` / `.rollup`)
   + `useClientSort` 로 전환(정렬·컬럼 이동/폭/표시·키보드·합계 행 유지, ISBN 컬럼 유지). 가로 스크롤 힌트는 DataGrid 가 제공.
 - 가드: `test/test_dec219_status_screen_grids.py`, 표 기능 기준선 재생성.
+
+### DEC-220 — 입고명세서 하단 라인 표 DataGrid + 「내용 전체 보기」 (2026-08-27 00:14)
+
+- **지적**: "입고 명세서 화면의 하단 테이블이 디자인 반영이 안 되었고, 상단 테이블 전체보기 기능의 전체 내용 보기
+  체크박스 기능을 추가해야 한다."
+- **조치**: 하단 「선택 전표 라인」 수동 `<table>` → `DataGrid<ReceiptLineDetail>`(정렬·컬럼 이동/폭/표시·키보드·
+  합계 행, prefs `transactions.inbound-statement.lines`, 레거시 DBGrid101 FieldName 은 컬럼 `legacyId` 유지, ISBN 유지).
+  상단 표 툴바에 「내용 전체 보기」(`Sobo22.ShowAll`) — DEC-210 도서별 판매 동형(`unbounded`, 분할 해제).
+- 가드: `test/test_dec220_inbound_statement_lines_grid.py`, 표 기능 기준선 재생성.
