@@ -5361,3 +5361,7 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **조치**: 띠가 있는 화면 전수 스캔 → 루트 좌우/상단 패딩 제거·`w-full min-w-0`·`pb-4` 통일 13화면
   (반품 3, 반품 접수 2, 반품 재고 처리, 정산 3, 관리자 4).
 - 가드: `test_dec200_page_header_band.py::NoPaddedRootAroundBand`.
+
+### DEC-227 — 거래처 화면 제목 「거래처(마스터)」 → 「거래처현황」 (2026-08-27 04:00, 사용자 지시)
+
+- `/master/customer` 띠 제목만 변경. 메뉴 캡션(form-registry)·라우트·legacy-id 는 그대로.
