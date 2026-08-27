@@ -5365,3 +5365,13 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 ### DEC-227 — 거래처 화면 제목 「거래처(마스터)」 → 「거래처현황」 (2026-08-27 04:00, 사용자 지시)
 
 - `/master/customer` 띠 제목만 변경. 메뉴 캡션(form-registry)·라우트·legacy-id 는 그대로.
+
+### DEC-228 — 거래처·입고처·기타거래처 상세/신규: 등록·저장·삭제를 제목 띠 actions 로 (2026-08-27 21:51)
+
+- **지적**: "거래처 관리 저장, 삭제 버튼이 하단에 존재해서 사용자에게 잘 눈에 띄지 않는다 … 거래처 상세·입고처 상세 공통으로
+  목업 디자인에 부합되도록".
+- **조치**: 세 폼(`customer/inbound-vendor/etc-customer-detail-form.tsx`)의 하단 버튼 바 제거, 같은 파일에서
+  `XxxFormActions`(등록/저장/삭제, 레거시 id Sobo11/12/15.Button101~103 유지, WriteGate 권한 게이트 유지) 를 export 해
+  6개 페이지의 `PageHeader actions`(우측 상단) 에서 렌더 — 신규 입고 접수 등 다른 등록 화면의 「저장」 위치와 동일.
+  저장/등록=기본(검정) 버튼+아이콘, 삭제=outline-destructive. 폼 Props 에서 onCreate/onSave/onDelete/caps/busy 제거.
+- 가드: `test/test_dec228_master_form_actions_in_band.py`.
