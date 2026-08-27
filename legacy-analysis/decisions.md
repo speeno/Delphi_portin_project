@@ -5375,3 +5375,12 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   6개 페이지의 `PageHeader actions`(우측 상단) 에서 렌더 — 신규 입고 접수 등 다른 등록 화면의 「저장」 위치와 동일.
   저장/등록=기본(검정) 버튼+아이콘, 삭제=outline-destructive. 폼 Props 에서 onCreate/onSave/onDelete/caps/busy 제거.
 - 가드: `test/test_dec228_master_form_actions_in_band.py`.
+
+### DEC-229 — 제목 옆 메뉴 계층 경로(브레드크럼) 전 화면 자동 표시 (2026-08-27 22:14)
+
+- **요청**: "모든 화면 선택 시 해당 화면의 메뉴 계층 구조를 (참고 이미지) 상단처럼 표시. 텍스트 크기는 화면 명칭의 60% 정도".
+- **구현**: `lib/menu-trail.ts::resolveMenuTrail(pathname, search)` — form-registry 단일 원천으로
+  「대메뉴(MENU_GROUPS 라벨) › 사이드바 서브그룹(SIDEBAR_LAYOUTS group 라벨) › 메뉴 항목(caption) › 상세/신규/인쇄」.
+  레지스트리 경로의 세그먼트 접두 일치(가장 깊은 것, `?tab=` 변형은 검색문자열로 구분). 메뉴 항목 조각은 링크.
+  `PageHeader` 가 제목 h1 옆에 `MenuTrail`(text-xs ≈ 12px = 20px×60%)로 자동 렌더 — `trail={false}` 로 숨김, 배열로 지정.
+- 가드: `test/test_dec229_menu_trail.py`.
