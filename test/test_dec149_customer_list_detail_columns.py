@@ -131,12 +131,13 @@ class ScreenGuard(TestCase):
         self.assertNotIn('key: "ocode"', src, "거래처코드2(ocode) 목록 제외(삭제 요청)")
 
     def test_detail_form_canonical_labels(self) -> None:
+        # DEC-230 (2026-08-27) — 사용자 지정 명칭: 담당관리자1 / 휴대전화 / 한도 (컬럼 의미는 DEC-149 그대로)
         src = self.FORM.read_text(encoding="utf-8")
-        self.assertIn('label="담당자1"', src)
-        self.assertIn('label="핸드폰번호"', src)
-        self.assertIn('label="한도액"', src)
+        self.assertIn('label="담당관리자1"', src)
+        self.assertIn('label="휴대전화"', src)
+        self.assertIn('label="한도"', src)
         # 한도액은 gssum 에만 — gpper 숫자 강제 재발 금지.
-        self.assertNotIn('label="한도액" value={String(data.gpper', src)
+        self.assertNotIn('label="한도" value={String(data.gpper', src)
         self.assertIn('onChange("gpper", v)', src, "담당자1 텍스트 그대로 저장")
 
 
