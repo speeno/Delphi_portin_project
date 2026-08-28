@@ -285,12 +285,14 @@ class ModelAndCatalogGuard(TestCase):
             select_inbound_vendor_columns,
         )
 
-        keys = [k for _h, k in INBOUND_VENDOR_FULL_COLUMNS]
-        labels = dict((k, h) for h, k in INBOUND_VENDOR_FULL_COLUMNS)
-        # 확정 표시 순서(합본 컬럼은 역반영 가능하도록 1/2 분리).
+        from app.services.masters_excel import key_of
+
+        keys = [key_of(k) for _h, k in INBOUND_VENDOR_FULL_COLUMNS]
+        labels = dict((key_of(k), h) for h, k in INBOUND_VENDOR_FULL_COLUMNS)
+        # 확정 표시 순서. DEC-234 — 전화/팩스는 합본 가상 키(gtel/gfax), import 시 expand_phone_fields 로 1/2 분리.
         expected = [
             "gbun_name", "jubun", "gcode", "ocode", "gname", "gnumb", "gposa", "gadd1", "gadd2",
-            "guper", "gjomo", "gtel1", "gtel2", "gfax1", "gfax2", "gpper", "gbigo", "name1",
+            "guper", "gjomo", "gtel", "gfax", "gpper", "gbigo", "name1",
             "gphon", "gpost", "gssum", "grat1", "grat2", "grat3", "grat4", "grat5", "grat7",
             "grat6", "gqut1", "name2", "yesno", "grat9", "email",
         ]
