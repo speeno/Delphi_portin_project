@@ -5417,3 +5417,12 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   설정 UI: 「컬럼」 팝오버의 「틀고정」 셀렉트(표시 컬럼 중 선택, 고정 안 함). 저장: `useGridPrefs.frozenUntil`(hcode 계정 종속 서버 prefs).
   전 화면 배선(DataGrid 50·컬럼 설정 51) — 표 기능 공통 규칙.
 - 가드: `test/test_dec232_grid_freeze.py` (배선 누락 화면이 생기면 실패), 표 기능 기준선에 `freeze` 지표 추가.
+
+### DEC-233 — 띠 안 팝오버는 인라인 라벨 규칙 제외 (컬럼 설정 체크 목록 세로 복원) (2026-08-28 18:03)
+
+- **지적**: 「컬럼」 팝오버의 컬럼 체크 목록이 가로로 흘러 좌우 스크롤이 생김 — "원래대로 세로 스크롤로".
+- **원인**: DEC-200 띠 CSS `.page-header div:has(> label:first-child){display:flex;row}` 가 띠 actions 안에서 열리는 팝오버의
+  체크 목록 컨테이너(첫 자식이 label)에도 적용.
+- **조치**: 팝오버 루트에 `data-band-exempt` + 규칙에 `:not(:is([data-band-exempt],[role="dialog"]) *)` — 띠 안 팝오버/다이얼로그는
+  원래 레이아웃 유지. 검증: 로컬 3001 실화면(거래처관리)에서 목록 세로 정렬·자체 스크롤 복원. `.next` 캐시로 CSS 미반영 → 재기동.
+- 가드: `test_dec200_page_header_band.py::BandPopoversExempt`.

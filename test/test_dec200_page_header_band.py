@@ -287,3 +287,13 @@ class NoPaddedRootAroundBand(TestCase):
                 bad.append(f"{f.relative_to(FRONT)}: {pads}")
         self.assertEqual(bad, [], "루트 좌우/상단 패딩 제거 — pb-* 만 허용")
 
+
+class BandPopoversExempt(TestCase):
+    """DEC-233 — 띠 안에서 열리는 팝오버(컬럼 설정)는 인라인 라벨 규칙에서 제외돼 세로 목록을 유지한다."""
+
+    def test_css_and_popover_marker(self) -> None:
+        css = (FRONT / "app" / "globals.css").read_text(encoding="utf-8")
+        self.assertEqual(css.count(':not(:is([data-band-exempt], [role="dialog"]) *)'), 5, "4개 셀렉터 + margin 규칙")
+        pop = (FRONT / "components" / "data-grid" / "grid-column-settings.tsx").read_text(encoding="utf-8")
+        self.assertIn('data-band-exempt="" data-slot="grid-column-settings"', pop)
+
