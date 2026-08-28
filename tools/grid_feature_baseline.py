@@ -37,6 +37,7 @@ METRICS = {
     "resize": "onColumnResize",
     "keyboard": "enableKeyboardNav",
     "pager": "pager={",
+    "freeze": "frozenUntil={",
 }
 
 

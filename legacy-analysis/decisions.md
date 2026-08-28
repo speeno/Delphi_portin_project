@@ -5407,3 +5407,13 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   검정(저장의 secondary 제거), 삭제는 outline-destructive(DEC-228 동형). 적용: 거래처구분·입고처구분·기타거래처구분·저자구분·
   도서분류·거래처 지점·단순 마스터 공용 페이지. 레거시 id(Sobo1x.Button201~205)·WriteGate 유지.
 - 가드: `test/test_dec231_master_panel_actions_top.py`.
+
+### DEC-232 — 목록표 틀고정(엑셀 동형): 지정 컬럼까지 왼쪽 고정, 오른쪽만 가로 스크롤 (2026-08-28 00:10)
+
+- **요청**: "거래처관리 목록표에서 특정 필드를 하나 지정하면 해당 필드 오른쪽의 표만 좌우 이동되도록(엑셀 틀고정 유사)".
+- **구현**: 공용 DataGrid `frozenUntil`(컬럼 id) — 표시 컬럼 중 그 컬럼까지 th/td/tfoot 셀에 `position: sticky; left: 누적폭`
+  (헤더 셀 실폭을 rAF+ResizeObserver 로 측정, 리사이즈·컬럼 변경 추종). 헤더는 top+left 이중 sticky(z-20), 본문 셀은 `bg-inherit`
+  로 행 배경(기본 bg-card·선택 mint·hover accent 불투명) 승계, 마지막 고정 컬럼 우측 구분선.
+  설정 UI: 「컬럼」 팝오버의 「틀고정」 셀렉트(표시 컬럼 중 선택, 고정 안 함). 저장: `useGridPrefs.frozenUntil`(hcode 계정 종속 서버 prefs).
+  전 화면 배선(DataGrid 50·컬럼 설정 51) — 표 기능 공통 규칙.
+- 가드: `test/test_dec232_grid_freeze.py` (배선 누락 화면이 생기면 실패), 표 기능 기준선에 `freeze` 지표 추가.
