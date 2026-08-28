@@ -296,4 +296,8 @@ class BandPopoversExempt(TestCase):
         self.assertEqual(css.count(':not(:is([data-band-exempt], [role="dialog"]) *)'), 5, "4개 셀렉터 + margin 규칙")
         pop = (FRONT / "components" / "data-grid" / "grid-column-settings.tsx").read_text(encoding="utf-8")
         self.assertIn('data-band-exempt="" data-slot="grid-column-settings"', pop)
+        # 엑셀 저장 필드 선택 팝오버(거래처·입고처)도 동일 (2026-08-28 18:20 지적)
+        for rel in ("master/customer", "master/inbound-vendor"):
+            src = (FRONT / "app" / "(app)" / rel / "page.tsx").read_text(encoding="utf-8")
+            self.assertIn('data-band-exempt="" role="dialog" aria-label="저장할 필드 선택"', src, rel)
 
