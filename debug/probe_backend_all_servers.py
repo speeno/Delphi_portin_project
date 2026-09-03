@@ -203,6 +203,26 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "path": "/api/v1/public/portal",
             "ok_status": {200},
         },
+        # ACM / DEC-235 — 계정 전환·이메일 로그인 (공개, 무인증). 스키마 위반 422 / 무효 티켓 410 만 확인(메일 발송 없음).
+        {
+            "group": "auth.login_policy",
+            "path": "/api/v1/auth/login-policy",
+            "ok_status": {200},
+        },
+        {
+            "group": "public.account_switch.verify_bad_body",
+            "method": "POST",
+            "path": "/api/v1/public/account-switch/verify-legacy",
+            "json_body": {},
+            "ok_status": {422},
+        },
+        {
+            "group": "public.account_switch.send_code_bad_ticket",
+            "method": "POST",
+            "path": "/api/v1/public/account-switch/send-code",
+            "json_body": {"switchTicket": "invalid", "email": "probe@example.invalid"},
+            "ok_status": {410},
+        },
         {
             "group": "masters.customer",
             "path": f"/api/v1/masters/customer?serverId={sid}&limit=1",

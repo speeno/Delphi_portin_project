@@ -5439,3 +5439,42 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   통일(사업자번호→사업자등록번호, X공급율→위탁/현매/…, 사업자주소 합본 추가). 미포함: 한도(Grat7) — 전체 목록 API 미제공.
 - **CTA**: 신규 거래처 = `brand-primary`(Vivid Lime 채움, semibold) — 화면당 1개 라임 규칙(조회는 검정) 유지.
 - 검증: 로컬 3001 실화면(거래처 상세 유선전화 「02-737-6111」·팩스 합본 표시, CTA 라임 32px), 스위트 통과. 가드 `test_dec234_phone_merge.py`.
+
+### DEC-235 — 북이오웍스 계정 전환: 이메일 계정 = 기존 Id_Logn 행 오버레이, 웹 로그인은 이메일 전용, 델파이는 그대로 (2026-09-03)
+
+- **요청**: "북이오웍스 로그인은 이메일 아이디/비번. 하단 [위러브솔루션→북이오웍스 계정 전환하기] → 전환 페이지에서
+  기존 [출판사/아이디/비번] + 이메일 입력 → 메일 인증코드 확인 → 코드 입력 + 비밀번호 설정(평문 저장, 추후 북이오 계정 재사용)
+  → 로그인 페이지로." 보강 2건: "기존 계정·방식은 레거시 델파이에서 병행 사용", "웹에서는 신규 포팅된 계정으로만 로그인,
+  델파이는 그대로". 메일 = Brevo SMTP 무료 티어(smtp-relay.brevo.com:587), 발신자 admin@bukio.works.
+- **결정** (설계 정본 `docs/decision-bukioworks-account-migration.md`, 추적 `ACM-*`):
+  1. **오버레이(ACM-DEC-00, INV-1~7)**: 전환은 계정 이전이 아니라 이메일 자격을 기존 `Id_Logn` 행에 연결하는 것. 전환·이메일
+     로그인·재설정·링크 경로는 `Id_Logn` 을 INSERT/UPDATE/DELETE 하지 않는다(정적 가드). 두 비밀번호(델파이 Gpass/웹) 독립.
+     매 로그인 `Id_Logn` 행 존재 확인 + 권한 재도출; 행 부재·`_이름_` 잠금·Gcode 변경은 fail-closed `ACCT_LINK_STALE` → 재연결.
+  2. **저장소(ACM-DEC-01)**: remote_138 전용 DB `bukio_web_db` 의 `Web_Accounts`/`Web_Account_Links`/`Web_Account_Codes`
+     (MySQL 3.23 호환 DDL, 명시 한정). JSON 파일 금지(Render 비영속).
+  3. **로그인 코어 추출(ACM-DEC-02)**: `auth_login_core.resolve_and_authenticate` 를 `/auth/login` 과
+     `/public/account-switch/verify-legacy` 가 공유. 라우터는 HTTP·감사만. 로그인 회귀 70건 무변경 PASS.
+  4. **티켓·코드(ACM-DEC-03/04)**: 전환 티켓 = 서명 JWT(type=switch, 15분, jti). 코드 6자리·10분·5회·재발송 60초·
+     이메일 시간당 5·IP 20, salted SHA-256 저장, 코드는 티켓 jti 에 바인딩.
+  5. **비밀번호(ACM-DEC-05)**: 요구대로 `PwPlain` 보관 + `PwHash`(bcrypt) 병행, 검증은 해시만. `BLS_ACCOUNT_PW_STORE=aesgcm`
+     이면 AES-GCM 봉투(권장 대안, 코덱 1곳 차이).
+  6. **웹 로그인 = 이메일 전용(ACM-DEC-06/07)**: `userId` 에 `@` → 이메일 경로(동일 JWT 클레임 + `acct`/`lvia`). 레거시 ID 는
+     `BLS_LEGACY_ID_LOGIN`(코드 기본 on = 선공개 기간, 컷오버 커밋에서 off) 이 off 면 403 `ACCT_SWITCH_REQUIRED`.
+     `GET /auth/login-policy` 가 프론트 UI(콤보·전환 버튼)를 결정.
+  7. **링크 규칙(ACM-DEC-08)**: 이메일 1=계정 1, identity `(ServerId, DbName, Hcode, Gcode)` 는 계정 최대 1(PK), 한 계정에
+     여러 회사 링크 허용(로그인 시 DEC-096 선택 카드 재사용), `link`/`relink` 모드.
+  8. **메일(ACM-DEC-09)**: `email_dispatch_service` console/smtp(Brevo, certifi TLS), 템플릿 인증코드 + 델파이 안내 문구 고정,
+     `debug/send_test_email.py --check|--to`. 활성화 안내도 같은 서비스(연결은 후속).
+  9. **재설정(ACM-DEC-10)**: `/account/reset` 동일 코드 인프라, 컷오버 전 필수 → 구현 완료.
+  10. **보류**: ACM-DEC-11(가입 활성화 토큰 → 전환 티켓 교환)은 C10 Id_Logn 실 DB 생성(인메모리 상태) 이후로 이연.
+- **구현(2026-09-03)**: backend `web_accounts_db` · `account_secret_codec` · `auth_login_core` · `account_switch_service` ·
+  `email_dispatch_service` · `email_templates/account_code` · `routers/public_account_switch` · `auth.py`(이메일 경로·정책) ·
+  `auth_service.load_user_by_identity`; frontend `/account/switch`(SwitchWizard) · `/account/reset` · 로그인 페이지 개편 ·
+  `lib/account-switch-api` · `lib/login-org-select`(DEC-096 공용화) · middleware PUBLIC_PATHS.
+- **가드**: `test_acm_switch_flow.py`(23) · `test_acm_delphi_coexistence.py`(6) · `test_acm_store_and_codec.py`(6) ·
+  `test_acm_email_dispatch.py`(11) + 기존 로그인 회귀 70건. 복원 포인트 태그 `restore-pre-email-account-2026-09-03`.
+- **롤아웃**: Phase 0 준비(완료: 복원 포인트·Brevo·DB 기준선) → Phase 1 선공개(전환 페이지·재설정, 로그인은 기존 방식 병행,
+  `switchAvailable` 은 Render 메일 env 등록 시 자동 노출) → Phase 2 컷오버(`BLS_LEGACY_ID_LOGIN=off` + 코드 기본값 변경)
+  → Phase 3 북이오 통합(PwPlain 이관 후 폐기). 델파이는 전 단계 무변경.
+- **잔여 결정**: ACM-Q-1(평문 vs AES-GCM), Q-5(다중 링크 허용 — 구현은 허용), Q-7(저장소 서버), 선공개 기간.
+- **결정자**: 사용자(요구·병행·이메일 전용·Brevo·발신자) + 메인개발자(설계·구현)

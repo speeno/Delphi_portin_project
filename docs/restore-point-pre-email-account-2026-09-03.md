@@ -47,18 +47,19 @@ git checkout -b restore/pre-email-account restore-pre-email-account-2026-09-03
 
 ### 2.3 환경 변수 (Render / 로컬 `.env`)
 
-전환 작업이 추가하는 변수 — 복원 시 **삭제**: `BLS_EMAIL_PROVIDER` · `BLS_EMAIL_API_KEY` · `BLS_EMAIL_FROM` · `BLS_EMAIL_REPLY_TO` · `BLS_PUBLIC_BASE_URL` · `BLS_ACCOUNT_STORE_SERVER_ID` · `BLS_ACCOUNT_PW_KEY` · `BLS_ACCOUNT_CODE_TTL_MIN` · `BLS_LEGACY_ID_LOGIN`. 기존 변수(`BLS_JWT_SECRET`·`BLS_SERVERS_YAML_B64`·`BLS_CORS_ORIGINS` 등)는 건드리지 않는다.
+전환 작업이 추가하는 변수 — 복원 시 **삭제**: `BLS_EMAIL_PROVIDER` · `BLS_SMTP_HOST` · `BLS_SMTP_PORT` · `BLS_SMTP_USER` · `BLS_SMTP_PASSWORD` · `BLS_EMAIL_FROM` · `BLS_EMAIL_FROM_NAME` · `BLS_EMAIL_REPLY_TO` · `BLS_PUBLIC_BASE_URL` · `BLS_ACCOUNT_STORE_SERVER_ID` · `BLS_ACCOUNT_STORE_DB` · `BLS_ACCOUNT_PW_STORE` · `BLS_ACCOUNT_PW_KEY` · `BLS_ACCOUNT_CODE_TTL_MIN` · `BLS_LEGACY_ID_LOGIN`. 기존 변수(`BLS_JWT_SECRET`·`BLS_SERVERS_YAML_B64`·`BLS_CORS_ORIGINS` 등)는 건드리지 않는다.
 
 ### 2.4 DB (`remote_138`)
 
 전환 작업이 만드는 것은 사이드테이블 3종뿐이며 **`Id_Logn` 은 쓰지 않는다**(ACM-INV-1). 복원 = 사이드테이블 제거.
 
 ```sql
--- 필요 시 먼저 보존: CREATE TABLE Web_Accounts_bak_YYYYMMDD SELECT * FROM Web_Accounts; (비밀 포함 — RED 취급)
-DROP TABLE IF EXISTS Web_Account_Codes;
-DROP TABLE IF EXISTS Web_Account_Links;
-DROP TABLE IF EXISTS Web_Accounts;
+-- 구현(2026-09-03)은 전용 DB `bukio_web_db` 에 3 테이블을 둔다 (BLS_ACCOUNT_STORE_DB). 테넌트 DB 무관.
+-- 필요 시 먼저 보존: mysqldump bukio_web_db > … (비밀 포함 — RED 취급, WeLove_FTP/ 밖 금지)
+DROP DATABASE IF EXISTS `bukio_web_db`;
 ```
+
+기준선 대조 시 `bukio_web_db` 의 `Web_Account*` 3 테이블은 **기능 존재 자체의 정상 차이**이며, 복원 후에는 사라져야 한다.
 
 검증 — 기준선과 대조(차이 0건이면 exit 0):
 

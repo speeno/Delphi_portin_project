@@ -1,0 +1,61 @@
+# Migration Contract: 북이오웍스 계정 전환 · 이메일 로그인 (ACM / DEC-235)
+# 레거시 대응 폼 없음 (WEB_ONLY). 레거시 로그인 계약은 login.yaml (C1) — 본 계약은 그 위의 오버레이.
+id: ACM-account-switch
+name: 북이오웍스 계정 전환 · 이메일 로그인
+version: 1.0.0
+status: approved
+scope_phase: phase1
+acceptance_goal: |
+  위러브솔루션 계정(회사·아이디·비밀번호)을 검증한 사용자가 이메일 인증코드로 소유를 확인하고 웹 비밀번호를 설정하면,
+  그 이메일로 웹에 로그인해 레거시 로그인과 동일한 권한·화면을 쓴다. 레거시 델파이 프로그램은 기존 계정·방식 그대로
+  (Id_Logn 무변경). 웹은 컷오버 후 이메일 계정으로만 로그인한다.
+design_doc: docs/decision-bukioworks-account-migration.md
+decision: DEC-235
+invariants:
+  - id: ACM-INV-1
+    text: 전환·이메일 로그인·재설정·링크 경로에서 Id_Logn INSERT/UPDATE/DELETE 0건
+    guard: test/test_acm_delphi_coexistence.py::StaticNoIdLognWriteTests
+  - id: ACM-INV-2
+    text: 델파이 Gpass 와 웹 비밀번호 독립 — 완료 화면·메일 고정 문구
+    guard: app/services/email_templates/account_code.py::DELPHI_NOTICE
+  - id: ACM-INV-3
+    text: 이메일 로그인마다 Id_Logn 행 존재 확인 + 권한 재도출
+    guard: test/test_acm_switch_flow.py::EmailLoginTests::test_identity_reloaded_on_every_login
+  - id: ACM-INV-4
+    text: 행 부재·_이름_ 잠금·Gcode 변경 → 401 ACCT_LINK_STALE (fail-closed)
+    guard: test/test_acm_switch_flow.py::EmailLoginTests::test_stale_link_fails_closed
+endpoints:
+  - GET  /api/v1/auth/login-policy                      # legacyIdLogin · emailLogin · switchAvailable
+  - POST /api/v1/auth/login                             # userId 에 '@' → 이메일 계정 경로 (동일 TokenResponse)
+  - POST /api/v1/public/account-switch/verify-legacy    # → switchTicket(15분) | 401 | 409 ORG_SELECT_REQUIRED | 409 ACCT_ALREADY_SWITCHED
+  - POST /api/v1/public/account-switch/send-code        # → message · mode(new|link|relink) · resendAfterSec | 410 | 422 | 429 | 503
+  - POST /api/v1/public/account-switch/complete         # → message · email · mode · linkedCount | 400 | 422 | 423 | 409 | 410
+  - POST /api/v1/public/account-reset/send-code
+  - POST /api/v1/public/account-reset/complete
+error_codes:
+  ACCT_SWITCH_REQUIRED: 403 — 레거시 ID 웹 로그인 차단(컷오버 후)
+  ACCT_LINK_STALE: 401 — 링크가 가리키는 Id_Logn 행 부재/변경
+  ACCT_LOCKED: 423 — 이메일 계정 5회 실패 15분 잠금
+  ACCT_NO_LINK: 401 — 연결된 회사 계정 없음
+  ACCT_STORE_UNAVAILABLE: 503 — 계정 저장소 장애
+  ACCT_ALREADY_SWITCHED: 409 — identity 가 이미 다른 계정에 연결
+  ACCT_TICKET_EXPIRED: 410 — 전환 티켓 만료/무효
+  ACCT_EMAIL_INVALID: 422
+  ACCT_EMAIL_UNAVAILABLE: 503 — 메일 발송 실패
+  ACCT_CODE_RATE_LIMITED: 429 — 재발송 60초 / 이메일 시간당 5 / IP 시간당 20
+  ACCT_CODE_INVALID: 400 — 불일치·만료 동일 메시지
+  ACCT_CODE_LOCKED: 423 — 5회 초과
+  ACCT_WEAK_PASSWORD: 422 — 8~64자 영문+숫자
+storage:
+  server: BLS_ACCOUNT_STORE_SERVER_ID (기본 remote_138)
+  database: BLS_ACCOUNT_STORE_DB (기본 bukio_web_db, 테넌트 DB 와 분리)
+  tables: [Web_Accounts, Web_Account_Links, Web_Account_Codes]
+  password_store: BLS_ACCOUNT_PW_STORE plain(기본, 요구) | aesgcm(BLS_ACCOUNT_PW_KEY)
+email:
+  provider: BLS_EMAIL_PROVIDER smtp (Brevo smtp-relay.brevo.com:587 STARTTLS) | console(로컬)
+  from: admin@bukio.works
+  env: [BLS_SMTP_HOST, BLS_SMTP_PORT, BLS_SMTP_USER, BLS_SMTP_PASSWORD, BLS_EMAIL_FROM, BLS_EMAIL_FROM_NAME, BLS_PUBLIC_BASE_URL]
+rollout:
+  legacy_id_login_flag: BLS_LEGACY_ID_LOGIN (코드 기본 on = 선공개 기간; 컷오버 커밋에서 off)
+  restore_point: restore-pre-email-account-2026-09-03 (docs/restore-point-pre-email-account-2026-09-03.md)
+customer_variants: {}

@@ -94,6 +94,18 @@ branches in the service layer**. Use `backend/app/core/sql_mysql3.py`:
 - Per-tenant column differences (DDL drift) go in one `app/services/<table>_adapt.py` module
   (driven by `SHOW COLUMNS`), not service-layer `if`s.
 
+### 북이오웍스 계정 전환 · 이메일 로그인 (ACM / DEC-235)
+Web login is moving to **email accounts** that are an *overlay* on the legacy `Id_Logn` row
+(`docs/decision-bukioworks-account-migration.md`). The legacy Delphi program keeps logging in with the
+same `Id_Logn` rows, so the switch / email-login / reset / link code paths must **never write `Id_Logn`**
+(static guard `test/test_acm_delphi_coexistence.py`). Accounts live in the dedicated DB `bukio_web_db`
+on `remote_138` (`app/services/web_accounts_db.py`); every email login re-checks that the linked
+`Id_Logn` row still exists and re-derives permissions (`auth_service.load_user_by_identity`), failing
+closed with `ACCT_LINK_STALE`. `POST /auth/login` shares its candidate/challenge logic with
+`verify-legacy` through `app/services/auth_login_core.py` — change the core, not the router copy.
+`BLS_LEGACY_ID_LOGIN` (code default `on` until cutover) gates legacy-ID web login; mail goes through
+`app/services/email_dispatch_service.py` (Brevo SMTP, `debug/send_test_email.py --check`).
+
 ### Login / DB routing (DSN-DEC-08/12)
 Secret verification happens on the **metadata-selected data server's `Id_Logn`**, not a single global
 auth server. Don't add code/comments assuming `BLS_AUTH_SERVER_ID` authenticates all users. Don't

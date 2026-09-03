@@ -1,7 +1,7 @@
 {
   "$comment": "핵심 10 시나리오의 화면 단위 포팅 진행 트래커. docs/core-scenarios-porting-plan.md 와 1:1 동기화. 상태 값: not_started | in_progress | review | done | blocked",
   "title": "핵심 10 시나리오 — 화면 단위 포팅 진행",
-  "updatedAt": "2026-05-17 — C1 로그인 전 플랫폼 공지·슬로건(/notices·/admin/platform-portal)·미구현 W0~W5·발송비 scaffold 반영. 직전: 2026-05-08 C9 CRUD 풀.",
+  "updatedAt": "2026-09-03",
   "planDoc": "docs/core-scenarios-porting-plan.md",
   "stages": [
     {
@@ -150,30 +150,46 @@
           "/(public)/login",
           "/(public)/notices",
           "/(public)/notices/[id]",
-          "/(app)/admin/platform-portal"
+          "/(app)/admin/platform-portal",
+          "/(public)/account/switch",
+          "/(public)/account/reset"
         ],
         "endpoints": [
           "POST /api/v1/auth/login",
           "GET /api/v1/public/portal",
           "GET /api/v1/public/notices",
-          "GET /api/v1/admin/platform-portal"
+          "GET /api/v1/admin/platform-portal",
+          "GET /api/v1/auth/login-policy",
+          "POST /api/v1/public/account-switch/verify-legacy",
+          "POST /api/v1/public/account-switch/send-code",
+          "POST /api/v1/public/account-switch/complete",
+          "POST /api/v1/public/account-reset/send-code",
+          "POST /api/v1/public/account-reset/complete"
         ],
         "backend": [
           "도서물류관리프로그램/backend/app/routers/auth.py",
           "도서물류관리프로그램/backend/app/services/auth_service.py",
           "도서물류관리프로그램/backend/app/routers/public_portal.py",
-          "도서물류관리프로그램/backend/app/services/platform_portal_service.py"
+          "도서물류관리프로그램/backend/app/services/platform_portal_service.py",
+          "도서물류관리프로그램/backend/app/services/auth_login_core.py",
+          "도서물류관리프로그램/backend/app/services/account_switch_service.py",
+          "도서물류관리프로그램/backend/app/services/web_accounts_db.py",
+          "도서물류관리프로그램/backend/app/services/email_dispatch_service.py",
+          "도서물류관리프로그램/backend/app/routers/public_account_switch.py"
         ],
         "frontend": [
           "도서물류관리프로그램/frontend/src/app/(public)/login/",
           "도서물류관리프로그램/frontend/src/app/(public)/notices/",
-          "도서물류관리프로그램/frontend/src/app/(app)/admin/platform-portal/"
+          "도서물류관리프로그램/frontend/src/app/(app)/admin/platform-portal/",
+          "도서물류관리프로그램/frontend/src/app/(public)/account/",
+          "도서물류관리프로그램/frontend/src/components/account/"
         ]
       },
       "contract": "migration/contracts/login.yaml",
       "testpack": "migration/test-cases/login.json",
       "subscenarios_absorbed": [
-        "C13 세션 만료·재로그인"
+        "C13 세션 만료·재로그인",
+        "ACM 북이오웍스 계정 전환·이메일 로그인 (DEC-235)"
       ],
       "tasks": {
         "T1": {
@@ -207,6 +223,10 @@
         "T8": {
           "status": "done",
           "note": "DEC-005~008 모두 1차 포팅 범위 외로 동결(사용자 결정). login.yaml approved v1.1.0. 1차 합격선 단순화: '기존 사용자가 기존 ID/PW 로 로그인'. 2026-04-26 운영 안정화: login_id_index 4 서버 스캔·SSH/pool 재시도·스모크. 2026-04-29 경로 하드닝: UserInfo/감사/priority fail-safe + test_auth_login_500_safety_net.py"
+        },
+        "T9": {
+          "status": "in_progress",
+          "note": "DEC-235 계정 전환(2026-09-03): 백엔드·프론트·가드 구현 완료, Phase 1 선공개(BLS_LEGACY_ID_LOGIN 기본 on). 컷오버(Phase 2)·북이오 통합(Phase 3) 대기"
         }
       }
     },
