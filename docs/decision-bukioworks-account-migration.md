@@ -425,6 +425,7 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 | `ACM-RISK-09` | 로그인 코어 추출 중 회귀 | WP-3 를 별 커밋으로 분리, 회귀 6종 + DEC-096 테스트 게이트, `/auth/login` 응답 스냅샷 비교 |
 | `ACM-RISK-10` | **링크 drift** — 델파이 Sobo10 에서 Gcode 변경·만료 잠금(`_이름_`)·행 삭제로 링크가 끊김 | 매 로그인 존재 확인 + fail-closed `ACCT_LINK_STALE`(ACM-INV-4), 재연결 모드(ACM-INV-5), 관리자 현황 열 |
 | `ACM-RISK-11` | 두 비밀번호(델파이·웹) 혼동 — 사용자가 한쪽을 바꾸고 다른 쪽이 안 바뀐다고 문의 | 완료 화면·메일·재설정 화면 문구 고정(ACM-INV-2), 로그인 공지, 헬프데스크 FAQ |
+| `ACM-RISK-16` | **미인증 발신 도메인 → 조용한 전달 실패** — Brevo 는 미인증 발신자 메일도 SMTP 250 `queued as ...` 로 접수한 뒤 차단한다. 실제 발생(2026-09-03): `admin@bukio.works` 는 NXDOMAIN, `bukio.com` 은 타인 소유 파킹 도메인 | 발신 도메인은 보유·DNS 관리 가능한 것만 사용(`no-reply@buk.io`). `debug/send_test_email.py --check` 가 발신 도메인 NS/A·MX·SPF 를 검사해 NXDOMAIN 이면 종료 코드 1. Brevo 발신자/도메인 인증 완료를 Phase 0 게이트로 |
 | `ACM-RISK-15` | **회사 미선택 시 후보 스윕 지연** — 운영 실측 89초(후보 39개 순차 조회)로 프론트 30초 타임아웃 초과 → "서버 응답 초과" 오류 | `BLS_LOGIN_SWEEP_BUDGET_SEC`(기본 20초) 예산 — 추측 후보만 대상, 인덱스/테넌트 유래 고신뢰 후보는 무제한. 예산 소진 시 409 `ACCT_ORG_HINT_REQUIRED` 로 회사 선택 요청. 계정 계열 프론트 타임아웃 150초 + 진행 안내 |
 | `ACM-RISK-14` | **Brevo 무료 티어 일 300통** — 컷오버 주간 전환·재발송 폭주 시 한도 초과 → 발송 거부 | 선공개 기간으로 분산, 재발송 쿨다운(ACM-DEC-04), 발송 실패 시 "잠시 후 재시도" 안내 + 감사 로그 카운트 알람, 초과 지속 시 Brevo 유료 플랜 또는 2차 provider |
 | `ACM-RISK-13` | **컷오버 D-day 웹 잠금** — 미전환 사용자는 전환 전까지 웹 사용 불가(델파이는 가능) | Phase 1 선공개 기간, 공지 3회(로그인 배너·메일·헬프데스크), 전환 페이지 상시 운영, 관리자 초대 메일(선택) |
@@ -436,7 +437,7 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 |----|------|------|
 | `ACM-Q-1` | 비밀번호 보관 방식 | (a) 요구 원문대로 평문 `PwPlain` + `PwHash` 병행 **(기본안)** / (b) AES-GCM 암호화 `PwEnc` + `PwHash` — 권장 |
 | `ACM-Q-2` | ~~웹의 레거시 ID 로그인 병행 기간~~ → **결정(2026-09-03)**: 웹은 이메일 계정 전용, 병행 없음. 남은 결정: 선공개 기간 길이 | 기본안: Phase 1 선공개 2주 후 컷오버 |
-| `ACM-Q-3` | 메일 제공자·발신 주소 | **결정(2026-09-03)**: Brevo SMTP 무료 티어(`smtp-relay.brevo.com:587`). 발신 주소 = Brevo 인증 발신자(`BLS_EMAIL_FROM`, 등록 필요) |
+| `ACM-Q-3` | 메일 제공자·발신 주소 | **결정(2026-09-03)**: Brevo SMTP 무료 티어(`smtp-relay.brevo.com:587`). 발신 주소 = `no-reply@buk.io`(2026-09-03 확정 — Brevo 발신자/도메인 인증 필요). **발신 도메인은 실제 보유·DNS 관리 가능한 도메인이어야 한다**: 미등록 도메인(`bukio.works` NXDOMAIN)이나 타인 소유 파킹 도메인(`bukio.com`)은 Brevo 가 SMTP 접수(250 queued)만 하고 전달을 차단한다 — `ACM-RISK-16` |
 | `ACM-Q-4` | 비밀번호 재설정 화면 | **결정**: 포함, 컷오버 전 필수(ACM-DEC-10) |
 | `ACM-Q-5` | 한 이메일에 여러 회사 계정 연결 허용 | 기본안: 허용(로그인 시 소속 선택) |
 | `ACM-Q-6` | 기존 「기 등록 계정 찾기」(활성화) 링크 | **결정**: 전환 흐름에 흡수(ACM-DEC-11) |
