@@ -6,6 +6,7 @@
 | 상태 | **DRAFT (사용자 승인 전)** — §10 의 `ACM-Q-*` 응답 후 `legacy-analysis/decisions.md` 에 **DEC-235** 로 동결 |
 | 추적 ID | `ACM-DEC-*` (결정) · `ACM-INV-*` (병행 불변식) · `ACM-RISK-*` (위험) · `ACM-Q-*` (사용자 결정 필요) · `WP-*` (구현 워크패키지) |
 | 요청 원문 | 2026-09-03 사용자 요구 — §1 |
+| **웹 로그인 정책** | **이메일 계정 전용** (2026-09-03 사용자 확정) — 웹은 전환된 계정으로만 로그인, 레거시 ID 웹 로그인은 컷오버 시점에 차단(403 + 전환 유도). 델파이는 그대로. `ACM-Q-2/4/6/8` 종결 |
 | **병행 운영 전제** | 전환 이후에도 **레거시 델파이 프로그램은 기존 `Id_Logn` 계정(Gname/Gcode/Gpass)으로 계속 로그인**한다(2026-09-03 사용자 보강). 따라서 전환 = 이전(migration)이 아니라 **연결(overlay)** — §3 · `ACM-DEC-00` |
 | 단일 원천 | 본 문서 + (구현 시) `migration/contracts/account_switch.yaml` |
 | 비밀 정책 | [`docs/secrets-policy.md`](secrets-policy.md) G3 — 본 문서·계약·테스트 fixture 에 실 자격증명·인증코드 원문 0건 |
@@ -15,7 +16,7 @@
 
 ## 0. 한 줄 요약
 
-**전환 후에도 레거시 델파이는 기존 `Id_Logn` 계정으로 그대로 로그인한다.** 그래서 이 설계는 계정을 옮기지 않는다 — 기존 **위러브솔루션 계정(회사 + 아이디 + 비밀번호)** 을 한 번 검증한 뒤, **이메일 인증코드**로 소유를 확인하고 새 비밀번호를 설정하면 그 이메일을 **기존 `Id_Logn` 행에 연결(overlay)** 해 북이오웍스 로그인 ID 로 쓴다. `Id_Logn` 은 웹이 한 글자도 쓰지 않는다. 이메일 로그인은 **기존 JWT 클레임(sub=Gcode, sid, rdb, hcode …)을 그대로 발급**하므로 도메인 API·hcode 격리·메뉴 권한은 무변경이다. 계정은 Render 비영속 디스크 대신 **로그인 데이터 서버의 사이드테이블 3종**에 저장하고, 레거시 검증은 **현행 `/auth/login` 코어를 함수로 추출해 재사용**한다.
+**전환 후에도 레거시 델파이는 기존 `Id_Logn` 계정으로 그대로 로그인한다.** 그래서 이 설계는 계정을 옮기지 않는다 — 기존 **위러브솔루션 계정(회사 + 아이디 + 비밀번호)** 을 한 번 검증한 뒤, **이메일 인증코드**로 소유를 확인하고 새 비밀번호를 설정하면 그 이메일을 **기존 `Id_Logn` 행에 연결(overlay)** 해 북이오웍스 로그인 ID 로 쓴다. `Id_Logn` 은 웹이 한 글자도 쓰지 않는다. **웹은 전환된 이메일 계정으로만 로그인**하고(레거시 ID 웹 로그인 차단), 델파이는 기존 방식 그대로다. 이메일 로그인은 **기존 JWT 클레임(sub=Gcode, sid, rdb, hcode …)을 그대로 발급**하므로 도메인 API·hcode 격리·메뉴 권한은 무변경이다. 계정은 Render 비영속 디스크 대신 **로그인 데이터 서버의 사이드테이블 3종**에 저장하고, 레거시 검증은 **현행 `/auth/login` 코어를 함수로 추출해 재사용**한다.
 
 ---
 
@@ -34,6 +35,7 @@
 
 **전제 (2026-09-03 보강)**
 - 전환(마이그레이션) 이후에도 **기존 로그인 계정과 방식은 레거시 델파이 프로그램에서 병행 사용**한다. 델파이 쪽 코드·데이터는 바꾸지 않는다.
+- **웹에서는 신규 포팅된(이메일) 계정으로만 로그인**할 수 있고, 레거시 델파이 프로그램은 그대로 사용하는 상태가 목표다 (2026-09-03 사용자 확정 — 웹의 레거시 ID 병행 로그인 없음).
 
 ---
 
@@ -89,8 +91,8 @@
 | 항목 | 초안 | 보강 |
 |------|------|------|
 | 전환의 의미 | 계정 이전 | 이메일 자격 → `Id_Logn` 행 **연결(overlay)** |
-| Phase B(레거시 ID 웹 로그인 차단) | 전 사용자 전환 완료를 뜻함 | **웹에만** 적용. 델파이는 무관 — 웹을 안 쓰는 사용자는 델파이만 계속 사용 |
-| Phase C | "북이오 통합 후 정리" | 북이오 통합과 델파이 병행은 별개 — `Id_Logn` 은 델파이가 살아있는 한(그리고 웹 권한 정본으로서 그 이후에도) 남는다 |
+| 웹 로그인 방식 | 병행(Phase A) 후 차단(Phase B) | **처음부터 이메일 계정 전용** — 레거시 ID 웹 로그인은 컷오버(D-day)에 차단(403 + 전환 유도), 비상 복구 플래그만 유지. 델파이는 무관 — 웹을 안 쓰는 사용자는 델파이만 계속 사용 |
+| 북이오 통합 | "북이오 통합 후 정리" | 북이오 통합과 델파이 병행은 별개 — `Id_Logn` 은 델파이가 살아있는 한(그리고 웹 권한 정본으로서 그 이후에도) 남는다 |
 | 링크 키 | `(ServerId, DbName, Hcode, Gcode)` 고정 | 같은 키 + **매 로그인 존재 확인** + `ACCT_LINK_STALE` 재연결 |
 | 비밀번호 | 웹 비밀번호만 언급 | 두 비밀번호 독립을 불변식으로 승격 |
 
@@ -113,7 +115,7 @@
 │ 비밀번호 재설정 · 회원 가입 신청 · 공지      │
 └──────────────────────────────────────────────┘
 ```
-- Phase A(병행 기간)에는 입력값에 `@` 가 없으면 기존 **회사 선택 콤보**가 나타나 레거시 ID 로그인이 그대로 된다(무회귀). Phase B 에서 콤보 제거.
+- 로그인 폼에 **회사 선택 콤보는 없다**(전환 페이지로 이동). 입력값에 `@` 가 없으면(레거시 ID) 서버가 403 `ACCT_SWITCH_REQUIRED` 를 내고, 화면은 "웹은 북이오웍스 계정(이메일)으로만 로그인할 수 있습니다" + 전환 버튼을 강조한다. 비상 시에만 `BLS_LEGACY_ID_LOGIN=on`(break-glass)으로 기존 방식을 임시 복구(기동 시 경고 로그).
 - `/login?switched=1` 진입 시 "계정 전환이 완료되었습니다" 배너 + 이메일 자동 채움(sessionStorage 1회).
 
 **B. `/account/switch` (신규 — 한 페이지 3단계 위저드)**
@@ -152,13 +154,13 @@
 |------|------|------|
 | **전 Phase 공통** | **델파이 병행** — `Id_Logn` 무변경(ACM-INV-1), 두 비밀번호 독립(ACM-INV-2), 델파이 신규 사용자 상시 전환 가능(ACM-INV-6) | `test_acm_delphi_coexistence.py` PASS |
 | Phase 0 준비 | **복원 포인트 생성 완료(2026-09-03)** — 태그 `restore-pre-email-account-2026-09-03`(제품 6a913d3 · 허브 ee04c67) + remote_138 DB 기준선, 절차는 [restore-point-pre-email-account-2026-09-03.md](restore-point-pre-email-account-2026-09-03.md). 발신 도메인 SPF/DKIM 등록, Render env(`BLS_EMAIL_*`, `BLS_ACCOUNT_*`) 등록, 사이드테이블 생성(첫 호출 시 자동 + 마이그레이션 SQL 문서화), 로그인 공지(platform_portal)에 "계정 전환 안내" 등록 | 테스트 계정 1건 전환 e2e PASS |
-| Phase A 병행 | 이메일 로그인 + 레거시 ID 로그인 **동시 허용**. 로그인 페이지에 전환 버튼·배너. 전환율 리포트(감사 로그 분류) 주 1회 | 활성 계정 전환율 ≥ 목표(ACM-Q-2) |
-| Phase B 차단 (**웹에만**) | `BLS_LEGACY_ID_LOGIN=off` → **웹의** 레거시 ID 로그인 시 403 `ACCT_SWITCH_REQUIRED` + 전환 버튼으로 유도. 관리자(`BLS_ADMIN_USER_IDS`)는 예외. 델파이 로그인은 무관 | 비밀번호 재설정 화면 배포 완료(ACM-DEC-10) |
-| Phase C 북이오 통합 | `Web_Accounts` 를 북이오 계정 체계로 이관(평문/복호화 배치, RED 절차) 후 `PwPlain` 컬럼 폐기. **델파이 병행은 계속** — `Id_Logn` 은 남는다 | 북이오 측 이관 완료 확인 |
+| Phase 1 선공개 (선택, 기본 2주) | 전환 페이지 `/account/switch` 만 먼저 공개 + 로그인 화면 배너 "D-day 부터 이메일 로그인만 가능". 로그인 방식은 아직 기존(현행 배포) — 미리 전환한 사용자는 D-day 에 바로 사용 | 사전 전환율 리포트(감사 로그 분류), 헬프데스크 FAQ 준비 |
+| Phase 2 컷오버 (D-day, **웹에만**) | 로그인 화면 = **이메일 전용**. 레거시 ID 로그인 403 `ACCT_SWITCH_REQUIRED` + 전환 유도. 관리자 예외 없음(관리자도 전환). 델파이 로그인은 무관. `BLS_LEGACY_ID_LOGIN=on` 은 비상 복구(break-glass)용 | 복원 포인트 대조 `[OK]`, 비밀번호 재설정 화면 배포 완료(ACM-DEC-10), 공지 3회 |
+| Phase 3 북이오 통합 | `Web_Accounts` 를 북이오 계정 체계로 이관(평문/복호화 배치, RED 절차) 후 `PwPlain` 컬럼 폐기. **델파이 병행은 계속** — `Id_Logn` 은 남는다 | 북이오 측 이관 완료 확인 |
 
 ---
 
-## 5. 결정 사항 (`ACM-DEC-01` ~ `10`)
+## 5. 결정 사항 (`ACM-DEC-01` ~ `11`)
 
 ### `ACM-DEC-01` — 계정 저장소 = 중앙 사이드테이블 3종 (JSON 파일 금지)
 
@@ -192,15 +194,15 @@
 
 ### `ACM-DEC-05` — 비밀번호 저장: 요구(평문) + 해시 병행, 암호화 대안 권장
 
-- **요구 원문대로** `PwPlain` 컬럼에 평문을 보관한다. 동시에 `PwHash`(bcrypt cost 12)를 저장하고 **로그인 검증은 `PwHash` 만** 사용한다. `PwPlain` 은 어떤 API 응답·로그·엑셀·화면에도 노출되지 않으며, 북이오 이관 배치(`tools/export_web_accounts_for_bukio.py`, RED 산출물 절차 = [operating-account-credentials-red.md](operating-account-credentials-red.md))만 읽는다. 이관 완료 후 컬럼을 DROP 한다(Phase C).
+- **요구 원문대로** `PwPlain` 컬럼에 평문을 보관한다. 동시에 `PwHash`(bcrypt cost 12)를 저장하고 **로그인 검증은 `PwHash` 만** 사용한다. `PwPlain` 은 어떤 API 응답·로그·엑셀·화면에도 노출되지 않으며, 북이오 이관 배치(`tools/export_web_accounts_for_bukio.py`, RED 산출물 절차 = [operating-account-credentials-red.md](operating-account-credentials-red.md))만 읽는다. 이관 완료 후 컬럼을 DROP 한다(Phase 3).
 - **권장 대안(`ACM-Q-1`)**: 평문 대신 **AES-256-GCM 봉투 암호화**(`PwEnc`, 키 `BLS_ACCOUNT_PW_KEY` 는 env 만). 북이오 이관 시 같은 키로 복호화하면 "추후 북이오 계정으로 사용" 목적은 동일하게 달성되고, DB 덤프·백업 유출 시 전 계정 비밀번호 노출을 막는다. 코드 차이는 `app/services/account_secret_codec.py` 의 `encode/decode` 1개 모듈뿐이라 결정이 늦어져도 일정에 영향이 없다.
 - 규칙: 8자 이상 + 영문 + 숫자(기존 활성화와 동일), 최대 64자. 정책 문서 정합: DEC-005 는 "레거시 Gpass 평문 보존" 이지 신규 저장소의 평문을 허용한 결정이 아니므로, 본 항목은 DEC-235 로 별도 기록한다.
 
-### `ACM-DEC-06` — 로그인 이중 모드 (요청 스키마 무변경)
+### `ACM-DEC-06` — 웹 로그인 = 이메일 계정 전용 (레거시 ID 웹 로그인 차단, 요청 스키마 무변경)
 
 - `LoginRequest` 필드·`AliasChoices` 는 그대로(login-dsn-dec08 규칙 3). `userId` 값에 `@` 가 있으면 **이메일 계정 경로**: `Web_Accounts` 조회 → 상태(`active`/잠금) → `PwHash` 검증 → `Web_Account_Links` 로 identity 결정 → 해당 서버·DB 의 `Id_Logn` 에서 **행 존재 확인(정확한 Gcode 일치, `_이름_` 만료 관례 그대로)** 후 **권한(Fxx)·계정 유형을 현행 `refresh_user_claims_from_db`/`_resolve_account_type` 로 재도출** → `_make_token_pair`. 비밀번호 불일치는 기존과 동일 401 메시지, 행 부재·변경은 401 `ACCT_LINK_STALE`(ACM-INV-4) + 재연결 안내.
 - 링크가 2개 이상이면 409 `ORG_SELECT_REQUIRED`(choices = 링크 목록) → 프론트 기존 선택 카드 → `tenantId`/`dbName` 재제출로 단일화.
-- `BLS_LEGACY_ID_LOGIN=off`(Phase B) 이면 `@` 없는 로그인은 403 `ACCT_SWITCH_REQUIRED`(관리자 화이트리스트 예외). 잠금: 이메일 계정 5회 실패 시 15분 잠금(`FailCount`/`LockedUntil`).
+- `@` 없는 `userId`(레거시 ID)는 **기본적으로 403 `ACCT_SWITCH_REQUIRED`** ("웹은 북이오웍스 계정(이메일)으로만 로그인할 수 있습니다. 계정 전환을 진행하세요"). 관리자 예외 없음 — 관리자도 전환한다. 비상 복구용 `BLS_LEGACY_ID_LOGIN=on`(break-glass) 일 때만 기존 레거시 경로가 열리며, 기동 시 경고 로그와 감사 로그 `legacy_login_breakglass=true` 를 남긴다. 레거시 경로 코드는 전환 페이지 `verify-legacy` 가 같은 코어를 쓰므로 제거하지 않는다. 잠금: 이메일 계정 5회 실패 시 15분 잠금(`FailCount`/`LockedUntil`).
 
 ### `ACM-DEC-07` — JWT·세션·도메인 API 무변경
 
@@ -224,11 +226,17 @@
 - 템플릿 `app/services/email_templates/account_switch_code.html` — 메일은 CSS 변수를 못 쓰므로 `Design.md` 의 색 값을 인라인 hex 로 쓰되, **hex 가드 대상은 TSX 뿐**이라 충돌 없음(파일 상단에 사유 코멘트).
 - 제공자 프로비저닝: Vercel Marketplace `messaging` 카테고리에서도 Resend 를 설치할 수 있으나(현재 CLI 50.27.1 은 `integration discover` 미지원 → v59+ 필요) 발송 주체는 Render 백엔드이므로 키는 **Render env** 에 둔다. 기존 활성화 토큰(`/activate/lookup`)도 같은 서비스로 발송하도록 연결한다.
 
-### `ACM-DEC-10` — 비밀번호 재설정·계정 관리 (선택이나 Phase B 전 권장)
+### `ACM-DEC-10` — 비밀번호 재설정(컷오버 전 필수)·계정 관리(선택)
 
-- `/account/reset`: 이메일 → 코드(`purpose='reset'`) → 새 비밀번호. 전환 흐름과 코드 인프라·화면 컴포넌트 90% 공유. **Phase B(레거시 ID 차단) 이후 비밀번호 분실의 유일한 복구 경로**이므로 Phase B 이전 배포를 권장.
+- `/account/reset`: 이메일 → 코드(`purpose='reset'`) → 새 비밀번호. 전환 흐름과 코드 인프라·화면 컴포넌트 90% 공유. **컷오버 이후 비밀번호 분실의 유일한 복구 경로**이므로 Phase 2 이전 배포가 필수(ACM-Q-4 종결).
 - `/settings/my-profile` 에 "연결된 회사 계정" 섹션(링크 목록·추가 연결·해제) — 로그인 상태에서 추가 연결은 코드 없이 레거시 검증만으로 허용.
 - `/admin/accounts`(수퍼): 계정 목록(이메일 마스킹 해제 권한)·잠금 해제·링크 해제·재설정 강제. 감사 로그 필수.
+
+### `ACM-DEC-11` — 신규 가입·활성화 흐름을 전환 흐름에 흡수 (웹 = 이메일 계정 전용의 귀결)
+
+- 웹 로그인이 이메일 전용이므로 **신규 가입자도 이메일 계정으로만 웹에 들어온다.** 관리자 승인이 `Id_Logn` 행을 만든 뒤 발급하는 활성화 토큰은 더 이상 `Gpass` 를 쓰지 않고, `/activate/{token}` 이 토큰을 **switchTicket 으로 교환**해 전환 흐름 Step 2(이메일·코드·비밀번호)로 보낸다(identity = 승인 시 만든 행).
+- 델파이용 초기 비밀번호는 승인 시 시드(DSN-DEC-10 `임시 평문`)로 관리자가 별도 전달 — 웹과 무관(ACM-INV-2).
+- 「기 등록 계정 찾기」(`/activate/lookup`)는 결과 안내를 전환 페이지로 연결하고, 메일 발송은 신설 서비스(ACM-DEC-09)를 쓴다. `id_logn_service.set_password_by_gcode` 의 공개 경로 호출은 제거(ACM-INV-7 강화). ACM-Q-6 종결.
 
 ---
 
@@ -304,7 +312,7 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 
 - 요청 스키마 무변경. `userId` 에 `@` → 이메일 경로. 응답 `TokenResponse` 무변경(`user.login_via='email'` 정보 필드 1개 추가).
 - 401 `ACCT_LINK_STALE` — 링크가 가리키는 `Id_Logn` 행이 없거나 바뀜(ACM-INV-4). 프론트는 "레거시 계정 정보가 바뀌었습니다" + 재연결 버튼.
-- 403 `ACCT_SWITCH_REQUIRED` (Phase B, 웹에만) — 프론트는 전환 버튼 강조.
+- 403 `ACCT_SWITCH_REQUIRED` — `@` 없는 로그인 ID(기본 정책, 웹에만). 프론트는 전환 버튼 강조. `BLS_LEGACY_ID_LOGIN=on`(break-glass) 일 때만 레거시 경로.
 
 ### 7.3 선택 엔드포인트 (ACM-DEC-10)
 
@@ -331,7 +339,7 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 
 | 파일 | 변경 |
 |------|------|
-| `(public)/login/page.tsx` | 라벨 "이메일", placeholder, 전환 버튼(secondary), `?switched=1` 배너, Phase A 콤보 조건 노출, 401 `ACCT_LINK_STALE`(재연결 유도) · 403 `ACCT_SWITCH_REQUIRED` 처리 |
+| `(public)/login/page.tsx` | 라벨 "이메일", placeholder, 전환 버튼(secondary), `?switched=1` 배너, 회사 선택 콤보 제거(전환 페이지로 이동), 401 `ACCT_LINK_STALE`(재연결 유도) · 403 `ACCT_SWITCH_REQUIRED` 처리 |
 | `(public)/account/switch/page.tsx` + `components/account/SwitchWizard.tsx` | 3단계 위저드(§4.1 B), DEC-096 선택 카드 재사용(`OrgChoice` 타입을 `lib/login-org-select.ts` 로 추출해 공유), 딥링크 파라미터 처리, `?mode=relink` 재연결, 완료 화면 "델파이는 그대로" 문구 |
 | `(public)/account/reset/page.tsx` (선택) | 재설정 |
 | `src/middleware.ts` | `PUBLIC_PATHS` 에 `/account/switch`, `/account/reset` 추가 |
@@ -352,16 +360,16 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 
 | WP | 내용 | 산출물 | 권장 티어 | 사용자 모델 선택 메모 |
 |----|------|--------|-----------|------------------------|
-| WP-0 | 설계 동결 — `ACM-Q-*` 응답 반영, DEC-235 기록, `migration/contracts/account_switch.yaml` | 본 문서 승인본, decisions.md | **고급 권장** (다의성·트레이드오프) | 실행 전 고급 모델 지정 권장 |
+| WP-0 | 설계 동결 — `ACM-Q-*` 응답 반영, DEC-235 기록, `migration/contracts/account_switch.yaml`, `login.yaml` 합격선 개정(v2 "웹 = 이메일 계정 로그인", 레거시 ID 웹 로그인 out) | 본 문서 승인본, decisions.md | **고급 권장** (다의성·트레이드오프) | 실행 전 고급 모델 지정 권장 |
 | WP-1 | 저장소·코덱 — `web_accounts_db.py`(ensure/CRUD/잠금), `account_secret_codec.py`, migrations SQL | 백엔드 2 모듈 + SQL | 표준 | 기본 |
 | WP-2 | 메일 발송 — `email_dispatch_service.py`(console/resend/smtp), 템플릿, env, `render.yaml`, 활성화 토큰 발송 연결 | 서비스 + 템플릿 | 표준 | 기본 |
 | WP-3 | 로그인 코어 추출 — `auth_login_core.py`, `/auth/login` 무회귀 리팩터 | 서비스 1 + auth.py 축소 | **고급 권장** (약 500줄 후보·챌린지 로직 분리, 회귀 6종 보존) | 실행 전 고급 모델 지정 권장 |
 | WP-4 | 전환 API — `public_account_switch.py`, `account_switch_service.py`(티켓·코드·링크·재연결), 감사 로그, `Id_Logn` 무쓰기 정적 가드 | 라우터 + 서비스 | 표준 | 기본 |
-| WP-5 | 이메일 로그인 경로 — `/auth/login` 분기, 링크 → `Id_Logn` 행 존재 확인 → 클레임 재도출, `ACCT_LINK_STALE`, 잠금, Phase B 플래그 | auth.py + auth_service | 표준 (WP-3 이후) | 기본 |
+| WP-5 | 이메일 로그인 경로 — `/auth/login` 분기, 링크 → `Id_Logn` 행 존재 확인 → 클레임 재도출, `ACCT_LINK_STALE`, 잠금, 레거시 ID 403 기본 + break-glass 플래그 | auth.py + auth_service | 표준 (WP-3 이후) | 기본 |
 | WP-6 | 프론트 — 로그인 수정, 전환 위저드, API 클라이언트, middleware, 브라우저 실검증 | 페이지 2 + 컴포넌트 | 표준 | 기본 |
 | WP-7 | 회귀·가드 — 테스트 7종, 스모크 매트릭스, 감사 분류기, 화면 매트릭스, hex·hcode 감사 | test/ + tools/ | 표준 | 기본 |
 | WP-8 | (선택) 재설정·내 계정·관리자 화면·`/admin/id-logn` 연결 현황 열 | 페이지 3 + API | 표준 | 기본 |
-| WP-9 | 운영 — DKIM, Render env, 공지, Phase A→B 런북, 전환율 리포트 스크립트 | docs 런북 + tools | 표준 | 기본 |
+| WP-9 | 운영 — DKIM, Render env, 공지, 컷오버 D-day 런북(체크리스트·공지·헬프데스크 FAQ), 전환율 리포트 스크립트 | docs 런북 + tools | 표준 | 기본 |
 
 **모델 선택:** 표준 행은 기본·빠른 모델로 진행 가능. 고급 권장 행(WP-0, WP-3)만 사용자가 실행 전에 모델을 바꾸면 된다. 고급 모델을 고르지 않아도 WP-1·2·4·6·7 은 독립적으로 완료 가능하며, WP-3 은 표준 모델로도 진행할 수 있으나 회귀 6종을 반드시 돌린다.
 
@@ -375,11 +383,12 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 | `test_acm_code_policy.py` | 해시 저장·TTL·5회 잠금·쿨다운·동일 메시지·이메일 정규화 |
 | `test_acm_complete_and_email_login.py` | complete → 계정·링크 행, `PwHash` 검증, 이메일 로그인 JWT 클레임이 레거시 로그인과 동일(`sub`=Gcode, `sid`, `rdb`, `hcode`) |
 | `test_acm_link_rules.py` | identity 유니크, `link` 모드, 다중 링크 → `ORG_SELECT_REQUIRED` |
-| `test_acm_legacy_login_switch_required.py` | `BLS_LEGACY_ID_LOGIN=off` 403 + 관리자 예외 |
+| `test_acm_legacy_login_switch_required.py` | 기본 설정에서 레거시 ID 로그인 403 `ACCT_SWITCH_REQUIRED`(관리자 포함), `BLS_LEGACY_ID_LOGIN=on` 이면 기존 경로 + 감사 `legacy_login_breakglass` |
+| `test_acm_activation_absorbed.py` | 활성화 토큰 → switchTicket 교환, 공개 경로에서 `Gpass` 쓰기 0건(ACM-DEC-11) |
 | `test_acm_no_secret_in_logs_or_responses.py` | 응답·감사 로그에 코드·비밀번호·`PwPlain` 0건 (secrets-policy) |
 | `test_acm_email_dispatch.py` | provider 선택, console/resend 모킹, 템플릿 렌더 |
 | `test_acm_delphi_coexistence.py` | **병행 불변식** — 계정 경로에서 `Id_Logn` 쓰기 SQL 0건(정적), stale 링크 fail-closed, `_이름_` 만료 관례 차단, Fxx 변경 다음 로그인 반영, 재연결 후 옛 링크 제거 |
-| 기존 | 로그인 회귀 6종(`login-dsn-dec08.mdc`) + `test_dec096_org_select_login.py` + `test_classify_login_audit_logs.py` |
+| 기존 | 로그인 회귀 6종(`login-dsn-dec08.mdc`) + `test_dec096_org_select_login.py` + `test_classify_login_audit_logs.py` — 레거시 경로 검증이므로 **`BLS_LEGACY_ID_LOGIN=on` 픽스처**로 실행(코어 무회귀 보존) |
 
 ### 9.3 정적 가드·등록
 
@@ -397,17 +406,18 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 
 | ID | 위험 | 완화 |
 |----|------|------|
-| `ACM-RISK-01` | **평문 비밀번호 보관** — DB 덤프·백업·SSH 계정 유출 시 전 계정 노출, 사용자가 타 서비스와 같은 비밀번호를 쓸 가능성 | `ACM-Q-1` 암호화 대안, 접근 최소화(전용 DB 계정 권장), 응답·로그 0건 가드, Phase C 컬럼 폐기 |
-| `ACM-RISK-02` | 계정 저장소(remote_138) 단일 지점 장애 시 이메일 로그인 불가 | Phase A 동안 레거시 ID 로그인 폴백 유지, 야간 덤프 백업(RED 절차), 저장소 서버 env 로 이동 가능 |
+| `ACM-RISK-01` | **평문 비밀번호 보관** — DB 덤프·백업·SSH 계정 유출 시 전 계정 노출, 사용자가 타 서비스와 같은 비밀번호를 쓸 가능성 | `ACM-Q-1` 암호화 대안, 접근 최소화(전용 DB 계정 권장), 응답·로그 0건 가드, Phase 3 컬럼 폐기 |
+| `ACM-RISK-02` | 계정 저장소(remote_138) 단일 지점 장애 시 이메일 로그인 불가 | 비상 시 `BLS_LEGACY_ID_LOGIN=on`(break-glass)으로 임시 복구 + 복원 포인트, 야간 덤프 백업(RED 절차), 저장소 서버 env 로 이동 가능 |
 | `ACM-RISK-03` | 메일 미도달(스팸·DKIM 미설정) | 발신 도메인 인증 필수, 운영에서 `console` provider 금지(기동 경고), 재발송 + 관리자 코드 조회(감사 기록) |
 | `ACM-RISK-04` | Render 무료 플랜 콜드스타트(첫 요청 50초+) | 프론트 대기 문구·타임아웃 60초, 코드 TTL 10분은 여유 |
 | `ACM-RISK-05` | 공용 ID 관행(총무부·영업부 등, 인덱스 동명 27%) — 한 이메일을 여러 사람이 공유 | "이메일 1개 = 계정 1개" 안내, 공용 메일이면 다중 링크로 흡수, 향후 개인 이메일 전환 유도 |
-| `ACM-RISK-06` | 델파이 병행 사용자가 `Id_Logn.Gpass` 를 바꿔도 웹 비밀번호는 별개 | 전환 완료 화면·메일에 "웹 비밀번호는 별도" 명시, Phase C 까지 공존 |
+| `ACM-RISK-06` | 델파이 병행 사용자가 `Id_Logn.Gpass` 를 바꿔도 웹 비밀번호는 별개 | 전환 완료 화면·메일에 "웹 비밀번호는 별도" 명시, Phase 3 까지 공존 |
 | `ACM-RISK-07` | 저장소를 MySQL 3.23 서버로 옮길 때 DDL 호환 | 서브쿼리·JSON·CASE 미사용, VARCHAR 시각, `sql_mysql3` 헬퍼 준수 |
 | `ACM-RISK-08` | 이메일 열거 | `send-code` 응답 동일화, `mode` 는 유효 티켓 보유자(레거시 검증 통과자)에게만 |
 | `ACM-RISK-09` | 로그인 코어 추출 중 회귀 | WP-3 를 별 커밋으로 분리, 회귀 6종 + DEC-096 테스트 게이트, `/auth/login` 응답 스냅샷 비교 |
 | `ACM-RISK-10` | **링크 drift** — 델파이 Sobo10 에서 Gcode 변경·만료 잠금(`_이름_`)·행 삭제로 링크가 끊김 | 매 로그인 존재 확인 + fail-closed `ACCT_LINK_STALE`(ACM-INV-4), 재연결 모드(ACM-INV-5), 관리자 현황 열 |
 | `ACM-RISK-11` | 두 비밀번호(델파이·웹) 혼동 — 사용자가 한쪽을 바꾸고 다른 쪽이 안 바뀐다고 문의 | 완료 화면·메일·재설정 화면 문구 고정(ACM-INV-2), 로그인 공지, 헬프데스크 FAQ |
+| `ACM-RISK-13` | **컷오버 D-day 웹 잠금** — 미전환 사용자는 전환 전까지 웹 사용 불가(델파이는 가능) | Phase 1 선공개 기간, 공지 3회(로그인 배너·메일·헬프데스크), 전환 페이지 상시 운영, 관리자 초대 메일(선택) |
 | `ACM-RISK-12` | 웹 관리 화면(`/admin/id-logn`·가입 승인)이 `Id_Logn` 을 쓰는 기존 경로와 본 기능의 무쓰기 원칙 혼재 | 무쓰기 원칙은 **계정 전환·이메일 로그인 경로에 한정**(ACM-INV-1 범위 명시). 기존 관리 경로는 C10 정책(델파이 호환 UPDATE 패턴) 그대로 |
 
 ### 10.2 사용자 결정 필요 (`ACM-Q-*`) — 답이 없으면 괄호의 기본안으로 진행
@@ -415,13 +425,13 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 | ID | 질문 | 선택지 (기본안) |
 |----|------|------|
 | `ACM-Q-1` | 비밀번호 보관 방식 | (a) 요구 원문대로 평문 `PwPlain` + `PwHash` 병행 **(기본안)** / (b) AES-GCM 암호화 `PwEnc` + `PwHash` — 권장 |
-| `ACM-Q-2` | **웹의** 레거시 ID 로그인 병행 기간과 차단 기준(델파이 무관) | 기본안: Phase A 8주, 활성 계정 전환율 90% 도달 시 Phase B |
+| `ACM-Q-2` | ~~웹의 레거시 ID 로그인 병행 기간~~ → **결정(2026-09-03)**: 웹은 이메일 계정 전용, 병행 없음. 남은 결정: 선공개 기간 길이 | 기본안: Phase 1 선공개 2주 후 컷오버 |
 | `ACM-Q-3` | 메일 제공자·발신 주소 | 기본안: Resend(HTTP) + `no-reply@<북이오 도메인>` / 대안 SMTP(네이버웍스·구글워크스페이스) |
-| `ACM-Q-4` | 비밀번호 재설정 화면 포함 여부 | 기본안: 포함(Phase B 전 필수) |
+| `ACM-Q-4` | 비밀번호 재설정 화면 | **결정**: 포함, 컷오버 전 필수(ACM-DEC-10) |
 | `ACM-Q-5` | 한 이메일에 여러 회사 계정 연결 허용 | 기본안: 허용(로그인 시 소속 선택) |
-| `ACM-Q-6` | 기존 「기 등록 계정 찾기」(활성화) 링크 | 기본안: 유지하되 메일 발송을 신설 서비스로 연결 / 대안: 전환 페이지에 흡수 |
+| `ACM-Q-6` | 기존 「기 등록 계정 찾기」(활성화) 링크 | **결정**: 전환 흐름에 흡수(ACM-DEC-11) |
 | `ACM-Q-7` | 계정 저장소 서버 | 기본안: `remote_138` (MySQL 5.1 직결) |
-| `ACM-Q-8` | 웹에서 레거시 ID 로그인을 **영구 병행**할지(Phase B 를 두지 않을지) | 기본안: Phase B 차단은 유지(시점은 Q-2). 델파이 전용 사용자는 영향 없음 / 대안: 영구 병행 — 이 경우 두 자격 체계가 웹에 영원히 공존 |
+| `ACM-Q-8` | 웹에서 레거시 ID 로그인 영구 병행 여부 | **결정(2026-09-03)**: 병행 없음 — 웹은 이메일 계정 전용, 비상 복구 플래그만 |
 
 ---
 
@@ -432,6 +442,7 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 - [ ] `/auth/login` 레거시 경로 응답·감사 로그가 리팩터 전과 동일(로그인 회귀 6종 + DEC-096 PASS).
 - [ ] 응답·로그·엑셀 어디에도 인증코드·비밀번호·`PwPlain` 이 나타나지 않는다(테스트 + `rg` 가드).
 - [ ] Render 재배포 후에도 전환된 계정으로 로그인된다(사이드테이블 영속 확인).
+- [ ] 기본 설정(`BLS_LEGACY_ID_LOGIN` 미설정)에서 레거시 ID 로 웹 로그인 시 403 `ACCT_SWITCH_REQUIRED`, 활성화 토큰 경로에서 `Gpass` 쓰기 0건.
 - [ ] **병행**: 전환 전후 해당 `Id_Logn` 행 diff 0건, 델파이와 동일한 SQL(`Gcode+Gname+Gpass`)로 로그인이 계속 성공한다. 델파이에서 Fxx 를 바꾸면 다음 웹 로그인에 반영되고, Gcode 를 바꾸면 웹은 `ACCT_LINK_STALE` 후 재연결로 복구된다.
 - [ ] `tsc --noEmit`, `next build`, hub `pytest -q`, `audit_router_hcode_coalesce`, `delphi_form_screen_matrix --check`, hex 가드 모두 PASS.
 - [ ] `dashboard/data/porting-screens.json` C1 의 `web.routes/endpoints` 에 신규 라우트·API 반영, `analysis/audit/incomplete-features-inventory` 갱신.
