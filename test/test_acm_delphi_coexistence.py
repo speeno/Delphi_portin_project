@@ -117,5 +117,46 @@ class DynamicNoWriteTests(unittest.IsolatedAsyncioTestCase):
             self.assertTrue(sql.lstrip().upper().startswith("SELECT"), sql)
 
 
+class SweepBudgetCoreTests(unittest.IsolatedAsyncioTestCase):
+    """추측 후보(directory_sweep)만 예산 대상 — 고신뢰 후보는 항상 끝까지 시도(무회귀)."""
+
+    async def test_guess_candidates_stop_after_budget(self):
+        import os
+
+        from app.services import auth_login_core as core
+
+        cands = [{"remote_id": f"remote_{i}", "db_name": f"db{i}", "candidate_via": "directory_sweep"} for i in range(6)]
+
+        async def slow_auth(server_id, user_id, password, db_name=None, **kw):  # noqa: ARG001
+            import asyncio
+
+            await asyncio.sleep(0.05)
+            return None
+
+        with patch.dict(os.environ, {"BLS_LOGIN_SWEEP_BUDGET_SEC": "0.08"}),              patch("app.routers.auth.authenticate_user", slow_auth),              patch("app.services.tenants_directory_service.resolve_login_route", return_value=None),              patch("app.services.tenants_directory_service.resolve_login_route_candidates", return_value=cands),              patch("app.services.login_id_index_service.lazy_refresh", AsyncMock(return_value={"refreshed": False})):
+            out = await core.resolve_and_authenticate(user_id="x", password="y")
+        self.assertIsNone(out.user)
+        self.assertTrue(out.sweep_budget_exhausted)
+        self.assertLess(len(out.attempts), len(cands))
+
+    async def test_high_confidence_candidates_ignore_budget(self):
+        import os
+
+        from app.services import auth_login_core as core
+
+        cands = [{"remote_id": f"remote_{i}", "db_name": f"db{i}", "candidate_via": "index_single"} for i in range(4)]
+
+        async def slow_auth(server_id, user_id, password, db_name=None, **kw):  # noqa: ARG001
+            import asyncio
+
+            await asyncio.sleep(0.05)
+            return None
+
+        with patch.dict(os.environ, {"BLS_LOGIN_SWEEP_BUDGET_SEC": "0.01"}),              patch("app.routers.auth.authenticate_user", slow_auth),              patch("app.services.tenants_directory_service.resolve_login_route", return_value=None),              patch("app.services.tenants_directory_service.resolve_login_route_candidates", return_value=cands),              patch("app.services.login_id_index_service.lazy_refresh", AsyncMock(return_value={"refreshed": False})):
+            out = await core.resolve_and_authenticate(user_id="x", password="y")
+        self.assertFalse(out.sweep_budget_exhausted)
+        self.assertEqual(len(out.attempts), len(cands))
+
+
 if __name__ == "__main__":
     unittest.main()

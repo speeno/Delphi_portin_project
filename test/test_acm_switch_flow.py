@@ -214,6 +214,60 @@ class SwitchFlowTests(_Base):
         self.assertNotIn("debugCode", r.text)
 
 
+class LookupTests(_Base):
+    def lookup(self, **body):
+        with patch.object(auth_login_core, "resolve_and_authenticate", AsyncMock(return_value=_outcome_ok())):
+            return self.client.post("/api/v1/public/account-switch/lookup", json={"userId": "hong", "password": "pw", **body})
+
+    def test_lookup_before_switch_issues_ticket(self):
+        r = self.lookup()
+        self.assertEqual(r.status_code, 200, r.text)
+        body = r.json()
+        self.assertFalse(body["found"]); self.assertIn("switchTicket", body)
+        self.assertEqual(body["legacy"]["userId"], "hong"); self.assertNotIn("account", body)
+        self.assertEqual(acs.decode_switch_ticket(body["switchTicket"])["gcode"], "hong")
+
+    def test_lookup_after_switch_shows_email_account(self):
+        self.switch_full()
+        r = self.lookup()
+        self.assertEqual(r.status_code, 200, r.text)
+        body = r.json()
+        self.assertTrue(body["found"]); self.assertNotIn("switchTicket", body)
+        self.assertEqual(body["account"]["email"], "hong@company.co.kr")
+        self.assertEqual(body["account"]["linkedCount"], 1); self.assertFalse(body["account"]["stale"])
+
+    def test_lookup_invalid_and_org_select(self):
+        with patch.object(auth_login_core, "resolve_and_authenticate", AsyncMock(return_value=_outcome_fail())):
+            r = self.client.post("/api/v1/public/account-switch/lookup", json={"userId": "hong", "password": "bad"})
+        self.assertEqual(r.status_code, 401)
+        o = _outcome_ok(); o.org_choices = [{"serverId": "s", "dbName": "a", "tenantId": "t1", "hcode": "h", "label": "A"},
+                                            {"serverId": "s", "dbName": "b", "tenantId": "t2", "hcode": "h", "label": "B"}]
+        with patch.object(auth_login_core, "resolve_and_authenticate", AsyncMock(return_value=o)):
+            r = self.client.post("/api/v1/public/account-switch/lookup", json={"userId": "hong", "password": "pw"})
+        self.assertEqual(r.status_code, 409); self.assertEqual(r.json()["detail"]["code"], "ORG_SELECT_REQUIRED")
+
+
+class SweepBudgetTests(_Base):
+    """운영 실측 89초(회사 미선택 스윕) → 예산 초과 시 401 대신 409 회사 선택 안내."""
+
+    def test_budget_exhausted_returns_org_hint_required(self):
+        o = _outcome_fail()
+        o.sweep_budget_exhausted = True
+        o.skipped_candidates = 27
+        with patch.object(auth_login_core, "resolve_and_authenticate", AsyncMock(return_value=o)):
+            r = self.client.post("/api/v1/public/account-switch/verify-legacy", json={"userId": "hong", "password": "pw"})
+            r2 = self.client.post("/api/v1/public/account-switch/lookup", json={"userId": "hong", "password": "pw"})
+        for res in (r, r2):
+            self.assertEqual(res.status_code, 409, res.text)
+            self.assertEqual(res.json()["detail"]["code"], "ACCT_ORG_HINT_REQUIRED")
+            self.assertEqual(res.json()["detail"]["skipped"], 27)
+
+    def test_plain_invalid_still_401(self):
+        with patch.object(auth_login_core, "resolve_and_authenticate", AsyncMock(return_value=_outcome_fail())):
+            r = self.client.post("/api/v1/public/account-switch/verify-legacy", json={"userId": "hong", "password": "pw"})
+        self.assertEqual(r.status_code, 401)
+
+
 class LinkRuleTests(_Base):
     def test_second_company_links_to_existing_email_without_password(self):
         self.switch_full()
@@ -309,7 +363,7 @@ class EmailLoginTests(_Base):
 
 
 class ResetFlowTests(_Base):
-    def test_reset_changes_password_and_unknown_email_is_silent(self):
+    def test_reset_changes_password_and_unknown_email_is_404(self):
         self.switch_full()
         r = self.client.post("/api/v1/public/account-reset/send-code", json={"email": "hong@company.co.kr"})
         self.assertEqual(r.status_code, 200); code = r.json()["debugCode"]
@@ -317,10 +371,11 @@ class ResetFlowTests(_Base):
         self.assertEqual(r2.status_code, 200, r2.text)
         self.assertEqual(self.email_login("hong@company.co.kr", "newpass99").status_code, 200)
         self.assertEqual(self.email_login("hong@company.co.kr", "abc12345").status_code, 401)
-        # 없는 이메일 — 동일 메시지, 코드 저장 없음
+        # 없는 이메일 — 즉시 404 안내(사용자 결정 2026-09-03), 코드 저장·발송 없음
         n = len(self.store.codes)
         r3 = self.client.post("/api/v1/public/account-reset/send-code", json={"email": "ghost@company.co.kr"})
-        self.assertEqual(r3.status_code, 200); self.assertEqual(r3.json()["message"], r.json()["message"]); self.assertNotIn("debugCode", r3.text)
+        self.assertEqual(r3.status_code, 404); self.assertEqual(r3.json()["detail"]["code"], "ACCT_EMAIL_NOT_REGISTERED")
+        self.assertNotIn("debugCode", r3.text)
         self.assertEqual(len(self.store.codes), n)
 
 

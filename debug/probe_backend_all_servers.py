@@ -217,6 +217,13 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {422},
         },
         {
+            "group": "public.account_switch.lookup_bad_body",
+            "method": "POST",
+            "path": "/api/v1/public/account-switch/lookup",
+            "json_body": {},
+            "ok_status": {422},
+        },
+        {
             "group": "public.account_switch.send_code_bad_ticket",
             "method": "POST",
             "path": "/api/v1/public/account-switch/send-code",

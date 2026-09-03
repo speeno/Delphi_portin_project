@@ -28,6 +28,7 @@ endpoints:
   - GET  /api/v1/auth/login-policy                      # legacyIdLogin · emailLogin · switchAvailable
   - POST /api/v1/auth/login                             # userId 에 '@' → 이메일 계정 경로 (동일 TokenResponse)
   - POST /api/v1/public/account-switch/verify-legacy    # → switchTicket(15분) | 401 | 409 ORG_SELECT_REQUIRED | 409 ACCT_ALREADY_SWITCHED
+  - POST /api/v1/public/account-switch/lookup           # 내 계정 찾기: 같은 검증 → {found, legacy, account?|switchTicket?}
   - POST /api/v1/public/account-switch/send-code        # → message · mode(new|link|relink) · resendAfterSec | 410 | 422 | 429 | 503
   - POST /api/v1/public/account-switch/complete         # → message · email · mode · linkedCount | 400 | 422 | 423 | 409 | 410
   - POST /api/v1/public/account-reset/send-code
@@ -41,6 +42,8 @@ error_codes:
   ACCT_ALREADY_SWITCHED: 409 — identity 가 이미 다른 계정에 연결
   ACCT_TICKET_EXPIRED: 410 — 전환 티켓 만료/무효
   ACCT_EMAIL_INVALID: 422
+  ACCT_ORG_HINT_REQUIRED: 409 — 회사 미선택 스윕 예산 초과(BLS_LOGIN_SWEEP_BUDGET_SEC), 출판사 선택 요청
+  ACCT_EMAIL_NOT_REGISTERED: 404 — 재설정: 북이오웍스 계정 없음(즉시 안내, 사용자 결정 2026-09-03)
   ACCT_EMAIL_UNAVAILABLE: 503 — 메일 발송 실패
   ACCT_CODE_RATE_LIMITED: 429 — 재발송 60초 / 이메일 시간당 5 / IP 시간당 20
   ACCT_CODE_INVALID: 400 — 불일치·만료 동일 메시지

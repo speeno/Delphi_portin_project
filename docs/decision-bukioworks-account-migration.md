@@ -188,7 +188,7 @@
 | 시도 | 5회 초과 시 코드 무효화 + 423 (재발송 필요) |
 | 재발송 | 60초 쿨다운, 이메일당 시간당 5회, IP 당 시간당 20회 (429) |
 | 저장 | salted SHA-256 해시만 (`CodeHash`, `Salt`) — 원문 미저장 |
-| 응답 | 발송 성공/실패·이메일 존재 여부와 무관하게 **동일 메시지** (SEC-POL-CITE-04). 단, 유효한 티켓 보유자에게만 `mode: new|link` 노출(§5 ACM-DEC-08) |
+| 응답 | 전환(`switch`)은 발송 성공/실패·이메일 존재 여부와 무관하게 **동일 메시지** (SEC-POL-CITE-04), 유효한 티켓 보유자에게만 `mode: new|link|relink` 노출(§5 ACM-DEC-08). **재설정(`reset`)은 미등록 이메일에 404 `ACCT_EMAIL_NOT_REGISTERED` 를 즉시 안내** — 사용자 결정(2026-09-03): B2B 폐쇄 환경이라 열거 방지보다 명확한 안내 우선 |
 | 로그 | 코드 원문·비밀번호 원문 금지(SEC-POL-CITE-03). 이메일은 `a***@domain` 마스킹 |
 | 정규화 | 이메일 `trim` + 소문자, RFC 형식 검사 |
 
@@ -312,6 +312,7 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 | Method | Path | 요청 | 200 응답 | 오류 |
 |--------|------|------|----------|------|
 | POST | `/verify-legacy` | `{tenantId?, hcode?, dbName?, userId, password}` | `{switchTicket, legacy:{label, hname, userId, hcode, serverLabel}}` | 401 동일 메시지 · 409 `ORG_SELECT_REQUIRED{choices}` · 409 `ACCT_ALREADY_SWITCHED` · 429 |
+| POST | `/lookup` | `{tenantId?, hcode?, dbName?, userId, password}` | `{found, legacy, account?:{email, linkedAt, lastLoginAt, linkedCount, stale, locked}, switchTicket?}` — **내 계정 찾기**(2026-09-03 사용자 요청): 로그인과 같은 검증만으로 전환된 이메일 계정을 보여주고, 없으면 티켓을 줘 바로 전환으로 잇는다. 기존 `/activate/lookup`(화이트리스트 매칭) 화면을 대체 | 401 · 409 `ORG_SELECT_REQUIRED` · 429 |
 | POST | `/send-code` | `{switchTicket, email}` | `{message, mode:"new"\|"link"\|"relink", resendAfterSec:60}` | 410 `ACCT_TICKET_EXPIRED` · 422 `ACCT_EMAIL_INVALID` · 429 `ACCT_CODE_RATE_LIMITED` |
 | POST | `/complete` | `{switchTicket, email, code, newPassword?}` (`link`/`relink` 모드는 `newPassword` 생략; `relink` 는 끊어진 링크를 새 identity 로 교체) | `{message, email, linkedCount}` | 400 `ACCT_CODE_INVALID`(불일치·만료 동일) · 423 `ACCT_CODE_LOCKED` · 422 `ACCT_WEAK_PASSWORD` · 409 `ACCT_ALREADY_SWITCHED` · 410 `ACCT_TICKET_EXPIRED` |
 
@@ -325,7 +326,7 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 
 | Method | Path | 용도 |
 |--------|------|------|
-| POST | `/api/v1/public/account-reset/send-code` · `/complete` | 비밀번호 재설정 (`purpose='reset'`) |
+| POST | `/api/v1/public/account-reset/send-code` · `/complete` | 비밀번호 재설정 (`purpose='reset'`). 미등록 이메일 → 404 `ACCT_EMAIL_NOT_REGISTERED` |
 | GET | `/api/v1/me/account` | 내 이메일·링크 목록 |
 | POST | `/api/v1/me/account/links` | 로그인 상태에서 추가 연결(레거시 검증만) |
 | DELETE | `/api/v1/me/account/links/{linkKey}` | 링크 해제(마지막 1개는 불가) |
@@ -424,6 +425,7 @@ CREATE TABLE IF NOT EXISTS Web_Account_Codes (
 | `ACM-RISK-09` | 로그인 코어 추출 중 회귀 | WP-3 를 별 커밋으로 분리, 회귀 6종 + DEC-096 테스트 게이트, `/auth/login` 응답 스냅샷 비교 |
 | `ACM-RISK-10` | **링크 drift** — 델파이 Sobo10 에서 Gcode 변경·만료 잠금(`_이름_`)·행 삭제로 링크가 끊김 | 매 로그인 존재 확인 + fail-closed `ACCT_LINK_STALE`(ACM-INV-4), 재연결 모드(ACM-INV-5), 관리자 현황 열 |
 | `ACM-RISK-11` | 두 비밀번호(델파이·웹) 혼동 — 사용자가 한쪽을 바꾸고 다른 쪽이 안 바뀐다고 문의 | 완료 화면·메일·재설정 화면 문구 고정(ACM-INV-2), 로그인 공지, 헬프데스크 FAQ |
+| `ACM-RISK-15` | **회사 미선택 시 후보 스윕 지연** — 운영 실측 89초(후보 39개 순차 조회)로 프론트 30초 타임아웃 초과 → "서버 응답 초과" 오류 | `BLS_LOGIN_SWEEP_BUDGET_SEC`(기본 20초) 예산 — 추측 후보만 대상, 인덱스/테넌트 유래 고신뢰 후보는 무제한. 예산 소진 시 409 `ACCT_ORG_HINT_REQUIRED` 로 회사 선택 요청. 계정 계열 프론트 타임아웃 150초 + 진행 안내 |
 | `ACM-RISK-14` | **Brevo 무료 티어 일 300통** — 컷오버 주간 전환·재발송 폭주 시 한도 초과 → 발송 거부 | 선공개 기간으로 분산, 재발송 쿨다운(ACM-DEC-04), 발송 실패 시 "잠시 후 재시도" 안내 + 감사 로그 카운트 알람, 초과 지속 시 Brevo 유료 플랜 또는 2차 provider |
 | `ACM-RISK-13` | **컷오버 D-day 웹 잠금** — 미전환 사용자는 전환 전까지 웹 사용 불가(델파이는 가능) | Phase 1 선공개 기간, 공지 3회(로그인 배너·메일·헬프데스크), 전환 페이지 상시 운영, 관리자 초대 메일(선택) |
 | `ACM-RISK-12` | 웹 관리 화면(`/admin/id-logn`·가입 승인)이 `Id_Logn` 을 쓰는 기존 경로와 본 기능의 무쓰기 원칙 혼재 | 무쓰기 원칙은 **계정 전환·이메일 로그인 경로에 한정**(ACM-INV-1 범위 명시). 기존 관리 경로는 C10 정책(델파이 호환 UPDATE 패턴) 그대로 |
