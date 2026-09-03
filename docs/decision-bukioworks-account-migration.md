@@ -1,0 +1,380 @@
+# 북이오웍스 계정 전환 설계 — 위러브솔루션 ID → 이메일 계정 (DEC-235 후보, `ACM-*`)
+
+| 항목 | 내용 |
+|------|------|
+| 작성일 | 2026-09-03 |
+| 상태 | **DRAFT (사용자 승인 전)** — §9 의 `ACM-Q-*` 응답 후 `legacy-analysis/decisions.md` 에 **DEC-235** 로 동결 |
+| 추적 ID | `ACM-DEC-*` (결정) · `ACM-RISK-*` (위험) · `ACM-Q-*` (사용자 결정 필요) · `WP-*` (구현 워크패키지) |
+| 요청 원문 | 2026-09-03 사용자 요구 — §1 |
+| 단일 원천 | 본 문서 + (구현 시) `migration/contracts/account_switch.yaml` |
+| 비밀 정책 | [`docs/secrets-policy.md`](secrets-policy.md) G3 — 본 문서·계약·테스트 fixture 에 실 자격증명·인증코드 원문 0건 |
+| 연관 | DEC-005(Gpass 평문 보존) · DEC-032(bcrypt 회전) · DEC-096(소속 선택 챌린지) · [DSN-DEC-08/09/12](decision-login-db-routing.md)(분산 Id_Logn 라우팅·소유성 가드) · ONB-RISK-04(메일 인프라 부재) · DEC-104/105/113(키보드 흐름) · [`docs/Design.md`](Design.md) · [`.cursor/rules/login-dsn-dec08.mdc`](../.cursor/rules/login-dsn-dec08.mdc) |
+
+---
+
+## 0. 한 줄 요약
+
+기존 **위러브솔루션 계정(회사 + 아이디 + 비밀번호)** 을 한 번 검증한 뒤, **이메일 인증코드**로 소유를 확인하고 새 비밀번호를 설정하면 그 이메일이 **북이오웍스 로그인 ID** 가 된다. 이메일 로그인은 **기존 JWT 클레임(sub=Gcode, sid, rdb, hcode …)을 그대로 발급**하므로 도메인 API·hcode 격리·메뉴 권한은 무변경이다. 계정은 Render 비영속 디스크 대신 **로그인 데이터 서버의 사이드테이블 3종**에 저장하고, 레거시 검증은 **현행 `/auth/login` 코어를 함수로 추출해 재사용**한다.
+
+---
+
+## 1. 요구 사항 (사용자 원문 요약)
+
+**북이오웍스 로그인 페이지**
+- 아이디/비밀번호 방식 (아이디 = 이메일).
+- 로그인 폼 하단에 **[위러브솔루션 → 북이오웍스 계정 전환하기]** 버튼 → 계정 전환 페이지로 이동.
+
+**계정 전환 페이지**
+- 기존 위러브솔루션에서 쓰던 **[출판사 / 아이디 / 비밀번호]** 세 필드 입력.
+- 북이오웍스 아이디로 쓸 **이메일 주소** 입력.
+- 해당 메일함에서 **인증코드** 확인 (복사 버튼).
+- 전환 페이지에서 **인증코드 입력 + 비밀번호 설정**. 비밀번호는 **평문 저장** (추후 북이오 계정으로 재사용 목적).
+- 비밀번호 설정 완료 시 **북이오웍스 로그인 페이지**로 이동.
+
+---
+
+## 2. 현행 구조 조사 결과 — 재사용 자산과 제약
+
+| # | 항목 | 현재 상태 (조사 결과) | 본 설계에서의 의미 |
+|---|------|------|------|
+| 1 | 로그인 API `POST /api/v1/auth/login` ([auth.py](../도서물류관리프로그램/backend/app/routers/auth.py)) | `userId`(Gcode)+`password`(Gpass) + 힌트 `tenantId`/`hcode`/`dbName`. 4 서버 분산 `Id_Logn` 후보를 순회 검증(DSN-DEC-08/09), 복수 소속 검증 시 **409 `ORG_SELECT_REQUIRED`**(DEC-096), 공유 DB 소유성 fail-closed(DSN-DEC-12). 라우터 본문 약 500줄. | **레거시 검증 엔진으로 그대로 재사용** — 라우터에서 순수 함수로 추출(ACM-DEC-02). |
+| 2 | 로그인 UI ([login/page.tsx](../도서물류관리프로그램/frontend/src/app/(public)/login/page.tsx)) | 회사 선택 콤보(`GET /auth/org-options`, tenants_directory 한글 라벨, 기본 "자동 결정") + 로그인 ID + 비밀번호. 소속 선택 카드 UI + `localStorage` 기억. | 전환 페이지의 **"출판사" 필드 = 이 회사 선택 콤보**. 소속 선택 카드도 그대로 재사용. |
+| 3 | 레거시 Delphi 로그인 (`Chul.pas` L323) | `Select Hcode,Hname,Gpass From Id_Logn Where Gcode=Logn2 and Gname=Logn1` 후 `Logn3=Gpass` 평문 비교. **출판사(회사)는 EXE 별 `Config.Ini` 로 암묵 결정** — 로그인 창에는 없음. 웹은 이미 Gname 없이 Gcode+Gpass 로 검증(C1 합격선). | "출판사" 는 웹에서 **테넌트(회사) 선택**으로 대응하고, 공유 DB 는 `hcode`/DEC-096 로 단일화. Gname(작업자명) 추가 입력은 불필요(선택 필드로만 고려). |
+| 4 | 기존 계정 활성화 흐름 `POST /public/activate/lookup` · `/activate/{token}` ([public_lookup.py](../도서물류관리프로그램/backend/app/routers/public_lookup.py)) | 가입 승인 큐(JSON) 기반 토큰 → `id_logn_service.set_password_by_gcode`. **토큰 발송 채널 없음(콘솔만, ONB-RISK-04)**. 비밀번호 규칙 8자+영문+숫자, 열거 방지 동일 메시지(SEC-POL-CITE-04). | 코드 입력/비밀번호 설정 화면 패턴과 보안 문구 재사용. 신설 메일 서비스는 이 흐름에도 연결(부수 효과로 ONB-RISK-04 해소). |
+| 5 | 메일 인프라 | **없음** — `requirements.txt` 에 SMTP/메일 API 의존 없음, `httpx` 는 있음. | 메일 발송 서비스 신설(ACM-DEC-09). |
+| 6 | 앱 측 영속 저장소 | `backend/data/*.json` 은 **Render 무료 플랜 비영속** — 재배포 시 이미지 원본으로 리셋 ([DEPLOY.md §3.1](../도서물류관리프로그램/docs/DEPLOY.md)). 정본 패턴 = 로그인 데이터 서버 **사이드테이블** (`Web_User_Prefs`, [user_prefs_db.py](../도서물류관리프로그램/backend/app/services/user_prefs_db.py): `CREATE TABLE IF NOT EXISTS` + `REPLACE INTO`, MySQL 3.23 호환). | 계정·링크·인증코드 = **사이드테이블** (ACM-DEC-01). JSON 파일 저장 금지. |
+| 7 | 서버 구성 (`servers.yaml`) | `remote_138`(MySQL 5.1 직결, `BLS_AUTH_SERVER_ID` 기본) · `remote_153`(SSH+MySQL) · `remote_154/155`(SSH+MySQL 3.x raw). | 중앙 계정 테이블 위치 = `remote_138` 기본(env 로 변경 가능). DDL 은 3.23 호환 문법 유지. |
+| 8 | 비밀번호 | `Id_Logn.Gpass` 평문(DEC-005). `verify_legacy_password` 는 평문/MD5-b64/MD5-hex 허용. bcrypt 는 `audit_password_service`(passlib·bcrypt 의존 이미 존재). | 신규 계정 비밀번호 해시에 bcrypt 재사용. 레거시 Gpass 는 **변경하지 않음**(델파이 병행 무중단). |
+| 9 | JWT ([`_make_token_pair`](../도서물류관리프로그램/backend/app/routers/auth.py)) | `sub`=Gcode, `sid`, `rdb`(테넌트 DB), `hcode`, `account_type`, `tenant_id`, `fxx_caps`, `license_keys` … 모든 도메인 API·hcode 격리가 이 클레임에 의존. `/auth/refresh` 는 클레임+Id_Logn 재도출. | 이메일 로그인도 **동일 클레임** 발급 → 도메인 무변경(ACM-DEC-07). |
+| 10 | 프론트 공개 영역 | `(public)` 라우트 그룹, `BrandHero`/`Logo`, 디자인 토큰(hex 금지, `brand-primary` CTA 화면당 1개), `middleware.ts` `PUBLIC_PATHS = ["/", "/login", "/signup"]`(정확 일치). | 신규 공개 라우트는 PUBLIC_PATHS 에 추가. 화면 매트릭스에는 `WEB_ONLY` 로 등록. |
+| 11 | 회귀 가드 | 로그인 회귀 6종(`login-dsn-dec08.mdc`) + `test_dec096_org_select_login.py` + `tools/classify_login_audit_logs.py` + `debug/probe_backend_all_servers.py` 스모크 매트릭스. `LoginRequest` 의 `AliasChoices` 이름 변경 금지. | 전부 PASS 유지가 DoD. 새 라우트는 스모크 매트릭스 등록. |
+
+---
+
+## 3. 목표 흐름
+
+### 3.1 화면 3개
+
+**A. `/login` (수정)**
+
+```
+┌──────────────────────────────────────────────┐
+│ 북이오웍스  로그인                           │
+│ 이메일        [ name@company.com          ]  │
+│ 비밀번호      [ ••••••••                  ]  │
+│ [        로그인 (brand-primary)          ]   │
+│ ──────────────────────────────────────────── │
+│ [ 위러브솔루션 → 북이오웍스 계정 전환하기 ]  │  ← secondary(outline) 버튼, /account/switch
+│ 비밀번호 재설정 · 회원 가입 신청 · 공지      │
+└──────────────────────────────────────────────┘
+```
+- Phase A(병행 기간)에는 입력값에 `@` 가 없으면 기존 **회사 선택 콤보**가 나타나 레거시 ID 로그인이 그대로 된다(무회귀). Phase B 에서 콤보 제거.
+- `/login?switched=1` 진입 시 "계정 전환이 완료되었습니다" 배너 + 이메일 자동 채움(sessionStorage 1회).
+
+**B. `/account/switch` (신규 — 한 페이지 3단계 위저드)**
+
+| 단계 | 입력 | 동작 | 결과 |
+|------|------|------|------|
+| 1 기존 계정 확인 | 출판사(회사 선택 콤보, 기본 "자동 결정") · 아이디 · 비밀번호 | `POST /public/account-switch/verify-legacy` | 성공: 확인 카드(회사 라벨 · 출판사명 Hname · 아이디) + `switchTicket`(15분). 복수 소속: DEC-096 선택 카드 → 선택 후 재검증. 이미 전환됨: "이미 전환된 계정입니다 → 비밀번호 재설정" 안내. |
+| 2 이메일 입력 | 이메일 | `POST /public/account-switch/send-code` | "인증코드를 보냈습니다. 메일함을 확인하세요" + 재발송(60초 쿨다운). 이미 북이오웍스 계정이 있는 이메일이면 **연결 모드**(비밀번호 입력 숨김, "기존 계정에 이 회사 계정을 연결합니다"). |
+| 3 코드 + 비밀번호 | 인증코드 6자리 · 새 비밀번호 · 확인 | `POST /public/account-switch/complete` | 완료 화면(체크 아이콘) → 3초 후 또는 버튼으로 `/login?switched=1`. |
+
+- 2·3단계는 **같은 화면에 연속 표시**한다 — 사용자가 메일 탭에 갔다 돌아와도 입력 상태가 남는다(티켓·이메일은 sessionStorage 에 보관, 코드·비밀번호는 보관 안 함).
+- 메일의 「인증 계속하기」 딥링크(`/account/switch?ticket=…&code=…`)로 들어오면 3단계가 코드 채워진 채 열린다.
+
+**C. 인증코드 메일**
+
+- 제목 `[북이오웍스] 계정 전환 인증코드`, 본문: 6자리 코드를 큰 글씨(선택·복사가 쉬운 단독 블록)로, 유효 10분, 「인증 계속하기」 버튼(딥링크), "본인이 요청하지 않았다면 무시" 문구.
+- **메일 클라이언트는 JavaScript 를 실행하지 않으므로 메일 본문 안의 실제 '복사 버튼' 은 만들 수 없다.** 요구의 목적(코드를 손으로 옮기지 않게)은 ① 딥링크로 코드 자동 입력, ② 코드 단독 블록(더블클릭 선택) 두 가지로 충족한다. 웹 페이지의 코드 입력란은 붙여넣기·`autoComplete="one-time-code"` 를 지원한다.
+
+### 3.2 상태 기계
+
+```
+[Step1] verify-legacy ──성공──▶ legacy_verified (switchTicket 15분)
+   │ 401 동일 메시지 / 409 ORG_SELECT_REQUIRED(선택 후 재시도) / 409 ACCT_ALREADY_SWITCHED
+   ▼
+[Step2] send-code ──────────▶ code_sent (코드 10분 · 시도 5회 · 재발송 60초)
+   │ 429(쿨다운·한도)                        │ 티켓 만료 → Step1 재시작(410)
+   ▼                                          ▼
+[Step3] complete ──코드 OK + 비밀번호 OK──▶ completed → /login?switched=1
+   │ 400 ACCT_CODE_INVALID(불일치/만료 동일) · 423 ACCT_CODE_LOCKED(5회) · 422 ACCT_WEAK_PASSWORD
+```
+
+### 3.3 롤아웃 절차 (운영 관점)
+
+| 단계 | 내용 | 게이트 |
+|------|------|------|
+| Phase 0 준비 | 발신 도메인 SPF/DKIM 등록, Render env(`BLS_EMAIL_*`, `BLS_ACCOUNT_*`) 등록, 사이드테이블 생성(첫 호출 시 자동 + 마이그레이션 SQL 문서화), 로그인 공지(platform_portal)에 "계정 전환 안내" 등록 | 테스트 계정 1건 전환 e2e PASS |
+| Phase A 병행 | 이메일 로그인 + 레거시 ID 로그인 **동시 허용**. 로그인 페이지에 전환 버튼·배너. 전환율 리포트(감사 로그 분류) 주 1회 | 활성 계정 전환율 ≥ 목표(ACM-Q-2) |
+| Phase B 차단 | `BLS_LEGACY_ID_LOGIN=off` → 레거시 ID 로그인 시 403 `ACCT_SWITCH_REQUIRED` + 전환 버튼으로 유도. 관리자(`BLS_ADMIN_USER_IDS`)는 예외 | 비밀번호 재설정 화면 배포 완료(ACM-DEC-10) |
+| Phase C 북이오 통합 | `Web_Accounts` 를 북이오 계정 체계로 이관(평문/복호화 배치, RED 절차) 후 `PwPlain` 컬럼 폐기 | 북이오 측 이관 완료 확인 |
+
+---
+
+## 4. 결정 사항 (`ACM-DEC-01` ~ `10`)
+
+### `ACM-DEC-01` — 계정 저장소 = 중앙 사이드테이블 3종 (JSON 파일 금지)
+
+- 위치: `BLS_ACCOUNT_STORE_SERVER_ID`(기본 `remote_138`, MySQL 5.1 직결). 이메일 → 레거시 identity 조회는 **어느 테넌트 DB 인지 모르는 상태**에서 일어나므로 테넌트 DB 가 아닌 중앙 1곳이 필요하다. DSN-DEC-08 이 "장기 옵션"으로 미뤄 둔 `web_users` 중앙 인증 테이블의 최소 실현이다.
+- 테이블: `Web_Accounts`(계정) · `Web_Account_Links`(계정 ↔ 레거시 identity, 1:N) · `Web_Account_Codes`(인증코드). DDL 은 §5. 모듈 `app/services/web_accounts_db.py` 가 `user_prefs_db.py` 와 같은 `ensure_tables` + 파라미터 바인딩 패턴을 따른다.
+- `backend/data/*.json` 저장 금지 — Render 재배포 시 계정이 사라지는 사고를 원천 차단.
+
+### `ACM-DEC-02` — 레거시 검증 = 현행 로그인 코어 재사용 (함수 추출)
+
+- `auth.py::login` 의 후보 해석 → 순차 검증 → lazy refresh → DEC-096 챌린지 → ownership 결과까지를 `app/services/auth_login_core.py::resolve_and_authenticate(user_id, password, *, tenant_id, hcode, db_name, client_ip) -> LoginOutcome` 로 옮기고, `/auth/login` 과 `/public/account-switch/verify-legacy` 가 **같은 함수**를 호출한다. `LoginOutcome` = `{user, hit_candidate, org_choices | None, audit_fields}`.
+- `/auth/login` 의 응답·감사 로그·에러 메시지는 바이트 단위로 무변경 — 로그인 회귀 6종 + `test_dec096_org_select_login.py` 가 게이트.
+- 전환 페이지의 **"출판사" = `tenantId` 힌트**(콤보). "자동 결정" 허용. 복수 검증 시 409 `ORG_SELECT_REQUIRED` 를 그대로 전달해 프론트가 기존 선택 카드로 처리한다.
+
+### `ACM-DEC-03` — 전환 티켓 = 서버 무상태 서명 토큰
+
+- `create_access_token` 재사용, `type='switch'`, 만료 15분, `jti` 포함. payload 는 검증된 identity 요약(`sid`, `rdb`, `hcode`, `gcode`, `gname`, `hname`, `tenant_id`, `account_type`, `label`). 비밀번호·Gpass 미포함.
+- 응답 본문으로만 전달, 로그 미기록. `complete` 시 `jti` 를 `Web_Account_Codes.TicketId` 와 대조해 **코드가 다른 티켓에 재사용되는 것을 차단**한다.
+
+### `ACM-DEC-04` — 인증코드 정책
+
+| 항목 | 값 |
+|------|----|
+| 형식 | 6자리 숫자 (`secrets.randbelow`) |
+| 유효 | 10분 (`BLS_ACCOUNT_CODE_TTL_MIN`) |
+| 시도 | 5회 초과 시 코드 무효화 + 423 (재발송 필요) |
+| 재발송 | 60초 쿨다운, 이메일당 시간당 5회, IP 당 시간당 20회 (429) |
+| 저장 | salted SHA-256 해시만 (`CodeHash`, `Salt`) — 원문 미저장 |
+| 응답 | 발송 성공/실패·이메일 존재 여부와 무관하게 **동일 메시지** (SEC-POL-CITE-04). 단, 유효한 티켓 보유자에게만 `mode: new|link` 노출(§4 ACM-DEC-08) |
+| 로그 | 코드 원문·비밀번호 원문 금지(SEC-POL-CITE-03). 이메일은 `a***@domain` 마스킹 |
+| 정규화 | 이메일 `trim` + 소문자, RFC 형식 검사 |
+
+### `ACM-DEC-05` — 비밀번호 저장: 요구(평문) + 해시 병행, 암호화 대안 권장
+
+- **요구 원문대로** `PwPlain` 컬럼에 평문을 보관한다. 동시에 `PwHash`(bcrypt cost 12)를 저장하고 **로그인 검증은 `PwHash` 만** 사용한다. `PwPlain` 은 어떤 API 응답·로그·엑셀·화면에도 노출되지 않으며, 북이오 이관 배치(`tools/export_web_accounts_for_bukio.py`, RED 산출물 절차 = [operating-account-credentials-red.md](operating-account-credentials-red.md))만 읽는다. 이관 완료 후 컬럼을 DROP 한다(Phase C).
+- **권장 대안(`ACM-Q-1`)**: 평문 대신 **AES-256-GCM 봉투 암호화**(`PwEnc`, 키 `BLS_ACCOUNT_PW_KEY` 는 env 만). 북이오 이관 시 같은 키로 복호화하면 "추후 북이오 계정으로 사용" 목적은 동일하게 달성되고, DB 덤프·백업 유출 시 전 계정 비밀번호 노출을 막는다. 코드 차이는 `app/services/account_secret_codec.py` 의 `encode/decode` 1개 모듈뿐이라 결정이 늦어져도 일정에 영향이 없다.
+- 규칙: 8자 이상 + 영문 + 숫자(기존 활성화와 동일), 최대 64자. 정책 문서 정합: DEC-005 는 "레거시 Gpass 평문 보존" 이지 신규 저장소의 평문을 허용한 결정이 아니므로, 본 항목은 DEC-235 로 별도 기록한다.
+
+### `ACM-DEC-06` — 로그인 이중 모드 (요청 스키마 무변경)
+
+- `LoginRequest` 필드·`AliasChoices` 는 그대로(login-dsn-dec08 규칙 3). `userId` 값에 `@` 가 있으면 **이메일 계정 경로**: `Web_Accounts` 조회 → 상태(`active`/잠금) → `PwHash` 검증 → `Web_Account_Links` 로 identity 결정 → 해당 서버·DB 의 `Id_Logn` 에서 **권한(Fxx)·계정 유형을 현행 `refresh_user_claims_from_db`/`_resolve_account_type` 로 재도출** → `_make_token_pair`. 실패는 기존과 동일 401 메시지.
+- 링크가 2개 이상이면 409 `ORG_SELECT_REQUIRED`(choices = 링크 목록) → 프론트 기존 선택 카드 → `tenantId`/`dbName` 재제출로 단일화.
+- `BLS_LEGACY_ID_LOGIN=off`(Phase B) 이면 `@` 없는 로그인은 403 `ACCT_SWITCH_REQUIRED`(관리자 화이트리스트 예외). 잠금: 이메일 계정 5회 실패 시 15분 잠금(`FailCount`/`LockedUntil`).
+
+### `ACM-DEC-07` — JWT·세션·도메인 API 무변경
+
+- 이메일 로그인의 JWT 는 기존 클레임 그대로(`sub`=Gcode, `sid`, `rdb`, `hcode`, `account_type`, `tenant_id`, `fxx_caps`, `hname` …) + `acct`(AccountId) + `lvia='email'` 2개만 추가. `/auth/me`·`/auth/refresh`·모든 도메인 라우터·hcode 격리(ACC-DATA-03)·메뉴 권한은 손대지 않는다.
+- 세션 만료 시 `/login?reason=expired` 동작도 그대로.
+
+### `ACM-DEC-08` — identity 링크 규칙
+
+- **이메일 1개 = 계정 1개.** identity `(ServerId, DbName, Hcode, Gcode)` 는 **최대 1개 계정**에만 연결(PK). 이미 전환된 identity 로 다시 전환하면 409 `ACCT_ALREADY_SWITCHED` + "비밀번호 재설정" 안내.
+- **한 계정에 여러 identity 허용**(같은 담당자가 여러 회사 계정을 가진 경우, DEC-096 실측 672건 패턴). 이미 계정이 있는 이메일로 전환하면 `mode='link'`: 코드 인증 후 링크만 추가하고 비밀번호는 유지. 로그인 시 링크가 여럿이면 소속 선택(ACM-DEC-06).
+- `Id_Logn.Gpass` 는 변경하지 않는다(델파이 병행·DEC-005). 레거시 비밀번호가 나중에 바뀌어도 링크는 유지된다(링크는 identity 기반, 비밀번호 기반이 아님).
+
+### `ACM-DEC-09` — 메일 발송 서비스 (ONB-RISK-04 동시 해소)
+
+- `app/services/email_dispatch_service.py` — `send(to, subject, html, text)` 1개 진입점, provider 는 env 로 선택:
+  - `console` (개발 기본): 로그에 "발송됨" 만. `BLS_EMAIL_DEBUG_ECHO=1` 이면 응답에 코드 포함 — **로컬 전용**, 운영에서 켜지면 기동 시 경고.
+  - `resend` (권장): HTTP API, `httpx` 재사용, 추가 의존 없음. 무료 티어(월 3천 통)로 충분, 발신 도메인 DKIM 필요.
+  - `smtp`: `aiosmtplib` 추가(네이버웍스/구글워크스페이스 587).
+- env: `BLS_EMAIL_PROVIDER`, `BLS_EMAIL_API_KEY`, `BLS_EMAIL_FROM`, `BLS_EMAIL_REPLY_TO`, `BLS_PUBLIC_BASE_URL`(딥링크 도메인). `render.yaml` 에 `sync: false` 로 등록.
+- 템플릿 `app/services/email_templates/account_switch_code.html` — 메일은 CSS 변수를 못 쓰므로 `Design.md` 의 색 값을 인라인 hex 로 쓰되, **hex 가드 대상은 TSX 뿐**이라 충돌 없음(파일 상단에 사유 코멘트).
+- 제공자 프로비저닝: Vercel Marketplace `messaging` 카테고리에서도 Resend 를 설치할 수 있으나(현재 CLI 50.27.1 은 `integration discover` 미지원 → v59+ 필요) 발송 주체는 Render 백엔드이므로 키는 **Render env** 에 둔다. 기존 활성화 토큰(`/activate/lookup`)도 같은 서비스로 발송하도록 연결한다.
+
+### `ACM-DEC-10` — 비밀번호 재설정·계정 관리 (선택이나 Phase B 전 권장)
+
+- `/account/reset`: 이메일 → 코드(`purpose='reset'`) → 새 비밀번호. 전환 흐름과 코드 인프라·화면 컴포넌트 90% 공유. **Phase B(레거시 ID 차단) 이후 비밀번호 분실의 유일한 복구 경로**이므로 Phase B 이전 배포를 권장.
+- `/settings/my-profile` 에 "연결된 회사 계정" 섹션(링크 목록·추가 연결·해제) — 로그인 상태에서 추가 연결은 코드 없이 레거시 검증만으로 허용.
+- `/admin/accounts`(수퍼): 계정 목록(이메일 마스킹 해제 권한)·잠금 해제·링크 해제·재설정 강제. 감사 로그 필수.
+
+---
+
+## 5. 데이터 모델 (DDL — MySQL 3.23 호환 문법, 기본 서버 `remote_138`)
+
+```sql
+CREATE TABLE IF NOT EXISTS Web_Accounts (
+  AccountId        VARCHAR(32)  NOT NULL,              -- uuid4 hex
+  Email            VARCHAR(120) NOT NULL,              -- 정규화(소문자)
+  PwHash           VARCHAR(80)  NOT NULL DEFAULT '',   -- bcrypt (로그인 검증 전용)
+  PwPlain          VARCHAR(64)  NOT NULL DEFAULT '',   -- ACM-DEC-05 요구안 (대안: PwEnc TEXT)
+  Status           VARCHAR(12)  NOT NULL DEFAULT 'active',  -- active|locked|disabled
+  EmailVerifiedAt  VARCHAR(19)  NOT NULL DEFAULT '',   -- 'YYYY-MM-DD HH:MM:SS' UTC
+  CreatedAt        VARCHAR(19)  NOT NULL DEFAULT '',
+  LastLoginAt      VARCHAR(19)  NOT NULL DEFAULT '',
+  FailCount        INT          NOT NULL DEFAULT 0,
+  LockedUntil      VARCHAR(19)  NOT NULL DEFAULT '',
+  PRIMARY KEY (AccountId),
+  UNIQUE ux_web_accounts_email (Email)
+);
+
+CREATE TABLE IF NOT EXISTS Web_Account_Links (
+  AccountId  VARCHAR(32) NOT NULL,
+  ServerId   VARCHAR(32) NOT NULL,                     -- servers.yaml id (remote_138 …)
+  DbName     VARCHAR(64) NOT NULL DEFAULT '',          -- 논리 DB (chul_09_db …)
+  Hcode      VARCHAR(20) NOT NULL DEFAULT '',
+  Gcode      VARCHAR(50) NOT NULL,                     -- 레거시 로그인 ID
+  Gname      VARCHAR(50) NOT NULL DEFAULT '',
+  Hname      VARCHAR(50) NOT NULL DEFAULT '',          -- 출판사명(표시)
+  TenantId   VARCHAR(64) NOT NULL DEFAULT '',
+  Label      VARCHAR(80) NOT NULL DEFAULT '',          -- 회사 한글 라벨(소속 선택 표시)
+  LinkedAt   VARCHAR(19) NOT NULL DEFAULT '',
+  PRIMARY KEY (ServerId, DbName, Hcode, Gcode),        -- identity 1 = 계정 최대 1 (ACM-DEC-08)
+  INDEX ix_web_account_links_acct (AccountId)
+);
+
+CREATE TABLE IF NOT EXISTS Web_Account_Codes (
+  CodeId     VARCHAR(32)  NOT NULL,
+  Email      VARCHAR(120) NOT NULL,
+  Purpose    VARCHAR(12)  NOT NULL,                    -- switch|link|reset
+  CodeHash   VARCHAR(64)  NOT NULL,                    -- sha256(Salt + code)
+  Salt       VARCHAR(32)  NOT NULL,
+  TicketId   VARCHAR(32)  NOT NULL DEFAULT '',         -- switch 티켓 jti 바인딩
+  ExpiresAt  VARCHAR(19)  NOT NULL,
+  Attempts   INT          NOT NULL DEFAULT 0,
+  UsedAt     VARCHAR(19)  NOT NULL DEFAULT '',
+  SentAt     VARCHAR(19)  NOT NULL,
+  ClientIp   VARCHAR(45)  NOT NULL DEFAULT '',
+  PRIMARY KEY (CodeId),
+  INDEX ix_web_account_codes_email (Email)
+);
+```
+
+- 시각은 UTC 문자열 — mysql3 raw 프로토콜 경로가 문자열을 돌려주므로 드라이버 무관하게 동일 처리. 문자셋은 서버 기본(`euckr`) — 이메일은 ASCII, 라벨·Hname 은 한글 OK.
+- 생성: 첫 호출 시 `ensure_tables()` + 문서화용 `backend/migrations/2026_09_xx_web_accounts.sql`. 서브쿼리·`ON DUPLICATE KEY`·JSON 타입·`CASE WHEN` 미사용(DEC-033).
+- 만료 코드 정리: `complete`/`send-code` 시 같은 이메일의 `ExpiresAt < now` 행 DELETE (배치 불필요).
+
+---
+
+## 6. API 설계
+
+### 6.1 공개 엔드포인트 — 라우터 `app/routers/public_account_switch.py` (prefix `/api/v1/public/account-switch`, 인증 없음, `# noqa: hcode-router-coalesce` 사유 주석 — `public_lookup.py` 와 동일)
+
+| Method | Path | 요청 | 200 응답 | 오류 |
+|--------|------|------|----------|------|
+| POST | `/verify-legacy` | `{tenantId?, hcode?, dbName?, userId, password}` | `{switchTicket, legacy:{label, hname, userId, hcode, serverLabel}}` | 401 동일 메시지 · 409 `ORG_SELECT_REQUIRED{choices}` · 409 `ACCT_ALREADY_SWITCHED` · 429 |
+| POST | `/send-code` | `{switchTicket, email}` | `{message, mode:"new"\|"link", resendAfterSec:60}` | 410 `ACCT_TICKET_EXPIRED` · 422 `ACCT_EMAIL_INVALID` · 429 `ACCT_CODE_RATE_LIMITED` |
+| POST | `/complete` | `{switchTicket, email, code, newPassword?}` (`link` 모드는 `newPassword` 생략) | `{message, email, linkedCount}` | 400 `ACCT_CODE_INVALID`(불일치·만료 동일) · 423 `ACCT_CODE_LOCKED` · 422 `ACCT_WEAK_PASSWORD` · 409 `ACCT_ALREADY_SWITCHED` · 410 `ACCT_TICKET_EXPIRED` |
+
+### 6.2 로그인 확장 — `POST /api/v1/auth/login` (ACM-DEC-06)
+
+- 요청 스키마 무변경. `userId` 에 `@` → 이메일 경로. 응답 `TokenResponse` 무변경(`user.login_via='email'` 정보 필드 1개 추가).
+- 403 `ACCT_SWITCH_REQUIRED` (Phase B) — 프론트는 전환 버튼 강조.
+
+### 6.3 선택 엔드포인트 (ACM-DEC-10)
+
+| Method | Path | 용도 |
+|--------|------|------|
+| POST | `/api/v1/public/account-reset/send-code` · `/complete` | 비밀번호 재설정 (`purpose='reset'`) |
+| GET | `/api/v1/me/account` | 내 이메일·링크 목록 |
+| POST | `/api/v1/me/account/links` | 로그인 상태에서 추가 연결(레거시 검증만) |
+| DELETE | `/api/v1/me/account/links/{linkKey}` | 링크 해제(마지막 1개는 불가) |
+| GET/POST | `/api/v1/admin/accounts…` | 수퍼 관리(`admin.user.write`) |
+
+### 6.4 감사 로그
+
+- `audit.auth` 에 action `account_switch.verify` / `.send_code` / `.complete` / `login.email` 을 구조화 JSON 으로 기록: `result`, `reason`, `email_masked`, `gcode`, `server_id`, `resolved_db`, `client_ip`, `mode`, `linked_count`. `tools/classify_login_audit_logs.py` 에 카테고리 `ACCOUNT_SWITCH_OK/FAIL`, `EMAIL_LOGIN_OK/FAIL`, `SWITCH_REQUIRED` 추가 → 전환율 리포트의 원천.
+
+### 6.5 프론트 API 클라이언트
+
+- `lib/account-switch-api.ts` 신설. `api-client.ts` 의 `ApiErrorCode` 에 `ACCT_*` 코드 추가.
+- `auth-context.tsx` 의 `login(userId, password, hints)` 시그니처 무변경 — 로그인 페이지가 이메일을 `userId` 로 넘긴다.
+
+---
+
+## 7. 프론트 설계
+
+| 파일 | 변경 |
+|------|------|
+| `(public)/login/page.tsx` | 라벨 "이메일", placeholder, 전환 버튼(secondary), `?switched=1` 배너, Phase A 콤보 조건 노출, 403 `ACCT_SWITCH_REQUIRED` 처리 |
+| `(public)/account/switch/page.tsx` + `components/account/SwitchWizard.tsx` | 3단계 위저드(§3.1 B), DEC-096 선택 카드 재사용(`OrgChoice` 타입을 `lib/login-org-select.ts` 로 추출해 공유), 딥링크 파라미터 처리 |
+| `(public)/account/reset/page.tsx` (선택) | 재설정 |
+| `src/middleware.ts` | `PUBLIC_PATHS` 에 `/account/switch`, `/account/reset` 추가 |
+| `lib/account-switch-api.ts`, `lib/api-client.ts` | API·에러 코드 |
+| `(app)/settings/my-profile` (선택) | 연결된 회사 계정 섹션 |
+
+- **키보드 흐름**: Enter = 다음 필드(`advanceFocusOnEnter`), 각 단계 마지막 필드 Enter = 제출, 코드 6자리 입력 완료 시 자동 제출, 한글 IME 조합 중 Enter 무시(DEC-097 패턴).
+- **디자인**: 토큰만 사용(hex 0건), 화면당 `brand-primary` CTA 1개(전환 페이지는 현재 단계의 주 버튼만), `BrandHero` 재사용, 비밀번호 표시 토글은 활성화 페이지 패턴 복사. 모바일 1열.
+- **화면 매트릭스**: 대응 dfm 없음 → `tools/delphi_form_screen_matrix.py` 레지스트리에 `_WebAcct`(WEB_ONLY) 등록, `data-legacy-id` 는 `WebAcct.*` 접두로 부착(테스트 셀렉터 용).
+- **검증**: 커밋 전 로컬 dev + Chrome 실화면으로 전환 e2e(콘솔 provider + DEBUG_ECHO)와 이메일 로그인을 확인하고 커밋 메시지에 명기(verify-ui 규칙).
+
+---
+
+## 8. 구현 워크패키지 · 티어 · 테스트
+
+### 8.1 워크패키지 (의존 순서)
+
+| WP | 내용 | 산출물 | 권장 티어 | 사용자 모델 선택 메모 |
+|----|------|--------|-----------|------------------------|
+| WP-0 | 설계 동결 — `ACM-Q-*` 응답 반영, DEC-235 기록, `migration/contracts/account_switch.yaml` | 본 문서 승인본, decisions.md | **고급 권장** (다의성·트레이드오프) | 실행 전 고급 모델 지정 권장 |
+| WP-1 | 저장소·코덱 — `web_accounts_db.py`(ensure/CRUD/잠금), `account_secret_codec.py`, migrations SQL | 백엔드 2 모듈 + SQL | 표준 | 기본 |
+| WP-2 | 메일 발송 — `email_dispatch_service.py`(console/resend/smtp), 템플릿, env, `render.yaml`, 활성화 토큰 발송 연결 | 서비스 + 템플릿 | 표준 | 기본 |
+| WP-3 | 로그인 코어 추출 — `auth_login_core.py`, `/auth/login` 무회귀 리팩터 | 서비스 1 + auth.py 축소 | **고급 권장** (약 500줄 후보·챌린지 로직 분리, 회귀 6종 보존) | 실행 전 고급 모델 지정 권장 |
+| WP-4 | 전환 API — `public_account_switch.py`, `account_switch_service.py`(티켓·코드·링크), 감사 로그 | 라우터 + 서비스 | 표준 | 기본 |
+| WP-5 | 이메일 로그인 경로 — `/auth/login` 분기, 링크 → identity → 클레임 재도출, 잠금, Phase B 플래그 | auth.py + auth_service | 표준 (WP-3 이후) | 기본 |
+| WP-6 | 프론트 — 로그인 수정, 전환 위저드, API 클라이언트, middleware, 브라우저 실검증 | 페이지 2 + 컴포넌트 | 표준 | 기본 |
+| WP-7 | 회귀·가드 — 테스트 7종, 스모크 매트릭스, 감사 분류기, 화면 매트릭스, hex·hcode 감사 | test/ + tools/ | 표준 | 기본 |
+| WP-8 | (선택) 재설정·내 계정·관리자 화면 | 페이지 3 + API | 표준 | 기본 |
+| WP-9 | 운영 — DKIM, Render env, 공지, Phase A→B 런북, 전환율 리포트 스크립트 | docs 런북 + tools | 표준 | 기본 |
+
+**모델 선택:** 표준 행은 기본·빠른 모델로 진행 가능. 고급 권장 행(WP-0, WP-3)만 사용자가 실행 전에 모델을 바꾸면 된다. 고급 모델을 고르지 않아도 WP-1·2·4·6·7 은 독립적으로 완료 가능하며, WP-3 은 표준 모델로도 진행할 수 있으나 회귀 6종을 반드시 돌린다.
+
+예상 규모(참고): 백엔드 신규 약 1,200줄 · 프론트 신규 약 900줄 · 테스트 약 700줄. 순차 진행 시 표준 티어 기준 3~5 작업일.
+
+### 8.2 회귀 테스트 (hub `test/`, 모두 PASS 가 DoD)
+
+| 파일 | 검증 |
+|------|------|
+| `test_acm_verify_legacy_reuses_login_core.py` | `/auth/login` 과 `verify-legacy` 가 동일 코어 호출(모킹), 409 챌린지 전달, `ACCT_ALREADY_SWITCHED` |
+| `test_acm_code_policy.py` | 해시 저장·TTL·5회 잠금·쿨다운·동일 메시지·이메일 정규화 |
+| `test_acm_complete_and_email_login.py` | complete → 계정·링크 행, `PwHash` 검증, 이메일 로그인 JWT 클레임이 레거시 로그인과 동일(`sub`=Gcode, `sid`, `rdb`, `hcode`) |
+| `test_acm_link_rules.py` | identity 유니크, `link` 모드, 다중 링크 → `ORG_SELECT_REQUIRED` |
+| `test_acm_legacy_login_switch_required.py` | `BLS_LEGACY_ID_LOGIN=off` 403 + 관리자 예외 |
+| `test_acm_no_secret_in_logs_or_responses.py` | 응답·감사 로그에 코드·비밀번호·`PwPlain` 0건 (secrets-policy) |
+| `test_acm_email_dispatch.py` | provider 선택, console/resend 모킹, 템플릿 렌더 |
+| 기존 | 로그인 회귀 6종(`login-dsn-dec08.mdc`) + `test_dec096_org_select_login.py` + `test_classify_login_audit_logs.py` |
+
+### 8.3 정적 가드·등록
+
+- `debug/probe_backend_all_servers.py` `_routes_for` 에 `public.account_switch.verify_bad_body`(422)·`send_code_bad_ticket`(410) 무인증 스모크 등록.
+- `python3 tools/audit_router_hcode_coalesce.py` — 공개 라우터 noqa 사유 주석.
+- `python3 tools/delphi_form_screen_matrix.py --check` — `_WebAcct` WEB_ONLY 등록 후 PASS.
+- `rg '#[0-9a-fA-F]{6}\b' 도서물류관리프로그램/frontend/src` — 신규 TSX 0건.
+- `tsc --noEmit` + `next build` PASS.
+
+---
+
+## 9. 위험 · 사용자 결정 필요 항목
+
+### 9.1 위험 (`ACM-RISK-*`)
+
+| ID | 위험 | 완화 |
+|----|------|------|
+| `ACM-RISK-01` | **평문 비밀번호 보관** — DB 덤프·백업·SSH 계정 유출 시 전 계정 노출, 사용자가 타 서비스와 같은 비밀번호를 쓸 가능성 | `ACM-Q-1` 암호화 대안, 접근 최소화(전용 DB 계정 권장), 응답·로그 0건 가드, Phase C 컬럼 폐기 |
+| `ACM-RISK-02` | 계정 저장소(remote_138) 단일 지점 장애 시 이메일 로그인 불가 | Phase A 동안 레거시 ID 로그인 폴백 유지, 야간 덤프 백업(RED 절차), 저장소 서버 env 로 이동 가능 |
+| `ACM-RISK-03` | 메일 미도달(스팸·DKIM 미설정) | 발신 도메인 인증 필수, 운영에서 `console` provider 금지(기동 경고), 재발송 + 관리자 코드 조회(감사 기록) |
+| `ACM-RISK-04` | Render 무료 플랜 콜드스타트(첫 요청 50초+) | 프론트 대기 문구·타임아웃 60초, 코드 TTL 10분은 여유 |
+| `ACM-RISK-05` | 공용 ID 관행(총무부·영업부 등, 인덱스 동명 27%) — 한 이메일을 여러 사람이 공유 | "이메일 1개 = 계정 1개" 안내, 공용 메일이면 다중 링크로 흡수, 향후 개인 이메일 전환 유도 |
+| `ACM-RISK-06` | 델파이 병행 사용자가 `Id_Logn.Gpass` 를 바꿔도 웹 비밀번호는 별개 | 전환 완료 화면·메일에 "웹 비밀번호는 별도" 명시, Phase C 까지 공존 |
+| `ACM-RISK-07` | 저장소를 MySQL 3.23 서버로 옮길 때 DDL 호환 | 서브쿼리·JSON·CASE 미사용, VARCHAR 시각, `sql_mysql3` 헬퍼 준수 |
+| `ACM-RISK-08` | 이메일 열거 | `send-code` 응답 동일화, `mode` 는 유효 티켓 보유자(레거시 검증 통과자)에게만 |
+| `ACM-RISK-09` | 로그인 코어 추출 중 회귀 | WP-3 를 별 커밋으로 분리, 회귀 6종 + DEC-096 테스트 게이트, `/auth/login` 응답 스냅샷 비교 |
+
+### 9.2 사용자 결정 필요 (`ACM-Q-*`) — 답이 없으면 괄호의 기본안으로 진행
+
+| ID | 질문 | 선택지 (기본안) |
+|----|------|------|
+| `ACM-Q-1` | 비밀번호 보관 방식 | (a) 요구 원문대로 평문 `PwPlain` + `PwHash` 병행 **(기본안)** / (b) AES-GCM 암호화 `PwEnc` + `PwHash` — 권장 |
+| `ACM-Q-2` | 레거시 ID 로그인 병행 기간과 차단 기준 | 기본안: Phase A 8주, 활성 계정 전환율 90% 도달 시 Phase B |
+| `ACM-Q-3` | 메일 제공자·발신 주소 | 기본안: Resend(HTTP) + `no-reply@<북이오 도메인>` / 대안 SMTP(네이버웍스·구글워크스페이스) |
+| `ACM-Q-4` | 비밀번호 재설정 화면 포함 여부 | 기본안: 포함(Phase B 전 필수) |
+| `ACM-Q-5` | 한 이메일에 여러 회사 계정 연결 허용 | 기본안: 허용(로그인 시 소속 선택) |
+| `ACM-Q-6` | 기존 「기 등록 계정 찾기」(활성화) 링크 | 기본안: 유지하되 메일 발송을 신설 서비스로 연결 / 대안: 전환 페이지에 흡수 |
+| `ACM-Q-7` | 계정 저장소 서버 | 기본안: `remote_138` (MySQL 5.1 직결) |
+
+---
+
+## 10. 수용 기준 (DoD)
+
+- [ ] 테스트 계정 1건이 `/account/switch` 3단계를 실메일로 완주하고 `/login` 에서 이메일로 로그인해 기존 화면(거래명세서 등)을 동일 권한으로 조회한다.
+- [ ] 이메일 로그인 JWT 의 `sub`/`sid`/`rdb`/`hcode`/`fxx_caps` 가 같은 계정의 레거시 ID 로그인과 동일하다(테스트 `test_acm_complete_and_email_login.py`).
+- [ ] `/auth/login` 레거시 경로 응답·감사 로그가 리팩터 전과 동일(로그인 회귀 6종 + DEC-096 PASS).
+- [ ] 응답·로그·엑셀 어디에도 인증코드·비밀번호·`PwPlain` 이 나타나지 않는다(테스트 + `rg` 가드).
+- [ ] Render 재배포 후에도 전환된 계정으로 로그인된다(사이드테이블 영속 확인).
+- [ ] `tsc --noEmit`, `next build`, hub `pytest -q`, `audit_router_hcode_coalesce`, `delphi_form_screen_matrix --check`, hex 가드 모두 PASS.
+- [ ] `dashboard/data/porting-screens.json` C1 의 `web.routes/endpoints` 에 신규 라우트·API 반영, `analysis/audit/incomplete-features-inventory` 갱신.
+- [ ] DEC-235 기록 + `migration/contracts/account_switch.yaml` approved.
