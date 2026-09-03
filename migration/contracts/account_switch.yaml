@@ -56,7 +56,7 @@ storage:
   password_store: BLS_ACCOUNT_PW_STORE plain(기본, 요구) | aesgcm(BLS_ACCOUNT_PW_KEY)
 email:
   provider: BLS_EMAIL_PROVIDER smtp (Brevo smtp-relay.brevo.com:587 STARTTLS) | console(로컬)
-  from: no-reply@buk.io
+  from: newoneseek@buk.io
   env: [BLS_SMTP_HOST, BLS_SMTP_PORT, BLS_SMTP_USER, BLS_SMTP_PASSWORD, BLS_EMAIL_FROM, BLS_EMAIL_FROM_NAME, BLS_PUBLIC_BASE_URL]
 rollout:
   legacy_id_login_flag: BLS_LEGACY_ID_LOGIN (코드 기본 on = 선공개 기간; 컷오버 커밋에서 off)
