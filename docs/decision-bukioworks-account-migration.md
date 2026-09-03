@@ -151,7 +151,7 @@
 | 단계 | 내용 | 게이트 |
 |------|------|------|
 | **전 Phase 공통** | **델파이 병행** — `Id_Logn` 무변경(ACM-INV-1), 두 비밀번호 독립(ACM-INV-2), 델파이 신규 사용자 상시 전환 가능(ACM-INV-6) | `test_acm_delphi_coexistence.py` PASS |
-| Phase 0 준비 | 발신 도메인 SPF/DKIM 등록, Render env(`BLS_EMAIL_*`, `BLS_ACCOUNT_*`) 등록, 사이드테이블 생성(첫 호출 시 자동 + 마이그레이션 SQL 문서화), 로그인 공지(platform_portal)에 "계정 전환 안내" 등록 | 테스트 계정 1건 전환 e2e PASS |
+| Phase 0 준비 | **복원 포인트 생성 완료(2026-09-03)** — 태그 `restore-pre-email-account-2026-09-03`(제품 6a913d3 · 허브 ee04c67) + remote_138 DB 기준선, 절차는 [restore-point-pre-email-account-2026-09-03.md](restore-point-pre-email-account-2026-09-03.md). 발신 도메인 SPF/DKIM 등록, Render env(`BLS_EMAIL_*`, `BLS_ACCOUNT_*`) 등록, 사이드테이블 생성(첫 호출 시 자동 + 마이그레이션 SQL 문서화), 로그인 공지(platform_portal)에 "계정 전환 안내" 등록 | 테스트 계정 1건 전환 e2e PASS |
 | Phase A 병행 | 이메일 로그인 + 레거시 ID 로그인 **동시 허용**. 로그인 페이지에 전환 버튼·배너. 전환율 리포트(감사 로그 분류) 주 1회 | 활성 계정 전환율 ≥ 목표(ACM-Q-2) |
 | Phase B 차단 (**웹에만**) | `BLS_LEGACY_ID_LOGIN=off` → **웹의** 레거시 ID 로그인 시 403 `ACCT_SWITCH_REQUIRED` + 전환 버튼으로 유도. 관리자(`BLS_ADMIN_USER_IDS`)는 예외. 델파이 로그인은 무관 | 비밀번호 재설정 화면 배포 완료(ACM-DEC-10) |
 | Phase C 북이오 통합 | `Web_Accounts` 를 북이오 계정 체계로 이관(평문/복호화 배치, RED 절차) 후 `PwPlain` 컬럼 폐기. **델파이 병행은 계속** — `Id_Logn` 은 남는다 | 북이오 측 이관 완료 확인 |

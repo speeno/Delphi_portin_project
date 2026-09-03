@@ -1,0 +1,100 @@
+{
+ "server_id": "remote_138",
+ "captured_at_utc": "2026-09-03 02:30:16",
+ "databases": {
+  "book_01_db": {
+   "id_logn_rows": 203,
+   "web_tables": []
+  },
+  "book_02_db": {
+   "id_logn_rows": 22,
+   "web_tables": []
+  },
+  "book_03_db": {
+   "id_logn_rows": 3,
+   "web_tables": []
+  },
+  "book_04_db": {
+   "id_logn_rows": 5,
+   "web_tables": []
+  },
+  "book_05_db": {
+   "id_logn_rows": 182,
+   "web_tables": []
+  },
+  "book_06_db": {
+   "id_logn_rows": 103,
+   "web_tables": []
+  },
+  "book_07_db": {
+   "id_logn_rows": 13,
+   "web_tables": []
+  },
+  "book_11_db": {
+   "id_logn_rows": 703,
+   "web_tables": []
+  },
+  "book_21_db": {
+   "id_logn_rows": 5,
+   "web_tables": []
+  },
+  "book_99_db": {
+   "id_logn_rows": 5,
+   "web_tables": []
+  },
+  "book_gs_db": {
+   "id_logn_rows": 7,
+   "web_tables": []
+  },
+  "book_js_db": {
+   "id_logn_rows": 3,
+   "web_tables": []
+  },
+  "book_kb_db": {
+   "id_logn_rows": 775,
+   "web_tables": [
+    "Web_Grid_Prefs",
+    "Web_Print_Assets",
+    "Web_User_Prefs"
+   ]
+  },
+  "chul_05_db": {
+   "id_logn_rows": 0,
+   "web_tables": []
+  },
+  "chul_06_db": {
+   "id_logn_rows": 0,
+   "web_tables": []
+  },
+  "chul_07_db": {
+   "id_logn_rows": 0,
+   "web_tables": []
+  },
+  "chul_08_db": {
+   "id_logn_rows": 0,
+   "web_tables": []
+  },
+  "chul_09_db": {
+   "id_logn_rows": 88,
+   "web_tables": [
+    "Web_Grid_Prefs",
+    "Web_Print_Assets",
+    "Web_User_Prefs"
+   ]
+  }
+ },
+ "mysql_version": "5.1.73-log",
+ "_meta": {
+  "purpose": "복원 포인트 — 이메일 기준 북이오웍스 계정 전환(ACM/DEC-235) 착수 전 DB 기준 상태 (읽기 전용 캡처)",
+  "restore_point_tag": "restore-pre-email-account-2026-09-03",
+  "product_commit": "6a913d3e63204b85b30a46e86d41779d35d87845",
+  "hub_commit": "ee04c67c2bbfb1b3f26a7fe6624a1626691be0b2",
+  "tool": "tools/restore_point_db_baseline.py",
+  "secrets_policy": "자격증명·Gpass 0건 — DB 이름·Id_Logn 행수·Web_* 테이블명만 (INTERNAL)"
+ },
+ "summary": {
+  "dbs_with_id_logn": 18,
+  "id_logn_rows_total": 2117,
+  "web_account_tables_present": []
+ }
+}
