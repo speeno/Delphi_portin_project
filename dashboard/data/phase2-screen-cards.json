@@ -448,7 +448,7 @@
     },
     {
       "id": "Sobo21_status_list",
-      "caption": "거래현황(LIST)",
+      "caption": "거래현황(목록)",
       "menu": "transactions",
       "route": "/transactions/status?view=list",
       "scenario": {

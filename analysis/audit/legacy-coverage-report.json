@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-25T03:41:43.895493+00:00",
+  "generated_at": "2026-09-04T04:40:10.405561+00:00",
   "summary": {
     "total_dfm_candidates": 118,
-    "registry_entries": 98,
+    "registry_entries": 97,
     "ok": 25,
     "missing_forms": 0,
     "caption_mismatches": 0,
@@ -429,7 +429,7 @@
     {
       "form_name": "Sobo21_status_list",
       "dfm_form_name": "Sobo21",
-      "registry_caption": "거래 현황(LIST)",
+      "registry_caption": "거래 현황(목록)",
       "dfm_caption": "거래명세서",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu21.dfm",
       "category": "caption_mismatch",

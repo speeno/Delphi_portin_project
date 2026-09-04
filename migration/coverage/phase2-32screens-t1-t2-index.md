@@ -38,7 +38,7 @@
 | 3 | `WebAdmAudit` | `_WebAdm` | `/admin/audit` | C14 운영 모니터링 | (NEW — 본 인덱스 §1.3) | audit\_settlement + audit\_returns 통합 |
 | 4 | `Sobo32_1_ledger` | `Subu32_1` | `/ledger/customer-integrated` | C6 거래/잔액 (전체) | [Sobo32\_1.md](../../analysis/screen_cards/Sobo32_1.md) | 단일 거래처 → 전체 거래처 변형 |
 | 5 | `Sobo33_1_ledger` | `Subu33` (변형) | `/ledger/book-integrated` | C6 도서수불 (구간) | [Sobo33.md](../../analysis/screen_cards/Sobo33.md) (재사용) + 구간 파라미터 추가 | 단일 도서 → 도서 구간 변형 |
-| 6 | `Sobo21_status_list` | `Subu21` | `/transactions/status?view=list` | C6 거래현황(LIST) | [Sobo21.md](../../analysis/screen_cards/Sobo21.md) (`view=list` 모드) | 모바일 LIST 뷰 |
+| 6 | `Sobo21_status_list` | `Subu21` | `/transactions/status?view=list` | C6 거래현황(목록) | [Sobo21.md](../../analysis/screen_cards/Sobo21.md) (`view=list` 모드) | 모바일 LIST 뷰 |
 | 7 | `Sobo21_status_summary` | `Subu21` | `/transactions/status?view=summary` | C6 거래현황(요약) | [Sobo21.md](../../analysis/screen_cards/Sobo21.md) (`view=summary`) | 모바일 요약 뷰 |
 | 8 | `Sobo21_status_memo` | `Subu21` | `/transactions/status?view=memo` | C6 거래현황(메모) | [Sobo21.md](../../analysis/screen_cards/Sobo21.md) (`view=memo`) | 모바일 메모 뷰 |
 | 9 | `Sobo50_stats` | `Subu50` | `/stats/sales-period` | C13 매출 분석 | [Sobo50.md](../../analysis/screen_cards/Sobo50.md) + recharts 시각화 보강 | recharts NEW 4종 중 1 |

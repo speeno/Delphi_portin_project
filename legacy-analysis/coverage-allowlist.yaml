@@ -376,7 +376,7 @@ caption_mismatches:
     until: "Phase 3 audit"
   - form_name: Sobo21_status_list
     dfm_caption: "거래명세서"
-    registry_caption: "거래현황(LIST)"
+    registry_caption: "거래현황(목록)"
     reason: "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)"
     until: "Phase 3 audit"
   - form_name: Sobo21_status_memo

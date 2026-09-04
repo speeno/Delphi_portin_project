@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-08-26T18:26:59.588916+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-09-03T09:21:08.784790+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -34,7 +34,7 @@
   - 거래명세서 조회(Subu21). 메모 쓰기는 거래현황(메모) Sobo21_status_memo RU(PATCH /transactions/sales-statement/{key}/memo)로 분리
 - `Sobo21_status_detail` (거래 현황(상세)) `/transactions/status?view=detail`
   - 레거시 Sobo24 거래현황 상세 — 전표 단위 라인(도서·수량·금액) 펼침. GET /transactions/status?view=detail
-- `Sobo21_status_list` (거래 현황(LIST)) `/transactions/status?view=list`
+- `Sobo21_status_list` (거래 현황(목록)) `/transactions/status?view=list`
   - 거래현황 목록 조회 — GET /transactions/status?view=list
 - `Sobo21_status_summary` (거래 현황(요약)) `/transactions/status?view=summary`
   - 거래현황 기간 요약 집계 조회 — GET /transactions/status?view=summary
@@ -100,6 +100,7 @@
 - `도서물류관리프로그램/backend/app/routers/_stub.py:27` — `"""이름이 무엇이든 503 응답. 프론트는 NOT_IMPLEMENTED 로 인식."""`
 - `도서물류관리프로그램/backend/app/routers/_stub.py:29` — `status_code=status.HTTP_503_SERVICE_UNAVAILABLE,`
 - `도서물류관리프로그램/backend/app/routers/_stub.py:31` — `"code": "NOT_IMPLEMENTED",`
+- `도서물류관리프로그램/backend/app/routers/auth.py:615` — `status_code=status.HTTP_503_SERVICE_UNAVAILABLE,`
 - `도서물류관리프로그램/backend/app/routers/returns.py:758` — `status_code=status.HTTP_501_NOT_IMPLEMENTED,`
 - `도서물류관리프로그램/backend/app/routers/settlement.py:1174` — `result = await tax_invoice_service.issue_external_stub(`
 

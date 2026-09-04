@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-26T18:25:57.333207+00:00",
+  "generated_at": "2026-09-04T04:40:10.463351+00:00",
   "summary": {
     "registry_forms": 97,
     "legacy_dfm_subu_stems": 92,
@@ -738,7 +738,7 @@
       "modern_id": "Sobo21_status_list",
       "folder": "Subu21",
       "route": "/transactions/status?view=list",
-      "modern_caption": "거래 현황(LIST)",
+      "modern_caption": "거래 현황(목록)",
       "legacy_form_object": "Sobo21",
       "legacy_caption": "거래명세서",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu21.dfm",
