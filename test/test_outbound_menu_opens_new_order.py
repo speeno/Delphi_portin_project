@@ -92,6 +92,14 @@ class InboundMenuRouteTests(TestCase):
         self.assertIn('route: "/inbound/receipts"', block)
         self.assertNotIn('route: "/inbound/receipts/new"', block)
 
+    def test_returns_menu_opens_new_receipt(self) -> None:
+        """DEC-240 — 반품 접수 메뉴도 목록 대신 신규 반품 접수 화면이 먼저 열린다."""
+        i = self.src.index('id: "Sobo23",')
+        block = self.src[i : self.src.index("},", i)]
+        self.assertIn('route: "/returns/receipts"', block)
+        self.assertIn('menuRoute: "/returns/receipts/new"', block)
+        self.assertNotIn('route: "/returns/receipts/new"', block)
+
     def test_new_receipt_page_keeps_back_link(self) -> None:
         page = (
             SRC / "app" / "(app)" / "inbound" / "receipts" / "new" / "page.tsx"

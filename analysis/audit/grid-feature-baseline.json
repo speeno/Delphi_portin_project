@@ -680,16 +680,6 @@
       "resize": 0,
       "sortable": 2
     },
-    "components/returns/return-line-grid.tsx": {
-      "column_settings": 1,
-      "data_grid": 0,
-      "freeze": 1,
-      "keyboard": 0,
-      "pager": 0,
-      "reorder": 0,
-      "resize": 1,
-      "sortable": 0
-    },
     "components/transactions/transaction-status-screen.tsx": {
       "column_settings": 5,
       "data_grid": 12,

@@ -5601,3 +5601,26 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **남은 것** — 반품 접수·폐기 접수 신규(`ReturnLineGrid`)와 입고 상세 팝업(`InboundLineGrid`)을
   같은 축 방식으로 흡수하면 라인 편집기가 1벌이 된다. 필터 띠에서 라인 그리드로 넘어가는 Enter 규약은
   두 화면 모두 `data-enter-advance="off"` + 자동완성 자체 처리로 동일.
+
+### DEC-240 — 반품·폐기 접수 신규: 전표 입력 골격·라인 편집기 통합 완료(4벌→1벌) + 반품 접수 메뉴는 신규 화면 먼저 (2026-09-06)
+
+- **배경** — DEC-239(입고·출고) 직후 사용자: "반품·폐기 접수 화면도 같은 방식으로 통합해줘, 반품 접수도
+  메뉴를 누르면 신규 반품 접수 화면이 먼저 진입되도록." 남아 있던 라인 편집기 2벌(`ReturnLineGrid` 607줄,
+  입고 상세 `InboundLineGrid`) 중 반품·폐기가 쓰는 쪽을 흡수했다.
+- **결정**
+  1. `SlipLineGrid` 축 데이터 확장 — `rateMode`(percent/fraction: 반품 도메인은 금액=round(단가×할인율×수량)),
+     `newLine`(수량·비율 기본), `showYesno`(상태 컬럼, '2'=취소), `editableAmount`(반품·폐기는 표시 전용),
+     `onLookupBook`(직접 타이핑한 도서코드 blur 보충, DEC-169), 전표 단가 우선(`keepDang`).
+     `RETURN_LINE_AXIS`(정품/비품/폐기, 할인율 0.7, Sobo23_1.*) / `SCRAP_LINE_AXIS`(정품/비품, prefs 분리).
+  2. `components/returns/return-line-grid.tsx` 는 얇은 래퍼 + 상수 재수출로 축소(호출 시그니처 호환).
+     **라인 편집기는 이제 1벌**(`SlipLineGrid`) — 출고·입고·반품·폐기 접수 4화면이 같은 편집기·키보드·
+     컬럼 설정·합계·가로 스크롤 힌트를 쓴다. 입고 상세 팝업의 `InboundLineGrid` 만 후속.
+  3. 반품·폐기 신규 화면은 `SlipEntryLayout` — 헤더 어휘 「거래 일자」, 출판사코드는 두 화면 모두 공용 룩업
+     (검색 팝업만, 인라인 자동완성 금지: `publisher` kind 인라인은 G1 거래처 코드를 돌려주는데 여기서는
+     S1_Ssub.Hcode 로 **저장**하므로 축이 다르면 안 된다) + 「출판사명(코드)」 보조 텍스트.
+     반품 「자료불러오기」는 띠 우측 도구(outline), 폐기 고정 거래처 「애플2」 칩·음수 수량 안내는 유지.
+  4. **반품 접수 메뉴 → `/returns/receipts/new`** (`menuRoute`, 입고·출고와 동일). `route` 는 접두 매칭
+     기준이라 유지(DEC-180 함정).
+- **가드** — 허브 정적 가드 3종 위치 갱신(dec193→공용 그리드/래퍼, dec221→헤더 폼 슬롯, menu_opens 반품 추가).
+  `grid_feature_baseline` 은 `return-line-grid.tsx` 항목 소실이 의도된 이관이라 기준선 재생성(69 파일).
+  제품 저장소 dcddfa1.

@@ -28,12 +28,15 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from unittest import TestCase, main
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "도서물류관리프로그램" / "frontend" / "src"
-GRID = SRC / "components" / "returns" / "return-line-grid.tsx"
+# DEC-240 — 반품·폐기 라인 편집기는 공용 SlipLineGrid(출고·입고와 한 벌). 내부는 여기서 검증한다.
+GRID = SRC / "components" / "outbound" / "order-line-grid.tsx"
+WRAPPER = SRC / "components" / "returns" / "return-line-grid.tsx"
 SCRAP_PAGE = SRC / "app" / "(app)" / "returns" / "scrap" / "new" / "page.tsx"
 RETURN_PAGE = SRC / "app" / "(app)" / "returns" / "receipts" / "new" / "page.tsx"
 RESOLVER = SRC / "lib" / "book-code-resolve.ts"
@@ -62,7 +65,7 @@ class ReturnLineGridCommonPartsTests(TestCase):
     def test_keyboard_conventions(self) -> None:
         """↑↓←→ 셀 이동(DEC-168) + Enter=다음 칸(DEC-191) 공용 헬퍼 배선."""
         self.assertIn("handleGridArrowKey", self.src)
-        self.assertIn("focusNextGridCell", self.src)
+        self.assertIn("focusNextCell", self.src)
 
     def test_column_prefs_wired(self) -> None:
         """컬럼 표시/순서/너비 계정 저장(DEC-191)."""
@@ -72,9 +75,8 @@ class ReturnLineGridCommonPartsTests(TestCase):
 
     def test_uses_shared_list_table_tokens(self) -> None:
         """표 마크업/색은 공용 목록표 토큰 — 하드코딩 gray 팔레트 금지(Design.md)."""
-        self.assertIn("LIST_TABLE_SCROLL_CARD_CLASS", self.src)
-        self.assertIn("LIST_TABLE_HEAD_CLASS", self.src)
-        self.assertIn("LIST_TABLE_BODY_ROW_CLASS", self.src)
+        # DEC-240 — 공용 그리드: 표 카드는 HScrollBox(DEC-218 가로 스크롤 힌트), 합계 행은 공용 상수.
+        self.assertIn("<HScrollBox", self.src)
         self.assertIn("LIST_TABLE_FOOTER_ROW_CLASS", self.src)
         for banned in ("bg-gray-50", "text-gray-700", "border-gray-200", "text-gray-400", "bg-red-50"):
             self.assertNotIn(banned, self.src, f"하드코딩 색 잔존: {banned}")
@@ -92,19 +94,25 @@ class ReturnLineGridCommonPartsTests(TestCase):
             "pubun", "bcode", "bname", "isbn", "gsqut",
             "gdang", "grat1", "gssum", "gbigo", "yesno",
         ]
-        block = self.src[self.src.index("const baseCols"):self.src.index("const visibleCols")]
+        # DEC-240 — 반품 축(RETURN_LINE_AXIS.columnOrder)이 표시 순서를 정한다. 도서명 컬럼 id = product_name.
+        axis = self.src[self.src.index("export const RETURN_LINE_AXIS"):self.src.index("export const SCRAP_LINE_AXIS")]
+        order = re.search(r"columnOrder:\s*\[([^\]]*)\]", axis).group(1)
         positions = []
         for col in wanted:
-            marker = f'{{ id: "{col}"'
-            idx = block.find(marker)
+            marker = f'"{"product_name" if col == "bname" else col}"'
+            idx = order.find(marker)
             self.assertNotEqual(idx, -1, f"컬럼 정의 누락: {col}")
             positions.append(idx)
         self.assertEqual(positions, sorted(positions), "기본 컬럼 순서가 입고 접수와 다르다")
 
-    def test_book_display_cache_is_keyed_by_code(self) -> None:
-        """도서명/ISBN 표기는 행 인덱스가 아니라 도서코드 기준 — 중간 행 삭제 시 밀리지 않는다."""
-        self.assertIn("bookInfo", self.src)
-        self.assertNotIn("Record<number, string>", self.src)
+    def test_typed_code_lookup_on_blur(self) -> None:
+        """DEC-169 — 직접 타이핑한 도서코드는 blur 보충(도서명·ISBN·정가). 공용 그리드 onLookupBook.
+        도서명·ISBN 은 행(line.product_name/isbn)에 담겨 행 삭제·재정렬에도 밀리지 않는다."""
+        self.assertIn("onLookupBook", self.src)
+        self.assertIn("lookupTypedBook", self.src)
+        wrapper = WRAPPER.read_text(encoding="utf-8")
+        self.assertIn("export default function ReturnLineGrid", wrapper)
+        self.assertIn("axis={axis}", wrapper)
 
 
 class ScrapReceiptPageTests(TestCase):
@@ -115,8 +123,8 @@ class ScrapReceiptPageTests(TestCase):
 
     def test_list_button_goes_to_scrap_status(self) -> None:
         """「목록」 = 폐기 현황(입고/출고 접수의 목록 버튼과 동일 자리·동작)."""
-        self.assertIn('href="/returns/scrap/status"', self.src)
-        self.assertIn("> 목록", self.src)
+        # DEC-240 — 「목록」 은 공용 골격(SlipEntryLayout listHref)이 그린다.
+        self.assertIn('listHref="/returns/scrap/status"', self.src)
         # 종전 router.back() 「뒤로」 는 제거.
         self.assertNotIn("router.back()", self.src)
 
@@ -127,7 +135,8 @@ class ScrapReceiptPageTests(TestCase):
         self.assertNotIn("useInlineAutocomplete", self.src)
         # 확정 시 출판사명 표기(읽기 전용, 이동 대상 제외).
         self.assertIn("setHname", self.src)
-        self.assertIn("tabIndex={-1}", self.src)
+        # 출판사명은 입력칸 아래 보조 텍스트(입고·출고·반품과 동형) — 입력 대상이 아니다.
+        self.assertIn("{hname}({hcode})", self.src)
 
     def test_starts_with_one_blank_line(self) -> None:
         """진입 시 빈 표가 아니라 입력 대기 1행(입고/출고 접수 동형)."""
