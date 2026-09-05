@@ -5655,3 +5655,18 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   `/ledger/comparison`·화면·API(`GET/PATCH /api/v1/ledger/comparison`)·권한(F48)은 그대로. 제품 저장소 f60cb58.
 - **재노출 조건** — 어느 테넌트가 출고정지나 SET 재고를 실제로 쓰려면 **읽는 쪽**(출고 접수의 출고정지 검사,
   통합 원장의 Chek3 적용)을 먼저 배선한 뒤 플래그를 내린다. 플래그만 켜 두면 "설정했는데 안 먹는" 화면이 된다.
+
+### DEC-243 — 사이드바: 접근할 수 없는 메뉴는 그리지 않는다 (MENUVIS-DEC-06 의 회색 노출 UX 대체) (2026-09-06)
+
+- **배경** — 사용자: "접근이 안되면 보이지도 않게 해주면 좋겠다." 종전 MENUVIS-DEC-06(2026-06)은 레거시
+  `ShowMessage(E_Connect)` 를 흉내 내 라이선스(Fxx) 미보유·X 화면을 **회색 disabled + 툴팁**으로 노출했고,
+  가드 `test_screen_caps_static` 이 "Fxx read 로 메뉴를 숨기지 않는다"를 못 박고 있었다(경리부 등 부서계정이
+  관리자 외 전 메뉴를 보던 원본 구성 보존 목적). `canAccessScreen` API 는 그 용도로 만들어졌으나 미배선.
+- **결정** — `isVisibleForm` 은 ① 매트릭스 `visible=false`, ② 라이선스 미보유(`navUiState.disabled`),
+  ③ `canAccessScreen(form)=false`(Fxx X / 읽기 권한 없음) 를 **모두 숨김**으로 본다. 권한 로딩 중에는 ③을
+  적용하지 않는다(빈 사이드바 깜빡임 방지). 그룹은 보이는 항목이 0이면 사라진다. 도달 불가가 된 disabled
+  렌더 분기는 제거. `navUiState`/백엔드 `nav_ui_state_for_menu` 의 `visible+disabled` 의미는 그대로 두고
+  **사이드바가 disabled 를 숨김으로 해석**한다(진단 패널 등 다른 소비처 영향 없음).
+- **불변** — 백엔드 PermissionGuard(L1)와 화면 내부 `canRead` 게이트는 그대로다. 숨김은 UI 뿐이며 직접 URL
+  진입도 여전히 막힌다. 관리자 `/admin/id-logn` 의 메뉴 노출 체크리스트(hidden_menu_ids)도 그대로.
+- **가드** — `test_screen_caps_static::test_sidebar_hides_inaccessible_menus` 로 교체. 제품 저장소 ce80a11.

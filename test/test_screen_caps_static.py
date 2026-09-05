@@ -57,20 +57,22 @@ class ScreenCapsStaticTest(TestCase):
             f"requiredPermission 누락 phase1/2 라우트 폼: {missing[:12]}",
         )
 
-    def test_sidebar_visibility_is_matrix_driven(self) -> None:
-        """MENUVIS-DEC-06 개정 (2026-06-20) — 사이드바 가시성은 매트릭스 기준.
+    def test_sidebar_hides_inaccessible_menus(self) -> None:
+        """DEC-243 (2026-09-06 사용자 "접근이 안되면 보이지도 않게") — MENUVIS-DEC-06 UX 를 대체.
 
-        레거시 Delphi 동작 복원: Fxx=X 화면도 *메뉴는 노출* 하고(매트릭스
-        ``getMenuState`` 기준), 쓰기 가능 여부는 화면 내부 ``canWrite`` 로 제어한다
-        (원본은 X 메뉴 클릭 시 접속불가 안내). 따라서 사이드바 ``isVisibleForm`` 은
-        Fxx read(``canAccessScreen``)로 메뉴를 숨기지 *않는다* — 경리부 등 부서계정이
-        관리자 외 모든 메뉴를 보던 원본 구성을 보존하기 위함.
+        종전에는 레거시 ShowMessage(E_Connect) 를 흉내 내 Fxx=X·라이선스 미보유 화면을 회색
+        disabled 로 노출했다. 이제 사이드바 ``isVisibleForm`` 은 ① 매트릭스 ``visible``,
+        ② 라이선스 미보유 ``disabled``, ③ ``canAccessScreen``(Fxx read/권한) 을 모두 숨김으로
+        판정한다. 백엔드 PermissionGuard(L1)는 불변 — 직접 URL 은 화면 canRead 게이트가 막는다.
+        권한 로딩 중에는 caps 로 숨기지 않는다(빈 사이드바 깜빡임 방지).
         """
         text = _SIDEBAR.read_text(encoding="utf-8")
-        # 가시성 판정 함수가 매트릭스 visible 을 사용하는지 확인.
-        self.assertIn("menuState.visible", text)
-        # Fxx read 게이트(canAccessScreen)로 메뉴를 숨기는 회귀가 재유입되지 않도록 가드.
-        self.assertNotIn("perms.canAccessScreen(form)", text)
+        self.assertIn("if (!menuState.visible || menuState.disabled) return false;", text)
+        self.assertIn("if (perms.isLoading) return true;", text)
+        self.assertIn("return perms.canAccessScreen(form);", text)
+        # disabled(회색) 렌더 분기는 도달 불가라 제거됐다.
+        self.assertNotIn("menuDisabled", text)
+        self.assertNotIn("읽기 전용으로 표시됩니다", text)
 
     def test_master_forms_have_license_fkey(self) -> None:
         """DEC-RBAC-04 — 기초관리 핵심 마스터 화면은 ``licenseFkey`` 가 부착돼야 한다.
