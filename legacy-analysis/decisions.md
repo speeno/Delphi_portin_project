@@ -5479,3 +5479,34 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **잔여 결정**: ACM-Q-1(평문 vs AES-GCM), Q-5(다중 링크 허용 — 구현은 허용), Q-7(저장소 서버), 선공개 기간.
 - **결정자**: 사용자(요구·병행·이메일 전용·Brevo·발신자) + 메인개발자(설계·구현)
 - **보강(2026-09-03 저녁, 사용자 요청)**: ① `/account/reset` 미등록 이메일은 404 `ACCT_EMAIL_NOT_REGISTERED` 즉시 안내(열거 방지 예외 — B2B 폐쇄 환경). ② 「기 등록 계정 찾기」(`/activate/lookup`)를 **내 계정 찾기**로 개편 — `POST /public/account-switch/lookup`: 로그인과 같은 자격 검증만으로 전환된 이메일 계정(이메일·연결일·마지막 로그인)을 보여주고, 없으면 전환 티켓을 줘 바로 전환 2단계로 잇는다. ③ 전환·재설정·계정 찾기 히어로 로고 = 사용자 제공 워드마크 WebP(`Logo` 단일 진입점). ④ **메일 발송 검증 완료(2026-09-03)** — 발신자 `newoneseek@buk.io`(Brevo 인증 발신자, buk.io = Route53 + Google Workspace)로 실제 수신 확인. 그 전 실패 원인은 발신 도메인 문제였다: `admin@bukio.works`=NXDOMAIN, `bukio.com`=타인 소유 파킹. Brevo 는 미인증 발신자도 SMTP 250 `queued` 로 접수 후 차단하므로 접수 응답만으로 전달을 판단하면 안 된다(ACM-RISK-16). 운영 Render 환경변수 등록 완료(2026-09-03, API `PUT /v1/services/{id}/env-vars` — 기존 4건 보존 병합 후 재배포)로 `switchAvailable=true` → **Phase 1 선공개 진입**(로그인 화면에 전환 버튼 노출, 레거시 ID 로그인 병행 유지). ⑤ **회사 미선택 스윕 지연 가드** — 운영 실측 89초(후보 39개)로 프론트 30초 타임아웃을 넘기던 문제: `BLS_LOGIN_SWEEP_BUDGET_SEC`(기본 20초, 추측 후보 한정) 예산 + 409 `ACCT_ORG_HINT_REQUIRED` 안내, 계정 계열 프론트 타임아웃 150초.
+
+### DEC-236 — 대시보드: 창고 IoT 감춤 + 지어낸 지표(퍼널·리드타임·미처리건) 제거 설계 (2026-09-05)
+
+- **배경** — 사용자 지시로 「창고 IoT」 탭을 감추고 대시보드를 "주요하게 필요한 정보만"으로
+  재구성하기로 했다. 재구성 설계를 위해 현행 카드의 데이터 출처를 전수 확인한 결과, 큰 카드
+  두 개가 DB 값이 아니라 **입고·출고·반품 세 건수로 만든 산술식**이었다.
+- **확인된 허구 지표** (`backend/app/services/stats_service.py`)
+  - `get_dashboard_funnel` — 6단계가 모두 `in_total`/`out_total`/`ret_total` 의 뺄셈.
+    특히 `배송중 = max(out-ret,0)`, `배송완료 = max(out-ret-(ret//2),0)`.
+    레거시 DB 에 배송 상태·시각 데이터 자체가 없다.
+  - `get_dashboard_leadtime` — `avg_days` 가 두 건수의 **비율 × 0.8 / × 1.2**. 일(day) 단위와 무관.
+    라인에 입력 시각 `Time3` 는 있으나 입고 전표↔출고 전표를 잇는 키가 없어 실측 불가.
+  - `get_dashboard_overview` 의 `processing_total = max(out_total - ret_total, 0)` — "미처리건"이 아님.
+  - `get_dashboard_iot_warehouse` → `_iot_demo_snapshot()` — 서버명 해시로 만든 데모값(센서 없음).
+- **결정**
+  1. 창고 IoT 는 **감추기(삭제 금지)**: 대시보드 탭은 `SHOW_IOT_TAB=false`, 역할 매트릭스
+     `embeddedWidgets` 에서 `iot_snapshot` 제거, 카탈로그 항목에 `hidden:true` 를 달아
+     「위젯 추가」 목록에서만 제외한다. **카탈로그 항목 자체는 남긴다** — 지우면 기존 저장
+     레이아웃의 `widgetCatalogEntry()` 조회가 실패해 카탈로그 0번 위젯으로 대체된다.
+     라우트 `/dashboard/iot`·백엔드 엔드포인트·SSE 스트림은 그대로 둔다.
+  2. 퍼널·리드타임·`processing_total` 은 화면에서 제거한다. 값을 "고치는" 것이 아니라
+     **없는 데이터를 표시하지 않는다**가 원칙이다.
+  3. `processing_total` 자리는 전표 `MAX(Yesno)` 기반 **대기+접수 건수**로 대체한다
+     (`_line_status_from_yesno_max`: ''→pending, '0'→received, '1'·'2'→done).
+     신규 집계는 MySQL 3.23 파생테이블 금지 규칙에 따라 `count_grouped()` 로 쓴다(DEC-033).
+  4. 외부 위젯 9종(날씨·기상특보·유가·교통 ETA/예측/지도·배송위험·수요예측·사서추천)은
+     삭제하지 않고 **기본 레이아웃에서만 해제**한다.
+- **설계 산출물** — `docs/decision-dashboard-redesign.md` (3구역: 할 일 → 오늘 실적 → 돈과 재고,
+  카드별 데이터 출처표, 역할별 구성, 구현 3단계).
+- **미결** — 명세서 인쇄 이력 저장 여부, 외부 위젯 카탈로그 노출 여부, 기간 기본값,
+  수퍼관리자 화면 구성.
