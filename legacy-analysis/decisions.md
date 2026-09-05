@@ -5624,3 +5624,17 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **가드** — 허브 정적 가드 3종 위치 갱신(dec193→공용 그리드/래퍼, dec221→헤더 폼 슬롯, menu_opens 반품 추가).
   `grid_feature_baseline` 은 `return-line-grid.tsx` 항목 소실이 의도된 이관이라 기준선 재생성(69 파일).
   제품 저장소 dcddfa1.
+
+### DEC-241 — 구분 토글은 라디오그룹 1벌(`SegmentedRadio`): 재고현황·재고금액 개선 + 현황·반품재고 통일 (2026-09-06)
+
+- **배경** — 사용자 스크린샷: 원장관리 재고현황·재고금액의 도서구분(전체/본사도서/창고도서) 토글 개선 요청.
+  조사 결과 같은 토글을 **4개 화면이 각자** 그렸고, 재고 두 화면은 `aria-pressed` 버튼(ghost/secondary)이라
+  선택이 연한 배경으로만 구분되고 방향키 이동·Tab 정지 1개 규약(DEC-104/105/113)이 없었다. 현황 공용
+  화면과 반품재고는 제대로 된 radiogroup(검정 선택, ←→ 이동)이었지만 서로 복사본.
+- **결정** — `components/shared/segmented-radio.tsx` 하나로 통일. `role="radiogroup"` + `role="radio"`,
+  그룹 Tab 정지 1개(`tabIndex=0`), ←→↑↓/Home/End 선택, Enter 는 가로채지 않음(필터 Enter=다음 흐름은
+  `advanceFilterOnEnter` 스톱으로), 선택 = Bukio Black(`bg-primary`), 높이 h-8(띠 입력칸 정렬).
+  적용: 재고현황·재고금액(+ `Panel102` 를 Enter 스톱에 추가, 조회 `ml-auto` 제거), 현황 5축 도서구분,
+  반품재고 처리구분. dfm id 는 `legacyId`/`optionLegacyId` 로 보존. 제품 저장소 a2f1a92.
+- **규칙** — 필터 띠의 배타 선택(구분류)은 앞으로 이 컴포넌트로만 그린다. `Button variant="secondary"`
+  로 선택 상태를 흉내 내지 않는다(secondary 는 선택 상태가 아니라 색 위계 ③·④ 사이의 회색이라 오독).

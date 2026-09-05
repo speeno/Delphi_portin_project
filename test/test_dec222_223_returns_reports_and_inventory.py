@@ -72,8 +72,9 @@ class ReturnsInventoryBand(TestCase):
         self.assertNotIn("TabsList", src)
         self.assertNotIn("text-gray-600", src)
         band = src[src.index("<PageHeader"): src.index("</PageHeader>")]
-        self.assertIn('data-legacy-id="Sobo24.TabStrip"', band)
-        self.assertIn('role="radiogroup"', band)
+        self.assertIn('legacyId="Sobo24.TabStrip"', band)  # SegmentedRadio 가 data-legacy-id 로 렌더
+        # DEC-241 — 라디오그룹은 공용 SegmentedRadio 가 그린다(role="radiogroup"·방향키 이동 내장).
+        self.assertIn("<SegmentedRadio", band)
         self.assertIn("function selectTab(tab: TabKey)", src)
 
 
