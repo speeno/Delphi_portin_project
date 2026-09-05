@@ -76,7 +76,7 @@ class ManualTablesWrapped(TestCase):
             "app/(app)/admin/signup-requests/page.tsx",
             "app/(app)/admin/id-logn/page.tsx",
             "app/(app)/transactions/status/page.tsx",
-            "app/(app)/inbound/receipts/new/page.tsx",
+            "components/outbound/order-line-grid.tsx",  # DEC-239: 입고/출고 신규의 라인 표(SlipLineGrid)
             "app/(app)/inbound/receipts/[receiptKey]/page.tsx",
             "app/(app)/returns/receipts/[returnKey]/page.tsx",
         ):

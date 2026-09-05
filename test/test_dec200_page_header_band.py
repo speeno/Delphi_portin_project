@@ -227,7 +227,7 @@ class NoTrappedBand(TestCase):
         self.assertEqual(trapped, [], trapped)
 
     def test_slip_form_header_fields_inside_band(self) -> None:
-        for rel in ("inbound/receipts/new", "outbound/orders/new", "transactions/sales-statement/new"):
+        for rel in ("transactions/sales-statement/new",):
             src = (APP / rel / "page.tsx").read_text(encoding="utf-8")
             i = src.index("<PageHeader")
             j = src.index("</PageHeader>", i)
@@ -235,6 +235,20 @@ class NoTrappedBand(TestCase):
             self.assertIn("data-enter-scope", band, rel)  # 헤더 카드의 Enter 스코프가 띠 안 contents 래퍼로
             self.assertIn("<DateFieldYMD", band, rel)
             self.assertNotIn("rounded-2xl border border-border bg-card", band, rel)
+        # DEC-239 — 신규 입고 접수·신규 출고 주문은 공용 골격(SlipEntryLayout)이 헤더 폼을 띠 안에 넣는다.
+        layout = (FRONT / "components" / "transactions" / "slip-entry-layout.tsx").read_text(encoding="utf-8")
+        i = layout.index("<PageHeader")
+        j = layout.index("</PageHeader>", i)
+        band = layout[i:j]
+        self.assertIn('data-enter-scope=""', band)
+        self.assertIn("{headerForm}", band)
+        self.assertNotIn("rounded-2xl border border-border bg-card", band)
+        for rel in ("inbound/receipts/new", "outbound/orders/new"):
+            src = (APP / rel / "page.tsx").read_text(encoding="utf-8")
+            k = src.index("headerForm={")
+            form = src[k : src.index("linesLegacyId=", k)]
+            self.assertIn("<DateFieldYMD", form, rel)
+            self.assertNotIn("rounded-2xl border border-border bg-card", form, rel)
 
 
 class EveryContentScreenHasBand(TestCase):
@@ -257,7 +271,8 @@ class EveryContentScreenHasBand(TestCase):
             if rel in self.WRAPPERS:
                 continue
             src = p.read_text(encoding="utf-8")
-            if "<PageHeader" not in src and "<PortalScreenTitle" not in src:
+            # SlipEntryLayout(DEC-239) 은 띠를 위임 렌더한다.
+            if "<PageHeader" not in src and "<PortalScreenTitle" not in src and "<SlipEntryLayout" not in src:
                 missing.append(rel)
         self.assertEqual(missing, [], missing)
 

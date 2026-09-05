@@ -106,7 +106,9 @@ class LineGridPriceEditable(TestCase):
         src = (FRONT / "components" / "outbound" / "order-line-grid.tsx").read_text(encoding="utf-8")
         i = src.index('case "gdang":')
         block = src[i : src.index('case "gssum":', i)]
-        self.assertIn('data-legacy-id="Sobo27.Line.Gdang"', block)
+        # DEC-239 — legacy id 는 축 데이터(axis.legacy.gdang); 출고 축 값은 그대로 Sobo27.Line.Gdang.
+        self.assertIn("data-legacy-id={axis.legacy.gdang}", block)
+        self.assertIn('gdang: "Sobo27.Line.Gdang"', src)
         self.assertIn("setAt(idx, { gdang:", block, "변경 시 금액 자동 재계산 경로(setAt)")
         self.assertIn("onKeyDown={focusNextCell}", block, "Enter 흐름에 단가 포함")
 

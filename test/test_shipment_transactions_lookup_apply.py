@@ -40,7 +40,10 @@ class ShipmentTransactionsLookupApplyTest(TestCase):
         self.assertIn('lookupKind={axis.partyLookupKind ?? "customer"}', status)
         # receipts 출판사코드 필터 — 불필요 항목으로 제거 (R11)
         self.assertIn('lookupKind="inboundVendor"', receipts)
-        self.assertIn('lookupKind="book"', new_receipts)
+        # DEC-239 — 신규 입고 접수의 도서 룩업은 공용 라인 그리드(SlipLineGrid 입고 축)에 있다.
+        self.assertIn("axis={INBOUND_LINE_AXIS}", new_receipts)
+        line_grid = (FRONT / "components" / "outbound" / "order-line-grid.tsx").read_text(encoding="utf-8")
+        self.assertIn('lookupKind="book"', line_grid)
 
     def test_transactions_filters_have_lookup_field(self) -> None:
         pages = {

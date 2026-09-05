@@ -96,7 +96,8 @@ class InboundMenuRouteTests(TestCase):
         page = (
             SRC / "app" / "(app)" / "inbound" / "receipts" / "new" / "page.tsx"
         ).read_text(encoding="utf-8")
-        self.assertIn('href="/inbound/receipts"', page)
+        # DEC-239 — 「목록」 은 공용 골격(SlipEntryLayout listHref)이 그린다.
+        self.assertIn('listHref="/inbound/receipts"', page)
 
 
 class SidebarUsesMenuRouteTests(TestCase):
@@ -131,7 +132,7 @@ class DistributorBranchPreservedTests(TestCase):
     def test_new_page_keeps_back_link_to_list(self) -> None:
         """목록은 신규 화면의 「목록」 버튼으로 계속 도달 가능해야 한다."""
         src = NEW_PAGE.read_text(encoding="utf-8")
-        self.assertIn('href="/outbound/orders"', src)
+        self.assertIn('listHref="/outbound/orders"', src)  # DEC-239 — 골격의 「목록」
 
 
 if __name__ == "__main__":
