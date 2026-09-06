@@ -33,6 +33,9 @@ _PAIRS = (
     ("primary 텍스트/배경", "primary", "background"),
     ("secondary 텍스트", "secondary-foreground", "secondary"),
     ("accent 텍스트", "accent-foreground", "accent"),
+    # DEC-246 — CTA/활성 메뉴 pill. --nav-active 는 :root 에서 var(--vivid-lime) 이고
+    # 버튼 brand-primary 도 같은 짝(--nav-active-foreground)을 쓴다.
+    ("CTA/활성 텍스트", "nav-active-foreground", "vivid-lime"),
 )
 
 _MIN_RATIO = 4.5  # WCAG AA 본문 기준
@@ -88,7 +91,7 @@ class ThemePreviewSwatchGuard(TestCase):
 class ThemeContrastGuard(TestCase):
     def test_themes_css_exists_and_has_themes(self) -> None:
         themes = _parse_themes()
-        self.assertGreaterEqual(len(themes), 10, "테마 수가 줄었습니다 — 의도한 변경인지 확인")
+        self.assertGreaterEqual(len(themes), 16, "테마 수가 줄었습니다 — 의도한 변경인지 확인")
 
     def test_all_text_pairs_meet_wcag_aa(self) -> None:
         themes = _parse_themes()
