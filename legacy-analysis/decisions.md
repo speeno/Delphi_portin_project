@@ -5712,3 +5712,23 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
      속성을 제거한다. `:root` 를 바꾸면 이 블록도 함께 손봐야 한다(주석·가드로 명시).
 - **가드** — `test_theme_contrast_guard` 에 CTA 쌍(`nav-active-foreground`/`vivid-lime`) 추가, 최소 테마 수
   10 → 16. 16종 × 14쌍 전부 WCAG AA 통과. 제품 저장소 a116a8a.
+
+### DEC-247 — 내정보: 기본 정보 수정 + 전환 계정 웹 비밀번호 변경 (2026-09-06)
+
+- **배경** — 사용자: "내 기본 정보에 대한 수정이나 새로 전환된 계정의 비번을 변경하는 등의 작업을 할 수
+  있도록." 종전 내정보는 조회 전용이었고, 이메일 계정(ACM/DEC-235)으로 전환한 뒤 비밀번호를 바꾸려면
+  로그아웃 후 「비밀번호 재설정」(메일 인증코드) 경로밖에 없었다.
+- **결정**
+  1. `POST /api/v1/me/password` 신설 — **이메일 계정 세션 전용**. `account_switch_service.change_password`
+     가 ① 현재 비밀번호 확인(세션 탈취 시 교체 차단) ② 정책 검사 ③ 동일 비번 거부 ④ `Web_Accounts` 갱신.
+     **ACM-INV-1: `Id_Logn` 을 읽지도 쓰지도 않는다** — 델파이 `Gpass` 와 독립이라 델파이 접속 불변.
+     레거시 ID 세션은 400 `ACCT_NOT_EMAIL_LOGIN` + 전환 안내(웹에 바꿀 비밀번호가 없음). 감사 로그 필수.
+  2. `GET /me/profile` 에 `login_via`·`is_email_account`·`account`(이메일·인증일·마지막 로그인·연결된 회사
+     계정) 추가. 계정 저장소 장애는 graceful — 내정보 화면 자체는 뜬다.
+  3. **기본 정보 = 표시 이름·연락처**를 `preferences` 에 저장. 회사·권한·이름의 정본은 여전히 `Id_Logn`
+     이고 웹은 쓰지 않으므로, 화면에서 "회사·권한은 기존 프로그램 계정에서 가져옵니다(관리자 문의)"로 명시.
+  4. 화면은 DEC-245 의 「계정」 탭에 로그인 정보 → 기본 정보 → 비밀번호 변경 순으로 배치. 비밀번호 조건
+     실시간 표시는 계정 전환 화면의 `PasswordRules` 를 재사용(정책 이원화 방지).
+- **가드** — `test_acm_delphi_coexistence` 계정 경로 모듈에 `app/routers/me.py` 추가.
+  `test_dec247_my_password_and_basic_info` 신설(현재 비번 오류·정책·동일 비번 거부, 성공 시 Web_Accounts
+  만 갱신, 실행부 Id_Logn SQL 0건, 화면 위젯·델파이 안내 문구). 제품 저장소 dfe552d.

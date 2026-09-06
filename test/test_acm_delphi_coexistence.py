@@ -25,6 +25,8 @@ _ACCOUNT_PATH_MODULES = [
     "app/services/account_secret_codec.py",
     "app/services/email_dispatch_service.py",
     "app/routers/public_account_switch.py",
+    # DEC-247 — 내 비밀번호 변경(/me/password)도 계정 경로다.
+    "app/routers/me.py",
 ]
 _WRITE_RE = re.compile(r"(INSERT\s+INTO|UPDATE|DELETE\s+FROM|REPLACE\s+INTO|ALTER\s+TABLE|DROP\s+TABLE)\s+[`\"']?(\w+\.)?[`\"']?Id_Logn", re.IGNORECASE)
 
