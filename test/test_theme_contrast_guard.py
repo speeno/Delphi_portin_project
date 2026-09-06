@@ -93,6 +93,24 @@ class ThemeContrastGuard(TestCase):
         themes = _parse_themes()
         self.assertGreaterEqual(len(themes), 16, "테마 수가 줄었습니다 — 의도한 변경인지 확인")
 
+    def test_themes_declare_chained_tokens_directly(self) -> None:
+        """DEC-248 — `:root` 에서 var() 체인인 토큰은 테마가 **직접** 선언해야 한다.
+
+        `--nav-active: var(--vivid-lime)` 처럼 체인으로 선언된 값은 선언된 요소(:root)에서 치환된 뒤
+        상속되므로, 테마 블록을 **하위 요소**에 걸어도(내정보 테마 카드 미리보기) 다시 계산되지 않는다.
+        그래서 카드마다 CTA 가 현재 적용 테마 색으로 굳어 «어떤 테마인지» 구분이 안 됐다.
+        """
+        css = _THEMES_CSS.read_text(encoding="utf-8")
+        root = (_THEMES_CSS.parent / "globals.css").read_text(encoding="utf-8")
+        chained = set(re.findall(r"^\s+(--[a-z0-9-]+):\s*var\(", root, re.M))
+        self.assertIn("--nav-active", chained, ":root 체인 토큰 목록이 바뀌었다 — 가드 갱신 필요")
+        for name, toks in _parse_themes().items():
+            if "vivid-lime" not in toks:
+                continue
+            for t in ("nav-active", "tab-active", "tab-active-foreground"):
+                self.assertIn(t, toks, f"{name}: --{t} 를 직접 선언해야 미리보기가 테마색으로 보인다")
+            self.assertEqual(toks["nav-active"], toks["vivid-lime"], f"{name}: CTA 색 불일치")
+
     def test_all_text_pairs_meet_wcag_aa(self) -> None:
         themes = _parse_themes()
         violations: list[str] = []
