@@ -1,4 +1,4 @@
-"""DEC-256 / DEC-257 — 로그인·계정전환 화면 입력 검증 규칙(2026-09-07 사용자 목업) 정적 가드.
+"""DEC-256 · DEC-257 · DEC-258 — 로그인·계정전환 화면 입력 검증 규칙(2026-09-07 목업) 정적 가드.
 
 목업이 못박은 규칙:
 
@@ -8,9 +8,14 @@
     3. 로그인 실패는 **비밀번호 칸 아래 인라인**으로 한 문장(팝업 아님).
     4. 조건을 채우기 전에는 「로그인」 버튼 비활성.
 
-  계정 전환하기 (DEC-257)
+  계정 전환하기 1단계 — 계정 확인 (DEC-257)
     1. 모든 입력 필드가 채워질 때까지 「다음」 비활성.
     2. 일치하는 계정이 없으면 **팝업**으로 "입력하신 정보와 일치하는 계정이 없습니다".
+
+  계정 전환하기 2단계 — 이메일 입력 (DEC-258)
+    1. `@` 가 나올 때까지 「이메일 주소 형식에 맞지 않습니다」 인라인.
+    2. 쓸 수 없는 주소는 「이미 사용 중인 이메일 주소입니다」.
+    3. 유효한 주소가 되기 전까지 「인증번호 발송」 비활성.
 
 로그인 규칙 1·2·4 는 `emailMode` 에서만 건다 — 레거시 델파이 비밀번호(`Gpass`)에는 길이
 정책이 없어 break-glass 로 레거시 ID 로그인을 열어 둔 동안 짧은 비밀번호를 막으면 안 된다.
@@ -76,10 +81,39 @@ class TestSwitchValidationRules(unittest.TestCase):
         self.assertIn("const orgRequired = orgOptions.length > 0", self.src)
 
     def test_rule2_no_match_popup_wording(self) -> None:
-        self.assertIn("입력하신 정보와 일치하는 계정이 없습니다", self.src)
+        # 목업(2026-09-07) — 제목 「계정 찾기 오류」 + 본문 한 문장.
+        self.assertIn('title: "계정 찾기 오류"', self.src)
+        self.assertIn("입력하신 정보와 일치하는 계정이 없습니다.", self.src)
         self.assertIn("err.status === 401", self.src)
         # 한 문장 알림은 목업 팝업으로(DEC-252).
         self.assertIn("AuthAlertDialog", self.src)
+
+
+class TestSwitchEmailStepRules(unittest.TestCase):
+    """DEC-258 — 계정 전환하기 2단계(이메일 입력) 규칙 1~3."""
+
+    def setUp(self) -> None:
+        self.assertTrue(WIZARD.exists(), WIZARD)
+        self.src = WIZARD.read_text(encoding="utf-8")
+
+    def test_rule1_email_format_error_until_at_sign(self) -> None:
+        self.assertIn("이메일 주소 형식에 맞지 않습니다", self.src)
+        self.assertIn("emailFormatError", self.src)
+        # `@` 가 들어오면 사라진다 — 로그인 규칙 1과 같은 기준.
+        self.assertIn('!emailTrimmed.includes("@")', self.src)
+
+    def test_rule2_email_taken_wording(self) -> None:
+        self.assertIn("이미 사용 중인 이메일 주소입니다", self.src)
+        self.assertIn("emailTakenError", self.src)
+
+    def test_rule3_send_disabled_until_valid_email(self) -> None:
+        self.assertIn("const emailValid", self.src)
+        self.assertIn("disabled={busy || !emailValid}", self.src)
+
+    def test_inline_error_not_popup(self) -> None:
+        """2단계 오류는 입력칸 바로 아래 인라인 — 고칠 입력이 화면에 있다."""
+        self.assertIn('id="sw-email-error"', self.src)
+        self.assertIn("text-xs text-destructive", self.src)
 
 
 if __name__ == "__main__":
