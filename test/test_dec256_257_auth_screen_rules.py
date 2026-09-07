@@ -17,6 +17,10 @@
     2. 쓸 수 없는 주소는 팝업 「아이디 입력 오류 / 이미 사용 중인 이메일 주소입니다.」.
     3. 유효한 주소가 되기 전까지 「인증번호 발송」 비활성.
 
+  계정 전환하기 3단계 — 인증번호 (DEC-259)
+    1. 인증 시간 초과는 **토스트**로 "인증 시간이 초과되었습니다. 인증번호를 재발송해 주세요."
+    2. 인증번호 불일치는 "인증번호가 일치하지 않습니다. 다시 입력해 주세요."
+
 로그인 규칙 1·2·4 는 `emailMode` 에서만 건다 — 레거시 델파이 비밀번호(`Gpass`)에는 길이
 정책이 없어 break-glass 로 레거시 ID 로그인을 열어 둔 동안 짧은 비밀번호를 막으면 안 된다.
 """
@@ -27,6 +31,7 @@ from pathlib import Path
 FRONTEND = Path(__file__).resolve().parents[1] / "도서물류관리프로그램" / "frontend" / "src"
 LOGIN = FRONTEND / "app" / "(public)" / "login" / "page.tsx"
 WIZARD = FRONTEND / "components" / "account" / "SwitchWizard.tsx"
+SHELL = FRONTEND / "components" / "account" / "AuthCardShell.tsx"
 
 
 class TestLoginValidationRules(unittest.TestCase):
@@ -116,6 +121,38 @@ class TestSwitchEmailStepRules(unittest.TestCase):
         """2단계 오류는 입력칸 바로 아래 인라인 — 고칠 입력이 화면에 있다."""
         self.assertIn('id="sw-email-error"', self.src)
         self.assertIn("text-xs text-destructive", self.src)
+
+
+class TestSwitchCodeStepRules(unittest.TestCase):
+    """DEC-259 — 계정 전환하기 3단계(인증번호) 오류 두 가지."""
+
+    def setUp(self) -> None:
+        self.assertTrue(WIZARD.exists(), WIZARD)
+        self.assertTrue(SHELL.exists(), SHELL)
+        self.src = WIZARD.read_text(encoding="utf-8")
+        self.shell = SHELL.read_text(encoding="utf-8")
+
+    def test_messages_are_toasts_not_popup(self) -> None:
+        self.assertIn("인증 시간이 초과되었습니다. 인증번호를 재발송해 주세요.", self.src)
+        self.assertIn("인증번호가 일치하지 않습니다. 다시 입력해 주세요.", self.src)
+        self.assertIn("useAuthToast", self.src)
+        self.assertIn("showToast(MSG_CODE_EXPIRED)", self.src)
+        self.assertIn("showToast(expiresLeft <= 0 ? MSG_CODE_EXPIRED : MSG_CODE_MISMATCH)", self.src)
+
+    def test_expiry_split_is_client_side(self) -> None:
+        """백엔드는 만료/불일치를 한 코드로 합쳐 준다 — 화면 카운트다운으로 갈라야 두 문구가 나온다."""
+        self.assertIn('apiErrorCode(err) === "ACCT_CODE_INVALID"', self.src)
+        self.assertIn("expiresLeft <= 0", self.src)
+
+    def test_toast_is_shared_shell_component(self) -> None:
+        self.assertIn("export function useAuthToast", self.shell)
+        self.assertIn('data-legacy-id="WebAcct.Toast"', self.shell)
+        # 어느 테마에서나 같은 밝은 시안 — 반투명이면 다크에서 대비가 무너진다.
+        self.assertIn("color-mix(in_srgb,var(--vivid-sky)_70%,white)", self.shell)
+        self.assertIn("text-[var(--nav-active-foreground)]", self.shell)
+
+    def test_countdown_turns_red_near_expiry(self) -> None:
+        self.assertIn('expiresLeft <= 60 ? "text-destructive" : "text-link"', self.src)
 
 
 if __name__ == "__main__":
