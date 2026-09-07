@@ -26,6 +26,9 @@
     2. 불일치는 "비밀번호가 일치하지 않습니다".
     3. 두 입력값 모두 문제 없을 때까지 「완료」 비활성.
 
+  계정 전환하기 5단계 — 완료 (DEC-261)
+    안내 두 줄 + 「로그인 하러 가기」만. 카드 아래 보조 CTA 도 감춘다.
+
 로그인 규칙 1·2·4 는 `emailMode` 에서만 건다 — 레거시 델파이 비밀번호(`Gpass`)에는 길이
 정책이 없어 break-glass 로 레거시 ID 로그인을 열어 둔 동안 짧은 비밀번호를 막으면 안 된다.
 """
@@ -190,6 +193,30 @@ class TestSwitchPasswordStepRules(unittest.TestCase):
     def test_password_rules_widget_replaced_by_message(self) -> None:
         """조건 체크리스트(PasswordRules)는 이 화면에서 목업의 한 줄 오류로 대체됐다."""
         self.assertNotIn("PasswordRules", self.src)
+
+
+class TestSwitchDoneScreen(unittest.TestCase):
+    """DEC-261 — 전환 완료(5단계) 화면 목업 정합."""
+
+    def setUp(self) -> None:
+        self.src = WIZARD.read_text(encoding="utf-8")
+        self.shell = SHELL.read_text(encoding="utf-8")
+
+    def test_below_cta_hidden_on_done(self) -> None:
+        """종착 화면에서는 카드 아래 「문의하기」까지 감춘다."""
+        self.assertIn("export function useHideAuthCardBelow", self.shell)
+        self.assertIn("{!belowHidden && below}", self.shell)
+        self.assertIn("useHideAuthCardBelow(step === 5)", self.src)
+
+    def test_done_message_only_for_link_mode(self) -> None:
+        """전환(new)은 목업대로 두 줄로 끝내고, 연결에서만 서버 메시지를 남긴다."""
+        self.assertIn("{!needsPassword && doneMessage && (", self.src)
+        self.assertIn('{needsPassword ? "전환" : "연결"}이 완료되었습니다', self.src)
+
+    def test_mockup_spacing(self) -> None:
+        """목업 실측 — 안내는 카드 위에서 152, 버튼 아래 여백 64."""
+        self.assertIn('className="mt-[90px] shrink-0 text-center text-sm leading-relaxed"', self.src)
+        self.assertIn("mb-[34px]", self.src)
 
 
 if __name__ == "__main__":
