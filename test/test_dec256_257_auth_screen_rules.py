@@ -14,7 +14,7 @@
 
   계정 전환하기 2단계 — 이메일 입력 (DEC-258)
     1. `@` 가 나올 때까지 「이메일 주소 형식에 맞지 않습니다」 인라인.
-    2. 쓸 수 없는 주소는 「이미 사용 중인 이메일 주소입니다」.
+    2. 쓸 수 없는 주소는 팝업 「아이디 입력 오류 / 이미 사용 중인 이메일 주소입니다.」.
     3. 유효한 주소가 되기 전까지 「인증번호 발송」 비활성.
 
 로그인 규칙 1·2·4 는 `emailMode` 에서만 건다 — 레거시 델파이 비밀번호(`Gpass`)에는 길이
@@ -102,9 +102,11 @@ class TestSwitchEmailStepRules(unittest.TestCase):
         # `@` 가 들어오면 사라진다 — 로그인 규칙 1과 같은 기준.
         self.assertIn('!emailTrimmed.includes("@")', self.src)
 
-    def test_rule2_email_taken_wording(self) -> None:
-        self.assertIn("이미 사용 중인 이메일 주소입니다", self.src)
-        self.assertIn("emailTakenError", self.src)
+    def test_rule2_email_taken_is_popup(self) -> None:
+        """목업 「아이디 입력 오류」 — 이 건만 팝업, 형식 오류(규칙 1)는 인라인."""
+        self.assertIn('title: "아이디 입력 오류"', self.src)
+        self.assertIn("이미 사용 중인 이메일 주소입니다.", self.src)
+        self.assertIn('c === "ACCT_EMAIL_TAKEN"', self.src)
 
     def test_rule3_send_disabled_until_valid_email(self) -> None:
         self.assertIn("const emailValid", self.src)
