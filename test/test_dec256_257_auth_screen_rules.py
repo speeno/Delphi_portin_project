@@ -21,6 +21,11 @@
     1. 인증 시간 초과는 **토스트**로 "인증 시간이 초과되었습니다. 인증번호를 재발송해 주세요."
     2. 인증번호 불일치는 "인증번호가 일치하지 않습니다. 다시 입력해 주세요."
 
+  계정 전환하기 4단계 — 비밀번호 설정 (DEC-260)
+    1. 정책 미충족은 "영문, 숫자 포함 8자 이상의 비밀번호를 입력하세요".
+    2. 불일치는 "비밀번호가 일치하지 않습니다".
+    3. 두 입력값 모두 문제 없을 때까지 「완료」 비활성.
+
 로그인 규칙 1·2·4 는 `emailMode` 에서만 건다 — 레거시 델파이 비밀번호(`Gpass`)에는 길이
 정책이 없어 break-glass 로 레거시 ID 로그인을 열어 둔 동안 짧은 비밀번호를 막으면 안 된다.
 """
@@ -153,6 +158,38 @@ class TestSwitchCodeStepRules(unittest.TestCase):
 
     def test_countdown_turns_red_near_expiry(self) -> None:
         self.assertIn('expiresLeft <= 60 ? "text-destructive" : "text-link"', self.src)
+
+
+class TestSwitchPasswordStepRules(unittest.TestCase):
+    """DEC-260 — 계정 전환하기 4단계(비밀번호 설정) 규칙 1~3."""
+
+    def setUp(self) -> None:
+        self.assertTrue(WIZARD.exists(), WIZARD)
+        self.src = WIZARD.read_text(encoding="utf-8")
+
+    def test_rule1_policy_error_inline(self) -> None:
+        self.assertIn("영문, 숫자 포함 8자 이상의 비밀번호를 입력하세요", self.src)
+        self.assertIn("pwPolicyError", self.src)
+        self.assertIn('id="sw-pw-error"', self.src)
+
+    def test_rule2_mismatch_error_inline(self) -> None:
+        self.assertIn("비밀번호가 일치하지 않습니다", self.src)
+        self.assertIn("pwMismatchError", self.src)
+        self.assertIn('id="sw-pw2-error"', self.src)
+
+    def test_rule3_complete_disabled_until_both_ok(self) -> None:
+        self.assertIn("passwordPolicyOk(pw) && pw === pw2", self.src)
+        self.assertIn("disabled={busy || !canComplete}", self.src)
+
+    def test_invalid_outline_suppressed_but_aria_kept(self) -> None:
+        """목업은 붉은 테두리 없이 문구만 — 시각 효과만 끄고 aria-invalid 는 남긴다."""
+        self.assertIn("aria-invalid:border-transparent aria-invalid:ring-0", self.src)
+        self.assertIn("aria-invalid={Boolean(pwPolicyError)}", self.src)
+        self.assertIn("aria-invalid={pwMismatch}", self.src)
+
+    def test_password_rules_widget_replaced_by_message(self) -> None:
+        """조건 체크리스트(PasswordRules)는 이 화면에서 목업의 한 줄 오류로 대체됐다."""
+        self.assertNotIn("PasswordRules", self.src)
 
 
 if __name__ == "__main__":

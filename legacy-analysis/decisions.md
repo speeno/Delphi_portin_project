@@ -5943,3 +5943,22 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   3단계로 되돌리는 동작은 그대로다.
 - 화면 검증(로컬 dev + Chrome): 만료 상태로 3단계 진입 시 시안 토스트·닫기 꼬리·`00:00` 붉은 표기 확인.
 - 가드: `test/test_dec256_257_auth_screen_rules.py::TestSwitchCodeStepRules`.
+
+### DEC-260 — 계정 전환하기 4단계(비밀번호 설정) 검증 규칙 (2026-09-07)
+
+- **배경** — 사용자 목업 「오류 메시지 유형」(4단계). "화면 반영 필요한 부분 처리".
+- **결정** (`components/account/SwitchWizard.tsx`, 4단계)
+  1. **정책 미충족 인라인** — 새 비밀번호 칸 아래 「영문, 숫자 포함 8자 이상의 비밀번호를 입력하세요」.
+     기준은 종전 그대로 `passwordPolicyOk`(8~64자, 영문·숫자 각 1자 이상)라 정책이 화면마다 갈리지 않는다.
+  2. **불일치 인라인** — 확인 칸 아래 「비밀번호가 일치하지 않습니다」.
+  3. 두 값이 모두 통과하기 전까지 「완료」 비활성 — `canComplete` 이 이미 만족하고 있어 변경 없음.
+- **`PasswordRules` 체크리스트 → 한 줄 오류로 교체.** DEC-254 에서는 조건 실시간 표시를 유지했지만,
+  목업이 같은 자리에 **한 줄 오류**를 못박았고 그 문구 자체가 정책을 그대로 말한다. 두 장치를 겹치면
+  같은 정보를 두 번 말하게 된다. `PasswordRules` 컴포넌트는 `/account/reset` · 내정보에서 계속 쓰인다.
+- **오류 테두리 억제** — shadcn `Input` 은 `aria-invalid` 에 붉은 테두리·링을 붙이지만 목업은
+  **테두리 없이 문구만** 보여 준다. `FIELD_CLASS` 에 `aria-invalid:border-transparent
+  aria-invalid:ring-0` 을 더해 **시각 효과만 끄고** `aria-invalid`·`aria-describedby` 는 남긴다
+  (스크린리더에는 그대로 오류로 전달된다).
+- 화면 검증(로컬 dev + Chrome): `abcd` → 정책 오류·완료 꺼짐, `abcd1234` → 오류 사라짐,
+  확인칸 `abc` → 불일치 오류·완료 꺼짐, 일치 → 완료 켜짐. 두 오류가 동시에 뜬 화면도 목업과 대조.
+- 가드: `test/test_dec256_257_auth_screen_rules.py::TestSwitchPasswordStepRules`.
