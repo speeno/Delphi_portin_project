@@ -1,4 +1,4 @@
-"""로그인 공지·슬로건 로드 — 기동 레이스 재시도 + 환경별 안내 정적 가드.
+"""공지·슬로건 로드 (DEC-250 부터 소개 메인화면의 공지 게시판이 담당) — 기동 레이스 재시도 + 환경별 안내 정적 가드.
 
 배경: start.sh 는 백엔드/프론트를 동시에 띄우는데 uvicorn 기동이 더 느려,
 로그인 페이지가 마운트 직후 1회 fetch 만 하면 일회성 실패로 실패 배너가
@@ -13,15 +13,16 @@ from __future__ import annotations
 from pathlib import Path
 from unittest import TestCase
 
-_LOGIN_PAGE = (
+_PORTAL_BOARD = (
     Path(__file__).resolve().parents[1]
-    / "도서물류관리프로그램" / "frontend" / "src" / "app" / "(public)" / "login" / "page.tsx"
+    / "도서물류관리프로그램" / "frontend" / "src"
+    / "components" / "marketing" / "LandingNoticeBoard.tsx"
 )
 
 
 class LoginPortalRetryStaticTests(TestCase):
     def setUp(self) -> None:
-        self.src = _LOGIN_PAGE.read_text(encoding="utf-8")
+        self.src = _PORTAL_BOARD.read_text(encoding="utf-8")
 
     def test_portal_fetch_has_backoff_retry(self) -> None:
         self.assertIn("retryDelaysMs", self.src, "포털 fetch 재시도(backoff) 제거 금지 — 기동 레이스 배너 고착 회귀")
