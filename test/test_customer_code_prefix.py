@@ -177,3 +177,37 @@ class ResolveGubunAutoRegisterTests(IsolatedAsyncioTestCase):
 
 if __name__ == "__main__":
     main()
+
+
+class GbunSelectOrderAndMatching(TestCase):
+    """DEC-267 (2026-09-08 사용자 ①②) — 신규 거래처 「거래처구분」 선택지 순서·코드 매칭.
+
+    ① "초기 작업 시 A~K 까지 순서대로 배열" → 접두 스킴 순서로 정렬(스킴 밖 구분은 뒤).
+    ② "거래처구분과 거래처코드 매칭이 잘 되는지" → 옵션에 접두문자를 함께 보여 주고,
+       구분을 바꾸면 코드도 **항상** 새 제안으로 바뀐다(종전엔 접두 없는 구분으로 바꿔도
+       앞서 고른 접두 코드 A0001 이 남아 구분과 어긋났다).
+    """
+
+    FRONT = ROOT / "도서물류관리프로그램" / "frontend" / "src"
+
+    def test_options_sorted_by_prefix_scheme(self) -> None:
+        src = (self.FRONT / "components" / "master" / "master-gbun-select.tsx").read_text(encoding="utf-8")
+        self.assertIn("const prefixByName", src)
+        self.assertIn("p.charCodeAt(0) : Number.MAX_SAFE_INTEGER", src)  # 스킴 밖은 뒤로
+        self.assertIn("a.r - b.r || a.i - b.i", src)  # 안정 정렬(원래 순서 유지)
+        self.assertIn("`${it.gname} (${p})`", src)  # 옵션 라벨에 접두 표시
+
+    def test_prefix_options_are_in_scheme_order(self) -> None:
+        """백엔드가 내려주는 스킴 목록 자체도 A→K 순서여야 화면 정렬과 어긋나지 않는다."""
+        letters = [o["prefix"] for o in ms.CUSTOMER_TYPE_PREFIX_OPTIONS]
+        self.assertEqual(letters, sorted(letters))
+        self.assertEqual(letters, ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K"])
+
+    def test_new_customer_always_reapplies_suggested_code(self) -> None:
+        page = (self.FRONT / "app" / "(app)" / "master" / "customer" / "new" / "page.tsx").read_text(encoding="utf-8")
+        i = page.index("nextCode(\"customer\"")
+        body = page[i : page.index("}, [user?.server_id", i)]
+        self.assertIn("if (manualCode || !res.code) return;", body)  # 수기 지정은 보존
+        self.assertIn("prev.gcode === res.code ? prev : { ...prev, gcode: res.code }", body)
+        # 접두 미매칭일 때 "비어있을 때만 채운다"(=이전 접두 코드가 남던 분기)는 없어야 한다
+        self.assertNotIn("prev.gcode.trim() ? prev", body)
