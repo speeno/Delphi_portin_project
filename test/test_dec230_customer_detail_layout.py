@@ -63,8 +63,10 @@ class RouterAndModels(TestCase):
         self.assertEqual(src.count("ext = {k: body.pop(k) for k in list(body) if k in customer_ext_service.FIELDS}"), 2)
         self.assertIn("await customer_ext_service.delete_ext(", src)
         models = (ROOT / "도서물류관리프로그램" / "backend" / "app" / "models" / "master.py").read_text(encoding="utf-8")
+        # 거래처 요청 모델(Create/Update)만 센다 — DEC-269 로 입고처 모델에도 같은 키가 생겼다.
+        cust = models[models.index("class CustomerUpdateRequest") : models.index("class CustomerUpdateResponse")]
         for k in ext.FIELDS:
-            self.assertEqual(models.count(f"    {k}: str | None = None\n"), 2, k)
+            self.assertEqual(cust.count(f"    {k}: str | None = None\n"), 2, k)
             self.assertIn(f'    {k}: str = ""\n', models, k)
 
 

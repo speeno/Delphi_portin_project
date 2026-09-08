@@ -387,7 +387,8 @@ class ScreenGuard(TestCase):
         # DEC-172 의 핵심(라벨 ↔ 실컬럼 바인딩)은 그대로 지킨다.
         src = self.FORM.read_text(encoding="utf-8")
         pairs = {
-            'label="담당자" value={data.gpper': "Sobo12.Edit110",
+            # DEC-269 — 라벨은 거래처 화면과 같은 「담당관리자1」로 통일(바인딩 Gpper 은 그대로).
+            'label="담당관리자1" value={data.gpper': "Sobo12.Edit110",
             'label="핸드폰번호" value={data.gphon': "Sobo12.Edit132",
             'label="한도액" value={data.gssum': "Sobo12.Edit131",
             'label="한도" value={data.grat7': "Sobo12.Edit130",
