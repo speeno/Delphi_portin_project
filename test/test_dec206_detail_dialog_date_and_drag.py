@@ -95,8 +95,11 @@ class FrontendWiring(TestCase):
         self.assertIn('legacyId="Sobo24.Detail.Gdate"', src)
         self.assertIn("{ newGdate: dateChanged ? draftGdate : undefined }", src)
         self.assertIn("(저장 시 이동)", src)
-        # 일자가 바뀌면 낡은 키의 팝업은 닫고 목록 새로고침
-        self.assertIn("if (dateChanged) {\n        // 키(일자)가 바뀌어 이 팝업의 orderKey 는 낡았다", src)
+        # 일자가 바뀌면 낡은 키의 팝업은 닫고 목록 새로고침 — DEC-265 이후엔 «모든» 저장 성공
+        # 경로가 닫으므로(팝업은 목적을 이루면 스스로 닫힌다) 그 한 갈래로 흡수됐다.
+        save = src.split("async function handleSave(", 1)[1].split("} catch", 1)[0]
+        self.assertIn("onChanged?.();", save)
+        self.assertIn("onClose();", save)
         api = (FRONT / "lib" / "outbound-api.ts").read_text(encoding="utf-8")
         self.assertIn("opts?: { newGdate?: string }", api)
 
