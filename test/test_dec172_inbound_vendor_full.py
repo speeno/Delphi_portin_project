@@ -383,24 +383,30 @@ class ScreenGuard(TestCase):
         self.assertIn("저장할 필드 선택", src)
 
     def test_detail_form_canonical_labels(self) -> None:
+        # 2026-09-08 사용자 요청으로 배열은 거래처관리(Sobo11)와 동형으로 재배치했지만,
+        # DEC-172 의 핵심(라벨 ↔ 실컬럼 바인딩)은 그대로 지킨다.
         src = self.FORM.read_text(encoding="utf-8")
         pairs = {
             'label="담당자" value={data.gpper': "Sobo12.Edit110",
             'label="핸드폰번호" value={data.gphon': "Sobo12.Edit132",
-            'label="한도액" value={String(data.gssum': "Sobo12.Edit131",
+            'label="한도액" value={data.gssum': "Sobo12.Edit131",
             'label="한도" value={data.grat7': "Sobo12.Edit130",
             'label="기타" value={data.grat6': "Sobo12.Edit123",
             'label="비고1" value={data.gbigo': "Sobo12.Edit125",
             'label="비고2" value={data.name1': "Sobo12.Edit126",
             'label="계산서 거래처명" value={data.name2': "Sobo12.Edit127",
-            'label="발행유무" value={data.yesno': "Sobo12.CheckBox1",
-            'label="정지유무" value={String(data.grat9': "Sobo12.CheckBox2",
             'label="정지사유" value={data.email': "Sobo12.Edit129",
         }
         for snippet, legacy_id in pairs.items():
             self.assertIn(snippet, src, snippet)
             line = next(l for l in src.splitlines() if snippet in l)
             self.assertIn(legacy_id, line, f"{snippet} ↔ {legacy_id}")
+        # 발행유무(Yesno)=체크박스 · 정지유무(Grat9)=유/무 셀렉트 — 거래처 화면과 동일한 위젯.
+        self.assertIn('onChange("yesno", e.target.checked ? "1" : "")', src)
+        self.assertIn('data-legacy-id="Sobo12.CheckBox1"', src)
+        self.assertIn('onChange("grat9", Number(e.target.value))', src)
+        self.assertIn('data-legacy-id="Sobo12.CheckBox2"', src)
+        self.assertIn("<Label>정지유무</Label>", src)
         self.assertNotIn("gjomo1", src.split("*/", 1)[1], "gjomo1 바인딩 제거(주석 제외)")
         self.assertNotIn('label="한도액" value={String(data.gpper', src)
         self.assertNotIn('label="계산서" value={data.pubun', src, "Sobo12 에 계산서구분 없음")

@@ -1,7 +1,11 @@
-"""거래처 구분별 코드 자동발급 회귀 — 접두문자(A~K, I제외) + 6자리 시퀀스.
+"""거래처 구분별 코드 자동발급 회귀 — 접두문자(A~K, I제외) + 잔여 자리 시퀀스.
 
 사용자 스킴(2026-07-05): 거래처구분 선택 시 구내서점→A … 기타거래처→K 접두로 코드 채번.
-코드 = <접두><6자리>, 같은 접두 코드 중 MAX+1. mysql3 호환(CAST 없음, 문자 MAX=숫자 MAX).
+코드 = <접두><나머지 자리>, 같은 접두 코드 중 MAX+1. mysql3 호환(CAST 없음, 문자 MAX=숫자 MAX).
+
+자리수는 ``G1_Ggeo.Gcode`` 실제 컬럼 폭에서 뽑는다(DEC-262). 종전 고정 6자리(=7자)는
+레거시 varchar(5) 를 넘겨 조용히 잘려 저장됐고(``J000001``→``J0000``) 등록 직후 상세가
+404 였다 — 2026-09-08 사고.
 """
 
 from __future__ import annotations
@@ -49,7 +53,7 @@ class PrefixMapTests(TestCase):
 
 
 class NextCodeByPrefixTests(IsolatedAsyncioTestCase):
-    async def _run(self, prefix, max_row):
+    async def _run(self, prefix, max_row, width=5):
         captured = {}
 
         async def fake_exec(_sid, sql, params=()):
@@ -57,34 +61,60 @@ class NextCodeByPrefixTests(IsolatedAsyncioTestCase):
             captured["params"] = params
             return [{"mx": max_row}]
 
-        with patch.object(ms, "execute_query", side_effect=fake_exec):
+        async def fake_width(_sid, _table, _column="Gcode"):
+            return width
+
+        with patch.object(ms, "execute_query", side_effect=fake_exec), \
+                patch.object(ms, "code_column_max_len", side_effect=fake_width):
             code = await ms.next_customer_code_by_prefix(server_id="remote_1", prefix=prefix)
         return code, captured
 
     async def test_first_code_when_none(self) -> None:
         code, cap = await self._run("A", "")
-        self.assertEqual(code, "A000001")
-        # 접두-6자리만 집계: LIKE 'A%' + LENGTH=7
+        self.assertEqual(code, "A0001")
+        # 접두-정폭 코드만 집계: LIKE 'A%' + LENGTH=<컬럼 폭>
         self.assertIn("LIKE %s", cap["sql"])
-        self.assertIn("LENGTH(Gcode)=7", cap["sql"])
+        self.assertIn("LENGTH(Gcode)=%s", cap["sql"])
         self.assertEqual(cap["params"][0], "A%")
+        self.assertEqual(cap["params"][1], 5)
+
+    async def test_code_never_exceeds_column_width(self) -> None:
+        # DEC-262 — varchar(5) 컬럼에 6자 이상이 나오면 안 된다(조용한 잘림 → 상세 404).
+        for prefix, mx in (("A", ""), ("A", "A9998"), ("K", "K0041")):
+            code, _ = await self._run(prefix, mx)
+            self.assertLessEqual(len(code), 5, code)
 
     async def test_increments_max(self) -> None:
-        code, _ = await self._run("A", "A000123")
-        self.assertEqual(code, "A000124")
+        code, _ = await self._run("A", "A0123")
+        self.assertEqual(code, "A0124")
+
+    async def test_wider_column_uses_more_digits(self) -> None:
+        # 폭이 넓은 테넌트(varchar(8))면 자리수도 따라 늘어난다.
+        code, cap = await self._run("A", "A0000123", width=8)
+        self.assertEqual(code, "A0000124")
+        self.assertEqual(cap["params"][1], 8)
 
     async def test_prefix_b_independent_sequence(self) -> None:
-        code, cap = await self._run("B", "B000009")
-        self.assertEqual(code, "B000010")
+        code, cap = await self._run("B", "B0009")
+        self.assertEqual(code, "B0010")
         self.assertEqual(cap["params"][0], "B%")
 
     async def test_non_numeric_suffix_falls_back_to_one(self) -> None:
-        code, _ = await self._run("A", "ABCDEFG")
-        self.assertEqual(code, "A000001")
+        code, _ = await self._run("A", "ABCDE")
+        self.assertEqual(code, "A0001")
 
     async def test_j_prefix(self) -> None:
-        code, _ = await self._run("J", "J000041")
-        self.assertEqual(code, "J000042")
+        code, _ = await self._run("J", "J0041")
+        self.assertEqual(code, "J0042")
+
+    async def test_sequence_exhausted_falls_back_to_manual(self) -> None:
+        # 자리 소진 시 폭을 넘기지 말고 빈 값(수기 입력)으로 물러난다.
+        code, _ = await self._run("A", "A9999")
+        self.assertEqual(code, "")
+
+    async def test_width_unknown_falls_back_to_five(self) -> None:
+        code, _ = await self._run("A", "", width=None)
+        self.assertEqual(code, "A0001")
 
     async def test_invalid_prefix_raises(self) -> None:
         with self.assertRaises(ValueError):
