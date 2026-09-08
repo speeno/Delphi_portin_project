@@ -56,10 +56,12 @@ class PageHeaderComponentContract(TestCase):
         css = _read("app/globals.css")
         self.assertIn(".page-header :is(.space-y-1, .space-y-1\\.5, .space-y-2)", css)
         self.assertIn("flex-direction: row", css)
-        # 띠 밖(등록 폼 등)의 space-y-1 은 건드리지 않는다 — 선택자는 반드시 .page-header 로 시작
+        # 띠 밖(등록 폼 등)의 space-y-1 은 건드리지 않는다 — 선택자는 반드시 «명시 스코프»로 시작.
+        # DEC-266 부터 전표 입력 줄이 라인 카드 안으로 내려가 `.slip-header-form` 스코프가 추가됐다.
+        scopes = (".page-header", ".slip-header-form")
         for ln in css.splitlines():
             if "space-y-1" in ln and "{" in ln:
-                self.assertTrue(ln.strip().startswith(".page-header"), ln)
+                self.assertTrue(ln.strip().startswith(scopes), ln)
 
 
 class MigrationCoverage(TestCase):
@@ -235,14 +237,17 @@ class NoTrappedBand(TestCase):
             self.assertIn("data-enter-scope", band, rel)  # 헤더 카드의 Enter 스코프가 띠 안 contents 래퍼로
             self.assertIn("<DateFieldYMD", band, rel)
             self.assertNotIn("rounded-2xl border border-border bg-card", band, rel)
-        # DEC-239 — 신규 입고 접수·신규 출고 주문은 공용 골격(SlipEntryLayout)이 헤더 폼을 띠 안에 넣는다.
+        # DEC-266 (2026-09-08 사용자 "이 부분은 아래 카드 내로 포함") — 신규 입고 접수·출고 주문·
+        # 반품·폐기는 공용 골격이 헤더 폼을 **띠가 아니라 라인 카드 안 최상단**(.slip-header-form)에
+        # 넣는다. 띠에는 제목·「목록」만 남는다(카드 프레임이 띠 안에 들어가지 않는 규칙은 그대로).
         layout = (FRONT / "components" / "transactions" / "slip-entry-layout.tsx").read_text(encoding="utf-8")
         i = layout.index("<PageHeader")
-        j = layout.index("</PageHeader>", i)
-        band = layout[i:j]
-        self.assertIn('data-enter-scope=""', band)
-        self.assertIn("{headerForm}", band)
+        band = layout[i : layout.index("/>", i)]
+        self.assertNotIn("{headerForm}", band)
         self.assertNotIn("rounded-2xl border border-border bg-card", band)
+        card = layout[layout.index('className="slip-header-form') :]
+        self.assertIn('data-enter-scope=""', card)
+        self.assertIn("{headerForm}", card)
         for rel in ("inbound/receipts/new", "outbound/orders/new"):
             src = (APP / rel / "page.tsx").read_text(encoding="utf-8")
             k = src.index("headerForm={")
@@ -308,7 +313,8 @@ class BandPopoversExempt(TestCase):
 
     def test_css_and_popover_marker(self) -> None:
         css = (FRONT / "app" / "globals.css").read_text(encoding="utf-8")
-        self.assertEqual(css.count(':not(:is([data-band-exempt], [role="dialog"]) *)'), 5, "4개 셀렉터 + margin 규칙")
+        # 띠(.page-header) 5 + 전표 입력 줄(.slip-header-form, DEC-266) 5 = 10
+        self.assertEqual(css.count(':not(:is([data-band-exempt], [role="dialog"]) *)'), 10, "스코프 2개 × (4개 셀렉터 + margin 규칙)")
         pop = (FRONT / "components" / "data-grid" / "grid-column-settings.tsx").read_text(encoding="utf-8")
         self.assertIn('data-band-exempt="" data-slot="grid-column-settings"', pop)
         # 엑셀 저장 필드 선택 팝오버(거래처·입고처)도 동일 (2026-08-28 18:20 지적)

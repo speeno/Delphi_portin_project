@@ -6036,6 +6036,8 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   전표 입력 골격 `SlipEntryLayout` 이 `filtersAlign="start"` 를 쓰므로 **신규 입고 접수 ·
   신규 출고 주문 · 반품 접수 · 폐기 등록**이 한 번에 같은 배치가 된다(DEC-239 골격 단일화).
   조회 화면(필터=조건)은 기본값 `end` 유지 — 이 결정은 «입력 항목이 띠에 있는 화면»에만 적용.
+- **DEC-266 이 대체함(같은 날 후속 요청)** — 입력 줄이 아예 카드 안으로 내려가면서 `filtersAlign`
+  스위치는 쓰는 곳이 없어져 되돌렸다. 「좌측으로」라는 요구 자체는 DEC-266 이 더 강하게 만족한다.
 - 가드: `test/test_dec264_265_slip_header_and_dialog_autoclose.py`.
 
 ### DEC-265 — 팝업은 저장/수정이 끝나면 스스로 닫는다 (공통 규칙, 2026-09-08)
@@ -6059,3 +6061,24 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - 가드: `test/test_dec264_265_slip_header_and_dialog_autoclose.py` — 지정 팝업의 성공 경로에
   `onClose()` 가 있는지, 그리고 `aria-modal` 컴포넌트의 모든 `await *Api.update/create/cancel/save`
   성공 경로에 닫기 콜백이 있는지 전수 스캔.
+
+### DEC-266 — 전표 입력 줄(거래일자·거래처·저장)은 「라인」 카드 안으로 (2026-09-08)
+
+- **배경** — DEC-264 로 띠 왼쪽에 붙인 뒤 이어진 사용자 요청: 「이 부분은 아래 카드 내로 포함하면
+  어떨까?」(거래일자·입고처 코드·입고처 찾기·저장 줄 캡처). 저장 버튼 자리는 사용자가 «카드 안»으로
+  선택했다.
+- **결정** — `SlipEntryLayout` 이 그리는 순서를 바꾼다.
+  - 흰 띠(PageHeader): **제목 · 「목록」 · 메뉴 경로만**. children/actions 없음.
+  - 라인 카드 최상단에 **입력 줄** — 왼쪽에 헤더 폼(거래일자·거래처/입고처·지사 등), 오른쪽 끝
+    (`ml-auto`)에 부가 액션(반품 「자료불러오기」)과 **저장**. 아래로 구분선(`border-b`) → 「라인」.
+  - `data-enter-scope` + `advanceFocusOnEnter`(레거시 Enter=Tab)도 입력 줄로 함께 내려온다.
+  - 라벨을 입력 옆에 붙이는 인라인 규칙은 `.slip-header-form` 스코프로 `globals.css` 에 되풀이
+    (DEC-200 의 `.page-header` 규칙과 같은 모양·같은 예외 `[data-band-exempt]`/`[role=dialog]`).
+  - 적용 범위 = 골격을 쓰는 4화면: **신규 입고 접수 · 신규 출고 주문 · 반품 접수 · 폐기 등록**.
+    거래명세서 신규(`transactions/sales-statement/new`)는 자체 레이아웃이라 종전대로 띠에 둔다.
+- **원칙** — 흰 띠(DEC-200)는 «조회 화면 문법»(제목 좌 / 조건·조회 우)이다. 전표 «입력» 화면은
+  채우는 칸과 라인이 한 덩어리이므로 입력→저장이 카드 하나 안에서 끝나는 편이 자연스럽다.
+- 가드: `test/test_dec264_265_slip_header_and_dialog_autoclose.py`(띠엔 제목만·카드가 폼/저장/
+  Enter 스코프를 가짐·CSS 스코프 존재·죽은 `filtersAlign` 없음),
+  `test/test_dec200_page_header_band.py`(인라인 라벨 CSS 스코프 2개, 카드 프레임 띠 금지 유지),
+  `test/test_inbound_new_receipt_grid_keys.py`(골격 단일 소유).

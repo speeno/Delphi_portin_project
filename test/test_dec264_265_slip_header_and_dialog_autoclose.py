@@ -1,9 +1,9 @@
-"""DEC-264/265 — 전표 입력 띠 필드 좌측 정렬 · 팝업 저장 후 자동 닫기 (2026-09-08 사용자 피드백 ①②).
+"""DEC-264/266/265 — 전표 입력 줄 자리 · 팝업 저장 후 자동 닫기 (2026-09-08 사용자 피드백 ①②).
 
-① DEC-264 — 「신규 입고 접수」의 거래일자·입고처 코드가 띠 **우측 끝**에 몰려 있어 제목(좌상단)과
-   멀었다("너무 우측으로 치우쳐 있습니다. 좌측 상단으로 이동 요청"). `PageHeader` 에
-   `filtersAlign="start"` 를 두고 전표 입력 골격(SlipEntryLayout)이 그것을 쓴다 —
-   필드는 제목 옆(좌), 액션(저장)만 우측 끝.
+① DEC-264 → **DEC-266** — 「신규 입고 접수」의 거래일자·입고처 코드가 띠 **우측 끝**에 몰려 있었다
+   ("너무 우측으로 치우쳐 있습니다. 좌측 상단으로 이동 요청"). 먼저 띠 안에서 좌측 정렬(DEC-264)
+   했다가, 이어진 요청("이 부분은 아래 카드 내로 포함하면 어떨까?")으로 **입력 필드와 저장 버튼을
+   통째로 「라인」 카드 안 최상단**으로 옮겼다(DEC-266). 띠에는 제목·「목록」만 남는다.
 
 ② DEC-265 — 팝업에서 저장/수정을 끝내도 팝업이 열린 채 「저장 완료 …」 배너만 떠서 매번 ✕ 를
    눌러야 했다(입고현황·입고명세서 상세 팝업). **사용자 공통 규칙**: "팝업 화면에서 수정이나 저장
@@ -25,20 +25,33 @@ def _read(rel: str) -> str:
     return (FRONT / rel).read_text(encoding="utf-8")
 
 
-class SlipHeaderFieldsOnTheLeft(TestCase):
-    """DEC-264 — 띠 필드 정렬 스위치와 전표 입력 화면의 사용."""
+class SlipHeaderFieldsInsideCard(TestCase):
+    """DEC-266 — 전표 입력 줄(거래일자·거래처·저장)은 띠가 아니라 라인 카드 안 최상단."""
 
-    def test_page_header_supports_start_align(self) -> None:
-        src = _read("components/shared/page-header.tsx")
-        self.assertIn('filtersAlign?: "start" | "end"', src)
-        self.assertIn('filtersAlign = "end"', src)  # 기존 화면(조회 필터)은 우측 그대로
-        self.assertIn('filtersAlign === "start" ? "justify-start" : "justify-end"', src)
-        # 필드가 좌측일 때 액션(저장 등)은 우측 끝으로 밀린다
-        self.assertIn('filtersAlign === "start" && "ml-auto"', src)
-
-    def test_slip_entry_layout_uses_start_align(self) -> None:
+    def test_band_keeps_only_title_and_list(self) -> None:
         src = _read("components/transactions/slip-entry-layout.tsx")
-        self.assertIn('filtersAlign="start"', src)
+        band = src[src.index("<PageHeader") : src.index("/>", src.index("<PageHeader"))]
+        for gone in ("{headerForm}", "actions=", "save.onClick"):
+            self.assertNotIn(gone, band, gone)
+        self.assertIn("leading=", band)  # 「목록」 링크는 띠에 남는다
+
+    def test_card_holds_fields_enter_scope_and_save(self) -> None:
+        src = _read("components/transactions/slip-entry-layout.tsx")
+        card = src[src.index('className="slip-header-form') :]
+        self.assertIn('data-enter-scope=""', card)  # 레거시 Enter=Tab 스코프도 같이 내려왔다
+        self.assertIn("advanceFocusOnEnter(e)", card)
+        self.assertIn("{headerForm}", card)
+        self.assertIn("save.onClick", card)
+        self.assertIn('className="ml-auto flex flex-wrap items-center gap-2"', card)  # 저장은 줄 우측 끝
+
+    def test_inline_label_css_follows_the_fields(self) -> None:
+        """라벨을 입력 옆에 붙이는 규칙이 새 스코프에도 있어야 카드 안에서 띠와 같은 모양이 된다."""
+        css = _read("app/globals.css")
+        self.assertIn(".slip-header-form :is(.space-y-1, .space-y-1\\.5, .space-y-2)", css)
+
+    def test_page_header_has_no_dead_align_switch(self) -> None:
+        """DEC-264 의 filtersAlign 은 DEC-266 이 대체 — 쓰는 곳이 없어 되돌렸다."""
+        self.assertNotIn("filtersAlign", _read("components/shared/page-header.tsx"))
 
     def test_slip_entry_screens_go_through_the_layout(self) -> None:
         """신규 입고/출고/반품/폐기는 골격을 쓰므로 한 곳(위 테스트)만 지키면 된다."""
