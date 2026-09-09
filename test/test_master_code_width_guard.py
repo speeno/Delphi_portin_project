@@ -208,6 +208,31 @@ class CreateMasterCodeGuardTests(IsolatedAsyncioTestCase):
         self.assertEqual(code, "3421")
         self.assertEqual(asked, ["3419", "3420", "3421"])
 
+    async def test_next_master_code_continues_the_main_block_not_the_side_block(self) -> None:
+        # 교문사 실측(2026-09-09): 4자리 1,245건(1팀 본 계열) + 5자리 824건(8만번대 별도 대역).
+        # 실제 신규 등록은 3426→3431 로 이어졌다 → 다음 코드는 3432(89012 가 아니다).
+        codes = [str(i) for i in range(1, 3432)] + [str(i) for i in range(80001, 80825)]
+
+        async def fake_width(_sid, _table, _column="Gcode"):
+            return 10
+
+        with patch.object(ms, "execute_query", side_effect=self._fake_db(codes)), \
+                patch.object(ms, "code_column_max_len", side_effect=fake_width):
+            code = await ms.next_master_code(server_id="s", table="G4_Book", width=5)
+        self.assertEqual(code, "3432")
+
+    async def test_next_master_code_moves_to_the_next_width_when_the_block_is_full(self) -> None:
+        # 자리수가 늘어난 테넌트 — 본 계열(4자리)이 꽉 차면 다음 대역(5자리)을 잇는다.
+        codes = [str(i) for i in range(1, 10000)] + [str(i) for i in range(10000, 10501)]
+
+        async def fake_width(_sid, _table, _column="Gcode"):
+            return 10
+
+        with patch.object(ms, "execute_query", side_effect=self._fake_db(codes)), \
+                patch.object(ms, "code_column_max_len", side_effect=fake_width):
+            code = await ms.next_master_code(server_id="s", table="G4_Book", width=5)
+        self.assertEqual(code, "10501")
+
     async def test_next_master_code_excludes_letter_codes_from_max(self) -> None:
         # 문자 코드(J0000)가 MAX 를 가로채면 숫자 폴백 '00001' 로 떨어진다(DEC-262).
         captured: dict = {}
