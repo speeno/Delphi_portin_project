@@ -129,48 +129,98 @@ class CreateMasterCodeGuardTests(IsolatedAsyncioTestCase):
         self.assertIn("MASTER_CODE_TOO_LONG", str(ctx.exception))
         self.assertEqual(inserted, [])  # INSERT 미실행
 
+    @staticmethod
+    def _fake_db(codes: list[str], captured: dict | None = None):
+        """코드 목록 하나로 채번이 쓰는 3종 쿼리(자리수 분포/MAX/중복검사)를 흉내낸다."""
+        pool = [c for c in codes if c and c[0] <= "8"]  # SUBSTRING(Gcode,1,1) <= '8'
+
+        async def fake_exec(_sid, sql, params=()):
+            if "GROUP BY LENGTH(Gcode)" in sql:
+                dist: dict[int, int] = {}
+                for c in pool:
+                    dist[len(c)] = dist.get(len(c), 0) + 1
+                return [{"code_len": n, "row_count": c} for n, c in sorted(dist.items())]
+            if "MAX(Gcode)" in sql:
+                if captured is not None:
+                    captured["sql"], captured["params"] = sql, params
+                cand = [c for c in pool if len(c) == params[-1]]
+                return [{"mx": max(cand) if cand else None}]
+            return [{"Gcode": params[0]}] if params[0] in codes else []
+
+        return fake_exec
+
+    async def test_next_master_code_follows_existing_code_width(self) -> None:
+        # DEC-270 — 자리수를 5로 박아 두면 4자리 테넌트의 기존 코드가 집계에서 전부 빠져
+        # '00001' 부터 기존 체계와 무관한 코드를 제안했다. 자리수는 실데이터에서 뽑는다.
+        captured: dict = {}
+        codes = [str(i) for i in range(1, 3419)]  # 1~3418 (1~4자리, 0-패딩 없음)
+
+        async def fake_width(_sid, _table, _column="Gcode"):
+            return 10  # G4_Book.Gcode varchar(10)
+
+        with patch.object(ms, "execute_query", side_effect=self._fake_db(codes, captured)), \
+                patch.object(ms, "code_column_max_len", side_effect=fake_width):
+            code = await ms.next_master_code(server_id="s", table="G4_Book", width=5)
+        self.assertEqual(code, "3419")          # 기존 체계(1번부터) 다음 번호
+        self.assertEqual(captured["params"][-1], 4)  # 폭 5 고정이 아니라 데이터에서 뽑은 4
+
+    async def test_next_master_code_keeps_zero_padded_scheme(self) -> None:
+        # 0-패딩 고정폭 테넌트는 패딩을 그대로 유지한다(00800 → 00801).
+        codes = [str(i).zfill(5) for i in range(1, 801)]
+
+        async def fake_width(_sid, _table, _column="Gcode"):
+            return 5
+
+        with patch.object(ms, "execute_query", side_effect=self._fake_db(codes)), \
+                patch.object(ms, "code_column_max_len", side_effect=fake_width):
+            code = await ms.next_master_code(server_id="s", table="G1_Ggeo")
+        self.assertEqual(code, "00801")
+
+    async def test_next_master_code_ignores_outlier_long_code(self) -> None:
+        # ISBN 등 이물 코드 1건이 자리수를 가로채면 폭 초과(DEC-262)로 되돌아간다 — 유의미한
+        # 행 수(전체 1% 또는 최소 2건)를 가진 구간만 자리수 후보로 본다.
+        codes = [str(i) for i in range(1, 3419)] + ["9788912345"[:10].replace("9", "8", 1)]
+
+        async def fake_width(_sid, _table, _column="Gcode"):
+            return 10
+
+        with patch.object(ms, "execute_query", side_effect=self._fake_db(codes)), \
+                patch.object(ms, "code_column_max_len", side_effect=fake_width):
+            code = await ms.next_master_code(server_id="s", table="G4_Book", width=5)
+        self.assertEqual(code, "3419")
+
     async def test_next_master_code_skips_codes_already_taken(self) -> None:
-        # 교문사(5019) 실사고: MAX 가 문자코드('J0000')라 숫자 폴백 '00001' 을 제안했는데
-        # 그 코드는 이미 '(주)교보문고' 가 쓰고 있었다 → 등록 시 409. 빈 번호까지 밀어야 한다.
-        taken = {"00001", "00002"}
+        # 교문사(5019) 실사고: 제안 코드가 이미 쓰이고 있으면 409 — 빈 번호까지 밀어야 한다.
+        codes = [str(i) for i in range(1, 3419)]
         asked: list[str] = []
 
-        async def fake_exec(_sid, sql, params=()):
-            if "MAX(Gcode)" in sql:
-                return [{"mx": ""}]  # 고정폭 숫자 코드 없음 → 1부터
-            asked.append(params[0])
-            return [{"Gcode": params[0]}] if params[0] in taken else []
+        async def fake_width(_sid, _table, _column="Gcode"):
+            return 10
+
+        async def fake_taken(*, server_id, table, code, scope_hcode):  # noqa: ARG001
+            asked.append(code)
+            return code in {"3419", "3420"}
+
+        with patch.object(ms, "execute_query", side_effect=self._fake_db(codes)), \
+                patch.object(ms, "code_column_max_len", side_effect=fake_width), \
+                patch.object(ms, "_master_code_taken", side_effect=fake_taken):
+            code = await ms.next_master_code(server_id="s", table="G4_Book", width=5)
+        self.assertEqual(code, "3421")
+        self.assertEqual(asked, ["3419", "3420", "3421"])
+
+    async def test_next_master_code_excludes_letter_codes_from_max(self) -> None:
+        # 문자 코드(J0000)가 MAX 를 가로채면 숫자 폴백 '00001' 로 떨어진다(DEC-262).
+        captured: dict = {}
+        codes = ["J0000", "J0001"] + [str(i).zfill(5) for i in range(1, 131)]
 
         async def fake_width(_sid, _table, _column="Gcode"):
             return 5
 
-        with patch.object(ms, "execute_query", side_effect=fake_exec), \
+        with patch.object(ms, "execute_query", side_effect=self._fake_db(codes, captured)), \
                 patch.object(ms, "code_column_max_len", side_effect=fake_width):
             code = await ms.next_master_code(server_id="s", table="G1_Ggeo")
-        self.assertEqual(code, "00003")
-        self.assertEqual(asked, ["00001", "00002", "00003"])
-
-    async def test_next_master_code_only_counts_fixed_width_numeric(self) -> None:
-        captured = {}
-
-        async def fake_exec(_sid, sql, params=()):
-            if "MAX(Gcode)" in sql:
-                captured["sql"] = sql
-                captured["params"] = params
-                return [{"mx": "80130"}]
-            return []
-
-        async def fake_width(_sid, _table, _column="Gcode"):
-            return 5
-
-        with patch.object(ms, "execute_query", side_effect=fake_exec), \
-                patch.object(ms, "code_column_max_len", side_effect=fake_width):
-            code = await ms.next_master_code(server_id="s", table="G1_Ggeo")
-        self.assertEqual(code, "80131")
-        # 문자 코드(J0000)가 MAX 를 가로채지 못하게 길이 + 첫 글자 필터가 걸려 있어야 한다.
-        self.assertIn("LENGTH(Gcode)=%s", captured["sql"])
+        self.assertEqual(code, "00131")
         self.assertIn("SUBSTRING(Gcode,1,1) <= '8'", captured["sql"])
-        self.assertEqual(captured["params"][0], 5)
 
     async def test_next_master_code_falls_back_when_wider_than_column(self) -> None:
         async def fake_exec(_sid, sql, _params=()):
