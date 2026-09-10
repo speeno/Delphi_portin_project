@@ -54,6 +54,10 @@ flowchart LR
 
 ### 3.1 컴포넌트 책임 (`sidebar.tsx`)
 
+> **2026-09-10 (DEC-272)** — 아래 보조 배지(P2 · `R`/`RU`/`STUB` · `W3`/`W4`)는 사용자 요청으로
+> 사이드바에 **더 이상 그리지 않는다**. `FormMeta` 3축 메타와 툴팁 문구는 유지되며, 아래 규칙은
+> 메타의 *의미* 정의로만 읽는다.
+
 - 메인 배지 1: `phase` 만 본다 — 기존 로직 유지.
 - 보조 배지 2: `crudParity` 가 `"R"`/`"RU"`/`"STUB"` 일 때만 (회색 outline `R`/`RU`/`STUB`).
   - `phase1` + `R` 조합은 “녹색 체크 + 회색 R” → tooltip 첫 줄에 `CRUD: 조회만 (레거시: 신규·수정 가능)` 노출 (사용자 오인 방지).
@@ -113,7 +117,7 @@ CRUD: R — 조회만 (레거시는 C/R/U/D)
 |---|---|---|
 | 6.1 | 본 정책 문서 신설 | `docs/menu-roadmap-waves.md` |
 | 6.2 | `FormMeta` 에 `roadmapWave` + `crudParity` + `crudNotes` 추가 + 전 행 초기값 | `frontend/src/lib/form-registry.ts` |
-| 6.3 | 사이드바에 보조 배지(`R`/`RU`/`STUB`/`W3`/`W4`) + tooltip | `frontend/src/components/app-shell/sidebar.tsx` |
+| 6.3 | 사이드바에 보조 배지(`R`/`RU`/`STUB`/`W3`/`W4`) + tooltip — **배지는 DEC-272(2026-09-10)로 비노출, tooltip 만 유지** | `frontend/src/components/app-shell/sidebar.tsx` |
 | 6.4 | CRUD 인벤토리 + 보강 마일스톤 | `docs/crud-backlog.md` |
 | 6.5 | dashboard JSON 동기화 정책 | `dashboard/data/phase2-screen-cards.json` $comment |
 | 6.6 | 정적 회귀 가드 | `test/test_form_registry_metadata.py` |

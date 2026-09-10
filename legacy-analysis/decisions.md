@@ -6239,3 +6239,20 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **미확인(사용자 확인 대기)** — 도서 **목록**(`GET /masters/book`)은 `resolve_scope_hcode` 로
   스코프되어 라이브에서 교문사 3,462행만 나온다. 사용자가 목격한 화면이 목록인지 자동완성인지,
   또는 슈퍼(admin/hcode=0000/`*`) 계정 세션이었는지 확인 필요.
+
+### DEC-272 — 사이드바 메뉴의 내부 상태 배지(P2 · R/RU/STUB · W3/W4) 비노출 (2026-09-10)
+
+- **배경** — 사용자 요청(2026-09-10): 메뉴 항목 옆에 붙던 `R` / `RU` / `W4` 등 표기를 제거.
+  이 배지들은 DEC-059 3축 메타(`phase` ∥ `roadmapWave` ∥ `crudParity`)를 개발 추적용으로
+  사이드바에 그대로 드러낸 것이라, 실사용자에게는 의미 없는 기호로 보였다.
+- **결정**
+  - `sidebar.tsx` 의 P2(amber) · CRUD(`R`/`RU`/`STUB`) · 웨이브(`W3`/`W4`) 배지 JSX 를 제거한다.
+  - `FormMeta` 3축 메타와 정적 가드(`test_form_registry_metadata.py`)는 **그대로 유지** —
+    인벤토리·대시보드·툴팁 산출의 원천이므로 표시만 끄고 데이터는 끄지 않는다.
+  - 품질/기능 단계 설명은 항목 `title` 툴팁 문구(「품질: …」「기능: 조회만」)로만 남긴다.
+  - 열린 창 ✓ 와 포팅 완료 체크 아이콘은 이번 결정 범위 밖(유지).
+- **영향** — `docs/menu-roadmap-waves.md` §3.1 · §6.3 의 「사이드바 보조 배지」 규칙은
+  본 결정으로 폐기(문서에 주석). 배지를 다시 켜려면 새 DEC 로 뒤집는다.
+- **검증** — `tsc --noEmit` · eslint · 허브 가드 3종(test_dec199_base_design_shell,
+  test_form_registry_metadata, test_master_missing_screens_frontend) 29 passed.
+  제품 커밋 `eca009c` (books-logistics-web main).
