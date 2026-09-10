@@ -123,6 +123,145 @@ class SmtpProviderTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotIn("TEST-SECRET-KEY-DO-NOT-LOG", "\n".join(cm.output))
 
 
+class TransportFallbackTests(unittest.IsolatedAsyncioTestCase):
+    """운영 실측(2026-09-04): Render 에서 587 이 SMTPConnectTimeoutError.
+    지정 포트가 막히면 대체 포트로 넘어가고, 전부 막히면 마지막 오류를 돌려준다."""
+
+    async def test_falls_back_to_next_port(self):
+        import aiosmtplib
+
+        calls = []
+
+        async def flaky(msg, **kw):
+            calls.append(kw["port"])
+            if kw["port"] == 587:
+                raise aiosmtplib.SMTPConnectTimeoutError("blocked")
+            return ({}, "OK")
+
+        with patch.dict(os.environ, {**_SMTP_ENV, "BLS_SMTP_FALLBACK_PORTS": "2525,465"}), \
+             patch.object(aiosmtplib, "send", flaky):
+            r = await svc.send_email(to="a@b.co", subject="s", html="x")
+        self.assertTrue(r.ok, r)
+        self.assertEqual(calls, [587, 2525])
+
+    async def test_implicit_tls_on_465(self):
+        import aiosmtplib
+
+        seen = {}
+
+        async def only465(msg, **kw):
+            seen[kw["port"]] = kw
+            if kw["port"] != 465:
+                raise aiosmtplib.SMTPConnectTimeoutError("blocked")
+            return ({}, "OK")
+
+        with patch.dict(os.environ, {**_SMTP_ENV, "BLS_SMTP_FALLBACK_PORTS": "465"}), \
+             patch.object(aiosmtplib, "send", only465):
+            r = await svc.send_email(to="a@b.co", subject="s", html="x")
+        self.assertTrue(r.ok, r)
+        self.assertTrue(seen[465]["use_tls"])
+        self.assertFalse(seen[465]["start_tls"])
+
+    async def test_all_ports_blocked_returns_last_error(self):
+        import aiosmtplib
+
+        async def blocked(msg, **kw):
+            raise aiosmtplib.SMTPConnectTimeoutError("blocked")
+
+        with patch.dict(os.environ, {**_SMTP_ENV, "BLS_SMTP_FALLBACK_PORTS": "2525"}), \
+             patch.object(aiosmtplib, "send", blocked):
+            r = await svc.send_email(to="a@b.co", subject="s", html="x")
+        self.assertFalse(r.ok)
+        self.assertEqual(r.error, "SMTPConnectTimeoutError")
+
+
+class BrevoApiProviderTests(unittest.IsolatedAsyncioTestCase):
+    """SMTP 포트가 막힌 환경용 HTTPS(443) 경로."""
+
+    ENV = {**_SMTP_ENV, "BLS_EMAIL_PROVIDER": "brevo_api", "BLS_EMAIL_API_KEY": "xkeysib-TEST-KEY"}
+
+    async def test_posts_to_brevo_and_hides_key_from_logs(self):
+        import httpx
+
+        captured = {}
+
+        class FakeResp:
+            status_code = 201
+            text = '{"messageId":"<mid@brevo>"}'
+            def json(self): return {"messageId": "<mid@brevo>"}
+
+        class FakeClient:
+            def __init__(self, **kw): pass
+            async def __aenter__(self): return self
+            async def __aexit__(self, *a): return False
+            async def post(self, url, headers=None, json=None):
+                captured.update(url=url, headers=headers, json=json)
+                return FakeResp()
+
+        with patch.dict(os.environ, self.ENV), patch.object(httpx, "AsyncClient", FakeClient):
+            with self.assertLogs("app.services.email_dispatch_service", level="INFO") as cm:
+                r = await svc.send_email(to="hong@company.co.kr", subject="제목", html="<p>본문</p>", text="본문")
+        self.assertTrue(r.ok, r)
+        self.assertEqual(r.provider, "brevo_api")
+        self.assertEqual(r.message_id, "<mid@brevo>")
+        self.assertEqual(captured["url"], "https://api.brevo.com/v3/smtp/email")
+        self.assertEqual(captured["headers"]["api-key"], "xkeysib-TEST-KEY")
+        self.assertEqual(captured["json"]["to"], [{"email": "hong@company.co.kr"}])
+        self.assertEqual(captured["json"]["sender"]["email"], "no-reply@example.test" if False else captured["json"]["sender"]["email"])
+        joined = "\n".join(cm.output)
+        self.assertNotIn("xkeysib-TEST-KEY", joined)
+        self.assertNotIn("hong@company.co.kr", joined)
+
+    async def test_http_error_is_returned_not_raised(self):
+        import httpx
+
+        class FakeResp:
+            status_code = 401
+            text = '{"code":"unauthorized"}'
+            def json(self): return {}
+
+        class FakeClient:
+            def __init__(self, **kw): pass
+            async def __aenter__(self): return self
+            async def __aexit__(self, *a): return False
+            async def post(self, *a, **kw): return FakeResp()
+
+        with patch.dict(os.environ, self.ENV), patch.object(httpx, "AsyncClient", FakeClient):
+            r = await svc.send_email(to="a@b.co", subject="s", html="x")
+        self.assertFalse(r.ok)
+        self.assertEqual(r.error, "http_401")
+
+    async def test_missing_api_key_is_reported(self):
+        with patch.dict(os.environ, {**self.ENV, "BLS_EMAIL_API_KEY": ""}):
+            r = await svc.send_email(to="a@b.co", subject="s", html="x")
+        self.assertFalse(r.ok)
+        self.assertEqual(r.error, "api_not_configured")
+
+
+class SendConfiguredGateTests(unittest.TestCase):
+    """전환 버튼 노출 게이트 — provider 추가 시 누락되면 운영에서 버튼이 사라진다(2026-09-04 회귀)."""
+
+    def test_all_providers(self):
+        cases = [
+            ({**_SMTP_ENV}, True, "smtp 설정 완비"),
+            ({**_SMTP_ENV, "BLS_SMTP_PASSWORD": ""}, False, "smtp 키 누락"),
+            ({**_CLEAR, "BLS_EMAIL_PROVIDER": "brevo_api", "BLS_EMAIL_API_KEY": "xkeysib-x", "BLS_EMAIL_FROM": "a@b.co"}, True, "api 설정 완비"),
+            ({**_CLEAR, "BLS_EMAIL_PROVIDER": "brevo_api", "BLS_EMAIL_FROM": "a@b.co"}, False, "api 키 누락"),
+            ({**_CLEAR, "BLS_EMAIL_PROVIDER": "console", "BLS_EMAIL_DEBUG_ECHO": "1"}, True, "console+에코"),
+            ({**_CLEAR, "BLS_EMAIL_PROVIDER": "console"}, False, "console 실발송 없음"),
+        ]
+        for env, expected, why in cases:
+            with self.subTest(why=why), patch.dict(os.environ, env):
+                self.assertEqual(svc.is_send_configured(), expected, why)
+
+    def test_login_policy_uses_the_same_judgement(self):
+        from app.routers import auth as auth_router
+
+        with patch.dict(os.environ, {**_CLEAR, "BLS_EMAIL_PROVIDER": "brevo_api",
+                                     "BLS_EMAIL_API_KEY": "xkeysib-x", "BLS_EMAIL_FROM": "a@b.co"}):
+            self.assertTrue(auth_router._email_switch_available())
+
+
 class StartupWarningTests(unittest.TestCase):
     def test_warn_when_smtp_missing_fields(self):
         with patch.dict(os.environ, {**_CLEAR, "BLS_EMAIL_PROVIDER": "smtp"}):
