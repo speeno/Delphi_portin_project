@@ -255,6 +255,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "path": f"/api/v1/masters/book/by-isbn?serverId={sid}&isbn=9780000000000",
             "ok_status": {200},
         },
+        # DEC-273 — 도서분류 대역 채번(gubunCode). 대역표 없는 테넌트는 종전 채번으로 200(회귀 0).
+        {
+            "group": "masters.next_code.book_band",
+            "path": f"/api/v1/masters/next-code?entity=book&serverId={sid}&gubunCode=10001",
+            "ok_status": {200},
+        },
         {
             "group": "masters.export.customer_fields",
             "path": "/api/v1/masters/exports/customer-fields",

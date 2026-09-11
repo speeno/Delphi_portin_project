@@ -1,0 +1,84 @@
+# Migration Contract: 도서코드 «분류별 대역» 자동채번 — Sobo14 신규 도서 (DEC-273)
+#
+# 출처:
+#   - 교문사 요청서 「북이오웍스_거래처_도서 구별코드(260911)」 + 고객 회신(2026-09-11, 결정 ①②④⑤)
+#   - docs/북이오웍스-도서코드-자동부여-검토-2026-09-11.pdf (검토서, 실데이터 대조표)
+#   - legacy-analysis/decisions.md DEC-270(기존 코드 불변) · DEC-273(본 계약)
+#
+# 규칙 (코드 분기 없음 — 전부 이 파일의 데이터):
+#   1. 신규 도서 화면이 고른 «도서분류(G4_Gbun 코드, G4_Book.Gubun)» 로 대역(band)을 찾는다.
+#   2. 대역 안에서 «숫자 최대값 + 1». 이미 쓰인 번호면 다음 번호. 대역 상한을 넘으면 빈 값(수기 폴백).
+#   3. ignore_codes 는 «없는 번호»로 카운팅한다(최대값 계산에서 제외, 행은 그대로).
+#   4. padding: none → 코드는 숫자 그대로(0-패딩 없음). 4자리 3431 다음은 3432, 9999 다음은 10000.
+#   5. reserved_codes 는 어떤 대역에도 속하지 않는 고정 코드(채번 대상 아님).
+#   6. 대역표가 없는 테넌트(match 안 됨)는 종전 채번(next_master_code, 자리수 기반)을 그대로 쓴다.
+#   7. 기존 도서코드는 어떤 경로로도 바꾸지 않는다(DEC-270).
+#
+# 변경 절차: 이 파일과 백엔드 번들 사본(도서물류관리프로그램/backend/data/contracts/book_code_bands.yaml)을
+# 함께 고친다 — test/test_dec273_book_code_bands.py 가 두 파일의 일치와 대역 무결성(겹침·예약코드)을 가드한다.
+
+id: master-book-code-bands
+name: 도서코드 분류별 대역 자동채번 (Sobo14 신규 도서)
+version: 1.0.0
+status: active
+scope_phase: phase1
+created: 2026-09-11
+updated: 2026-09-11
+owner: 메인개발자
+
+references:
+  - docs/북이오웍스-도서코드-자동부여-검토-2026-09-11.pdf
+  - analysis/layout_mappings/Sobo14.md
+  - migration/contracts/master_data.yaml
+
+# gubun 표기: "10001-10024" = 도서분류 코드 숫자 범위(양끝 포함), "89000" = 단일 코드.
+# range: [하한, 상한] 도서코드 숫자 범위(양끝 포함).
+band_sets:
+  kyomun-2026-09:
+    label: 교문사 팀별 대역표 (2026-09-11 고객 확정)
+    padding: none
+    reserved_codes: ["99999"]        # 택배 고정값 — 어떤 대역에도 속하지 않는다
+    bands:
+      - id: team1-main
+        label: 1팀 저서·번역서·교과서·기타
+        gubun: ["10001-10024"]
+        range: [1, 79999]
+        # 결정 ① — 기존 예외코드 12건은 그대로 두고 «없는 번호»로 카운팅(다음 코드 3432).
+        ignore_codes: ["09021", "09022", "09023", "09025", "09027", "09028", "09029",
+                       "09030", "09031", "09032", "09033", "20019"]
+      - id: team1-foreign
+        label: 원서1팀
+        gubun: ["10025"]
+        range: [80063, 83999]
+      - id: team2-foreign
+        label: 원서2팀
+        gubun: ["90014"]
+        range: [84000, 88999]
+      - id: nonsale-standalone-paprika
+        label: 비매품·단행본·파프리카 한승
+        gubun: ["89000", "99000", "80000"]
+        range: [89000, 90000]
+      - id: team2-main
+        label: 2팀 저서
+        gubun: ["90001-90012"]
+        range: [90001, 99000]
+      - id: team2-media
+        label: 영상·기타
+        gubun: ["90013"]
+        range: [99001, 99716]
+      - id: unassigned
+        label: 미지정
+        gubun: ["99717"]
+        range: [99717, 99998]
+
+customer_variants:
+  - id: default
+    description: "대역표 없음 — 종전 자리수 기반 채번(next_master_code) 유지"
+    match: {}
+    band_set: null
+  - id: kyomun
+    description: "교문사 — remote_153 / chul_09_db / hcode 5019 (요청서 2026-09-11)"
+    match:
+      server_id: [remote_153]
+      hcode: ["5019"]
+    band_set: kyomun-2026-09

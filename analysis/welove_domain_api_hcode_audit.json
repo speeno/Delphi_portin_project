@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-10T03:16:11.462288+00:00",
+  "generated_at": "2026-09-11T07:54:19.046220+00:00",
   "summary": {
-    "files_scanned": 107,
-    "sql_literals": 570,
+    "files_scanned": 108,
+    "sql_literals": 572,
     "critical": 0,
     "warn": 13,
-    "info": 264,
+    "info": 266,
     "skipped_noqa": 69,
     "multi_tenant_tables_seen": [
       "G4_Book",
@@ -162,6 +162,30 @@
       "severity": "info",
       "reason": "unknown_tables_only",
       "sql_excerpt": "SELECT <<dyn>> FROM G3_Gjeo_Ext WHERE Hcode=%s AND Gcode=%s",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/book_code_bands.py",
+      "function": "_numeric_code_taken",
+      "lineno": 194,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "SELECT Gcode FROM G4_Book <<dyn>>",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/book_code_bands.py",
+      "function": "next_book_code_in_band",
+      "lineno": 208,
+      "tables": [
+        "G4_Book"
+      ],
+      "severity": "info",
+      "reason": "multi_tenant_table_no_where_clause",
+      "sql_excerpt": "SELECT MAX(Gcode+0) AS mx FROM G4_Book <<dyn>>",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
