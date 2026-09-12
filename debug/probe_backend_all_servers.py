@@ -255,6 +255,17 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "path": f"/api/v1/masters/book/by-isbn?serverId={sid}&isbn=9780000000000",
             "ok_status": {200},
         },
+        # DEC-282 — 조정 원장(원장변경 Sg_Gsum / 재고변경 Sg_Csum). 읽기만, 회사 스코프 주입.
+        {
+            "group": "ledger.adjustments.customer",
+            "path": f"/api/v1/ledger/adjustments?serverId={sid}&axis=customer&dateFrom={df}&dateTo={dt}&limit=1",
+            "ok_status": {200},
+        },
+        {
+            "group": "ledger.adjustments.book",
+            "path": f"/api/v1/ledger/adjustments?serverId={sid}&axis=book&dateFrom={df}&dateTo={dt}&limit=1",
+            "ok_status": {200},
+        },
         # DEC-273 — 도서분류 대역 채번(gubunCode). 대역표 없는 테넌트는 종전 채번으로 200(회귀 0).
         {
             "group": "masters.next_code.book_band",
