@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-10T03:15:04.096437+00:00",
+  "generated_at": "2026-09-12T02:08:27.831704+00:00",
   "summary": {
     "files_scanned": 29,
-    "endpoints_seen": 362,
+    "endpoints_seen": 363,
     "optional_hcode_endpoints": 85,
     "scope_identifier_endpoints": 103,
     "critical": 7,
@@ -235,7 +235,7 @@
       "function": "list_special_master",
       "path": "/special",
       "method": "GET",
-      "lineno": 1652,
+      "lineno": 1673,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -245,7 +245,7 @@
       "function": "delete_special_master",
       "path": "/special/{row_id}",
       "method": "DELETE",
-      "lineno": 1800,
+      "lineno": 1821,
       "severity": "info",
       "reason": "scoped_with_helper (idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -415,7 +415,7 @@
       "function": "list_returns",
       "path": "",
       "method": "GET",
-      "lineno": 164,
+      "lineno": 167,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -425,7 +425,7 @@
       "function": "daily_report",
       "path": "/reports/daily",
       "method": "GET",
-      "lineno": 197,
+      "lineno": 200,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -435,7 +435,7 @@
       "function": "get_returns_ledger",
       "path": "/ledger",
       "method": "GET",
-      "lineno": 229,
+      "lineno": 232,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -445,7 +445,7 @@
       "function": "get_returns_period_report",
       "path": "/period-report",
       "method": "GET",
-      "lineno": 264,
+      "lineno": 267,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -455,7 +455,7 @@
       "function": "list_inventory_candidates_api",
       "path": "/inventory-candidates",
       "method": "GET",
-      "lineno": 291,
+      "lineno": 294,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -465,7 +465,7 @@
       "function": "export_returns_xlsx",
       "path": "/export.xlsx",
       "method": "GET",
-      "lineno": 343,
+      "lineno": 346,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -475,7 +475,7 @@
       "function": "export_returns_ledger_xlsx",
       "path": "/ledger/export.xlsx",
       "method": "GET",
-      "lineno": 368,
+      "lineno": 371,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -485,7 +485,7 @@
       "function": "export_returns_period_xlsx",
       "path": "/period-report/export.xlsx",
       "method": "GET",
-      "lineno": 403,
+      "lineno": 406,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -495,7 +495,7 @@
       "function": "export_returns_daily_xlsx",
       "path": "/reports/daily/export.xlsx",
       "method": "GET",
-      "lineno": 437,
+      "lineno": 440,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -505,7 +505,7 @@
       "function": "get_return_detail",
       "path": "/{return_key}",
       "method": "GET",
-      "lineno": 460,
+      "lineno": 477,
       "severity": "info",
       "reason": "scoped_with_helper (path_hcode_key)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"

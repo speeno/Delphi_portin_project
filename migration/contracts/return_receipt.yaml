@@ -29,7 +29,7 @@
 
 id: C4-return-receipt
 name: 반품 처리 (CRUD + 3분기 + 일일/기간/원장 보고 + 패스워드 + 임포트 + 라인 diff + 롤백 + 보안)
-version: 1.2.0
+version: 1.3.0
 status: approved        # v1.1.0 → v1.2.0 (Sobo34_4 페이저/JOIN 분리 + summary 캐시 + permission inventory.read — PLAN-LDG-INV-DETAIL-2026-04-23)
 scope_phase: phase2
 acceptance_goal: |
@@ -128,10 +128,24 @@ inputs:
       legacy_field: S1_Ssub.Bdate
       note: "Subu25 의 Bdate 키. 일반 반품/재생/변경 에서는 미사용. OQ-RT-2 검증 대상."
     - name: hcode
-      type: string         # 거래처 코드
+      type: string         # 회사/출판사 코드 (S1_Ssub.Hcode) — DEC-275 교정 (종전 주석 "거래처 코드" 는 오독)
       required: true
       legacy_field: S1_Ssub.Hcode
-      note: "거래처 코드. Subu23 Edit104 (TabOrder 13). G1_Ggeo lookup."
+      note: |
+        회사/출판사 코드 — 거래처 코드가 **아니다** (DEC-275, 2026-09-12 교문사 리포트로 교정).
+        출판 빌드: 반품 폼 없음(Subu23=기타명세서) → Subu21 경유, Base01.pas T2_Sub11NewRecord L6081 `Hcode:=Hnnnn`(자사).
+        유통 빌드: Subu23 Edit107(출판사코드, Seak80=G7_Ggeo) → Subu23.pas L1271 `@Hcode=Edit107`.
+        웹: 라우터가 enforce_hcode_identity 로 로그인 스코프 강제(비슈퍼 빈값→주입, 타사→403).
+        화면 노출 여부는 customer_variants.counterparty_axis 프로필(publisher.mode) 데이터로 결정.
+    - name: gcode
+      type: string         # 상대 거래처 코드 (S1_Ssub.Gcode) — DEC-275 신설
+      required: false      # 화면은 필수(프로필 customer.required) — 임포트/레거시 행 호환으로 API 는 선택
+      legacy_field: S1_Ssub.Gcode
+      note: |
+        상대 거래처(서점) 코드 = G1_Ggeo.Gcode (Hcode=소유 회사 스코프). 두 빌드 공통:
+        출판 Subu21 Edit104 ← Seek10(Seek01.pas L78/94/149 `From G1_Ggeo`), Base01.pas L6086 `Gcode:=Sobo21.Edit104`;
+        유통 Subu23 Edit104 ← Seek10(G1_Ggeo), Subu23.pas L1268 `@Gcode=Edit104`, L1305-1308 `From G1_Ggeo`.
+        한 전표 = 한 거래처(전 라인 동일). 검색 팝업/인라인 = GET /masters/customer · /masters/customers (출고 접수 재사용).
     - name: jubun
       type: string
       required: false      # 신규 시 서버 자동 채번 (Subu23.pas L758 Max(Idnum)+1 패턴 → 마이크로초 채번 — C2/C3 재사용)
@@ -847,8 +861,8 @@ endpoints:
     responses:
       "200":
         body:
-          return_key: { gdate?: string, bdate?: string, hcode: string, jubun: string }
-          customer: { hcode: string, hname: string }
+          return_key: "{ gdate?: string, bdate?: string, hcode: string, jubun: string }"
+          customer: "{ hcode: string, hname: string, gcode?: string, gname?: string }"   # gcode/gname = 상대 거래처(G1_Ggeo) — DEC-275
           memo:
             gbigo?: string
             sbigo?: string
@@ -913,7 +927,7 @@ endpoints:
     responses:
       "200":
         body:
-          return_key: { gdate?, bdate?, hcode, jubun }
+          return_key: "{ gdate?, bdate?, hcode, jubun }"
           lines: integer
           qty: integer
           amount: integer
@@ -1705,10 +1719,69 @@ customer_variants:
       - Button702
     notes: "변형 0건. 캡션 '기간별반품내역서'. Sobo55 와 데이터 소스 동일 — 일별→기간 차원만 변경. 모던 라우트 /returns/period-report."
 
+  # ─── DEC-275 (2026-09-12) — 반품 접수 헤더 «상대처 축» 빌드별 프로필 ─────────────
+  # 교문사(출판, hcode 5019) 리포트: 「출판사 찾기」 팝업이 G7_Ggeo(출판사)를 검색해 자사(5019)만
+  # 나오고 거래처 「홍익」은 0건. 레거시는 두 빌드 모두 거래처(G1_Ggeo, Seek10)를 Gcode 에 쓴다.
+  # 코드 분기 금지 — 서비스 returns_entry_profile 이 로그인 컨텍스트로 프로필을 고른다
+  # (GET /returns/entry-profile). 번들 사본 backend/data/contracts/return_receipt.yaml 동기 필수.
+  counterparty_axis:
+    profiles:
+      publisher_fixed:
+        label: "출판 빌드 — 거래처 선택(G1_Ggeo→Gcode), 회사 코드는 로그인 스코프 고정(Hnnnn)"
+        legacy_ref: "한국도서유통출판/출판 Subu21.pas L1029-1041/L1075-1078 (Seek10→Edit104), L1659-1662 From G1_Ggeo Where Hcode=Hnnnn; Base01.pas L6081/L6086"
+        customer:
+          lookup: customer        # MasterLookupField kind (GET /masters/customer 팝업 + /masters/customers 인라인)
+          table: G1_Ggeo
+          saves_to: S1_Ssub.Gcode
+          required: true
+        publisher:
+          mode: login             # 화면에 출판사 칸 없음 — Hcode = 로그인 스코프(enforce_hcode_identity)
+          lookup: publisher
+          table: G7_Ggeo
+          saves_to: S1_Ssub.Hcode
+      distributor_select:
+        label: "유통 빌드 — 거래처 선택(G1_Ggeo→Gcode) + 출판사 선택(G7_Ggeo→Hcode)"
+        legacy_ref: "도서유통-New Subu23.pas L721/L727 (Seak80→Edit107), L753/L821 (Seek10→Edit104), L1268/L1271 INSERT, L1305-1308 From G1_Ggeo"
+        customer:
+          lookup: customer
+          table: G1_Ggeo
+          saves_to: S1_Ssub.Gcode
+          required: true
+        publisher:
+          mode: select            # 출판사 검색 팝업(인라인 금지 — DEC-193), 기본값 = 로그인 스코프
+          lookup: publisher
+          table: G7_Ggeo
+          saves_to: S1_Ssub.Hcode
+    variants:                     # 순서대로 «마지막 일치» 우선(기본 → 구체). match 키 = 로그인 컨텍스트 필드.
+      - id: default-publisher-fixed
+        description: "매칭 없는 기본값 — fail-closed(회사 코드 = 로그인 스코프). 공유 DB(chul_09) 미분류 계정 포함."
+        match: {}
+        profile: publisher_fixed
+      - id: distributor-builds
+        description: "총판/유통 계정 — 도서유통-New 반품명세서(Subu23)의 출판사코드(Edit107) 축"
+        match:
+          build_role: [distributor]
+        profile: distributor_select
+      - id: super
+        description: "슈퍼(admin/0000) — 회사 코드 기본값 없음 → 출판사 선택 필수"
+        match:
+          build_role: [super]
+        profile: distributor_select
+
 # ---------------------------------------------------------------
 # 10. 변경 이력
 # ---------------------------------------------------------------
 changelog:
+  - date: 2026-09-12
+    by: porting-team
+    note: |
+      1.3.0 — DEC-275 반품 접수 헤더 상대처 축 교정 (교문사 리포트: 「출판사 찾기」가 자사만 검색, 거래처 「홍익」 0건).
+      - inputs.return_header: hcode 의미 교정(회사/출판사 = 로그인 스코프) + gcode(상대 거래처, G1_Ggeo) 신설.
+      - customer_variants.counterparty_axis: publisher_fixed(출판) / distributor_select(유통) 프로필 + variants(match=build_role).
+      - endpoints: GET /returns/entry-profile 신설(서버 해석 프로필 + login_hcode). POST /returns 는 hcode 를 enforce_hcode_identity 로 강제.
+      - SQL-RT-3 INSERT 에 Gcode 기록(DEC-093 잔여 (c) 해소), SQL-RT-7 상세에 Gcode + G1_Ggeo 거래처명(SQL-RT-11b).
+      - 레거시 정본: 출판 빌드는 반품 폼 없음(Subu23=기타명세서) → Subu21 Gubun='반품', Hcode:=Hnnnn(Base01.pas L6081), Gcode:=Edit104(L6086, Seek10=G1_Ggeo);
+        유통 빌드 Subu23 Edit104(거래처, Seek10=G1_Ggeo)→Gcode, Edit107(출판사, Seak80=G7_Ggeo)→Hcode.
   - date: 2026-04-23
     by: porting-team
     note: |

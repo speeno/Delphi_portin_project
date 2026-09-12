@@ -558,6 +558,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            # DEC-275 — 반품 접수 헤더 상대처 축 프로필(계약 해석, DB 무접근).
+            "group": "returns.entry_profile",
+            "path": "/api/v1/returns/entry-profile",
+            "ok_status": {200},
+        },
+        {
             "group": "settlement.cash",
             "path": (
                 f"/api/v1/settlement/cash?serverId={sid}"

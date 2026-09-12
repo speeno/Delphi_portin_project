@@ -6304,3 +6304,95 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   2. 메타 조회 실패 시에는 제외하지 않는다(전 행 증발 방지, 페일세이프).
   3. 오입력 코드 69건 자체는 데이터 정비 대상(고객 안내) — 웹이 임의로 고치지 않는다.
 - **검증** — 라이브 재계산: 제외 후 474,386 = 레거시. 가드 `test/test_dec274_stock_ledger_unknown_codes.py`.
+
+### DEC-275 — 반품 접수 헤더의 상대처는 «거래처(G1_Ggeo→Gcode)» — 출판사 룩업 오배선 교정 (교문사, 2026-09-12)
+
+- **배경** — 교문사(출판 계정, hcode 5019, remote_153/chul_09_db) 리포트: 반품접수 > 신규 입력의
+  「출판사코드 *」 칸에서 「출판사 찾기」 팝업(출판사 검색)으로 "교문사"를 치면 자사 5019 만 나오고,
+  거래처 서점 "홍익"은 「검색 결과가 없습니다」. 팝업이 **잘못된 마스터**를 검색하고 있었다.
+- **원인** — `returns/receipts/new/page.tsx` 가 `MasterLookupField lookupKind="publisher"`(G7_Ggeo,
+  `resolve_g7_ggeo_list_scope` 로 T2_PUB/공유 DB 는 자사 1건) 값을 `S1_Ssub.Hcode` 로 저장하고
+  **Gcode(거래처)는 아예 기록하지 않았다**(DEC-093 잔여 (c)). 계약 `return_receipt.yaml` 의
+  `return_header.hcode` 주석("거래처 코드. Subu23 Edit104. G1_Ggeo lookup")이 거래처를 Hcode 로 오독한
+  것이 출발점 — DEC-137(원장 축 오독)과 같은 계열.
+- **레거시 정본(빌드 교차)** — 폼번호 충돌 주의: 출판 빌드 `Subu23` 은 '기타명세서-(본사)' 다.
+  - **출판 빌드**(`WeLove_FTP/도서유통-출판/MySQL/도서유통/한국도서유통출판/출판/`): 반품 전용 폼 **없음**
+    (캡션에 '반품' 포함 폼 0건) → `Subu21.pas` 거래명세서 Gubun='반품'(L972, dfm L318). 거래처 Edit104 ←
+    `Seek10`(`Seek01.pas` L78/94/149 `From G1_Ggeo`, L1029-1041/L1075-1078), 거래처 채움 L1659-1662
+    `From G1_Ggeo Where Hcode=Hnnnn and Gcode=Edit104`. INSERT: `Base01.pas` T2_Sub11NewRecord L6081
+    `Hcode:=Hnnnn`(자사) / L6086 `Gcode:=Sobo21.Edit104`, BeforePost L3517 `(Gdate, Scode, Gcode, Hcode, …)`.
+  - **유통 빌드**(`WeLove_FTP/도서유통-New/`): `Subu23` '반품명세서'. 거래처 Edit104(Panel104 '거래처코드')
+    ← `Seek10`(G1_Ggeo) L753/L821, **출판사** Edit107(Panel102 '출판사코드') ← `Seak80`(`Seak08.pas`
+    L74/108 `From G7_Ggeo`) L721/L727. INSERT L1258-1271 `@Gcode=Edit104`, `@Hcode=Edit107`; L1305-1308
+    `From G1_Ggeo Where Hcode=Edit107 and Gcode=Edit104`.
+  - 결론: **두 빌드 모두 상대처 = 거래처(G1_Ggeo) → Gcode**. 차이는 Hcode 가 자사 고정(출판)이냐
+    출판사 선택(유통)이냐 뿐.
+- **결정**
+  1. 화면: 헤더 상대처 = 「거래처 *」 `lookupKind="customer"`(출고 접수와 같은 G1 팝업+인라인, 로그인
+     hcode 스코프) → `gcode`. 회사/출판사(`hcode`)는 계약 프로필로만 분기(계정/hcode `if` 금지):
+     `return_receipt.yaml customer_variants.counterparty_axis` — `publisher_fixed`(mode=login, 칸 없음,
+     Hcode=로그인 스코프) / `distributor_select`(mode=select, 출판사 팝업 — 인라인 금지 DEC-193).
+     variants: 기본=publisher_fixed(fail-closed), `build_role: distributor|super` → distributor_select.
+     서버 해석 `app/services/returns_entry_profile.py` + `GET /returns/entry-profile`(login_hcode 포함).
+  2. 서버: `SQL_INSERT_LINE` 에 **Gcode 기록**(전 라인 동일 — 출고 INSERT 관례), `POST /returns` 헤더
+     hcode 는 `enforce_hcode_identity`(비슈퍼 빈값→주입, 타사→403). 상세 `SQL_DETAIL_LINES` 에 Gcode +
+     `SQL_CUSTOMER_BY_GCODE`(G1_Ggeo, `Hcode=%s OR Hcode=''` 폴백, 3.23 안전) → `customer.gcode/gname`.
+  3. legacy-id: 거래처 `Sobo23.Edit104/Panel104/Edit105`, 출판사 `Sobo23.Edit107/Panel102/Edit108`
+     (종전 Edit203 은 dfm 상 Panel003 전화번호2 — 폐기, DEC-221 가드 갱신).
+  4. 번들 사본 `backend/data/contracts/return_receipt.yaml` 신설(DEC-069, 허브 편집 시 복사 필수).
+- **가드** — `test/test_dec275_returns_counterparty_axis.py`(프로필 해석·fail-closed·번들 동기·INSERT Gcode
+  바인딩 위치·상세 거래처 스코프·라우터 403/주입·entry-profile·프론트 정적 가드·probe 등록),
+  `test_dec221_returns_forms_band.py` 갱신. probe `returns.entry_profile`.
+- **미결(사용자 확인 대기)** — (a) 반품 **목록**(`GET /returns`)은 여전히 Hcode(출판 계정=자사)만 보여
+  거래처 컬럼이 없다 — GROUP BY 에 Gcode 추가 여부. (b) 유통 계정이 로그인 스코프와 다른 출판사를 고르면
+  현행 테넌트 격리(`enforce_hcode_identity`) 상 403 — 유통 빌드의 Hcode 축을 격리 정책에서 어떻게 다룰지
+  별도 결정 필요(현재 운영 4서버는 모두 출판/창고 계열). (c) 웹 등록 이전 반품 행은 Gcode 가 비어
+  상세에 「—」로 보인다(백필 없음).
+- **결정자**: 메인개발자 + 사용자(교문사 리포트 2026-09-12)
+- **참조**: DEC-093(잔여 (c)), DEC-137(축 오독 선례), DEC-155/DEC-193(publisher 인라인 함정),
+  DEC-171(계약 프로필 선례), DEC-069(번들 사본), `analysis/layout_mappings/Sobo23.md` §3
+
+### DEC-276 — `fillHeight` 표 카드에 «뷰포트 바닥» 실측 상한 (합계 행 화면 고정, 2026-09-12)
+
+- **배경** — 사용자 보고(교문사): 도서별수불원장에서 **검색 직후** 하단 「합계」가 화면에 안 보인다.
+  "재고현황 화면은 이미 합계가 화면에 고정되어 출력된다 — 같게 해 달라."
+- **원인** — `fillHeight` 는 **상위가 높이를 줄 때만** 성립한다. 이 화면은 상세(일자) 미선택이면
+  `SplitListPanes` 가 `disabled` 라 상위가 높이를 주지 않고, `flex-1` 이 «내용 높이» 로 풀려 카드가
+  화면 밖까지 자란다. 카드가 스크롤 컨테이너(`overflow-y-auto`)인데 정작 스크롤이 없어
+  `sticky top-0` 헤더와 `sticky bottom-0` 합계(DEC-151/146)가 **표 맨 끝**에 머문다.
+  재고현황(Sobo44)은 `fillHeight` 를 쓰지 않아 기본 상한(`100dvh-14rem`)이 걸려 정상이었다 —
+  «이미 되는 화면» 과의 차이는 이 프롭 하나였다.
+- **기각** — 고정 상한(`100dvh-14rem`)을 `fillHeight` 에도 붙이는 안: 표가 화면 위쪽에서 시작하는
+  화면에서만 맞는다. 브라우저 실측(하네스, 뷰포트 806px): 표 시작 180px → 여유 32px(OK),
+  250px → **−38px**, 300px → **−88px** 로 합계가 여전히 잘린다.
+- **결정** — `DataGrid` 가 `fillHeight && !unbounded` 일 때 **자기 위치를 실측**해
+  `maxHeight = innerHeight − 카드상단 − 24px` 를 건다(`SplitListPanes` 와 같은 방식·같은 여백).
+  상위가 더 작은 높이를 주면(분할 활성) 작은 쪽이 이겨 **무해**하다. React 상태가 아니라 DOM
+  스타일을 직접 써 렌더 캐스케이드를 만들지 않는다(react-hooks 린트 규약). `resize` +
+  `ResizeObserver(body)` 로 필터 바 접힘·배너 표시에 따라 다시 잰다. `unbounded`(「내용 전체 보기」)는
+  페이지 스크롤 기준 sticky 라 상한을 걸지 않는다.
+- **검증** — 브라우저 하네스(실제 클래스 구조 재현): 표 시작 180/250/300/380px 전부 내부 스크롤 +
+  합계가 바닥 24px 위 고정. 상위 높이 300px(분할 활성) 시 카드 300px 유지 = 상한 무해.
+  가드 `test/test_dec276_fill_height_viewport_cap.py`, `tools/grid_feature_baseline.py --check` OK.
+  ※ 실제 화면 확인은 로컬 세션 만료로 미수행(로그인은 대행 불가) — 배포 후 사용자 확인 필요.
+
+### DEC-277 — 반품 접수 「저장 실패: 422」 = 수량 0 라인 (사전 검증 + 오류 문구 정본, 2026-09-12)
+
+- **배경** — 사용자 보고(교문사, 반품접수 신규 입력): ② 금액이 자동계산되지 않는 것 같다
+  ③ 저장 실패 422 — "거래처가 맞지 않아서 저장도 안 되는 것 같다".
+- **원인**
+  - ③ 거래처와 무관하다. `ReturnLineInput.gsqut` 가 `ge=1` 이라 **수량 0 라인**이 FastAPI 422 로
+    튕긴다(캡처의 3개 라인 모두 수량 0). 폐기 접수에는 같은 사전 검증(「수량이 0인 라인이 있습니다」)이
+    있는데 반품 접수에만 없었다. 게다가 FastAPI 422 의 `detail` 은 **배열**이라 화면의
+    `detail.message ?? status` 폴백이 `message` 를 못 찾아 「저장 실패: 422」 만 떴다 —
+    공용 `formatApiError` 는 배열을 「필드 — 사유」 로 펼치는데 이 두 화면만 쓰지 않고 있었다.
+  - ② 금액은 이미 자동계산된다(`calcGssum` = round(단가 × 할인율 × 수량), 수량·단가·할인율·구분
+    변경 시 재계산). 캡처는 **수량이 0** 이라 0 이 맞다. 다만 라인 1의 도서 `20019`(파프리카 전자책)은
+    **도서 마스터 정가 `Gdang=0`**(라이브 확인)이라 수량을 넣어도 0 이며 단가를 직접 입력해야 한다
+    (라인 2 `3411` 은 30,000 이 자동 표시됨). 반품 축은 `editableAmount: false`(금액 직접 입력 불가).
+- **결정**
+  1. 반품 접수에 폐기 접수와 **같은 사전 검증**을 둔다 — 수량 0 라인이면 몇 번째 라인인지 함께 안내.
+  2. 반품·폐기 접수의 저장 오류는 공용 `formatApiError` 로 펼친다(422 배열 → 「필드 — 사유」).
+  3. 금액 산식·`editableAmount` 는 유지. 정가 0 도서의 단가 직접 입력 정책(또는 금액 직접 입력 허용
+     여부)은 **사용자 확인 대기** — 임의로 바꾸지 않는다.
+- **검증** — tsc·eslint 통과. 가드 `test/test_dec277_returns_save_validation.py`.
