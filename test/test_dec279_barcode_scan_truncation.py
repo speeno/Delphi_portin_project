@@ -107,6 +107,26 @@ class ChecksumGuardTests(TestCase):
         self.assertIn("parseScanned: parseScannedIsbn", src)
         self.assertIn("export function isbn10ToIsbn13", src)
 
+    def test_scan_of_registered_book_loads_existing_record(self) -> None:
+        """스캔 ISBN 이 기존 도서면 «등록 정보를 화면에 불러와 보기»(사용자 2026-09-12).
+
+        중복 안내 문구는 그대로 유지하되, 그 도서의 상세를 불러와 폼에 표시한다.
+        실수로 같은 도서를 한 번 더 신규 등록하지 않도록 보기 전용 + 신규저장 잠금,
+        「새 도서로 다시 입력」 으로 빈 폼 복귀.
+        """
+        src = BOOK_NEW.read_text(encoding="utf-8")
+        self.assertIn("이미 등록된 도서입니다", src, "중복 안내 문구는 유지한다")
+        self.assertIn("masterApi.bookDetail(", src, "기존 도서 상세를 불러와야 한다")
+        self.assertIn("matchGname", src, "같은 Gcode 다건 구분(matchGname) 전달")
+        self.assertIn("setExistingLoaded(true)", src)
+        self.assertIn("canWrite={canWrite && !existingLoaded}", src, "보기 전용 전환")
+        self.assertIn('data-legacy-id="Sobo14.ExistingBookBanner"', src)
+        self.assertIn('data-legacy-id="Sobo14.BarcodeScan.ResetNew"', src)
+        self.assertIn('data-legacy-id="Sobo14.BarcodeScan.OpenExisting"', src)
+        self.assertIn("function resetForNewBook", src)
+        # 신규 저장 버튼도 같은 조건으로 잠근다(중복 등록 차단).
+        self.assertIn("canWrite={canWrite && !existingLoaded}\n            busy={busy}", src)
+
     def test_field_explains_both_failure_reasons(self) -> None:
         src = FIELD_TSX.read_text(encoding="utf-8")
         self.assertIn('lastScan.reason === "truncated"', src)
@@ -177,6 +197,13 @@ check("human_typing_not_truncated", human.truncated, undefined);
   check("scan_after_idle_typing", out.scan, ISBN13);
 }
 
+// 5b) 종결 Enter 가 렌더 지연으로 400ms 늦게 와도 스캔은 성립한다(간격은 빨랐으므로)
+{
+  const keys = burst(ISBN13);
+  keys[keys.length - 1].t += 400;
+  check("late_enter_still_scans", feed(keys).last.scan, ISBN13);
+}
+
 // 6) 스캔 문자는 포커스 필드로 새지 않는다(첫 글자 1개만 흘리고 호출자가 되돌린다)
 check("only_first_char_leaks", feed(burst(ISBN13)).swallowed, ISBN13.slice(1));
 
@@ -232,7 +259,7 @@ class WedgeBufferBehaviourTests(TestCase):
             "스캔 버퍼/ISBN 검증 회귀: "
             + ", ".join(f"{r['name']}(got={r['actual']!r} want={r['expected']!r})" for r in failed),
         )
-        self.assertEqual(len(results), 20, f"검증 항목 수 변경: {len(results)}")
+        self.assertEqual(len(results), 21, f"검증 항목 수 변경: {len(results)}")
 
 
 if __name__ == "__main__":
