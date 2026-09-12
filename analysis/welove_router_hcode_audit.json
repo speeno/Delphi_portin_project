@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-12T02:51:18.240444+00:00",
+  "generated_at": "2026-09-12T03:46:59.339405+00:00",
   "summary": {
     "files_scanned": 30,
-    "endpoints_seen": 368,
-    "optional_hcode_endpoints": 85,
-    "scope_identifier_endpoints": 103,
+    "endpoints_seen": 371,
+    "optional_hcode_endpoints": 88,
+    "scope_identifier_endpoints": 106,
     "critical": 7,
-    "info": 109,
+    "info": 112,
     "skipped_noqa": 1
   },
   "findings": [
@@ -215,7 +215,7 @@
       "function": "get_customer_ledger",
       "path": "/customer",
       "method": "GET",
-      "lineno": 129,
+      "lineno": 132,
       "severity": "info",
       "reason": "scoped_with_helper (idents=customer_code)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -225,9 +225,39 @@
       "function": "get_integrated_customer_ledger",
       "path": "/customer-integrated",
       "method": "GET",
-      "lineno": 211,
+      "lineno": 214,
       "severity": "info",
       "reason": "scoped_with_helper (idents=customer_pattern)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "function": "get_receivable_period_ledger",
+      "path": "/receivable",
+      "method": "GET",
+      "lineno": 282,
+      "severity": "info",
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "function": "get_book_summary_ledger",
+      "path": "/book-summary",
+      "method": "GET",
+      "lineno": 319,
+      "severity": "info",
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "function": "get_book_summary_months",
+      "path": "/book-summary/months",
+      "method": "GET",
+      "lineno": 364,
+      "severity": "info",
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-12T03:19:30.343052+00:00",
+  "generated_at": "2026-09-12T03:52:43.511005+00:00",
   "summary": {
-    "total_pages": 126,
+    "total_pages": 128,
     "covered": 50,
     "violations": 0,
     "allowed": 6,
-    "skipped": 70
+    "skipped": 72
   },
   "covered": [
     {
@@ -374,12 +374,20 @@
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/value/page.tsx"
     },
     {
+      "route_key": "ledger.book-summary",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/book-summary/page.tsx"
+    },
+    {
       "route_key": "ledger.customer",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer/page.tsx"
     },
     {
       "route_key": "ledger.customer-integrated",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/customer-integrated/page.tsx"
+    },
+    {
+      "route_key": "ledger.receivable",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/receivable/page.tsx"
     },
     {
       "route_key": "master",

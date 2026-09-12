@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-12T03:19:29.201752+00:00",
+  "generated_at": "2026-09-12T03:52:42.491519+00:00",
   "summary": {
-    "registry_forms": 99,
+    "registry_forms": 101,
     "legacy_dfm_subu_stems": 92,
     "orphan_legacy_stems": 40,
-    "subu_caption_diff": 12,
+    "subu_caption_diff": 11,
     "subu_legacy_missing": 0
   },
   "rows": [
@@ -636,15 +636,26 @@
       "note": "DEC-023 표기 통일(allowlist)"
     },
     {
+      "modern_id": "Sobo33_receivable",
+      "folder": "Subu33",
+      "route": "/ledger/receivable",
+      "modern_caption": "기간별미수원장",
+      "legacy_form_object": "Sobo33",
+      "legacy_caption": "기간별재고원장",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu33.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
       "modern_id": "Sobo32_ledger",
       "folder": "Subu32",
       "route": "/ledger/customer",
-      "modern_caption": "거래처원장",
+      "modern_caption": "거래처거래원장",
       "legacy_form_object": "Sobo32",
       "legacy_caption": "기간별평균재고",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu32.dfm",
       "status": "CAPTION_DIFF",
-      "note": "DFM「기간별평균재고」↔모던「거래처원장」 (r=0.00)"
+      "note": "DFM「기간별평균재고」↔모던「거래처거래원장」 (r=0.00)"
     },
     {
       "modern_id": "Sobo32_1_ledger",
@@ -656,6 +667,17 @@
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu32_1.dfm",
       "status": "CAPTION_DIFF",
       "note": "DFM「출판사별 재고 현황」↔모던「통합 거래처원장」 (r=0.00)"
+    },
+    {
+      "modern_id": "Sobo36_book_summary",
+      "folder": "Subu36",
+      "route": "/ledger/book-summary",
+      "modern_caption": "도서별원장총괄",
+      "legacy_form_object": "Sobo36",
+      "legacy_caption": "도서별원장총괄",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu36.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo51_adjust",
@@ -1028,8 +1050,8 @@
       "legacy_form_object": "Sobo36",
       "legacy_caption": "도서별원장총괄",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu36.dfm",
-      "status": "CAPTION_DIFF",
-      "note": "DFM「도서별원장총괄」↔모던「거래처통계(목록)」 (r=0.00)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo37_stats_route",

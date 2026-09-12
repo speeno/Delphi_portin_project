@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-09-12T03:19:29.896543+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-09-12T03:52:43.153373+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -27,7 +27,7 @@
 
 > 레거시 화면은 풀 CRUD 였지만 모던 화면이 조회·부분쓰기에 머문 항목.
 
-### R (20건)
+### R (22건)
 - `MenuBillingStatements` (내역서관리) `/billing/statements`
   - 허브 MVP (2026-05-15) — 입고·반품·거래·출고·택배·판매 리포트로 링크. 8종 단일 SQL은 후속
 - `Sobo21` (거래 명세서) `/transactions/sales-statement`
@@ -52,8 +52,12 @@
   - C7 phase1 — Menu207 제작현황(F27, 조회). Publisher 정본 publisher_source_root/Subu27(caption 제작현황) 재추출로 P0 해제. GET /transactions/production/status = production_service.list_production_status(S2_Ssub, Bcode 범위 필터). Sobo27_production_status.md
 - `Sobo28_withholding` (원천징수) `/transactions/withholding`
   - C8 phase1 — Menu208 원천징수(F28, 조회). Publisher 정본 publisher_source_root/Subu28(caption 원천징수관리) 재추출로 P0 해제. GET /transactions/withholding = withholding_service.list_withholding(S3_Ssub, 저자명 G3_Gjeo.Gposa). 인쇄 OOS(DEC-017). Sobo28_withholding.md
+- `Sobo33_receivable` (기간별미수원장) `/ledger/receivable`
+  - 조회 전용 — 거래처구분별 롤업 + 거래처별 명세 (DEC-286)
 - `Sobo34_4` (기간별재고원장(상세)) `/returns/ledger`
   - 조회 전용 — 페이저 v1.2.0 (DEC-033 e/g 표준)
+- `Sobo36_book_summary` (도서별원장총괄) `/ledger/book-summary`
+  - 조회 전용 — 상단 도서별 누계(현재재고 포함) + 하단 년월별 상세
 - `Sobo46_billing` (청구서 인쇄(미리보기)) `/settlement/billing?view=print`
   - 인쇄 미리보기만 — 쓰기 없음 (DEC-035 외부 채널 후속)
 - `Sobo46_billing_bill` (청구서출력) `/settlement/billing?view=print`

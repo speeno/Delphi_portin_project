@@ -1187,6 +1187,25 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # ─── Sobo36_book_summary 도서별원장총괄 (DEC-285) ───────────────────
+        # 상단은 «스냅샷~종료일» 누계라 기간이 좁아도 전 도서를 훑는다. 스모크는
+        # 존재하지 않는 도서코드 범위로 좁혀 왕복만 확인한다(200 + 빈 rows).
+        {
+            "group": "ledger.book_summary",
+            "path": (
+                f"/api/v1/ledger/book-summary?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&bcodeFrom=ZZZZZ9&bcodeTo=ZZZZZ9"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "ledger.book_summary_months",
+            "path": (
+                f"/api/v1/ledger/book-summary/months?serverId={sid}"
+                f"&bcode=ZZZZZ9&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
         {
             "group": "transactions.other",
             "path": (

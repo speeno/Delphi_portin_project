@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-12T03:19:30.070603+00:00",
+  "generated_at": "2026-09-12T03:52:43.333634+00:00",
   "summary": {
     "total_dfm_candidates": 118,
-    "registry_entries": 99,
-    "ok": 25,
+    "registry_entries": 101,
+    "ok": 26,
     "missing_forms": 0,
     "caption_mismatches": 0,
-    "allowed": 127
+    "allowed": 128
   },
   "missing_forms": [],
   "caption_mismatches": [],
@@ -686,7 +686,7 @@
     {
       "form_name": "Sobo32_ledger",
       "dfm_form_name": "Sobo32",
-      "registry_caption": "거래처원장",
+      "registry_caption": "거래처거래원장",
       "dfm_caption": "기간별평균재고",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu32.dfm",
       "category": "caption_mismatch",
@@ -701,6 +701,16 @@
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu33.dfm",
       "category": "caption_mismatch",
       "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
+      "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo33_receivable",
+      "dfm_form_name": "Sobo33",
+      "registry_caption": "기간별미수원장",
+      "dfm_caption": "기간별재고원장",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu33.dfm",
+      "category": "caption_mismatch",
+      "reason": "Subu 폼 번호가 빌드 간 불안정 — 매트릭스 정본(유통) Subu33 = 도서수불장, 교문사 출판 빌드 Subu33 = 기간별미수원장(DEC-286). 캡션 정본은 출판 빌드.",
       "until": "Phase 3 audit"
     },
     {
@@ -1243,6 +1253,11 @@
       "caption": "도서별수불원장"
     },
     {
+      "form_name": "Sobo36_book_summary",
+      "dfm_form_name": "Sobo36",
+      "caption": "도서별원장총괄"
+    },
+    {
       "form_name": "Sobo39",
       "dfm_form_name": "Sobo39",
       "caption": "출고내역서"
@@ -1369,6 +1384,7 @@
     "Sobo32_1_ledger",
     "Sobo32_ledger",
     "Sobo33_ledger",
+    "Sobo33_receivable",
     "Sobo34_1_value",
     "Sobo36_stats_route",
     "Sobo37_stats_route",

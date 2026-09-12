@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-09-12T03:19:29Z
+> **생성 시각 (UTC)**: 2026-09-12T03:52:42Z
 
 ## 목적
 
@@ -56,13 +56,15 @@
 | MULTI_MAP | `Sobo29_new_release_shipment_alias` | `Subu29` | 신간발행 | 신간명세서 | `Sobo29` | `/transactions/new-release` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo29_other` | `Subu29` | 기타명세서 | 신간명세서 | `Sobo29` | `/transactions/other` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MATCH | `Sobo31` | `Subu31` | 도서별수불원장 | 도서별수불원장 | `Sobo31` | `/inventory/ledger` |  |
-| CAPTION_DIFF | `Sobo32_ledger` | `Subu32` | 거래처원장 | 기간별평균재고 | `Sobo32` | `/ledger/customer` | DFM「기간별평균재고」↔모던「거래처원장」 (r=0.00) |
+| CAPTION_DIFF | `Sobo32_ledger` | `Subu32` | 거래처거래원장 | 기간별평균재고 | `Sobo32` | `/ledger/customer` | DFM「기간별평균재고」↔모던「거래처거래원장」 (r=0.00) |
 | CAPTION_DIFF | `Sobo32_1_ledger` | `Subu32_1` | 통합 거래처원장 | 출판사별 재고 현황 | `Sobo32_1` | `/ledger/customer-integrated` | DFM「출판사별 재고 현황」↔모던「통합 거래처원장」 (r=0.00) |
 | MULTI_MAP | `Sobo33_1_ledger` | `Subu33` | 통합 도서수불장 | 기간별재고원장 | `Sobo33` | `/ledger/book-integrated` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo33_ledger` | `Subu33` | 도서수불장 | 기간별재고원장 | `Sobo33` | `/ledger/book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo33_receivable` | `Subu33` | 기간별미수원장 | 기간별재고원장 | `Sobo33` | `/ledger/receivable` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | OK_EXEMPT | `Sobo34_1_value` | `Subu34_1` | 재고금액 | 재고 및 재고금액 | `Sobo34_1` | `/inventory/value` | DEC-023 표기 통일(allowlist) |
 | NEAR_MATCH | `Sobo34_4` | `Subu34_4` | 기간별재고원장(상세) | 기간별재고원장(상세)-폐기 | `Sobo34_4` | `/returns/ledger` | 유사도 0.88 (≥0.78) |
-| CAPTION_DIFF | `Sobo36_stats_route` | `Subu36` | 거래처통계(목록) | 도서별원장총괄 | `Sobo36` | `/stats/customer` | DFM「도서별원장총괄」↔모던「거래처통계(목록)」 (r=0.00) |
+| MULTI_MAP | `Sobo36_book_summary` | `Subu36` | 도서별원장총괄 | 도서별원장총괄 | `Sobo36` | `/ledger/book-summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo36_stats_route` | `Subu36` | 거래처통계(목록) | 도서별원장총괄 | `Sobo36` | `/stats/customer` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | CAPTION_DIFF | `Sobo37_stats_route` | `Subu37` | 도서통계(목록) | 담당자판매원장 | `Sobo37` | `/stats/book` | DFM「담당자판매원장」↔모던「도서통계(목록)」 (r=0.00) |
 | MULTI_MAP | `Sobo22_import` | `Subu38` | 입고 파일 업로드 | Sobo38 | `Sobo38` | `/inbound/import` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo38` | `Subu38` | 도서코드(마스터) | Sobo38 | `Sobo38` | `/master/book-code` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |

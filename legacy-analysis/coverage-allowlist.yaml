@@ -639,3 +639,8 @@ caption_mismatches:
     registry_caption: "출고검증"
     reason: "출고관리 그룹 별칭 등록(출고검증 대표, Subu59 base 공유; legacy_source Subu59 는 '기간별택배내역서' 빌드 변형) (2026-08-19 정리, 테스트 부채 청산)"
     until: "Phase 3 audit"
+  - form_name: Sobo33_receivable
+    dfm_caption: "도서수불장"
+    registry_caption: "기간별미수원장"
+    reason: "Subu 폼 번호가 빌드 간 불안정 — 매트릭스 정본(유통) Subu33 = 도서수불장, 교문사 출판 빌드 Subu33 = 기간별미수원장(DEC-286). 캡션 정본은 출판 빌드."
+    until: "Phase 3 audit"

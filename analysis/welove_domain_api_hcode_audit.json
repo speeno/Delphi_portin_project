@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-12T03:09:09.712218+00:00",
+  "generated_at": "2026-09-12T03:51:35.262132+00:00",
   "summary": {
-    "files_scanned": 110,
-    "sql_literals": 583,
+    "files_scanned": 111,
+    "sql_literals": 591,
     "critical": 0,
-    "warn": 13,
-    "info": 269,
-    "skipped_noqa": 72,
+    "warn": 15,
+    "info": 274,
+    "skipped_noqa": 73,
     "multi_tenant_tables_seen": [
       "G4_Book",
       "G7_Ggeo",
@@ -258,6 +258,78 @@
       "severity": "info",
       "reason": "unknown_tables_only",
       "sql_excerpt": "SELECT Gcode, Gname FROM G1_Ggeo WHERE Gcode IN (<<dyn>>)",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/book_summary_ledger_service.py",
+      "function": "book_summary",
+      "lineno": 238,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT MAX(Gdate) AS d FROM Sv_Ghng WHERE",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/book_summary_ledger_service.py",
+      "function": "book_summary",
+      "lineno": 266,
+      "tables": [
+        "Sv_Ghng"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode, IFNULL(SUM(Giqut),0) AS giqut, IFNULL(SUM(Goqut),0) AS goqut, IFNULL(SUM(Gjqut),0) AS gjqut, IFNULL(SUM(Gbqut),0) AS gbqut, IFNULL(SUM(Gpqut),0) AS gpqut, IFNULL(SUM(Gosum),0) AS gosum, …",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/book_summary_ledger_service.py",
+      "function": "book_summary",
+      "lineno": 309,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_select",
+      "sql_excerpt": "SELECT Bcode, Scode, Gubun, Pubun, IFNULL(SUM(Gsqut),0) AS q, IFNULL(SUM(Gssum),0) AS amt FROM S1_Ssub WHERE",
+      "recommended_action": "verify_hcode_from_jwt"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/book_summary_ledger_service.py",
+      "function": "book_summary",
+      "lineno": 348,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode FROM Sg_Csum WHERE",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/book_summary_ledger_service.py",
+      "function": "book_summary_months",
+      "lineno": 462,
+      "tables": [
+        "S1_Ssub"
+      ],
+      "severity": "warn",
+      "reason": "missing_hcode_filter_on_multi_tenant_select",
+      "sql_excerpt": "SELECT Gdate, Scode, Gubun, Pubun, IFNULL(SUM(Gsqut),0) AS q, IFNULL(SUM(Gssum),0) AS amt FROM S1_Ssub WHERE",
+      "recommended_action": "verify_hcode_from_jwt"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/book_summary_ledger_service.py",
+      "function": "book_summary_months",
+      "lineno": 489,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gdate, IFNULL(SUM(Gbsum),0) AS q FROM Sg_Csum WHERE",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
@@ -575,7 +647,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_txn_ledger_service.py",
       "function": "customer_ledger_summary",
-      "lineno": 206,
+      "lineno": 213,
       "tables": [
         "S1_Ssub"
       ],
@@ -587,7 +659,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_txn_ledger_service.py",
       "function": "customer_ledger_summary",
-      "lineno": 231,
+      "lineno": 242,
       "tables": [
         "H1_Ssub"
       ],
@@ -599,19 +671,19 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_txn_ledger_service.py",
       "function": "customer_ledger_summary",
-      "lineno": 251,
+      "lineno": 263,
       "tables": [
         "G1_Ggeo"
       ],
       "severity": "info",
       "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT Gcode, Gname FROM G1_Ggeo WHERE Gcode IN (<<dyn>>)",
+      "sql_excerpt": "SELECT Gcode, Gname, Gubun FROM G1_Ggeo WHERE Gcode IN (<<dyn>>)",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_txn_ledger_service.py",
       "function": "customer_ledger_daily",
-      "lineno": 308,
+      "lineno": 326,
       "tables": [
         "S1_Ssub"
       ],
@@ -623,7 +695,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_txn_ledger_service.py",
       "function": "customer_ledger_daily",
-      "lineno": 352,
+      "lineno": 370,
       "tables": [
         "G4_Book"
       ],
@@ -635,7 +707,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_txn_ledger_service.py",
       "function": "customer_ledger_daily",
-      "lineno": 375,
+      "lineno": 393,
       "tables": [
         "H1_Ssub"
       ],
@@ -647,7 +719,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_txn_ledger_service.py",
       "function": "customer_ledger_slip_detail",
-      "lineno": 434,
+      "lineno": 452,
       "tables": [
         "S1_Ssub"
       ],
@@ -659,7 +731,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_txn_ledger_service.py",
       "function": "customer_ledger_slip_detail",
-      "lineno": 449,
+      "lineno": 467,
       "tables": [
         "G4_Book"
       ],
@@ -667,6 +739,18 @@
       "reason": "missing_hcode_filter_on_multi_tenant_select",
       "sql_excerpt": "SELECT Gcode, Gname, IFNULL(Gdang,0) AS gdang FROM G4_Book WHERE Gcode IN (<<dyn>>)",
       "recommended_action": "verify_hcode_from_jwt"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/customer_txn_ledger_service.py",
+      "function": "receivable_period_ledger",
+      "lineno": 558,
+      "tables": [
+        "G1_Gbun"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode, Gname FROM G1_Gbun WHERE Gcode IN (<<dyn>>)",
+      "recommended_action": "mark_noqa_with_reason"
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/g1_geo_lookup.py",
