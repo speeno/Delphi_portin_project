@@ -36,6 +36,10 @@ class CustomerLedgerSummaryTest(unittest.IsolatedAsyncioTestCase):
                     return [{"Gcode": "1001", "inp": 400, "outp": 0}]   # 기간 수금
                 return [{"Gcode": "1001", "inp": 200, "outp": 50}]      # 기간전 −150
             if "FROM Sg_Gsum" in sql:
+                # DEC-288 — 기간 내 장부대조(>= … <=)는 «반품금액» 칸에 더한다(레거시 Subu31).
+                # 전일미수용(기간 전, `Gdate <` / `Gdate >`)과 구분한다.
+                if "Gdate >= %s" in sql:
+                    return [{"Gcode": "1001", "b": 70}]
                 return [{"Gcode": "1001", "b": 10}]
             if "FROM G1_Ggeo" in sql:
                 return [
@@ -56,12 +60,13 @@ class CustomerLedgerSummaryTest(unittest.IsolatedAsyncioTestCase):
         by = {r["gcode"]: r for r in res["items"]}
 
         # 1001: opening 4000+300−200+50+10=4160, 기간 출고 900·반품 −200·수금 400.
+        #       DEC-288 — 기간 내 장부대조(Sg_Gsum) +70 은 레거시와 같이 «반품금액» 칸에 더한다.
         r = by["1001"]
         self.assertEqual(r["opening"], 4160)
         self.assertEqual((r["out_qty"], r["out_amt"]), (10, 900))
-        self.assertEqual((r["rtn_qty"], r["rtn_amt"]), (-2, -200))
+        self.assertEqual((r["rtn_qty"], r["rtn_amt"]), (-2, -200 + 70))
         self.assertEqual(r["collect"], 400)
-        self.assertEqual(r["balance"], 4160 + 900 - 200 - 400)
+        self.assertEqual(r["balance"], 4160 + 900 - 200 + 70 - 400)
 
         # 2002: '-전자책' 특례 — opening 100 이어도 미수 0 고정.
         self.assertEqual(by["2002"]["balance"], 0)
@@ -70,7 +75,7 @@ class CustomerLedgerSummaryTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(by["3003"]["balance"], 500)
 
         t = res["totals"]
-        self.assertEqual(t["balance"], 4460 + 0 + 500)
+        self.assertEqual(t["balance"], 4460 + 70 + 0 + 500)
         self.assertEqual(t["out_amt"], 1400)
 
     async def test_summary_name_filter(self):
