@@ -79,7 +79,7 @@ class CommonTableStyle(TestCase):
 class LedgerScreens(TestCase):
     """대표 화면 2곳 — 도서별수불원장(/inventory/ledger)·거래처원장(/ledger/customer)."""
 
-    def _check(self, rel: str, storage_key: str, hint: str, sel_var: str) -> None:
+    def _check(self, rel: str, storage_key: str, hint: str, sel_var: str, label: str = "내용 전체 보기") -> None:
         src = _read(rel)
         self.assertIn(f"<EmptyHint>{hint}</EmptyHint>", src)
         self.assertIn(f'storageKey="{storage_key}"', src)
@@ -87,7 +87,7 @@ class LedgerScreens(TestCase):
         # **하단에 전 건 상세**를 펼치는 기능 → 전체 보기여도 분할은 유지된다(가드는 DEC-287 로 이관).
         self.assertIn(f"disabled={{!showAll && {sel_var} === null}}", src, "전체 보기면 하단에 전 건 상세")
         self.assertIn('data-legacy-id="ShowAll"', src)
-        self.assertIn("내용 전체 보기", src)
+        self.assertIn(label, src)
         self.assertIn("fillHeight", src)
         self.assertEqual(src.count("<SectionHeader"), 2)
         self.assertIn("엑셀 다운로드", src)
@@ -105,7 +105,8 @@ class LedgerScreens(TestCase):
 
     def test_customer_ledger(self) -> None:
         self._check(
-            "app/(app)/ledger/customer/page.tsx", "ledger.customer", "거래일자와 거래처명/거래처 코드로 검색하세요", "selKey"
+            "app/(app)/ledger/customer/page.tsx", "ledger.customer", "거래일자와 거래처명/거래처 코드로 검색하세요", "selKey",
+            "일자별 출고 상세",  # DEC-287 후속(사용자 2026-09-12): 거래처원장 체크박스 라벨
         )
 
     def test_export_columns_follow_visible_order(self) -> None:

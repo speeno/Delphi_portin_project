@@ -180,15 +180,19 @@ class RoutesAndProbe(unittest.TestCase):
 class LedgerScreensShowAll(unittest.TestCase):
     """두 원장 화면 — 「내용 전체 보기」 = 하단 전체 상세(상단 표를 펼치는 기능이 아니다)."""
 
+    # (화면, 선택 상태 변수, 전체 상세 엔드포인트, 체크 시 하단 표 제목, 체크박스 라벨)
+    # 거래처원장 라벨/제목은 사용자 지정(2026-09-12): 「일자별 출고 상세」 → 「일자별 출고 도서 상세 내역」.
     CASES = (
-        ("app/(app)/ledger/customer/page.tsx", "selKey", "customer-ledger/slip-detail-all", "전체 전표 상세 조회"),
-        ("app/(app)/inventory/ledger/page.tsx", "selDate", "book-ledger/day-detail-all", "전체 일자 상세 조회"),
+        ("app/(app)/ledger/customer/page.tsx", "selKey", "customer-ledger/slip-detail-all",
+         "일자별 출고 도서 상세 내역", "일자별 출고 상세"),
+        ("app/(app)/inventory/ledger/page.tsx", "selDate", "book-ledger/day-detail-all",
+         "전체 일자 상세 조회", "내용 전체 보기"),
     )
 
     def test_show_all_loads_full_detail(self):
-        for rel, sel, endpoint, title in self.CASES:
+        for rel, sel, endpoint, title, label in self.CASES:
             src = _read(rel)
-            self.assertIn("내용 전체 보기", src)
+            self.assertIn(label, src)
             self.assertIn('data-legacy-id="ShowAll"', src)
             self.assertIn(endpoint, src, rel)
             self.assertIn("setAllDetail", src, rel)
