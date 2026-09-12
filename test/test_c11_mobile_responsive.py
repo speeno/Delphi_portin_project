@@ -168,10 +168,17 @@ class StaticGuardTests(TestCase):
             self.assertIn(token, s, f"ScanInput must use sm: prefix to lock desktop ({token})")
 
     def test_S_10_scanner_lib_dec004_thresholds_unchanged(self) -> None:
-        """TC-C11-S-10 — scanner.ts 의 wedge interval/idle reset 임계 (DEC-004) 변경 0건."""
+        """TC-C11-S-10 — scanner.ts 의 웨지 임계 (DEC-004 → DEC-279 개정) 정합.
+
+        DEC-279 — `resetIdleMs = 50`(미종결 버퍼 50ms 폐기)은 **폐지**되었다. 스캔 도중
+        50ms만 끊겨도 버퍼를 비워 «앞자리가 잘린 값»(13자리 ISBN → 뒤 10자리)이 확정됐기
+        때문. 전용 입력칸은 DOM 값을 읽고, 전역 모드는 `splitMs = 300` 으로 가른다.
+        웨지 연타 임계(30ms)와 최소 길이(4)는 그대로 유지한다.
+        """
         s = self.scanner_lib
         self.assertIn("wedgeIntervalMs = 30", s, "DEC-004 wedge threshold must remain 30ms")
-        self.assertIn("resetIdleMs = 50", s, "DEC-004 idle reset must remain 50ms")
+        self.assertIn("splitMs = 300", s, "DEC-279 sequence split must remain 300ms")
+        self.assertNotIn("resetIdleMs = 50", s, "DEC-279 — 50ms idle 폐기는 되살리지 않는다")
         self.assertIn("minLength = 4", s)
 
 
@@ -290,7 +297,7 @@ class DesktopRegressionGuardTests(TestCase):
             "captureGlobal?:",
             "targetRef?:",
             "wedgeIntervalMs?:",
-            "resetIdleMs?:",
+            "splitMs?:",  # DEC-279 — resetIdleMs 대체(50ms 버퍼 폐기 → 300ms 시퀀스 분리)
             "enabled?:",
             "minLength?:",
         ):
