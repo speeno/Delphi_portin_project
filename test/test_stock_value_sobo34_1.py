@@ -201,7 +201,8 @@ class SidebarAndPageTests(TestCase):
 
     def test_menu_sits_right_after_stock_status(self) -> None:
         src = (FRONT / "lib" / "form-registry.ts").read_text(encoding="utf-8")
-        layout = src.split("INVENTORY_SIDEBAR_LAYOUT")[1].split("];")[0]
+        # DEC-287 — 재고 화면은 「재고관리」 그룹(STOCK_SIDEBAR_LAYOUT)으로 분리됐다.
+        layout = src.split("export const STOCK_SIDEBAR_LAYOUT")[1].split("];")[0]
         order = [ln for ln in layout.splitlines() if "formId" in ln]
         idx_status = next(i for i, ln in enumerate(order) if "Sobo44_inv" in ln)
         idx_value = next(i for i, ln in enumerate(order) if "Sobo34_1_value" in ln)

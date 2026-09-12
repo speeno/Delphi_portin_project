@@ -6709,3 +6709,21 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **가드**: `test/test_dec287_show_all_detail.py`(앵커 러닝 2종·행 모양·청크 lookup·라우트 hcode 격리·
   프로브 등록·두 원장 화면 배선·재클릭 접기 분기 잔존 0). DEC-203/200 가드의 종전 문구는 이 결정으로 갱신.
   프로브 매트릭스: `inventory.book_ledger_day_detail_all` · `inventory.customer_ledger_slip_detail_all`.
+
+### DEC-287 — 사이드바 「재고관리」 그룹 분리 (원장관리 위, 2026-09-12)
+
+- **배경** — 사용자 요청: 「원장변경만 제외하고 재고 관련 메뉴를 원장관리 위에 재고관리 그룹을 만들어
+  그 하위로 옮겨 달라」. DEC-137(2026-08-11)에서 재고관리·재고원장을 원장관리로 통합했던 것을
+  **재고 축만 다시 분리**하는 변경이다(원장 축은 그대로).
+- **결정**
+  - `MENU_GROUPS` 에 `stock`(재고관리)을 `inventory`(원장관리) **앞**에 추가. 아이콘은
+    재고=`Package`(상자) / 원장=`BookOpen`(장부) 로 구분한다.
+  - `STOCK_SIDEBAR_LAYOUT` = 재고현황(Sobo44_inv) · 재고금액(Sobo34_1_value) · 재고변경(Sobo52_adjust).
+    세 폼의 `menuGroup` 도 `stock` 으로 옮긴다.
+  - **원장변경(Sobo51_adjust)은 원장관리에 남는다** — 장부 대조용 «원장» 조정이라 재고 축이 아니다.
+  - 가시성 게이트는 그대로: 그룹 fallback `stock → ACC-MENU-NAV-11`(종전 inventory 와 동일),
+    원장 폼은 폼 단위 NAV-03 유지. 라우트·권한·산식 변경 0.
+- **미결(사용자 확인 대기)** — 도서별수불원장(Sobo31)은 이름이 «원장» 이라 원장관리에 두었다.
+  재고 축으로 옮길지 확인 필요.
+- **검증** — 허브 가드 갱신(`test_dec137_ledger_axis_book_sales_menu.py` 재고 3종의 새 위치·그룹 순서,
+  `test_stock_value_sobo34_1.py` 재고금액 위치), tsc·eslint·grid baseline 통과.

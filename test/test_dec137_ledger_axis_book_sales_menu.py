@@ -351,10 +351,18 @@ class FrontendSourceGuards(TestCase):
             layout.index('"Sobo31"'),
             "원장관리 첫 항목은 거래처원장이어야 한다",
         )
+        # DEC-287 (2026-09-12 사용자) — 재고 화면(현황·금액·재고변경)은 **재고관리** 그룹으로 분리.
+        # 원장변경(장부 대조)만 원장관리에 남는다. DEC-137 의 «수불 3메뉴 → 1메뉴» 통합은 그대로.
+        stock = src.split("export const STOCK_SIDEBAR_LAYOUT")[1].split("];")[0]
+        for fid in ('"Sobo44_inv"', '"Sobo34_1_value"', '"Sobo52_adjust"'):
+            self.assertIn(fid, stock, f"{fid} 는 재고관리 그룹에 있어야 한다")
+            self.assertNotIn(fid, layout, f"{fid} 가 원장관리에 남아 있다")
+        self.assertIn('"Sobo51_adjust"', layout, "원장변경은 원장관리에 남는다")
+        groups = src.split("export const MENU_GROUPS")[1].split("] as const")[0]
         self.assertLess(
-            layout.index('"Sobo31"'),
-            layout.index('"Sobo44_inv"'),
-            "도서별수불원장은 재고현황보다 앞(두 번째)이어야 한다",
+            groups.index('id: "stock"'),
+            groups.index('id: "inventory"'),
+            "재고관리 그룹은 원장관리 위에 온다",
         )
 
 
