@@ -20,8 +20,10 @@
   시퀀스로 이어 붙이고, 그보다 벌어져 앞부분을 잃으면 값을 확정하지 않고 `truncated` 로
   보고(화면은 "다시 스캔하세요" 안내).
 - 파싱을 순수 모듈 `lib/barcode-parse.ts` 로 분리하고 **체크디지트 검증**(EAN-13 mod10 /
-  ISBN-10 mod11) 추가. 스캔 경로는 `parseScanned=parseIsbn13` 으로 **13자리만** 인정 —
-  스캐너의 「ISBN 변환」 설정으로 10자리가 와도 조용히 들어가지 않는다.
+  ISBN-10 mod11) 추가. 스캔 경로(`parseScanned=parseScannedIsbn`)는 결과가 **언제나 13자리** —
+  스캐너가 「ISBN 변환」 설정으로 10자리(ISBN-10)를 보내면 `978 + 앞 9자리 + 체크디지트 재계산`
+  으로 복원한다(실측: 책 `9788936323875` → 스캐너 출력 `8936323873`, 마스터 조회 0건이던 값).
+  체크디지트가 깨진 10자리(잘린 스캔)는 복원하지 않고 인식 실패.
 - 전용 스캔칸(출고/입고/반품 `ScanInput`)은 키스트로크 버퍼를 아예 쓰지 않고 **input 의 DOM
   값**을 읽는다 → 잘림 불가 + 수기 입력("ISBN 입력 후 Enter")도 비로소 동작.
 
@@ -101,18 +103,19 @@ class ChecksumGuardTests(TestCase):
         src = PARSE_TS.read_text(encoding="utf-8")
         self.assertIn("isValidEan13", src)
         self.assertIn("isValidIsbn10", src)
-        self.assertIn("export function parseIsbn13", src)
-        self.assertIn("parseScanned: parseIsbn13", src)
+        self.assertIn("export function parseScannedIsbn", src)
+        self.assertIn("parseScanned: parseScannedIsbn", src)
+        self.assertIn("export function isbn10ToIsbn13", src)
 
     def test_field_explains_both_failure_reasons(self) -> None:
         src = FIELD_TSX.read_text(encoding="utf-8")
         self.assertIn('lastScan.reason === "truncated"', src)
-        self.assertIn('lastScan.reason === "scanner_isbn10"', src)
+        self.assertIn("lastScan.restoredFrom", src)
 
 
 HARNESS_JS = r"""
 const { createWedgeBuffer } = require("./wedge-buffer.js");
-const { parseIsbn, parseIsbn13, isValidEan13, isValidIsbn10 } = require("./barcode-parse.js");
+const { parseIsbn, parseScannedIsbn, isbn10ToIsbn13, isValidEan13, isValidIsbn10 } = require("./barcode-parse.js");
 
 const results = [];
 const check = (name, actual, expected) =>
@@ -186,9 +189,12 @@ check("parse_accepts_addon", parseIsbn(ISBN13 + "13900"), ISBN13);
 check("parse_rejects_wrong_check_digit", parseIsbn("9788954601253"), null);
 check("parse_accepts_valid_isbn10_manual", parseIsbn("8934912340"), "8934912340");
 
-// 8) 스캔 경로는 13자리만 — 스캐너 「ISBN 변환」 설정(체크디지트까지 유효한 10자리)도 거부
-check("scan_parser_rejects_isbn10", parseIsbn13("8934912340"), null);
-check("scan_parser_accepts_isbn13", parseIsbn13(ISBN13), ISBN13);
+// 8) 스캔 경로 결과는 «언제나 13자리» — 스캐너가 보낸 ISBN-10 은 복원한다(2026-09-12 교문사 실측)
+check("scan_parser_accepts_isbn13", parseScannedIsbn(ISBN13), ISBN13);
+check("scan_parser_restores_isbn10", parseScannedIsbn("8936323873"), "9788936323875");
+check("isbn10_to_isbn13_roundtrip", isbn10ToIsbn13("8934912340"), "9788934912347");
+// 체크디지트가 깨진 10자리(잘린 스캔 꼬리)는 복원하지 않는다
+check("scan_parser_rejects_broken_isbn10", parseScannedIsbn(TAIL), null);
 
 console.log(JSON.stringify(results));
 """
@@ -226,7 +232,7 @@ class WedgeBufferBehaviourTests(TestCase):
             "스캔 버퍼/ISBN 검증 회귀: "
             + ", ".join(f"{r['name']}(got={r['actual']!r} want={r['expected']!r})" for r in failed),
         )
-        self.assertEqual(len(results), 18, f"검증 항목 수 변경: {len(results)}")
+        self.assertEqual(len(results), 20, f"검증 항목 수 변경: {len(results)}")
 
 
 if __name__ == "__main__":
