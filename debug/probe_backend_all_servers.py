@@ -979,6 +979,23 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # DEC-287 「내용 전체 보기」 — 기간 전체 상세(전 일자 · 전 전표)
+        {
+            "group": "inventory.book_ledger_day_detail_all",
+            "path": (
+                f"/api/v1/inventory/book-ledger/day-detail-all?serverId={sid}"
+                f"&bcode=1&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "inventory.customer_ledger_slip_detail_all",
+            "path": (
+                f"/api/v1/inventory/customer-ledger/slip-detail-all?serverId={sid}"
+                f"&gcode=1&dateFrom={df}&dateTo={dt}"
+            ),
+            "ok_status": {200},
+        },
         {
             "group": "inventory.customer_ledger_summary",
             "path": (

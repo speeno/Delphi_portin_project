@@ -131,7 +131,8 @@ class ReferenceScreenDefaultState(TestCase):
         self.assertIn("<SplitListPanes", src)
         self.assertIn('storageKey="inventory.ledger"', src)
         # 2단 분할(사용자 요청 2026-08-25 14:29) — 일자 미선택(하단 안내문)일 땐 분할 off
-        self.assertIn("disabled={selDate === null || showAll}", src)  # DEC-203 전체 보기면 분할 off
+        # DEC-287 — 전체 보기는 하단에 전 일자 상세를 채운다(분할 유지) / 미선택일 때만 분할 off
+        self.assertIn("disabled={!showAll && selDate === null}", src)
         # DEC-203/212 — 표는 프레임 없이, 공용 DataGrid 가 분할 칸 채움·높이 상한을 담당
         self.assertNotIn("rounded-2xl border border-border bg-card shadow-sm", src)
         self.assertIn("<DataGrid<DayGridRow>", src)

@@ -5,7 +5,8 @@
 - 표: 카드 프레임(둥근 모서리·테두리·그림자) 없음, 회색 헤더행(`table-head`)·진한 글자, 가로 구분선만,
   선택 행 민트(`row-selected`), 표 포커스 시 파란 테두리(`row-focus`), 합계행 회색·굵게.
 - 표 위 섹션 헤더(`SectionHeader`): 굵은 제목 + 회색 메타, 오른쪽 액션.
-- 「내용 전체 보기」: 체크하면 상단 표가 스크롤 없이 모두 보이도록 영역이 자동으로 커진다(분할 off).
+- 「내용 전체 보기」: **DEC-287 로 재정의** — 상단 목록 전 건의 세부 상세를 하단에 함께 보여 준다
+  (종전 "상단 표를 스크롤 없이 펼친다"는 두 원장 화면에서 폐기).
 - 「엑셀 다운로드」: 화면 표를 표시 컬럼 순서 그대로 범용 xlsx 라우트로(`POST /api/v1/export/table-xlsx`).
 - 「출력」: 표만 새 창에 그려 브라우저 인쇄.
 """
@@ -82,12 +83,12 @@ class LedgerScreens(TestCase):
         src = _read(rel)
         self.assertIn(f"<EmptyHint>{hint}</EmptyHint>", src)
         self.assertIn(f'storageKey="{storage_key}"', src)
-        self.assertIn(f"disabled={{{sel_var} === null || showAll}}", src, "전체 보기면 분할 off")
+        # DEC-287 (2026-09-12) — 「내용 전체 보기」 재정의: 상단 표를 펼치는 기능이 아니라
+        # **하단에 전 건 상세**를 펼치는 기능 → 전체 보기여도 분할은 유지된다(가드는 DEC-287 로 이관).
+        self.assertIn(f"disabled={{!showAll && {sel_var} === null}}", src, "전체 보기면 하단에 전 건 상세")
         self.assertIn('data-legacy-id="ShowAll"', src)
         self.assertIn("내용 전체 보기", src)
-        # 전체 보기 = DataGrid unbounded(스크롤 없이 펼침) / 아니면 분할 칸을 채우고 내부 스크롤(DEC-212)
-        self.assertIn("fillHeight={!showAll}", src)
-        self.assertIn("unbounded={showAll}", src)
+        self.assertIn("fillHeight", src)
         self.assertEqual(src.count("<SectionHeader"), 2)
         self.assertIn("엑셀 다운로드", src)
         self.assertIn("exportTableXlsx", src)
