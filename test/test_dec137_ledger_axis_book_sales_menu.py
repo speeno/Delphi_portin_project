@@ -345,6 +345,17 @@ class FrontendSourceGuards(TestCase):
         self.assertIn("Sobo31", layout)
         self.assertIn("Sobo32_ledger", layout)
         self.assertIn("Sobo48_compare", layout)
+        # 원장관리 메뉴 순서 — 거래처원장(1) → 도서별수불원장(2) (사용자 요청 2026-09-12).
+        self.assertLess(
+            layout.index('"Sobo32_ledger"'),
+            layout.index('"Sobo31"'),
+            "원장관리 첫 항목은 거래처원장이어야 한다",
+        )
+        self.assertLess(
+            layout.index('"Sobo31"'),
+            layout.index('"Sobo44_inv"'),
+            "도서별수불원장은 재고현황보다 앞(두 번째)이어야 한다",
+        )
 
 
 if __name__ == "__main__":
