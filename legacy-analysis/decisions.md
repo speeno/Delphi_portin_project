@@ -6470,3 +6470,20 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
     해지 시 어느 마스터에서 고를지(기타거래처 G5 / 거래처 G1)와 기존 데이터 연속성을 함께 정해야 한다.
 - **검증** — tsc·eslint 통과, 허브 반품·키보드 테스트 358 passed. 가드
   `test/test_dec279_slip_entry_enter_and_scrap_publisher.py`. 실화면 확인은 로컬 세션 만료로 미수행.
+
+### DEC-280 — 폐기 접수: 거래처 「애플2」 고정 해지(기타거래처 선택) · 비율 기본 0 (2026-09-12)
+
+- **사용자 확정** — ③ 금액은 **현행 유지(0)**: 레거시 관례(`Grat1=0 · Gssum=0`, DEC-190)를 그대로 둔다.
+  ④ 거래처는 **고를 수 있게**(고정 해지) 하되 **기본값은 「애플2」**.
+- **결정**
+  1. 화면 기본 할인율을 **0** 으로 맞춘다(`SCRAP_LINE_AXIS.newLine.grat1`, 진입 첫 행 포함).
+     저장이 0 인데 화면만 0.7 이라 「금액이 왜 0이냐」는 혼동을 만들었다. 저장 규칙은 그대로.
+  2. 헤더 거래처 칸을 **기타거래처(G5_Ggeo) 룩업**으로 바꾼다(신규 lookup kind `etcCustomer`,
+     인라인 자동완성 없이 팝업만 — DEC-193). 레거시 폐기 전표 축(`Scode='Z'` 기타)과 짝이라
+     «거래처(G1)» 가 아니라 «기타거래처» 에서 고른다.
+  3. 서버 `resolve_scrap_customer(server_id, hcode, gcode="")` — 지정 코드는 회사(Hcode) 범위에서
+     실재 확인 후 사용, 없으면 **fail-closed 422**(조용히 다른 거래처로 저장하지 않는다).
+     비어 있으면 종전대로 이름으로 「애플2」. `POST /returns/scrap` 도 반품과 같이
+     `enforce_hcode_identity` 로 회사 코드를 강제한다.
+- **검증** — tsc·eslint 통과, 허브 반품·폐기 테스트 341 passed, 가드
+  `test/test_dec280_scrap_customer_and_rate.py`(지정/폴백/미존재 실패/INSERT 0 고정/화면 배선).
