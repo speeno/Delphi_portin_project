@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-10T03:14:58.049489+00:00",
+  "generated_at": "2026-09-12T03:19:29.201752+00:00",
   "summary": {
-    "registry_forms": 97,
+    "registry_forms": 99,
     "legacy_dfm_subu_stems": 92,
     "orphan_legacy_stems": 40,
-    "subu_caption_diff": 13,
+    "subu_caption_diff": 12,
     "subu_legacy_missing": 0
   },
   "rows": [
@@ -566,8 +566,8 @@
       "legacy_form_object": "Sobo52",
       "legacy_caption": "정품재고(변경)",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu52.dfm",
-      "status": "CAPTION_DIFF",
-      "note": "DFM「정품재고(변경)」↔모던「도서 회전율」 (r=0.00)"
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo53_stats",
@@ -656,6 +656,28 @@
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu32_1.dfm",
       "status": "CAPTION_DIFF",
       "note": "DFM「출판사별 재고 현황」↔모던「통합 거래처원장」 (r=0.00)"
+    },
+    {
+      "modern_id": "Sobo51_adjust",
+      "folder": "Subu51",
+      "route": "/ledger/adjust/customer",
+      "modern_caption": "원장변경",
+      "legacy_form_object": "Sobo51",
+      "legacy_caption": "반품재고(변경)",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu51.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Sobo52_adjust",
+      "folder": "Subu52",
+      "route": "/ledger/adjust/book",
+      "modern_caption": "재고변경",
+      "legacy_form_object": "Sobo52",
+      "legacy_caption": "정품재고(변경)",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu52.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
     },
     {
       "modern_id": "Sobo33_ledger",

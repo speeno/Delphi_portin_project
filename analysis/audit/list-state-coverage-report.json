@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-09T02:59:31.372157+00:00",
+  "generated_at": "2026-09-12T03:19:30.343052+00:00",
   "summary": {
-    "total_pages": 124,
-    "covered": 48,
+    "total_pages": 126,
+    "covered": 50,
     "violations": 0,
     "allowed": 6,
     "skipped": 70
@@ -23,6 +23,14 @@
     {
       "route_key": "inventory.status",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/inventory/status/page.tsx"
+    },
+    {
+      "route_key": "ledger.adjust.book",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/adjust/book/page.tsx"
+    },
+    {
+      "route_key": "ledger.adjust.customer",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/ledger/adjust/customer/page.tsx"
     },
     {
       "route_key": "ledger.book",

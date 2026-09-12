@@ -324,6 +324,16 @@ missing_forms:
     until: "Phase 3 audit"
 
 caption_mismatches:
+  - form_name: Sobo51_adjust
+    dfm_caption: "반품재고(변경)"
+    registry_caption: "원장변경"
+    reason: "2026-09-12 교문사 — 레거시 자료관리 「원장변경」(DEC-282) 신설. Subu 폼 번호가 빌드 간 불안정해 정본(유통) 트리 Subu51 = 반품재고(변경) 이고, 이 화면의 원천은 출판/총판 트리 Subu51 (Caption 원장변경관리) 다. 매핑 노트 analysis/layout_mappings/Sobo51_adjust.md"
+    until: "인벤토리가 빌드별 Subu 폼을 분리 수집하면 재검토"
+  - form_name: Sobo52_adjust
+    dfm_caption: "정품재고(변경)"
+    registry_caption: "재고변경"
+    reason: "2026-09-12 교문사 — 레거시 자료관리 「재고변경」(DEC-282) 신설. 정본(유통) 트리 Subu52 = 정품재고(변경) 이고, 이 화면의 원천은 출판/총판 트리 Subu52 (Caption 재고변경관리-(본사)) 다. 매핑 노트 analysis/layout_mappings/Sobo52_adjust.md"
+    until: "인벤토리가 빌드별 Subu 폼을 분리 수집하면 재검토"
   - form_name: Sobo23_scrap_status
     dfm_caption: "반품명세서"
     registry_caption: "폐기 현황"

@@ -265,7 +265,10 @@ class EveryContentScreenHasBand(TestCase):
 
     WRAPPERS = {
         "admin", "dashboard", "dashboard/distributor", "dashboard/iot", "dashboard/pub", "dashboard/super",
-        "dashboard/t3", "delivery/management", "master/discount/[type]", "returns/scrap/status", "returns/status",
+        "dashboard/t3", "delivery/management",
+        # DEC-282 — 원장변경/재고변경: 축 객체만 다른 공용 `AdjustmentLedgerScreen` 을 렌더한다(띠는 그 안에).
+        "ledger/adjust/book", "ledger/adjust/customer",
+        "master/discount/[type]", "returns/scrap/status", "returns/status",
         "transactions/inbound-status", "transactions/new-release", "transactions/outbound-status", "workspace",
     }
 

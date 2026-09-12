@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-09T02:59:31.186361+00:00",
+  "generated_at": "2026-09-12T03:19:30.070603+00:00",
   "summary": {
     "total_dfm_candidates": 118,
-    "registry_entries": 97,
+    "registry_entries": 99,
     "ok": 25,
     "missing_forms": 0,
     "caption_mismatches": 0,
-    "allowed": 125
+    "allowed": 127
   },
   "missing_forms": [],
   "caption_mismatches": [],
@@ -926,6 +926,16 @@
       "until": "Phase 3 audit"
     },
     {
+      "form_name": "Sobo51_adjust",
+      "dfm_form_name": "Sobo51",
+      "registry_caption": "원장변경",
+      "dfm_caption": "반품재고(변경)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu51.dfm",
+      "category": "caption_mismatch",
+      "reason": "2026-09-12 교문사 — 레거시 자료관리 「원장변경」(DEC-282) 신설. Subu 폼 번호가 빌드 간 불안정해 정본(유통) 트리 Subu51 = 반품재고(변경) 이고, 이 화면의 원천은 출판/총판 트리 Subu51 (Caption 원장변경관리) 다. 매핑 노트 analysis/layout_mappings/Sobo51_adjust.md",
+      "until": "인벤토리가 빌드별 Subu 폼을 분리 수집하면 재검토"
+    },
+    {
       "form_name": "Sobo51_stats",
       "dfm_form_name": "Sobo51",
       "registry_caption": "거래처별 판매 분석",
@@ -934,6 +944,16 @@
       "category": "caption_mismatch",
       "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
       "until": "Phase 3 audit"
+    },
+    {
+      "form_name": "Sobo52_adjust",
+      "dfm_form_name": "Sobo52",
+      "registry_caption": "재고변경",
+      "dfm_caption": "정품재고(변경)",
+      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu52.dfm",
+      "category": "caption_mismatch",
+      "reason": "2026-09-12 교문사 — 레거시 자료관리 「재고변경」(DEC-282) 신설. 정본(유통) 트리 Subu52 = 정품재고(변경) 이고, 이 화면의 원천은 출판/총판 트리 Subu52 (Caption 재고변경관리-(본사)) 다. 매핑 노트 analysis/layout_mappings/Sobo52_adjust.md",
+      "until": "인벤토리가 빌드별 Subu 폼을 분리 수집하면 재검토"
     },
     {
       "form_name": "Sobo52_stats",
@@ -1362,7 +1382,9 @@
     "Sobo48_compare",
     "Sobo49_tax_bill",
     "Sobo50_stats",
+    "Sobo51_adjust",
     "Sobo51_stats",
+    "Sobo52_adjust",
     "Sobo52_stats",
     "Sobo53_stats",
     "Sobo59_verification_shipment_alias",

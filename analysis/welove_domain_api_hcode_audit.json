@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-12T02:51:18.106901+00:00",
+  "generated_at": "2026-09-12T03:09:09.712218+00:00",
   "summary": {
     "files_scanned": 110,
-    "sql_literals": 582,
+    "sql_literals": 583,
     "critical": 0,
     "warn": 13,
-    "info": 268,
+    "info": 269,
     "skipped_noqa": 72,
     "multi_tenant_tables_seen": [
       "G4_Book",
@@ -983,7 +983,19 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
       "function": "get_stock_ledger",
-      "lineno": 881,
+      "lineno": 895,
+      "tables": [
+        "Sg_Csum"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode, COALESCE(SUM(Gbsum),0) AS q FROM Sg_Csum WHERE",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/inventory_service.py",
+      "function": "get_stock_ledger",
+      "lineno": 911,
       "tables": [
         "Sv_Ghng"
       ],

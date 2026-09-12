@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-09-10T03:14:58Z
+> **생성 시각 (UTC)**: 2026-09-12T03:19:29Z
 
 ## 목적
 
@@ -92,8 +92,10 @@
 | MULTI_MAP | `Sobo49_tax_bill` | `Subu49` | 세금계산서 | 세금계산서발행 | `Sobo49` | `/settlement/tax-invoice` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | DFM_PLACEHOLDER | `Sobo50_stats` | `Subu50` | 기간별 매출 분석 | Sobo50 | `Sobo50` | `/stats/sales-period` | 루트 Caption 이 식별자 수준「Sobo50」— 실제 화면은 변형 폴더·주 폼 참조 |
 | MULTI_MAP | `Sobo51` | `Subu51` | 반품재고(변경) | 반품재고(변경) | `Sobo51` | `/returns/inventory?tab=change` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo51_adjust` | `Subu51` | 원장변경 | 반품재고(변경) | `Sobo51` | `/ledger/adjust/customer` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo51_stats` | `Subu51` | 거래처별 판매 분석 | 반품재고(변경) | `Sobo51` | `/stats/customer-analysis` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| CAPTION_DIFF | `Sobo52_stats` | `Subu52` | 도서 회전율 | 정품재고(변경) | `Sobo52` | `/stats/book-turnover` | DFM「정품재고(변경)」↔모던「도서 회전율」 (r=0.00) |
+| MULTI_MAP | `Sobo52_adjust` | `Subu52` | 재고변경 | 정품재고(변경) | `Sobo52` | `/ledger/adjust/book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo52_stats` | `Subu52` | 도서 회전율 | 정품재고(변경) | `Sobo52` | `/stats/book-turnover` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | CAPTION_DIFF | `Sobo53_stats` | `Subu53` | 분기/반기 손익 | 일별 출고내역서 | `Sobo53` | `/stats/quarterly-summary` | DFM「일별 출고내역서」↔모던「분기/반기 손익」 (r=0.00) |
 | MATCH | `Sobo54` | `Subu54` | 일별 입고내역서 | 일별 입고내역서 | `Sobo54` | `/inbound/reports/daily` |  |
 | MATCH | `Sobo55` | `Subu55` | 일별반품내역서 | 일별 반품내역서 | `Sobo55` | `/returns/reports` |  |
