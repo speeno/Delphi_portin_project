@@ -979,6 +979,72 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # DEC-288 「내용 전체 보기」 — 입고명세서 전 전표 라인 · 도서별판매 전 도서 거래처
+        # (+ 현황 3화면 · 거래처별판매 · 도서별원장총괄 · 통합거래처원장 · 반품 2화면)
+        {
+            "group": "transactions.outbound_status_lines_all",
+            "path": (
+                f"/api/v1/transactions/outbound-status?serverId={sid}&view=lines-all"
+                f"&dateFrom={df}&dateTo={dt}&limit=20"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "reports.customer_sales_books_all",
+            "path": (
+                f"/api/v1/reports/customer-sales/books-all?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&pairs=1%7C"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "ledger.book_summary_months_all",
+            "path": (
+                f"/api/v1/ledger/book-summary/months-all?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&bcodes=1"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "inventory.customer_ledger_daily_all",
+            "path": (
+                f"/api/v1/inventory/customer-ledger/daily-all?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&gcodes=1"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "returns.ledger_detail_all",
+            "path": (
+                f"/api/v1/returns/ledger?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&detailAll=true&limit=20"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "returns.period_report_detail_all",
+            "path": (
+                f"/api/v1/returns/period-report?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&detailAll=true&limit=20"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "inbound.receipt_lines_all",
+            "path": (
+                f"/api/v1/inbound/receipts/lines-all?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&limit=20"
+            ),
+            "ok_status": {200},
+        },
+        {
+            "group": "reports.book_sales_customers_all",
+            "path": (
+                f"/api/v1/reports/book-sales/customers-all?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&bcodes=1"
+            ),
+            "ok_status": {200},
+        },
         # DEC-287 「내용 전체 보기」 — 기간 전체 상세(전 일자 · 전 전표)
         {
             "group": "inventory.book_ledger_day_detail_all",

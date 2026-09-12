@@ -166,11 +166,11 @@ class NewReleaseScreenTests(TestCase):
         self.assertIn('const isOutbound = (axis.kind ?? "outbound") === "outbound"', body)
         # 배치 툴바(출력/바로출고/재출고) 래핑
         self.assertIn('{isOutbound && (\n                <div className="ml-auto flex items-center gap-2">', body)
-        # 단건 바로출고
-        self.assertIn("{isOutbound &&\n                    selectedSlip &&", body)
+        # 단건 바로출고 — DEC-288 「내용 전체 보기」 중에는 단건 조작을 숨긴다(선택 전표 없음)
+        self.assertIn("{!showAll && isOutbound &&\n                    selectedSlip &&", body)
         # 단건 출력
         idx = body.index('data-legacy-id="Sobo24.PrintSelected"')
-        self.assertIn("{isOutbound && (", body[idx - 400:idx])
+        self.assertIn("{!showAll && isOutbound && (", body[idx - 400:idx])
 
 
 if __name__ == "__main__":

@@ -16,7 +16,7 @@ class InboundStatementLinesGrid(TestCase):
     def test_bottom_lines_are_data_grid(self) -> None:
         self.assertNotIn("<table", self.src)
         i = self.src.index('legacyId="Sobo22.DBGrid101"')
-        block = self.src[self.src.rindex("<DataGrid<ReceiptLineDetail>", 0, i): self.src.index("/>", i)]
+        block = self.src[self.src.rindex("<DataGrid<LineGridRow>", 0, i): self.src.index("/>", i)]
         for tok in ("sort={lineSort.sort}", "onSortChange=", "columnWidths=", "onColumnResize=", "onColumnReorder=", "totals=", "enableKeyboardNav"):
             self.assertIn(tok, block, tok)
         self.assertIn('"transactions.inbound-statement.lines"', self.src)
@@ -27,8 +27,10 @@ class InboundStatementLinesGrid(TestCase):
     def test_show_all_checkbox(self) -> None:
         self.assertIn('data-legacy-id="Sobo22.ShowAll"', self.src)
         self.assertIn("내용 전체 보기", self.src)
-        self.assertIn("disabled={!selectedKey || showAll}", self.src, "전체 보기면 분할 해제")
-        self.assertIn("fillHeight={!showAll}\n        unbounded={showAll}", self.src)
+        # DEC-288 (2026-09-12) — 전체 보기 = 하단에 목록 전표 전부의 라인(상단 펼치기 폐기, 분할 유지)
+        self.assertIn("disabled={!showAll && !selectedKey}", self.src, "전체 보기면 하단에 전 전표 라인")
+        self.assertNotIn("unbounded={showAll}", self.src)
+        self.assertIn("linesAll", self.src)
 
 
 if __name__ == "__main__":
