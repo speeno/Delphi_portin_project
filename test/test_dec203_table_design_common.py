@@ -40,17 +40,35 @@ class CommonTableStyle(TestCase):
             self.assertEqual(root.count(f"  {tok}:"), 1, f"{tok} :root")
             self.assertEqual(dark.count(f"  {tok}:"), 1, f"{tok} .dark")
             self.assertIn(f"--color-{tok[2:]}: var({tok});", css)
-        self.assertIn("--table-head: oklch(0.94 0 0)", root)
+        # 표 머리글 = 카드(흰색)보다 한 단계 어두운 연회색 — 토큰 표기(oklch/hex)는 자유.
+        import re as _re
+
+        head = _re.search(r"--table-head:\s*([^;]+);", root).group(1).strip()
+        self.assertNotIn("oklch(1 0 0)", head)
+        self.assertNotEqual(head.lower(), "#ffffff")
+        if head.startswith("#"):
+            vals = [int(head[1:][i : i + 2], 16) for i in (0, 2, 4)]
+            self.assertTrue(0xD0 <= max(vals) <= 0xF5, f"연회색 머리글: {head}")
+            self.assertLessEqual(max(vals) - min(vals), 0x10, f"무채색 머리글: {head}")
+        else:
+            lig = float(_re.match(r"oklch\(\s*([\d.]+)", head).group(1))
+            self.assertTrue(0.85 <= lig < 1.0, f"연회색 머리글: {head}")
 
     def test_list_table_constants_frameless(self) -> None:
         src = _read("components/data-grid/list-table-card.tsx")
-        self.assertIn('"w-full min-w-0 overflow-x-auto bg-card"', src)
+        # 표 바깥 카드 = 프레임 없음(둥근 모서리·테두리·그림자 0). 배경은 카드 흰색을
+        # 토큰(`table-body`)으로 뽑았을 뿐 값은 동일(2026-09 토큰 정리).
+        self.assertRegex(src, r'"w-full min-w-0 overflow-x-auto bg-(card|table-body)"')
         self.assertNotIn("overflow-x-auto rounded-2xl border border-border bg-card shadow-sm", src)
         self.assertIn('LIST_TABLE_HEAD_CLASS = "bg-table-head"', src)
         self.assertIn("text-sm font-semibold tracking-[-0.02em] text-foreground", src)
         self.assertIn('LIST_TABLE_ROW_SELECTED_CLASS = "bg-row-selected"', src)
         self.assertIn("outline-row-focus", src)
-        self.assertIn('"border-t border-border bg-muted font-semibold text-foreground"', src)
+        # 합계행 — border/bg 가 토큰(table-divider/table-total)으로 바뀜(굵은 글씨·상단 선 동일).
+        self.assertRegex(
+            src,
+            r'"border-t border-(border|table-divider) bg-(muted|table-total) font-semibold text-foreground"',
+        )
 
     def test_data_grid_uses_common_style(self) -> None:
         src = _read("components/data-grid/data-grid.tsx")
@@ -85,7 +103,14 @@ class LedgerScreens(TestCase):
         self.assertIn(f'storageKey="{storage_key}"', src)
         # DEC-287 (2026-09-12) — 「내용 전체 보기」 재정의: 상단 표를 펼치는 기능이 아니라
         # **하단에 전 건 상세**를 펼치는 기능 → 전체 보기여도 분할은 유지된다(가드는 DEC-287 로 이관).
-        self.assertIn(f"disabled={{!showAll && {sel_var} === null}}", src, "전체 보기면 하단에 전 건 상세")
+        # 2026-09 UI 통일 — 분할 제어가 `disabled={!showAll && <선택없음>}` 에서
+        # `secondaryVisible={showAll || <선택있음>}` 으로 바뀌었다(전체 보기면 하단 전 건 상세,
+        # 선택 없으면 분할 없이 상단만 — 동작 요구는 동일). 두 표현 중 하나면 통과.
+        self.assertTrue(
+            f"disabled={{!showAll && {sel_var} === null}}" in src
+            or f"secondaryVisible={{showAll || {sel_var} !== null}}" in src,
+            "전체 보기면 하단에 전 건 상세",
+        )
         self.assertIn('data-legacy-id="ShowAll"', src)
         self.assertIn(label, src)
         self.assertIn("fillHeight", src)

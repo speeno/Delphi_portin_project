@@ -23,6 +23,39 @@ def _read(rel: str) -> str:
     return (FRONT / rel).read_text(encoding="utf-8")
 
 
+def _lightness(value: str) -> float | None:
+    """토큰 값(oklch/hex)의 밝기(0~1). 디자인 토큰이 oklch↔hex 로 표기만 바뀌어도
+    "연회색 캔버스/흰 카드" 같은 **요구사항**은 그대로 검사할 수 있게 한다(2026-09-15 표기 변경)."""
+    import re as _re
+
+    v = value.split("/")[0].strip()
+    m = _re.match(r"oklch\(\s*([\d.]+)", v)
+    if m:
+        return float(m.group(1))
+    m = _re.fullmatch(r"#([0-9a-fA-F]{6})", v)
+    if m:
+        h = m.group(1)
+        r, g, b = (int(h[i : i + 2], 16) / 255 for i in (0, 2, 4))
+        return (r + g + b) / 3
+    return None
+
+
+def _is_neutral(value: str) -> bool:
+    """무채색(회색/흰색) 여부 — oklch 는 chroma≈0, hex 는 RGB 편차가 작다."""
+    import re as _re
+
+    v = value.split("/")[0].strip()
+    m = _re.match(r"oklch\(\s*[\d.]+\s+([\d.]+)", v)
+    if m:
+        return float(m.group(1)) <= 0.02
+    m = _re.fullmatch(r"#([0-9a-fA-F]{6})", v)
+    if m:
+        h = m.group(1)
+        vals = [int(h[i : i + 2], 16) for i in (0, 2, 4)]
+        return max(vals) - min(vals) <= 0x10
+    return False
+
+
 def _root_block(css: str) -> str:
     i = css.index("\n:root {")
     return css[i : css.index("\n}", i)]
@@ -53,8 +86,15 @@ class TokenTests(TestCase):
             self.assertIn(f"--{t}:", dark, f".dark 에 {t} 누락")
 
     def test_canvas_is_neutral_gray_and_card_white(self) -> None:
-        self.assertIn("0.97", self._tok("background"))
-        self.assertIn("oklch(1 0 0)", self._tok("card"))
+        bg = self._tok("background")
+        card = self._tok("card")
+        # 캔버스 = 연한 무채색 회색(흰색보다 약간 어둡다), 카드 = 흰색.
+        self.assertTrue(_is_neutral(bg), f"캔버스는 무채색: {bg}")
+        bg_l = _lightness(bg)
+        self.assertIsNotNone(bg_l, bg)
+        self.assertGreaterEqual(bg_l, 0.93, f"캔버스는 연회색: {bg}")
+        self.assertLess(bg_l, 1.0, f"캔버스는 흰 카드와 구분되는 회색: {bg}")
+        self.assertAlmostEqual(_lightness(card) or 0, 1.0, places=2, msg=f"카드는 흰색: {card}")
 
     def test_active_nav_uses_vivid_lime_token_only(self) -> None:
         """«현재 화면» 하이라이트(활성 탭·활성 메뉴)는 --nav-active 한 토큰 — Vivid Lime 예외 지점."""
@@ -122,9 +162,11 @@ class ShellStructureTests(TestCase):
         canvas = _read("components/workspace/workspace-canvas.tsx")
         self.assertIn("bg-tabbar", toolbar)
         self.assertIn("left?: ReactNode", toolbar)
-        self.assertIn('<WorkspaceToolbar left={mode === "tabs" ? <TabStrip /> : null} />', canvas)
+        # 탭 스트립은 툴바 왼쪽 슬롯 — 종전 tiled 모드 분기가 사라져 항상 탭을 그린다(2026-09 셸 정리).
+        self.assertIn("<WorkspaceToolbar left={<TabStrip />} />", canvas)
         self.assertIn("bg-tab-active font-semibold text-tab-active-foreground", canvas)
-        self.assertIn("rounded-full", canvas)
+        # 활성 탭은 pill 형태 — 라운드 값(full/lg/xl)은 디자인 재조정 대상이라 존재만 확인.
+        self.assertRegex(canvas, r"rounded-(full|xl|lg)", "탭은 둥근 pill")
 
     def test_header_and_login_use_transparent_cms_wordmark(self) -> None:
         """사용자 제공 「bukio WORKS」 이미지 → 배경·격자 제거한 투명 PNG(DEC-199 로고)."""

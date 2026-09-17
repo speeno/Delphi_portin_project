@@ -28,7 +28,14 @@ class InboundStatementLinesGrid(TestCase):
         self.assertIn('data-legacy-id="Sobo22.ShowAll"', self.src)
         self.assertIn("내용 전체 보기", self.src)
         # DEC-288 (2026-09-12) — 전체 보기 = 하단에 목록 전표 전부의 라인(상단 펼치기 폐기, 분할 유지)
-        self.assertIn("disabled={!showAll && !selectedKey}", self.src, "전체 보기면 하단에 전 전표 라인")
+        # 2026-09 UI 통일 — 분할 제어가 `disabled={!showAll && <선택없음>}` 에서
+        # `secondaryVisible={showAll || <선택있음>}` 으로 바뀌었다(전체 보기면 하단 전 건 상세,
+        # 선택 없으면 분할 없이 상단만 — 동작 요구는 동일). 두 표현 중 하나면 통과.
+        self.assertTrue(
+            "disabled={!showAll && !selectedKey}" in self.src
+            or "secondaryVisible={showAll || Boolean(selectedKey)}" in self.src,
+            "전체 보기면 하단에 전 전표 라인",
+        )
         self.assertNotIn("unbounded={showAll}", self.src)
         self.assertIn("linesAll", self.src)
 

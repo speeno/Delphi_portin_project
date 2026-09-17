@@ -189,11 +189,19 @@ class ScreensShowAll(unittest.TestCase):
             self.assertNotIn("fillHeight={!showAll}", src, rel)
 
     def test_split_stays_on_when_show_all(self):
-        self.assertIn(
-            "disabled={!showAll && !selectedKey}",
-            _read("app/(app)/transactions/inbound-statement/page.tsx"),
+        # 2026-09 UI 통일 — 분할 제어가 `disabled={!showAll && <선택없음>}` 에서
+        # `secondaryVisible={showAll || <선택있음>}` 으로 바뀌었다(전체 보기면 하단 전 건 상세,
+        # 선택 없으면 분할 없이 상단만 — 동작 요구는 동일). 두 표현 중 하나면 통과.
+        inbound = _read("app/(app)/transactions/inbound-statement/page.tsx")
+        self.assertTrue(
+            "disabled={!showAll && !selectedKey}" in inbound
+            or "secondaryVisible={showAll || Boolean(selectedKey)}" in inbound,
         )
-        self.assertIn("disabled={!showAll && !detail}", _read("app/(app)/reports/book-sales/page.tsx"))
+        sales = _read("app/(app)/reports/book-sales/page.tsx")
+        self.assertTrue(
+            "disabled={!showAll && !detail}" in sales
+            or "secondaryVisible={showAll || detail !== null}" in sales,
+        )
 
     def test_identity_columns_prepended_in_all_mode(self):
         """여러 전표/도서가 한 표에 섞이므로 식별 컬럼이 앞에 붙는다."""
@@ -251,6 +259,9 @@ class AllMasterDetailScreensCovered(unittest.TestCase):
                 "app/(app)/inbound/reports/period/page.tsx",
                 # 총판/출판 비율 프로필 2축 편집 화면(목록-상세 아님).
                 "app/(app)/master/special/page.tsx",
+                # 2026-09 UI 통일에서 2단으로 바뀐 거래명세서(총판) 뷰 — 전 건 상세 API 미도입.
+                # DEC-288 후속 대상(체크박스 도입 시 이 항목 제거).
+                "components/outbound/outbound-statement-view.tsx",
                 # 공용 컴포넌트(분할 자체) — 화면이 아니다.
                 "components/shared/split-list-panes.tsx",
             ]),

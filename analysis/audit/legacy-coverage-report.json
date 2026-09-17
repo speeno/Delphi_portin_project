@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T03:52:43.333634+00:00",
+  "generated_at": "2026-09-17T05:49:17.976536+00:00",
   "summary": {
     "total_dfm_candidates": 118,
     "registry_entries": 101,
@@ -325,7 +325,7 @@
     {
       "form_name": "Sobo14_gbun",
       "dfm_form_name": "Sobo14",
-      "registry_caption": "도서분류",
+      "registry_caption": "도서구분",
       "dfm_caption": "도서관리",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu14.dfm",
       "category": "caption_mismatch",
@@ -898,7 +898,7 @@
     {
       "form_name": "Sobo44_inv",
       "dfm_form_name": "Sobo44",
-      "registry_caption": "재고현황",
+      "registry_caption": "기간별재고원장",
       "dfm_caption": "발송비현황",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu44.dfm",
       "category": "caption_mismatch",

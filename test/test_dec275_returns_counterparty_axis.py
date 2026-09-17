@@ -250,7 +250,9 @@ class FrontendStaticGuardTests(TestCase):
     def test_publisher_lookup_is_popup_only_and_profile_gated(self) -> None:
         src = self.NEW.read_text(encoding="utf-8")
         i = src.index('lookupKind="publisher"')
-        block = src[i: src.index("refocusAfterSelect", i)]
+        # 필드 블록 = 해당 MasterLookupField 의 닫는 태그까지(종전엔 refocusAfterSelect 프롭을
+        # 경계로 썼으나 2026-09 정리에서 그 프롭이 빠졌다 — 경계를 태그 기준으로 바꾼다).
+        block = src[i: src.index("/>", i)]
         self.assertNotIn("useInlineAutocomplete", block)  # DEC-193 — publisher 인라인은 거래처를 돌려준다
         self.assertIn('inputLegacyId="Sobo23.Edit107"', block)
         gate = src[src.rindex("publisherMode", 0, i): i]

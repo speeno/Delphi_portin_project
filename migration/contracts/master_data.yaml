@@ -146,7 +146,7 @@ endpoints:
     path: /api/v1/masters/customer
     query:
       - { name: serverId, type: string, required: true }
-      - { name: q, type: string, required: false, note: "Gcode/Gname LIKE %q%" }
+      - { name: q, type: string, required: false, note: "Gcode/Gname/Gposa(대표자) LIKE %q% — Gposa 는 SHOW COLUMNS 존재 시에만, 공백 무시 매칭 REPLACE(Gposa,' ','') (2026-09-17)" }
       - { name: gubun, type: string, required: false, note: "거래처구분 정확일치 (G1_Gbun.Gcode) — minimal 필터 2026-05" }
       - { name: jubun, type: string, required: false, note: "지역 LIKE %jubun% (G1_Ggeo.Jubun)" }
       - { name: excludeTerminated, type: bool, default: false, note: "거래종료 제외 — Gname NOT LIKE '[X]%' AND IFNULL(Gubun,'')<>'X 거래종료'" }

@@ -61,7 +61,11 @@ class Allowlist:
 # ───────────────────────── loaders ─────────────────────────
 
 
-_PAGER_RE = re.compile(r"DataGridPager")
+# 페이저 사용 = list 화면 판별 신호. 2026-09-17 UI 통일에서 페이저가 표 바깥의
+# ``<DataGridPager>`` 에서 표 내부 렌더(``pager={...}`` prop)로 옮겨간 화면들이 있어
+# 두 형태를 모두 list 로 인식한다(옛 정규식만 쓰면 이런 화면이 skipped 로 빠져 DEC-055
+# 커버리지에서 사라진다).
+_PAGER_RE = re.compile(r"DataGridPager|pager=\{")
 # 신규 화면이 use-list-session 의 다른 export 를 쓸 가능성도 고려해 모듈 경로로 매칭.
 _HOOK_RE = re.compile(r"@/lib/use-list-session")
 

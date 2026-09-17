@@ -101,7 +101,10 @@ class ScreenAndModelGuard(TestCase):
                / "page.tsx").read_text(encoding="utf-8")
         for needle in (
             'label: "서가위치"',   # gpost 오라벨("출판사") 정정
-            'label: "도서분류"',
+            # 2026-09-15 용어 변경 — sname 라벨 "도서분류"→"도서구분", scode "도서구분"→"도서타입".
+            # 컬럼(키) 자체는 그대로이며 라벨만 바뀌었다(요구사항 유지, 문자열 검사만 갱신).
+            'label: "도서구분"',
+            'label: "도서타입"',
             'label: "도서처리"',
             'label: "판형"',
             'label: "원가"',
@@ -137,7 +140,7 @@ class ExcelCatalogGuard(TestCase):
         self.assertEqual(headers[0], "도서코드", "PK 첫 컬럼(업로드 행 식별)")
         self.assertIn("서가위치", headers)
         self.assertNotIn("출판사", headers, "gpost 오라벨 정정 — export 는 신 헤더만")
-        for h in ("도서분류", "도서처리", "판형", "원가", "매입가", "위탁", "한도",
+        for h in ("도서구분", "도서타입", "도서처리", "판형", "원가", "매입가", "위탁", "한도",
                   "재고", "본사재고 정품", "창고재고 비품", "세액유무", "출고정지"):
             self.assertIn(h, headers)
         for k in ("sname", "jubun", "name2", "price", "odang", "grat1",

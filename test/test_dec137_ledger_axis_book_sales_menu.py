@@ -354,7 +354,11 @@ class FrontendSourceGuards(TestCase):
         # DEC-289 (2026-09-12 사용자) — 재고 화면(현황·금액·재고변경)은 **재고관리** 그룹으로 분리.
         # 원장변경(장부 대조)만 원장관리에 남는다. DEC-137 의 «수불 3메뉴 → 1메뉴» 통합은 그대로.
         stock = src.split("export const STOCK_SIDEBAR_LAYOUT")[1].split("];")[0]
-        for fid in ('"Sobo44_inv"', '"Sobo34_1_value"', '"Sobo52_adjust"'):
+        # 2026-09-15 고객 회신 — 기간별재고원장(Sobo44_inv)은 「원장관리」에 유지한다
+        # (DEC-289 이동 대상에서 제외). 나머지 재고 2종만 재고관리 그룹.
+        self.assertIn('"Sobo44_inv"', layout, "기간별재고원장은 원장관리에 남는다(2026-09-15 회신)")
+        self.assertNotIn('"Sobo44_inv"', stock)
+        for fid in ('"Sobo34_1_value"', '"Sobo52_adjust"'):
             self.assertIn(fid, stock, f"{fid} 는 재고관리 그룹에 있어야 한다")
             self.assertNotIn(fid, layout, f"{fid} 가 원장관리에 남아 있다")
         self.assertIn('"Sobo51_adjust"', layout, "원장변경은 원장관리에 남는다")

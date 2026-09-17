@@ -160,7 +160,7 @@ class NewReleaseScreenTests(TestCase):
         self.assertIn("product_name: ln.bname", src)
 
     def test_outbound_only_actions_gated(self) -> None:
-        """바로출고·바로재출고·거래명세서 출력은 출고축에서만 렌더."""
+        """바로출고·바로재출고(상태 전이 조작)는 출고축에서만 렌더."""
         src = self.SCREEN.read_text(encoding="utf-8")
         body = src.split("export function TransactionStatusScreen")[1]
         self.assertIn('const isOutbound = (axis.kind ?? "outbound") === "outbound"', body)
@@ -168,9 +168,10 @@ class NewReleaseScreenTests(TestCase):
         self.assertIn('{isOutbound && (\n                <div className="ml-auto flex items-center gap-2">', body)
         # 단건 바로출고 — DEC-288 「내용 전체 보기」 중에는 단건 조작을 숨긴다(선택 전표 없음)
         self.assertIn("{!showAll && isOutbound &&\n                    selectedSlip &&", body)
-        # 단건 출력
+        # 단건 출력 — 2026-09 부터 입고축도 «입고 명세서»로 분기 출력(쓰기 없음)이라
+        # 축 게이팅 없이 「전체 보기」 여부만 본다. 상태 전이가 있는 조작만 출고 전용으로 남는다.
         idx = body.index('data-legacy-id="Sobo24.PrintSelected"')
-        self.assertIn("{!showAll && isOutbound && (", body[idx - 400:idx])
+        self.assertIn("{!showAll && (", body[idx - 400:idx])
 
 
 if __name__ == "__main__":

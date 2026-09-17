@@ -18,7 +18,11 @@ class DataGridFreeze(TestCase):
         self.assertIn("ths[i].getBoundingClientRect().width", src, "헤더 실폭 누적으로 left 산출")
         self.assertIn('"sticky z-[5] bg-inherit "', src, "본문 셀 sticky + 행 배경 승계")
         self.assertIn('(ci < frozenCount ? "z-20 "', src, "헤더/합계 셀 top+left 이중 sticky")
-        self.assertIn('"border-t border-border/70 bg-card "', src, "행 기본 불투명 배경")
+        # 행 배경/구분선이 토큰(table-body/table-divider)으로 바뀜 — 불투명 배경 요구는 동일
+        # (bg-inherit 인 고정 열이 배경을 승계하려면 행에 불투명 배경이 있어야 한다).
+        self.assertRegex(
+            src, r'"border-t border-(border/70|table-divider) bg-(card|table-body) "', "행 기본 불투명 배경"
+        )
 
     def test_prefs_and_settings(self) -> None:
         hook = (FRONT / "components" / "data-grid" / "use-grid-prefs.ts").read_text(encoding="utf-8")

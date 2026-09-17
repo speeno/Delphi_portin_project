@@ -198,7 +198,14 @@ class LedgerScreensShowAll(unittest.TestCase):
             self.assertIn("setAllDetail", src, rel)
             self.assertIn(title, src, rel)
             # 하단은 전체 보기면 선택 없이도 표시 / 분할도 유지된다
-            self.assertIn(f"disabled={{!showAll && {sel} === null}}", src, rel)
+            # 2026-09 UI 통일 — 분할 제어가 `disabled={!showAll && <선택없음>}` 에서
+            # `secondaryVisible={showAll || <선택있음>}` 으로 바뀌었다(전체 보기면 하단 전 건 상세,
+            # 선택 없으면 분할 없이 상단만 — 동작 요구는 동일). 두 표현 중 하나면 통과.
+            self.assertTrue(
+                f"disabled={{!showAll && {sel} === null}}" in src
+                or f"secondaryVisible={{showAll || {sel} !== null}}" in src,
+                rel,
+            )
             self.assertIn(f"!showAll && {sel} === null ? (", src, rel)
 
     def test_show_all_no_longer_expands_top_grid(self):

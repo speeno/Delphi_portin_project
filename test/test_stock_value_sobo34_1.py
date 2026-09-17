@@ -204,9 +204,13 @@ class SidebarAndPageTests(TestCase):
         # DEC-289 — 재고 화면은 「재고관리」 그룹(STOCK_SIDEBAR_LAYOUT)으로 분리됐다.
         layout = src.split("export const STOCK_SIDEBAR_LAYOUT")[1].split("];")[0]
         order = [ln for ln in layout.splitlines() if "formId" in ln]
-        idx_status = next(i for i, ln in enumerate(order) if "Sobo44_inv" in ln)
-        idx_value = next(i for i, ln in enumerate(order) if "Sobo34_1_value" in ln)
-        self.assertEqual(idx_value, idx_status + 1, "재고금액은 재고현황 바로 다음")
+        # 2026-09-15 고객 회신 — 기간별재고원장(Sobo44_inv)은 「원장관리」로 되돌렸다.
+        # 재고관리 그룹은 재고금액 → 재고변경 순(금액을 보고 나서 변경).
+        self.assertEqual(
+            [ln.split('formId: "')[1].split('"')[0] for ln in order],
+            ["Sobo34_1_value", "Sobo52_adjust"],
+            "재고관리 그룹 = 재고금액 → 재고변경",
+        )
 
     def test_form_registry_entry(self) -> None:
         src = (FRONT / "lib" / "form-registry.ts").read_text(encoding="utf-8")
@@ -218,8 +222,9 @@ class SidebarAndPageTests(TestCase):
     def test_page_carries_dfm_widget_ids(self) -> None:
         page = (FRONT / "app" / "(app)" / "inventory" / "value" / "page.tsx").read_text(
             encoding="utf-8")
+        # 2026-09 — 도서구분(본사/창고) 토글(Panel102)은 운영 화면 공통으로 숨기고 전체를 조회한다.
         for wid in ("Sobo34_1.Edit101", "Sobo34_1.Edit103", "Sobo34_1.Edit109",
-                    "Sobo34_1.Panel102", "Sobo34_1.CheckBox3", "Sobo34_1.dxButton1",
+                    "Sobo34_1.CheckBox3", "Sobo34_1.dxButton1",
                     "Sobo34_1.DBGrid101", "Sobo34_1.DBGrid201"):
             self.assertIn(wid, page, f"dfm 위젯 id 누락: {wid}")
 
@@ -227,7 +232,8 @@ class SidebarAndPageTests(TestCase):
         """상·하단 9컬럼(dfm FieldName) 이 모두 화면에 있어야 한다."""
         page = (FRONT / "app" / "(app)" / "inventory" / "value" / "page.tsx").read_text(
             encoding="utf-8")
-        for label in ("분류코드", "분류명", "도서코드", "도서명", "정가",
+        # 2026-09-15 용어 변경 — 「분류」 → 「도서구분」(도서 마스터 라벨과 통일).
+        for label in ("도서구분코드", "도서구분명", "도서코드", "도서명", "정가",
                       "정품재고", "재고금액", "반품재고", "재고합계", "금액합계"):
             self.assertIn(label, page, f"컬럼 라벨 누락: {label}")
         for field in ("GSUMY", "GOSUM", "GSSUM", "GBSUM", "GJQUT", "GJSUM"):

@@ -260,7 +260,8 @@ class MastersExcelExportRouterTests(TestCase):
             header[:7],
             ["도서코드", "제목", "저자", "ISBN", "발행일", "단가", "서가위치"],
         )
-        for h in ("도서분류", "판형", "원가", "위탁", "한도", "재고", "출고정지"):
+        # 2026-09-15 용어 변경 — "도서분류"→"도서구분"(sname), "도서구분"→"도서타입"(scode).
+        for h in ("도서구분", "도서타입", "판형", "원가", "위탁", "한도", "재고", "출고정지"):
             self.assertIn(h, header)
         self.assertNotIn("출판사", header)
         self.assertEqual(ws.cell(row=2, column=6).value, 15000)  # 단가 숫자 보존

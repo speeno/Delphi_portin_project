@@ -98,7 +98,8 @@ class BookPageGuard(TestCase):
 
     def test_default_order_and_all_sortable(self) -> None:
         src = self.PAGE.read_text(encoding="utf-8")
-        order = ["도서분류", "도서처리", "도서코드", "도서명", "저자명", "ISBN",
+        # 2026-09-15 용어 변경 — sname 라벨 "도서분류" → "도서구분"(순서/키 불변).
+        order = ["도서구분", "도서처리", "도서코드", "도서명", "저자명", "ISBN",
                  "정가", "재고", "재고금액", "서가위치", "판형", "위탁", "쪽수",
                  "판수", "발행일", "비고"]
         pos = [src.index(f'label: "{lbl}"') for lbl in order]
@@ -154,7 +155,11 @@ class StickyHeaderGuard(TestCase):
         self.assertIn("export function SplitListPanes", src)
         self.assertIn("storageKey", src, "비율은 화면별로 기억한다")
         self.assertIn("cursor-row-resize", src, "구분선 드래그로 비율 조절")
-        self.assertIn("max-md:", src, "좁은 화면은 분할하지 않고 스택")
+        # 좁은/낮은 화면은 분할하지 않고 스택 — 종전 CSS 브레이크포인트(max-md:) 대신
+        # 실측 폭·높이 기준으로 폴백한다(창 모드 iframe 높이까지 반영, 동작 요구는 동일).
+        self.assertIn("MIN_SPLIT_PX", src, "낮은 화면은 스택 폴백")
+        self.assertIn("MIN_HORIZONTAL_PX", src, "좁은 화면은 좌우 분할하지 않음")
+        self.assertIn("height >= MIN_SPLIT_PX", src)
 
     def test_header_cells_sticky_opaque(self) -> None:
         src = self.GRID.read_text(encoding="utf-8")
@@ -163,7 +168,10 @@ class StickyHeaderGuard(TestCase):
 
     def test_totals_row_sticky_bottom(self) -> None:
         src = self.GRID.read_text(encoding="utf-8")
-        self.assertIn('"sticky bottom-0 z-10 border-t border-border bg-muted px-4', src)
+        # DEC-203 토큰화 이후 색은 table-divider/table-total 토큰 — sticky 바닥 고정은 동일.
+        self.assertIn(
+            '"sticky bottom-0 z-10 border-t border-table-divider bg-table-total px-4', src
+        )
 
     def test_grid_prefs_supports_default_hidden(self) -> None:
         src = self.PREFS.read_text(encoding="utf-8")

@@ -413,7 +413,10 @@ class DataGridStickyCollisionTests(TestCase):
     def test_totals_row_stays_sticky(self) -> None:
         """합계행 자체의 sticky 는 유지 — 사용자 요구('합계 줄 항상 보이게')."""
         src = self.GRID.read_text(encoding="utf-8")
-        self.assertIn("sticky bottom-0 z-10 border-t border-border bg-muted", src)
+        # 색은 DEC-203 토큰(table-divider/table-total)으로 바뀜 — sticky 바닥 고정은 동일.
+        self.assertRegex(
+            src, r"sticky bottom-0 z-10 border-t border-(border|table-divider) bg-(muted|table-total)"
+        )
 
     def test_header_row_stays_sticky(self) -> None:
         """제목 줄도 항상 보이게 — DEC-151."""

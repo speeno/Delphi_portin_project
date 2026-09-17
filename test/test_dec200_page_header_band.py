@@ -35,7 +35,9 @@ class PageHeaderComponentContract(TestCase):
         src = _read("components/shared/page-header.tsx")
         # 전폭 흰 띠 — 임베드 래퍼 px-[5px] 상쇄, 아래 경계선, 카드 프레임(rounded/shadow) 없음
         self.assertIn("-mx-[5px]", src)
-        self.assertIn("border-b border-border bg-card", src)
+        # 2026-09 디자인 조정 — 띠 배경이 카드 흰색에서 캔버스 배경 토큰으로 바뀌었다.
+        # (전폭 띠 + 아래 경계선 + 카드 프레임 없음이라는 구조 요구는 그대로)
+        self.assertRegex(src, r"border-b border-border bg-(card|background)")
         self.assertNotIn("rounded-2xl", src)
         self.assertNotIn("shadow-sm", src)
         # 제목 좌 / 필터·액션 우 (md 이상 2열 그리드)
@@ -132,7 +134,13 @@ class ReferenceScreenDefaultState(TestCase):
         self.assertIn('storageKey="inventory.ledger"', src)
         # 2단 분할(사용자 요청 2026-08-25 14:29) — 일자 미선택(하단 안내문)일 땐 분할 off
         # DEC-287 — 전체 보기는 하단에 전 일자 상세를 채운다(분할 유지) / 미선택일 때만 분할 off
-        self.assertIn("disabled={!showAll && selDate === null}", src)
+        # 2026-09 UI 통일 — 분할 제어가 `disabled={!showAll && <선택없음>}` 에서
+        # `secondaryVisible={showAll || <선택있음>}` 으로 바뀌었다(전체 보기면 하단 전 건 상세,
+        # 선택 없으면 분할 없이 상단만 — 동작 요구는 동일). 두 표현 중 하나면 통과.
+        self.assertTrue(
+            "disabled={!showAll && selDate === null}" in src
+            or "secondaryVisible={showAll || selDate !== null}" in src,
+        )
         # DEC-203/212 — 표는 프레임 없이, 공용 DataGrid 가 분할 칸 채움·높이 상한을 담당
         self.assertNotIn("rounded-2xl border border-border bg-card shadow-sm", src)
         self.assertIn("<DataGrid<DayGridRow>", src)
@@ -320,7 +328,10 @@ class BandPopoversExempt(TestCase):
         # 띠(.page-header) 5 + 전표 입력 줄(.slip-header-form, DEC-266) 5 = 10
         self.assertEqual(css.count(':not(:is([data-band-exempt], [role="dialog"]) *)'), 10, "스코프 2개 × (4개 셀렉터 + margin 규칙)")
         pop = (FRONT / "components" / "data-grid" / "grid-column-settings.tsx").read_text(encoding="utf-8")
-        self.assertIn('data-band-exempt="" data-slot="grid-column-settings"', pop)
+        # JSX 속성이 여러 줄로 나뉘어도 같은 요소면 통과 — 마커 2개가 가까이 있는지로 확인.
+        self.assertIn('data-band-exempt=""', pop)
+        i = pop.index('data-band-exempt=""')
+        self.assertIn('data-slot="grid-column-settings"', pop[i : i + 200])
         # 엑셀 저장 필드 선택 팝오버(거래처·입고처)도 동일 (2026-08-28 18:20 지적)
         for rel in ("master/customer", "master/inbound-vendor"):
             src = (FRONT / "app" / "(app)" / rel / "page.tsx").read_text(encoding="utf-8")

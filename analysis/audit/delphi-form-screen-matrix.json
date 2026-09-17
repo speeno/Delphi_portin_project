@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T03:52:42.491519+00:00",
+  "generated_at": "2026-09-17T05:49:43.175424+00:00",
   "summary": {
     "registry_forms": 101,
     "legacy_dfm_subu_stems": 92,
@@ -617,7 +617,7 @@
       "modern_id": "Sobo44_inv",
       "folder": "Subu44",
       "route": "/inventory/status",
-      "modern_caption": "재고현황",
+      "modern_caption": "기간별재고원장",
       "legacy_form_object": "Sobo44",
       "legacy_caption": "발송비현황",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu44.dfm",
@@ -749,7 +749,7 @@
       "modern_id": "Sobo14_gbun",
       "folder": "Subu14",
       "route": "/master/book-category",
-      "modern_caption": "도서분류",
+      "modern_caption": "도서구분",
       "legacy_form_object": "Sobo14",
       "legacy_caption": "도서관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu14.dfm",

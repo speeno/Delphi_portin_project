@@ -1,21 +1,28 @@
-"""DateFieldYMD 수기 입력 한자리 인식 버그 회귀 가드 (2026-07-27).
+"""DateFieldYMD 수기 입력 회귀 가드 (2026-07-27 최초 / 2026-09-17 단일 입력 재작성).
 
-증상: 통계관리 도서별판매/거래처별판매 등 기본값이 채워진 날짜 필터에서
-`2026. 06. 30` 수기 입력 시 `2026-01-03` 류로 저장 — 월/일 첫 자리만 인식.
+원래 증상(2026-07-27)
+--------------------
+통계관리 도서별판매/거래처별판매 등 기본값이 채워진 날짜 필터에서 `2026. 06. 30` 수기
+입력 시 `2026-01-03` 류로 저장 — 월/일 첫 자리만 인식. 원인은 3분할(년/월/일) 구현이
+**부분 입력**을 정규화해 부모로 올리고("0"→"01"), 그 에코를 동기화 effect 가 세그먼트에
+되써서 다음 키가 잘린 것이었다.
 
-원인(도서물류관리프로그램/frontend/src/components/shared/date-field-ymd.tsx):
-1. emit() 이 세그먼트 1자리 시점부터 부분 입력을 정규화("0"→"01")해 부모로 올리고,
-2. 부모 value 에코를 동기화 useEffect 가 그대로 세그먼트에 되써서("0"→"01"),
-3. 다음 키가 onlyDigits(slice(0,2)) 에서 잘려("016"→"01") 두 번째 자리가 소실.
+현재 구현(2026-09 UI 통일)
+-------------------------
+컴포넌트가 «한 칸짜리 날짜 입력 + 달력»으로 재작성됐다. 같은 버그를 **구조적으로**
+막는 방식이 달라졌으므로, 문자열 검사도 새 불변식으로 갱신한다(요구사항은 동일 —
+수기로 연속 입력한 숫자가 중간에 잘리거나 되돌아가면 안 된다).
 
-수정 불변식(이 테스트가 지키는 것):
-- (A) 동기화 effect 는 자기 emit 의 에코를 스킵 — `composeEmitted(segsRef.current) === value`.
-- (B) 세그먼트 미러(segsRef) effect 가 동기화 effect 보다 먼저 선언(같은 커밋에서 먼저 실행).
-- (C) blur 정규화는 state 클로저가 아니라 blur 이벤트 대상 DOM 값(`e.currentTarget.value`)을
-  읽는다 — 월 2자리 완성 자동이동(월→일 focus)이 onChange 와 같은 이벤트에서 blur 를
-  동기 발생시키므로 클로저는 한 키 이전 값("0")일 수 있다.
-
-+ composeEmitted / emit 클램프 규칙 파이썬 미러 (TS 로직 동기 유지).
+불변식
+------
+- (A) 부분 입력은 부모로 올리지 않는다 — ``normalizeComplete`` 는 자리수가 다 차야 값을
+      돌려주고, ``handleChange`` 는 그때(또는 빈 값일 때)만 ``onChange`` 를 호출한다.
+      → 부분 입력 에코 자체가 발생하지 않는다.
+- (B) 부모 값 동기화 effect 는 ``value``/``monthOnly`` 가 바뀔 때만 표시를 덮어쓴다.
+      (입력 중 매 키마다 되쓰면 옛 버그가 되살아난다.)
+- (C) blur/Enter 커밋은 state 클로저가 아니라 **현재 표시 문자열**을 정규화한다
+      (``commit(raw = display)``) — 커밋 시점의 마지막 키까지 반영.
+- (D) 완성 시 정규화 규칙(월 1~12, 일 1~말일, 윤년 포함) 파이썬 미러로 동결.
 """
 
 from __future__ import annotations
@@ -36,21 +43,30 @@ COMPONENT = (
 )
 
 
-def compose_emitted(y: str, mo: str, d: str, month_only: bool = False):
-    """Mirror of ``composeEmitted`` — 부분 입력 포함 emit 정규형. 미완성이면 None."""
-    if len(y) != 4 or len(mo) < 1:
+def _max_day(year: int, month: int) -> int:
+    if month == 2:
+        leap = year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+        return 29 if leap else 28
+    return 30 if month in (4, 6, 9, 11) else 31
+
+
+def normalize_complete(raw: str, month_only: bool = False):
+    """Mirror of ``normalizeComplete`` — 자리수가 다 찼을 때만 (표시, 값)."""
+    digits = re.sub(r"\D", "", raw)[: 6 if month_only else 8]
+    if len(digits) != (6 if month_only else 8):
         return None
-    mm = min(12, max(1, int(mo) if mo.isdigit() and int(mo) else 1))
+    year_text = digits[:4]
+    year = int(year_text)
+    month = min(12, max(1, int(digits[4:6]) or 1))
+    month_text = f"{month:02d}"
     if month_only:
-        return f"{y}-{mm:02d}"
-    if len(d) < 1:
-        return None
-    dd = min(31, max(1, int(d) if d.isdigit() and int(d) else 1))
-    return f"{y}-{mm:02d}-{dd:02d}"
+        return f"{year_text}.{month_text}", f"{year_text}-{month_text}"
+    day = min(_max_day(year, month), max(1, int(digits[6:8]) or 1))
+    return f"{year_text}.{month_text}.{day:02d}", f"{year_text}-{month_text}-{day:02d}"
 
 
 class TestDateFieldYmdSource(TestCase):
-    """정적 소스 가드 — 에코 스킵/미러 선언 순서/blur DOM 값 사용."""
+    """정적 소스 가드 — 부분 입력 무-emit / 동기화 deps / 커밋 시 표시값 사용."""
 
     @classmethod
     def setUpClass(cls):
@@ -59,54 +75,67 @@ class TestDateFieldYmdSource(TestCase):
     def test_component_exists(self):
         self.assertTrue(COMPONENT.exists(), COMPONENT)
 
-    def test_sync_effect_skips_own_emit_echo(self):
-        # (A) 에코 스킵 가드가 동기화 effect 의 parseYmd 재주입보다 앞에 있어야 한다.
-        self.assertIn("composeEmitted(segsRef.current) === value", self.src)
-        skip_pos = self.src.index("composeEmitted(segsRef.current) === value")
-        # 스킵 이후에 나오는 parseYmd(value, ...) 재주입이 존재(동기화 자체는 유지)
-        self.assertIn("parseYmd(value, monthOnly)", self.src[skip_pos:])
+    def test_partial_input_is_not_emitted(self):
+        # (A) 완성 전에는 onChange 없음 — normalizeComplete 가 null 이면 표시만 갱신.
+        self.assertIn("if (digits.length !== (monthOnly ? 6 : 8)) return null;", self.src)
+        block = self.src[self.src.index("function handleChange("): self.src.index("function handleBlur(")]
+        self.assertIn("const normalized = normalizeComplete(digits, monthOnly);", block)
+        self.assertIn("if (normalized) {", block)
+        # 빈 입력(전체 지움)만 예외적으로 빈 값 emit.
+        self.assertIn('onChange("");', block)
+        # 부분 입력을 그대로 올리는 코드가 없어야 한다.
+        self.assertNotIn("onChange(digits)", block)
+        self.assertNotIn("onChange(nextDisplay)", block)
 
-    def test_segs_mirror_declared_before_sync_effect(self):
-        # (B) segsRef 미러 effect 가 value 동기화 effect 보다 먼저 선언 — effect 실행 순서 보장.
-        mirror = self.src.index("segsRef.current = { y, mo, d }")
-        sync = self.src.index("composeEmitted(segsRef.current) === value")
-        self.assertLess(mirror, sync)
-
-    def test_blur_normalize_reads_dom_value_not_state_closure(self):
-        # (C) onBlur 는 e.currentTarget.value 를 normalizeSeg 로 전달해야 한다.
+    def test_sync_effect_depends_on_value_only(self):
+        # (B) 표시 동기화는 value/monthOnly 변경에만 반응.
         self.assertRegex(
-            self.src, re.compile(r'normalizeSeg\(\s*"mo",\s*e\.currentTarget\.value\s*\)')
+            self.src,
+            re.compile(
+                r"useEffect\(\(\) => \{\s*setDisplay\(displayFromValue\(value, monthOnly\)\);\s*\}, \[value, monthOnly\]\);"
+            ),
         )
-        self.assertRegex(
-            self.src, re.compile(r'normalizeSeg\(\s*"d",\s*e\.currentTarget\.value\s*\)')
-        )
-        # 인자 없이 state 클로저만 읽는 구버전 시그니처 금지.
-        self.assertNotRegex(self.src, re.compile(r'normalizeSeg\(\s*"(?:mo|d)"\s*\)'))
+
+    def test_commit_reads_current_display_not_stale_state(self):
+        # (C) 커밋은 인자 기본값이 현재 표시 문자열 — blur/Enter 모두 같은 경로.
+        self.assertIn("function commit(raw = display): boolean {", self.src)
+        self.assertIn("const normalized = normalizeComplete(raw, monthOnly);", self.src)
+        self.assertIn("onBlur={handleBlur}", self.src)
+        self.assertIn("if (commit()) return;", self.src)
+
+    def test_single_input_with_calendar(self):
+        """한 칸 입력 + 달력 버튼(레거시 3분할에서 전환) — 숫자만 연속 입력 가능."""
+        self.assertIn('inputMode="numeric"', self.src)
+        self.assertIn('placeholder={monthOnly ? "YYYY.MM" : "YYYY.MM.DD"}', self.src)
+        self.assertIn('aria-label="달력 열기"', self.src)
+        self.assertIn("data-date-field", self.src)
 
 
-class TestComposeEmittedMirror(TestCase):
-    """composeEmitted 파이썬 미러 — 부분 입력 정규화 규칙 동결."""
-
-    def test_partial_month_zero_clamps_to_january(self):
-        # "0" 입력 순간의 emit 정규형 — 에코 판별의 근거값.
-        self.assertEqual(compose_emitted("2026", "0", "26"), "2026-01-26")
+class TestNormalizeCompleteMirror(TestCase):
+    """(D) 완성 시 정규화 규칙 동결 — 파이썬 미러."""
 
     def test_full_input_passthrough(self):
-        self.assertEqual(compose_emitted("2026", "06", "30"), "2026-06-30")
-        self.assertEqual(compose_emitted("2026", "12", "31"), "2026-12-31")
+        self.assertEqual(normalize_complete("2026.06.30")[1], "2026-06-30")
+        self.assertEqual(normalize_complete("20261231")[1], "2026-12-31")
 
-    def test_partial_day_single_digit(self):
-        self.assertEqual(compose_emitted("2026", "06", "3"), "2026-06-03")
+    def test_partial_returns_none(self):
+        self.assertIsNone(normalize_complete("2026.06.3"))
+        self.assertIsNone(normalize_complete("2026"))
+        self.assertIsNone(normalize_complete(""))
 
-    def test_clamps(self):
-        self.assertEqual(compose_emitted("2026", "13", "32"), "2026-12-31")
-        self.assertEqual(compose_emitted("2026", "00", "00"), "2026-01-01")
+    def test_clamps_month_and_day(self):
+        self.assertEqual(normalize_complete("20261332")[1], "2026-12-31")
+        self.assertEqual(normalize_complete("20260000")[1], "2026-01-01")
 
-    def test_incomplete_returns_none(self):
-        self.assertIsNone(compose_emitted("202", "06", "30"))
-        self.assertIsNone(compose_emitted("2026", "", "30"))
-        self.assertIsNone(compose_emitted("2026", "06", ""))
+    def test_clamps_day_to_month_end(self):
+        self.assertEqual(normalize_complete("20260231")[1], "2026-02-28")
+        self.assertEqual(normalize_complete("20240231")[1], "2024-02-29")  # 윤년
+        self.assertEqual(normalize_complete("20260431")[1], "2026-04-30")
 
     def test_month_only(self):
-        self.assertEqual(compose_emitted("2026", "6", "", month_only=True), "2026-06")
-        self.assertIsNone(compose_emitted("2026", "", "", month_only=True))
+        self.assertEqual(normalize_complete("2026.06", month_only=True)[1], "2026-06")
+        self.assertIsNone(normalize_complete("20260", month_only=True))
+
+    def test_display_form(self):
+        self.assertEqual(normalize_complete("20260630")[0], "2026.06.30")
+        self.assertEqual(normalize_complete("202606", month_only=True)[0], "2026.06")

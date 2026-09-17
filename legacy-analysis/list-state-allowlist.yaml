@@ -29,3 +29,8 @@ deferred_pages:
   - route_key: transactions.withholding
     reason: "원천징수 목록 — 필터 스냅샷 미도입, 후속 일괄 도입"
     until: "list-state 후속 사이클(2026-09)"
+  # 2026-09-17 — 페이저가 표 내부(pager={...}) 로 옮겨간 뒤 audit 이 list 로 인식하게 된 화면.
+  # 특별관리는 상세 라우트가 없는 2단(목록+편집) 단일 화면이라 「상세 갔다 복귀」 시나리오가 없다.
+  - route_key: master.special
+    reason: "특별관리 — 상세 라우트 없는 2단 편집 화면(복귀 시나리오 없음), 필터 스냅샷 미도입"
+    until: "list-state 후속 사이클(2026-10)"

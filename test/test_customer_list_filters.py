@@ -140,10 +140,10 @@ class CustomerListFilterTests(TestCase):
             self.assertIn("IFNULL(Gubun,'')<>%s", sql)
 
         # SELECT params = WHERE params + (limit, offset)
-        # WHERE: q,q, gubun, jubun, [X]%, 'X 거래종료' = 6개
+        # WHERE: q,q,q(코드/거래처명/대표자), gubun, jubun, [X]%, 'X 거래종료' = 7개
         self.assertEqual(select_params[-2:], (50, 0))
         self.assertEqual(list(select_params[:-2]), list(count_params))
-        self.assertEqual(len(count_params), 6)
+        self.assertEqual(len(count_params), 7)
 
     def test_where_consistency_select_vs_count(self) -> None:
         """SELECT 와 COUNT 의 WHERE params 는 항상 동일해야 페이징 total 이 맞다."""
@@ -151,6 +151,79 @@ class CustomerListFilterTests(TestCase):
         _, select_params = cap.select
         _, count_params = cap.count
         self.assertEqual(list(select_params[:-2]), list(count_params))
+
+
+class CustomerSearchRepNameTests(TestCase):
+    """검색어 q 가 코드/거래처명 + **대표자(Gposa)** 까지 LIKE 매칭하는지 (사용자 요청 2026-09-17).
+
+    대표자 컬럼은 테넌트 DDL 차이로 없을 수 있으므로, SHOW COLUMNS 메타에 ``gposa`` 가
+    있을 때만 검색 절에 붙어야 한다(없는 테넌트에서 1054 Unknown column 방지).
+    """
+
+    def test_q_includes_gposa(self) -> None:
+        cap = _run(q="홍길동")
+        select_sql, select_params = cap.select
+        count_sql, count_params = cap.count
+        for sql in (select_sql, count_sql):
+            self.assertIn(
+                "Gcode LIKE %s OR Gname LIKE %s OR REPLACE(Gposa,' ','') LIKE %s", sql
+            )
+        # 공백 없는 검색어는 3컬럼 동일 패턴
+        self.assertEqual(list(count_params), ["%홍길동%"] * 3)
+        self.assertEqual(select_params[-2:], (50, 0))
+
+    def test_gposa_match_ignores_spaces(self) -> None:
+        """「김 길 동」 입력도 「김길동」 저장 행과 매칭 (사용자 요청 2026-09-17).
+
+        컬럼은 ``REPLACE(col,' ','')``, 검색어는 공백 제거 패턴 — 코드/거래처명은 원문 유지.
+        """
+        cap = _run(q="김 길 동")
+        select_sql, select_params = cap.select
+        self.assertIn("REPLACE(Gposa,' ','') LIKE %s", select_sql)
+        where_params = list(select_params[:-2])
+        self.assertEqual(where_params, ["%김 길 동%", "%김 길 동%", "%김길동%"])
+        # COUNT 도 동일 (페이지 total 정합)
+        self.assertEqual(list(cap.count[1]), where_params)
+
+    def test_gposa_match_ignores_fullwidth_space(self) -> None:
+        cap = _run(q="김\u3000길동")
+        self.assertIn("%김길동%", list(cap.select[1]))
+
+    def test_q_skips_gposa_when_column_absent(self) -> None:
+        async def _meta_without_gposa(server_id: str):  # noqa: ARG001
+            cols = {"gubun", "jubun"}
+            return cols, {c: c.capitalize() for c in cols}
+
+        cap = _Capture()
+        with patch.object(masters_service, "execute_query", new=cap), \
+                patch.object(masters_service, "g1_geo_column_meta", new=_meta_without_gposa), \
+                patch.object(masters_service, "_gbun_code_name_map", new=_fake_gbun_map):
+            asyncio.run(
+                masters_service.list_customer_master(
+                    server_id="remote_1", q="홍길동", limit=50, offset=0
+                )
+            )
+        select_sql, _ = cap.select
+        self.assertIn("Gcode LIKE %s OR Gname LIKE %s", select_sql)
+        self.assertNotIn("Gposa", select_sql)
+
+    def test_excel_full_list_uses_same_search_cols(self) -> None:
+        """엑셀 일괄저장 목록(list_customer_master_full)도 동일 검색 컬럼(alias g)."""
+        cap = _Capture()
+        with patch.object(masters_service, "execute_query", new=cap), \
+                patch.object(masters_service, "g1_geo_column_meta", new=_fake_geo_meta), \
+                patch.object(masters_service, "g1_gbun_column_meta", new=_fake_geo_meta), \
+                patch.object(masters_service, "_gbun_code_name_map", new=_fake_gbun_map):
+            asyncio.run(
+                masters_service.list_customer_master_full(
+                    server_id="remote_1", q="홍길동", limit=50, offset=0
+                )
+            )
+        select_sql, _ = cap.select
+        self.assertIn(
+            "g.Gcode LIKE %s OR g.Gname LIKE %s OR REPLACE(g.Gposa,' ','') LIKE %s",
+            select_sql,
+        )
 
 
 class CustomerListResponseModelTests(TestCase):

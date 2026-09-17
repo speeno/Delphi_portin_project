@@ -25,7 +25,8 @@ class DataGridUnbounded(TestCase):
         self.assertIn("unbounded?: boolean;", src)
         self.assertIn("unbounded = false,", src)
         # DEC-213 — unbounded 면 카드가 스크롤 컨테이너가 아니어야 th/tfoot sticky 가 페이지 스크롤에 붙는다
-        self.assertIn('(unbounded\n            ? "w-full min-w-0 bg-card"', src)
+        # 배경이 토큰(table-body)으로 바뀌었을 뿐 — unbounded 면 스크롤 컨테이너가 아니어야 한다.
+        self.assertRegex(src, r'\(unbounded\n\s+\? "w-full min-w-0 bg-(card|table-body)"')
         self.assertIn(": `${LIST_TABLE_SCROLL_CARD_CLASS} overflow-y-auto ` +", src)
 
 
@@ -39,7 +40,14 @@ class BookSalesShowAll(TestCase):
 
     def test_show_all_loads_all_books_detail(self) -> None:
         """DEC-288 — 상단 펼치기(unbounded) 대신 하단 전 도서 상세."""
-        self.assertIn('storageKey="reports.book-sales"\n        disabled={!showAll && !detail}', self.src)
+        # 2026-09 UI 통일 — 분할 제어가 `disabled={!showAll && <선택없음>}` 에서
+        # `secondaryVisible={showAll || <선택있음>}` 으로 바뀌었다(전체 보기면 하단 전 건 상세,
+        # 선택 없으면 분할 없이 상단만 — 동작 요구는 동일). 두 표현 중 하나면 통과.
+        self.assertIn('storageKey="reports.book-sales"', self.src)
+        self.assertTrue(
+            "disabled={!showAll && !detail}" in self.src
+            or "secondaryVisible={showAll || detail !== null}" in self.src,
+        )
         self.assertNotIn("unbounded={showAll}", self.src)
         self.assertIn("bookSalesCustomersAll", self.src)
 

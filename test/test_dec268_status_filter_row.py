@@ -40,12 +40,15 @@ class FiltersBelowTitle(TestCase):
 
     def test_screens_do_not_opt_out(self) -> None:
         """전 화면 규칙이므로 `filtersBelow={false}` 로 되돌린 화면이 없어야 한다(예외는 여기에 명시)."""
-        opted_out = [
-            str(p)
-            for p in sorted(FRONT.rglob("*.tsx"))
+        # 예외: 거래처거래원장 — 2026-09 UI 통일의 대표(레퍼런스) 화면. 기간·거래처·조회를
+        # 제목 줄 오른쪽 부착형 필드로 배치한 기준 레이아웃이라 필터를 아래로 내리지 않는다.
+        allowed = {"app/(app)/ledger/customer/page.tsx"}
+        opted_out = sorted(
+            str(p.relative_to(FRONT))
+            for p in FRONT.rglob("*.tsx")
             if "filtersBelow={false}" in p.read_text(encoding="utf-8")
-        ]
-        self.assertEqual(opted_out, [], opted_out)
+        )
+        self.assertEqual([p for p in opted_out if p not in allowed], [], opted_out)
 
     def test_filters_stay_inside_the_band(self) -> None:
         """필터는 띠 밖으로 나가지 않는다 — .page-header 인라인 라벨 CSS·Enter 스코프 유지."""
@@ -58,11 +61,16 @@ class FiltersBelowTitle(TestCase):
     def test_enter_stop_order_unchanged(self) -> None:
         src = _read("components/transactions/transaction-status-screen.tsx")
         block = src[src.index("const FILTER_STOP_IDS") : src.index("];", src.index("const FILTER_STOP_IDS"))]
+        # 2026-09 — 도서구분(Sobo24.Panel102) 라디오그룹은 운영 화면에서 숨기고 항상 전체 조회
+        # (화면 주석 참조). 나머지 Enter 스톱 순서는 그대로 유지돼야 한다.
         for lid in (
             "Sobo24.Edit104", "Sobo24.Edit106", "Sobo24.Edit109",
-            "Sobo24.Edit101", "Sobo24.Edit102", "Sobo24.Panel102", "Sobo24.dxButton1",
+            "Sobo24.Edit101", "Sobo24.Edit102", "Sobo24.dxButton1",
         ):
             self.assertIn(lid, block, lid)
+        self.assertNotIn("Sobo24.Panel102", block, "숨긴 필터는 Enter 스톱에서도 빠진다")
+        screen = _read("components/transactions/transaction-status-screen.tsx")
+        self.assertIn('const eStoreKind: OutboundStatusStoreKind = "ALL";', screen)
 
 
 if __name__ == "__main__":

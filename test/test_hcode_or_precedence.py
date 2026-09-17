@@ -65,7 +65,10 @@ class BookAutocompleteScopeTests(IsolatedAsyncioTestCase):
         with patch.object(ms, "execute_query", side_effect=fake_exec):
             await ms.search_products(server_id="s", q="341", scope_hcode="5019")
         sql = " ".join(captured["sql"].split())
-        self.assertIn("WHERE (Gcode LIKE %s OR Gname LIKE %s) AND Hcode=%s", sql)
+        # 제목은 공백 무시 매칭(2026-09-17) — 가드 의도는 OR 그룹 괄호 + Hcode 스코프.
+        self.assertIn(
+            "WHERE (Gcode LIKE %s OR REPLACE(Gname,' ','') LIKE %s) AND Hcode=%s", sql
+        )
         self.assertIn("5019", captured["params"])
 
 

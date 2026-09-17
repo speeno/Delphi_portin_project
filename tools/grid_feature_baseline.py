@@ -22,6 +22,7 @@ CI(테스트)에서 **어느 화면이든 지표가 기준선보다 줄면 실�
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -29,6 +30,10 @@ ROOT = Path(__file__).resolve().parents[1]
 FRONT = ROOT / "도서물류관리프로그램" / "frontend" / "src"
 BASELINE = ROOT / "analysis" / "audit" / "grid-feature-baseline.json"
 
+# 2026-09-17 — ``data_grid`` 는 정규식으로 센다. 종전 부분문자열 ``"<DataGrid"`` 는
+# ``<DataGridPager`` 까지 함께 세어 "표 개수" 를 부풀렸고, 페이저를 표 안(footer, ``pager={``)
+# 으로 합치는 리팩터링이 표가 사라진 것처럼 보이게 했다(측정 버그). 페이저 유무는 ``pager`` 지표가
+# 따로 지킨다. 나머지 지표는 부분문자열 그대로.
 METRICS = {
     "data_grid": "<DataGrid",
     "column_settings": "<GridColumnSettings",
@@ -41,6 +46,16 @@ METRICS = {
 }
 
 
+_DATA_GRID_RE = re.compile(r"<DataGrid(?![A-Za-z])")
+
+
+def _count(src: str, key: str, needle: str) -> int:
+    """지표 1개 계수 — data_grid 만 정규식(하위 컴포넌트명 제외), 나머지는 부분문자열."""
+    if key == "data_grid":
+        return len(_DATA_GRID_RE.findall(src))
+    return src.count(needle)
+
+
 def scan() -> dict[str, dict[str, int]]:
     out: dict[str, dict[str, int]] = {}
     files = sorted(list((FRONT / "app" / "(app)").glob("**/*.tsx")) + list((FRONT / "components").glob("**/*.tsx")))
@@ -49,7 +64,7 @@ def scan() -> dict[str, dict[str, int]]:
         if rel.startswith("components/data-grid/"):
             continue  # 공용 구현 자체는 제외
         src = f.read_text(encoding="utf-8")
-        counts = {k: src.count(v) for k, v in METRICS.items()}
+        counts = {k: _count(src, k, v) for k, v in METRICS.items()}
         if any(counts.values()):
             out[rel] = counts
     return out

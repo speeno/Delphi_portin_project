@@ -45,7 +45,9 @@ class PrintOnThisPcTests(TestCase):
 
     def test_button_present_and_labelled(self) -> None:
         self.assertIn('data-legacy-id="Sobo24.PrintOnThisPc"', self.src)
-        self.assertIn("거래 명세서 출력", self.src)
+        # 2026-09 — 입고축에도 같은 버튼을 쓰게 되어 라벨이 축별 템플릿이 됐다
+        # (출고=거래 명세서 / 입고=입고 명세서). 출력 자체는 상태 전이 없는 읽기 동작.
+        self.assertIn('`${isOutbound ? "거래" : "입고"} 명세서 출력 (${checkedKeys.size}건)`', self.src)
 
     def test_button_shown_for_any_selection(self) -> None:
         """상태 무관 — 선택이 1건이라도 있으면 노출(바로출고/재출고는 상태별 카운트 조건)."""
