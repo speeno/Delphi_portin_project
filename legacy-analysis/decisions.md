@@ -6793,3 +6793,30 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **검증** — `test/test_dec290_adjustment_reflects_in_ledger.py` 13건(조정 행 노출·라벨 폴백·
   부호·running·정렬·요약 동원천·Hcode 바인딩·라벨 보존 + 화면 4건 정적 가드),
   DEC-166 통합 가드 기대값 갱신(기간 조정이 반품금액 칸에 들어간다), tsc·eslint 통과.
+
+### DEC-291 — 마스터 검색: 거래처 대표자 포함 + 검색어 공백 무시 (2026-09-17)
+
+- **배경** — 사용자 요청 두 건: ①「거래처목록에 검색어로 대표자 명도 검색 키워드로 사용될 수
+  있도록」 ②「대표자명 검색시 공백은 무시하고 검색될 수 있도록 — "김 길 동"도 "김길동"과 같이」,
+  이어서 ③「도서검색 시에도 공백을 무시하고」.
+- **결정**
+  - 거래처 목록(`list_customer_master`)·엑셀 목록(`list_customer_master_full`)의 `q` 는
+    `Gcode`/`Gname` 에 더해 **대표자 `G1_Ggeo.Gposa`**(DEC-149)도 LIKE 매칭한다.
+    Gposa 가 없는 테넌트가 있을 수 있으므로 서비스 레이어 `if` 가 아니라
+    `g1_geo_column_meta`(SHOW COLUMNS) 메타로 **있을 때만** 검색 절에 붙인다(DEC-033 §DDL drift).
+  - **공백 무시 매칭** — 대표자와 도서명(`G4_Book.Gname`)은 컬럼 `REPLACE(col,' ','')` 와
+    공백 제거 검색어를 비교한다. 검색어 쪽은 `_strip_all_spaces`(파이썬 `str.split()` 이라
+    전각 공백 U+3000 포함)로 전 공백을 제거한 뒤 `_likify`.
+    공백 제거 매칭은 원문 매칭의 **상위집합**(원문으로 걸리던 행은 공백 제거 후에도 걸린다)이라
+    원문 조건을 대체해도 결과가 줄지 않는다 — 조건 수를 늘리지 않으려고 대체 방식을 택했다.
+  - `REPLACE` 는 MySQL 3.22+ 내장이라 4서버 공통(코드 분기 0). EUC-KR 2바이트 문자에는
+    0x20 이 끼지 않아 바이트 안전하다(선례: `find_book_by_isbn` 의 ISBN 하이픈/공백 제거).
+  - 적용 경로 — 거래처 목록/엑셀 목록, 도서 목록(`list_books`), 도서코드(`list_book_codes`),
+    도서 인라인 자동완성(`search_products`). 코드/ISBN 은 원문 패턴 유지(공백이 없는 값).
+  - `_build_master_where(search_cols=...)` 원소로 `(표현식, 전용패턴)` 튜플을 허용해
+    컬럼마다 다른 패턴을 바인딩한다(기존 문자열 원소는 그대로 동작 — 호출부 무변경).
+- **화면** — 거래처 목록 검색 placeholder/aria-label "코드, 거래처명, 대표자",
+  거래처 검색 팝업 안내문도 동일 문구. 팝업은 같은 엔드포인트라 자동 반영.
+- **검증** — `test/test_master_search_ignores_spaces.py`(신규 8건: 공백 제거 헬퍼·대표자·
+  도서 목록/도서코드/자동완성·SELECT↔COUNT 정합), `test_customer_list_filters.py` 확장
+  (대표자 컬럼 부재 테넌트는 검색 절에서 제외), `test_hcode_or_precedence.py` 표현식 갱신.
