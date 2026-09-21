@@ -57,6 +57,23 @@ class InboundSidebarLayoutTest(TestCase):
         self.assertNotIn("Sobo25_status_detail", ids)
         self.assertNotIn("Sobo25_status_summary", ids)
 
+    def test_hidden_menus_stay_hidden(self) -> None:
+        """2026-09-22 사용자 요청 — 입고명세서·기간별 입고내역서는 사이드바에서 감춘다.
+
+        화면·라우트·API 는 그대로 살아 있고(직접 URL 접근 가능) 레지스트리 플래그만 껐다.
+        **재노출 요청 시**: 두 엔트리의 `hiddenFromMenu`/`hiddenReason` 두 줄을 지우고
+        이 테스트도 함께 되돌린다(레이아웃 순서는 건드리지 않았으므로 자리는 그대로 복구된다).
+        """
+        for fid in ("Sobo22_inbound_statement", "Sobo57"):
+            with self.subTest(form_id=fid):
+                m = re.search(
+                    r'id:\s*"' + re.escape(fid) + r'"[\s\S]{0,2500}?\n  \},',
+                    self.src,
+                )
+                self.assertIsNotNone(m, f"{fid} 레지스트리 엔트리를 찾지 못했습니다.")
+                self.assertIn("hiddenFromMenu: true", m.group(0), f"{fid} 는 메뉴에서 감춘 상태")
+                self.assertIn("hiddenReason:", m.group(0), f"{fid} 감춤 사유 필수")
+
     def test_sidebar_layouts_map_registers_inbound(self) -> None:
         block = re.search(
             r"export const SIDEBAR_LAYOUTS:[\s\S]*?=\s*\{(?P<body>[\s\S]*?)\};",
