@@ -116,9 +116,17 @@ class InboundLineAxisTest(unittest.TestCase):
         self.assertIn('afterBookSelect: "grat1"', out)
 
     def test_bname_is_display_only(self) -> None:
-        """도서명은 표기 전용 — 입력/이동 대상이 아닌 span."""
+        """도서명은 표기 전용 — 입력 요소가 아니라 **상자 모양 span**.
+
+        2026-09-22 사용자 요청으로 편집칸과 같은 상자(테두리+배경)로 그리되, 입력 요소가 아니어야
+        한다(입력으로 바꾸면 Enter/Tab 이동 순서에 끼어들어 키보드 리듬이 깨진다). ISBN 도 동형.
+        """
         self.assertIn('case "product_name":', self.grid)
-        self.assertIn('<span className="text-muted-foreground">{line.product_name ?? ""}</span>', self.grid)
+        block = self.grid[self.grid.index('case "product_name":') : self.grid.index('case "grat1":')]
+        self.assertIn('{line.product_name ?? ""}', block)
+        self.assertIn("rounded-md border border-input bg-background", block, "편집칸과 같은 상자")
+        self.assertNotIn("<Input", block, "도서명·ISBN 은 입력 요소가 아니다")
+        self.assertIn('{line.isbn ?? ""}', block)
 
     def test_grid_arrow_nav_wired(self) -> None:
         """↑/↓/←/→ 는 셀 이동(DEC-168 공통 헬퍼) — 수량 스피너 ±1 아님."""
