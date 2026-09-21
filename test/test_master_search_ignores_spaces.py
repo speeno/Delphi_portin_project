@@ -139,5 +139,41 @@ class BookTitleTests(TestCase):
         self.assertEqual(select_params, count_params)
 
 
+class InboundVendorNameTests(TestCase):
+    """입고처명도 공백 무시 — 신규 입고 접수의 「입고처명」 칸(인라인) + 입고처 검색 팝업/목록."""
+
+    def test_inline_autocomplete_spaceless(self) -> None:
+        cap = _capture(
+            lambda: masters_service.search_inbound_vendors(
+                server_id="remote_1", q="중원 아트", limit=10
+            )
+        )
+        sql, params = cap.select
+        self.assertIn("REPLACE(Gname,' ','') LIKE %s", sql)
+        self.assertIn("%중원아트%", params)
+        # 코드는 원문 패턴 그대로
+        self.assertIn("Gcode LIKE %s", sql)
+        self.assertIn("%중원 아트%", params)
+
+    def test_vendor_list_spaceless(self) -> None:
+        async def _fake_ggwo_meta(server_id: str):  # noqa: ARG001
+            cols = {"gcode", "gname", "hcode", "gubun", "jubun"}
+            return cols, {c: c.capitalize() for c in cols}
+
+        cap = _Capture()
+        with patch.object(masters_service, "execute_query", new=cap), \
+                patch.object(masters_service, "g2_ggwo_column_meta", new=_fake_ggwo_meta), \
+                patch.object(masters_service, "g2_gbun_column_meta", new=_fake_ggwo_meta), \
+                patch.object(masters_service, "_g2_gbun_code_name_map", new=_fake_gbun_map):
+            asyncio.run(
+                masters_service.list_inbound_vendors(
+                    server_id="remote_1", q="중원 아트", limit=10, offset=0
+                )
+            )
+        sql, params = cap.select
+        self.assertIn("REPLACE(g.Gname,' ','') LIKE %s", sql)
+        self.assertIn("%중원아트%", params)
+
+
 if __name__ == "__main__":
     main()

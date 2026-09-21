@@ -39,6 +39,45 @@ class SalesStatementListPanelsStaticTest(TestCase):
             _read(FRONT / "components" / "transactions" / "sales-statement-memo-panel.tsx"),
         )
 
+    def test_reference_panel_is_collapsible(self) -> None:
+        """거래처 참조 = 접었다 펼 수 있는 패널 (사용자 요청 2026-09-22).
+
+        - 제목 줄이 토글 버튼(aria-expanded/aria-controls)이고, 접힘 상태는 화면별
+          localStorage 키(`bls.ref-panel.<storageKey>`)로 기억한다(기본 펼침).
+        - 접어도 재고·거래처명 요약은 제목 줄에 남는다(참조 값을 완전히 잃지 않게).
+        """
+        ref = _read(FRONT / "components" / "transactions" / "sales-statement-reference-panel.tsx")
+        self.assertIn("aria-expanded={open}", ref)
+        self.assertIn("aria-controls={bodyId}", ref)
+        self.assertIn("`bls.ref-panel.${storageKey}`", ref)
+        self.assertIn("storageKey = \"reference\"", ref)
+        # 접힘 시 본문 미렌더 + 요약 유지
+        self.assertIn("{open ? (", ref)
+        self.assertIn("{!open && custName ?", ref)
+        head = ref[ref.index("거래처 참조") - 1200 : ref.index('id={bodyId}')]
+        self.assertIn('data-legacy-id="Sobo21.Label104"', head, "재고는 제목 줄(접어도 보임)")
+        # 화면마다 따로 기억 — 4개 사용처가 각자 키를 넘긴다.
+        for rel, key in (
+            ("app/(app)/inbound/receipts/new/page.tsx", "inbound.receipts.new"),
+            ("app/(app)/outbound/orders/new/page.tsx", "outbound.orders.new"),
+            ("app/(app)/transactions/sales-statement/page.tsx", "sales-statement.list"),
+            ("app/(app)/transactions/sales-statement/[orderKey]/page.tsx", "sales-statement.detail"),
+        ):
+            with self.subTest(screen=rel):
+                self.assertIn(f'storageKey="{key}"', _read(FRONT / rel))
+
+    def test_reference_panel_layout_is_compact(self) -> None:
+        """레이아웃 최적화 — 한 줄 입력은 촘촘한 다열 그리드, 메모는 전폭(2026-09-22).
+
+        실측(CSS 하네스): 1512px 폭에서 8개 단일 입력이 3열 3줄로 들어가고 메모는 전폭.
+        종전에는 sm:col-span-2 가 붙은 필드들이 한 줄씩 차지해 빈 칸이 크게 남았다.
+        """
+        ref = _read(FRONT / "components" / "transactions" / "sales-statement-reference-panel.tsx")
+        self.assertIn("sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4", ref)
+        self.assertNotIn('className="space-y-1 sm:col-span-2"', ref, "단일 입력은 열 병합 없이 채운다")
+        # 메모/미리보기는 전폭 + 라벨 결합형 예외(표식은 조상에 — CSS 는 자손만 제외한다).
+        self.assertEqual(ref.count('className="col-span-full" data-attached-field-exempt'), 2)
+
     def test_router_customer_preview_before_detail(self) -> None:
         router = _read(BACKEND / "app" / "routers" / "transactions.py")
         prev = router.find("/sales-statement/customer-preview")

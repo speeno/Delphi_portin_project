@@ -27,20 +27,47 @@ def _axis_block(src: str, name: str) -> str:
 
 
 class InboundNewReceiptHeaderTest(unittest.TestCase):
-    """§1 헤더 = 거래 일자 · 입고처 코드 · 입고처(보조 텍스트)."""
+    """§1 헤더 = 거래 일자 · 입고처명(이름/코드 검색) · 선택 입고처명(같은 줄 보조 텍스트)."""
 
     def setUp(self) -> None:
         self.src = PAGE.read_text(encoding="utf-8")
 
     def test_header_fields(self) -> None:
         self.assertIn(">거래 일자<", self.src)
-        self.assertIn(">입고처 코드<", self.src)
-        # 상대명은 출고와 같은 꼴 — 입력칸 아래 「입고처명(코드)」 보조 텍스트(Edit23 id 보존).
+        # 2026-09-22 사용자 지정 — 라벨은 「입고처명」(이름으로 찾는 칸), 코드 입력도 그대로 된다.
+        self.assertIn(">입고처명<", self.src)
+        self.assertNotIn(">입고처 코드<", self.src)
+        self.assertIn('placeholder={user?.server_id ? "입고처명 또는 코드" : "서버 선택 후 사용"}', self.src)
+        self.assertIn("useInlineAutocomplete", self.src, "입고처명 입력 시 자동완성")
+        # 선택된 입고처명은 입력칸과 **같은 줄** 끝(data-field-suffix) — Edit23 id 보존.
         self.assertIn('data-legacy-id="Edit23"', self.src)
+        self.assertIn("data-field-suffix", self.src)
+        self.assertNotIn("{gname}({gcode})\n", self.src)
         # 종전 표기/불필요 항목 제거 — '입고 일자', 붙여쓴 '거래일자', 지사 입력칸.
         self.assertNotIn("입고 일자", self.src)
         self.assertNotIn(">거래일자<", self.src)
         self.assertNotIn('htmlFor="gjisa"', self.src)
+
+    def test_suffix_css_keeps_one_line(self) -> None:
+        """라벨 결합형 필드에서 보조 텍스트는 **3열 같은 줄**(2026-09-22 사용자 요청).
+
+        기본 규칙은 라벨 외 자식을 모두 2열에 쌓아 이름이 입력칸 아래 줄로 내려간다.
+        `data-field-suffix` opt-in 규칙이 빠지면 두 줄로 되돌아간다.
+        실측 검증: CSS 하네스에서 라벨|입력|이름 한 줄(필드 높이 38px) 확인(2026-09-22).
+        """
+        css = (FRONTEND / "src" / "app" / "globals.css").read_text(encoding="utf-8")
+        i = css.index("[data-field-suffix])")
+        self.assertIn("grid-template-columns: max-content minmax(0, 1fr) max-content;", css[i : i + 400])
+        j = css.index("> [data-field-suffix] {")
+        block = css[j : j + 400]
+        self.assertIn("grid-column: 3;", block)
+        self.assertIn("grid-row: 1;", block)
+        # 일반 규칙(> *:not([data-slot="label"]) → 2열)과 같은 특이도 접두가 있어야 뒤 규칙이 이긴다.
+        self.assertIn(
+            ':not(:has(> :is(input[type="checkbox"], input[type="radio"], input[type="file"], '
+            '[data-slot="checkbox"], [role="switch"]))) > [data-field-suffix]',
+            css,
+        )
 
     def test_uses_shared_skeleton_and_inbound_axis(self) -> None:
         """DEC-239 — 출고 신규와 같은 골격(SlipEntryLayout) + 같은 라인 편집기(입고 축)."""
