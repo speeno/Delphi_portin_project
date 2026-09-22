@@ -34,8 +34,8 @@ class StatusScreenGrids(TestCase):
     def test_column_settings_for_every_axis(self) -> None:
         """좌측 전표 표의 컬럼 설정이 isOutbound 블록 밖에 있어야 입고·신간 현황에서도 보인다."""
         i = self.src.index("hidden={detailPrefs.hidden}")
-        before = self.src[self.src.rindex("{isOutbound && (", 0, i): i]
-        # isOutbound 블록은 컬럼 설정 앞에서 닫혀 있어야 한다
+        # 출고 전용 배치 블록(DEC-302 부터 showDispatch = isOutbound && !noDispatch)은 컬럼 설정 앞에서 닫혀야 한다
+        before = self.src[self.src.rindex("{showDispatch && (", 0, i): i]
         self.assertIn("                )}\n                {/* 컬럼 표시/폭/순서 설정 — 모든 축", before)
         self.assertEqual(self.src.count("hidden={detailLinePrefs.hidden}"), 1)
         self.assertEqual(self.src.count("hidden={rollupPrefs.hidden}"), 1)

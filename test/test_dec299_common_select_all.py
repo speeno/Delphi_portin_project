@@ -90,8 +90,8 @@ class OutboundStatusSlimFilters(TestCase):
     def test_outbound_axis_is_slim(self) -> None:
         i = self.src.index("export const OUTBOUND_STATUS_AXIS")
         self.assertIn("slimFilters: true,", self.src[i : self.src.index("};", i)])
-        # 다른 축(입고·신간·반품·폐기)은 종전 검색 줄 유지.
-        self.assertEqual(self.src.count("slimFilters: true,"), 1)
+        # 간소화 축 = 출고(DEC-299) + 반품(DEC-302). 입고·신간·폐기는 종전 검색 줄 유지.
+        self.assertEqual(self.src.count("slimFilters: true,"), 2)
 
     def test_bcode_jubun_and_gubun_hidden_and_not_sent(self) -> None:
         self.assertIn("{!axis.slimFilters && (\n          <>", self.src)
@@ -99,6 +99,28 @@ class OutboundStatusSlimFilters(TestCase):
         self.assertIn('const eJubun = axis.slimFilters ? "" : (overrides.jubun ?? jubun);', self.src)
         gubun = self.src.index('<span className="text-xs text-muted-foreground">거래구분</span>')
         self.assertIn("{!axis.slimFilters && (", self.src[gubun - 300 : gubun])
+
+
+
+class ReturnsStatusMatchesOutbound(TestCase):
+    """DEC-302 — 반품 현황: 도서코드·전표·거래구분·바로출고 불필요, 출고·입고 현황과 같은 구성 (2026-09-22)."""
+
+    def setUp(self) -> None:
+        self.src = _src(STATUS)
+
+    def test_returns_axis_slim_and_no_dispatch(self) -> None:
+        i = self.src.index("export const RETURNS_STATUS_AXIS")
+        block = self.src[i : self.src.index("};", i)]
+        self.assertIn("slimFilters: true,", block)
+        self.assertIn("noDispatch: true,", block)
+
+    def test_dispatch_buttons_gated_by_show_dispatch(self) -> None:
+        self.assertIn("const showDispatch = isOutbound && !axis.noDispatch;", self.src)
+        for lid in ("Sobo24.BatchImmediateDispatch", "Sobo24.BatchReprint", "Sobo24.ImmediateDispatch"):
+            j = self.src.index(f'data-legacy-id="{lid}"')
+            gate = self.src.rfind("showDispatch", 0, j)
+            self.assertNotEqual(gate, -1, lid)
+            self.assertLess(j - gate, 1600, f"{lid} 는 showDispatch 조건 안에 있어야 한다")
 
 
 if __name__ == "__main__":
