@@ -116,17 +116,21 @@ class InboundLineAxisTest(unittest.TestCase):
         self.assertIn('afterBookSelect: "grat1"', out)
 
     def test_bname_is_display_only(self) -> None:
-        """도서명은 표기 전용 — 입력 요소가 아니라 **상자 모양 span**.
+        """도서명·ISBN 은 표기 전용 — **읽기 전용 입력 컨트롤**(DEC-300, 2026-09-22 사용자 재요청).
 
-        2026-09-22 사용자 요청으로 편집칸과 같은 상자(테두리+배경)로 그리되, 입력 요소가 아니어야
-        한다(입력으로 바꾸면 Enter/Tab 이동 순서에 끼어들어 키보드 리듬이 깨진다). ISBN 도 동형.
+        「입력 컨트롤 기반」·「입력박스 내에 표시」 요청으로 상자 모양 span → 다른 칸과 같은 `<Input>`.
+        단 readOnly + tabIndex=-1 이어야 한다 — Tab·Enter 이동(focus-advance/line-grid-focus)과 방향키 셀 이동
+        (grid-arrow-nav)이 모두 readOnly·tabIndex=-1 을 건너뛰므로 키보드 리듬이 그대로다.
         """
         self.assertIn('case "product_name":', self.grid)
         block = self.grid[self.grid.index('case "product_name":') : self.grid.index('case "grat1":')]
-        self.assertIn('{line.product_name ?? ""}', block)
-        self.assertIn("rounded-md border border-input bg-background", block, "편집칸과 같은 상자")
-        self.assertNotIn("<Input", block, "도서명·ISBN 은 입력 요소가 아니다")
-        self.assertIn('{line.isbn ?? ""}', block)
+        self.assertEqual(block.count("<Input"), 2, "도서명·ISBN 둘 다 입력 컨트롤")
+        # 속성 쌍(readOnly 다음 줄 tabIndex={-1}) — 직접 입력 불가 + Tab·Enter·방향키 흐름 밖.
+        self.assertEqual(len(re.findall(r"\n\s+readOnly\n\s+tabIndex=\{-1\}", block)), 2)
+        self.assertIn('value={line.product_name ?? ""}', block)
+        self.assertIn('value={line.isbn ?? ""}', block)
+        nav = NAV_TS.read_text(encoding="utf-8")
+        self.assertIn('if ((n as HTMLInputElement).readOnly && n.getAttribute("role") !== "combobox") return false;', nav)
 
     def test_grid_arrow_nav_wired(self) -> None:
         """↑/↓/←/→ 는 셀 이동(DEC-168 공통 헬퍼) — 수량 스피너 ±1 아님."""

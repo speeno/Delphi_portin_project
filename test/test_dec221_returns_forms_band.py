@@ -28,8 +28,10 @@ class ReturnsFormsHeaderInBand(TestCase):
         self.assertIn('headerFormLegacyId="Sobo23.Panel201"', (FRONT / "returns/receipts/new/page.tsx").read_text(encoding="utf-8"))
         # DEC-275 — 헤더 상대처 = 거래처(Edit104, Panel104) + 출판사(Edit107, 프로필 select 만). Edit203 은 dfm 상
         # Panel003 전화번호2 라 폐기.
-        for lid in ("Sobo23.Edit202", "Sobo23.Edit104", "Sobo23.Edit107", "Sobo23.Edit204", "Sobo23.Edit206"):
+        for lid in ("Sobo23.Edit202", "Sobo23.Edit104", "Sobo23.Edit107", "Sobo23.Edit204"):
             self.assertIn(lid, band, lid)
+        # DEC-300 — 비고(Edit206)는 신규 입력에서 제거(사용자 요청 2026-09-22). 상세 화면에서 편집.
+        self.assertNotIn("Sobo23.Edit206", band)
 
     def test_no_header_card_below_band(self) -> None:
         for rel in ("returns/scrap/new/page.tsx", "returns/receipts/new/page.tsx"):
