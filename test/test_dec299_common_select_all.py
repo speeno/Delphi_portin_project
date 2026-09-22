@@ -90,8 +90,8 @@ class OutboundStatusSlimFilters(TestCase):
     def test_outbound_axis_is_slim(self) -> None:
         i = self.src.index("export const OUTBOUND_STATUS_AXIS")
         self.assertIn("slimFilters: true,", self.src[i : self.src.index("};", i)])
-        # 간소화 축 = 출고(DEC-299) + 반품(DEC-302). 입고·신간·폐기는 종전 검색 줄 유지.
-        self.assertEqual(self.src.count("slimFilters: true,"), 2)
+        # 간소화 축 = 출고(DEC-299) + 반품(DEC-302) + 폐기(DEC-305). 입고·신간은 종전 검색 줄 유지.
+        self.assertEqual(self.src.count("slimFilters: true,"), 3)
 
     def test_bcode_jubun_and_gubun_hidden_and_not_sent(self) -> None:
         self.assertIn("{!axis.slimFilters && (\n          <>", self.src)
