@@ -216,11 +216,13 @@ class MastersExcelExportRouterTests(TestCase):
         with patch.object(masters_service, "list_inbound_vendors", side_effect=_make_fake_list(dataset)):
             r = self.client.get(f"/api/v1/masters/exports/inbound-vendors.xlsx?serverId={_SID}")
         ws, header = _read_sheet(self._assert_xlsx(r))
-        self.assertEqual(header[:5], ["입고처구분", "입고처지역", "입고처코드", "입고처코드2", "입고처명"])
-        for h in ("담당자", "핸드폰번호", "한도액", "한도", "계산서 거래처명", "정지사유", "전화번호", "주소1"):
+        # DEC-294 — 순서·헤더 = 입고처관리 목록(약식 라벨), 화면 밖 정지사유·코드2·주소1/2 는 끝.
+        self.assertEqual(header[:5], ["지역", "구분", "정지", "코드", "입고처명"])
+        self.assertEqual(header[-4:], ["정지사유", "입고처코드2", "주소1", "주소2"])
+        for h in ("담당자1", "담당자2", "핸드폰", "한도액", "한도", "계산서", "E-mail", "전화", "주소"):
             self.assertIn(h, header)
-        self.assertNotIn("코드", header)  # 구 8컬럼 헤더 폐기(PK 헤더 = 입고처코드)
-        self.assertEqual(ws.cell(row=2, column=header.index("담당자") + 1).value, "홍길동")
+        self.assertNotIn("입고처코드", header)  # PK 헤더 = 코드(구 헤더는 업로드 별칭)
+        self.assertEqual(ws.cell(row=2, column=header.index("담당자1") + 1).value, "홍길동")
         self.assertEqual(ws.cell(row=2, column=header.index("한도액") + 1).value, 500)
 
     def test_inbound_vendor_export_fields_subset_keeps_pk(self) -> None:
@@ -231,17 +233,18 @@ class MastersExcelExportRouterTests(TestCase):
                 f"/api/v1/masters/exports/inbound-vendors.xlsx?serverId={_SID}&fields=gpper,gname"
             )
         _ws, header = _read_sheet(self._assert_xlsx(r))
-        self.assertEqual(header, ["입고처코드", "입고처명", "담당자"])
+        self.assertEqual(header, ["코드", "입고처명", "담당자1"])
 
     def test_inbound_vendor_fields_catalog(self) -> None:
         r = self.client.get("/api/v1/masters/exports/inbound-vendor-fields")
         self.assertEqual(r.status_code, 200, r.text)
         by_key = {f["key"]: f["label"] for f in r.json()["fields"]}
-        self.assertEqual(by_key.get("gpper"), "담당자")
+        self.assertEqual(by_key.get("gpper"), "담당자1")
         self.assertEqual(by_key.get("gssum"), "한도액")
-        self.assertEqual(by_key.get("gphon"), "핸드폰번호")
+        self.assertEqual(by_key.get("gphon"), "핸드폰")
         self.assertEqual(by_key.get("grat7"), "한도")
-        self.assertEqual(by_key.get("name2"), "계산서 거래처명")
+        self.assertEqual(by_key.get("name2"), "계산서")
+        self.assertEqual(by_key.get("manager2"), "담당자2")
         self.assertEqual(by_key.get("email"), "정지사유")
 
     def test_author_export(self) -> None:

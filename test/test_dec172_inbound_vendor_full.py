@@ -289,21 +289,23 @@ class ModelAndCatalogGuard(TestCase):
 
         keys = [key_of(k) for _h, k in INBOUND_VENDOR_FULL_COLUMNS]
         labels = dict((key_of(k), h) for h, k in INBOUND_VENDOR_FULL_COLUMNS)
-        # 확정 표시 순서. DEC-234 — 전화/팩스는 합본 가상 키(gtel/gfax), import 시 expand_phone_fields 로 1/2 분리.
+        # 확정 표시 순서 = 입고처관리 목록(DEC-294, 거래처현황 DEC-292 필드표) + 화면 밖 저장 필드.
+        # DEC-234 — 전화/팩스는 합본 가상 키(gtel/gfax), import 시 expand_phone_fields 로 1/2 분리.
         expected = [
-            "gbun_name", "jubun", "gcode", "ocode", "gname", "gnumb", "gposa", "gadd1", "gadd2",
-            "guper", "gjomo", "gtel", "gfax", "gpper", "gbigo", "name1",
-            "gphon", "gpost", "gssum", "grat1", "grat2", "grat3", "grat4", "grat5", "grat7",
-            "grat6", "gqut1", "name2", "yesno", "grat9", "email",
+            "jubun", "gbun_name", "grat9", "gcode", "gname", "gnumb", "gposa", "gpost", "gjuso",
+            "guper", "gjomo", "gssum", "gtel", "gfax", "email2", "gphon", "grat1", "grat2", "grat3",
+            "grat4", "grat5", "grat7", "grat6", "gqut1", "name2", "yesno", "gpper", "manager2",
+            "gbigo", "name1", "email", "ocode", "gadd1", "gadd2",
         ]
         self.assertEqual(keys, expected)
-        self.assertEqual(labels["gpper"], "담당자", '구 "한도액"=gpper 오매핑 정정')
+        self.assertEqual(labels["gpper"], "담당자1", '구 "한도액"=gpper 오매핑 정정')
         self.assertEqual(labels["gssum"], "한도액")
-        self.assertEqual(labels["gphon"], "핸드폰번호")
+        self.assertEqual(labels["gphon"], "핸드폰")
         self.assertEqual(labels["grat7"], "한도")
         self.assertEqual(labels["name1"], "비고2")
-        self.assertEqual(labels["name2"], "계산서 거래처명")
+        self.assertEqual(labels["name2"], "계산서", "계산서 거래처명(Name2) 약식")
         self.assertEqual(labels["email"], "정지사유")
+        self.assertEqual(labels["email2"], "E-mail", "확장 테이블 병합값")
         self.assertNotIn("pubun", labels, "Sobo12 폼에 계산서구분(Pubun) 없음 — 카탈로그 제외")
         self.assertNotIn("gnum1", labels)
         # 하위호환 별칭·카탈로그·부분선택.
@@ -315,9 +317,15 @@ class ModelAndCatalogGuard(TestCase):
             "PK 항상 포함 + 카탈로그 순서",
         )
         self.assertEqual(select_inbound_vendor_columns(None), INBOUND_VENDOR_FULL_COLUMNS)
-        # import — PK 헤더 = 입고처코드, 맵 = 카탈로그(PK 제외), 숫자키에 gpper 없음.
-        self.assertEqual(INBOUND_VENDOR_IMPORT_PK, ("입고처코드", "gcode"))
-        self.assertEqual(INBOUND_VENDOR_IMPORT_MAP["담당자"], "gpper")
+        # import — PK 헤더 = 코드(구 입고처코드 별칭), 맵 = 카탈로그(PK·엑셀 전용 제외)+구 헤더, 숫자키에 gpper 없음.
+        from app.services.masters_excel import INBOUND_VENDOR_IMPORT_PK_ALIASES
+
+        self.assertEqual(INBOUND_VENDOR_IMPORT_PK, ("코드", "gcode"))
+        self.assertEqual(INBOUND_VENDOR_IMPORT_PK_ALIASES, ("입고처코드",))
+        self.assertEqual(INBOUND_VENDOR_IMPORT_MAP["담당자1"], "gpper")
+        self.assertEqual(INBOUND_VENDOR_IMPORT_MAP["담당자"], "gpper", "구 양식 헤더")
+        for k in ("email2", "manager2", "gjuso"):
+            self.assertNotIn(k, INBOUND_VENDOR_IMPORT_MAP.values(), f"{k} 엑셀 전용")
         self.assertEqual(INBOUND_VENDOR_IMPORT_MAP["한도액"], "gssum")
         self.assertEqual(INBOUND_VENDOR_IMPORT_MAP["입고처구분"], "gbun_name")
         self.assertNotIn("입고처코드", INBOUND_VENDOR_IMPORT_MAP)
@@ -368,13 +376,14 @@ class ScreenGuard(TestCase):
 
     def test_list_columns_order_and_coverage(self) -> None:
         src = self.PAGE.read_text(encoding="utf-8")
-        order = ["입고처구분", "입고처지역", "입고처코드", "입고처명", "사업자등록번호", "대표자",
-                 "사업자주소", "업태", "종목", "전화번호", "팩스번호", "담당자", "비고1", "비고2",
-                 "핸드폰번호", "우편번호", "한도액", "위탁", "현매", "매절", "납품", "특별", "한도",
-                 "기타", "신간수량", "계산서 거래처명", "발행유무", "출고정지", "정지사유"]
+        # DEC-294(2026-09-22) — 거래처현황과 같은 필드표·약식 라벨, 끝에 정지사유.
+        order = ["지역", "구분", "정지", "코드", "입고처명", "사업자등록번호", "대표자", "우편번호",
+                 "주소", "업태", "종목", "한도액", "전화", "팩스", "E-mail", "핸드폰", "위탁", "현매",
+                 "매절", "납품", "특별", "한도", "기타", "신간수량", "계산서", "발행유무", "담당자1",
+                 "담당자2", "비고1", "비고2", "정지사유"]
         pos = [src.index(f'label: "{lbl}"') for lbl in order]
         self.assertEqual(pos, sorted(pos), "컬럼 정의 순서 = 확정 순서")
-        self.assertIn('key: "gpper", label: "담당자"', src)
+        self.assertIn('key: "gpper", label: "담당자1"', src)
         self.assertIn('key: "gssum", label: "한도액"', src)
         self.assertIn('key: "grat7", label: "한도"', src)
         self.assertNotIn('key: "ocode"', src, "입고처코드2(ocode) 목록 제외(거래처 동형)")
