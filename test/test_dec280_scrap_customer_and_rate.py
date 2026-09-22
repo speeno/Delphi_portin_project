@@ -61,7 +61,9 @@ class ScrapScreenTests(TestCase):
     def test_customer_is_pickable_from_etc_master(self) -> None:
         self.assertIn('lookupKind="etcCustomer"', self.page)
         self.assertNotIn("애플2 (폐기 전용, 고정)", self.page, "고정 칩은 사라져야 한다")
-        self.assertIn("gcode: gcode.trim() || undefined", self.page, "비우면 서버 기본값(애플2)")
+        # DEC-304 — 저장은 확정 코드만(비우면 undefined → 서버 기본값 애플2), 미확정 글자는 저장 전 차단.
+        self.assertIn("gcode: customerCode || undefined", self.page, "비우면 서버 기본값(애플2)")
+        self.assertIn("if (gcode.trim() && !customerCode) {", self.page)
 
     def test_etc_customer_lookup_registered(self) -> None:
         cfg = (_FE / "lib" / "master-lookup-config.ts").read_text(encoding="utf-8")

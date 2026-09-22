@@ -135,8 +135,9 @@ class ScrapReceiptPageTests(TestCase):
         self.assertNotIn("useInlineAutocomplete", self.src)
         # 확정 시 출판사명 표기(읽기 전용, 이동 대상 제외).
         self.assertIn("setHname", self.src)
-        # 출판사명은 입력칸 아래 보조 텍스트(입고·출고·반품과 동형) — 입력 대상이 아니다.
-        self.assertIn("{hname}({hcode})", self.src)
+        # 출판사명은 입력칸 같은 줄 끝 보조 텍스트(DEC-304, 입고·출고·반품과 동형) — 입력 대상이 아니다.
+        self.assertIn('data-legacy-id="Sobo23_scrap.Edit204"', self.src)
+        self.assertIn("title={`${hname}(${hcode})`}", self.src)
 
     def test_starts_with_one_blank_line(self) -> None:
         """진입 시 빈 표가 아니라 입력 대기 1행(입고/출고 접수 동형)."""

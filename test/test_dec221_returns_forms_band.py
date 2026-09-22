@@ -19,8 +19,10 @@ class ReturnsFormsHeaderInBand(TestCase):
     def test_scrap_new(self) -> None:
         band = self._band("returns/scrap/new/page.tsx")
         self.assertIn('headerFormLegacyId="Sobo23_scrap.Panel201"', (FRONT / "returns/scrap/new/page.tsx").read_text(encoding="utf-8"))
-        for lid in ("Sobo23_scrap.Edit202", "Sobo23_scrap.Edit203", "Sobo23_scrap.Edit204", "Sobo23_scrap.Edit_Gcode", "Sobo23_scrap.Edit206"):
+        for lid in ("Sobo23_scrap.Edit202", "Sobo23_scrap.Edit203", "Sobo23_scrap.Edit204", "Sobo23_scrap.Edit_Gcode"):
             self.assertIn(lid, band, lid)
+        # DEC-304 — 비고(Edit206)는 폐기 신규 입력에서 제거(사용자 요청 2026-09-22 「비고: 불필요」).
+        self.assertNotIn("Sobo23_scrap.Edit206", band)
         self.assertNotIn("text-gray-600", band)
 
     def test_returns_new(self) -> None:
