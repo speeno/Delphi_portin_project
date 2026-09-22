@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-17T05:49:43.175424+00:00",
+  "generated_at": "2026-09-22T03:39:38.935055+00:00",
   "summary": {
     "registry_forms": 101,
     "legacy_dfm_subu_stems": 92,
     "orphan_legacy_stems": 40,
-    "subu_caption_diff": 11,
+    "subu_caption_diff": 10,
     "subu_legacy_missing": 0
   },
   "rows": [
@@ -12,7 +12,7 @@
       "modern_id": "Sobo11",
       "folder": "Subu11",
       "route": "/master/customer",
-      "modern_caption": "거래처관리(마스터)",
+      "modern_caption": "거래처관리",
       "legacy_form_object": "Sobo11",
       "legacy_caption": "거래처관리-통합",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu11.dfm",
@@ -23,7 +23,7 @@
       "modern_id": "Sobo14",
       "folder": "Subu14",
       "route": "/master/book",
-      "modern_caption": "도서관리(마스터)",
+      "modern_caption": "도서관리",
       "legacy_form_object": "Sobo14",
       "legacy_caption": "도서관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu14.dfm",
@@ -34,7 +34,7 @@
       "modern_id": "Sobo17",
       "folder": "Subu17",
       "route": "/master/publisher",
-      "modern_caption": "출판사·출고거래처(마스터)",
+      "modern_caption": "출판사·출고거래처",
       "legacy_form_object": "Sobo17",
       "legacy_caption": "출판사관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu17.dfm",
@@ -45,7 +45,7 @@
       "modern_id": "Sobo38",
       "folder": "Subu38",
       "route": "/master/book-code",
-      "modern_caption": "도서코드(마스터)",
+      "modern_caption": "도서코드",
       "legacy_form_object": "Sobo38",
       "legacy_caption": "Sobo38",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu38.dfm",
@@ -67,34 +67,34 @@
       "modern_id": "Sobo12",
       "folder": "Subu12",
       "route": "/master/inbound-vendor",
-      "modern_caption": "입고처관리(마스터)",
+      "modern_caption": "입고처관리",
       "legacy_form_object": "Sobo12",
       "legacy_caption": "입고처관리",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu12.dfm",
-      "status": "CAPTION_DIFF",
-      "note": "포함 관계·수동검토: DFM「입고처관리」↔「입고처관리(마스터)」 (r=0.67)"
+      "status": "MATCH",
+      "note": ""
     },
     {
       "modern_id": "Sobo15",
       "folder": "Subu15",
       "route": "/master/etc-customer",
-      "modern_caption": "기타거래처관리(마스터)",
+      "modern_caption": "기타거래처관리",
       "legacy_form_object": "Sobo15",
       "legacy_caption": "거래처관리-개별",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu15.dfm",
       "status": "CAPTION_DIFF",
-      "note": "DFM「거래처관리-개별」↔모던「기타거래처관리(마스터)」 (r=0.50)"
+      "note": "DFM「거래처관리-개별」↔모던「기타거래처관리」 (r=0.67)"
     },
     {
       "modern_id": "Sobo13",
       "folder": "Subu13",
       "route": "/master/author",
-      "modern_caption": "저자관리(마스터)",
+      "modern_caption": "저자관리",
       "legacy_form_object": "Sobo13",
       "legacy_caption": "지역분류(시내+지방)",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu13.dfm",
       "status": "CAPTION_DIFF",
-      "note": "DFM「지역분류(시내+지방)」↔모던「저자관리(마스터)」 (r=0.20)"
+      "note": "DFM「지역분류(시내+지방)」↔모던「저자관리」 (r=0.00)"
     },
     {
       "modern_id": "Sobo22",

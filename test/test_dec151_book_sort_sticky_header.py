@@ -99,7 +99,8 @@ class BookPageGuard(TestCase):
     def test_default_order_and_all_sortable(self) -> None:
         src = self.PAGE.read_text(encoding="utf-8")
         # 2026-09-15 용어 변경 — sname 라벨 "도서분류" → "도서구분"(순서/키 불변).
-        order = ["도서구분", "도서처리", "도서코드", "도서명", "저자명", "ISBN",
+        # DEC-296 — 도서처리 컬럼 제거(2026-09-22 사용자).
+        order = ["도서구분", "도서코드", "도서명", "저자명", "ISBN",
                  "정가", "재고", "재고금액", "서가위치", "판형", "위탁", "쪽수",
                  "판수", "발행일", "비고"]
         pos = [src.index(f'label: "{lbl}"') for lbl in order]

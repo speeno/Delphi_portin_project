@@ -105,7 +105,6 @@ class ScreenAndModelGuard(TestCase):
             # 컬럼(키) 자체는 그대로이며 라벨만 바뀌었다(요구사항 유지, 문자열 검사만 갱신).
             'label: "도서구분"',
             'label: "도서타입"',
-            'label: "도서처리"',
             'label: "판형"',
             'label: "원가"',
             'label: "매입가"',
@@ -117,6 +116,8 @@ class ScreenAndModelGuard(TestCase):
         ):
             self.assertIn(needle, src)
         self.assertNotIn('label: "출판사"', src)
+        # DEC-296(2026-09-22 사용자) — 도서처리는 목록 화면에서 제거(엑셀·상세 폼은 유지).
+        self.assertNotIn('label: "도서처리"', src)
 
     def test_backend_model_has_detail_fields(self) -> None:
         from app.models.master import BookListItem

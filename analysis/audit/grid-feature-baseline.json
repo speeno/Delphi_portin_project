@@ -158,7 +158,7 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 41
+      "sortable": 40
     },
     "app/(app)/master/customer/page.tsx": {
       "column_settings": 1,

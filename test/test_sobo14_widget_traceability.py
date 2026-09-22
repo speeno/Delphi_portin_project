@@ -71,12 +71,14 @@ class Sobo14WidgetTraceability(TestCase):
         for kw in (
             "LocalComboField",
             'inputLegacyId="Sobo14.Filter.Gubun"',
-            "f-jubun",
             "f-exship",
             "excludeShippingStop",
             "resetFilters",
         ):
             self.assertIn(kw, list_src, kw)
+        # DEC-296(2026-09-22 사용자) — 도서처리 검색칸 제거(요청 파라미터·세션 키 포함).
+        self.assertNotIn("f-jubun", list_src)
+        self.assertNotIn("jubun", list_src.split("const columns")[0])
 
     def test_detail_delete_wiring(self) -> None:
         detail_src = _read(FRONT / "app" / "(app)" / "master" / "book" / "[gcode]" / "page.tsx")

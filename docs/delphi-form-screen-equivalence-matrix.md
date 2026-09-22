@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-09-17T05:49:43Z
+> **생성 시각 (UTC)**: 2026-09-22T03:39:38Z
 
 ## 목적
 
@@ -19,16 +19,16 @@
 
 | 상태 | 모던 ID | 폴더(DFM) | 모던 caption | 레거시 Caption (DFM) | 레거시 폼 객체 | 라우트 | 비고 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| MULTI_MAP | `Sobo11` | `Subu11` | 거래처관리(마스터) | 거래처관리-통합 | `Sobo11` | `/master/customer` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo11` | `Subu11` | 거래처관리 | 거래처관리-통합 | `Sobo11` | `/master/customer` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo11_gbun` | `Subu11` | 거래처구분 | 거래처관리-통합 | `Sobo11` | `/master/customer-category` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| CAPTION_DIFF | `Sobo12` | `Subu12` | 입고처관리(마스터) | 입고처관리 | `Sobo12` | `/master/inbound-vendor` | 포함 관계·수동검토: DFM「입고처관리」↔「입고처관리(마스터)」 (r=0.67) |
-| CAPTION_DIFF | `Sobo13` | `Subu13` | 저자관리(마스터) | 지역분류(시내+지방) | `Sobo13` | `/master/author` | DFM「지역분류(시내+지방)」↔모던「저자관리(마스터)」 (r=0.20) |
-| MULTI_MAP | `Sobo14` | `Subu14` | 도서관리(마스터) | 도서관리 | `Sobo14` | `/master/book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MATCH | `Sobo12` | `Subu12` | 입고처관리 | 입고처관리 | `Sobo12` | `/master/inbound-vendor` |  |
+| CAPTION_DIFF | `Sobo13` | `Subu13` | 저자관리 | 지역분류(시내+지방) | `Sobo13` | `/master/author` | DFM「지역분류(시내+지방)」↔모던「저자관리」 (r=0.00) |
+| MULTI_MAP | `Sobo14` | `Subu14` | 도서관리 | 도서관리 | `Sobo14` | `/master/book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo14_gbun` | `Subu14` | 도서구분 | 도서관리 | `Sobo14` | `/master/book-category` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| CAPTION_DIFF | `Sobo15` | `Subu15` | 기타거래처관리(마스터) | 거래처관리-개별 | `Sobo15` | `/master/etc-customer` | DFM「거래처관리-개별」↔모던「기타거래처관리(마스터)」 (r=0.50) |
+| CAPTION_DIFF | `Sobo15` | `Subu15` | 기타거래처관리 | 거래처관리-개별 | `Sobo15` | `/master/etc-customer` | DFM「거래처관리-개별」↔모던「기타거래처관리」 (r=0.67) |
 | MULTI_MAP | `Sobo16_baebon` | `Subu16` | 배본처관리 | 특별관리 | `Sobo16` | `/master/baebon` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo16_special` | `Subu16` | 특별관리 | 특별관리 | `Sobo16` | `/master/special` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| OK_EXEMPT | `Sobo17` | `Subu17` | 출판사·출고거래처(마스터) | 출판사관리 | `Sobo17` | `/master/publisher` | DEC-023 표기 통일(allowlist) |
+| OK_EXEMPT | `Sobo17` | `Subu17` | 출판사·출고거래처 | 출판사관리 | `Sobo17` | `/master/publisher` | DEC-023 표기 통일(allowlist) |
 | MULTI_MAP | `Sobo21` | `Subu21` | 거래 명세서 | 거래명세서 | `Sobo21` | `/transactions/sales-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo21_shipment_alias` | `Subu21` | 거래 명세서 | 거래명세서 | `Sobo21` | `/transactions/sales-statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo21_status_list` | `Subu21` | 거래 현황(목록) | 거래명세서 | `Sobo21` | `/transactions/status?view=list` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
@@ -67,7 +67,7 @@
 | MULTI_MAP | `Sobo36_stats_route` | `Subu36` | 거래처통계(목록) | 도서별원장총괄 | `Sobo36` | `/stats/customer` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | CAPTION_DIFF | `Sobo37_stats_route` | `Subu37` | 도서통계(목록) | 담당자판매원장 | `Sobo37` | `/stats/book` | DFM「담당자판매원장」↔모던「도서통계(목록)」 (r=0.00) |
 | MULTI_MAP | `Sobo22_import` | `Subu38` | 입고 파일 업로드 | Sobo38 | `Sobo38` | `/inbound/import` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| MULTI_MAP | `Sobo38` | `Subu38` | 도서코드(마스터) | Sobo38 | `Sobo38` | `/master/book-code` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MULTI_MAP | `Sobo38` | `Subu38` | 도서코드 | Sobo38 | `Sobo38` | `/master/book-code` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo39` | `Subu39` | 할인율(대표) | 출고내역서 | `Sobo39` | `/master/discount` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo39` | `Subu39` | 출고내역서 | 출고내역서 | `Sobo39` | `/outbound/statement` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo41_cash` | `Subu41` | 입금내역 | 입금내역 | `Sobo41` | `/settlement/cash` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |

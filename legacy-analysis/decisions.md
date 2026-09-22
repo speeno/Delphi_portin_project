@@ -6924,3 +6924,19 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   라벨 넘침 0, 저자·거래처 팝오버 재오픈 시 전체 선택(공용화 후). 신규 `test/test_dec295_author_list_form.py`(10건),
   `test_dec154`·`test_dec172`·`test_dec200`·`test_dec292`·`test_dec294`·`test_masters_excel_export` 갱신.
   스위트 2866 passed, hcode 감사 critical 0, tsc·eslint·grid_feature_baseline OK.
+
+### DEC-296 — 도서관리 도서처리 제거 + 신규 도서 위치 + 메뉴명 「(마스터)」 제거 (2026-09-22)
+
+- **요청** — 「도서관리 화면에서 도서처리 항목 제거하고, 신규도서 버튼도 검색입력창 앞으로 이동, 메뉴명에 (마스터)라고 붙은
+  텍스트 제거」.
+- **도서처리(G4_Book.Jubun)** — 목록 화면에서 검색칸(`f-jubun`)·목록 컬럼·`jubun` 요청 파라미터·세션 스냅샷 키 제거(구 스냅샷의
+  숨은 필터 잔존 방지 — DEC-292 지역 필터와 같은 처리). **유지**: 상세/신규 폼 입력, 엑셀 export·import 헤더(데이터 보존),
+  백엔드 `jubun` 쿼리 파라미터(API). grid_feature_baseline 은 의도한 sortable 41→40 으로 재생성.
+- **신규 도서** — `Sobo14.Button101`(WriteGate 포함)을 액션 줄 → 필터 띠 맨 앞(검색 앞). 거래처·입고처·저자와 같은 위치.
+- **메뉴명** — `form-registry.ts` caption 7개(거래처관리·도서관리·출판사·출고거래처·도서코드·입고처관리·기타거래처관리·
+  저자관리)와 화면 제목 3곳(출판사·도서코드·저자)에서 「(마스터)」 제거 → 사이드바·탭·브레드크럼 공통 반영.
+  `delphi_form_screen_matrix` 허용 목록을 새 이름으로 갱신·재생성 — 입고처관리는 레거시 caption 과 같아져 CAPTION_DIFF→MATCH
+  (`--check` 통과, `--strict` 는 기존 무관 항목으로 원래부터 실패).
+- **검증** — 실컴포넌트 하네스: 띠 순서 신규 도서→검색→도서구분→발행일, 도서처리 칸·헤더 없음, 제목 「도서관리」.
+  신규 `test/test_dec296_book_list_and_menu_names.py`, `test_dec148`·`test_dec151`·`test_sobo14_widget_traceability` 갱신.
+  스위트 2869 passed.
