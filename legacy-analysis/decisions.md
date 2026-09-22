@@ -6965,8 +6965,12 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   다음으로 이동(패널은 `showSlipNo={false}` — 기본 true 라 거래명세서·입고 화면은 불변). 신규 주문 전표번호(Idnum)는 저장 때
   서버 채번이라 읽기 전용 빈 칸(placeholder 「자동」, title 안내), `tabIndex=-1` 로 Enter/Tab 흐름(지사→구분) 밖. 5자리 값이라
   알약 폭 8.75rem — 거래처명 한 줄 표시(30rem)와 함께 1336px 폭에서 저장 버튼까지 한 줄 실측.
+- **거래구분 제거(추가 요청 「거래구분 필드는 제거」)** — 이 화면은 곧 출고라 참조 패널 거래구분 칸을 숨김(`showGubun={false}`,
+  패널 기본 true — 거래명세서·입고 화면 불변). 참조 칸 = 거래처명·전화·팩스·주소·비고1·비고2.
+- **신규 주문 라임(추가 요청 「신규주문버튼을 라임색으로」)** — 출고 접수 목록 `Sobo27.Button201` → `variant="brand-primary"`
+  (DEC-234 화면당 1개 라임 CTA, 조회는 검정 유지 — 거래처·도서 신규 버튼과 동일 꼴).
 - **검증** — Chrome 실화면: 재입력(같은 코드·즉시 Enter)에서 검색 팝업 없이 지사까지 0.36초, 지우기 요청 0건, 타이핑 중 지사/참조
   요청 0건, 무지사 거래처 지사 Enter→구분, 거래처명 필드 높이 36px(label|input|name 3열), 도서코드 직접 입력+Tab→도서명·정가
-  채움·고쳐 쓰면 교체. 신규 `test/test_dec297_outbound_new_customer_reentry.py`(구 코드 14 실패/신 코드 통과, 전표번호 위치 3건 추가), 스위트 2883 passed,
-  tsc·eslint·grid_feature_baseline OK. **남은 동형 패턴**: 거래명세서 신규(`transactions/sales-statement/new`)도 입력 글자로 지사
+  채움·고쳐 쓰면 교체. 신규 `test/test_dec297_outbound_new_customer_reentry.py`(구 코드 14 실패/신 코드 통과, 전표번호·거래구분·라임 버튼 5건 추가), 스위트 2883 passed,
+  tsc·eslint·grid_feature_baseline OK(최종 스위트 2888 passed). **남은 동형 패턴**: 거래명세서 신규(`transactions/sales-statement/new`)도 입력 글자로 지사
   조회 — 보고 시 같은 방식으로 분리.

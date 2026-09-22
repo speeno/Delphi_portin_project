@@ -125,6 +125,25 @@ class SlipNoMovedToHeaderAfterBranch(TestCase):
         panel = (FE / "components" / "transactions" / "sales-statement-reference-panel.tsx").read_text(encoding="utf-8")
         self.assertIn("showSlipNo = true,", panel)  # 다른 3개 화면은 종전대로 패널에 표시
 
+    def test_reference_panel_hides_gubun_here_only(self) -> None:
+        """원문 4: "거래구분 필드는 제거해주세요" — 이 화면만(패널 기본값 true 로 다른 화면 불변)."""
+        self.assertIn("showGubun={false}", self.src)
+        self.assertNotIn('gubun="출고"', self.src)
+        panel = (FE / "components" / "transactions" / "sales-statement-reference-panel.tsx").read_text(encoding="utf-8")
+        self.assertIn("showGubun = true,", panel)
+        self.assertIn("{showGubun ? (", panel)
+
+
+class NewOrderButtonIsLime(TestCase):
+    """원문 5: "신규주문버튼을 라임색으로 변경" — 출고 접수 목록의 신규 주문 = 라임 CTA(DEC-234, 화면당 1개)."""
+
+    def test_new_order_button_uses_brand_primary(self) -> None:
+        src = (FE / "app" / "(app)" / "outbound" / "orders" / "page.tsx").read_text(encoding="utf-8")
+        i = src.index('<Link href="/outbound/orders/new">')
+        block = src[i : src.index("신규 주문", i)]
+        self.assertIn('variant="brand-primary"', block)
+        self.assertEqual(src.count('variant="brand-primary"'), 1, "라임 CTA 는 화면당 1개")
+
 
 class BookNameFollowsCodeInput(TestCase):
     def test_outbound_wires_typed_code_lookup(self) -> None:
