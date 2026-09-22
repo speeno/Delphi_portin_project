@@ -125,7 +125,10 @@ class OutboundStatusDetailGridTests(TestCase):
     def test_select_column_is_first_and_not_reorderable(self) -> None:
         """「선택」은 prefs reorder 밖에서 항상 맨 앞에 붙는다."""
         self.assertIn("const detailCols = [\n    requestSelectCol,", self.src)
-        self.assertIn('label: "선택"', self.src)
+        # DEC-299 — 선택 열은 공통 선택 열(makeSelectColumn, 기본 라벨 「선택」 + 헤더 전체 선택 체크박스).
+        self.assertIn("const requestSelectCol = makeSelectColumn<OutboundStatusSlipItem>(", self.src)
+        helper = (FRONT / "components" / "data-grid" / "select-column.tsx").read_text(encoding="utf-8")
+        self.assertIn('label: opts.label ?? "선택",', helper)
 
 
 if __name__ == "__main__":

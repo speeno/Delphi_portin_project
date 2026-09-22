@@ -65,8 +65,8 @@ DEC-028 의무 — dfm→html 산출물 기준 영역·위젯 ID·**TabOrder**·
 | `RadioButton1` | 접수 | `RadioButton1` |
 | `RadioButton2` | 완료 | `RadioButton2` |
 | `RadioButton3` | 전체 | `RadioButton3` |
-| `RadioButton4` | 전체선택 | `RadioButton4` |
-| `RadioButton5` | 전체해제 | `RadioButton5` |
+| `RadioButton4` | 전체선택 | 표 「선택」 열 **헤더 체크박스** `RadioButton4` (DEC-299 공통 선택 열 — 전 행 선택/해제 토글) |
+| `RadioButton5` | 전체해제 | (흡수) 같은 헤더 체크박스 해제 — 별도 위젯 없음 (DEC-299) |
 | `RadioButton6` | 자동알람 | `RadioButton6` |
 | `RadioButton7` | 자동해체 | `RadioButton7` |
 | `RadioButton8` | 구간 | `RadioButton8` |
@@ -94,6 +94,6 @@ DEC-028 의무 — dfm→html 산출물 기준 영역·위젯 ID·**TabOrder**·
 Sobo28.Page Edit101 Edit102 Edit103 Edit104 Edit105 dxButton1 Button701 Button702
 Sobo28.DBGrid101 DBGrid101.HCODE DBGrid101.HNAME DBGrid101.CODE5 DBGrid101.GNAME DBGrid101.GPOSA
 DBGrid101.GTELS DBGrid101.JUBUN DBGrid101.GQUT1 DBGrid101.GQUT2
-RadioButton1 RadioButton2 RadioButton3 RadioButton4 RadioButton5 RadioButton8 RadioButton9 RadioButton0
+RadioButton1 RadioButton2 RadioButton3 RadioButton4 RadioButton8 RadioButton9 RadioButton0
 Panel203 Edit203 Edit204 Edit205 Edit206 Edit207
 ```
