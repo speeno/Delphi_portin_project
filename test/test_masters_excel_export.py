@@ -252,8 +252,13 @@ class MastersExcelExportRouterTests(TestCase):
                     "gtel1": "02", "gtel2": "9", "date1": "20260101", "gjice": "대표"}]
         with patch.object(masters_service, "list_authors", side_effect=_make_fake_list(dataset)):
             r = self.client.get(f"/api/v1/masters/exports/authors.xlsx?serverId={_SID}")
-        _ws, header = _read_sheet(self._assert_xlsx(r))
-        self.assertEqual(header, ["코드", "저자명", "저자구분", "직장명", "전화", "등록일자", "직책"])
+        ws, header = _read_sheet(self._assert_xlsx(r))
+        # DEC-295 — 헤더·순서 = 저자관리 필드표(목록), 화면 밖 연락처2·직장명·직책·주소 분리칸은 끝.
+        self.assertEqual(header[:6], ["코드", "저자구분", "저자명", "소속대학", "학과", "저자도서명"])
+        self.assertEqual(len(header), 29)
+        for h in ("은행", "계좌번호", "주민번호", "사업자등록번호", "원천징수", "전화번호", "자택주소", "비고2", "직장명", "직책"):
+            self.assertIn(h, header)
+        self.assertEqual(ws.cell(row=2, column=header.index("전화번호") + 1).value, "02-9")
 
     def test_book_export(self) -> None:
         # DEC-148 — 헤더 = 목록 화면 세부내역 컬럼 1:1 (gpost 라벨 "서가위치" 정정).

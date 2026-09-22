@@ -388,8 +388,9 @@ class ScreenGuard(TestCase):
         self.assertIn('key: "grat7", label: "한도"', src)
         self.assertNotIn('key: "ocode"', src, "입고처코드2(ocode) 목록 제외(거래처 동형)")
         # 엑셀 필드 선택 UI(거래처 동형).
-        self.assertIn("inboundVendorApi\n      .exportFields()", src.replace("\r", ""))
-        self.assertIn("저장할 필드 선택", src)
+        # DEC-295 — 필드 선택 팝오버는 공용 ExportFieldPicker(거래처·입고처·저자).
+        self.assertIn("loadFields={inboundVendorApi.exportFields}", src)
+        self.assertIn("<ExportFieldPicker", src)
 
     def test_detail_form_canonical_labels(self) -> None:
         # 2026-09-08 사용자 요청으로 배열은 거래처관리(Sobo11)와 동형으로 재배치했지만,

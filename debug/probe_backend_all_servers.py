@@ -294,6 +294,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            # DEC-295 — 저자 엑셀 필드 카탈로그(거래처 customer-fields 동형).
+            "group": "masters.export.author_fields",
+            "path": "/api/v1/masters/exports/author-fields",
+            "ok_status": {200},
+        },
+        {
             "group": "masters.export.authors",
             "path": f"/api/v1/masters/exports/authors.xlsx?serverId={sid}",
             "ok_status": {200},

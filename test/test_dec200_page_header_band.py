@@ -332,8 +332,10 @@ class BandPopoversExempt(TestCase):
         self.assertIn('data-band-exempt=""', pop)
         i = pop.index('data-band-exempt=""')
         self.assertIn('data-slot="grid-column-settings"', pop[i : i + 200])
-        # 엑셀 저장 필드 선택 팝오버(거래처·입고처)도 동일 (2026-08-28 18:20 지적)
-        for rel in ("master/customer", "master/inbound-vendor"):
+        # 엑셀 저장 필드 선택 팝오버(거래처·입고처·저자)도 동일 (2026-08-28 18:20 지적) — DEC-295 공용 컴포넌트.
+        picker = (FRONT / "components" / "master" / "export-field-picker.tsx").read_text(encoding="utf-8")
+        self.assertIn('data-band-exempt="" role="dialog" aria-label="저장할 필드 선택"', picker)
+        for rel in ("master/customer", "master/inbound-vendor", "master/author"):
             src = (FRONT / "app" / "(app)" / rel / "page.tsx").read_text(encoding="utf-8")
-            self.assertIn('data-band-exempt="" role="dialog" aria-label="저장할 필드 선택"', src, rel)
+            self.assertIn("<ExportFieldPicker", src, rel)
 

@@ -92,8 +92,10 @@ class ExportAllFields(TestCase):
         body = src[src.index("async function exportXlsx"): src.index("function resetFilters")]
         self.assertNotIn("visibleColumns", body, "화면 표시 컬럼으로 엑셀 필드를 줄이지 않는다")
         self.assertNotIn("gridPrefs", body)
-        # 필드 선택 기본값 = 카탈로그 전체.
-        self.assertIn("setSelectedFields(new Set(res.fields.map((f) => f.key)))", src)
+        # 필드 선택 기본값 = 카탈로그 전체(공용 ExportFieldPicker, DEC-295).
+        self.assertIn("loadFields={masterApi.customerExportFields}", src)
+        picker = (PAGE.parents[4] / "components" / "master" / "export-field-picker.tsx").read_text(encoding="utf-8")
+        self.assertIn("setSelected(new Set(res.fields.map((f) => f.key)))", picker)
 
     def test_grat7_selected_for_export(self) -> None:
         sql = customer_detail_select_sql({"grat7"}, {"grat7": "Grat7"}, alias="g")

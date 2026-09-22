@@ -75,10 +75,12 @@ class ExportAllFields(TestCase):
             self.assertEqual(catalog[ck], label, "엑셀 헤더 = 화면 라벨")
 
     def test_picker_resets_to_all_fields_on_open(self) -> None:
-        # 「엑셀 저장 시 기본적으로 모든 필드 선택」 — 열 때마다 카탈로그 전체로 재설정(거래처현황 동일).
+        # 「엑셀 저장 시 기본적으로 모든 필드 선택」 — 열 때마다 카탈로그 전체로 재설정(공용 ExportFieldPicker).
+        picker = (FRONT / "components" / "master" / "export-field-picker.tsx").read_text(encoding="utf-8")
+        self.assertIn("if (!open) selectAll();", picker)
         for p in (PAGE, CUST_PAGE):
             src = _src(p)
-            self.assertIn("if (!pickerOpen) setSelectedFields(new Set(exportFields.map((f) => f.key)));", src, p.name)
+            self.assertIn("<ExportFieldPicker", src, p.name)
             body = src[src.index("async function exportXlsx"):]
             body = body[: body.index("\n  }\n")]
             self.assertNotIn("visibleColumns", body, "화면 표시 컬럼으로 줄이지 않는다")
