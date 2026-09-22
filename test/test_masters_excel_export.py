@@ -169,17 +169,20 @@ class MastersExcelExportRouterTests(TestCase):
         with patch.object(masters_service, "list_customer_master_full", side_effect=_make_fake_list(dataset)):
             r = self.client.get(f"/api/v1/masters/exports/customer.xlsx?serverId={_SID}")
         ws, header = _read_sheet(self._assert_xlsx(r))
-        self.assertEqual(header[:3], ["거래처코드", "거래처코드2", "거래처명"])
+        # DEC-292 — 순서·헤더 = 거래처현황 목록(약식 라벨), 화면 밖 필드(코드2·주소1/2·추가번호)는 끝.
+        self.assertEqual(header[:5], ["지역", "구분", "정지", "코드", "거래처명"])
+        self.assertEqual(header[-4:], ["거래처코드2", "주소1", "주소2", "추가번호"])
         # DEC-149 — 담당자1(gpper 정본)·핸드폰번호(gphon)·한도액(gssum) 32→34.
         # DEC-234 — 전화/팩스 1·2 → 전화번호/팩스번호 합본(−2), 사업자주소 합본(+1) = 33. 헤더는 화면 라벨과 동일.
-        self.assertEqual(len(header), 33)
-        for h in ("전화번호", "팩스번호", "사업자등록번호", "사업자주소", "위탁", "기타"):
+        # DEC-292 — 한도(Grat7) 추가(+1) = 34.
+        self.assertEqual(len(header), 34)
+        for h in ("전화", "팩스", "사업자등록번호", "주소", "위탁", "한도", "기타", "E-mail", "계산서"):
             self.assertIn(h, header)
-        for h in ("전화번호1", "전화번호2", "사업자번호", "위탁공급율"):
+        for h in ("전화번호1", "전화번호2", "사업자번호", "위탁공급율", "전화번호", "거래처코드", "사업자주소"):
             self.assertNotIn(h, header)
-        self.assertEqual(ws.cell(row=2, column=header.index("전화번호") + 1).value, "02-0000")
+        self.assertEqual(ws.cell(row=2, column=header.index("전화") + 1).value, "02-0000")
         self.assertIn("담당자1", header)
-        self.assertIn("핸드폰번호", header)
+        self.assertIn("핸드폰", header)
         self.assertIn("한도액", header)
         self.assertIn("대표자", header)  # Gposa=대표자 (의미 정정 반영)
         self.assertIn("업태", header)  # Guper=업태
@@ -192,8 +195,8 @@ class MastersExcelExportRouterTests(TestCase):
                 f"/api/v1/masters/exports/customer.xlsx?serverId={_SID}&fields=guper,gcode,gposa"
             )
         ws, header = _read_sheet(self._assert_xlsx(r))
-        # 요청 순서와 무관하게 카탈로그 순서(거래처코드 → 대표자 → 업태).
-        self.assertEqual(header, ["거래처코드", "대표자", "업태"])
+        # 요청 순서와 무관하게 카탈로그 순서(코드 → 대표자 → 업태).
+        self.assertEqual(header, ["코드", "대표자", "업태"])
         self.assertEqual([c.value for c in ws[2]], ["D0001", "대표", "도소매"])
 
     def test_customer_fields_catalog_endpoint(self) -> None:

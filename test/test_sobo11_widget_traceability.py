@@ -86,7 +86,7 @@ class Sobo11WidgetTraceability(TestCase):
         self.assertIn("customerCategoryList", src)
 
     def test_list_search_filter_bar(self) -> None:
-        """목록 검색 필터 확장(minimal): 구분 select·지역 input·거래종료 제외 체크."""
+        """목록 검색 필터 확장(minimal): 구분 select·거래종료 제외 체크 (지역 input 은 DEC-292 로 제거)."""
         list_src = _read(
             FRONT / "app" / "(app)" / "master" / "customer" / "page.tsx"
         )
@@ -95,9 +95,11 @@ class Sobo11WidgetTraceability(TestCase):
         for kw in (
             "LocalComboField",
             'inputLegacyId="Sobo11.Filter.Gubun"',
-            "f-jubun",
             "f-exterm",
             "excludeTerminated",
             "resetFilters",
         ):
             self.assertIn(kw, list_src, kw)
+        # DEC-292(2026-09-22 사용자) — 지역 검색 입력은 불필요: 입력칸·요청 파라미터 모두 제거.
+        self.assertNotIn("f-jubun", list_src)
+        self.assertNotIn("jubun:", list_src.split("const columns")[0])

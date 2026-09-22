@@ -107,7 +107,9 @@ class ModelAndCatalogGuard(TestCase):
         cols = dict((k, h) for h, k in CUSTOMER_FULL_COLUMNS)
         self.assertEqual(cols["gpper"], "담당자1", '구 "한도액"=gpper 오매핑 정정')
         self.assertEqual(cols["gssum"], "한도액")
-        self.assertEqual(cols["gphon"], "핸드폰번호")
+        # DEC-292 — 헤더는 목록 약식 라벨(핸드폰), 구 양식 「핸드폰번호」도 업로드 수용.
+        self.assertEqual(cols["gphon"], "핸드폰")
+        self.assertEqual(CUSTOMER_IMPORT_MAP["핸드폰번호"], "gphon")
         self.assertEqual(CUSTOMER_IMPORT_MAP["담당자1"], "gpper")
         self.assertNotIn("gpper", CUSTOMER_NUMERIC_KEYS, "담당자1 텍스트 — 숫자 파싱 금지")
         self.assertIn("gssum", CUSTOMER_NUMERIC_KEYS)
@@ -119,15 +121,13 @@ class ScreenGuard(TestCase):
 
     def test_list_columns_order_and_coverage(self) -> None:
         src = self.PAGE.read_text(encoding="utf-8")
-        # 사용자 확정 선두 순서 (2026-08-13).
-        order = ["거래처구분", "거래처지역", "거래처코드", "거래처명", "사업자등록번호",
-                 "대표자", "사업자주소", "업태", "종목", "전화번호", "팩스번호",
-                 "이메일", "담당자1", "담당자2", "비고1"]
+        # 사용자 확정 순서·약식 라벨 (2026-09-22, DEC-292 — 2026-08-13 순서를 대체).
+        order = ["지역", "구분", "정지", "코드", "거래처명", "사업자등록번호", "대표자",
+                 "우편번호", "주소", "업태", "종목", "한도액", "전화", "팩스", "E-mail",
+                 "핸드폰", "위탁", "현매", "매절", "납품", "특별", "한도", "기타",
+                 "신간수량", "계산서", "발행유무", "담당자1", "담당자2", "비고1", "비고2"]
         pos = [src.index(f'label: "{lbl}"') for lbl in order]
         self.assertEqual(pos, sorted(pos), "컬럼 정의 순서 = 확정 순서")
-        for lbl in ("비고2", "핸드폰번호", "한도액", "위탁", "한도", "신간수량",
-                    "계산서구분", "발행유무", "출고정지"):
-            self.assertIn(f'label: "{lbl}"', src)
         self.assertNotIn('key: "ocode"', src, "거래처코드2(ocode) 목록 제외(삭제 요청)")
 
     def test_detail_form_canonical_labels(self) -> None:

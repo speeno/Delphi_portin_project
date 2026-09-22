@@ -6820,3 +6820,30 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **검증** — `test/test_master_search_ignores_spaces.py`(신규 8건: 공백 제거 헬퍼·대표자·
   도서 목록/도서코드/자동완성·SELECT↔COUNT 정합), `test_customer_list_filters.py` 확장
   (대표자 컬럼 부재 테넌트는 검색 절에서 제외), `test_hcode_or_precedence.py` 표현식 갱신.
+
+### DEC-292 — 거래처현황 목록 필드 구성(약식 라벨·기본 표시) + 엑셀 전 필드 저장 + 지역 검색칸 제거 (2026-09-22)
+
+- **요청** — 사용자 필드표: 「지역, 구분, 정지, (코드), 거래처명, 사업자등록번호, 대표자, (우편번호), 주소, (업태), (종목),
+  한도액, 전화, 팩스, E-mail, 핸드폰, 위탁, (현매), (매절), (납품), (특별), (한도), (기타), (신간수량), 계산서, (발행유무),
+  담당자1, 담당자2, 비고1, 비고2」 + 「컬럼명은 줄일 수 있는 건 다 줄여서」. 보강 지시: **괄호(푸른색) = 기본 표시 필드**,
+  나머지(빨간색) = 필드 추가/숨김(컬럼 설정)으로 제어. 「엑셀 출력 시에는 화면에 보이는 필드만 아니라 모든 필드 저장」.
+  「거래처 검색 필터의 지역 입력박스 제거」.
+- **목록(Sobo11 `master/customer/page.tsx`)** — 컬럼 순서·라벨 = 필드표 그대로(2026-08-13 DEC-149 순서를 대체).
+  `CUSTOMER_DEFAULT_HIDDEN` = 괄호 밖 18개 → 기본 표시 12개(코드·우편번호·업태·종목·현매·매절·납품·특별·한도·기타·
+  신간수량·발행유무). 지역·구분·정지는 보강 목록에서 빠져 있어 기본 숨김(컬럼 설정·엑셀에는 유지).
+  저장 키 `master.customer` → **`master.customer.v2`**(구 hidden 저장분이 새 기본을 덮지 않게 — DEC-151 선례, 계정별
+  폭·순서도 1회 초기화). 정지=Grat9(DEC-230), 계산서=Pubun, 발행유무=Yesno.
+- **엑셀** — `masters_excel.CUSTOMER_FULL_COLUMNS` 순서·헤더 = 목록 컬럼(DEC-234 헤더=화면 라벨), 화면에 없는
+  거래처코드2·주소1/2·추가번호는 끝. **한도(Grat7) 추가**(DEC-234 미포함 잔여 해소 — `customer_detail_select_sql` 에
+  `grat7`) → 34컬럼. 화면 표시/숨김과 무관: 프론트는 visibleColumns 를 보내지 않고 필드 선택 기본값 = 카탈로그 전체
+  ([[export-columns-follow-visible-fields]] 규칙의 **거래처현황 예외**). 필드 선택 팝오버에 「숨긴 컬럼도 저장」 안내.
+- **업로드(역반영) 하위호환** — PK 헤더 `코드`(+구 `거래처코드` 별칭, `parse_master_xlsx(pk_aliases=)`), 구 헤더
+  거래처구분/거래처지역/출고정지/전화번호/팩스번호/이메일/핸드폰번호/계산서구분 별칭 수용. 엑셀 전용 읽기전용
+  `CUSTOMER_EXPORT_ONLY_KEYS` = gjuso(주소 합본)·grat7(레거시 Sobo11 은 항상 0 저장·PATCH 대상 아님).
+- **검색 필터** — 지역(`f-jubun`) 입력칸·`jubun` 요청 파라미터·세션 스냅샷 키 제거(구 스냅샷의 숨은 지역 필터 잔존 방지).
+  백엔드 `jubun` 쿼리 파라미터는 API 로 유지. 거래처구분 선택 후 다음 칸 = 거래종료 제외.
+- **미포함** — `G1_Ggeo_Ext` 확장 필드(정지사유·연락처·유선전화2 등, DEC-230)는 목록 API 에 없어 엑셀 대상 아님.
+- **검증** — 신규 `test/test_dec292_customer_list_fields.py`(순서·약식 라벨·기본 표시 집합·v2 키·그리드 컬럼 전부 엑셀
+  포함·헤더=라벨·visibleColumns 미사용·grat7 SELECT·신/구 양식 업로드·PK 누락 메시지), `test_dec149`·`test_masters_excel_export`·
+  `test_sobo11_widget_traceability` 갱신. 스위트 2841 passed. tsc·eslint·grid_feature_baseline OK.
+  실화면은 Chrome 세션 만료(로그인 화면)로 미검증 — dev 컴파일 200 확인까지.
