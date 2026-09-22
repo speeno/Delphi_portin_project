@@ -351,23 +351,15 @@ class FrontendSourceGuards(TestCase):
             layout.index('"Sobo31"'),
             "원장관리 첫 항목은 거래처원장이어야 한다",
         )
-        # DEC-289 (2026-09-12 사용자) — 재고 화면(현황·금액·재고변경)은 **재고관리** 그룹으로 분리.
-        # 원장변경(장부 대조)만 원장관리에 남는다. DEC-137 의 «수불 3메뉴 → 1메뉴» 통합은 그대로.
-        stock = src.split("export const STOCK_SIDEBAR_LAYOUT")[1].split("];")[0]
-        # 2026-09-15 고객 회신 — 기간별재고원장(Sobo44_inv)은 「원장관리」에 유지한다
-        # (DEC-289 이동 대상에서 제외). 나머지 재고 2종만 재고관리 그룹.
-        self.assertIn('"Sobo44_inv"', layout, "기간별재고원장은 원장관리에 남는다(2026-09-15 회신)")
-        self.assertNotIn('"Sobo44_inv"', stock)
-        for fid in ('"Sobo34_1_value"', '"Sobo52_adjust"'):
-            self.assertIn(fid, stock, f"{fid} 는 재고관리 그룹에 있어야 한다")
-            self.assertNotIn(fid, layout, f"{fid} 가 원장관리에 남아 있다")
-        self.assertIn('"Sobo51_adjust"', layout, "원장변경은 원장관리에 남는다")
+        # DEC-306 (2026-09-23 사용자) — DEC-289 의 별도 「재고관리」 그룹 철회. 도서별재고금액은 기간별재고원장
+        # 아래, 재고변경은 원장변경 아래로 원장관리에 되돌아왔다. DEC-137 «수불 3메뉴 → 1메뉴» 통합은 그대로.
+        self.assertNotIn("STOCK_SIDEBAR_LAYOUT", src, "재고관리 그룹 레이아웃은 없다")
         groups = src.split("export const MENU_GROUPS")[1].split("] as const")[0]
-        self.assertLess(
-            groups.index('id: "stock"'),
-            groups.index('id: "inventory"'),
-            "재고관리 그룹은 원장관리 위에 온다",
-        )
+        self.assertNotIn('id: "stock"', groups, "재고관리 대메뉴는 없다")
+        ids = [ln.split('formId: "')[1].split('"')[0] for ln in layout.splitlines() if "formId" in ln]
+        self.assertIn("Sobo44_inv", ids, "기간별재고원장은 원장관리(2026-09-15 회신)")
+        self.assertEqual(ids[ids.index("Sobo44_inv") + 1], "Sobo34_1_value", "도서별재고금액은 기간별재고원장 아래")
+        self.assertEqual(ids[ids.index("Sobo51_adjust") + 1], "Sobo52_adjust", "재고변경은 원장변경 아래")
 
 
 if __name__ == "__main__":

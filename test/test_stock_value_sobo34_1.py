@@ -200,23 +200,23 @@ class SidebarAndPageTests(TestCase):
     """§DEC-028 — 사이드바 위치 + dfm 위젯 id 부착."""
 
     def test_menu_sits_right_after_stock_status(self) -> None:
+        """DEC-306 (2026-09-23 사용자) — 도서별재고금액은 **원장관리**의 기간별재고원장 바로 아래."""
         src = (FRONT / "lib" / "form-registry.ts").read_text(encoding="utf-8")
-        # DEC-289 — 재고 화면은 「재고관리」 그룹(STOCK_SIDEBAR_LAYOUT)으로 분리됐다.
-        layout = src.split("export const STOCK_SIDEBAR_LAYOUT")[1].split("];")[0]
-        order = [ln for ln in layout.splitlines() if "formId" in ln]
-        # 2026-09-15 고객 회신 — 기간별재고원장(Sobo44_inv)은 「원장관리」로 되돌렸다.
-        # 재고관리 그룹은 재고금액 → 재고변경 순(금액을 보고 나서 변경).
+        self.assertNotIn("STOCK_SIDEBAR_LAYOUT", src, "재고관리 그룹은 철회됐다")
+        layout = src.split("export const INVENTORY_SIDEBAR_LAYOUT")[1].split("];")[0]
+        order = [ln.split('formId: "')[1].split('"')[0] for ln in layout.splitlines() if "formId" in ln]
         self.assertEqual(
-            [ln.split('formId: "')[1].split('"')[0] for ln in order],
-            ["Sobo34_1_value", "Sobo52_adjust"],
-            "재고관리 그룹 = 재고금액 → 재고변경",
+            order[order.index("Sobo44_inv") + 1],
+            "Sobo34_1_value",
+            "도서별재고금액은 기간별재고원장 바로 아래",
         )
 
     def test_form_registry_entry(self) -> None:
         src = (FRONT / "lib" / "form-registry.ts").read_text(encoding="utf-8")
         self.assertIn('id: "Sobo34_1_value"', src)
         self.assertIn('folder: "Subu34_1"', src)
-        self.assertIn('caption: "재고금액"', src)
+        # DEC-306 — 메뉴명 「재고금액」 → 「도서별재고금액」.
+        self.assertIn('caption: "도서별재고금액"', src)
         self.assertIn('route: "/inventory/value"', src)
 
     def test_page_carries_dfm_widget_ids(self) -> None:
