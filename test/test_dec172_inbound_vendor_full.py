@@ -403,8 +403,9 @@ class ScreenGuard(TestCase):
             line = next(l for l in src.splitlines() if snippet in l)
             self.assertIn(legacy_id, line, f"{snippet} ↔ {legacy_id}")
         # 발행유무(Yesno)=체크박스 · 정지유무(Grat9)=유/무 셀렉트 — 거래처 화면과 동일한 위젯.
-        self.assertIn('onChange("yesno", e.target.checked ? "1" : "")', src)
-        self.assertIn('data-legacy-id="Sobo12.CheckBox1"', src)
+        # DEC-293 — 체크 칸은 공용 FormCheckCell(알약 높이) — 바인딩(Yesno ← "1"/"")은 그대로.
+        self.assertIn('onChange={(on) => onChange("yesno", on ? "1" : "")}', src)
+        self.assertIn('legacyId="Sobo12.CheckBox1"', src)
         self.assertIn('onChange("grat9", Number(e.target.value))', src)
         self.assertIn('data-legacy-id="Sobo12.CheckBox2"', src)
         self.assertIn("<Label>정지유무</Label>", src)

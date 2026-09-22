@@ -101,12 +101,11 @@ class FormLayoutParity(TestCase):
     """두 폼의 «행 구성»이 같아야 한다 — 라벨·순서·그리드 템플릿."""
 
     def test_basic_info_rows_match_customer(self) -> None:
-        for grid in (
-            'className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6"',           # 명/대표자/…/한도
-            'className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-[2.4fr_1.3fr_1.3fr_1fr_1.2fr]"',  # 주소 행
-        ):
-            self.assertIn(grid, CUST, grid)
-            self.assertIn(grid, FORM, grid)
+        # DEC-293 — 두 폼 모두 공용 4열 균등 칸(FORM_GRID) + 공용 AddressGroup(form-grid.tsx).
+        for src in (CUST, FORM):
+            self.assertIn('from "@/components/master/form-grid";', src)
+            self.assertEqual(src.count('<div className={FORM_GRID} data-form-grid="">'), 2)  # 기본정보·청구정보
+            self.assertNotIn("function AddressGroup", src, "주소 그룹은 공용 컴포넌트")
         # 주소1·주소2 모두 우편번호+검색+주소+상세주소 그룹
         self.assertEqual(FORM.count("<AddressGroup"), 2)
         self.assertIn("detail={data.add1_detail", FORM)
@@ -121,8 +120,10 @@ class FormLayoutParity(TestCase):
             self.assertIn(label.strip("<>"), FORM, label)
         self.assertIn('label="담당관리자2"', FORM)
         self.assertIn('data-legacy-id="Sobo12.Ext.Memo"', FORM)
-        self.assertIn('md:grid-cols-[1fr_1.6fr_auto]', FORM)  # 계산서 행 = 거래처와 같은 3열
-        self.assertIn('md:grid-cols-[1fr_1.6fr_auto]', CUST)
+        # 계산서 행 = 거래처와 같은 4칸(계산서 3칸 + 발행유무 1칸, DEC-293)
+        self.assertIn('label="발행유무"', FORM)
+        self.assertIn('label="발행유무"', CUST)
+        self.assertIn('className="md:col-span-2 xl:col-span-3"', FORM)
 
     def test_dec172_bindings_unchanged(self) -> None:
         """배열만 바꾼다 — 라벨↔실컬럼 바인딩(DEC-172)은 그대로."""

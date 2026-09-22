@@ -78,8 +78,9 @@ class FormLayout(TestCase):
         s = self.src
         base = s.index('data-legacy-id="Sobo11.Panel101"'); bill = s.index('data-legacy-id="Sobo11.Panel201"')
         self.assertLess(base, bill)
-        order = ["Sobo11.Edit101", "거래처지역", "거래처코드", "거래정지", '"사유"',
-                 "거래처명", "대표자", "사업자등록번호", '"업태"', '"종목"', '"한도"',
+        # DEC-293(2026-09-22) — 4열 균등 칸 재배치: 거래정지·사유만 한도 뒤로(나머지 DEC-230 순서 유지).
+        order = ["Sobo11.Edit101", "거래처지역", "거래처코드",
+                 "거래처명", "대표자", "사업자등록번호", '"업태"', '"종목"', '"한도"', "거래정지", '"사유"',
                  'label="주소1"', 'label="유선전화"', 'label="팩스번호"', 'label="휴대전화"', 'label="이메일"',
                  'label="주소2"', "Sobo11.Ext.Tel2", "Sobo11.Ext.Fax2", "Sobo11.Ext.Phon2", "Sobo11.Ext.Email2",
                  "청구정보", '"위탁"', '"현매"', '"매절"', '"납품"', '"특별"', '"기타"', '"신간수량"',
@@ -91,7 +92,10 @@ class FormLayout(TestCase):
             pos = i
 
     def test_address_split_and_postcode(self) -> None:
-        self.assertIn('import { PostcodeSearchButton } from "@/components/shared/postcode-search";', self.src)
+        # DEC-293 — 주소 그룹(우편번호·검색·주소·상세주소 한 줄)은 입고처와 공용 form-grid.tsx.
+        grid = (FRONT / "components" / "master" / "form-grid.tsx").read_text(encoding="utf-8")
+        self.assertIn('import { PostcodeSearchButton } from "@/components/shared/postcode-search";', grid)
+        self.assertIn('from "@/components/master/form-grid";', self.src)
         self.assertEqual(self.src.count("<AddressGroup"), 2)
         for lid in ("Sobo11.Edit111", "Sobo11.Edit116", "Sobo11.Ext.Add1Detail", "Sobo11.Ext.Zip2", "Sobo11.Edit117", "Sobo11.Ext.Add2Detail"):
             self.assertIn(lid, self.src, lid)
