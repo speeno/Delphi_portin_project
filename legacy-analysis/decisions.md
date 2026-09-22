@@ -6974,3 +6974,20 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   채움·고쳐 쓰면 교체. 신규 `test/test_dec297_outbound_new_customer_reentry.py`(구 코드 14 실패/신 코드 통과, 전표번호·거래구분·라임 버튼 5건 추가), 스위트 2883 passed,
   tsc·eslint·grid_feature_baseline OK(최종 스위트 2888 passed). **남은 동형 패턴**: 거래명세서 신규(`transactions/sales-statement/new`)도 입력 글자로 지사
   조회 — 보고 시 같은 방식으로 분리.
+
+### DEC-298 — 신규 출고 주문 거래처 참조 「전일미수 불러오기」 + 참조에서 거래처명 제외 (2026-09-22)
+
+- **요청** — 「신규출고주문 화면 거래처 참조 : (거래처관리 자료) 거래처명 제외하고, 「전일미수」 기능이 기존 화면에서 누락되어
+  해당 기능을 추가」(레거시 거래명세서-(본사) 캡처: 전일미수불러오기 체크 + 전일미수 1,838,520, 거래처명은 상단).
+- **레거시 정본** — `Subu21.Button301Click`: `CheckBox1`(전일미수불러오기, dfm 기본 해제) 체크 시
+  `Tong40.SetTring01('X', Edit101 거래일자, '', Edit104 거래처코드, '')` → `Edit208 := GsumX`. SetTring01(Tong04.pas
+  TTong40) = `_Sv_Chng_` 경로 — Sv_Chng 스냅샷(Gdate < 거래일자) Σ(Gssum−Gsusu) + 창 S1_Ssub Σ Gssum − H1 입금 + H1 출금 +
+  Sg_Gsum Σ Gbsum. 원장 전일미수 `_opening_receivable`(DEC-165, 1015 앵커 대사)과 같은 식이라 **새 산식 없이 재사용**.
+- **API** — `GET /api/v1/inventory/customer-ledger/opening?serverId&gcode&date` → `{gcode,date,prev_receivable}`
+  (`customer_txn_ledger_service.opening_receivable`). 격리는 거래처거래원장과 동일(`enforce_hcode_isolation` — 무입력=JWT scope,
+  타 테넌트 hcode 403). 날짜 YYYY-MM-DD/YYYY.MM.DD 외 422. db-smoke 매트릭스 `inventory.customer_ledger_opening` 등록.
+- **화면** — 공용 참조 패널에 `showCustomerName`(기본 true)·`prevReceivable`(선택) 추가. 신규 출고 주문만 거래처명 숨김(상단
+  거래처명 칸과 중복) + 「전일미수 | 금액 | ☐불러오기」 한 칸(Edit208/CheckBox1 legacy-id). 체크했을 때만 조회(레거시 기본 해제),
+  체크 여부는 브라우저별 기억, 거래일자·확정 거래처가 바뀌면 재조회. 거래명세서 화면의 「전일미수 불러오기 (준비 중)」은 미배선 그대로.
+- **검증** — 로컬 실데이터: 교문사 1015 홍익대[서울]대학서적, 거래일자 2026-09-22 → **1,838,520 (레거시 캡처와 일치)**.
+  신규 `test/test_dec298_prev_receivable.py` 9건(산식 합성·검증·라우트 격리 403·배선), hcode 도메인 감사 critical 0.

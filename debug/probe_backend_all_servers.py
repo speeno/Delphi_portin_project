@@ -985,6 +985,15 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # DEC-298 — 전일미수 단건(신규 출고 주문 「전일미수 불러오기」, Tong40.SetTring01)
+        {
+            "group": "inventory.customer_ledger_opening",
+            "path": (
+                f"/api/v1/inventory/customer-ledger/opening?serverId={sid}"
+                f"&gcode=1&date={dt}"
+            ),
+            "ok_status": {200},
+        },
         # DEC-288 「내용 전체 보기」 — 입고명세서 전 전표 라인 · 도서별판매 전 도서 거래처
         # (+ 현황 3화면 · 거래처별판매 · 도서별원장총괄 · 통합거래처원장 · 반품 2화면)
         {
