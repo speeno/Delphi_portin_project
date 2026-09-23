@@ -223,10 +223,16 @@ class SidebarAndPageTests(TestCase):
         page = (FRONT / "app" / "(app)" / "inventory" / "value" / "page.tsx").read_text(
             encoding="utf-8")
         # 2026-09 — 도서구분(본사/창고) 토글(Panel102)은 운영 화면 공통으로 숨기고 전체를 조회한다.
-        for wid in ("Sobo34_1.Edit101", "Sobo34_1.Edit103", "Sobo34_1.Edit109",
-                    "Sobo34_1.CheckBox3", "Sobo34_1.dxButton1",
+        # DEC-307 (2026-09-23 사용자 「기준율, 반품재고 제로: 불필요」) — 기준율(Edit109)·반품재고 제로(CheckBox3)
+        # 칸 제거. 금액은 기준율 100% 고정이라 산식·컬럼은 그대로다.
+        for wid in ("Sobo34_1.Edit101", "Sobo34_1.Edit103", "Sobo34_1.dxButton1",
                     "Sobo34_1.DBGrid101", "Sobo34_1.DBGrid201"):
             self.assertIn(wid, page, f"dfm 위젯 id 누락: {wid}")
+        for wid in ("Sobo34_1.Edit109", "Sobo34_1.CheckBox3"):
+            self.assertNotIn(wid, page, f"제거한 칸이 남아 있다: {wid}")
+        self.assertIn("const FIXED_RATE = 100;", page)
+        self.assertIn("rate: FIXED_RATE,", page)
+        self.assertIn("zeroReturn: false,", page)
 
     def test_page_declares_all_nine_grid_columns(self) -> None:
         """상·하단 9컬럼(dfm FieldName) 이 모두 화면에 있어야 한다."""
