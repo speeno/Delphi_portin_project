@@ -149,11 +149,18 @@ class AdjustmentScreenInputFlow(TestCase):
         # 2026-09-24 — 재고변경이 정품/비품 두 창이 되며 필터 줄은 `filterBar` 하나로 모였다.
         # 창 하나(원장변경)면 PageHeader 안, 두 창(재고변경)이면 각 창 안에 그대로 놓인다.
         bar = self.src.split("const filterBar = (")[1].split("const banners = (")[0]
-        for needle in ("행 추가", '{saving ? "저장 중…" : "저장"}', "검색"):
+        for needle in ('{saving ? "저장 중…" : "저장"}', "검색"):
             self.assertIn(needle, bar, "검색 옆 필터 줄에 있어야 한다")
-        self.assertIn("<PageHeader title={axis.title}>{filterBar}</PageHeader>", self.src)
+        # DEC-314(2026-09-24) — 행 추가는 다른 입력 화면처럼 표 아래 「라인 추가」(외곽선 sm)로 옮겼다.
+        self.assertNotIn("행 추가", bar)
+        self.assertNotIn("라인 추가", bar)
+        below = self.src.split("fillHeight={placement === \"pane\"}")[1].split("</>")[0]
+        self.assertIn("라인 추가", below)
+        self.assertIn('variant="outline"', below)
+        self.assertIn("onClick={addRow}", below)
+        self.assertIn("<PageHeader title={axis.title} filtersBelow={false}>", self.src)
         panel = self.src.split("legacyId={`${lf}.${ids.gridPanel}`}")[1].split("/>")[0]
-        self.assertNotIn("행 추가", panel, "그리드 헤더에는 남기지 않는다")
+        self.assertNotIn("라인 추가", panel, "그리드 헤더에는 두지 않는다")
 
     def test_new_row_takes_focus_at_its_first_cell(self) -> None:
         block = self.src.split("const focusLastRowStart = useCallback(")[1].split("}, []);")[0]

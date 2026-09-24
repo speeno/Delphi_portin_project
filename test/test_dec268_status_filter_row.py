@@ -43,7 +43,12 @@ class FiltersBelowTitle(TestCase):
         # 예외: 거래처거래원장 — 2026-09 UI 통일의 대표(레퍼런스) 화면. 기간·거래처·조회를
         # 제목 줄 오른쪽 부착형 필드로 배치한 기준 레이아웃이라 필터를 아래로 내리지 않는다.
         # 예외 2: 기간별재고원장 — DEC-310(2026-09-24 사용자 「다른 화면과 통일」)으로 거래처거래원장과 같은 한 줄 배치.
-        allowed = {"app/(app)/ledger/customer/page.tsx", "app/(app)/inventory/status/page.tsx"}
+        # 예외 3: 원장변경(조정 원장 공용 화면) — DEC-314(2026-09-24 「검색 입력 라인 공간 효율」) 같은 한 줄 배치.
+        allowed = {
+            "app/(app)/ledger/customer/page.tsx",
+            "app/(app)/inventory/status/page.tsx",
+            "components/ledger/adjustment-ledger-screen.tsx",
+        }
         opted_out = sorted(
             str(p.relative_to(FRONT))
             for p in FRONT.rglob("*.tsx")
