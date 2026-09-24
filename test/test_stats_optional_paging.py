@@ -162,14 +162,10 @@ class StatsFrontendStaticPaging(TestCase):
         src = p.read_text(encoding="utf-8")
         self.assertNotIn("거래처 hcode 는 필수", src)
         self.assertIn('hcode: eHcode.trim() || undefined', src)
-        self.assertIn("DataGridPager", src)
-        self.assertIn("<DataGridPager", src)
-        # DEC-141 — 그리드 행 타입이 파생 필드(매출부수/매출액) 포함 GridRow 로 확장됨.
-        dg_idx = src.find("<DataGrid<BookSalesGridRow>")
-        pager_idx = src.find("<DataGridPager")
-        self.assertGreaterEqual(pager_idx, 0)
-        self.assertGreaterEqual(dg_idx, 0)
-        self.assertLess(pager_idx, dg_idx, f"{p}: pager must render above DataGrid")
+        # 상단형 페이저는 전 화면에서 제거됐다(DataGridPager variant="full" = 0×0 자리표시자) — 페이지 이동은
+        # DataGrid 하단(footer) 페이저가 담당. DEC-321 에서 떠 있던 상단 도구줄을 걷으며 이 가드를 현 정책으로 갱신.
+        dg = src.split("<DataGrid<BookSalesGridRow>")[1].split("/>")[0]
+        self.assertIn("pager={{ page,", dg, f"{p}: 표 하단 페이저(DataGrid pager prop)")
 
 
 if __name__ == "__main__":

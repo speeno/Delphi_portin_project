@@ -20,12 +20,19 @@ class StatsShowAll(TestCase):
             self.assertIn("선택 해제", src, rel)
             self.assertIn("내용 전체 보기", src, rel)
 
-    def test_customer_sales_toolbar_is_above_panes_like_book_sales(self) -> None:
-        src = _read("reports/customer-sales/page.tsx")
-        before_split = src.split("<SplitListPanes")[0]
-        self.assertIn('data-legacy-id="Sobo62.ShowAll"', before_split, "체크박스는 두 창 위 한 줄(표 도구줄 아님)")
-        grid = src.split("<SplitListPanes")[1].split("bottom={")[0]
-        self.assertNotIn("toolbarTop=", grid)
+    def test_list_controls_live_in_each_table_header(self) -> None:
+        # DEC-321(2026-09-24 「어떤 엑셀저장인지 보기 어렵다」) — 두 창 위 공용 줄 대신 **표마다** 제목 줄(SectionHeader)에
+        # 그 표의 내용 전체 보기·컬럼 설정·엑셀 저장(도서별수불원장과 같은 구성).
+        for rel, sid in (("reports/book-sales/page.tsx", "Sobo61"), ("reports/customer-sales/page.tsx", "Sobo62")):
+            src = _read(rel)
+            self.assertNotIn(f'data-legacy-id="{sid}.ShowAll"', src.split("<SplitListPanes")[0], rel)
+            left = src.split("top={")[1].split("bottom={")[0]
+            self.assertIn("<SectionHeader", left, rel)
+            for wid in (f"{sid}.ShowAll", f"{sid}.Button_Export"):
+                self.assertIn(wid, left, f"{rel}: {wid} 는 좌측 표 머리")
+            right = src.split("bottom={")[1]
+            self.assertIn("<SectionHeader", right, rel)
+            self.assertIn(f"{sid}.Button_ExportDetail", right, rel)
 
     def test_book_sales_defaults_to_all_after_search(self) -> None:
         src = _read("reports/book-sales/page.tsx")
