@@ -97,3 +97,14 @@ class ApplyOrderMirrorTests(TestCase):
 
 if __name__ == "__main__":
     main()
+
+
+class Dec318UniqueExactNameAndConfirmed(TestCase):
+    """DEC-318(2026-09-24) — 다건 중 명칭 정확 일치 1건이면 확정, 확정된 칸의 Enter 는 재검색 없음. 코드 다건은 여전히 팝업(DEC-134)."""
+
+    def test_rules(self) -> None:
+        src = (FRONTEND / "src" / "components" / "master" / "master-lookup-field.tsx").read_text(encoding="utf-8")
+        self.assertIn("const exact = items.filter((it) => itemName(it).trim() === term);", src)
+        self.assertIn("if (exact.length === 1) pickIdx = items.indexOf(exact[0]);", src)
+        self.assertNotIn("itemCode(it).trim() === term", src, "코드 정확 일치 다건 자동확정 금지(DEC-134)")
+        self.assertIn("if (confirmed && !(resultsShown && activeIdx >= 0)) {", src)
