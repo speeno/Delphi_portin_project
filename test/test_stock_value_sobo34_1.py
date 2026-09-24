@@ -252,7 +252,10 @@ class SidebarAndPageTests(TestCase):
         self.assertNotIn("Sobo34_1.DBGrid101.GSQUT", page, "상단 정가 칸은 제거됐다")
         self.assertIn("Sobo34_1.DBGrid201.GSQUT", page, "하단(도서별) 정가는 유지")
         self.assertIn("exportTableXlsx", page)
-        self.assertEqual(page.count('"엑셀 저장"'), 2, "상·하단 목록 각각 엑셀 저장 버튼")
+        # DEC-315 — 기간별재고원장과 같은 섹션 헤더 알약 「엑셀 다운로드」·「출력」(종전 「엑셀 저장」 아이콘 버튼).
+        self.assertIn("엑셀 다운로드", page)
+        self.assertEqual(page.count('data-legacy-id="Sobo34_1.Export'), 2, "상·하단 목록 각각 엑셀 다운로드 버튼")
+        self.assertEqual(page.count('onClick={() => runPrint('), 2, "상·하단 목록 각각 출력 버튼")
         for wid in ("Sobo34_1.ExportClass", "Sobo34_1.ExportBook"):
             self.assertIn(wid, page)
 
