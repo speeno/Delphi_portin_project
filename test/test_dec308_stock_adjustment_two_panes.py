@@ -90,6 +90,19 @@ class TwoPaneScreen(TestCase):
         self.assertIn("pristine: true", self.src, "미리 채운 입력 줄은 건드리기 전엔 저장하지 않는다")
         self.assertIn("if (!o) return !r.pristine && !isBlankNew(r);", self.src)
 
+    def test_grid_sorts_and_exports_excel(self) -> None:
+        """2026-09-24 사용자 「목록표 정렬 기능 추가, 엑셀 저장 기능 추가」."""
+        for key in ("gdate", "gcode", "gname", "gssum", "gosum", "gbsum", "gbigo"):
+            col = self.src.split(f'key: "{key}",')[1][:40]
+            self.assertIn("sortable: true", col, f"{key} 헤더 정렬")
+        self.assertIn("sort={gridSort.sort}", self.src)
+        self.assertIn("rows={displayRows}", self.src)
+        # 새 행은 정렬과 무관하게 맨 아래 — 행 추가/입력 줄 포커스(«마지막 행»)가 깨지지 않게.
+        self.assertIn("[...gridSort.sortedRows, ...newRows]", self.src)
+        self.assertIn('"엑셀 저장"', self.src)
+        self.assertIn("gridRowsToExport(cols, displayRows)", self.src, "화면 컬럼·정렬 그대로")
+        self.assertIn('!== "row-actions"', self.src, "삭제 버튼 칸은 엑셀에서 뺀다")
+
     def test_unresolved_code_is_not_saved(self) -> None:
         self.assertIn("등록된 ${axis.codePlaceholder}가 아닙니다", self.src)
 

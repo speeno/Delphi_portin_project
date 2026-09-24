@@ -598,7 +598,7 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 0
+      "sortable": 7
     },
     "components/master/author-category-panel.tsx": {
       "column_settings": 0,
