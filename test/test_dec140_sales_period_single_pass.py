@@ -93,7 +93,8 @@ class FilterBarSourceGuards(TestCase):
             encoding="utf-8"
         )
         self.assertIn("advanceFilterOnEnter", src, "필터 Enter 이동 회귀 — DEC-140")
-        self.assertIn("data-enter-scope", src)
+        # DEC-320 — 공용 한 줄 검색(LedgerSearchLine)이 data-enter-scope 를 단다.
+        self.assertIn("<LedgerSearchLine", src)
         self.assertIn("bcodeFromName", src, "선택 도서명 표기 회귀 — DEC-140")
         self.assertIn("Button_Search", src.split("filterStopIds")[1].split("return ids")[0],
                       "Enter 흐름 마지막 스톱 = 조회 버튼")

@@ -58,7 +58,11 @@ class FiltersBelowTitle(TestCase):
             for p in FRONT.rglob("*.tsx")
             if "filtersBelow={false}" in p.read_text(encoding="utf-8")
         )
-        self.assertEqual([p for p in opted_out if p not in allowed], [], opted_out)
+        # 예외 5: 통계관리 하위 화면 전부 — DEC-320(2026-09-24 「통계관리 하위 화면 검색 레이아웃을 거래처거래원장처럼 통일」).
+        stats_prefixes = ("app/(app)/stats/", "app/(app)/reports/")
+        self.assertEqual(
+            [p for p in opted_out if p not in allowed and not p.startswith(stats_prefixes)], [], opted_out
+        )
 
     def test_filters_stay_inside_the_band(self) -> None:
         """필터는 띠 밖으로 나가지 않는다 — .page-header 인라인 라벨 CSS·Enter 스코프 유지."""
