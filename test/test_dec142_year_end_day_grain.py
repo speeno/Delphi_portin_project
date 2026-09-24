@@ -97,10 +97,12 @@ class LabelAndSourceGuards(TestCase):
         )
         self.assertNotIn('label: "파지수"', src, "'파지' 라벨 부활 — DEC-142 회귀")
         self.assertNotIn('label: "파지액"', src)
-        self.assertIn('"year" | "month" | "day"', src)
-        self.assertIn('switchGrain("day")', src)
-        self.assertIn('monthOnly={grain !== "day"}', src)
-        self.assertIn("bcodeFromName", src, "선택 도서명 표기 회귀")
+        # DEC-323(2026-09-24 사용자 「Scode 필터, 집계 단위, 하단 상세내역: 불필요」) — 년/월/일 전환·드릴다운 화면 제거,
+        # 년 집계 고정(백엔드 grain 파라미터는 유지). 도서는 한 칸(도서명 표시).
+        self.assertIn('const grain: Grain = "year";', src)
+        self.assertNotIn("switchGrain", src)
+        self.assertNotIn("drillDown", src)
+        self.assertIn("value={bookQuery}", src, "선택 도서명 표기")
 
 
 if __name__ == "__main__":

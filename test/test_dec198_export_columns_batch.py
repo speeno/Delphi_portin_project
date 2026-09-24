@@ -138,11 +138,16 @@ class RouteTests(TestCase):
 
 
 class ScreenWiringTests(TestCase):
-    PAGES = """reports/book-sales reports/customer-sales reports/year-end-book
+    # DEC-323 — 도서별년말집계는 «엑셀 = 전 필드» 예외(사용자 2026-09-24)라 아래 전용 가드로 뺐다.
+    PAGES = """reports/book-sales reports/customer-sales
         returns/ledger returns/period-report returns/reports
         settlement/period settlement/shipping-ledger settlement/shipping-status
         stats/book-turnover stats/book stats/customer-analysis stats/customer stats/monthly
         stats/publisher stats/quarterly-summary stats/sales-period""".split()
+
+    def test_year_end_book_exports_all_columns(self) -> None:
+        src = (FRONT / "app" / "(app)" / "reports" / "year-end-book" / "page.tsx").read_text(encoding="utf-8")
+        self.assertIn("columns: allColumns.map((c) => ({ key: c.id ?? c.key, label: c.label }))", src)
 
     def test_every_export_page_passes_visible_columns(self) -> None:
         for pg in self.PAGES:

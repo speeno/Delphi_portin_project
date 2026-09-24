@@ -38,12 +38,12 @@
       "pager": 0,
       "reorder": 2,
       "resize": 4,
-      "sortable": 19
+      "sortable": 21
     },
     "app/(app)/inventory/status/page.tsx": {
-      "column_settings": 1,
+      "column_settings": 2,
       "data_grid": 2,
-      "freeze": 2,
+      "freeze": 4,
       "keyboard": 1,
       "pager": 1,
       "reorder": 2,
@@ -108,7 +108,7 @@
       "pager": 0,
       "reorder": 2,
       "resize": 4,
-      "sortable": 20
+      "sortable": 23
     },
     "app/(app)/ledger/receivable/page.tsx": {
       "column_settings": 2,
