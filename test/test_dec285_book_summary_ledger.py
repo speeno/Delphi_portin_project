@@ -289,7 +289,9 @@ class BookSummaryRegistrationTests(TestCase):
         self.assertIn('id: "Sobo36_book_summary"', src)
         self.assertIn('caption: "도서별원장총괄"', src)
         self.assertIn('route: "/ledger/book-summary"', src)
-        self.assertIn('formId: "Sobo36_book_summary"', src, "INVENTORY_SIDEBAR_LAYOUT 등록")
+        # DEC-309 (2026-09-24 사용자 「원장 관리에서 도서별 원장 총괄 메뉴 제거」) — 사이드바에서만 감춘다.
+        layout = src.split("export const INVENTORY_SIDEBAR_LAYOUT", 1)[1].split("];", 1)[0]
+        self.assertNotIn('formId: "Sobo36_book_summary"', layout, "원장관리 메뉴에서 감춤")
         self.assertEqual(src.count('id: "Sobo36_book_summary"'), 1, "id 중복 금지")
         # menuId/권한/phase 는 같은 엔트리 블록 안에 있어야 한다.
         block = src.split('id: "Sobo36_book_summary"', 1)[1].split("},", 1)[0]
