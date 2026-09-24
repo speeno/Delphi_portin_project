@@ -141,7 +141,8 @@ class LedgerScreens(TestCase):
         i = src.index("const TOP_COLUMNS")
         block = src[i : src.index("];", i)]
         labels = re.findall(r'label: "([^"]+)"', block)
-        self.assertEqual(labels, ["거래일자", "입고", "반입", "출고", "증정", "반품", "폐기", "변경", "현재고", "재고(반)"])
+        # DEC-313(2026-09-24) — 반품 뒤 「판매부수」(= 출고 + 반품) 추가.
+        self.assertEqual(labels, ["거래일자", "입고", "반입", "출고", "증정", "반품", "판매부수", "폐기", "변경", "현재고", "재고(반)"])
 
 
 class TableExportHelpers(TestCase):
