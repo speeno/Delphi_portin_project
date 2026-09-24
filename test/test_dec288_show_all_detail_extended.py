@@ -198,10 +198,9 @@ class ScreensShowAll(unittest.TestCase):
             or "secondaryVisible={showAll || Boolean(selectedKey)}" in inbound,
         )
         sales = _read("app/(app)/reports/book-sales/page.tsx")
-        self.assertTrue(
-            "disabled={!showAll && !detail}" in sales
-            or "secondaryVisible={showAll || detail !== null}" in sales,
-        )
+        # DEC-319 — 도서별판매는 우측을 항상 띄우고 선택 없음 = 전체(원장 DEC-316 과 같은 규칙).
+        self.assertNotIn("secondaryVisible=", sales)
+        self.assertIn("const effectiveAll = showAll || detail === null;", sales)
 
     def test_identity_columns_prepended_in_all_mode(self):
         """여러 전표/도서가 한 표에 섞이므로 식별 컬럼이 앞에 붙는다."""
@@ -210,7 +209,7 @@ class ScreensShowAll(unittest.TestCase):
         self.assertIn("showAll ? [...ALL_LINE_KEY_COLUMNS, ...cols] : cols", inbound)
         sales = _read("app/(app)/reports/book-sales/page.tsx")
         self.assertIn("ALL_BOOK_KEY_COLUMNS", sales)
-        self.assertIn("showAll ? [...ALL_BOOK_KEY_COLUMNS, ...cols] : cols", sales)
+        self.assertIn("effectiveAll ? [...ALL_BOOK_KEY_COLUMNS, ...cols] : cols", sales)
 
 
 class AllMasterDetailScreensCovered(unittest.TestCase):

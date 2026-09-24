@@ -44,10 +44,9 @@ class BookSalesShowAll(TestCase):
         # `secondaryVisible={showAll || <선택있음>}` 으로 바뀌었다(전체 보기면 하단 전 건 상세,
         # 선택 없으면 분할 없이 상단만 — 동작 요구는 동일). 두 표현 중 하나면 통과.
         self.assertIn('storageKey="reports.book-sales"', self.src)
-        self.assertTrue(
-            "disabled={!showAll && !detail}" in self.src
-            or "secondaryVisible={showAll || detail !== null}" in self.src,
-        )
+        # DEC-319(2026-09-24) — 하단(우측)은 항상 표시, 선택이 없거나 「내용 전체 보기」면 전 도서 상세.
+        self.assertIn("const effectiveAll = showAll || detail === null;", self.src)
+        self.assertNotIn("secondaryVisible=", self.src)
         self.assertNotIn("unbounded={showAll}", self.src)
         self.assertIn("bookSalesCustomersAll", self.src)
 
