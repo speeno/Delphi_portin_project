@@ -100,7 +100,9 @@ class MigrationCoverage(TestCase):
         i = src.index("<PageHeader")
         j = src.index("</PageHeader>", i)
         band = src[i:j]
-        self.assertIn('className="contents"', band)
+        # DEC-310 (2026-09-24) — 거래처거래원장과 같은 한 줄 검색(flex 행)로 바뀌어 contents 래퍼 대신
+        # 행 컨테이너가 Enter 범위(data-enter-scope)·onKeyDown 을 직접 가진다.
+        self.assertIn("data-enter-scope", band)
         self.assertIn("onKeyDown=", band)
         self.assertIn("advanceFilterOnEnter", src)
 
