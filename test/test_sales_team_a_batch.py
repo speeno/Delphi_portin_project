@@ -137,7 +137,9 @@ class SingleFilterUiTests(TestCase):
 
     def test_book_sales_filter_ui(self) -> None:
         src = (FRONTEND / "src/app/(app)/reports/book-sales/page.tsx").read_text("utf-8")
-        self.assertIn("Sobo61.Chk_AllBooks", src)
+        # DEC-322(2026-09-24 사용자 「불필요한 전체는 제거」) — 「전체」 체크 제거, 도서 칸이 비면 전체.
+        self.assertNotIn("Sobo61.Chk_AllBooks", src)
+        self.assertIn("const bookAll = !bcode.trim();", src)
         # 실사용 제거 확인(설명 주석의 과거형 언급은 허용).
         self.assertNotIn("<Label>도서코드 시작</Label>", src)
         self.assertNotIn("setBcodeFrom", src)
@@ -145,7 +147,10 @@ class SingleFilterUiTests(TestCase):
 
     def test_customer_sales_filter_ui(self) -> None:
         src = (FRONTEND / "src/app/(app)/reports/customer-sales/page.tsx").read_text("utf-8")
-        self.assertIn("Sobo62.Chk_AllCustomers", src)
+        # DEC-322 — 「전체」 체크 제거(거래처 칸이 비면 전체), 「지점별검색」(CheckBox1)은 유지.
+        self.assertNotIn("Sobo62.Chk_AllCustomers", src)
+        self.assertIn("const customerAll = !gcode.trim();", src)
+        self.assertIn("Sobo62.CheckBox1", src)
         self.assertNotIn("<Label>거래처코드 시작</Label>", src)
         self.assertNotIn("setGcodeFrom", src)
         self.assertNotIn("gcodeFrom:", src)
