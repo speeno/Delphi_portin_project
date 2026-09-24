@@ -245,6 +245,17 @@ class SidebarAndPageTests(TestCase):
         for field in ("GSUMY", "GOSUM", "GSSUM", "GBSUM", "GJQUT", "GJSUM"):
             self.assertIn(field, page, f"dfm FieldName legacyId 누락: {field}")
 
+    def test_class_grid_drops_gdang_and_page_has_excel_save(self) -> None:
+        """2026-09-24 사용자 요청 — 상단(도서구분) 정가 칸 제거, 상·하단 「엑셀 저장」 버튼 추가."""
+        page = (FRONT / "app" / "(app)" / "inventory" / "value" / "page.tsx").read_text(
+            encoding="utf-8")
+        self.assertNotIn("Sobo34_1.DBGrid101.GSQUT", page, "상단 정가 칸은 제거됐다")
+        self.assertIn("Sobo34_1.DBGrid201.GSQUT", page, "하단(도서별) 정가는 유지")
+        self.assertIn("exportTableXlsx", page)
+        self.assertEqual(page.count('"엑셀 저장"'), 2, "상·하단 목록 각각 엑셀 저장 버튼")
+        for wid in ("Sobo34_1.ExportClass", "Sobo34_1.ExportBook"):
+            self.assertIn(wid, page)
+
     def test_mapping_note_exists(self) -> None:
         note = ROOT / "analysis" / "layout_mappings" / "Sobo34_1_stock_value.md"
         self.assertTrue(note.exists(), "DEC-028 레이아웃 매핑 노트 필수")

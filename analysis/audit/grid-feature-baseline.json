@@ -58,7 +58,7 @@
       "pager": 0,
       "reorder": 2,
       "resize": 4,
-      "sortable": 12
+      "sortable": 11
     },
     "app/(app)/ledger/book-integrated/page.tsx": {
       "column_settings": 1,
