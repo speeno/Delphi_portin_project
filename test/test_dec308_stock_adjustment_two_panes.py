@@ -103,6 +103,19 @@ class TwoPaneScreen(TestCase):
         self.assertIn("gridRowsToExport(cols, displayRows)", self.src, "화면 컬럼·정렬 그대로")
         self.assertIn('!== "row-actions"', self.src, "삭제 버튼 칸은 엑셀에서 뺀다")
 
+    def test_customer_axis_search_box_is_lookup_too(self) -> None:
+        """DEC-317(2026-09-24 사용자 「원장변경 자동검색이 작동하지 않는다, 결과는 거래처명으로」)."""
+        bar = self.src.split("const filterBar = (")[1].split("const banners = (")[0]
+        self.assertIn("<MasterLookupField", bar)
+        self.assertNotIn("<Input", bar, "평문 입력칸(자동완성 없음) 제거")
+        self.assertIn("inlineItemCodeName(axis.lookupKind, item)", bar)
+        # 거래처 인라인 항목 코드는 hcode 필드(C2 자동완성 API 명명).
+        self.assertIn("c.hcode ?? c.gcode", self.src)
+        self.assertIn("setQ(name || c);", self.src, "확정 후 칸에는 이름")
+        # 원장변경 그리드 코드 칸도 인라인 자동완성.
+        code_col = self.src.split('key: "gcode",')[1].split('key: "gname",')[0]
+        self.assertEqual(code_col.count("useInlineAutocomplete"), 1)
+
     def test_unresolved_code_is_not_saved(self) -> None:
         self.assertIn("등록된 ${axis.codePlaceholder}가 아닙니다", self.src)
 
