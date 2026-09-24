@@ -146,10 +146,13 @@ class AdjustmentScreenInputFlow(TestCase):
         self.assertNotIn("-01-01", block, "연초~오늘 기본값은 사용자 요청으로 폐기")
 
     def test_action_buttons_sit_in_the_filter_row(self) -> None:
-        header = self.src.split("<PageHeader")[1].split("</PageHeader>")[0]
-        for needle in ("행 추가", '{saving ? "저장 중…" : "저장"}'):
-            self.assertIn(needle, header, "검색 옆 필터 줄에 있어야 한다")
-        panel = self.src.split("legacyId={`${lf}.Panel002`}")[1].split("/>")[0]
+        # 2026-09-24 — 재고변경이 정품/비품 두 창이 되며 필터 줄은 `filterBar` 하나로 모였다.
+        # 창 하나(원장변경)면 PageHeader 안, 두 창(재고변경)이면 각 창 안에 그대로 놓인다.
+        bar = self.src.split("const filterBar = (")[1].split("const banners = (")[0]
+        for needle in ("행 추가", '{saving ? "저장 중…" : "저장"}', "검색"):
+            self.assertIn(needle, bar, "검색 옆 필터 줄에 있어야 한다")
+        self.assertIn("<PageHeader title={axis.title}>{filterBar}</PageHeader>", self.src)
+        panel = self.src.split("legacyId={`${lf}.${ids.gridPanel}`}")[1].split("/>")[0]
         self.assertNotIn("행 추가", panel, "그리드 헤더에는 남기지 않는다")
 
     def test_new_row_takes_focus_at_its_first_cell(self) -> None:

@@ -41,8 +41,10 @@ ROWS = [
 class AxisDataTests(TestCase):
     def test_two_axes_are_data_not_branches(self) -> None:
         a = svc.axes()
-        self.assertEqual(set(a), {"customer", "book"})
+        # DEC-308 — 재고변경 비품 창(Scode C) 축 추가.
+        self.assertEqual(set(a), {"customer", "book", "book_return"})
         self.assertTrue(a["book"]["auto_ledger_value"], "재고변경은 원장재고 자동조회 지원")
+        self.assertTrue(a["book_return"]["auto_ledger_value"], "비품 창은 반품재고 자동조회")
         self.assertFalse(a["customer"]["auto_ledger_value"], "원장변경은 1차 미지원(직접 입력)")
 
     def test_axis_tables_and_scodes(self) -> None:

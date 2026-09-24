@@ -266,6 +266,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "path": f"/api/v1/ledger/adjustments?serverId={sid}&axis=book&dateFrom={df}&dateTo={dt}&limit=1",
             "ok_status": {200},
         },
+        # DEC-308 — 재고변경 비품 창(Sg_Csum Scode C).
+        {
+            "group": "ledger.adjustments.book_return",
+            "path": f"/api/v1/ledger/adjustments?serverId={sid}&axis=book_return&dateFrom={df}&dateTo={dt}&limit=1",
+            "ok_status": {200},
+        },
         # DEC-273 — 도서분류 대역 채번(gubunCode). 대역표 없는 테넌트는 종전 채번으로 200(회귀 0).
         {
             "group": "masters.next_code.book_band",

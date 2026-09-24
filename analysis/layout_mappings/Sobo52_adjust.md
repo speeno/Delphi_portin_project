@@ -44,8 +44,8 @@ DEC-028 의무 매핑 노트. 2026-09-12 교문사 요청 — 레거시 자료�
 |---|---|---:|---|
 | 상단 검색 패널 | `Panel001` (TFlatPanel) | 0 | `PageHeader` 필터 줄 (DEC-268) |
 | **상단 그리드** | `Panel002` → `DBGrid101` (TDBGridEh) | 1 / 0 | `SectionHeader` + `DataGrid` |
-| 하단 검색 패널 | `Panel003` | 2 | **의도적 제외** (§6) |
-| 하단 그리드 | `Panel004` → `DBGrid201` (비품 축) | 3 / 0 | **의도적 제외** (§6) |
+| 하단 검색 패널 | `Panel003` | 2 | 비품 창 필터 줄 (DEC-308, §6) |
+| 하단 그리드 | `Panel004` → `DBGrid201` (비품 축) | 3 / 0 | 우측 비품 창 `DataGrid` (DEC-308, §6) |
 | 진행 패널 | `Panel007` (`ProgressBar0/1`, `Panel008/009/010`) | 4 | React `loading` 상태로 흡수 |
 | 액션 코너 | `CornerButton1~4/9` + `Label301~304/309` | n/a | 모던 셸(사이드바/헤더)로 흡수 |
 
@@ -117,18 +117,26 @@ Enter=다음 이동 스톱 순서 = `Edit101 → Edit102 → Edit104 → dxButto
 저장은 **삭제 → 수정 → 신규** 순으로 행 단위 진행하며, 일부만 실패해도 성공분은 그대로 반영하고
 실패한 행의 입력은 화면에 남긴다(오류 배너에 `n행(코드) — 사유` 나열, `formatApiError`).
 
-## 6. 의도적 제외 — 하단 창(비품)
+## 6. 하단 창(비품) — DEC-308 로 복원 (2026-09-24)
 
-사용자 확정(2026-09-12 교문사): **상단 창만 필요**. 아래는 포팅하지 않았다.
+DEC-282 당시 「상단 창만」으로 뺐던 비품 창을 사용자 요청(「기존 재고변경 레거시 기능과 동일하게」)으로 복원했다.
+레거시는 상하로 쌓지만 웹은 **좌우**(`SplitListPanes orientation="horizontal"`) — 좌 정품 / 우 비품.
 
-| dfm | 내용 | 사유 |
+| 항목 | 정품 창 (좌) | 비품 창 (우) |
 |---|---|---|
-| `Panel003` (TabOrder 2) | 하단 검색 패널 — `Edit201/202`(기간), `Edit204`(도서명), `Panel201/202`, `DateEdit3/4`, `Button201` | 요구 제외 |
-| `Panel004` → `DBGrid201` (TabOrder 3) | 비품 축 조정 그리드(상단과 같은 7 컬럼) | 요구 제외 |
-| `Panel007` | 진행률 패널 | React `loading` 으로 대체 |
-| `CornerButton*` / `Label30*` | 델파이 폼 코너 액션 | 모던 셸이 담당 |
+| 필터 패널 / 그리드 패널 | `Panel001` / `Panel002` | `Panel003` / `Panel004` |
+| 기간 · 검색 · 검색 버튼 | `Edit101`·`Edit102` · `Edit104` · `dxButton1` | `Edit201`·`Edit202` · `Edit204` · `Button201` |
+| 그리드 | `DBGrid101` | `DBGrid201` |
+| 저장 | `Button701` | `Button702` |
+| 저장 대상 | `Sg_Csum` `Scode='A'` | `Sg_Csum` `Scode='C'` (Button201Click) |
+| 원장재고 자동값 | 본사 정품재고(`GsumX`) | 본사 **반품재고**(`Gbqut`, DBGrid201KeyPress) |
+| 백엔드 축 | `axis=book` | `axis=book_return` |
 
-필요해지면 `AdjustmentAxis` 객체를 하나 더 추가하는 것으로 끝난다 — 코드 분기 0.
+공통 동작(두 창 동일)
+- 검색칸 = 도서 룩업. Enter 로 1건이면 바로, 여러 건이면 팝업 → 코드 확정(레거시 `Edit103/203`) → `gcode` 정확 일치로 조회.
+- 확정 검색 뒤 그 도서의 입력 줄(레거시 삽입행 `*`)을 붙이고 대조재고 칸으로 포커스. 건드리지 않으면 저장하지 않는다.
+- 그리드 도서명 칸 = 편집 칸(룩업, `GNAME.EDIT` + `GNAME.ELLIPSIS`). 코드 칸은 코드 입력(`GCODE.EDIT`).
+- 진행 패널(`Panel007`)·코너 버튼은 종전대로 React `loading`·모던 셸로 흡수.
 
 ## 7. 고객 변형
 
