@@ -131,7 +131,8 @@ class LedgerScreens(TestCase):
     def test_customer_ledger(self) -> None:
         self._check(
             "app/(app)/ledger/customer/page.tsx", "ledger.customer", "거래일자와 거래처명/거래처 코드로 검색하세요", "selKey",
-            "일자별 출고 상세",  # DEC-287 후속(사용자 2026-09-12): 거래처원장 체크박스 라벨
+            # DEC-312(사용자 2026-09-24): 다른 화면과 같은 「내용 전체 보기」(종전 「일자별 출고 상세」).
+            "내용 전체 보기",
         )
 
     def test_export_columns_follow_visible_order(self) -> None:

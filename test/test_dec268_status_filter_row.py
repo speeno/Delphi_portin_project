@@ -42,7 +42,8 @@ class FiltersBelowTitle(TestCase):
         """전 화면 규칙이므로 `filtersBelow={false}` 로 되돌린 화면이 없어야 한다(예외는 여기에 명시)."""
         # 예외: 거래처거래원장 — 2026-09 UI 통일의 대표(레퍼런스) 화면. 기간·거래처·조회를
         # 제목 줄 오른쪽 부착형 필드로 배치한 기준 레이아웃이라 필터를 아래로 내리지 않는다.
-        allowed = {"app/(app)/ledger/customer/page.tsx"}
+        # 예외 2: 기간별재고원장 — DEC-310(2026-09-24 사용자 「다른 화면과 통일」)으로 거래처거래원장과 같은 한 줄 배치.
+        allowed = {"app/(app)/ledger/customer/page.tsx", "app/(app)/inventory/status/page.tsx"}
         opted_out = sorted(
             str(p.relative_to(FRONT))
             for p in FRONT.rglob("*.tsx")

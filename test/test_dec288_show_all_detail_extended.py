@@ -259,6 +259,8 @@ class AllMasterDetailScreensCovered(unittest.TestCase):
                 "app/(app)/inbound/reports/period/page.tsx",
                 # 총판/출판 비율 프로필 2축 편집 화면(목록-상세 아님).
                 "app/(app)/master/special/page.tsx",
+                # 재고변경 정품/비품 두 창(DEC-308) — 서로 독립인 편집 그리드(목록-상세 아님).
+                "components/ledger/adjustment-ledger-screen.tsx",
                 # 2026-09 UI 통일에서 2단으로 바뀐 거래명세서(총판) 뷰 — 전 건 상세 API 미도입.
                 # DEC-288 후속 대상(체크박스 도입 시 이 항목 제거).
                 "components/outbound/outbound-statement-view.tsx",

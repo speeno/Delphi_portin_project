@@ -181,10 +181,11 @@ class LedgerScreensShowAll(unittest.TestCase):
     """두 원장 화면 — 「내용 전체 보기」 = 하단 전체 상세(상단 표를 펼치는 기능이 아니다)."""
 
     # (화면, 선택 상태 변수, 전체 상세 엔드포인트, 체크 시 하단 표 제목, 체크박스 라벨)
-    # 거래처원장 라벨/제목은 사용자 지정(2026-09-12): 「일자별 출고 상세」 → 「일자별 출고 도서 상세 내역」.
+    # 거래처원장 하단 제목은 사용자 지정(2026-09-12) 「일자별 출고 도서 상세 내역」, 체크박스는 DEC-312(2026-09-24)로
+    # 다른 화면과 같은 「내용 전체 보기」.
     CASES = (
         ("app/(app)/ledger/customer/page.tsx", "selKey", "customer-ledger/slip-detail-all",
-         "일자별 출고 도서 상세 내역", "일자별 출고 상세"),
+         "일자별 출고 도서 상세 내역", "내용 전체 보기"),
         ("app/(app)/inventory/ledger/page.tsx", "selDate", "book-ledger/day-detail-all",
          "전체 일자 상세 조회", "내용 전체 보기"),
     )
