@@ -25,7 +25,9 @@ class InventoryStatusScreen(TestCase):
         self.src = _read("app/(app)/inventory/status/page.tsx")
 
     def test_default_single_book_table_with_mockup_columns(self) -> None:
-        self.assertNotIn("<SplitListPanes", self.src, "2단 분할 대신 단일 표")
+        # DEC-316(2026-09-24 사용자 「다른 원장과 동일하게 좌우 화면」) — 목업의 단일 표 규칙을 대체: 좌 도서구분별 / 우 도서별.
+        self.assertIn("<SplitListPanes", self.src)
+        self.assertIn('orientation="horizontal"', self.src)
         self.assertIn('const BOOK_DEFAULT_HIDDEN = ["gsumx", "gisum", "gjqut", "gpsum", "gssum"];', self.src)
         self.assertIn('"inventory.status.book.v2"', self.src, "저장 설정이 새 기본을 덮지 않도록 키 v2")
         self.assertIn('key: "gisbn",\n    label: "ISBN"', self.src)
@@ -35,14 +37,13 @@ class InventoryStatusScreen(TestCase):
 
     def test_empty_hint_section_header_and_class_toggle(self) -> None:
         self.assertIn("<EmptyHint>거래일자와 도서명으로 검색하세요</EmptyHint>", self.src)
-        self.assertIn("<SectionHeader", self.src)
-        self.assertIn('data-legacy-id="Sobo34.ClassView"', self.src)
-        self.assertIn("분류별 집계", self.src)
-        # 도서 1종 → 「도서명 코드」, 분류 선택 → 「분류 · 이름」, 아니면 「전체 기간」
-        self.assertIn('data && data.by_book.length === 1 ? data.by_book[0] : null', self.src)
-        self.assertIn('"전체 기간"', self.src)
-        # 분류 행 클릭 → 그 분류 도서 표로
-        self.assertIn("setSelectedClass(r.class_code);\n              setClassView(false);", self.src)
+        self.assertEqual(self.src.count("<SectionHeader"), 2, "좌·우 각각 섹션 헤더")
+        # DEC-316 — 「도서구분별 집계」 토글 제거, 좌측 머리에 「내용 전체 보기」, 조회 직후 우측 = 전 도서.
+        self.assertNotIn("Sobo34.ClassView", self.src)
+        self.assertIn('data-legacy-id="Sobo34.ShowAll"', self.src)
+        self.assertIn("showAll || selectedClass === null", self.src)
+        self.assertIn('"도서별 (전체)"', self.src)
+        self.assertIn("구분 해제", self.src)
 
     def test_client_pagination_and_export(self) -> None:
         self.assertIn("pager={{ page: pageState, onChange: setPage }}", self.src)
@@ -50,8 +51,8 @@ class InventoryStatusScreen(TestCase):
         self.assertIn("bookSort.sortedRows.slice(safeOffset, safeOffset + page.limit)", self.src)
         self.assertIn("exportTableXlsx", self.src)
         self.assertIn("printTable", self.src)
-        # 엑셀 컬럼 = 현재 보이는 컬럼(사용자 규칙)
-        self.assertIn("const exportColumns = viewCols.map(", self.src)
+        # 엑셀 컬럼 = 현재 보이는 컬럼(사용자 규칙) — 표마다(DEC-316).
+        self.assertIn("const cols = which === \"class\" ? visibleClassCols : visibleBookCols;", self.src)
 
 
 class NumberedPager(TestCase):

@@ -43,9 +43,11 @@ class ReceivableShowsBothPanes(TestCase):
     def setUp(self) -> None:
         self.src = _read("app/(app)/ledger/receivable/page.tsx")
 
-    def test_first_gubun_auto_selected_after_search(self) -> None:
-        self.assertIn("autoPickRef.current = true;", self.src)
-        self.assertIn("const first = gubunSort.sortedRows[0];", self.src)
+    def test_both_panes_shown_after_search_all_customers(self) -> None:
+        # DEC-316 — 첫 구분 자동 선택 대신 레거시처럼 조회 직후 하단 = 전 거래처(구분 미선택), 하단은 항상 표시.
+        self.assertNotIn("autoPickRef", self.src)
+        self.assertNotIn("secondaryVisible=", self.src)
+        self.assertIn("showAll || selGubun === null", self.src)
 
     def test_show_all_checkbox_on_top_header(self) -> None:
         top = self.src.split('title="거래처구분별"')[1].split('legacyId="Sobo33.DBGrid101"')[0]
@@ -61,7 +63,9 @@ class StockValueTopLikeInventoryStatus(TestCase):
         src = _read("app/(app)/inventory/value/page.tsx")
         self.assertIn("<EmptyHint>거래일자와 도서명으로 검색하세요</EmptyHint>", src)
         self.assertEqual(src.count("<SectionHeader"), 2)
-        self.assertIn("{!showAll && selectedClass === null ? (", src, "내용 전체 보기면 선택 없이도 하단 표")
+        # DEC-316 — 조회 직후(구분 미선택)·내용 전체 보기 = 전 도서, 하단은 항상 표시.
+        self.assertIn("showAll || selectedClass === null", src)
+        self.assertNotIn("secondaryVisible=", src)
 
 
 if __name__ == "__main__":

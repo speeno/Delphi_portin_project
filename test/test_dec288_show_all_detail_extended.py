@@ -226,7 +226,9 @@ class AllMasterDetailScreensCovered(unittest.TestCase):
         ("app/(app)/ledger/customer-integrated/page.tsx", "customer-ledger/daily-all"),
         ("app/(app)/ledger/book-summary/page.tsx", "book-summary/months-all"),
         ("app/(app)/ledger/receivable/page.tsx", "showAll || selGubun === null"),
-        ("app/(app)/inventory/value/page.tsx", "showAll\n        ? (data?.by_book ?? [])"),
+        ("app/(app)/inventory/value/page.tsx", "showAll || selectedClass === null"),
+        # DEC-316 — 기간별재고원장도 좌우 2단 + 내용 전체 보기.
+        ("app/(app)/inventory/status/page.tsx", "showAll || selectedClass === null"),
         ("app/(app)/transactions/inbound-statement/page.tsx", "inboundApi.linesAll"),
         ("app/(app)/reports/book-sales/page.tsx", "bookSalesCustomersAll"),
         ("app/(app)/reports/customer-sales/page.tsx", "customerSalesBooksAll"),

@@ -18,17 +18,19 @@ class InventoryStatusSearchLine(TestCase):
         self.ref = (FRONT / "ledger" / "customer" / "page.tsx").read_text(encoding="utf-8")
 
     def test_same_building_blocks_as_customer_ledger(self) -> None:
+        # DEC-315/316 — 기간별재고원장은 공용 조각(ledger-search-line)을 쓰고, 그 조각이 기준 화면 클래스를 그대로 갖는다.
+        shared = (FRONT.parent.parent / "components" / "shared" / "ledger-search-line.tsx").read_text(encoding="utf-8")
         for needle in (
-            'aria-label="거래 일자 기간"',
-            ">거래 일자</span>",
-            'className="mx-3 hidden h-10 w-px shrink-0 bg-border xl:block"',
-            'className="h-10 min-w-24 rounded-2xl px-6 text-sm font-semibold"',
-            "filtersBelow={false}",
+            "flex h-9 min-w-max items-center rounded-2xl border border-border bg-control-surface px-1.5",
+            "mx-3 hidden h-10 w-px shrink-0 bg-border xl:block",
+            "h-10 min-w-24 rounded-2xl px-6 text-sm font-semibold",
         ):
             self.assertIn(needle, self.ref, f"기준 화면에 있어야 한다: {needle}")
-            self.assertIn(needle, self.src, f"기간별재고원장도 같아야 한다: {needle}")
+            self.assertIn(needle, shared, f"공용 조각에 있어야 한다: {needle}")
+        self.assertIn("filtersBelow={false}", self.src)
+        for piece in ("<LedgerSearchLine", "<LedgerDatePill", "<LedgerSearchDivider", "<LedgerNamePill", "<LedgerSearchButton"):
+            self.assertIn(piece, self.src)
         self.assertIn('placeholder="코드 또는 도서명"', self.src)
-        self.assertIn("검색\n          </Button>", self.src.replace("\r\n", "\n"))
 
     def test_legacy_ids_and_enter_order_follow_the_new_layout(self) -> None:
         for wid in ("Sobo44.Edit101", "Sobo44.Edit102", "Sobo44.Edit103", "Sobo44.dxButton1"):

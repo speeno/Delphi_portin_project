@@ -102,9 +102,11 @@ class MigrationCoverage(TestCase):
         band = src[i:j]
         # DEC-310 (2026-09-24) — 거래처거래원장과 같은 한 줄 검색(flex 행)로 바뀌어 contents 래퍼 대신
         # 행 컨테이너가 Enter 범위(data-enter-scope)·onKeyDown 을 직접 가진다.
-        self.assertIn("data-enter-scope", band)
+        # DEC-315/316 — 공용 LedgerSearchLine 이 data-enter-scope 를 달고 화면은 onKeyDown 을 넘긴다.
+        self.assertIn("<LedgerSearchLine", band)
         self.assertIn("onKeyDown=", band)
         self.assertIn("advanceFilterOnEnter", src)
+        self.assertIn("data-enter-scope", _read("components/shared/ledger-search-line.tsx"))
 
     def test_search_button_is_dark_filled(self) -> None:
         """대표 화면 3곳 — 띠 안의 조회/검색 버튼에 secondary/outline/sm 이 남아 있지 않다."""
