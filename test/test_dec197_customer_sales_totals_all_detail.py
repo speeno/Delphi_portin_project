@@ -71,7 +71,11 @@ class TopTotalsTests(IsolatedAsyncioTestCase):
         self.assertEqual(t["gsusu"], 86)
         self.assertEqual(t["gjsum"], 85_629_320)
         self.assertEqual(t["gssum"], 834_090 + 1_182_275 - 21_250)
-        self.assertEqual(set(t), {"goqut", "gosum", "gjqut", "gbqut", "gbsum", "gsusu", "gjsum", "gssum"})
+        # DEC-328 — 합계 반품율(Σ−반품÷Σ출고×100) 추가.
+        self.assertEqual(
+            set(t), {"goqut", "gosum", "gjqut", "gbqut", "gbsum", "gsusu", "gjsum", "gssum", "return_rate"}
+        )
+        self.assertEqual(t["return_rate"], round(1 / 87 * 100, 1))
 
     def test_response_model_carries_totals(self) -> None:
         self.assertIn("totals", CustomerSalesResponse.model_fields)
