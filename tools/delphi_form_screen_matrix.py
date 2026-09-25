@@ -38,6 +38,8 @@ LEGACY_DFM_ROOT = ROOT / "legacy_delphi_source" / "legacy_source"
 LEGACY_DFM_FALLBACK_ROOTS = (
     ROOT / "WeLove_FTP" / "도서유통-출판" / "MySQL",
     ROOT / "WeLove_FTP" / "도서유통-New" / "도서유통",
+    # DEC-329 — Subu73/74(도서별·거래처판매(년/월))는 출판 빌드 루트에만 있다.
+    ROOT / "WeLove_FTP" / "도서유통-출판",
 )
 FORM_REGISTRY_TS = ROOT / "도서물류관리프로그램" / "frontend" / "src" / "lib" / "form-registry.ts"
 OUT_MD = ROOT / "docs" / "delphi-form-screen-equivalence-matrix.md"

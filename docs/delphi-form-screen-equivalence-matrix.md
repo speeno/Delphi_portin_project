@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-09-22T03:39:38Z
+> **생성 시각 (UTC)**: 2026-09-25T06:57:49Z
 
 ## 목적
 
@@ -61,7 +61,7 @@
 | MULTI_MAP | `Sobo33_1_ledger` | `Subu33` | 통합 도서수불장 | 기간별재고원장 | `Sobo33` | `/ledger/book-integrated` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo33_ledger` | `Subu33` | 도서수불장 | 기간별재고원장 | `Sobo33` | `/ledger/book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo33_receivable` | `Subu33` | 기간별미수원장 | 기간별재고원장 | `Sobo33` | `/ledger/receivable` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
-| OK_EXEMPT | `Sobo34_1_value` | `Subu34_1` | 재고금액 | 재고 및 재고금액 | `Sobo34_1` | `/inventory/value` | DEC-023 표기 통일(allowlist) |
+| CAPTION_DIFF | `Sobo34_1_value` | `Subu34_1` | 도서별재고금액 | 재고 및 재고금액 | `Sobo34_1` | `/inventory/value` | DFM「재고 및 재고금액」↔모던「도서별재고금액」 (r=0.57) |
 | NEAR_MATCH | `Sobo34_4` | `Subu34_4` | 기간별재고원장(상세) | 기간별재고원장(상세)-폐기 | `Sobo34_4` | `/returns/ledger` | 유사도 0.88 (≥0.78) |
 | MULTI_MAP | `Sobo36_book_summary` | `Subu36` | 도서별원장총괄 | 도서별원장총괄 | `Sobo36` | `/ledger/book-summary` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo36_stats_route` | `Subu36` | 거래처통계(목록) | 도서별원장총괄 | `Sobo36` | `/stats/customer` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
@@ -111,6 +111,12 @@
 | OK_EXEMPT | `Sobo62` | `Subu62` | 거래처별판매 | 거래처판매 | `Sobo62` | `/reports/customer-sales` | DEC-023 표기 통일(allowlist) |
 | MULTI_MAP | `Sobo67_status` | `Subu67` | 출고 현황 | 도서별년말집계 | `Sobo67` | `/transactions/outbound-status` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
 | MULTI_MAP | `Sobo67_yearbook` | `Subu67` | 도서별년말집계 | 도서별년말집계 | `Sobo67` | `/reports/year-end-book` | 동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019) |
+| MATCH | `Sobo73` | `Subu73` | 도서별판매(년/월) | 도서별판매(년/월) | `Sobo73` | `/year-month-stats/sales-by-book-monthly` |  |
+| MATCH | `Sobo74` | `Subu74` | 거래처판매(년/월) | 거래처판매(년/월) | `Sobo74` | `/year-month-stats/sales-by-customer-monthly` |  |
+| MATCH | `Sobo79_1` | `Subu79_1` | 도서별판매(월별) | 도서별판매(월별) | `Sobo79_1` | `/year-month-stats/book-sales-monthly` |  |
+| MATCH | `Sobo79_2` | `Subu79_2` | 거래처판매(월별) | 거래처판매(월별) | `Sobo79_2` | `/year-month-stats/customer-sales-monthly` |  |
+| MATCH | `Sobo79_3` | `Subu79_3` | 도서별판매(일별) | 도서별판매(일별) | `Sobo79_3` | `/year-month-stats/book-sales-daily` |  |
+| MATCH | `Sobo79_4` | `Subu79_4` | 거래처판매(일별) | 거래처판매(일별) | `Sobo79_4` | `/year-month-stats/customer-sales-daily` |  |
 | WEB_ONLY | `MenuBillingStatements` | `_Matrix` | 내역서관리 | — | `—` | `/billing/statements` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `MenuYearMonthStats` | `_Matrix` | 년/월(통계) | — | `—` | `/year-month-stats` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `Subu10_id_logn` | `_WebAdm` | 사용자·권한 (F11~F89) | — | `—` | `/admin/id-logn` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |

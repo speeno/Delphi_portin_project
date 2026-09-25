@@ -282,6 +282,10 @@ class EveryContentScreenHasBand(TestCase):
         # DEC-282 — 원장변경/재고변경: 축 객체만 다른 공용 `AdjustmentLedgerScreen` 을 렌더한다(띠는 그 안에).
         "ledger/adjust/book", "ledger/adjust/customer",
         "master/discount/[type]", "returns/scrap/status", "returns/status",
+        # DEC-329 — 년/월(통계) 세분화 판매 6종: 공용 `SalesMatrixScreen` 이 띠(PageHeader)를 렌더한다.
+        "year-month-stats/book-sales-monthly", "year-month-stats/customer-sales-monthly",
+        "year-month-stats/book-sales-daily", "year-month-stats/customer-sales-daily",
+        "year-month-stats/sales-by-book-monthly", "year-month-stats/sales-by-customer-monthly",
         "transactions/inbound-status", "transactions/new-release", "transactions/outbound-status", "workspace",
     }
 

@@ -1207,6 +1207,23 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200, 422},
         },
+        # DEC-329 — 년/월(통계) 세분화 판매 매트릭스(월별·일별·년/월 비교). hcode 없는 계정 → 422.
+        {
+            "group": "stats.sales_matrix",
+            "path": (
+                f"/api/v1/stats/sales-matrix?serverId={sid}"
+                f"&axis=book&period=monthly&measure=sale_qty&monthFrom=2026.01&monthTo=2026.03"
+            ),
+            "ok_status": {200, 422},
+        },
+        {
+            "group": "stats.sales_matrix",
+            "path": (
+                f"/api/v1/stats/sales-matrix?serverId={sid}"
+                f"&axis=customer&period=compare&p1=2025&p2=2026&p2Part=H1"
+            ),
+            "ok_status": {200, 422},
+        },
         # 전자책 판매분석(구 DEC-092)은 2026-07-17 제거 — probe 대상에서 삭제.
         {
             "group": "stats.publisher",
