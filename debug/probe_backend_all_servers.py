@@ -1198,6 +1198,15 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200, 422},
         },
+        # DEC-326 — 분기/반기 손익 하단 도서별 판매 기여도(월 구간).
+        {
+            "group": "stats.book_contribution",
+            "path": (
+                f"/api/v1/stats/book-contribution?serverId={sid}"
+                f"&monthFrom=202601&monthTo=202603"
+            ),
+            "ok_status": {200, 422},
+        },
         # 전자책 판매분석(구 DEC-092)은 2026-07-17 제거 — probe 대상에서 삭제.
         {
             "group": "stats.publisher",

@@ -118,17 +118,24 @@ class PeriodSummaryMonthKeyTests(IsolatedAsyncioTestCase):
             # 각 분기 첫 달에 입금 10 → 손익 = 청구(60) − 입금(10) = 50.
             return {month_from: 10}
 
-        old = stats_service.settlement_service.list_period_summary
-        old_dep = stats_service.settlement_service.deposits_by_month
-        stats_service.settlement_service.list_period_summary = fake_period_summary
-        stats_service.settlement_service.deposits_by_month = fake_deposits
+        async def fake_empty(server_id, **kwargs):
+            return {}
+
+        ss = stats_service.settlement_service
+        old = ss.list_period_summary
+        old_dep = ss.deposits_by_month
+        old_live, old_h1 = ss.live_period_summary, ss.receipts_by_month_h1
+        ss.list_period_summary = fake_period_summary
+        ss.deposits_by_month = fake_deposits
+        ss.live_period_summary = ss.receipts_by_month_h1 = fake_empty  # DEC-326 보조 원천 — DB 미접속
         try:
             res = await stats_service.get_quarterly_summary(
                 server_id="srv", hcode="5019", year=2026, quarter=1, quarters=3,
             )
         finally:
-            stats_service.settlement_service.list_period_summary = old
-            stats_service.settlement_service.deposits_by_month = old_dep
+            ss.list_period_summary = old
+            ss.deposits_by_month = old_dep
+            ss.live_period_summary, ss.receipts_by_month_h1 = old_live, old_h1
 
         # 과거 → 기준 순: 2025-Q3, 2025-Q4, 2026-Q1.
         self.assertEqual(calls, [("202507", "202509"), ("202510", "202512"), ("202601", "202603")])
@@ -141,8 +148,12 @@ class PeriodSummaryMonthKeyTests(IsolatedAsyncioTestCase):
         self.assertEqual(res["totals"]["gsumx"], 180)   # 청구 3분기 합 = 60×3
         self.assertEqual(res["totals"]["profit"], 150)  # (60−10)×3
         self.assertEqual(res["metadata"]["quarters"], 3)
-        # 월별 items 는 N개 분기 병합 + 월 오름차순.
-        self.assertEqual([i["gdate"] for i in res["items"]], ["202507", "202510", "202601"])
+        # 월별 items 는 N개 분기 병합 + 월 오름차순. DEC-326 — 분기의 모든 달을 채운다(자료 없는 달 = 0).
+        self.assertEqual(
+            [i["gdate"] for i in res["items"]],
+            ["202507", "202508", "202509", "202510", "202511", "202512", "202601", "202602", "202603"],
+        )
+        self.assertEqual(res["items"][1]["gsumx"], 0)
 
 
 class PublisherRowScopeTests(IsolatedAsyncioTestCase):
