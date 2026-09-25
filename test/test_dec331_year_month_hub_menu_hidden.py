@@ -25,7 +25,9 @@ class YearMonthHubHidden(TestCase):
 
     def test_hub_entry_kept_but_hidden(self):
         hub = self._entry("MenuYearMonthStats")
-        self.assertIn("sidebarHidden: true", hub)
+        # DEC-333 — 중복 플래그 sidebarHidden 을 기존 hiddenFromMenu(2026-09-04 규약)로 통합.
+        self.assertIn("hiddenFromMenu: true", hub)
+        self.assertIn("hiddenReason:", hub)
         self.assertIn('route: "/year-month-stats"', hub)
         self.assertTrue((FE / "app" / "(app)" / "year-month-stats" / "page.tsx").exists())
 
@@ -33,11 +35,19 @@ class YearMonthHubHidden(TestCase):
         for fid in ("Sobo79_1", "Sobo79_2", "Sobo79_3", "Sobo79_4", "Sobo73", "Sobo74"):
             e = self._entry(fid)
             self.assertIn('menuGroup: "statistics"', e)
-            self.assertNotIn("sidebarHidden", e)
+            self.assertNotIn("hiddenFromMenu", e)
 
     def test_sidebar_filters_hidden(self):
         sb = (FE / "components" / "app-shell" / "sidebar.tsx").read_text(encoding="utf-8")
-        self.assertIn("!f.sidebarHidden && isVisibleForm(f, group.id)", sb)
+        self.assertIn("if (form.hiddenFromMenu) return false;", sb)
+        self.assertNotIn("sidebarHidden", self.reg + sb)
+
+    def test_publisher_stats_distributor_only(self):
+        """DEC-333 — 출판사통계 메뉴는 물류사(총판) 계정에만."""
+        e = self._entry("Sobo43_stats_route")
+        self.assertIn("distributorOnly: true", e)
+        sb = (FE / "components" / "app-shell" / "sidebar.tsx").read_text(encoding="utf-8")
+        self.assertIn("if (form.distributorOnly && !isDistributor) return false;", sb)
 
 
 if __name__ == "__main__":
