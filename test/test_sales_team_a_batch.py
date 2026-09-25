@@ -120,7 +120,8 @@ class LabelCorrectionTests(TestCase):
 
     def test_stats_book_page_labels(self) -> None:
         src = (FRONTEND / "src/app/(app)/stats/book/page.tsx").read_text("utf-8")
-        self.assertIn('label: "증정"', src)
+        # DEC-330 — 라벨 「증정수량」(거래처통계와 같은 「…수량」 표기). GJQUT = 증정(잔량 오라벨 금지).
+        self.assertIn('{ key: "gjqut", label: "증정수량"', src)
         self.assertNotIn('label: "잔량"', src)
 
 

@@ -112,7 +112,8 @@ class BookSalesListTotalsTests(IsolatedAsyncioTestCase):
         self.assertEqual(t["gbqut"], -1)
         self.assertEqual(t["gosum"], 80_000)
         self.assertEqual(t["gbsum"], -10_000)
-        self.assertEqual(set(t), set(rpt._BOOK_SALES_MEASURE_KEYS))
+        # DEC-330 — 판매금액·합계 반품율 추가.
+        self.assertEqual(set(t), set(rpt._BOOK_SALES_MEASURE_KEYS) | {"sale_amt", "return_rate"})
 
 
 class AllCustomersDetailTests(IsolatedAsyncioTestCase):

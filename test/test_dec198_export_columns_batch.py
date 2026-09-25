@@ -142,8 +142,13 @@ class ScreenWiringTests(TestCase):
     PAGES = """reports/book-sales reports/customer-sales
         returns/ledger returns/period-report returns/reports
         settlement/period settlement/shipping-ledger settlement/shipping-status
-        stats/book-turnover stats/book stats/customer-analysis stats/customer stats/monthly
+        stats/book-turnover stats/customer-analysis stats/customer stats/monthly
         stats/publisher stats/quarterly-summary stats/sales-period""".split()
+
+    def test_stats_book_exports_all_columns(self) -> None:
+        """DEC-330 — 도서통계(목록)도 «엑셀 = 전 필드»(숨긴 코드·ISBN·최종거래일 포함, 사용자 2026-09-25)."""
+        src = (FRONT / "app" / "(app)" / "stats" / "book" / "page.tsx").read_text(encoding="utf-8")
+        self.assertIn("columns: allColumns.map((c) => ({ key: c.id ?? c.key, label: c.label }))", src)
 
     def test_year_end_book_exports_all_columns(self) -> None:
         src = (FRONT / "app" / "(app)" / "reports" / "year-end-book" / "page.tsx").read_text(encoding="utf-8")
