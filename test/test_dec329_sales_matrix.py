@@ -183,6 +183,19 @@ class ScreenWiring(TestCase):
                       'L("CheckBox2")', 'L("ComboBox1")', 'L("ComboBox2")', "PART_OPTIONS"):
             self.assertIn(token, src)
 
+    def test_enter_order_covers_every_filter(self):
+        """사용자 2026-09-25 「엔터로 차례로 입력 — 엔터 누락 부분 존재」: 모든 입력칸이 스톱에, 마지막 = 검색."""
+        src = (FE / "components" / "stats" / "sales-matrix-screen.tsx").read_text(encoding="utf-8")
+        body = src.split("const stopIds = [")[1].split("];")[0]
+        order = ["Edit_Hcode", "...periodStops", "ComboBox2", "ComboBox1", "Panel102",
+                 "Edit105", "Edit107", "Edit109", "CheckBox2", "dxButton1"]
+        pos = [body.index(t) for t in order]
+        self.assertEqual(pos, sorted(pos))
+        self.assertTrue(body.rstrip().rstrip(",").endswith('L("dxButton1")'))
+        # 비교 기간: 분기/반기 칸은 년도 기간일 때만(비활성 칸에서 포커스가 멈추지 않게).
+        self.assertIn('p.base.replace(/\\D/g, "").length === 4 ? [L(`Label00${i + 1}`)] : []', src)
+        self.assertIn("advanceFilterOnEnter(e, stopIds)", src)
+
 
 if __name__ == "__main__":
     main(verbosity=2)
