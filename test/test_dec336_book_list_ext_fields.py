@@ -110,6 +110,9 @@ class Screens(TestCase):
         self.assertIn('useGridPrefs(user?.server_id, "master.book.v3"', src)
         self.assertIn('<AttachedFilterField\n                  label="검색"', src.replace("\r\n", "\n"))
         self.assertIn('placeholder="코드, 도서명, ISBN"', src)
+        # 발행일 알약 안 날짜칸 = 테두리 없는 embedded(LedgerDatePill 과 같은 모양, 사용자 2026-09-25 캡처).
+        self.assertIn('<DateFieldYMD embedded ariaLabel="발행일 시작"', src)
+        self.assertIn('<DateFieldYMD embedded ariaLabel="발행일 종료"', src)
 
     def test_detail_form_fields(self):
         src = (FE / "components" / "master" / "book-detail-form.tsx").read_text(encoding="utf-8")
