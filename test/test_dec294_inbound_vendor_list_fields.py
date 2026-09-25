@@ -63,7 +63,11 @@ class GridSpec(TestCase):
         band_start = src.index("              >\n", src.index("actions={"))
         btn = src.index('data-legacy-id="Sobo12.Button101"')
         self.assertLess(band_start, btn, "액션 줄이 아니라 필터 띠 안")
-        self.assertLess(btn, src.index('<Label htmlFor="q">'), "검색 입력 앞")
+        # DEC-335 — 검색 줄 = 거래처현황과 같은 붙임형 알약(AttachedFilterField), 지역 입력칸 제거.
+        self.assertLess(btn, src.index('id="q"'), "검색 입력 앞")
+        self.assertIn('label="검색"', src)
+        self.assertIn('placeholder="코드, 입고처명, 대표자"', src)
+        self.assertNotIn('id="f-jubun"', src)
 
 
 class ExportAllFields(TestCase):

@@ -255,9 +255,12 @@ class MastersExcelExportRouterTests(TestCase):
         ws, header = _read_sheet(self._assert_xlsx(r))
         # DEC-295 — 헤더·순서 = 저자관리 필드표(목록), 화면 밖 연락처2·직장명·직책·주소 분리칸은 끝.
         self.assertEqual(header[:6], ["코드", "저자구분", "저자명", "소속대학", "학과", "저자도서명"])
-        self.assertEqual(len(header), 29)
-        for h in ("은행", "계좌번호", "주민번호", "사업자등록번호", "원천징수", "전화번호", "자택주소", "비고2", "직장명", "직책"):
+        self.assertEqual(len(header), 28)
+        for h in ("은행", "계좌번호", "주민번호", "사업자등록번호", "원천징수", "전화번호", "자택주소", "비고2", "출신학교"):
             self.assertIn(h, header)
+        # DEC-335 — 소속대학·학과 = 직장명(gname)·직책(gjice) 값.
+        self.assertEqual(ws.cell(row=2, column=header.index("소속대학") + 1).value, "직장")
+        self.assertEqual(ws.cell(row=2, column=header.index("학과") + 1).value, "대표")
         self.assertEqual(ws.cell(row=2, column=header.index("전화번호") + 1).value, "02-9")
 
     def test_book_export(self) -> None:

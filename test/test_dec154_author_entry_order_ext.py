@@ -107,7 +107,8 @@ class FormOrderGuard(TestCase):
             pos.append(i)
         self.assertEqual(pos, sorted(pos), "기입 순서 = 영업팀 확정 순서")
         # 구 라벨 재발 금지(재라벨 확인).
-        for stale in ('label="출신학교"', 'label="전화번호"', 'label="팩스번호"',
+        # DEC-335 — 「출신학교」는 Gscho 원래 이름으로 되살렸다(소속대학·학과 = 직장명·직책 칸).
+        for stale in ('label="전화번호"', 'label="팩스번호"',
                       'label="집주소1"', 'label="직장주소1"', 'label="주민등록"'):
             self.assertNotIn(stale, src)
 

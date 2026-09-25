@@ -79,8 +79,9 @@ class FormLayout(TestCase):
         base = s.index('data-legacy-id="Sobo11.Panel101"'); bill = s.index('data-legacy-id="Sobo11.Panel201"')
         self.assertLess(base, bill)
         # DEC-293(2026-09-22) — 4열 균등 칸 재배치: 거래정지·사유만 한도 뒤로(나머지 DEC-230 순서 유지).
-        order = ["Sobo11.Edit101", "거래처지역", "거래처코드",
-                 "거래처명", "대표자", "사업자등록번호", '"업태"', '"종목"', '"한도"', "거래정지", '"사유"',
+        # DEC-335(2026-09-25 사용자) — 거래처명을 맨 앞으로(Edit105 → Edit101 앞).
+        order = ["Sobo11.Edit105", "Sobo11.Edit101", "거래처지역", "거래처코드",
+                 "대표자", "사업자등록번호", '"업태"', '"종목"', '"한도"', "거래정지", '"사유"',
                  'label="주소1"', 'label="유선전화"', 'label="팩스번호"', 'label="휴대전화"', 'label="이메일"',
                  'label="주소2"', "Sobo11.Ext.Tel2", "Sobo11.Ext.Fax2", "Sobo11.Ext.Phon2", "Sobo11.Ext.Email2",
                  "청구정보", '"위탁"', '"현매"', '"매절"', '"납품"', '"특별"', '"기타"', '"신간수량"',

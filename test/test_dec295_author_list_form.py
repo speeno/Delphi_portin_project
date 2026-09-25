@@ -25,14 +25,15 @@ from app.services import masters_service as ms  # noqa: E402
 
 SPEC: list[tuple[str, str, bool]] = [
     ("gcode", "코드", False), ("gbun_name", "저자구분", False), ("gposa", "저자명", False),
-    ("gscho", "소속대학", False), ("dept", "학과", False), ("books", "저자도서명", False),
+    # DEC-335 — 소속대학·학과 = 레거시 직장명(gname)·직책(gjice) 칸.
+    ("gname", "소속대학", False), ("gjice", "학과", False), ("books", "저자도서명", False),
     ("bank_name", "은행", True), ("gnum2", "계좌번호", True), ("gnum1", "주민번호", True),
     ("gnumb", "사업자등록번호", True), ("withhold", "원천징수", True), ("email", "이메일", False),
     ("gtel1", "전화번호", False), ("gpost", "우편번호", True), ("gadd1", "자택주소", False),
     ("oadd1", "연구소주소", False), ("manager1", "담당자1", False), ("manager2", "담당자2", False),
     ("gbigo", "비고1", False), ("bigo2", "비고2", False), ("date1", "등록일자", False),
     # 종전 목록 컬럼(필드표 밖) — 기본 숨김 유지
-    ("gfax1", "연락처2", False), ("gname", "직장명", False), ("gjice", "직책", False),
+    ("gfax1", "연락처2", False), ("gscho", "출신학교", False),
 ]
 GRID_TO_CATALOG = {"gtel1": "gtel", "gfax1": "gfax", "gadd1": "home_addr", "oadd1": "lab_addr"}
 
@@ -66,8 +67,8 @@ class ListSpec(TestCase):
 
     def test_excel_subset_keeps_pk_and_import_covers_legacy_columns(self) -> None:
         self.assertEqual([h for h, _ in mx.select_author_columns(["books", "gposa"])], ["코드", "저자명", "저자도서명"])
-        self.assertEqual(len(mx.select_author_columns(None)), 29)
-        for h in ("저자명", "저자구분", "직장명", "등록일자", "직책"):  # 종전 5헤더 유지
+        self.assertEqual(len(mx.select_author_columns(None)), 28)  # DEC-335 — 웹 학과(dept) 제외
+        for h in ("저자명", "저자구분", "직장명", "등록일자", "직책"):  # 종전 5헤더 유지(DEC-335 가져오기 별칭)
             self.assertIn(h, mx.AUTHOR_IMPORT_MAP)
         self.assertEqual(mx.AUTHOR_IMPORT_MAP["전화번호"], "gtel")
         for k in ("books", "bigo2", "dept", "home_addr"):
