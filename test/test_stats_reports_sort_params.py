@@ -221,8 +221,14 @@ class StatsServiceFilterSortTests(IsolatedAsyncioTestCase):
                 "total": 2,
             }
 
+        # DEC-325 — 회전율 = 판매 ÷ 평균재고: 재고 조회도 가짜로(B1 평균 10 → 0.5회, B2 평균 10 → 0.9회).
+        async def fake_stock(server_id, *, hcode, asof, axis_like, bcodes):
+            return {b: 10 for b in bcodes}
+
         old = stats_service.reports_service.get_book_sales
+        old_stock = stats_service.reports_service._fetch_stock_asof
         stats_service.reports_service.get_book_sales = fake_book_sales
+        stats_service.reports_service._fetch_stock_asof = fake_stock
         try:
             res_sorted = await stats_service.get_book_turnover(
                 server_id="srv", hcode=None,
@@ -236,6 +242,7 @@ class StatsServiceFilterSortTests(IsolatedAsyncioTestCase):
             )
         finally:
             stats_service.reports_service.get_book_sales = old
+            stats_service.reports_service._fetch_stock_asof = old_stock
 
         self.assertEqual([i["gcode"] for i in res_sorted["items"]], ["B1", "B2"])
         # 화이트리스트 밖 → 기본(회전율 내림차순) 유지.

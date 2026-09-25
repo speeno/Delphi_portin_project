@@ -113,7 +113,12 @@ class BookTurnoverMetaPropagationTest(unittest.IsolatedAsyncioTestCase):
                 "total": 1,
             }
 
-        with patch.object(ss.reports_service, "get_book_sales", side_effect=fake_book_sales):
+        # DEC-325 — 회전율(회) = 판매수량 ÷ 평균재고 — 기초 8·기말 12 → 평균 10, 판매 5 → 0.5회.
+        async def fake_stock(server_id, *, hcode, asof, axis_like, bcodes):
+            return {"B1": 8 if asof < "2026.01.01" else 12}
+
+        with patch.object(ss.reports_service, "get_book_sales", side_effect=fake_book_sales), \
+                patch.object(ss.reports_service, "_fetch_stock_asof", side_effect=fake_stock):
             res = await ss.get_book_turnover(
                 server_id="remote_1", hcode="5019",
                 date_from="2026-01-01", date_to="2026-01-31",
@@ -121,6 +126,8 @@ class BookTurnoverMetaPropagationTest(unittest.IsolatedAsyncioTestCase):
         item = res["items"][0]
         self.assertEqual(item["gisbn"], "9788900000011")
         self.assertEqual(item["gdang"], 15000)
+        self.assertEqual((item["opening_stock"], item["closing_stock"]), (8, 12))
+        self.assertEqual(item["sale_qut"], 5)
         self.assertEqual(item["turnover_ratio"], 0.5)
 
 
