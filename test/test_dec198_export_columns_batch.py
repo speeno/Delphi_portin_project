@@ -153,7 +153,11 @@ class ScreenWiringTests(TestCase):
         for pg in self.PAGES:
             with self.subTest(page=pg):
                 src = (FRONT / "app" / "(app)" / pg / "page.tsx").read_text(encoding="utf-8")
-                self.assertIn("columns: visibleColumns.map((c) => ({ key: c.id ?? c.key, label: c.label }))", src)
+                # 화면 보조 시각 열(예: 월별통계 「매출 비교」 막대, DEC-327)은 .filter 로 뺀 뒤 map 해도 된다.
+                flat = re.sub(r"\s+", " ", src).replace(".filter((c) => c.id !== \"trend\") ", "")
+                self.assertIn("columns: visibleColumns .map((c) => ({ key: c.id ?? c.key, label: c.label }))"
+                              if "visibleColumns .map" in flat else
+                              "columns: visibleColumns.map((c) => ({ key: c.id ?? c.key, label: c.label }))", flat)
 
     def test_every_export_api_forwards_columns(self) -> None:
         for lib in ("inquiry-api", "stats-api", "returns-api", "settlement-api"):
