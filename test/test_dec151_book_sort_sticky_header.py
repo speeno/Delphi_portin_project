@@ -100,14 +100,18 @@ class BookPageGuard(TestCase):
         src = self.PAGE.read_text(encoding="utf-8")
         # 2026-09-15 용어 변경 — sname 라벨 "도서분류" → "도서구분"(순서/키 불변).
         # DEC-296 — 도서처리 컬럼 제거(2026-09-22 사용자).
-        order = ["도서구분", "도서코드", "도서명", "저자명", "ISBN",
-                 "정가", "재고", "재고금액", "서가위치", "판형", "위탁", "쪽수",
-                 "판수", "발행일", "비고"]
+        # DEC-336(2026-09-25 사용자 컬럼표) — 기본 표시 순서 갱신.
+        order = ["구분", "코드", "전자책", "도서명", "저자명", "ISBN", "정가", "재고", "서가위치",
+                 "위탁", "발행일", "상태", "정지사유", "자료제공", "기타", "비고"]
         pos = [src.index(f'label: "{lbl}"') for lbl in order]
         self.assertEqual(pos, sorted(pos), "기본 표시 순서 = 사용자 확정 순서")
         # 전 데이터 컬럼 정렬 — sortable 미지정 데이터 컬럼 금지(NL 서지 액션 제외).
+        # 예외: 전자책(Bigo3 플래그)·확장 필드(G4_Book_Ext — 페이지 행 병합이라 서버 정렬 불가).
         import re
+        unsortable = {"bigo3", "status", "supply", "etc_memo", "stamp"}
         for m in re.finditer(r'\{ key: "(\w+)"[^\n]*label: "([^"]+)"[^\n]*\}', src):
+            if m.group(1) in unsortable:
+                continue
             self.assertIn("sortable: true", m.group(0), f"{m.group(2)} 정렬 누락")
 
     def test_stock_amount_derived_column(self) -> None:
@@ -118,7 +122,7 @@ class BookPageGuard(TestCase):
 
     def test_default_hidden_and_v2_key(self) -> None:
         src = self.PAGE.read_text(encoding="utf-8")
-        self.assertIn('"master.book.v2"', src)
+        self.assertIn('"master.book.v3"', src)  # DEC-336 컬럼 재구성
         self.assertIn("defaultHidden: BOOK_DEFAULT_HIDDEN", src)
         for k in ("jego1", "bigo1", "grat9", "price", "odang"):
             self.assertIn(f'"{k}"', src.split("BOOK_DEFAULT_HIDDEN")[1].split("]")[0])

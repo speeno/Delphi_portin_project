@@ -71,9 +71,11 @@ class BookListDetailColumnsTests(IsolatedAsyncioTestCase):
         for k in ("sname", "jubun", "ocode", "pubun", "gnumb", "gbigo",
                   "price", "odang", "jego1", "jego4", "grat7", "bigo1"):
             self.assertIn(k, item)
-        # 내부/사이드테이블 필드 제외.
-        for k in ("hcode", "yesno", "bigo3", "gbun_name"):
+        # 내부 필드 제외. DEC-336 — bigo3(전자책 여부)는 목록 「전자책」 컬럼으로 포함, 확장 필드 병합(상태 추정).
+        for k in ("hcode", "yesno", "gbun_name"):
             self.assertNotIn(k, item)
+        self.assertIn("bigo3", item)
+        self.assertEqual(item["status"], "절판")  # 판형 '절판' → 추정 상태
         # JOIN 0 (DEC-068 목록 행증식 금지).
         select_sql = next(s for s in captured if "COUNT(*)" not in s)
         self.assertNotIn("JOIN", select_sql.upper())
@@ -103,14 +105,15 @@ class ScreenAndModelGuard(TestCase):
             'label: "서가위치"',   # gpost 오라벨("출판사") 정정
             # 2026-09-15 용어 변경 — sname 라벨 "도서분류"→"도서구분", scode "도서구분"→"도서타입".
             # 컬럼(키) 자체는 그대로이며 라벨만 바뀌었다(요구사항 유지, 문자열 검사만 갱신).
-            'label: "도서구분"',
+            # DEC-336(2026-09-25) — sname 라벨 「구분」(사용자 컬럼표), scode 「도서타입」.
+            'label: "구분"',
             'label: "도서타입"',
             'label: "판형"',
             'label: "원가"',
             'label: "매입가"',
             'label: "위탁"',
             'label: "한도"',
-            'label: "본사재고 정품"',
+            'label: "본사재고"',  # DEC-336 — 사용자 표기(본사재고·본사비품·창고정품·창고비품)
             'label: "세액유무"',
             'label: "출고정지"',
         ):

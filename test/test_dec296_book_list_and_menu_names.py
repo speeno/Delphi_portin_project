@@ -36,7 +36,8 @@ class BookList(TestCase):
         band_start = src.index("              >\n", src.index("actions={"))
         btn = src.index('data-legacy-id="Sobo14.Button101"')
         self.assertLess(band_start, btn, "필터 띠 안")
-        self.assertLess(btn, src.index('<Label htmlFor="q">'), "검색 입력 앞")
+        # DEC-336 — 검색 줄 = 붙임형 알약(AttachedFilterField).
+        self.assertLess(btn, src.index('id="q"'), "검색 입력 앞")
 
 
 if __name__ == "__main__":
