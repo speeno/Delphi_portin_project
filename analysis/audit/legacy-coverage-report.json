@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-17T05:49:17.976536+00:00",
+  "generated_at": "2026-09-25T13:12:50.526965+00:00",
   "summary": {
     "total_dfm_candidates": 118,
-    "registry_entries": 101,
-    "ok": 26,
+    "registry_entries": 107,
+    "ok": 28,
     "missing_forms": 0,
     "caption_mismatches": 0,
-    "allowed": 128
+    "allowed": 126
   },
   "missing_forms": [],
   "caption_mismatches": [],
@@ -257,7 +257,7 @@
     {
       "form_name": "Sobo11",
       "dfm_form_name": "Sobo11",
-      "registry_caption": "거래처관리(마스터)",
+      "registry_caption": "거래처관리",
       "dfm_caption": "거래처관리-통합",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu11.dfm",
       "category": "caption_mismatch",
@@ -275,19 +275,9 @@
       "until": "Phase 3 audit"
     },
     {
-      "form_name": "Sobo12",
-      "dfm_form_name": "Sobo12",
-      "registry_caption": "입고처관리(마스터)",
-      "dfm_caption": "입고처관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu12.dfm",
-      "category": "caption_mismatch",
-      "reason": "웹 캡션 접미 '(마스터)' 정책 — 기초관리 6폼 공통(DEC-023, Sobo11/14 baseline 과 동일) (2026-08-19 정리, 테스트 부채 청산)",
-      "until": "Phase 3 audit"
-    },
-    {
       "form_name": "Sobo13",
       "dfm_form_name": "Sobo13",
-      "registry_caption": "저자관리(마스터)",
+      "registry_caption": "저자관리",
       "dfm_caption": "지역분류(시내+지방)",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu13.dfm",
       "category": "caption_mismatch",
@@ -301,16 +291,6 @@
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu13_1.dfm",
       "category": "missing",
       "reason": "baseline (DEC-054 도입 시 미포팅 — Phase 3 일괄 분류 대기)",
-      "until": "Phase 3 audit"
-    },
-    {
-      "form_name": "Sobo14",
-      "dfm_form_name": "Sobo14",
-      "registry_caption": "도서관리(마스터)",
-      "dfm_caption": "도서관리",
-      "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu14.dfm",
-      "category": "caption_mismatch",
-      "reason": "baseline (DEC-054 도입 시 caption 불일치 — Phase 3 일괄 정정 대기)",
       "until": "Phase 3 audit"
     },
     {
@@ -335,7 +315,7 @@
     {
       "form_name": "Sobo15",
       "dfm_form_name": "Sobo15",
-      "registry_caption": "기타거래처관리(마스터)",
+      "registry_caption": "기타거래처관리",
       "dfm_caption": "거래처관리-개별",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu15.dfm",
       "category": "caption_mismatch",
@@ -355,7 +335,7 @@
     {
       "form_name": "Sobo17",
       "dfm_form_name": "Sobo17",
-      "registry_caption": "출판사·출고거래처(마스터)",
+      "registry_caption": "출판사·출고거래처",
       "dfm_caption": "출판사관리",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu17.dfm",
       "category": "caption_mismatch",
@@ -725,7 +705,7 @@
     {
       "form_name": "Sobo34_1_value",
       "dfm_form_name": "Sobo34_1",
-      "registry_caption": "재고금액",
+      "registry_caption": "도서별재고금액",
       "dfm_caption": "재고 및 재고금액",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu34_1.dfm",
       "category": "caption_mismatch",
@@ -792,7 +772,7 @@
     {
       "form_name": "Sobo38",
       "dfm_form_name": "Sobo38",
-      "registry_caption": "도서코드(마스터)",
+      "registry_caption": "도서코드",
       "dfm_caption": "Sobo38",
       "file": "/Users/speeno/Delphi_porting/legacy_delphi_source/legacy_source/Subu38.dfm",
       "category": "caption_mismatch",
@@ -1227,6 +1207,16 @@
     }
   ],
   "ok": [
+    {
+      "form_name": "Sobo12",
+      "dfm_form_name": "Sobo12",
+      "caption": "입고처관리"
+    },
+    {
+      "form_name": "Sobo14",
+      "dfm_form_name": "Sobo14",
+      "caption": "도서관리"
+    },
     {
       "form_name": "Sobo16_special",
       "dfm_form_name": "Sobo16",

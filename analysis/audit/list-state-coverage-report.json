@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-17T05:49:43.261668+00:00",
+  "generated_at": "2026-09-25T13:12:50.737311+00:00",
   "summary": {
-    "total_pages": 128,
+    "total_pages": 134,
     "covered": 50,
     "violations": 0,
     "allowed": 7,
-    "skipped": 71
+    "skipped": 77
   },
   "covered": [
     {
@@ -538,6 +538,30 @@
     {
       "route_key": "year-month-stats",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/page.tsx"
+    },
+    {
+      "route_key": "year-month-stats.book-sales-daily",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/book-sales-daily/page.tsx"
+    },
+    {
+      "route_key": "year-month-stats.book-sales-monthly",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/book-sales-monthly/page.tsx"
+    },
+    {
+      "route_key": "year-month-stats.customer-sales-daily",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/customer-sales-daily/page.tsx"
+    },
+    {
+      "route_key": "year-month-stats.customer-sales-monthly",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/customer-sales-monthly/page.tsx"
+    },
+    {
+      "route_key": "year-month-stats.sales-by-book-monthly",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/sales-by-book-monthly/page.tsx"
+    },
+    {
+      "route_key": "year-month-stats.sales-by-customer-monthly",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/year-month-stats/sales-by-customer-monthly/page.tsx"
     }
   ],
   "stale_allowlist": []
