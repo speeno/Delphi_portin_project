@@ -195,6 +195,8 @@ class ScreenWiring(TestCase):
         # 비교 기간: 분기/반기 칸은 년도 기간일 때만(비활성 칸에서 포커스가 멈추지 않게).
         self.assertIn('p.base.replace(/\\D/g, "").length === 4 ? [L(`Label00${i + 1}`)] : []', src)
         self.assertIn("advanceFilterOnEnter(e, stopIds)", src)
+        # 사용자 2026-09-25 「화면 오류」 — 워크스페이스 폭에서 1줄이 왼쪽 밖으로 넘쳐 「기간1」 잘림 → 줄바꿈 허용.
+        self.assertEqual(src.count("<LedgerSearchLine wrap>"), 2)
 
 
 if __name__ == "__main__":

@@ -36,7 +36,10 @@ class LedgerScreensShareOneLineSearch(TestCase):
             "h-10 min-w-24 rounded-2xl px-6 text-sm font-semibold",
         ):
             self.assertIn(cls, ref, f"기준 화면: {cls}")
-            self.assertIn(cls, shared, f"공용 조각: {cls}")
+            # DEC-329 — 한 줄 고정(xl:flex-nowrap)은 기본값이고 `wrap` 선택 시에만 빠진다(템플릿 문자열).
+            self.assertIn(cls.replace(" xl:flex-nowrap", ""), shared, f"공용 조각: {cls}")
+        self.assertIn('wrap ? "" : " xl:flex-nowrap"', shared)
+        self.assertIn("wrap = false", shared)
 
 
 class ReceivableShowsBothPanes(TestCase):
