@@ -7600,3 +7600,17 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **범위 밖** — 도서관리 목록 컬럼·엑셀 출력은 이번에 바꾸지 않음(요청이 등록 화면 한정).
 - **검증** — 실컴포넌트 하네스(Chrome): 잘린 입력 0, 가로 스크롤 없음, 숨김 블록 display:none·값 유지, 도서종류 선택→직접입력→목록→번역서-CP 흐름에서
   book_kind 만 바뀌고 jubun 불변. 신규 `test_dec338_book_form_layout.py`, 스위트 3032 passed.
+
+### DEC-339 — 신규도서등록 3열: 서가위치 넓힘 · 발행일/등록일 축소 (2026-09-29)
+
+- **요청** — 「서가위치 칸이 너무 작다, 발행일·등록일 칸을 좀 줄이면 좋겠다」(DEC-338 배치의 3열).
+- **원인** — 공통 날짜 알약 규칙이 입력칸과 달력 버튼을 **둘 다** `width:100% !important` 로 둬 폭을 반씩 나눈다. 그래서 DEC-338 은
+  날짜 칸에 2.5fr 를 줘야 「2026.09.28」 이 안 잘렸고, 서가위치는 짧은 숫자 칸과 같은 1fr 였다.
+- **변경** — 3열 그리드에 `data-compact-dates` 표식 + globals.css `@layer utilities` 에 이 표식 안의 달력 버튼만 `width:2rem !important; flex:none`
+  (같은 layer 의 !important 끼리라 조상 속성 1개 추가 특이도로 이김 — layer 밖 규칙은 layer 안 !important 에 진다).
+  열 = `minmax(0,2fr)` 서가위치 · `repeat(5,minmax(5.75rem,1fr))` 짧은 칸 · `repeat(2,13rem)` 날짜.
+- **실측(CSS 하네스, 실제 globals.css)** — 행 폭 1330px(1512 화면): 서가위치 ≈108→228px, 날짜 ≈270→208px, 짧은 칸 ≈105→114px.
+  1092px(1280 화면)에서도 서가위치 100px(종전 ≈89) · 짧은 칸 92px · 날짜 208px, 가로 넘침 없음. 날짜 12.5rem 이하·짧은 칸 5.5rem 이하는 잘림.
+- **함정** — globals.css 편집 직후 Turbopack 이 CSS 청크를 갱신하지 않아(재시작해도 영속 캐시 재사용) 규칙이 안 먹는 것처럼 보였다.
+  `.next/dev/static/chunks/*globals*` 의 mtime·grep 으로 반영 여부를 먼저 확인.
+- **가드** — `test_dec338_book_form_layout.py::test_row3_shelf_wide_dates_compact`.

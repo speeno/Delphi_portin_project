@@ -57,6 +57,18 @@ class FormLayout(TestCase):
                     "Sobo14.Edit130", "Sobo14.Edit131", "Sobo14.Edit133", "Sobo14.Edit301", "Sobo14.Edit304"):
             self.assertIn(lid, self.src, lid)
 
+    def test_row3_shelf_wide_dates_compact(self):
+        """DEC-339 — 3열: 서가위치 2fr·짧은 칸 5.75rem 하한·날짜 13rem 고정 + 달력 버튼 아이콘 폭(data-compact-dates)."""
+        row = self.visible.split('label="서가위치"')[0].rsplit("<div", 1)[1]
+        self.assertIn("xl:grid-cols-[minmax(0,2fr)_repeat(5,minmax(5.75rem,1fr))_repeat(2,13rem)]", row)
+        self.assertIn('data-compact-dates=""', row)
+        css = (FORM.parents[2] / "app" / "globals.css").read_text(encoding="utf-8")
+        rule = css.split("[data-form-grid][data-compact-dates]", 1)[1].split("}", 1)[0]
+        self.assertIn("> [data-date-field] > button", rule)
+        self.assertIn("width: 2rem !important", rule)
+        # 공통 규칙(입력·버튼 100% !important)과 같은 @layer utilities 안이어야 특이도로 이긴다.
+        self.assertGreater(css.index("[data-form-grid][data-compact-dates]"), css.index("@layer utilities"))
+
     def test_book_kind_options(self):
         self.assertIn('"저서", "번역서-CP", "번역서-SP", "원서1팀", "원서2팀", "교과서", "단행본", "기타", "영상·기타", "파프리카·한승"', self.src)
         self.assertIn(">직접입력</option>", self.src)
