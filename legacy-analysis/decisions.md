@@ -7614,3 +7614,14 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **함정** — globals.css 편집 직후 Turbopack 이 CSS 청크를 갱신하지 않아(재시작해도 영속 캐시 재사용) 규칙이 안 먹는 것처럼 보였다.
   `.next/dev/static/chunks/*globals*` 의 mtime·grep 으로 반영 여부를 먼저 확인.
 - **가드** — `test_dec338_book_form_layout.py::test_row3_shelf_wide_dates_compact`.
+
+### DEC-340 — 신규도서등록/도서정보 2열 끝선을 1열에 맞춤 · 출고정지 체크를 재고 옆으로 (2026-09-29)
+
+- **요청(캡처)** — 도서명 끝=윗줄 도서종류 끝, 저자명 끝=도서코드 끝, ISBN 끝=인지유무 끝. 출고정지 체크박스를 재고 칸 오른쪽으로.
+- **배치** — 1열은 6칸, 2열은 12칸이고 gap 이 같아 1열 1칸 = 2열 2칸이 정확히 일치(실측: 1092~1500px 모든 폭에서 끝 x 좌표 동일).
+  2열 = 도서명 4 · 저자명 2 · ISBN 2 · 정가 2 · 자료제공 2. 4열 = 재고 2 · **출고정지 2** · 상태 2 · 정지사유 3 · 기타 3(7열에서 이동).
+- **ISBN 폭** — 2칸이 되면서 13자리(≈127px)가 빠듯 → 이 칸만 라벨 최소폭(4.5rem) 해제 + 13px. 행 1330px(1512 화면)에서 입력 159px 여유,
+  행 1092px(1280 화면·사이드바 펼침)에서는 끝 4px 잘림(알약 입력 padding 이 공통 !important 라 더 줄이지 않음).
+- **NL 조회 버튼** — 도서정보(상세) 화면에서 ISBN 알약 안 suffix 였는데 2칸에서는 입력이 27px 로 줄어 번호가 안 보임 → 머리글 액션(저장·삭제 왼쪽)으로 이동,
+  `isbnAction` prop 제거. 동작·legacy id(`Sobo14.NL.LookupIsbn`)는 그대로.
+- **가드** — `test_dec338_book_form_layout.py::test_row2_ends_align_with_row1_and_stop_next_to_stock`, 표시 순서 테스트 갱신(출고정지 재고 다음).

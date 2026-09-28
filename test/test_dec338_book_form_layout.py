@@ -42,9 +42,9 @@ class FormLayout(TestCase):
         expected = ["도서분류", "도서종류", "도서코드", "인지유무", "인세종류", "인세비율(%)",
                     "도서명", "저자명", "ISBN", "정가", "자료제공",
                     "서가위치", "판형", "쪽수", "판수", "덩이", "그램", "발행일", "등록일",
-                    "재고", "상태", "정지사유", "기타",
+                    "재고", "출고정지", "상태", "정지사유", "기타",
                     "위탁", "현매", "매절", "납품", "특별", "한도", "기타(비율)",
-                    "비고", "단위", "세액유무", "재고절판", "출고정지",
+                    "비고", "단위", "세액유무", "재고절판",
                     "전자책", "전자책 ISBN", "전자책 정가", "전자책 비고"]
         self.assertEqual(flat, expected)
 
@@ -68,6 +68,23 @@ class FormLayout(TestCase):
         self.assertIn("width: 2rem !important", rule)
         # 공통 규칙(입력·버튼 100% !important)과 같은 @layer utilities 안이어야 특이도로 이긴다.
         self.assertGreater(css.index("[data-form-grid][data-compact-dates]"), css.index("@layer utilities"))
+
+    def test_row2_ends_align_with_row1_and_stop_next_to_stock(self):
+        """DEC-340 — 1열 6칸=2열 12칸의 2칸씩: 도서명 4(도서종류 끝)·저자명 2(도서코드 끝)·ISBN 2(인지유무 끝).
+        ISBN 은 라벨 최소폭 해제+13px, NL 조회는 알약 suffix 가 아니라 상세 머리글. 출고정지는 재고 오른쪽."""
+        row2 = self.visible.split("{/* 2열")[1].split("{/* 3열")[0]
+        spans = re.findall(r'(?:label="([^"]+)"|<Label>([^<]+)</Label>)', row2)
+        self.assertEqual([a or b for a, b in spans], ["도서명", "저자명", "ISBN", "정가", "자료제공"])
+        self.assertIn('label="도서명"', row2.split("xl:col-span-4")[0])
+        self.assertNotIn("xl:col-span-3", row2)
+        self.assertIn("xl:col-span-2 [&_[data-slot=label]]:!min-w-0", row2)
+        self.assertNotIn("isbnAction", self.src)
+        self.assertNotIn("data-field-suffix", row2)
+        page = (FORM.parents[2] / "app" / "(app)" / "master" / "book" / "[gcode]" / "page.tsx").read_text(encoding="utf-8")
+        self.assertIn('data-legacy-id="Sobo14.NL.LookupIsbn"', page.split("actions={", 1)[1].split("BookFormActions")[0])
+        row4 = self.visible.split("{/* 4열")[1].split("</div>\n      </div>")[0]
+        order = re.findall(r'label="([^"]+)"|<Label>([^<]+)</Label>', row4)
+        self.assertEqual([a or b for a, b in order][:3], ["재고", "출고정지", "상태"])
 
     def test_book_kind_options(self):
         self.assertIn('"저서", "번역서-CP", "번역서-SP", "원서1팀", "원서2팀", "교과서", "단행본", "기타", "영상·기타", "파프리카·한승"', self.src)
