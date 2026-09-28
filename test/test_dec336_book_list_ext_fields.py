@@ -66,7 +66,8 @@ class ExtStore(IsolatedAsyncioTestCase):
             await bx.upsert_ext(server_id="s", gcode="B1", scope_hcode="5019", values={"supply": "PPT"})
             await bx.upsert_ext(server_id="s", gcode="B1", scope_hcode="5019", values={"status": "품절", "stamp": "true"})
             got = await bx.get_ext(server_id="s", gcode="B1", scope_hcode="5019")
-            self.assertEqual(got, {"status": "품절", "supply": "PPT", "etc_memo": "", "stamp": "1"})  # 부분 갱신 보존
+            self.assertEqual(got, {"status": "품절", "supply": "PPT", "etc_memo": "", "stamp": "1",  # 부분 갱신 보존
+                                   "royalty_type": "", "royalty_rate": "", "ebook_memo": "", "book_kind": ""})  # DEC-338 칸
             items = [{"gcode": "B1", "name2": "절판"}, {"gcode": "B2", "name2": "재고없음"}]
             await bx.attach_ext("s", "5019", items)
             self.assertEqual((items[0]["status"], items[0]["supply"]), ("품절", "PPT"))
@@ -116,7 +117,8 @@ class Screens(TestCase):
 
     def test_detail_form_fields(self):
         src = (FE / "components" / "master" / "book-detail-form.tsx").read_text(encoding="utf-8")
-        for token in ('label="도서종류"', "<Label>상태</Label>", 'label="자료제공"', 'label="기타"',
+        # DEC-338 — 도서종류는 목록 콤보(BookKindField, <Label>도서종류</Label>)로 바뀌었다.
+        for token in ("<Label>도서종류</Label>", "<Label>상태</Label>", 'label="자료제공"', 'label="기타"',
                       'label="인지유무"', 'label="기타(비율)"', 'const BOOK_STATUS_OPTIONS = ["정상", "일시품절", "품절", "절판"]'):
             self.assertIn(token, src)
         self.assertNotIn('label="묶음"', src)
