@@ -7625,3 +7625,11 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **NL 조회 버튼** — 도서정보(상세) 화면에서 ISBN 알약 안 suffix 였는데 2칸에서는 입력이 27px 로 줄어 번호가 안 보임 → 머리글 액션(저장·삭제 왼쪽)으로 이동,
   `isbnAction` prop 제거. 동작·legacy id(`Sobo14.NL.LookupIsbn`)는 그대로.
 - **가드** — `test_dec338_book_form_layout.py::test_row2_ends_align_with_row1_and_stop_next_to_stock`, 표시 순서 테스트 갱신(출고정지 재고 다음).
+
+### DEC-341 — 신규도서등록/도서정보: 단위·세액유무·재고절판 감춤 (2026-09-29)
+
+- **요청** — 「단위, 세액유무, 재고절판은 감춘다」.
+- **처리** — DEC-338 과 같은 방식: `<div hidden data-hidden-fields="DEC-338">` 블록으로 옮겨 렌더만 숨김. 저장 시 원값(Gdabi·Bigo1·Bigo2) 그대로 왕복,
+  legacy id(Sobo14.Edit108·CheckBox1·CheckBox3) 유지, display:none 이라 Enter 이동에서 빠짐. 7열이 비어 줄 삭제 → 비고 카드만 남음.
+- **참고** — 재고절판(Bigo2)은 화면에서 안 보이지만 도서 「상태」 초기 추정(`derive_status`, 절판)에는 계속 쓰인다. 델파이는 그대로 편집 가능.
+- **가드** — `test_dec338_book_form_layout.py` HIDDEN_LABELS·표시 순서 갱신.

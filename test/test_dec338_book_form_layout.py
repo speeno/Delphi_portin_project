@@ -22,7 +22,8 @@ sys.path.insert(0, str(BACKEND))
 from app.services import book_ext_service as bx  # noqa: E402
 
 HIDDEN_LABELS = ("도서코드2", "비율구분", "등록번호", "도서종류(묶음)", "원가", "매입가",
-                 "본사재고 정품", "본사재고 비품", "창고재고 정품", "창고재고 비품", "도서처리")
+                 "본사재고 정품", "본사재고 비품", "창고재고 정품", "창고재고 비품", "도서처리",
+                 "단위", "세액유무", "재고절판")  # 뒤 3개 DEC-341
 
 
 def _split(src: str) -> tuple[str, str]:
@@ -44,7 +45,7 @@ class FormLayout(TestCase):
                     "서가위치", "판형", "쪽수", "판수", "덩이", "그램", "발행일", "등록일",
                     "재고", "출고정지", "상태", "정지사유", "기타",
                     "위탁", "현매", "매절", "납품", "특별", "한도", "기타(비율)",
-                    "비고", "단위", "세액유무", "재고절판",
+                    "비고",
                     "전자책", "전자책 ISBN", "전자책 정가", "전자책 비고"]
         self.assertEqual(flat, expected)
 
@@ -54,7 +55,8 @@ class FormLayout(TestCase):
             self.assertNotIn(f'label="{label}"', self.visible, label)
         self.assertIn("<BookTypeField", self.hidden)  # 도서타입
         for lid in ("Sobo14.Edit102", "Sobo14.Edit104", "Sobo14.Edit107", "Sobo14.Edit111", "Sobo14.Edit120",
-                    "Sobo14.Edit130", "Sobo14.Edit131", "Sobo14.Edit133", "Sobo14.Edit301", "Sobo14.Edit304"):
+                    "Sobo14.Edit130", "Sobo14.Edit131", "Sobo14.Edit133", "Sobo14.Edit301", "Sobo14.Edit304",
+                    "Sobo14.Edit108", "Sobo14.CheckBox1", "Sobo14.CheckBox3"):
             self.assertIn(lid, self.src, lid)
 
     def test_row3_shelf_wide_dates_compact(self):
