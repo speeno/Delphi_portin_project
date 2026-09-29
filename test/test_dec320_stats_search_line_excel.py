@@ -24,16 +24,18 @@ SCREENS = (
 
 
 class StatsScreens(TestCase):
-    def test_one_line_search_on_title_row(self) -> None:
+    def test_one_line_search_inside_header(self) -> None:
+        # DEC-342 (2026-09-30) — 검색 줄은 제목 줄 오른쪽이 아니라 «다음 줄·왼쪽 정렬»(PageHeader 기본 filtersBelow).
+        # 한 줄 알약 구성(공용 조각)은 DEC-320 그대로.
         for rel, kind, _n in SCREENS:
             src = (SRC / rel).read_text(encoding="utf-8")
-            self.assertIn("filtersBelow={false}", src, rel)
+            self.assertNotIn("filtersBelow={false}", src, rel)
             if kind == "direct":
                 self.assertIn("<LedgerSearchLine", src, rel)
                 self.assertIn("<LedgerSearchButton", src, rel)
             else:
                 header = src.split("<PageHeader")[1].split("</PageHeader>")[0]
-                self.assertIn("<StatsFilterBar", header, f"{rel}: 필터 바는 제목 줄 안")
+                self.assertIn("<StatsFilterBar", header, f"{rel}: 필터 바는 띠(PageHeader) 안")
 
     def test_shared_filter_bar_uses_pills(self) -> None:
         bar = (SRC / "components" / "stats" / "stats-filter-bar.tsx").read_text(encoding="utf-8")

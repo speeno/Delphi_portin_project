@@ -196,7 +196,8 @@ class ScreenWiring(TestCase):
         self.assertIn('p.base.replace(/\\D/g, "").length === 4 ? [L(`Label00${i + 1}`)] : []', src)
         self.assertIn("advanceFilterOnEnter(e, stopIds)", src)
         # 사용자 2026-09-25 「화면 오류」 — 워크스페이스 폭에서 1줄이 왼쪽 밖으로 넘쳐 「기간1」 잘림 → 줄바꿈 허용.
-        self.assertEqual(src.count("<LedgerSearchLine wrap>"), 2)
+        # DEC-342 — 두 줄 모두 왼쪽 정렬(통계관리 공통).
+        self.assertEqual(src.count('<LedgerSearchLine wrap align="start">'), 2)
 
 
 if __name__ == "__main__":

@@ -34,10 +34,11 @@ class StatsShowAll(TestCase):
             self.assertIn("<SectionHeader", right, rel)
             self.assertIn(f"{sid}.Button_ExportDetail", right, rel)
 
-    def test_book_sales_defaults_to_all_after_search(self) -> None:
+    def test_book_sales_right_pane_blank_until_selected(self) -> None:
+        # DEC-343(2026-09-30 교문사 「검색 첫 화면엔 우측 공백」) — DEC-319 의 «조회 직후 = 전체»는 도서별판매에서 철회.
         src = _read("reports/book-sales/page.tsx")
-        self.assertIn("const effectiveAll = showAll || detail === null;", src)
-        self.assertIn("if (!effectiveAll || !sid || bcodes.length === 0) return;", src)
+        self.assertIn("const effectiveAll = showAll;", src)
+        self.assertNotIn("showAll || detail === null", src)
 
 
 if __name__ == "__main__":

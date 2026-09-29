@@ -1066,6 +1066,15 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # DEC-344 「내용 전체 보기」 — 검색 결과 전체 도서(도서코드 목록 없이 목록 조회 조건으로)
+        {
+            "group": "reports.book_sales_customers_all_books",
+            "path": (
+                f"/api/v1/reports/book-sales/customers-all?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&allBooks=1&bcode=1"
+            ),
+            "ok_status": {200},
+        },
         # DEC-287 「내용 전체 보기」 — 기간 전체 상세(전 일자 · 전 전표)
         {
             "group": "inventory.book_ledger_day_detail_all",
