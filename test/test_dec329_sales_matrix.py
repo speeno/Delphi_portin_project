@@ -2,7 +2,7 @@
 DEC-329 — 년/월(통계) 세분화 판매 매트릭스 6종(레거시 출판 빌드 Sobo79_1~4 · Sobo73 · Sobo74).
 
 한 서비스(sales_matrix_service) + 한 화면(SalesMatrixScreen) + 설정 6개.
-- 월별/일별: 출력조건 1개를 월·일 열로 펼침(레거시 WHERE 그대로), 실제 연월/일자 순 열, 상한 24개월/31일.
+- 월별/일별: 출력조건 1개를 월·일 열로 펼침(레거시 WHERE 그대로), 실제 연월/일자 순 열, 상한 24개월/366일(DEC-347, 종전 31일).
 - 년/월 비교: 기간 ≤3개(YYYY·YYYY.MM, 년도엔 분기/반기) × 출고·반품·판매·판매금액(+거래처축 수금액).
 - 보기: 분류/저자(도서), 구분/지역/담당(거래처) × 항목 표시 여부.
 """
@@ -41,8 +41,13 @@ class PeriodParsing(TestCase):
 
     def test_day_buckets_cap(self):
         self.assertEqual(sms.day_buckets("2026-02-27", "2026.03.01"), ["2026.02.27", "2026.02.28", "2026.03.01"])
+        # DEC-347 — 31일 상한 철회: 선택한 기간 그대로(최대 366일).
+        self.assertEqual(len(sms.day_buckets("2026.01.01", "2026.02.01")), 32)
+        self.assertEqual(len(sms.day_buckets("2025.09.30", "2026.09.30")), 366)
         with self.assertRaises(sms.SalesMatrixValidationError):
-            sms.day_buckets("2026.01.01", "2026.02.01")  # 32일
+            sms.day_buckets("2025.09.29", "2026.09.30")  # 367일
+        with self.assertRaises(sms.SalesMatrixValidationError):
+            sms.day_buckets("2026.03.02", "2026.03.01")
 
     def test_compare_period_parts(self):
         self.assertEqual(sms.parse_compare_period("2025", None), {"label": "2025", "lo": "2025.00", "hi": "2025.99"})

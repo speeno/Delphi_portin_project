@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T20:22:50.176217+00:00",
+  "generated_at": "2026-09-29T20:37:14.317526+00:00",
   "summary": {
     "files_scanned": 113,
     "sql_literals": 630,
@@ -3264,7 +3264,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/sales_matrix_service.py",
       "function": "_book_meta",
-      "lineno": 333,
+      "lineno": 338,
       "tables": [
         "G4_Gbun"
       ],
@@ -3276,7 +3276,7 @@
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/services/sales_matrix_service.py",
       "function": "get_sales_matrix",
-      "lineno": 550,
+      "lineno": 557,
       "tables": [
         "H1_Ssub"
       ],
