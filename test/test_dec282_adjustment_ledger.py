@@ -45,7 +45,8 @@ class AxisDataTests(TestCase):
         self.assertEqual(set(a), {"customer", "book", "book_return"})
         self.assertTrue(a["book"]["auto_ledger_value"], "재고변경은 원장재고 자동조회 지원")
         self.assertTrue(a["book_return"]["auto_ledger_value"], "비품 창은 반품재고 자동조회")
-        self.assertFalse(a["customer"]["auto_ledger_value"], "원장변경은 1차 미지원(직접 입력)")
+        # DEC-356(2026-09-30) — 원장변경도 레거시처럼 원장금액(거래일자까지의 미수 잔액)을 자동으로 채운다.
+        self.assertTrue(a["customer"]["auto_ledger_value"], "원장변경 = 기준일 미수 잔액 자동조회")
 
     def test_axis_tables_and_scodes(self) -> None:
         self.assertEqual(svc.axis_config("customer")["table"], "Sg_Gsum")
@@ -180,10 +181,25 @@ class LedgerValueTests(TestCase):
         self.assertEqual(kw["axis_like"], "%A%", "레거시 Subu52 는 본사 축으로 계산")
         self.assertEqual(kw["hcode"], "5019")
 
-    def test_customer_axis_is_not_supported_yet(self) -> None:
-        out = _run(svc.ledger_value(server_id="s", axis="customer", hcode="5019",
-                                    gcode="2057", asof="2026-01-26"))
-        self.assertEqual(out, {"supported": False, "gosum": 0})
+    def test_customer_axis_uses_receivable_as_of_date(self) -> None:
+        # DEC-356 — 레거시 Subu51 DBGrid101KeyPress: 원장금액 = 그 거래일자(당일 포함)까지의 미수 잔액.
+        with patch("app.services.customer_txn_ledger_service.receivable_asof",
+                   new=AsyncMock(return_value=5095750)) as f:
+            out = _run(svc.ledger_value(server_id="s", axis="customer", hcode="5019",
+                                        gcode="3313", asof="2026-09-30"))
+        self.assertEqual(out, {"supported": True, "gosum": 5095750})
+        kw = f.await_args.kwargs
+        self.assertEqual(kw["asof"], "2026.09.30")
+        self.assertEqual(kw["gcode"], "3313")
+        self.assertEqual(kw["hcode"], "5019", "계정 스코프 유지")
+
+    def test_blank_code_does_not_query(self) -> None:
+        with patch("app.services.customer_txn_ledger_service.receivable_asof",
+                   new=AsyncMock(return_value=1)) as f:
+            out = _run(svc.ledger_value(server_id="s", axis="customer", hcode="5019",
+                                        gcode="  ", asof="2026-09-30"))
+        self.assertEqual(out, {"supported": True, "gosum": 0})
+        f.assert_not_awaited()
 
 
 class RouterWiringTests(TestCase):

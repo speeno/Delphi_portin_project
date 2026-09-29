@@ -262,6 +262,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200},
         },
         {
+            "group": "ledger.adjustments.customer_ledger_value",
+            # DEC-356 — 원장변경 원장금액 자동 채움(거래일자까지의 미수 잔액, 읽기 전용).
+            "path": f"/api/v1/ledger/adjustments/ledger-value?serverId={sid}&axis=customer&gcode=1&asof={dt}",
+            "ok_status": {200},
+        },
+        {
             "group": "ledger.adjustments.book",
             "path": f"/api/v1/ledger/adjustments?serverId={sid}&axis=book&dateFrom={df}&dateTo={dt}&limit=1",
             "ok_status": {200},

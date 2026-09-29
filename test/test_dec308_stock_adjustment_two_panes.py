@@ -100,7 +100,9 @@ class TwoPaneScreen(TestCase):
         # 새 행은 정렬과 무관하게 맨 아래 — 행 추가/입력 줄 포커스(«마지막 행»)가 깨지지 않게.
         self.assertIn("[...gridSort.sortedRows, ...newRows]", self.src)
         self.assertIn('"엑셀 저장"', self.src)
-        self.assertIn("gridRowsToExport(cols, displayRows)", self.src, "화면 컬럼·정렬 그대로")
+        # DEC-356 — 맨 아래 빈 입력 줄은 화면에만 있는 기입용 줄이라 엑셀에서 뺀다.
+        self.assertIn("gridRowsToExport(cols, exportRows)", self.src, "화면 컬럼·정렬 그대로")
+        self.assertIn("displayRows.filter((r) => !isInputRow(r))", self.src)
         self.assertIn('!== "row-actions"', self.src, "삭제 버튼 칸은 엑셀에서 뺀다")
 
     def test_customer_axis_search_box_is_lookup_too(self) -> None:

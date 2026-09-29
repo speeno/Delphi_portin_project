@@ -104,6 +104,13 @@ class SearchBusySignal(TestCase):
         self.assertIn('role="status"', src)
         self.assertIn("pointer-events-none", src, "표시가 화면 조작을 막지 않는다")
 
+    def test_notice_does_not_cover_title_row_search(self) -> None:
+        """알림은 화면 가운데 — 맨 위에 두면 제목 줄로 옮긴 검색칸(거래처명 라벨)을 가린다(2026-09-30 실화면 확인)."""
+        src = _read("components/app-shell/api-busy-indicator.tsx")
+        self.assertIn('data-slot="api-busy-chip" className="fixed inset-x-0 top-[38%]', src)
+        self.assertIn('data-slot="api-busy-bar" className="fixed inset-x-0 top-0', src, "진행 띠는 맨 위 3px")
+        self.assertNotIn('"mt-2 flex justify-center"', src)
+
     def test_styles(self) -> None:
         css = _read("app/globals.css")
         for needle in (
