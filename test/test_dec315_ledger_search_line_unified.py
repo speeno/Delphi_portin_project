@@ -30,14 +30,17 @@ class LedgerScreensShareOneLineSearch(TestCase):
         shared = _read("components/shared/ledger-search-line.tsx")
         ref = _read("app/(app)/ledger/customer/page.tsx")
         for cls in (
-            "flex w-full min-w-0 flex-wrap items-center justify-end gap-3 xl:flex-nowrap",
             "flex h-9 min-w-max items-center rounded-2xl border border-border bg-control-surface px-1.5",
             "mx-3 hidden h-10 w-px shrink-0 bg-border xl:block",
             "h-10 min-w-24 rounded-2xl px-6 text-sm font-semibold",
         ):
             self.assertIn(cls, ref, f"기준 화면: {cls}")
-            # DEC-329 — 한 줄 고정(xl:flex-nowrap)은 기본값이고 `wrap` 선택 시에만 빠진다(템플릿 문자열).
-            self.assertIn(cls.replace(" xl:flex-nowrap", ""), shared, f"공용 조각: {cls}")
+            self.assertIn(cls, shared, f"공용 조각: {cls}")
+        # 줄 컨테이너 — DEC-353(2026-09-30) 부터 기준 화면은 왼쪽 정렬(justify-start). 공용 조각은 기본 클래스에
+        # `align="start"` 를 얹는다. DEC-329 — 한 줄 고정(xl:flex-nowrap)은 기본값이고 `wrap` 선택 시에만 빠진다.
+        self.assertIn("flex w-full min-w-0 flex-wrap items-center justify-start gap-3 xl:flex-nowrap", ref)
+        self.assertIn("flex w-full min-w-0 flex-wrap items-center justify-end gap-3", shared)
+        self.assertIn('align === "start" && "justify-start"', shared)
         self.assertIn('wrap ? "" : " xl:flex-nowrap"', shared)
         self.assertIn("wrap = false", shared)
 
@@ -50,12 +53,16 @@ class ReceivableShowsBothPanes(TestCase):
         # DEC-316 — 첫 구분 자동 선택 대신 레거시처럼 조회 직후 하단 = 전 거래처(구분 미선택), 하단은 항상 표시.
         self.assertNotIn("autoPickRef", self.src)
         self.assertNotIn("secondaryVisible=", self.src)
-        self.assertIn("showAll || selGubun === null", self.src)
+        self.assertIn("selGubun === null || (r.gubun || \"\") === selGubun", self.src)
 
-    def test_show_all_checkbox_on_top_header(self) -> None:
-        top = self.src.split('title="거래처구분별"')[1].split('legacyId="Sobo33.DBGrid101"')[0]
-        self.assertIn('data-legacy-id="Sobo33.ShowAll"', top, "상단 표 머리에 「내용 전체 보기」")
-        self.assertEqual(self.src.count('data-legacy-id="Sobo33.ShowAll"'), 1)
+    def test_show_all_checkbox_removed(self) -> None:
+        # DEC-355(2026-09-30 교문사 「"내용 전체보기" 삭제, 불필요」) — 조회 직후가 이미 전 거래처이고
+        # 「구분 해제」로 전체로 돌아가므로 체크박스는 같은 일을 하는 중복이었다.
+        self.assertNotIn("내용 전체 보기", self.src)
+        self.assertNotIn("showAll", self.src)
+        self.assertNotIn("Sobo33.ShowAll", self.src)
+        self.assertIn("구분 해제", self.src, "전체로 돌아가는 경로는 남는다")
+        self.assertIn('"거래처별 (전체)"', self.src)
 
     def test_blank_gubun_key_round_trip(self) -> None:
         self.assertIn('setSelGubun(key === "(none)" ? "" : String(key))', self.src)

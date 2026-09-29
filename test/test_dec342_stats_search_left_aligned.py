@@ -4,7 +4,7 @@
 왼쪽 정렬로 이동」 → (같은 날 확정) 「제목과 같은 줄에서 왼쪽으로 붙이는 형식으로」.
 
 - DEC-342 는 DEC-268 기본 규칙(제목 줄 **다음 줄**)으로 옮겼으나, DEC-350 에서 **제목과 같은 줄**(제목·경로 바로 뒤)로 확정.
-- 알약 구성·위젯 id·Enter 순서는 DEC-320 그대로. 원장관리(DEC-315)는 범위 밖 — 공용 조각의 기본 정렬("end")은 그대로.
+- 알약 구성·위젯 id·Enter 순서는 DEC-320 그대로. 원장관리(DEC-315)도 DEC-353 에서 같은 배치로 옮겼다.
 """
 
 from __future__ import annotations
@@ -53,12 +53,13 @@ def _header(src: str) -> str:
 class SharedPieceHasAlignOption(TestCase):
     def test_default_stays_right_for_ledger_screens(self) -> None:
         src = _read("components/shared/ledger-search-line.tsx")
-        self.assertIn('align = "end"', src, "기본값은 종전(오른쪽) — 원장관리 화면 불변")
+        self.assertIn('align = "end"', src, "기본값은 종전(오른쪽) — 화면이 명시적으로 start 를 고른다")
         self.assertIn('align?: "start" | "end"', src)
         self.assertIn('align === "start" && "justify-start"', src)
         self.assertIn("cn(", src, "justify-end ↔ justify-start 충돌은 tailwind-merge 로 해소")
 
-    def test_ledger_screens_not_touched(self) -> None:
+    def test_ledger_screens_follow_the_same_rule(self) -> None:
+        # DEC-353(2026-09-30) — 원장관리도 통계관리와 같은 배치(제목 줄 · 왼쪽). 가드 본체는 test_dec353_354.
         for rel in (
             "app/(app)/ledger/receivable/page.tsx",
             "app/(app)/inventory/ledger/page.tsx",
@@ -67,7 +68,7 @@ class SharedPieceHasAlignOption(TestCase):
         ):
             src = _read(rel)
             self.assertIn("filtersBelow={false}", src, rel)
-            self.assertNotIn('align="start"', src, rel)
+            self.assertIn('align="start"', src, rel)
 
 
 class StatsScreensAreLeftAlignedOnTitleRow(TestCase):

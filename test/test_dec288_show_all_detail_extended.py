@@ -224,7 +224,6 @@ class AllMasterDetailScreensCovered(unittest.TestCase):
         ("app/(app)/inventory/ledger/page.tsx", "book-ledger/day-detail-all"),
         ("app/(app)/ledger/customer-integrated/page.tsx", "customer-ledger/daily-all"),
         ("app/(app)/ledger/book-summary/page.tsx", "book-summary/months-all"),
-        ("app/(app)/ledger/receivable/page.tsx", "showAll || selGubun === null"),
         ("app/(app)/inventory/value/page.tsx", "showAll || selectedClass === null"),
         # DEC-316 — 기간별재고원장도 좌우 2단 + 내용 전체 보기.
         ("app/(app)/inventory/status/page.tsx", "showAll || selectedClass === null"),
@@ -255,6 +254,9 @@ class AllMasterDetailScreensCovered(unittest.TestCase):
         self.assertEqual(
             sorted(left),
             sorted([
+                # 기간별미수원장 — DEC-355(2026-09-30 교문사 「내용 전체보기 삭제, 불필요」): 조회 직후가 이미 전 거래처이고
+                # 「구분 해제」로 전체로 돌아가 체크박스가 중복이었다.
+                "app/(app)/ledger/receivable/page.tsx",
                 # 두 표가 서로 독립(마스터-디테일 아님) — 하단이 이미 전 건이라 대상이 아니다.
                 "app/(app)/inbound/reports/daily/page.tsx",
                 "app/(app)/inbound/reports/period/page.tsx",

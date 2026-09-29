@@ -43,7 +43,8 @@ class SearchRows(TestCase):
     def test_row2_ends_with_search_button(self) -> None:
         ids = self._ids(self.rows[1])
         self.assertEqual(ids, ["Panel102", "Edit105", "Edit107", "Edit109", "CheckBox2", "dxButton1"])
-        self.assertTrue(self.rows[1].rstrip().endswith("disabled={loading} />"), "「검색」이 마지막 요소")
+        # DEC-354 — 조회 중 표시는 버튼의 loading 으로(조회 중이면 버튼이 스스로 비활성).
+        self.assertTrue(self.rows[1].rstrip().endswith("loading={loading} />"), "「검색」이 마지막 요소")
 
     def test_screen_order_equals_enter_order(self) -> None:
         stops = self.src.split("const stopIds = [")[1].split("];")[0]
