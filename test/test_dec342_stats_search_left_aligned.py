@@ -104,6 +104,7 @@ class StatsScreensAreLeftAlignedOnTitleRow(TestCase):
         # 검색 줄이 여러 줄 — 제목은 가운데가 아니라 첫 줄에 맞춘다.
         opening = screen.split("<PageHeader")[1].split(">\n")[0]
         self.assertIn("md:items-start", opening)
+        self.assertIn("min-h-9", opening, "첫 줄 높이 = 알약 h-9 (검색 버튼은 2줄로 내려갔다, DEC-352)")
         for route in MATRIX_ROUTES:
             page = _read(f"app/(app)/year-month-stats/{route}/page.tsx")
             self.assertIn("<SalesMatrixScreen", page, route)
