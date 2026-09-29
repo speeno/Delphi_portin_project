@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T20:37:14.565196+00:00",
+  "generated_at": "2026-09-29T21:05:00.006228+00:00",
   "summary": {
     "files_scanned": 30,
     "endpoints_seen": 382,
@@ -485,7 +485,7 @@
       "function": "get_year_end_book",
       "path": "/year-end-book",
       "method": "GET",
-      "lineno": 344,
+      "lineno": 354,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -495,7 +495,7 @@
       "function": "export_book_sales_xlsx",
       "path": "/book-sales/export.xlsx",
       "method": "GET",
-      "lineno": 552,
+      "lineno": 562,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -505,7 +505,7 @@
       "function": "export_customer_sales_xlsx",
       "path": "/customer-sales/export.xlsx",
       "method": "GET",
-      "lineno": 595,
+      "lineno": 605,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -515,7 +515,7 @@
       "function": "export_year_end_book_xlsx",
       "path": "/year-end-book/export.xlsx",
       "method": "GET",
-      "lineno": 631,
+      "lineno": 641,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"

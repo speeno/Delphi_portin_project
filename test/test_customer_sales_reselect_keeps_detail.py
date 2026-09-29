@@ -47,11 +47,12 @@ class CustomerSalesReselectKeepsDetail(TestCase):
         self.assertNotIn("setSelectedRow(null)", body)
         self.assertNotIn("loadDetail(undefined", body, "재선택이 전체 거래처 상세로 되돌리면 안 됨")
 
-    def test_query_still_resets_to_all_customers(self) -> None:
-        # 「조회」 재실행 = 전체 거래처 복귀 경로(DEC-197) — 재선택 무시 도입 후에도 유지.
+    def test_query_resets_selection_and_blanks_right_pane(self) -> None:
+        # 「검색」 재실행 = 선택 해제 + 우측 공백(DEC-351). 종전 «전체 거래처 복귀»(DEC-197)는 철회.
         body = _fn_body(self.src, "load")
         self.assertIn("setSelectedKey(null)", body)
-        self.assertIn("loadDetail(undefined", body)
+        self.assertIn("setDetail(null)", body)
+        self.assertNotIn("loadDetail(undefined", self.src)
 
 
 if __name__ == "__main__":

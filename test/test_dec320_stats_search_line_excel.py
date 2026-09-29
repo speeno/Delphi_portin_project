@@ -24,12 +24,12 @@ SCREENS = (
 
 
 class StatsScreens(TestCase):
-    def test_one_line_search_inside_header(self) -> None:
-        # DEC-342 (2026-09-30) — 검색 줄은 제목 줄 오른쪽이 아니라 «다음 줄·왼쪽 정렬»(PageHeader 기본 filtersBelow).
+    def test_one_line_search_on_title_row(self) -> None:
+        # 제목 줄 한 줄(DEC-320). DEC-350(2026-09-30) — 같은 줄에서 오른쪽 끝이 아니라 제목 바로 뒤(왼쪽 정렬).
         # 한 줄 알약 구성(공용 조각)은 DEC-320 그대로.
         for rel, kind, _n in SCREENS:
             src = (SRC / rel).read_text(encoding="utf-8")
-            self.assertNotIn("filtersBelow={false}", src, rel)
+            self.assertIn("filtersBelow={false}", src, rel)
             if kind == "direct":
                 self.assertIn("<LedgerSearchLine", src, rel)
                 self.assertIn("<LedgerSearchButton", src, rel)

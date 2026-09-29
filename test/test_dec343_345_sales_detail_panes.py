@@ -218,5 +218,115 @@ class CustomerSearchFieldShowsName(unittest.TestCase):
         self.assertIn("res.rows.find((r) => r.gcode === eGcode.trim())?.gname", self.src)
 
 
+# ── DEC-351 — 거래처별판매 우측 표도 도서별판매와 같은 규칙 ─────────────────────
+class CustomerSalesRightPaneOnlyWhenSelected(unittest.TestCase):
+    def setUp(self) -> None:
+        self.src = _read("app/(app)/reports/customer-sales/page.tsx")
+
+    def test_blank_after_search_and_after_clear(self) -> None:
+        self.assertNotIn("loadDetail(undefined", self.src, "선택 없이 «전체 거래처»를 부르지 않는다")
+        load_body = self.src.split("async function load(")[1].split("async function loadDetail(")[0]
+        self.assertIn("setDetail(null);", load_body)
+        clear = self.src.split("선택 해제 = 우측을 다시 비운다")[1].split("선택 해제\n")[0]
+        self.assertIn("setDetail(null);", clear)
+        self.assertIn("왼쪽 목록에서 거래처를 선택하면 그 거래처의 도서별 내역이 표시됩니다.", self.src)
+
+    def test_detail_requires_a_row(self) -> None:
+        self.assertIn("row: CustomerSalesRow,\n", self.src)
+        self.assertIn("gcode: row.gcode,", self.src)
+
+    def test_show_all_asks_for_whole_result(self) -> None:
+        call = self.src.split("reportsApi.customerSalesBooksAll(")[1].split("});")[0]
+        self.assertIn("allCustomers: true", call)
+        self.assertNotIn("pairs", call, "그 쪽 거래처 목록을 보내지 않는다")
+        self.assertIn("dateFrom: snap.dateFrom", call, "목록을 조회한 조건 그대로")
+
+
+class CustomerSalesBooksAllWholeResult(unittest.IsolatedAsyncioTestCase):
+    ROWS = [
+        {"Gcode": "C2", "Gjisa": "", "Bcode": "B1", "Gubun": "출고", "Pubun": "", "Gsqut": 5, "Gssum": 500},
+        {"Gcode": "C1", "Gjisa": "", "Bcode": "B2", "Gubun": "출고", "Pubun": "", "Gsqut": 7, "Gssum": 700},
+        {"Gcode": "C1", "Gjisa": "", "Bcode": "B1", "Gubun": "출고", "Pubun": "", "Gsqut": 10, "Gssum": 1000},
+        {"Gcode": "C3", "Gjisa": "", "Bcode": "B1", "Gubun": "반품", "Pubun": "", "Gsqut": -2, "Gssum": -200},
+    ]
+
+    async def _run(self, *, cap: int | None = None, **kw):
+        seen: dict = {}
+
+        async def fake_query(server_id, sql, params=()):
+            seen["sql"], seen["params"] = sql, tuple(params)
+            return self.ROWS
+
+        async def fake_in_clause(server_id, *, sql_template, keys, prefix_params=(), chunk_size=None):
+            if "G1_Ggeo" in sql_template:
+                return [{"hcode": "5019", "gcode": "C1", "gname": "거래처1"}]
+            if "G4_Book" in sql_template:
+                return [{"bcode": "B1", "gname": "도서1"}]
+            raise AssertionError("전체 모드는 거래처코드 IN 조회를 쓰지 않는다")
+
+        patches = [
+            patch.object(rs, "execute_query", AsyncMock(side_effect=fake_query)),
+            patch.object(rs, "in_clause_lookup", AsyncMock(side_effect=fake_in_clause)),
+            patch.object(rs, "_attach_meta_soft", AsyncMock(return_value=None)),
+        ]
+        if cap is not None:
+            patches.append(patch.object(rs, "BOOK_SALES_CUSTOMERS_ALL_MAX", cap))
+        for p in patches:
+            p.start()
+        try:
+            res = await rs.get_customer_sales_books_all(
+                server_id="remote_153", hcode="5019",
+                date_from="2026-08-30", date_to="2026-09-30",
+                pairs=[], all_customers=True, **kw,
+            )
+        finally:
+            for p in patches:
+                p.stop()
+        return res, seen
+
+    async def test_no_customer_list_needed_and_scoped(self) -> None:
+        res, seen = await self._run()
+        self.assertNotIn("Gcode IN", seen["sql"])
+        self.assertIn("Hcode = %s", seen["sql"], "계정 스코프 유지")
+        self.assertIn("Scode = %s", seen["sql"], "목록과 같은 판매 구분")
+        self.assertEqual(seen["params"], ("2026.08.30", "2026.09.30", "X", "5019"))
+        self.assertEqual(res["customers"], 3)
+        self.assertEqual(res["total_rows"], 4)
+        self.assertEqual(
+            [(r["gcode"], r["bcode"]) for r in res["rows"]],
+            [("C1", "B1"), ("C1", "B2"), ("C2", "B1"), ("C3", "B1")],
+        )
+        self.assertEqual(res["rows"][0]["gname"], "거래처1")
+
+    async def test_totals_cover_whole_result_even_when_capped(self) -> None:
+        res, _ = await self._run(cap=2)
+        self.assertTrue(res["truncated"])
+        self.assertEqual(len(res["rows"]), 2)
+        self.assertEqual(res["customers"], 3, "거래처 수도 전체 기준")
+        self.assertEqual(res["totals"]["goqut"], 22)
+        self.assertEqual(res["totals"]["gbqut"], -2)
+
+    async def test_single_customer_filter_follows_list_query(self) -> None:
+        _, seen = await self._run(gcode="C1")
+        self.assertIn("Gcode = %s", seen["sql"])
+        self.assertEqual(seen["params"][-1], "C1")
+
+    async def test_page_scoped_mode_unchanged(self) -> None:
+        res = await rs.get_customer_sales_books_all(
+            server_id="remote_153", hcode="5019",
+            date_from="2026-08-30", date_to="2026-09-30", pairs=[],
+        )
+        self.assertEqual(res, {"rows": [], "customers": 0, "totals": {}, "truncated": False})
+
+    def test_router_and_probe(self) -> None:
+        src = (BACK / "routers" / "reports.py").read_text(encoding="utf-8")
+        block = src.split('@router.get("/customer-sales/books-all")')[1].split("@router.get(")[0]
+        self.assertIn('alias="allCustomers"', block)
+        self.assertIn("all_customers=all_customers", block)
+        self.assertIn("enforce_hcode_isolation(hcode, current)", block)
+        probe = (ROOT / "debug" / "probe_backend_all_servers.py").read_text(encoding="utf-8")
+        self.assertIn("reports.customer_sales_books_all_customers", probe)
+
+
 if __name__ == "__main__":
     unittest.main()

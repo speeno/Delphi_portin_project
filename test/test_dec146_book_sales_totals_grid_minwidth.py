@@ -115,8 +115,9 @@ class ScreenWiringGuard(TestCase):
         src = (FRONTEND / "app" / "(app)" / "reports" / "customer-sales"
                / "page.tsx").read_text(encoding="utf-8")
         self.assertIn("detail === null ?", src, "첫 조회 전 분기 없음")
-        self.assertIn("위에서 거래처를 선택하면", src, "안내 문구 누락")
-        self.assertNotIn("좌측 거래처 행을 선택하면", src, "좌우 분할 시절 문구 잔존")
+        # DEC-351 — 검색 직후에도 우측은 공백(거래처를 골라야 채운다). 화면은 좌우 분할.
+        self.assertIn("왼쪽 목록에서 거래처를 선택하면", src, "안내 문구 누락")
+        self.assertNotIn("조회하면 전체 거래처의 도서별 내역이", src, "«조회 직후 전체» 문구 잔존")
 
 
 if __name__ == "__main__":

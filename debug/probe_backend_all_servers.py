@@ -1018,6 +1018,15 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # DEC-351 「내용 전체 보기」 — 검색 결과 전체 거래처(거래처 목록 없이 목록 조회 조건으로)
+        {
+            "group": "reports.customer_sales_books_all_customers",
+            "path": (
+                f"/api/v1/reports/customer-sales/books-all?serverId={sid}"
+                f"&dateFrom={df}&dateTo={dt}&allCustomers=1&gcode=1"
+            ),
+            "ok_status": {200},
+        },
         {
             "group": "ledger.book_summary_months_all",
             "path": (

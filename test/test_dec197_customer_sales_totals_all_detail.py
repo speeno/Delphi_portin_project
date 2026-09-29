@@ -145,13 +145,13 @@ class AllCustomersDetailTests(IsolatedAsyncioTestCase):
 class ScreenTests(TestCase):
     PAGE = FRONT / "app" / "(app)" / "reports" / "customer-sales" / "page.tsx"
 
-    def test_top_grid_gets_totals_and_all_detail_after_search(self) -> None:
+    def test_top_grid_gets_totals_and_detail_on_selection(self) -> None:
         src = self.PAGE.read_text(encoding="utf-8")
         self.assertIn("totals={topTotals}", src)
         self.assertIn("totals={detailTotals}", src)
-        # 검색 직후 전체 거래처 도서별을 자동 조회(레거시 T00=1).
-        self.assertIn("loadDetail(", src)
-        self.assertIn("전체 거래처", src)
+        # DEC-351(2026-09-30) — 검색 직후 «전체 거래처 자동 조회»(레거시 T00=1)는 철회: 거래처를 골라야 우측을 채운다.
+        self.assertIn("void loadDetail(r);", src)
+        self.assertNotIn("loadDetail(undefined", src)
 
 
 if __name__ == "__main__":

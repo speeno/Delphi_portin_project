@@ -58,9 +58,18 @@ class FiltersBelowTitle(TestCase):
             for p in FRONT.rglob("*.tsx")
             if "filtersBelow={false}" in p.read_text(encoding="utf-8")
         )
-        # (종전 예외 5: 통계관리 하위 화면 — DEC-320) 은 DEC-342(2026-09-30 사용자 「통계관리 모든 화면의
-        # 검색 관련 컴포넌트를 왼쪽 정렬로」)로 철회 — 통계 화면도 기본 규칙(다음 줄·왼쪽)을 따른다.
-        self.assertEqual([p for p in opted_out if p not in allowed], [], opted_out)
+        # 예외 5: 통계관리 하위 화면 전부 — DEC-320(제목 줄 한 줄) + DEC-350(2026-09-30 사용자 「제목과 같은 줄에서
+        # 왼쪽으로 붙이는 형식」): 제목 줄에 두되 오른쪽 끝이 아니라 제목 바로 뒤. 년/월 세분화 판매 공용 화면 포함.
+        stats_prefixes = ("app/(app)/stats/", "app/(app)/reports/")
+        stats_shared = {"components/stats/sales-matrix-screen.tsx"}
+        self.assertEqual(
+            [
+                p for p in opted_out
+                if p not in allowed and p not in stats_shared and not p.startswith(stats_prefixes)
+            ],
+            [],
+            opted_out,
+        )
 
     def test_filters_stay_inside_the_band(self) -> None:
         """필터는 띠 밖으로 나가지 않는다 — .page-header 인라인 라벨 CSS·Enter 스코프 유지."""

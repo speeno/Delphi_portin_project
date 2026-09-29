@@ -1,9 +1,10 @@
-"""DEC-342 — 통계관리 메뉴 전 화면: 검색 관련 컴포넌트 왼쪽 정렬 (2026-09-30).
+"""DEC-342 → DEC-350 — 통계관리 메뉴 전 화면: 검색 관련 컴포넌트 왼쪽 정렬 (2026-09-30).
 
 사용자: 「통계관리 메뉴에 포함된 모든 화면들에 대해서 거래일자, 거래처명 등 모든 검색 관련 컴포넌트들을
-왼쪽 정렬로 이동」. DEC-320(제목 줄 오른쪽 한 줄)을 통계 화면에 한해 DEC-268 기본 규칙
-(제목·경로 줄 다음 줄, 화면 왼쪽부터)으로 되돌린다. 알약 구성·위젯 id·Enter 순서는 그대로.
-원장관리(DEC-315)는 범위 밖 — 공용 조각의 기본 정렬("end")은 바뀌지 않는다.
+왼쪽 정렬로 이동」 → (같은 날 확정) 「제목과 같은 줄에서 왼쪽으로 붙이는 형식으로」.
+
+- DEC-342 는 DEC-268 기본 규칙(제목 줄 **다음 줄**)으로 옮겼으나, DEC-350 에서 **제목과 같은 줄**(제목·경로 바로 뒤)로 확정.
+- 알약 구성·위젯 id·Enter 순서는 DEC-320 그대로. 원장관리(DEC-315)는 범위 밖 — 공용 조각의 기본 정렬("end")은 그대로.
 """
 
 from __future__ import annotations
@@ -45,6 +46,10 @@ def _read(rel: str) -> str:
     return (SRC / rel).read_text(encoding="utf-8").replace("\r\n", "\n")
 
 
+def _header(src: str) -> str:
+    return src.split("<PageHeader")[1].split("</PageHeader>")[0]
+
+
 class SharedPieceHasAlignOption(TestCase):
     def test_default_stays_right_for_ledger_screens(self) -> None:
         src = _read("components/shared/ledger-search-line.tsx")
@@ -65,7 +70,7 @@ class SharedPieceHasAlignOption(TestCase):
             self.assertNotIn('align="start"', src, rel)
 
 
-class StatsScreensAreLeftAligned(TestCase):
+class StatsScreensAreLeftAlignedOnTitleRow(TestCase):
     def _assert_all_lines_start(self, rel: str, src: str, expected: int | None = None) -> None:
         lines = SEARCH_LINE.findall(src)
         self.assertTrue(lines, f"{rel}: 검색 줄 없음")
@@ -74,26 +79,31 @@ class StatsScreensAreLeftAligned(TestCase):
         for attrs in lines:
             self.assertIn('align="start"', attrs, f"{rel}: 검색 줄은 왼쪽 정렬")
 
+    def _assert_on_title_row(self, rel: str, src: str) -> None:
+        opening = src.split("<PageHeader")[1].split(">")[0]
+        self.assertIn("filtersBelow={false}", opening, f"{rel}: 제목과 같은 줄(DEC-350)")
+
     def test_direct_screens(self) -> None:
         for rel in DIRECT:
             src = _read(rel)
-            self.assertNotIn("filtersBelow={false}", src, f"{rel}: 제목 줄 다음 줄(기본 규칙)")
-            header = src.split("<PageHeader")[1].split("</PageHeader>")[0]
-            self._assert_all_lines_start(rel, header, 1)
+            self._assert_on_title_row(rel, src)
+            self._assert_all_lines_start(rel, _header(src), 1)
 
     def test_filter_bar_screens(self) -> None:
         bar = _read("components/stats/stats-filter-bar.tsx")
         self._assert_all_lines_start("stats-filter-bar", bar, 1)
         for rel in BAR:
             src = _read(rel)
-            self.assertNotIn("filtersBelow={false}", src, rel)
-            header = src.split("<PageHeader")[1].split("</PageHeader>")[0]
-            self.assertIn("<StatsFilterBar", header, rel)
+            self._assert_on_title_row(rel, src)
+            self.assertIn("<StatsFilterBar", _header(src), rel)
 
     def test_matrix_screens(self) -> None:
         screen = _read("components/stats/sales-matrix-screen.tsx")
-        self.assertNotIn("filtersBelow={false}", screen)
+        self._assert_on_title_row("sales-matrix-screen", screen)
         self._assert_all_lines_start("sales-matrix-screen", screen, 2)
+        # 검색 줄이 여러 줄 — 제목은 가운데가 아니라 첫 줄에 맞춘다.
+        opening = screen.split("<PageHeader")[1].split(">\n")[0]
+        self.assertIn("md:items-start", opening)
         for route in MATRIX_ROUTES:
             page = _read(f"app/(app)/year-month-stats/{route}/page.tsx")
             self.assertIn("<SalesMatrixScreen", page, route)
