@@ -72,6 +72,39 @@ class BatchRequestRouterTests(TestCase):
         self.assertEqual(body["not_found"], 1)
         self.assertEqual(body["errors"], 1)
 
+    def test_batch_each_key_keeps_its_own_gjisa(self) -> None:
+        """DEC-359 — 지점(gjisa)은 키마다 따로 전달된다.
+
+        종전엔 for 루프의 마지막 키 gjisa 가 전 항목에 적용돼, 마지막 선택 전표에 지점이 있으면
+        지점 없는·다른 지점 전표가 not_found 로 접수되지 않았다(2026-10-01 교문사 실화면 재현:
+        [지점 없음, 교보문고 부곡리] → 첫 건 not_found).
+        """
+        seen: list[tuple[str, str]] = []
+
+        async def fake_request(**kwargs):  # noqa: ANN001
+            seen.append((kwargs["gcode"], kwargs["gjisa"]))
+            return {
+                "order_key": {"gdate": kwargs["gdate"], "hcode": kwargs["hcode"],
+                              "gcode": kwargs["gcode"], "jubun": kwargs["jubun"]},
+                "status": "received", "updated_at": "t",
+            }
+
+        with patch.object(outbound_service, "request_dispatch", side_effect=fake_request):
+            r = self.client.patch(
+                f"/api/v1/outbound/orders/batch/request?serverId={_SID}",
+                json={"keys": [
+                    "2026.10.01|H1|00058|1",
+                    "2026.10.01|H1|0961|1|1. 파주물류",
+                    "2026.10.01|H1|00001|1|2.부곡리(본관)",
+                ]},
+            )
+        self.assertEqual(r.status_code, 200, r.text)
+        self.assertEqual(
+            sorted(seen),
+            sorted([("00058", ""), ("0961", "1. 파주물류"), ("00001", "2.부곡리(본관)")]),
+        )
+        self.assertEqual(r.json()["transitioned"], 3)
+
     def test_batch_empty_list_422(self) -> None:
         r = self.client.patch(
             f"/api/v1/outbound/orders/batch/request?serverId={_SID}",
@@ -121,3 +154,12 @@ class PagesStaticGuards(TestCase):
         self.assertIn("Sobo24.BatchImmediateDispatch", src)
         self.assertIn("requestDispatchBatch", src)
         self.assertIn('s.status === "pending"', src)  # 대기분만 출고요청(접수) 전이
+        # DEC-359 — 접수 전이 부분 실패를 버리지 않고 안내한다.
+        self.assertIn("tr.not_found + tr.errors", src)
+        self.assertIn("건은 접수되지 않았습니다", src)
+
+    def test_sales_statement_bulk_request_sends_gjisa(self) -> None:
+        """DEC-359 — 지점을 빼면 같은 거래처·차수의 다른 지점 전표까지 함께 접수된다."""
+        src = (ROOT / "도서물류관리프로그램" / "frontend" / "src" / "app" / "(app)"
+               / "transactions" / "sales-statement" / "page.tsx").read_text(encoding="utf-8")
+        self.assertIn('gjisa: it.order_key.gjisa ?? ""', src)
