@@ -7830,3 +7830,25 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **가드** — 신규 `test_dec356_adjustment_legacy_entry.py`(창 끝 당일 포함 · 계정 스코프 · 입력 줄 불변식 · Enter 순서 · 채움 규칙),
   `test_dec282`(거래처 축 자동조회) · `test_dec308`(엑셀에서 입력 줄 제외) 갱신, probe `ledger.adjustments.customer_ledger_value`,
   매핑 노트 `Sobo51_adjust.md` · `Sobo52_adjust.md` §8.
+
+### DEC-357 — 출고접수: 도서 확정 후 포커스 = 수량·공급율 중 표시 순서상 먼저 오는 칸 (2026-10-01)
+
+- **보고(교문사 경리부 캡처)** — 「도서 검색 엔터 후 수량 입력칸을 패스하고 공급율로 바로 이동」. 새 줄 수량은 기본 1이라 수량을 안 고친 채 넘어갔다.
+- **원인** — 해당 계정은 컬럼 설정으로 「수량」을 「공급율」 앞에 두었는데, `OrderLineGrid.afterBookSelect` 가 축 기본(출고=`grat1`)으로 고정 이동.
+- **결정** — 수량(`gsqut`)·비율(`grat1`) 중 **현재 표시 순서(visibleCols)에서 먼저 오는 칸**으로 이동. 하나가 숨김이면 보이는 쪽, 둘 다 숨김이면 축 기본값.
+  기본 컬럼 순서에서는 종전과 같다(출고=공급율, 입고·반품·폐기=수량). 새 줄 기본 수량 1은 유지.
+- **가드** — 신규 `test_dec357_book_select_focus_follows_column_order.py`, `test_inbound_new_receipt_grid_keys.py`(축 기본값) 유지.
+
+### DEC-358 — 출고접수: 도서별 위탁 공급율(G4_Book)을 라인에 반영 (2026-10-01)
+
+- **보고(교문사 경리부 캡처)** — 도서 90968 「@Mechatronics 6/e」 도서관리 위탁 88인데 교보문고(00001) 출고접수 라인에 거래처율 85 로 들어옴.
+- **실데이터(remote_153, Hcode 5019, 조회만)** — G4_Book.Grat1=88 · G1_Ggeo.Grat1=85 · H2_Gbun.Gsum1 전부 NULL · G6 특가 없음.
+  `resolve_line_defaults` 결과 = `grat1 88, source G4_Book` (지사 지정 여부 무관) — 서버 체인(레거시 Subu21 Button201Click 동등)은 정상.
+- **원인** — 출고접수 `resolveSpecial` 이 `source === "G6_Ggeo"` 일 때만 반영(DEC-155 당시 특가 전용) → 도서율·직전가·`G6_Ggeo:<col>`(DEC-171 by_pubun) 결과를 버림.
+- **결정** — 체인 소스가 있으면 비율은 항상 체인 값. 단가는 특가(`G6_Ggeo*`)·직전가 grat1 모드(`S1_Ssub:last(grat1)`)만 덮고, 그 외는 도서 선택 시 채운 정가 유지.
+- **같은 로직 공유(사용자 요청 「공급율 적용 로직은 동일하게」)** — 공용 `lib/line-rate-chain.ts` `resolveChainLineRate` 하나를
+  출고 신규(`outbound/orders/new`) · 상세 페이지(`[orderKey]`) · 상세 팝업(`order-detail-dialog`)이 함께 쓴다. 종전 상세 두 곳은 라인 추가·도서 변경 시
+  체인 미배선(거래처율/기존 값). 거래명세서 신규·반품 신규는 이미 체인 값 사용.
+- **검증(실화면, 교문사 — 저장 안 함)** — 교보문고(00001) · 1행 90968 Enter → 포커스 수량(1) · 공급율 88 · 금액 8,800 /
+  2행 3095 → 포커스 수량 · 공급율 85(도서율 없음 = 거래처율).
+- **가드** — 신규 `test_dec358_outbound_book_rate_from_chain.py`.
