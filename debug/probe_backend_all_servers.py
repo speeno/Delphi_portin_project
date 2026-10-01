@@ -775,6 +775,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # DEC-360 — 연결된 자동출력 탭 수(「바로출고」 안내용, DB 조회 없음).
+        {
+            "group": "transactions.auto_print_status",
+            "path": f"/api/v1/transactions/sales-statement/auto-print-status?serverId={sid}",
+            "ok_status": {200},
+        },
         # C1 입고명세서 facade (Menu202) — inbound_service.list_receipts 재사용.
         {
             "group": "transactions.inbound_statement",
