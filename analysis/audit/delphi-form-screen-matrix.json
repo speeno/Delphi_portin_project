@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T23:57:31.439631+00:00",
+  "generated_at": "2026-10-01T03:17:24.790749+00:00",
   "summary": {
     "registry_forms": 107,
     "legacy_dfm_subu_stems": 98,
@@ -328,6 +328,17 @@
       "note": ""
     },
     {
+      "modern_id": "Sobo42_cash",
+      "folder": "Subu41",
+      "route": "/settlement/cash-status",
+      "modern_caption": "입출금전표 거래처",
+      "legacy_form_object": "Sobo41",
+      "legacy_caption": "입금내역",
+      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu41.dfm",
+      "status": "MULTI_MAP",
+      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
       "modern_id": "Sobo45_billing",
       "folder": "Subu45",
       "route": "/settlement/billing",
@@ -354,17 +365,6 @@
       "folder": "Subu41",
       "route": "/settlement/cash",
       "modern_caption": "입금내역",
-      "legacy_form_object": "Sobo41",
-      "legacy_caption": "입금내역",
-      "legacy_dfm": "legacy_delphi_source/legacy_source/Subu41.dfm",
-      "status": "MULTI_MAP",
-      "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
-    },
-    {
-      "modern_id": "Sobo42_cash",
-      "folder": "Subu41",
-      "route": "/settlement/cash-status",
-      "modern_caption": "입출금전표 거래처",
       "legacy_form_object": "Sobo41",
       "legacy_caption": "입금내역",
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu41.dfm",

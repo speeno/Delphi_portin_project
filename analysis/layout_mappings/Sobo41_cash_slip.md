@@ -139,16 +139,35 @@ UPDATE H1_Ssub SET ... WHERE ID=:id AND Hcode=:hcode
 교문사 실사용 분포(2026년): `Pubun` 현금 1,389 / 공제 108 / 어음 12 / 카드 6,
 `Scode` 는 X 만 사용, `Ocode`·`Oname`·`Tcode` 는 **전부 공란**(스크린샷의 빈 계정과목 칸과 일치).
 
+## 8-b. 기입 방식 — 입력 줄 · Enter (DEC-363, 2026-10-01)
+
+레거시 `DBGrid101` 의 키 처리(`Subu41.pas`)와 웹의 대응:
+
+| 레거시 | 동작 | 웹 |
+| --- | --- | --- |
+| 그리드 맨 아래 `*` 줄 | 입력 줄이 항상 있다 | 표 맨 아래 입력 줄(`DRAFT_ID`) 상시 — 조회 0건 · 실패여도 |
+| `Button101Click` 끝 `DBGrid101.SetFocus` | 검색 뒤 그리드로 | 검색 뒤 입력 줄 **코드 칸**(화면 첫 진입 자동 조회는 제외) |
+| `KeyPress` SIndexs=1 (코드 Enter) | `Seek10` 1건 → 바로, 아니면 팝업. 코드 · 거래처명 함께 | 자동완성 · 검색 팝업 **둘 다** `applyCustomer`(코드 + 거래처명) |
+| `KeyPress` 그 외 칸 Enter | 다음 칸 | 다음 칸(`advanceFocusOnEnter`) — 거래처명 → 코드 → 계정과목 → 입금 → 출금 → 결재 → 비고 |
+| `KeyDown` SIndexs=9 (비고 Enter) | `nSqry.Append` = 그 줄 저장 + 새 줄 | 줄의 **마지막 입력칸** Enter = 저장 → 새 입력 줄 코드 칸 |
+| `T4_Sub11NewRecord` | 새 줄 거래일자 = 직전 거래일자 | 저장한 줄의 거래일자(조회 직후는 조회 시작일) |
+
+레거시와 다른 점: 새 줄 포커스는 거래일자(SelectedIndex 0)가 아니라 코드 칸, 코드 확정 뒤 거래처명 칸을 건너뛰지 않음(SIndexs 1→3),
+결재 칸 Enter 로 목록을 펼치지 않음, 어음 · 은행 전환 확인창 없음(§9-1).
+
 ## 9. 남은 결정
 
 1. 어음(`H4_Iyeo` 받은일자/만기일자/어음처리)·은행(`H5_Bang` 은행명) 부가정보를 `Sname` 으로
    붙이는 후처리(L387~412)는 **미구현**. 교문사는 어음 12건뿐이라 우선순위를 낮췄다.
-2. 인라인 **수정**(PUT)은 API 만 있고 화면은 신규 행 추가·삭제까지다. 셀 편집 UI 는 후속.
+2. ~~인라인 수정(PUT)은 API 만 있고 화면은 신규 행 추가·삭제까지다.~~ 행 수정(연필) · 삭제 · 입력 줄 모두 화면에 있다.
 3. 형제 화면 `Subu42` 「입출금전표-사무실」은 미포팅.
+4. **잔액(Gsumy)** — 웹에서 새로 넣는 줄은 0 으로 저장된다. 레거시는 거래처를 고르는 순간 `Tong40.SetTring03` 으로 미수 잔액을 구해 넣는다(§4).
+   원장변경의 `receivable_asof`(DEC-356)를 재사용할 수 있는지 검토 대상.
+5. 거래구분 입고처(Y) · 기타(Z)의 코드 칸도 거래처 검색(`Seek10`)을 쓴다 — 레거시는 `Seek20` · `Seek50`.
 
 ## 10. 참조
 
-- DEC-186(본 교체 결정), DEC-028(레이아웃 매핑 의무), DEC-033(mysql3 호환)
+- DEC-186(본 교체 결정), DEC-363(입력 줄 · Enter · 팝업 선택 시 거래처명 · 메뉴 맨 위), DEC-028(레이아웃 매핑 의무), DEC-033(mysql3 호환)
 - 구현: `backend/app/services/cash_slip_service.py`,
   `backend/app/routers/settlement.py` `/cash-slip` 4종,
   `frontend/src/app/(app)/settlement/cash-status/page.tsx`

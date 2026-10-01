@@ -353,8 +353,10 @@ class RouteAndScreenTests(TestCase):
         self.assertIn("editCodeRef", page, "편집 입력칸 ref")
         self.assertIn("scrollIntoView", page, "신규/수정 행으로 자동 이동")
         self.assertIn("inputRef={editCodeRef}", page, "룩업 입력칸에 ref 연결")
-        # 타이핑마다 재스크롤되면 입력이 끊긴다 — 편집 «대상»이 바뀔 때만 이동.
-        self.assertIn("}, [editing?.id]);", page)
+        # 타이핑마다 재스크롤되면 입력이 끊긴다 — «이동 신호»(검색·저장·행 추가·수정 진입)가 올 때만 이동.
+        # DEC-363: 입력 줄이 항상 같은 DRAFT_ID 라 id 변화로는 «다음 줄»을 알 수 없어 신호 카운터로 바꿨다.
+        self.assertIn("}, [focusTick]);", page)
+        self.assertNotIn("[editing.form", page, "편집 값에 걸면 글자마다 다시 스크롤된다")
 
     def test_edit_actions_reachable_below_grid(self) -> None:
         """표가 가로로 넘치면 행 끝의 저장/취소에 닿지 못한다 — 표 아래에도 노출."""
