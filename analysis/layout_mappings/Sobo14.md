@@ -55,6 +55,28 @@ DEC-028 — `Subu14/Sobo14.*` 단일 원천. C2(Sobo27.md) / C6(Sobo21.md) 11 �
 | `Sobo14.DBGrid101.GDANG` | 단가 | `<th>` (key=gdang, align=right) | `Sobo14.DBGrid101.GDANG` |
 | `Sobo14.DBGrid101.GPOST` | 출판사 코드 | `<th>` (key=gpost) | `Sobo14.DBGrid101.GPOST` |
 
+### 3.0 목록 컬럼 = 신규도서 입력 칸 (DEC-366, 2026-10-01)
+
+교문사 요청 「신규도서 클릭하면 입력하는 컬럼과 도서관리 컬럼과 동일하게」. 목록 컬럼(컬럼 설정 목록)은 §4 입력 화면에 **보이는 칸 36개**와
+같은 이름 · 같은 순서다. 가드 `test_dec366_book_list_matches_form.py` 가 `book-detail-form.tsx` 와 `master/book/page.tsx` 를 직접 대조한다
+— 입력 화면에 칸을 넣고 빼면 목록도 같이 고친다.
+
+| 입력 화면 줄 | 컬럼(= 입력 칸 이름) | 값 |
+| --- | --- | --- |
+| 1 | **도서분류** · 도서종류 · **도서코드** · 인지유무 · 인세종류 · 인세비율(%) | sname · book_kind(Ext, 없으면 Jubun) · gcode · stamp · royalty_type · royalty_rate |
+| 2 | **도서명** · **저자명** · **ISBN** · **정가** · **자료제공** | gname · gjeja · gisbn · gdang · supply |
+| 3 | **서가위치** · 판형 · 쪽수 · 판수 · 덩이 · 그램 · **발행일** · 등록일 | gpost · name1 · gpage · gpan1 · gqut1 · gqut2 · date1 · date2 |
+| 4 | **재고** · 출고정지 · **상태** · **정지사유** · **기타** | gsqut · grat9 · status · name2 · etc_memo |
+| 5 | **위탁** · 현매 · 매절 · 납품 · 특별 · 한도 · 기타(비율) | grat1~5 · grat7 · grat6 |
+| 6 | **비고** | gbigo |
+| 8 | **전자책** · 전자책 ISBN · 전자책 정가 · 전자책 비고 | bigo3 · eisbn · eprice(G4_Book_Ebook) · ebook_memo(Ext) |
+
+- **굵은 글씨 = 기본 표시 16종**(DEC-336 사용자 컬럼표 그대로, 순서만 입력 화면 순서). 나머지는 컬럼 설정에서 선택.
+- 그 뒤에 **입력 화면에 없는 선택 컬럼 15개**(사용자 결정 — 지우지 않고 맨 뒤, 기본 숨김): 도서종류(묶음, Gbjil) · 원가 · 매입가 · 재고금액 ·
+  도서타입 · 본사재고 · 본사비품 · 창고정품 · 창고비품 · 도서코드2 · 비율구분 · 등록번호 · 단위 · 세액유무 · 재고절판.
+- 확장(G4_Book_Ext) · 전자책(G4_Book_Ebook) · 계산 칸은 페이지 행 병합이라 머리글 정렬 대상이 아니다.
+- 컬럼 설정 저장 키 `master.book.v4`.
+
 ### 3.1 목록 검색 필터 (모던 신설 — minimal 세트, 2026-05)
 
 dfm 의 검색용 `Edit*` 1:1 대응 위젯이 없어 모던 신설(§7 deltas, `data-legacy-id` 미부착). 서버측 WHERE 확장으로 페이지·total 정합 유지.

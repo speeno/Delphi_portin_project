@@ -104,11 +104,14 @@ class ExcelAndModels(TestCase):
 class Screens(TestCase):
     def test_list_columns_and_search(self):
         src = (FE / "app" / "(app)" / "master" / "book" / "page.tsx").read_text(encoding="utf-8")
-        body = src.split("const columns: DataGridColumn<BookListItem>[] = [")[1].split("// ── 이하 선택 컬럼")[0]
-        labels = re.findall(r'label: "([^"]+)"', body)
-        self.assertEqual(labels, ["구분", "코드", "전자책", "도서명", "저자명", "ISBN", "정가", "재고", "서가위치",
-                                  "위탁", "발행일", "상태", "정지사유", "자료제공", "기타", "비고"])
-        self.assertIn('useGridPrefs(user?.server_id, "master.book.v3"', src)
+        # DEC-366 — 컬럼 이름 · 순서는 신규도서 입력 화면을 따른다(전체 대조는 test_dec366_book_list_matches_form.py).
+        # 기본 표시는 여전히 이 요청(DEC-336)의 16종 — 숨김 목록에 없는 컬럼만 추려 확인한다.
+        body = src.split("const columns: DataGridColumn<BookListItem>[] = [")[1].split("// ── 이하 입력 화면에 없는 선택 컬럼")[0]
+        hidden = set(re.findall(r'"(\w+)"', src.split("const BOOK_DEFAULT_HIDDEN = [")[1].split("] as const")[0]))
+        shown = [lbl for key, lbl in re.findall(r'key: "(\w+)",\s*label: "([^"]+)"', body) if key not in hidden]
+        self.assertEqual(shown, ["도서분류", "도서코드", "도서명", "저자명", "ISBN", "정가", "자료제공", "서가위치",
+                                 "발행일", "재고", "상태", "정지사유", "기타", "위탁", "비고", "전자책"])
+        self.assertIn('useGridPrefs(user?.server_id, "master.book.v4"', src)
         self.assertIn('<AttachedFilterField\n                  label="검색"', src.replace("\r\n", "\n"))
         self.assertIn('placeholder="코드, 도서명, ISBN"', src)
         # 발행일 알약 안 날짜칸 = 테두리 없는 embedded(LedgerDatePill 과 같은 모양, 사용자 2026-09-25 캡처).
