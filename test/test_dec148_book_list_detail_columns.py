@@ -157,7 +157,9 @@ class ExcelCatalogGuard(TestCase):
         # 신/구 헤더 모두 gpost — 구 서식 재업로드 하위호환.
         self.assertEqual(BOOK_IMPORT_MAP["서가위치"], "gpost")
         self.assertEqual(BOOK_IMPORT_MAP["출판사"], "gpost")
-        self.assertEqual(BOOK_IMPORT_MAP["판형"], "name2")
+        # DEC-365 — 판형 = Name1 · 정지사유 = Name2 (레거시 Subu14 Edit123/Edit129 · 실데이터). 종전엔 서로 바뀌어 있었다.
+        self.assertEqual(BOOK_IMPORT_MAP["판형"], "name1")
+        self.assertEqual(BOOK_IMPORT_MAP["정지사유"], "name2")
         self.assertEqual(BOOK_IMPORT_MAP["한도"], "grat7")
         self.assertEqual(BOOK_IMPORT_MAP["기타"], "grat6")
         # 읽기전용 재고는 역반영 금지.

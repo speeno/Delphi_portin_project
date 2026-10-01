@@ -91,12 +91,12 @@ dfm 의 검색용 `Edit*` 1:1 대응 위젯이 없어 모던 신설(§7 deltas, 
 | `Sobo14.Edit110` | ISBN번호 | Gisbn | gisbn | NL 조회 버튼 인접 |
 | `Sobo14.Edit120` | 등록번호 | Gnumb | gnumb | |
 | `Sobo14.Edit134` | 서가위치 | Gpost | gpost | |
-| `Sobo14.Edit129` | 판형 | Name2 | name2 | |
+| `Sobo14.Edit129` | 정지사유 | Name2 | name2 | DEC-365 정정 — dfm CheckBox2 「정지유무 / 정지사유->」 옆 칸. 종전 표기 「판형」은 오류 |
 | `Sobo14.Edit108` | 단위 | Gdabi | gdabi | |
 | `Sobo14.Edit111` | 묶음 | Gbjil | gbjil | |
 | `Sobo14.Edit121` | 발행일 | Date1 | date1 | |
 | `Sobo14.Edit122` | 등록일 | Date2 | date2 | |
-| `Sobo14.Edit123` | 정지사유 | Name1 | name1 | |
+| `Sobo14.Edit123` | 판형 | Name1 | name1 | DEC-365 정정 — dfm Panel123 「판 형」(출판 빌드). New 빌드는 Edit123=Gpost(서가위치)·Name1 미사용 |
 | `Sobo14.Edit119` | 비고 | Gbigo | gbigo | |
 | `Sobo14.Edit130` | 원가 | Price | price | |
 | `Sobo14.Edit131` | 매입가 | Odang | odang | |
