@@ -37,8 +37,9 @@ class BookSalesRightPaneBlankAfterSearch(unittest.TestCase):
         self.assertIn("if (!effectiveAll ||", effect)
         self.assertIn("const effectiveAll = showAll;", self.src)
 
-    def test_right_pane_always_mounted(self) -> None:
-        self.assertNotIn("secondaryVisible=", self.src)
+    def test_right_pane_opens_on_demand(self) -> None:
+        # DEC-371 — 우측 창은 「내용 전체 보기」 또는 도서 선택 때만 연다(종전 «항상 표시» 철회).
+        self.assertIn("secondaryVisible={showAll || detail !== null}", self.src)
         self.assertIn("선택 해제", self.src)
 
 

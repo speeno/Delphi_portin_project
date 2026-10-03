@@ -1,0 +1,40 @@
+# 계정 쓰기 정책 — DEC-370 (2026-10-03)
+#
+# 조회 전용 계정: 아래 match 에 맞는 계정은 데이터 쓰기(POST/PUT/PATCH/DELETE)가 서버에서 403
+# (code ACCOUNT_READ_ONLY). 예외는 allow_writes — 계정 전용 정보 · 쓰기 아닌 POST · 자동출력 완료.
+#
+# 결정(사용자 2026-10-03): 「교문사 계정은 계정 전용 정보를 제외하고 모든 정보 읽기 전용,
+# 교문사와 같은 권한의 계정도 모두 같게」 → 위러브 창고(chul_09) 출판사 본계정 전체.
+# 부서 계정(경리부 등, login_profile=department_accounting)은 대상 아님 — 출고요청 등 입력은 부서 계정이 한다.
+# 위러브 관리자(hcode 0000)는 창고 운영 계정이라 제외.
+#
+# 이 파일을 고치면 번들 사본 도서물류관리프로그램/backend/data/contracts/account_write_policy.yaml 도 같이 고친다
+# (Render 단독 배포 — 동기화 테스트가 강제).
+
+readonly_accounts:
+  - id: welove_warehouse_publisher_main
+    label: 위러브 창고 출판사 본계정(교문사 등)
+    match:
+      account_type: T3
+      build_role: warehouse_publisher
+      account_family: chul_09
+      login_profile: publisher_main
+    exclude:
+      hcode: ["0000"]
+
+allow_writes:
+  # 계정 전용 정보 — 내 정보(선호 설정 · 비밀번호 · 로고), 표 설정, 대시보드 배치
+  - { methods: [PATCH], path: "^/api/v1/me/profile$" }
+  - { methods: [POST], path: "^/api/v1/me/password$" }
+  - { methods: [POST, DELETE], path: "^/api/v1/me/logo$" }
+  - { methods: [PUT], path: "^/api/v1/grid-prefs/[^/]+$" }
+  - { methods: [PUT], path: "^/api/v1/stats/dashboard/layout$" }
+  # 로그인 · 토큰 갱신
+  - { methods: [POST], path: "^/api/v1/auth/" }
+  # 데이터를 바꾸지 않는 POST — 엑셀 내보내기 · 바코드 조회 · 반품 가져오기 미리보기 · 주소 정제
+  - { methods: [POST], path: "^/api/v1/export/table-xlsx$" }
+  - { methods: [POST], path: "^/api/v1/scan/match$" }
+  - { methods: [POST], path: "^/api/v1/returns/import/preview$" }
+  - { methods: [POST], path: "^/api/v1/courier/cj/address/refine$" }
+  # 자동출력: 인쇄한 전표의 접수→완료 (사용자 결정 2026-10-03 — 교문사 PC 의 역할)
+  - { methods: [PATCH], path: "^/api/v1/transactions/sales-statement/[^/]+/complete$" }

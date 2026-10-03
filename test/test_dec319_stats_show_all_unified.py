@@ -14,9 +14,11 @@ def _read(rel: str) -> str:
 
 class StatsShowAll(TestCase):
     def test_both_keep_right_pane_and_offer_clear_selection(self) -> None:
-        for rel in ("reports/book-sales/page.tsx", "reports/customer-sales/page.tsx"):
+        # DEC-371(2026-10-03 교문사) — «우측 창 항상 표시»는 철회: 기본은 좌측 전체 폭,
+        # 「내용 전체 보기」 또는 행 선택 때만 우측을 연다(출고현황 · 원장관리와 동일).
+        for rel, sel in (("reports/book-sales/page.tsx", "detail"), ("reports/customer-sales/page.tsx", "selectedKey")):
             src = _read(rel)
-            self.assertNotIn("secondaryVisible=", src, f"{rel}: 우측 창은 항상 표시(열렸다 닫혔다 금지)")
+            self.assertIn(f"secondaryVisible={{showAll || {sel} !== null}}", src, rel)
             self.assertIn("선택 해제", src, rel)
             self.assertIn("내용 전체 보기", src, rel)
 

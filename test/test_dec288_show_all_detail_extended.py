@@ -199,7 +199,8 @@ class ScreensShowAll(unittest.TestCase):
         )
         sales = _read("app/(app)/reports/book-sales/page.tsx")
         # DEC-319 — 도서별판매는 우측을 항상 띄운다. DEC-343 — 선택 없음 = 공백, 전체는 체크했을 때만.
-        self.assertNotIn("secondaryVisible=", sales)
+        # DEC-371(2026-10-03) — «항상 표시» 철회: 전체 보기 또는 도서 선택 때만 우측을 연다.
+        self.assertIn("secondaryVisible={showAll || detail !== null}", sales)
         self.assertIn("const effectiveAll = showAll;", sales)
 
     def test_identity_columns_prepended_in_all_mode(self):

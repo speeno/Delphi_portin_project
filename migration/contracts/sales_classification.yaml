@@ -1,0 +1,34 @@
+# 판매 통계 전표 분류 규칙 — DEC-372 (2026-10-03)
+#
+# 도서별판매(Subu61) · 도서별년말집계(Subu67)는 같은 폼 번호인데 레거시 빌드마다 전표 분류가 다르다.
+#   - 유통 · New 트리(도서유통-총판 · 도서유통-New · legacy_delphi_source):
+#       반품 = Pubun '반품'(Subu67) / Gubun '반품'(Subu61), 폐기 = Pubun '폐기'(X=반품 칸 · Z=폐기 칸)
+#   - 출판 트리(도서유통-출판, 교문사 실사용):
+#       증정 → 출고 → Gubun '폐기'(폐기 칸) → Pubun 비품(반품 칸)/폐기(폐기 칸) → Gubun '반품'(반품 칸),
+#       입고처(Y)는 「이동」 제외 · 입고 중 Pubun '반품' 제외
+# 웹은 유통 규칙만 포팅돼 있어 chul_09 계열에서
+#   · 도서별년말집계 반품이 0 (도서별판매 · 거래처별판매는 2026.01~09 −12,434부)
+#   · 도서별판매 폐기수량이 0 (폐기현황은 2026.01 −2,158부)
+# 으로 화면끼리 숫자가 맞지 않았다(교문사 2026-10-03 「통계관리 자료 매칭 확인」).
+#
+# 규칙 본문은 코드(reports_service 의 분류 함수)에 레거시 1:1 로 두고, **어느 규칙을 쓸지**만 여기서 고른다.
+# 이 파일을 고치면 번들 사본 도서물류관리프로그램/backend/data/contracts/sales_classification.yaml 도 같이 고친다.
+
+classify_profiles:
+  distributor:
+    label: 유통 · New 빌드 — Subu61/Subu67 원형
+    source: legacy_delphi_source/legacy_source/Subu61.pas · Subu67.pas
+  publisher:
+    label: 출판 빌드 — Gubun 반품/폐기, Pubun 비품/폐기 분리, 입고처 「이동」 제외
+    source: WeLove_FTP/도서유통-출판/Subu61.pas · Subu67.pas
+
+customer_variants:
+  - id: default-distributor
+    description: 기본값(매칭 없는 계정 포함) — 유통 · New 빌드 원형
+    match: {}
+    classify_profile: distributor
+  - id: chul-09-publisher-tree
+    description: chul_09 계열(교문사 · 위러브 창고 출판사) — 도서유통-출판 트리
+    match:
+      account_family: chul_09
+    classify_profile: publisher

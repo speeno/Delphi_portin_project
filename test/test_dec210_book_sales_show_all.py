@@ -47,7 +47,8 @@ class BookSalesShowAll(TestCase):
         # DEC-319(2026-09-24) — 하단(우측)은 항상 표시. DEC-343(2026-09-30) — 전 도서 상세는
         # 「내용 전체 보기」를 켰을 때만(조회 직후·선택 해제는 공백).
         self.assertIn("const effectiveAll = showAll;", self.src)
-        self.assertNotIn("secondaryVisible=", self.src)
+        # DEC-371(2026-10-03) — 우측은 「내용 전체 보기」 또는 도서 선택 때만 연다.
+        self.assertIn("secondaryVisible={showAll || detail !== null}", self.src)
         self.assertNotIn("unbounded={showAll}", self.src)
         self.assertIn("bookSalesCustomersAll", self.src)
 
