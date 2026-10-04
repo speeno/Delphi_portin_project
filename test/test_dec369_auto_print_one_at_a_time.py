@@ -37,8 +37,9 @@ class AutoPrintOneAtATimeTests(TestCase):
 
     def test_all_paths_go_through_print_chain(self) -> None:
         self.assertIn("const printChainRef = useRef<Promise<void>>(Promise.resolve());", self.page)
+        # DEC-375 — 바로출고 보관 해제 콜백(onKeyTried)이 인자로 추가됐다.
         self.assertIn(
-            "const run = printChainRef.current.then(() => printFreshKeysNow(fresh));", self.page
+            "const run = printChainRef.current.then(() => printFreshKeysNow(fresh, onKeyTried));", self.page
         )
         self.assertIn("printChainRef.current = run.catch(() => undefined);", self.page)
         # 스트림 · 폴 · 바로출고는 줄 세운 printFreshKeys 를 쓴다(직접 Now 호출 금지).
