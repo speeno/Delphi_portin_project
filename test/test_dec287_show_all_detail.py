@@ -126,11 +126,13 @@ class BookDayDetailAll(unittest.IsolatedAsyncioTestCase):
                 return lines
             return []
 
-        async def fake_in_clause(server_id, *, sql_template, keys, prefix_params=(), chunk_size=None):
-            return [{"Gcode": "G1", "Gname": "가나문고"}]
+        # DEC-376 — 상대처명은 Scode 별 마스터에서(공용 리졸버). 거래처(X) G1 만 이름이 있다.
+        async def fake_names(server_id, keys):
+            return {(str(s).upper(), str(h or ""), str(g or "")): ("가나문고" if (str(s).upper(), g) == ("X", "G1") else "")
+                    for s, h, g in keys}
 
         with patch.object(book_svc, "execute_query", AsyncMock(side_effect=fake_query)), \
-             patch.object(book_svc, "in_clause_lookup", AsyncMock(side_effect=fake_in_clause)), \
+             patch.object(book_svc, "fetch_party_names", AsyncMock(side_effect=fake_names)), \
              patch.object(book_svc, "fetch_book_meta", AsyncMock(return_value={})), \
              patch.object(book_svc, "_fetch_stock_asof", AsyncMock(return_value={"3226": 100})):
             return await book_svc.book_ledger_day_detail_all(

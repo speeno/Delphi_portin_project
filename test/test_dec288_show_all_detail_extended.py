@@ -103,12 +103,15 @@ class BookSalesCustomersAll(unittest.IsolatedAsyncioTestCase):
         ]
 
         async def fake_in_clause(server_id, *, sql_template, keys, prefix_params=(), chunk_size=None):
-            if "G1_Ggeo" in sql_template:
-                return [{"gcode": "C1", "gname": "거래처1"}]
             self.assertIn("GROUP BY Bcode, Gcode", sql_template)
             return rows
 
+        # DEC-376 — 상대처명은 Scode 별 마스터에서(공용 리졸버).
+        async def fake_names(server_id, keys):
+            return {(str(s).upper(), str(h or ""), str(g or "")): ("거래처1" if g == "C1" else "") for s, h, g in keys}
+
         with patch.object(rs, "in_clause_lookup", AsyncMock(side_effect=fake_in_clause)), \
+             patch.object(rs, "fetch_party_names", AsyncMock(side_effect=fake_names)), \
              patch.object(rs, "fetch_book_meta", AsyncMock(return_value={"B1": {"gname": "도서1"}})):
             return await rs.get_book_sales_customers_all(
                 server_id="remote_153", hcode="5019",

@@ -61,13 +61,17 @@ class BookSalesShowAllCoversWholeResult(unittest.IsolatedAsyncioTestCase):
 
         async def fake_in_clause(server_id, *, sql_template, keys, prefix_params=(), chunk_size=None):
             seen.setdefault("lookups", []).append(sql_template)
-            if "G1_Ggeo" in sql_template:
-                return [{"gcode": "C1", "gname": "거래처1"}, {"gcode": "C2", "gname": "거래처2"}]
             raise AssertionError("전체 모드는 도서코드 IN 조회를 쓰지 않는다")
+
+        # DEC-376 — 상대처명은 Scode 별 마스터에서(공용 리졸버).
+        async def fake_names(server_id, keys):
+            names = {"C1": "거래처1", "C2": "거래처2"}
+            return {(str(s).upper(), str(h or ""), str(g or "")): names.get(g, "") for s, h, g in keys}
 
         patches = [
             patch.object(rs, "execute_query", AsyncMock(side_effect=fake_query)),
             patch.object(rs, "in_clause_lookup", AsyncMock(side_effect=fake_in_clause)),
+            patch.object(rs, "fetch_party_names", AsyncMock(side_effect=fake_names)),
             patch.object(rs, "fetch_book_meta", AsyncMock(return_value={"B1": {"gname": "도서1"}})),
         ]
         if cap is not None:

@@ -176,12 +176,13 @@ class DayDetailTests(IsolatedAsyncioTestCase):
                  "Gsqut": 5, "Gssum": 0},  # 전 측정치 0 → 제외
             ]
 
-        async def fake_in(server_id, *, sql_template, keys, prefix_params=()):
-            assert "FROM G1_Ggeo" in sql_template
-            return [{"gcode": k, "gname": "알라딘" if k == "00431" else ""} for k in keys]
+        # DEC-376 — 상대처명은 Scode 별 마스터에서(공용 리졸버). 이 행들은 거래처(X).
+        async def fake_names(server_id, keys):
+            return {(str(sc).upper(), str(h or ""), str(g or "")): ("알라딘" if (str(sc).upper(), g) == ("X", "00431") else "")
+                    for sc, h, g in keys}
 
         with patch.object(rpt, "execute_query", fake_exec), \
-                patch.object(rpt, "in_clause_lookup", fake_in):
+                patch.object(rpt, "fetch_party_names", fake_names):
             res = await rpt.get_book_sales_day_detail(
                 server_id="remote_1", hcode="5019",
                 gdate="2026.07.09", bcode="3411",
