@@ -39,13 +39,15 @@ class ReturnsSaveValidationTests(TestCase):
             self.assertIn("formatApiError(e)", src, f"{name}: 공용 포맷터 미사용")
             self.assertNotIn("?.message ?? e.status", src, f"{name}: 옛 폴백 잔존")
 
-    def test_backend_still_requires_positive_quantity(self) -> None:
-        """사전 검증은 편의일 뿐 — 서버 계약(gsqut ≥ 1)은 그대로여야 한다(fail-closed)."""
+    def test_backend_still_rejects_zero_quantity(self) -> None:
+        """사전 검증은 편의일 뿐 — 서버도 수량 0 은 거절한다(fail-closed). DEC-380 부터 음수(-1)는 허용(저장은 음수)."""
+        from pydantic import ValidationError
+
         from app.models.returns import ReturnLineInput
 
-        f = ReturnLineInput.model_fields["gsqut"]
-        metas = [getattr(m, "ge", None) for m in getattr(f, "metadata", [])]
-        self.assertIn(1, metas, "gsqut ge=1 계약이 사라졌다")
+        with self.assertRaises(ValidationError):
+            ReturnLineInput(bcode="B1", gsqut=0)
+        self.assertEqual(ReturnLineInput(bcode="B1", gsqut=-1).gsqut, -1)
 
 
 if __name__ == "__main__":
