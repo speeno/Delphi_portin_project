@@ -115,6 +115,7 @@ class PrintUsesFullSlipKey(TestCase):
 
     def test_print_routes_do_not_use_4_axis_parser(self) -> None:
         src = (BACKEND / "app/routers/print.py").read_text(encoding="utf-8")
-        body = src[src.index('@router.get("/sales-statement/batch.pdf")'):]
+        # DEC-386 — 단건 · 일괄 · PDF · HTML 네 라우트가 한 준비 함수를 탄다(키 파싱은 그 한 곳).
+        body = src[src.index("async def _prepare_sales_statement_print("):]
         self.assertNotIn("_parse_order_key_4(", body)
-        self.assertEqual(body.count("_parse_stmt_key("), 2)  # 일괄 · 단건
+        self.assertEqual(body.count("_parse_stmt_key("), 1)

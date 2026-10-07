@@ -117,9 +117,16 @@ class CalibrationCssTests(TestCase):
         self.assertIn(".camount { width: 26.0mm; }", html)
         self.assertIn(".cno { width: 3.8mm; }", html)
         self.assertIn("transform: translate(0.65mm, 1.35mm)", html)
-        # 필드 블록(물리 15.0mm)·푸터(표 하단+4.8mm) 세로 위치
-        self.assertIn(".cust-mini { margin-top: 7.6mm; }", html)
-        self.assertIn(".body-flex { flex: 0 0 auto; } .foot3 { margin-top: 4.8mm; }", html)
+        # 필드 블록 · 푸터 세로 위치 — DEC-387 보정값(2026-10-07 실물 사진)
+        self.assertIn(".cust-mini { margin-top: 5.6mm; }", html)
+        # DEC-387 (2026-10-07 교문사 실물 사진) — 라벨 칸 20mm(값이 라벨 칸 안에 찍히던 것) · 숫자 오른쪽 여백 2.3mm ·
+        # 총부수 · 합계 4.5mm 위로 · 양식지 모드 거래처명 한 줄.
+        self.assertIn(".cust-mini .clab { width: 20.0mm; }", html)
+        self.assertIn(".tri-lines td.num { padding-right: 2.3mm; }", html)
+        self.assertIn(".foot3 { margin-top: 0.3mm; }", html)
+        self.assertIn(".preprinted .cust-mini td:not(.clab) { white-space: nowrap; overflow: visible; }", html)
+        self.assertIn("<td class='num' style='text-align:right' data-legacy-id='Sobo21.Triplicate.Gssum'>", html)
+        self.assertIn(".body-flex { flex: 0 0 auto; } .foot3 { margin-top: 0.3mm; }", html)  # DEC-387
         # 헤더(거래처코드/공급자)·푸터도 표와 동일 폭·좌측 정렬 — 스캔상 3블록 좌단 14.2mm 일치
         # (표만 margin-left 를 받아 헤더·푸터가 3.5mm 좌측으로 어긋나던 문제, 2026-07-05).
         self.assertIn(".hdr3 { width: 182.9mm; margin-left: 3.5mm; align-self: flex-start; }", html)

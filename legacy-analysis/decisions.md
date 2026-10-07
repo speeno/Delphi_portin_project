@@ -8278,3 +8278,35 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **결정** — Dockerfile `TZ=Asia/Seoul` + `tzdata`(정본), `main.py` 가 TZ 미설정 환경에서도 `Asia/Seoul` 로 `tzset()`. 반품 · CJ 의 `datetime.now(timezone.utc)` 「오늘」을 로컬(=KST)로.
   `web_accounts_db` 의 UTC 저장 시각은 비교용 저장 형식이라 유지.
 - **가드** — 신규 `test_dec385_server_time_kst.py`.
+
+### DEC-386 — 거래명세서 인쇄: 서버 PDF 생성 없이 HTML 을 브라우저가 바로 인쇄 · 실패한 바로출고 재시도 (2026-10-07)
+
+- **보고** — 「자동 프린트 기능이 작동하지 않는다. 모든 절차를 점검 … PDF 생성 없이 출력하도록 한 부분을 반영해서 테스트 진행해서 오류를 찾아 수정」.
+- **Render 로그 추적(20:13~20:47 KST)** — 단건 PDF 19~105초 · 일괄 181초(WeasyPrint CPU, 요청이 겹치면 더 늘어남). 20:27:37 · 20:38:08/18 의
+  바로출고(urgent-print)는 스트림이 즉시 전달했지만 모니터의 PDF 요청이 진행 중일 때 **배포 재시작(20:29:40 · 20:38:51)** 에 끊겼고,
+  모니터는 실패한 바로출고를 «시도함»으로 보관에서 지우고 printedRef 에 넣어 다시 인쇄하지 않았다(세션 중 배포 2회가 원인 제공).
+- **결정**
+  1. `GET /print/sales-statement/{key}.html` · `batch.html` — PDF 와 같은 파라미터 · `X-Printed-Keys` · 출력 이력 kind, 본문 text/html.
+     네 라우트(단건 · 일괄 × PDF · HTML)가 `_prepare_sales_statement_print` 한 경로(키 파싱 · hcode 격리 · 상세 병렬 조회 · 도장 · 렌더 · 이력)를 탄다.
+  2. `print_service.browser_print_html` — `@page` 여백을 0 으로 내리고 그 값을 «장» 블록(계약 `sheet_selector`: 삼련 `.triplicate-sheet` · A4 `.statement-page`)
+     padding 으로 옮긴다 → 지오메트리는 PDF 와 같고(헤드리스 Chrome 실측 ≤0.5mm), 여백 0 이라 Chrome 머리글 · 바닥글이 안 찍히고
+     인쇄 대화상자 「여백」 설정에도 흔들리지 않는다. `print-color-adjust: exact`.
+  3. 프론트 `printHtmlFromUrl` — 인증 fetch → 숨김 iframe `srcdoc` → 글꼴 로드 후 `contentWindow.print()`. 자동출력 · 거래명세서 목록 · 현황 «이 PC 출력» 이 사용.
+     PDF 경로(`.pdf` · 미리보기 · 다운로드)는 그대로 남긴다.
+  4. 바로출고 실패 재시도 — 인쇄가 **된** 건만 보관(10분)에서 지우고, 실패 건은 다음 폴 틱 · 스트림 재연결 · 창 재오픈 때 다시 인쇄(`urgentInFlightRef` 로 중복 방지).
+- **검증(로컬 e2e 하네스 — 실제 프론트 + 실제 백엔드 코드, 운영 DB 읽기만: 인증 고정 · 출력 이력 · 완료 전이 스텁)** —
+  바로출고 POST → 스트림 → HTML 221ms → `print()`(3련 · 양식지 · 여백 0 · 글꼴 loaded) → 5초 뒤 완료 PATCH, 요청→인쇄 **약 2초**. 없는 전표 키는 404 로 실패 → 보관 유지 → 「지금 확인」에 재시도.
+  Next **개발** 프록시(rewrite)는 SSE 를 응답 종료까지 버퍼링한다(운영 Vercel rewrite 는 스트리밍 — 20:24 바로출고 실측) → 하네스는 `NEXT_PUBLIC_API_URL` 직결로 검증.
+- **남은 것** — 거래명세서 미리보기 화면은 아직 PDF(보기 · 다운로드용). 교문사 PC 에서 HTML 인쇄 첫 실물 확인(인쇄 대화상자 「배율 100%」 · 용지 A4).
+- **가드** — 신규 `test_dec386_html_print_direct.py`, `test_dec369` · `test_dec375` · `test_dec361` · `test_outbound_status_print_on_this_pc` 갱신, 스모크 매트릭스 `print.sales_statement_html`.
+
+### DEC-387 — 삼련 양식지 보정: 거래처 값 칸 · 숫자 여백 · 총부수/합계 위치 (2026-10-07)
+
+- **보고(실물 사진 `보험처리 - 121.jpg`)** — 「공급자 보관용 — 거래처코드 · 발행일 · 거래처명은 오른쪽 위로, 부수~금액은 왼쪽으로 조금, 총부수 · 합계는 한 줄 이상 위로. 2 · 3련도 유사」.
+- **계측** — 사진 8.1px/mm: 값이 라벨 칸(물리 14.2~34mm) 안 28mm 에서 시작(라벨 폭이 31%=12.5mm 였다) · 행 중심보다 ~2mm 아래 · 긴 거래처명이 두 줄로 꺾여 다음 행 위로,
+  숫자가 괘선에 붙고 금액이 비고 칸으로 0.4mm 침범, 총부수 · 합계가 칸보다 ~4.5mm 아래. 표 행은 ~1.2mm 아래(허용 범위 — 손대지 않음).
+- **결정(계약 데이터 `print_sales_statement.yaml preprinted_calibration`, 코드는 훅만)** — `field_label_width_mm: 20`(신규) · `field_margin_top_mm 7.6→5.6` ·
+  `line_num_padding_right_mm: 2.3`(신규, 숫자 칸 `td.num`) · `footer_margin_top_mm 4.8→0.3` · 양식지 모드 거래처명 `nowrap`(값 칸은 제목 아래 108mm 까지).
+  헤드리스 Chrome 실측: 값 x 35.7mm · 2.1mm 위 · 숫자 1.5mm 왼쪽 · 총부수 4.7mm 위, 스캔 오버레이로 칸 안 확인.
+- **주의** — 사진 기준 보정이라 스캔 정본(DEC-074)보다 필드 · 푸터를 위로 둔다(현장 프린터가 아래로 밀어 찍는 만큼). 실물 1장 확인 요청.
+- **가드** — `test_preprinted_calibration` 갱신(허브 · 번들 yaml 동기화는 `test_print_repo_paths_deploy`).

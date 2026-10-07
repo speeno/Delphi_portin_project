@@ -1401,6 +1401,14 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             "ok_status": {200, 404, 422, 503},
         },
         {
+            # DEC-386 — 브라우저 직접 인쇄용 HTML(PDF 와 같은 파라미터 · 헤더)
+            "group": "print.sales_statement_html",
+            "path": (
+                f"/api/v1/print/sales-statement/{df}%7CH0001%7CJ00001%7C.html?serverId={sid}"
+            ),
+            "ok_status": {200, 404, 422, 503},
+        },
+        {
             "group": "print.sales_statement_layouts",
             "path": f"/api/v1/print/sales-statement/layouts?serverId={sid}",
             "ok_status": {200},

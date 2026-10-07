@@ -55,13 +55,13 @@ class PrintOnThisPcTests(TestCase):
 
     def test_uses_browser_print_not_remote_queue(self) -> None:
         """이 PC 출력은 printPdfFromUrl(브라우저 인쇄) — urgentPrint(원격 큐)가 아니다."""
-        self.assertIn("printPdfFromUrl(url)", self.fn)
+        self.assertIn("printHtmlFromUrl(url)", self.fn)  # DEC-386 — HTML 직접 인쇄
         self.assertNotIn("urgentPrint", self.fn)
 
     def test_single_vs_batch_endpoint(self) -> None:
         self.assertIn("keys.length === 1", self.fn)
-        self.assertIn("salesStatementPdfUrl(keys[0], sid, opts)", self.fn)
-        self.assertIn("salesStatementBatchPdfUrl(keys, sid, opts)", self.fn)
+        self.assertIn("salesStatementHtmlUrl(keys[0], sid, opts)", self.fn)
+        self.assertIn("salesStatementBatchHtmlUrl(keys, sid, opts)", self.fn)
 
     def test_uses_two_tier_default_form(self) -> None:
         """양식 = 2단 일반(`layout=default`) — A4 1장에 공급자·공급받는자 상·하 블록(절취선).

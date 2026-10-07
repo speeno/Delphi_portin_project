@@ -15,7 +15,7 @@
 가드
 ----
 - 세 경로는 하나의 인쇄 줄(printChainRef)로 차례로 실행.
-- 장마다 ``printPdfFromUrl(url, { settleMs })`` 로 간격(기본 5초, ``?printGapSec=``)을 둔다.
+- 장마다 ``printHtmlFromUrl(url, { settleMs })``(DEC-386 — 종전 printPdfFromUrl) 로 간격(기본 5초, ``?printGapSec=``)을 둔다.
 - 다른 화면의 수동 인쇄는 종전대로(settleMs 기본 0).
 """
 
@@ -46,7 +46,7 @@ class AutoPrintOneAtATimeTests(TestCase):
         self.assertEqual(self.page.count("printFreshKeysNow("), 1)
 
     def test_each_page_waits_gap(self) -> None:
-        self.assertIn("printPdfFromUrl(url, { settleMs: printGapMs })", self.page)
+        self.assertIn("printHtmlFromUrl(url, { settleMs: printGapMs })", self.page)  # DEC-386 — HTML 직접 인쇄
         self.assertIn('get("printGapSec")', self.page)
         self.assertIn("const DEFAULT_PRINT_GAP_MS = 5_000;", self.page)
 

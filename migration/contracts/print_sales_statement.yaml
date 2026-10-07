@@ -51,8 +51,14 @@ profiles:
       line_row_height_mm: 4.52  # 데이터 행 (10행 = 45.18mm)
       line_header_height_mm: 6.0   # 표 헤더 행 (실측 5.97)
       field_row_height_mm: 5.73    # 좌측 거래처코드/발행일/거래처명 행
-      field_margin_top_mm: 7.6     # 필드 블록 시작 = 물리 15.0mm (PDF 실측 11.93→+3.07)
-      footer_margin_top_mm: 4.8    # 표 하단→푸터 상단 간격 (물리 85.3→90.1)
+      # DEC-387 (2026-10-07 교문사 실물 사진 보정) — 종전 7.6: 값이 칸 중심보다 ~2mm 아래 → 2mm 위로.
+      field_margin_top_mm: 5.6
+      # DEC-387 — 종전 31%(12.5mm): 값이 라벨 칸(물리 14.2~34mm) 안에 찍혔다 → 라벨 19.8mm 뒤 값 칸에.
+      field_label_width_mm: 20.0
+      # DEC-387 — 종전 4.8: 총부수 · 합계가 칸보다 ~4.5mm 아래(한 줄 넘게) → 표 바로 아래로.
+      footer_margin_top_mm: 0.3
+      # DEC-387 — 종전 0.8(공통 패딩): 부수 · 정가 · 비율 · 금액이 괘선에 붙고 금액이 비고 칸으로 → 1.5mm 왼쪽으로.
+      line_num_padding_right_mm: 2.3
       line_col_widths_mm:       # 도서명은 auto(잔여 75.1)
         "no": 3.8  # 따옴표 필수 — YAML 1.1 에서 no 는 boolean
         shelf: 16.9
