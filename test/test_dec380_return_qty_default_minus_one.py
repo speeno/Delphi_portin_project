@@ -1,4 +1,4 @@
-"""DEC-380 — 반품 · 폐기 줄 기본 수량 -1 + 음수 수량 저장 허용 + 수정 화면 줄 추가 (교문사 2026-10-07).
+"""DEC-380 — 반품 · 폐기 줄 기본 수량 1(정정 — 처음엔 -1 로 잘못 읽음) + 음수 수량 저장 허용 + 수정 화면 줄 추가 (교문사 2026-10-07).
 
 보고: 「반품접수 시 도서명을 선택하면 수량은 기본 -1」 + 캡처 `(422) returnLines.0.gsqut — Input should be greater than or equal to 1`.
 - 입력 모델이 수량 ≥ 1 만 받아 -1 이 거절됐다. 서버는 어차피 음수로 저장(-abs, DEC-301)하므로 **0 만** 막는다.
@@ -29,7 +29,7 @@ class QtyValidation(TestCase):
 
     def test_frontend_default_minus_one(self) -> None:
         src = (FE / "components" / "outbound" / "order-line-grid.tsx").read_text(encoding="utf-8")
-        self.assertIn("newLine: { gsqut: -1, grat1: RETURN_GRAT1_DEFAULT },", src)
+        self.assertIn("newLine: { gsqut: 1, grat1: RETURN_GRAT1_DEFAULT },", src)  # 기본 1(사용자 정정 2026-10-07)
 
 
 class UpdateAddsLineCorrectly(IsolatedAsyncioTestCase):
