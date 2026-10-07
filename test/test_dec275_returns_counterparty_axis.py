@@ -108,7 +108,7 @@ class InsertWritesGcodeTests(IsolatedAsyncioTestCase):
         async def fake_txn(server_id, ops):  # noqa: ARG001
             captured.extend(ops)
 
-        with patch.object(svc, "_generate_jubun", AsyncMock(return_value="190000000001")), \
+        with patch.object(svc, "_allocate_slip_numbers", AsyncMock(return_value=("190000000001", None))), \
                 patch.object(svc, "_default_outbound_ocode", return_value="A"), \
                 patch.object(svc, "execute_in_transaction", side_effect=fake_txn):
             res = await svc.create_return(
@@ -127,7 +127,7 @@ class InsertWritesGcodeTests(IsolatedAsyncioTestCase):
             self.assertEqual(params[7], "H0001")  # Gcode = 상대 거래처 (Scode 'X' 다음)
 
     async def test_create_without_hcode_is_rejected(self) -> None:
-        with patch.object(svc, "_generate_jubun", AsyncMock(return_value="1")), \
+        with patch.object(svc, "_allocate_slip_numbers", AsyncMock(return_value=("1", None))), \
                 patch.object(svc, "execute_in_transaction", AsyncMock()):
             with self.assertRaises(ValueError):
                 await svc.create_return(

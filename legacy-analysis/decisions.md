@@ -8200,3 +8200,17 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   5. 반품 저장 — DEC-301 로 비율을 %(85 …)로 바꿨는데 입력 모델 `ReturnLineInput.grat1` 에 `le=1.0` 이 남아 있었다 → `le=100`.
 - **가드** — 신규 `test_dec378_order_detail_edit_and_return_rate.py`. 스위트 3265 passed, tsc OK.
 
+### DEC-379 — 반품 · 폐기 저장 500(전표 채번 호출 오류) + 금액 Enter 재계산 (2026-10-07)
+
+- **보고(교문사)** — 「반품 신규명세서 저장 안 됨」 · 「신규 명세서 — 금액을 지웠다가 수량 · 공급율 · 정가를 엔터로 넘기면 금액에 반영이 안 됨」.
+- **원인 1(Render 로그 09:57 · 10:19)** — `POST /api/v1/returns 500: _generate_jubun() takes 0 positional arguments but 1 was given`.
+  반품 · 폐기 · 반품 가져오기가 동기 · 무인자 함수를 `await _generate_jubun(server_id)` 로 불렀다(DEC-089~093 이후). 테스트가 이 함수를
+  `AsyncMock` 으로 바꿔 끼워 실제 호출 형태를 검사하지 않아 숨어 있었다. 동작했더라도 12자리 시각 문자열이라 char(2) Jubun 에 잘렸다(DEC-364 잔재와 같은 원인).
+  DEC-378(오전)의 비율 검사 수정은 그 앞 단계(422)만 풀었다 — 그다음 이 500 이 드러났다.
+- **수정 1** — `_allocate_slip_numbers`: 출고 등록과 같은 채번 — Jubun = (일자 · 회사 · 거래처) 다음 차수(`_next_jubun`), Idnum = 일자별 전표번호(`allocate_idnum`, 컬럼 있을 때 INSERT 에 포함).
+- **원인 2** — 공용 입력표는 수량 · 공급율 · 단가가 «바뀔 때»만 금액을 계산했다. 금액을 지운 뒤 같은 값으로 Enter 만 치면 0 이 남는다.
+- **수정 2** — 세 칸의 Enter 가 금액을 다시 계산한 뒤 다음 칸으로(레거시 동작). 출고 · 입고 · 반품 · 폐기 입력표 공통.
+- **가드** — 신규 `test_dec379_return_save_numbering_and_amount_enter.py`(채번을 **모킹하지 않고** 실제 경로로 INSERT 자리 수 · Jubun · Idnum 검사),
+  `test_dec275` · `test_dec301` · `test_dec209` 갱신. 스위트 3270 passed.
+- **남은 것** — 「반품현황 자료가 입력자료와 다름」은 구체 사례(전표 · 화면) 확인 필요.
+

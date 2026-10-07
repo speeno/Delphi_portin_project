@@ -32,7 +32,7 @@ class CreateReturnNormalizesLikeLegacy(unittest.IsolatedAsyncioTestCase):
         async def fake_tx(server_id, ops):
             captured.extend(ops)
 
-        with patch.object(svc, "_generate_jubun", AsyncMock(return_value="21")), \
+        with patch.object(svc, "_allocate_slip_numbers", AsyncMock(return_value=("21", None))), \
              patch.object(svc, "execute_in_transaction", AsyncMock(side_effect=fake_tx)):
             res = await svc.create_return(
                 server_id="remote_153",

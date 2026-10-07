@@ -110,7 +110,8 @@ class LineGridPriceEditable(TestCase):
         self.assertIn("data-legacy-id={axis.legacy.gdang}", block)
         self.assertIn('gdang: "Sobo27.Line.Gdang"', src)
         self.assertIn("setAt(idx, { gdang:", block, "변경 시 금액 자동 재계산 경로(setAt)")
-        self.assertIn("onKeyDown={focusNextCell}", block, "Enter 흐름에 단가 포함")
+        # DEC-379 — Enter 는 금액 재계산 후 다음 칸(recalcOnEnter 가 focusNextCell 을 부른다).
+        self.assertIn("onKeyDown={(e) => recalcOnEnter(idx, e)}", block, "Enter 흐름에 단가 포함")
 
 
 if __name__ == "__main__":
