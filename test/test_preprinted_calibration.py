@@ -127,12 +127,14 @@ class CalibrationCssTests(TestCase):
         self.assertIn(".preprinted .cust-mini td:not(.clab) { white-space: nowrap; overflow: visible; }", html)
         self.assertIn("<td class='num' style='text-align:right' data-legacy-id='Sobo21.Triplicate.Gssum'>", html)
         # DEC-389 (실물 2차) — 발행일 · 거래처명 값만 3mm 아래(괘선은 그대로) · 표 9pt · 필드 9pt · 값 700 · 칸 안에서 자름.
-        self.assertIn(".cust-mini tr.r-date .cval { position: relative; top: 3mm; }", html)
-        self.assertIn(".cust-mini tr.r-name .cval { position: relative; top: 3mm; }", html)
+        # DEC-389 정정(실물 3차) — 발행일 3mm 위 · 거래처명 2mm 위 → date 0(미출력) · name 1mm.
+        self.assertNotIn("tr.r-date .cval", html)
+        self.assertIn(".cust-mini tr.r-name .cval { position: relative; top: 1mm; }", html)
         self.assertNotIn("tr.r-code .cval", html)
         self.assertIn(".tri-lines tbody td { font-size: 9pt; }", html)
         self.assertIn(".cust-mini td:not(.clab) { font-size: 9pt; }", html)
         self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { font-weight: 700; }", html)
+        self.assertIn(".foot3 strong { font-size: 9.5pt; }", html)  # 총부수 · 합계 숫자도 키움
         self.assertIn(".tri-lines tbody td { white-space: nowrap; overflow: hidden; }", html)
         self.assertIn("<tr class='r-name'><td class='clab'>거래처명</td>", html)
         self.assertIn(".body-flex { flex: 0 0 auto; } .foot3 { margin-top: 0.3mm; }", html)  # DEC-387

@@ -55,3 +55,5 @@ allow_writes:
   - { methods: [POST], path: "^/api/v1/courier/cj/address/refine$" }
   # 자동출력: 인쇄한 전표의 접수→완료 (사용자 결정 2026-10-03 — 교문사 PC 의 역할)
   - { methods: [PATCH], path: "^/api/v1/transactions/sales-statement/[^/]+/complete$" }
+  # 바로출고 · 바로재출고의 인쇄 요청 — 메모리 큐 적재뿐 DB 쓰기 없음(DEC-391, 2026-10-07 21:42 교문사 403 차단 사례)
+  - { methods: [POST], path: "^/api/v1/transactions/sales-statement/urgent-print$" }

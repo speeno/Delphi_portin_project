@@ -71,6 +71,7 @@ class PolicyTests(unittest.TestCase):
             ("POST", "/api/v1/auth/refresh"),
             ("POST", "/api/v1/export/table-xlsx"),
             ("PATCH", "/api/v1/transactions/sales-statement/2026.10.02|5019|1||6|출고|00001/complete"),
+            ("POST", "/api/v1/transactions/sales-statement/urgent-print"),  # DEC-391 — 큐 적재뿐
             ("GET", "/api/v1/masters/book"),
         ]:
             self.assertFalse(awp.blocks(GYOMUNSA, method, path), (method, path))
@@ -79,7 +80,6 @@ class PolicyTests(unittest.TestCase):
         for method, path in [
             ("POST", "/api/v1/outbound/orders"),
             ("PATCH", "/api/v1/outbound/orders/batch/request"),
-            ("POST", "/api/v1/transactions/sales-statement/urgent-print"),
             ("DELETE", "/api/v1/transactions/sales-statement/k"),
             ("PATCH", "/api/v1/masters/book/1234"),
             ("POST", "/api/v1/me/tenant-print/seal"),
