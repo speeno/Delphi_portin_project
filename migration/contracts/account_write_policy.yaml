@@ -21,6 +21,21 @@ readonly_accounts:
       login_profile: publisher_main
     exclude:
       hcode: ["0000"]
+    # DEC-384 (사용자 2026-10-07) — 「반품/폐기 · 출고관리 · 정산관리는 읽기 전용으로 보여야 하고, 웹관리 메뉴는 제거」.
+    # 쓰기는 위 규칙으로 서버가 막으므로 조회 권한만 더해 메뉴 · 화면을 연다(화면은 canWrite=false).
+    view:
+      grant_permissions:
+        - outbound.read           # 출고관리 · 출고현황 · 거래명세서(출고)
+        - return.read             # 반품/폐기관리
+        - settlement.read         # 정산관리 — 청구 · 미수
+        - settlement.report.read
+        - settlement.report.month
+        - settlement.misc
+        - settlement.misc2
+        - settlement.adj
+        - settlement.deposit
+      revoke_permission_prefixes: ["admin."]   # 웹관리(관리 플레인) 조회 권한 제거
+      hide_menu_groups: [admin]                # 사이드바 「웹관리」 그룹
 
 allow_writes:
   # 계정 전용 정보 — 내 정보(선호 설정 · 비밀번호 · 로고), 표 설정, 대시보드 배치

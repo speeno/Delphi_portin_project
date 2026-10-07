@@ -8258,3 +8258,23 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **결정** — 자동출력 창이 **실행 중일 때만** 15초마다 `auto-print-status?beat=<창 id>` 로 생존 신호, 정지 · 창 닫힘(pagehide) · 언마운트 때
   `stop=true` 로 즉시 제거. 서버는 메모리에 hcode별 신호를 두고 45초 지난 것은 버린다 → 응답 `active`. 헤더는 20초마다 `active` 를 본다.
 - **가드** — 신규 `test_dec383_auto_print_running_beat.py`, `test_dec375` · `test_dec360` 갱신. 스위트 3277 passed.
+
+### DEC-384 — 조회 전용 계정(교문사 류): 반품/폐기 · 출고관리 · 정산관리는 읽기 전용으로 보이고 웹관리는 제거 (2026-10-07)
+
+- **요청** — 「교문사 계정에서 반품재고 메뉴 그룹과 출고관리 메뉴, 정산관리 메뉴가 readonly 로 보여야 된다」 · 「교문사 류의 계정은 웹관리 메뉴 제거」.
+- **원인** — 사이드바는 화면 조회 권한(requiredPermission 의 .read 짝)이 없으면 메뉴를 그리지 않는다(DEC-243). 교문사 류(출판사 본계정)는
+  출고 · 반품 · 정산 조회 권한이 없어 세 그룹이 사라졌고, 웹관리는 반대로 관리 조회 권한 때문에 보였다.
+- **결정(데이터만, DEC-370 계약 확장)** — `account_write_policy.yaml` 규칙별 `view`:
+  `grant_permissions`(outbound.read · return.read · settlement.* 조회) · `revoke_permission_prefixes: [admin.]` · `hide_menu_groups: [admin]`.
+  쓰기는 DEC-370 미들웨어가 계정 판정만으로 계속 403 → 화면은 canWrite=false + 조회 전용 안내 줄.
+  적용 지점: 요청마다 `get_user_context`(구 토큰도 즉시) · `/auth/me` 보강(`read_only_hidden_menu_groups`) · 사이드바 그룹 숨김(슈퍼 권한이어도).
+- **확인 필요** — 교문사 본계정 실세션에서 세 그룹 노출 · 웹관리 숨김(이번 세션 브라우저는 경리부 계정이었다).
+- **가드** — 신규 `test_dec384_read_only_view_menus.py`.
+
+### DEC-385 — 서버 시각 = 서울(KST) (2026-10-07)
+
+- **요청** — 「서버 출력 시간을 현지 서울 기준 시간으로 변경해줘」.
+- **원인** — Render 컨테이너 기본 UTC → 출력 이력 PrintedAt · 로그 시각 · 「오늘」 판정(자동출력 스트림 · 반품 기본 일자 · CJ 접수일)이 9시간 늦었다(KST 00~09시는 전날로 계산).
+- **결정** — Dockerfile `TZ=Asia/Seoul` + `tzdata`(정본), `main.py` 가 TZ 미설정 환경에서도 `Asia/Seoul` 로 `tzset()`. 반품 · CJ 의 `datetime.now(timezone.utc)` 「오늘」을 로컬(=KST)로.
+  `web_accounts_db` 의 UTC 저장 시각은 비교용 저장 형식이라 유지.
+- **가드** — 신규 `test_dec385_server_time_kst.py`.
