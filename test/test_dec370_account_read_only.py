@@ -34,11 +34,13 @@ FE = ROOT / "도서물류관리프로그램" / "frontend" / "src"
 GYOMUNSA = {
     "sub": "교문사", "sid": "remote_153", "hcode": "5019", "role": "operator",
     "account_type": "T3", "build_role": "warehouse_publisher", "account_family": "chul_09",
-    "login_profile": "publisher_main",
+    "login_profile": "publisher_main", "rdb": "chul_09_db",
 }
 GYEONGRI = {**GYOMUNSA, "sub": "경리부", "login_profile": "department_accounting"}
 WELOVE_ADMIN = {**GYOMUNSA, "sub": "위러브", "hcode": "0000"}
-OTHER_FAMILY = {**GYOMUNSA, "account_family": "book_07"}
+OTHER_FAMILY = {**GYOMUNSA, "account_family": "book_07", "rdb": "book_07_db"}
+# DEC-388 — 운영 교문사 본계정 로그인(소유성 ambiguous · DSN-DEC-12): account_family · tenant_id · active_build_id 가 빈다.
+AMBIGUOUS_OWNERSHIP = {**GYOMUNSA, "account_family": None, "tenant_id": None, "active_build_id": None}
 
 
 def _hdr(claims: dict) -> dict:
@@ -58,6 +60,8 @@ class PolicyTests(unittest.TestCase):
         self.assertFalse(awp.is_read_only_account(WELOVE_ADMIN))
         self.assertFalse(awp.is_read_only_account(OTHER_FAMILY))
         self.assertFalse(awp.is_read_only_account({}))
+        self.assertTrue(awp.is_read_only_account(AMBIGUOUS_OWNERSHIP))  # DEC-388 — 운영 실제 케이스
+        self.assertTrue(awp.is_read_only_account({**GYOMUNSA, "rdb": None, "resolved_db": "chul_09_db"}))  # 컨텍스트 키
 
     def test_allowed_writes(self) -> None:
         for method, path in [

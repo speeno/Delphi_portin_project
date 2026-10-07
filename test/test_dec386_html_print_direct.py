@@ -179,8 +179,8 @@ class FrontendWiring(unittest.TestCase):
 
     def test_call_sites_use_html(self) -> None:
         page = _read("app/(app)/transactions/sales-statement/auto-print/page.tsx")
-        self.assertIn("printHtmlFromUrl(url, { settleMs: printGapMs })", page)
-        self.assertIn("salesStatementHtmlUrl(key, sid, {", page)
+        self.assertIn("printHtmlFromUrl(url, { settleMs: gapMs })", page)
+        self.assertIn("? salesStatementHtmlUrl(keys[0], sid, opts)", page)
         self.assertNotIn("printPdfFromUrl", page)
         lst = _read("app/(app)/transactions/sales-statement/page.tsx")
         self.assertIn("printHtmlFromUrl(url)", lst)
@@ -189,10 +189,24 @@ class FrontendWiring(unittest.TestCase):
         self.assertIn("printHtmlFromUrl(url)", st)
         self.assertNotIn("printPdfFromUrl", st)
 
+    def test_preview_page_uses_html(self) -> None:
+        """미리보기 화면도 HTML(사용자 2026-10-07 「미리보기 화면도 HTML로 바꿔줘」) — 다운로드만 PDF."""
+        page = _read("app/(app)/transactions/sales-statement/[orderKey]/print/page.tsx")
+        self.assertIn("useAuthenticatedHtmlPreview(htmlUrl)", page)
+        self.assertIn("srcDoc={previewHtml}", page)
+        self.assertIn('id="sales-preview-frame"', page)
+        self.assertNotIn("useAuthenticatedPdfPreview", page)
+        self.assertIn("downloadPdfWithAuth(\n        pdfUrl,", page)  # 파일 다운로드는 서버 PDF 그대로
+        hook = _read("hooks/use-authenticated-html-preview.ts")
+        self.assertIn("fetchAuthenticatedPrintHtml(htmlUrl)", hook)
+        self.assertIn("@media screen {", hook)  # 화면 전용 종이 모양 — 인쇄 결과엔 무영향
+        layout = _read("hooks/use-sales-statement-pdf-layout.ts")
+        self.assertIn("const buildHtmlUrl = useCallback(", layout)
+
     def test_failed_urgent_keys_are_retried(self) -> None:
         page = _read("app/(app)/transactions/sales-statement/auto-print/page.tsx")
         self.assertIn("const urgentInFlightRef = useRef<Set<string>>(new Set());", page)
-        self.assertIn("if (ok) {\n          removePendingUrgentKey(key);\n          printedRef.current.add(key);", page)
+        self.assertIn("if (ok) {\n            removePendingUrgentKey(key);\n            printedRef.current.add(key);", page)
         # 재시도 지점: 다시 열렸을 때 · 폴 틱마다 · 스트림 재연결 직후
         self.assertGreaterEqual(page.count("printUrgentKeys(loadPendingUrgentKeys());"), 3)
         self.assertIn("if (ok) printUrgentKeys(loadPendingUrgentKeys());", page)

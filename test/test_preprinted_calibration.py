@@ -126,6 +126,15 @@ class CalibrationCssTests(TestCase):
         self.assertIn(".foot3 { margin-top: 0.3mm; }", html)
         self.assertIn(".preprinted .cust-mini td:not(.clab) { white-space: nowrap; overflow: visible; }", html)
         self.assertIn("<td class='num' style='text-align:right' data-legacy-id='Sobo21.Triplicate.Gssum'>", html)
+        # DEC-389 (실물 2차) — 발행일 · 거래처명 값만 3mm 아래(괘선은 그대로) · 표 9pt · 필드 9pt · 값 700 · 칸 안에서 자름.
+        self.assertIn(".cust-mini tr.r-date .cval { position: relative; top: 3mm; }", html)
+        self.assertIn(".cust-mini tr.r-name .cval { position: relative; top: 3mm; }", html)
+        self.assertNotIn("tr.r-code .cval", html)
+        self.assertIn(".tri-lines tbody td { font-size: 9pt; }", html)
+        self.assertIn(".cust-mini td:not(.clab) { font-size: 9pt; }", html)
+        self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { font-weight: 700; }", html)
+        self.assertIn(".tri-lines tbody td { white-space: nowrap; overflow: hidden; }", html)
+        self.assertIn("<tr class='r-name'><td class='clab'>거래처명</td>", html)
         self.assertIn(".body-flex { flex: 0 0 auto; } .foot3 { margin-top: 0.3mm; }", html)  # DEC-387
         # 헤더(거래처코드/공급자)·푸터도 표와 동일 폭·좌측 정렬 — 스캔상 3블록 좌단 14.2mm 일치
         # (표만 margin-left 를 받아 헤더·푸터가 3.5mm 좌측으로 어긋나던 문제, 2026-07-05).

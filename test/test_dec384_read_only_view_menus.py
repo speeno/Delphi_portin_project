@@ -24,7 +24,7 @@ BACK = ROOT / "도서물류관리프로그램" / "backend" / "app"
 
 GYOMUNSA = {
     "hcode": "5019", "account_type": "T3", "build_role": "warehouse_publisher",
-    "account_family": "chul_09", "login_profile": "publisher_main",
+    "account_family": "chul_09", "login_profile": "publisher_main", "resolved_db": "chul_09_db",
 }
 GYEONGRI = {**GYOMUNSA, "login_profile": "department_accounting"}
 

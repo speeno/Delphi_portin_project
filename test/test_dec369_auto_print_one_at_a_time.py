@@ -35,18 +35,20 @@ class AutoPrintOneAtATimeTests(TestCase):
         self.page = PAGE.read_text(encoding="utf-8")
         self.api = PRINT_API.read_text(encoding="utf-8")
 
-    def test_all_paths_go_through_print_chain(self) -> None:
-        self.assertIn("const printChainRef = useRef<Promise<void>>(Promise.resolve());", self.page)
-        # DEC-375 — 바로출고 보관 해제 콜백(onKeyTried)이 인자로 추가됐다.
-        self.assertIn(
-            "const run = printChainRef.current.then(() => printFreshKeysNow(fresh, onKeyTried));", self.page
-        )
-        self.assertIn("printChainRef.current = run.catch(() => undefined);", self.page)
-        # 스트림 · 폴 · 바로출고는 줄 세운 printFreshKeys 를 쓴다(직접 Now 호출 금지).
-        self.assertEqual(self.page.count("printFreshKeysNow("), 1)
+    def test_all_paths_go_through_print_queue(self) -> None:
+        # DEC-390 — 한 줄(printQueueRef) · 한 번에 한 문서 · 여러 건은 한 문서(batch.html)로 print() 한 번 · 바로출고 우선.
+        self.assertIn("const printQueueRef = useRef<PrintJob[]>([]);", self.page)
+        self.assertIn("if (pumpingRef.current) return;", self.page)
+        self.assertIn("const batch = (urgent.length > 0 ? urgent : q).slice(0, MAX_PRINT_BATCH);", self.page)
+        self.assertIn("? salesStatementHtmlUrl(keys[0], sid, opts)", self.page)
+        self.assertIn(": salesStatementBatchHtmlUrl(keys, sid, opts);", self.page)
+        # 스트림 · 폴 · 바로출고는 줄 세우는 printFreshKeys 만 쓴다(문서 인쇄 함수 직접 호출 금지).
+        self.assertIn("const printDocument = useCallback(", self.page)
+        self.assertEqual(self.page.count("await printDocument("), 1)  # pump 한 곳
+        self.assertEqual(self.page.count("printFreshKeys(fresh"), 3)  # 폴 · 스트림 · 바로출고
 
-    def test_each_page_waits_gap(self) -> None:
-        self.assertIn("printHtmlFromUrl(url, { settleMs: printGapMs })", self.page)  # DEC-386 — HTML 직접 인쇄
+    def test_each_document_waits_gap(self) -> None:
+        self.assertIn("printHtmlFromUrl(url, { settleMs: gapMs })", self.page)  # DEC-386 — HTML 직접 인쇄
         self.assertIn('get("printGapSec")', self.page)
         self.assertIn("const DEFAULT_PRINT_GAP_MS = 5_000;", self.page)
 

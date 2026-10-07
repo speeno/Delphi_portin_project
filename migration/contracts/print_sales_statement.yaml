@@ -59,6 +59,12 @@ profiles:
       footer_margin_top_mm: 0.3
       # DEC-387 — 종전 0.8(공통 패딩): 부수 · 정가 · 비율 · 금액이 괘선에 붙고 금액이 비고 칸으로 → 1.5mm 왼쪽으로.
       line_num_padding_right_mm: 2.3
+      # DEC-389 (2026-10-07 실물 2차) — 「발행일 · 거래처명을 3mm 정도 아래로」: 괘선은 두고 값 글자만 내린다.
+      field_row_shift_mm: { code: 0, date: 3.0, name: 3.0 }
+      # DEC-389 — 「글자를 칸을 넘지 않게 키우고 굵게」: 표 행 4.52mm 에 9pt(3.2mm) · 필드 9pt · 값 전부 700.
+      line_font_pt: 9
+      field_font_pt: 9
+      value_font_weight: 700
       line_col_widths_mm:       # 도서명은 auto(잔여 75.1)
         "no": 3.8  # 따옴표 필수 — YAML 1.1 에서 no 는 boolean
         shelf: 16.9

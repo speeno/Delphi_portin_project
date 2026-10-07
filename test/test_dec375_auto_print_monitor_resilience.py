@@ -56,10 +56,10 @@ class MonitorPage(TestCase):
     def test_urgent_keys_persist_until_tried(self) -> None:
         start = self.src.index("const printUrgentKeys = useCallback(")
         body = self.src[start : self.src.index("[printFreshKeys],", start)]
-        # DEC-386 — 인쇄된 건만 보관 해제(실패 건은 남겨 재시도).
-        self.assertLess(body.index("addPendingUrgentKeys(fresh);"), body.index("void printFreshKeys(fresh, (key, ok) => {"))
-        self.assertIn("if (ok) {\n          removePendingUrgentKey(key);", body)
-        self.assertIn("onKeyTried?.(key, ok);", self.src)
+        # DEC-386 — 인쇄된 건만 보관 해제(실패 건은 남겨 재시도). DEC-390 — 줄 맨 앞(urgent: true).
+        self.assertLess(body.index("addPendingUrgentKeys(fresh);"), body.index("printFreshKeys(fresh, {\n        urgent: true,"))
+        self.assertIn("if (ok) {\n            removePendingUrgentKey(key);", body)
+        self.assertIn("job.onTried?.(job.key, ok);", self.src)
         self.assertIn("printUrgentKeys(keys);", self.src)
 
     def test_resume_and_heartbeat(self) -> None:
