@@ -106,7 +106,8 @@ class CashSlipEnterEntryTest(TestCase):
 
     # ── 포커스 ──────────────────────────────────────────────────────
     def test_search_moves_to_input_row_but_first_load_does_not(self) -> None:
-        i = self.page.index('data-legacy-id="Sobo41.dxButton1"')
+        # DEC-381 — 검색 버튼이 공용 LedgerSearchButton(legacyId prop)으로 바뀌었다.
+        i = self.page.index('legacyId="Sobo41.dxButton1"')
         self.assertIn("fetchData({}, { focus: true })", self.page[i:i + 420], "검색 버튼 → 입력 줄로")
         # 화면을 처음 열 때(자동 조회)는 스크롤 · 포커스를 뺏지 않는다.
         j = self.page.index("if (!hydrated || !user?.server_id) return;")

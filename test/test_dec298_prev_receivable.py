@@ -39,7 +39,9 @@ class OpeningReceivableServiceTest(unittest.IsolatedAsyncioTestCase):
                 server_id="remote_153", hcode="5019", gcode="1015", date="2026-09-22",
             )
         self.assertEqual(res, {"gcode": "1015", "date": "2026.09.22", "prev_receivable": 1838520})
-        m.assert_awaited_once_with("remote_153", hcode="5019", gcode="1015", date_from="2026.09.22")
+        m.assert_awaited_once_with(
+            "remote_153", hcode="5019", gcode="1015", date_from="2026.09.22", inclusive=False
+        )
 
     async def test_validation(self) -> None:
         with self.assertRaises(ValueError):

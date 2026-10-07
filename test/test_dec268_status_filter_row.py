@@ -52,6 +52,8 @@ class FiltersBelowTitle(TestCase):
             "app/(app)/ledger/receivable/page.tsx",
             "app/(app)/inventory/ledger/page.tsx",
             "app/(app)/inventory/value/page.tsx",
+            # 예외 6: 입출금전표 거래처 — DEC-381(2026-10-07 교문사 「날짜 칸 이미지 통일 · 검색 좌측으로」) 원장과 같은 한 줄.
+            "app/(app)/settlement/cash-status/page.tsx",
         }
         opted_out = sorted(
             str(p.relative_to(FRONT))

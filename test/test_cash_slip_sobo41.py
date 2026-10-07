@@ -332,7 +332,8 @@ class RouteAndScreenTests(TestCase):
         page = (FRONT / "app" / "(app)" / "settlement" / "cash-status" / "page.tsx").read_text(
             encoding="utf-8")
         for wid in ("Sobo41.Edit101", "Sobo41.Edit102", "Sobo41.Edit103",
-                    "Sobo41.Edit104", "Sobo41.Edit106", "Sobo41.CheckBox2",
+                    "Sobo41.Edit104", "Sobo41.CheckBox2"  # Edit106(끝 코드)은 DEC-381 로 제거
+           ,
                     "Sobo41.dxButton1"):
             self.assertIn(wid, page, f"필터 위젯 누락: {wid}")
 

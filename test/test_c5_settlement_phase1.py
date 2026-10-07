@@ -759,7 +759,8 @@ class SettlementPhase1TestCase(TestCase):
         # 따라서 검증 대상 legacy id 도 Sobo41 그리드 10컬럼 + 검색 패널로 교체한다.
         cs_required = [
             "Sobo41.Edit101", "Sobo41.Edit102", "Sobo41.Edit103",
-            "Sobo41.Edit104", "Sobo41.Edit106", "Sobo41.CheckBox2", "Sobo41.dxButton1",
+            "Sobo41.Edit104", "Sobo41.CheckBox2"  # Edit106(끝 코드)은 DEC-381 로 제거
+           , "Sobo41.dxButton1",
             "Sobo41.DBGrid101",
             "Sobo41.DBGrid101.GDATE", "Sobo41.DBGrid101.GCODE", "Sobo41.DBGrid101.GNAME",
             "Sobo41.DBGrid101.OCODE", "Sobo41.DBGrid101.ONAME", "Sobo41.DBGrid101.GSUMY",
