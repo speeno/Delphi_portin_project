@@ -71,7 +71,10 @@ class HeaderAndSession(TestCase):
     def test_header_shows_monitor_state(self) -> None:
         src = _read("components/app-shell/header.tsx")
         self.assertIn("setMonitorAlive(isMonitorAlive())", src)
-        self.assertIn('{monitorAlive ? "자동출력 켜짐" : "자동출력 꺼짐 · 열기"}', src)
+        # DEC-382 — 다른 PC 의 창(서버 연결 수)도 본다 · 「켜짐/꺼짐」은 설정으로 오해돼 «창» 상태로 표기.
+        self.assertIn("const printerRunning = monitorAlive || (remoteListeners ?? 0) > 0;", src)
+        self.assertIn("fetchAutoPrintListeners(sid)", src)
+        self.assertIn('{printerRunning ? "자동출력 창 동작 중" : "자동출력 창 없음 · 열기"}', src)
 
     def test_cross_tab_session_sync(self) -> None:
         src = _read("contexts/auth-context.tsx")
