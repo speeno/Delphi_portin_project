@@ -116,7 +116,7 @@ class ScreenWiring(TestCase):
         i = self.src.index("async function doBatchDelete()")
         fn = self.src[i : self.src.index("async function doBatchReprint()")]
         self.assertIn("inboundApi.delete(key, sid)", fn)
-        self.assertIn("transactionsApi.deleteSalesStatement(s.order_key, sid)", fn, "출고축 = 거래명세서 DELETE")
+        self.assertIn("transactionsApi.deleteSalesStatement(s.order_key, sid, {", fn, "출고축 = 거래명세서 DELETE")
         self.assertIn("void load(0);", fn, "삭제 후 목록 재조회")
         self.assertIn("setCheckedKeys(new Set())", fn)
         api = (FRONT / "lib" / "inbound-api.ts").read_text(encoding="utf-8")

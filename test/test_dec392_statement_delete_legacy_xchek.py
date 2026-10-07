@@ -25,17 +25,27 @@ def _exec(yesno: str, chek3):
 
 
 class DeleteLockFollowsTenantChek3(unittest.IsolatedAsyncioTestCase):
-    async def _delete(self, yesno: str, chek3):
+    async def _delete(self, yesno: str, chek3, confirm: bool = True):
         tr = AsyncMock(return_value=None)
         with patch.object(tx, "execute_query", AsyncMock(side_effect=_exec(yesno, chek3))), \
                 patch.object(tx, "execute_in_transaction", tr):
-            res = await tx.delete_sales_statement(server_id="remote_153", gdate="2026.10.07", hcode="5019", jubun="25", gjisa="")
+            res = await tx.delete_sales_statement(
+                server_id="remote_153", gdate="2026.10.07", hcode="5019", jubun="25", gjisa="", confirm_completed=confirm,
+            )
         return res, tr
 
     async def test_completed_deletable_when_chek3_not_ok(self) -> None:
         res, tr = await self._delete("1", "Jeago")
         self.assertEqual(res["deleted"], 2)
         self.assertEqual(tr.await_count, 1)
+
+    async def test_completed_requires_confirmation(self) -> None:
+        """「이미 완료된 전표를 삭제하시겠습니까?」확인 없이 온 요청은 삭제하지 않는다(사용자 2026-10-07)."""
+        with self.assertRaises(ValueError) as cm:
+            await self._delete("1", "Jeago", confirm=False)
+        self.assertEqual(str(cm.exception), "STATEMENT_COMPLETED_CONFIRM")
+        res, _ = await self._delete("0", "Jeago", confirm=False)  # 미완료 전표는 확인 없이
+        self.assertEqual(res["deleted"], 2)
 
     async def test_completed_locked_when_chek3_ok(self) -> None:
         with self.assertRaises(ValueError) as cm:
@@ -50,6 +60,24 @@ class DeleteLockFollowsTenantChek3(unittest.IsolatedAsyncioTestCase):
     async def test_pending_deletes_without_lookup(self) -> None:
         res, tr = await self._delete("0", "ok")
         self.assertEqual(res["deleted"], 2)
+
+
+class ConfirmWiring(unittest.TestCase):
+    def test_route_and_screens(self) -> None:
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1] / "도서물류관리프로그램"
+        router = (root / "backend" / "app" / "routers" / "transactions.py").read_text(encoding="utf-8")
+        self.assertIn('alias="confirmCompleted"', router)
+        self.assertIn('"code": "INQ_TX_COMPLETED_CONFIRM"', router)
+        fe = root / "frontend" / "src"
+        rd = lambda rel: (fe / rel).read_text(encoding="utf-8").replace("\r\n", "\n")  # noqa: E731
+        self.assertIn('confirmCompleted: opts.confirmCompleted ? "1" : undefined', rd("lib/inquiry-api.ts"))
+        st = rd("components/transactions/transaction-status-screen.tsx")
+        self.assertIn("이미 완료된 전표를 삭제하시겠습니까?", st)
+        self.assertIn('confirmCompleted: s.status === "done",', st)
+        lp = rd("app/(app)/transactions/sales-statement/page.tsx")
+        self.assertIn("이미 완료된 전표를 삭제하시겠습니까?", lp)
+        self.assertIn("deleteSalesStatement(ok, sid, { confirmCompleted: done })", lp)
 
 
 if __name__ == "__main__":
