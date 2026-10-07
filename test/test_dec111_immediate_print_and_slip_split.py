@@ -86,18 +86,21 @@ class StreamReceivedStatementsTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(tsvc.enqueue_urgent_print("H001", ["", "  "]), 0)  # 공백 제외
 
         events: list[dict[str, Any]] = []
+        # DEC-391 — 긴급 키는 생존 신호(beat)가 있는 창 ID 의 구독에만 전달된다.
+        tsvc.record_auto_print_beat("H001", "win-1")
         with patch.object(
             tsvc, "list_sales_statements", new=AsyncMock(return_value=([_DONE], 1))
         ), patch.object(tsvc.asyncio, "sleep", new=AsyncMock()):
             async for ev in tsvc.stream_received_statements(
-                server_id="srv", hcode="H001", today="2026-07-20", max_ticks=2
+                server_id="srv", hcode="H001", today="2026-07-20", max_ticks=2, client_id="win-1"
             ):
                 events.append(ev)
 
         # tick1 — 접수 신규 없음 + 긴급 큐 방출(k1,k2). tick2 — 큐 비었으니 heartbeat.
         self.assertEqual(events[0]["type"], "urgent")
         self.assertEqual(events[0]["keys"], ["k1", "k2"])
-        self.assertEqual(events[1]["type"], "heartbeat")
+        self.assertEqual(events[1]["type"], "heartbeat")  # 전달(claim) 뒤 20초 안엔 다시 주지 않는다
+        tsvc.ack_urgent_print("H001", ["k1", "k2"])  # 테스트 잔여 정리
         # H999 적재분은 H001 스트림에 새지 않음(격리 유지).
         self.assertEqual(tsvc._drain_urgent_print("H999"), ["z9"])
 

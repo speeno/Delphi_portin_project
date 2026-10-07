@@ -63,7 +63,9 @@ class ClaimAck(unittest.TestCase):
         tsvc.record_auto_print_beat("H1", "live", stop=True)
         tsvc.enqueue_urgent_print("H1", ["z"])
         self.assertEqual(tsvc._urgent_for_listener("H1", "live"), [])  # 정지한 창
-        self.assertEqual(tsvc._urgent_for_listener("H1", None), ["z"])  # 구 번들(client 없음)은 종전대로
+        self.assertEqual(tsvc._urgent_for_listener("H1", None), [])  # client 없는 구독(구 번들 · 잔존 연결)엔 주지 않는다
+        tsvc.record_auto_print_beat("H1", "live")
+        self.assertEqual(tsvc._urgent_for_listener("H1", "live"), ["z"])
 
     def test_drain_compat(self) -> None:
         tsvc.enqueue_urgent_print("H1", ["a"])
