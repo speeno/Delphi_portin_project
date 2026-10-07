@@ -30,6 +30,9 @@ class QtyValidation(TestCase):
     def test_frontend_default_minus_one(self) -> None:
         src = (FE / "components" / "outbound" / "order-line-grid.tsx").read_text(encoding="utf-8")
         self.assertIn("newLine: { gsqut: -1, grat1: RETURN_GRAT1_DEFAULT },", src)  # 기본 -1(사용자 재정정 2026-10-07 「1 은 내 실수」)
+        # 진입 시 첫 행(createReturnLine)도 같은 기본값 — 종전 0 이라 첫 행만 -1 이 안 됐다(22:40 보고).
+        grid = (FE / "components" / "returns" / "return-line-grid.tsx").read_text(encoding="utf-8")
+        self.assertIn("gsqut: RETURN_LINE_AXIS.newLine.gsqut,", grid)
 
 
 class UpdateAddsLineCorrectly(IsolatedAsyncioTestCase):
