@@ -92,11 +92,11 @@ class RouterTests(unittest.TestCase):
 
         r = self.client.get("/api/v1/transactions/sales-statement/auto-print-status?serverId=remote_1")
         self.assertEqual(r.status_code, 200, r.text)
-        self.assertEqual(r.json(), {"listeners": 0})
+        self.assertEqual(r.json(), {"listeners": 0, "active": 0})  # DEC-383 — 동작 중 신호 수 추가
 
         with patch.dict(tsvc._auto_print_listeners, {"R001": 2}):
             r = self.client.get("/api/v1/transactions/sales-statement/auto-print-status?serverId=remote_1")
-            self.assertEqual(r.json(), {"listeners": 2})
+            self.assertEqual(r.json(), {"listeners": 2, "active": 0})
             r = self.client.post(
                 "/api/v1/transactions/sales-statement/urgent-print?serverId=remote_1",
                 json={"keys": ["k1"]},

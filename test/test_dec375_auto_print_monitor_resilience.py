@@ -73,7 +73,7 @@ class HeaderAndSession(TestCase):
         self.assertIn("setMonitorAlive(isMonitorAlive())", src)
         # DEC-382 — 다른 PC 의 창(서버 연결 수)도 본다 · 「켜짐/꺼짐」은 설정으로 오해돼 «창» 상태로 표기.
         self.assertIn("const printerRunning = monitorAlive || (remoteListeners ?? 0) > 0;", src)
-        self.assertIn("fetchAutoPrintListeners(sid)", src)
+        self.assertIn("fetchAutoPrintActive(sid)", src)  # DEC-383 — 정지한 창은 세지 않는 «동작 중» 신호 수
         self.assertIn('{printerRunning ? "자동출력 창 동작 중" : "자동출력 창 없음 · 열기"}', src)
 
     def test_cross_tab_session_sync(self) -> None:
