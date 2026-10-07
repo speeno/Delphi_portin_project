@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-29T23:58:08.800479+00:00",
+  "generated_at": "2026-10-04T16:43:14.398717+00:00",
   "summary": {
     "files_scanned": 30,
-    "endpoints_seen": 382,
-    "optional_hcode_endpoints": 98,
-    "scope_identifier_endpoints": 116,
+    "endpoints_seen": 383,
+    "optional_hcode_endpoints": 99,
+    "scope_identifier_endpoints": 117,
     "critical": 7,
-    "info": 122,
+    "info": 123,
     "skipped_noqa": 1
   },
   "findings": [
@@ -325,7 +325,7 @@
       "function": "list_special_master",
       "path": "/special",
       "method": "GET",
-      "lineno": 1702,
+      "lineno": 1704,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -335,7 +335,7 @@
       "function": "delete_special_master",
       "path": "/special/{row_id}",
       "method": "DELETE",
-      "lineno": 1850,
+      "lineno": 1852,
       "severity": "info",
       "reason": "scoped_with_helper (idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -375,7 +375,7 @@
       "function": "print_outbound_statement_pdf",
       "path": "/outbound-statement/{order_key}.pdf",
       "method": "GET",
-      "lineno": 180,
+      "lineno": 216,
       "severity": "info",
       "reason": "scoped_with_helper (path_hcode_key)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -385,7 +385,7 @@
       "function": "print_return_receipt_pdf",
       "path": "/return-receipt/{return_key}.pdf",
       "method": "GET",
-      "lineno": 241,
+      "lineno": 277,
       "severity": "info",
       "reason": "scoped_with_helper (path_hcode_key)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -395,7 +395,7 @@
       "function": "print_sales_statement_pdf",
       "path": "/sales-statement/{order_key}.pdf",
       "method": "GET",
-      "lineno": 402,
+      "lineno": 440,
       "severity": "info",
       "reason": "scoped_with_helper (path_hcode_key)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -425,7 +425,7 @@
       "function": "get_book_sales",
       "path": "/book-sales",
       "method": "GET",
-      "lineno": 43,
+      "lineno": 44,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -435,7 +435,7 @@
       "function": "get_book_sales_day_detail",
       "path": "/book-sales/day-detail",
       "method": "GET",
-      "lineno": 137,
+      "lineno": 138,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -445,7 +445,7 @@
       "function": "get_book_sales_customers_all",
       "path": "/book-sales/customers-all",
       "method": "GET",
-      "lineno": 175,
+      "lineno": 176,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -455,7 +455,7 @@
       "function": "get_customer_sales",
       "path": "/customer-sales",
       "method": "GET",
-      "lineno": 215,
+      "lineno": 216,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -465,7 +465,7 @@
       "function": "get_customer_sales_detail",
       "path": "/customer-sales/detail",
       "method": "GET",
-      "lineno": 274,
+      "lineno": 275,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -475,7 +475,7 @@
       "function": "get_customer_sales_books_all",
       "path": "/customer-sales/books-all",
       "method": "GET",
-      "lineno": 312,
+      "lineno": 313,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -485,7 +485,7 @@
       "function": "get_year_end_book",
       "path": "/year-end-book",
       "method": "GET",
-      "lineno": 354,
+      "lineno": 355,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -495,7 +495,7 @@
       "function": "export_book_sales_xlsx",
       "path": "/book-sales/export.xlsx",
       "method": "GET",
-      "lineno": 562,
+      "lineno": 564,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -505,7 +505,7 @@
       "function": "export_customer_sales_xlsx",
       "path": "/customer-sales/export.xlsx",
       "method": "GET",
-      "lineno": 605,
+      "lineno": 607,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -515,7 +515,7 @@
       "function": "export_year_end_book_xlsx",
       "path": "/year-end-book/export.xlsx",
       "method": "GET",
-      "lineno": 641,
+      "lineno": 643,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -1242,10 +1242,20 @@
     },
     {
       "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "function": "get_auto_print_status",
+      "path": "/sales-statement/auto-print-status",
+      "method": "GET",
+      "lineno": 1300,
+      "severity": "info",
+      "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
+      "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
+    },
+    {
+      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_sales_statement_detail",
       "path": "/sales-statement/{order_key}",
       "method": "GET",
-      "lineno": 1416,
+      "lineno": 1436,
       "severity": "info",
       "reason": "scoped_with_helper (path_hcode_key)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -1255,7 +1265,7 @@
       "function": "get_author_history",
       "path": "/author-history",
       "method": "GET",
-      "lineno": 1538,
+      "lineno": 1558,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -1265,7 +1275,7 @@
       "function": "get_production_statement",
       "path": "/production/statement",
       "method": "GET",
-      "lineno": 1602,
+      "lineno": 1622,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -1275,7 +1285,7 @@
       "function": "get_production_status",
       "path": "/production/status",
       "method": "GET",
-      "lineno": 1633,
+      "lineno": 1653,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -1285,7 +1295,7 @@
       "function": "get_withholding",
       "path": "/withholding",
       "method": "GET",
-      "lineno": 1666,
+      "lineno": 1686,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -1295,7 +1305,7 @@
       "function": "get_verification",
       "path": "/verification",
       "method": "GET",
-      "lineno": 1722,
+      "lineno": 1742,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode,hcode_from,hcode_to)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
