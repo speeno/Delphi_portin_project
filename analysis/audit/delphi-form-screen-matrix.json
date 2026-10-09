@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-07T13:57:31.925208+00:00",
+  "generated_at": "2026-10-09T06:21:56.417831+00:00",
   "summary": {
     "registry_forms": 107,
-    "legacy_dfm_subu_stems": 98,
-    "orphan_legacy_stems": 40,
+    "legacy_dfm_subu_stems": 99,
+    "orphan_legacy_stems": 41,
     "subu_caption_diff": 11,
     "subu_legacy_missing": 0
   },
@@ -1336,6 +1336,12 @@
       "dfm_path": "legacy_delphi_source/legacy_source/Subu59.dfm",
       "form_object": "Sobo59",
       "caption": "기간별택배내역서"
+    },
+    {
+      "folder": "Subu59_3 - 복사본",
+      "dfm_path": "legacy_delphi_source/legacy_source/Subu59_3 - 복사본.dfm",
+      "form_object": "Sobo59_3",
+      "caption": "출고 검증관리(개별)"
     },
     {
       "folder": "Subu59_9",

@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-10-07T13:57:33.140093+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-10-09T06:21:57.855434+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 

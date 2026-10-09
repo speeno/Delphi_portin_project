@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-10-07T13:57:31Z
+> **생성 시각 (UTC)**: 2026-10-09T06:21:56Z
 
 ## 목적
 
@@ -159,6 +159,7 @@
 | `Subu44_1` | 반품비현황 | `legacy_delphi_source/legacy_source/Subu44_1.dfm` |
 | `Subu56` | 기간별출고내역서 | `legacy_delphi_source/legacy_source/Subu56.dfm` |
 | `Subu59` | 기간별택배내역서 | `legacy_delphi_source/legacy_source/Subu59.dfm` |
+| `Subu59_3 - 복사본` | 출고 검증관리(개별) | `legacy_delphi_source/legacy_source/Subu59_3 - 복사본.dfm` |
 | `Subu59_9` | 자료삭제 | `legacy_delphi_source/legacy_source/Subu59_9.dfm` |
 | `Subu60` | Sobo60 | `legacy_delphi_source/legacy_source/Subu60.dfm` |
 | `Subu63` | 도서별집계 | `legacy_delphi_source/legacy_source/Subu63.dfm` |
