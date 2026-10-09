@@ -125,6 +125,7 @@ G1_NAME_LOOKUP_ALLOWLIST: dict[str, str] = {
     "inventory_service.py": "재고 — 거래처명 미조회(주석 · 문서 언급)",
     "customer_code_prefix_service.py": "거래처 코드 채번",
     "cash_slip_service.py": "입출금전표 — Scode 로 마스터를 고른다",
+    "e_invoice_service.py": "전자계산서(DEC-395) — 매출은 거래처별판매 Scode='X' 고정, 계산서 정보는 거래처 마스터 속성",
 }
 
 

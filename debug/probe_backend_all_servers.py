@@ -644,6 +644,12 @@ def _routes_for(server_id: str, args: argparse.Namespace) -> list[dict[str, Any]
             ),
             "ok_status": {200},
         },
+        # DEC-395 — 전자계산서: 조회월 거래처별 매출금액(출고−반품) + 계산서 정보(G1_Ggeo · G1_Ggeo_Ext).
+        {
+            "group": "settlement.e_invoice",
+            "path": f"/api/v1/settlement/e-invoice?serverId={sid}&month={month}",
+            "ok_status": {200},
+        },
         # DEC-049 (e) — 진짜 발송비 도메인 (wrong_id 분리). v0.1 scaffold 빈 목록 200.
         {
             "group": "settlement.shipping_ledger",

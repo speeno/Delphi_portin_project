@@ -8402,3 +8402,22 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   - **업로드(역반영) 왕복** — `parse_master_xlsx` 는 코드(PK) 칸이 숫자면 서식 `0…0` 의 자릿수만큼 앞자리 0 을 되살린다(`39`+`00000` → `00039`). 역반영은 코드로 기존 행을 UPDATE 하므로
     「39」 로 읽으면 다른 거래처를 고칠 수 있었다. 서식 없는 숫자(사용자가 직접 친 값)는 그대로 「39」.
 - **가드** — 신규 `test_dec394_excel_code_cells_numeric.py`, `test_dec198_export_follows_visible_columns` 기대값 갱신(도서코드 「00100」 → 숫자 100).
+
+### DEC-395 — [정산관리] 전자계산서: 「세금계산서 발행」 대체 · 메뉴 순서/감춤 · 거래처별 매출금액(출고−반품) + 계산서 정보 + 엑셀 (2026-10-09)
+
+- **요청** — 「세금계산서 발행 → 명칭 전자계산서」 · 「순서: 입출금전표거래처 – 계산서 발행 – 미수현황, 그외 청구서관리 · 청구금액(년월) · 청구서인쇄(미리보기) 불필요」 ·
+  「컬럼 순서: 코드, 사업자등록번호, 거래처명, 대표자, 주소, 업태, 종목, 이메일1, 이메일2, 매출금액(출고금액-반품금액, 콤마)」 · 「해당 자료 엑셀 다운로드」.
+- **판단** — 기존 `/settlement/tax-invoice` 는 레거시 Sobo49(총판의 출판사 정산 T2 · Chek3 발행 토글 · 감사 비밀번호)로, 요청(출판사 → 거래처 계산서 대상 목록)과 다른 화면이다.
+  고쳐 쓰지 않고 **웹 전용 신규 화면** `/settlement/e-invoice`(`Settle_einvoice`, folder `_WebSettle`)을 만들고 Sobo49_tax 는 메뉴에서만 감춘다(라우트 · API · 테스트 유지).
+- **결정**
+  1. 메뉴 — 정산관리는 등록 순서 = 사이드바 순서(DEC-363)라 `Settle_einvoice` 를 입출금전표 거래처 바로 다음에 둔다. 청구서관리(Sobo45_billing) · 청구금액(년월)(Sobo47_billing) ·
+     청구서 인쇄(미리보기)(Sobo46_billing) · 세금계산서 발행(Sobo49_tax)은 `hiddenFromMenu`(전 계정 공통, 슈퍼 포함 — `ACC-MENU-HIDDEN-*` 은 슈퍼에게 보인다).
+     **발송비/입금 그룹의 같은 화면 별칭(`*_bill`)은 그대로** — 요청 범위가 정산관리라서. 권한은 감춘 Sobo49_tax 와 같은 `settlement.misc2`.
+  2. 매출금액 = 거래처별판매(`reports_service.get_customer_sales`, Subu62)의 출고금액 + 반품금액(S1_Ssub 음수 저장) — 산식 복제 없이 재사용해 두 화면 숫자가 같다
+     (교문사 2026-09 실측: 166개 거래처 365,743,280 = 거래처별판매 판매금액 합계, 출고 387,335,005 − 반품 21,591,725). 지점은 거래처로 합산, 매출 0 거래처 제외.
+  3. 계산서 정보 = G1_Ggeo(Gnumb · Gposa · Gadd1+Gadd2 · Guper · Gjomo · Email, 누락 컬럼은 SHOW COLUMNS 메타로 '') + 이메일2 = G1_Ggeo_Ext.Email2(DEC-230, `customer_ext_service.get_ext_many` 신설).
+     교문사는 거래처 1,298곳 모두 이메일 · 이메일2 가 비어 있다(실측) — 거래처 상세에 입력해야 칸이 찬다.
+  4. 스코프 = 정산 라우터 공통 `resolve_publisher_row_scope`(S1_Ssub.Hcode = 출판사 코드, DEC-090/091 가드) — 출판사 · 공유 DB 계정은 본인 코드 강제(요청 hcode 무시, 신뢰 불가면 0건).
+  5. 엑셀 = 화면 표시 컬럼 · 순서 · 정렬 그대로 범용 `/export/table-xlsx`, 매출금액 `#,##0`, 코드는 DEC-394 숫자 셀. 업로드에 쓰기 쉽도록 합계 행은 넣지 않는다(화면에는 합계 행).
+- **가드** — 신규 `test_dec395_e_invoice.py`(산식 · 0 제외 · 페이징 · Hcode 바인딩 · 스코프 · 메뉴 순서/감춤 · 컬럼 순서), `test_dec376` 허용 목록에 `e_invoice_service.py`(Scode='X' 고정) 추가,
+  `debug/probe_backend_all_servers.py` 에 `settlement.e_invoice`.
