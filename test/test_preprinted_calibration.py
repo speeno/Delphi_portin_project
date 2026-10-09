@@ -132,6 +132,7 @@ class CalibrationCssTests(TestCase):
         self.assertIn(".cust-mini tr.r-name .cval { position: relative; top: 1mm; }", html)
         self.assertNotIn("tr.r-code .cval", html)
         self.assertIn(".tri-lines tbody td { font-size: 9pt; }", html)
+        self.assertIn(".tri-lines tbody td.shelf { font-size: 8pt; }", html)  # DEC-393 서가 칸 1pt 작게
         self.assertIn(".cust-mini td:not(.clab) { font-size: 9pt; }", html)
         self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { font-weight: 700; }", html)
         self.assertIn(".foot3 strong { font-size: 9.5pt; }", html)  # 총부수 · 합계 숫자도 키움

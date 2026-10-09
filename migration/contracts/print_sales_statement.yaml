@@ -14,6 +14,9 @@ profiles:
     # 흑백 삼련형 밀도에서 두 블록이 한 페이지에 안정적으로 들어가도록 14행을 기본값으로 둔다.
     a4_dual_block_rows_per_page: 14
     table_fixed_rows: 10
+    # DEC-393 (2026-10-08) — 인쇄 라인 순서. shelf = 서가번호 알파벳(자연) 순(대소문자 무시 · 숫자 크기순 · 빈 서가 맨 뒤,
+    # 동순위는 입력 순) — 창고에서 서가 위치대로 찾도록. legacy = 전표 입력 순(Gcode, Bcode).
+    line_sort: shelf
     triplicate_labels:
       supplier: "(공급자 보관용)"
       buyer: "(공급받는자 보관용)"
@@ -64,6 +67,8 @@ profiles:
       field_row_shift_mm: { code: 0, date: 0, name: 1 }
       # DEC-389 — 「글자를 칸을 넘지 않게 키우고 굵게」: 표 행 4.52mm 에 9pt(3.2mm) · 필드 9pt · 값 전부 700.
       line_font_pt: 9
+      # DEC-393 (2026-10-08) — 「서가정보 폰트를 1pt 정도 작게」: 서가번호 칸만 line_font_pt − 1.
+      shelf_font_pt: 8
       field_font_pt: 9
       value_font_weight: 700
       # DEC-389 추가 — 「총부수 · 합계 숫자도 키우고 굵게」: 물리 칸 3.1mm 라 숫자 높이(0.72em) 기준 9.5pt(2.4mm) · 굵기는 value_font_weight.

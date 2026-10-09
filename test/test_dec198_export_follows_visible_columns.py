@@ -91,7 +91,8 @@ class BookSalesExportTests(TestCase):
         self.assertEqual(res.status_code, 200, res.text[:200])
         headers, rows = _sheet(res)
         self.assertEqual(headers, ["도서분류", "도서명", "판매수량", "판매금액", "재고합계", "도서코드"])
-        self.assertEqual(rows[0], ["의류, 의상학", "피복인간공학*", 2, 28900, 15, "00100"])
+        # DEC-394 — 숫자 코드는 숫자 셀(서식 "00000" 으로 「00100」 표시) — VLOOKUP 용.
+        self.assertEqual(rows[0], ["의류, 의상학", "피복인간공학*", 2, 28900, 15, 100])
 
     def test_hidden_columns_are_not_exported(self) -> None:
         res = self._export([{"key": "gname", "label": "도서명"}])
