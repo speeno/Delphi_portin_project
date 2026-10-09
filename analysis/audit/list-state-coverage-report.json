@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-09T06:21:58.599433+00:00",
+  "generated_at": "2026-10-09T08:44:58.034441+00:00",
   "summary": {
-    "total_pages": 134,
+    "total_pages": 135,
     "covered": 50,
     "violations": 0,
     "allowed": 7,
-    "skipped": 77
+    "skipped": 78
   },
   "covered": [
     {
@@ -502,6 +502,10 @@
     {
       "route_key": "settlement.billing.print",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/billing/[billingKey]/print/page.tsx"
+    },
+    {
+      "route_key": "settlement.e-invoice",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/settlement/e-invoice/page.tsx"
     },
     {
       "route_key": "settlement.payment-slip",

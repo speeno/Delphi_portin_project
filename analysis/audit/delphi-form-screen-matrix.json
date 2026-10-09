@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-09T06:21:56.417831+00:00",
+  "generated_at": "2026-10-09T08:44:56.073078+00:00",
   "summary": {
-    "registry_forms": 107,
+    "registry_forms": 108,
     "legacy_dfm_subu_stems": 99,
     "orphan_legacy_stems": 41,
     "subu_caption_diff": 11,
@@ -337,6 +337,17 @@
       "legacy_dfm": "legacy_delphi_source/legacy_source/Subu41.dfm",
       "status": "MULTI_MAP",
       "note": "동일 레거시 폴더에 복수 모던 라우트 — 루트 Caption 은 주 폼 기준 (파생 화면은 §DEC-019)"
+    },
+    {
+      "modern_id": "Settle_einvoice",
+      "folder": "_WebSettle",
+      "route": "/settlement/e-invoice",
+      "modern_caption": "전자계산서",
+      "legacy_form_object": "",
+      "legacy_caption": "",
+      "legacy_dfm": "",
+      "status": "WEB_ONLY",
+      "note": "Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1)"
     },
     {
       "modern_id": "Sobo45_billing",

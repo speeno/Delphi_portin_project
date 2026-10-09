@@ -1,6 +1,6 @@
 # 구현되지 못한 기능 인벤토리 (저장소 자동 산출)
 
-생성: `2026-10-09T06:21:57.855434+00:00` (`debug/generate_incomplete_features_inventory.py`)
+생성: `2026-10-09T08:44:57.325526+00:00` (`debug/generate_incomplete_features_inventory.py`)
 
 ## 판정 기준 (합집합)
 
@@ -27,9 +27,11 @@
 
 > 레거시 화면은 풀 CRUD 였지만 모던 화면이 조회·부분쓰기에 머문 항목.
 
-### R (22건)
+### R (23건)
 - `MenuBillingStatements` (내역서관리) `/billing/statements`
   - 허브 MVP (2026-05-15) — 입고·반품·거래·출고·택배·판매 리포트로 링크. 8종 단일 SQL은 후속
+- `Settle_einvoice` (전자계산서) `/settlement/e-invoice`
+  - 조회·엑셀 전용 — 계산서 발행(국세청 전송)은 외부 서비스에서(DEC-395)
 - `Sobo21` (거래 명세서) `/transactions/sales-statement`
   - 거래명세서 조회(Subu21). 메모 쓰기는 거래현황(메모) Sobo21_status_memo RU(PATCH /transactions/sales-statement/{key}/memo)로 분리
 - `Sobo21_status_detail` (거래 현황(상세)) `/transactions/status?view=detail`
@@ -106,7 +108,7 @@
 - `도서물류관리프로그램/backend/app/routers/_stub.py:31` — `"code": "NOT_IMPLEMENTED",`
 - `도서물류관리프로그램/backend/app/routers/auth.py:631` — `status_code=status.HTTP_503_SERVICE_UNAVAILABLE,`
 - `도서물류관리프로그램/backend/app/routers/returns.py:793` — `status_code=status.HTTP_501_NOT_IMPLEMENTED,`
-- `도서물류관리프로그램/backend/app/routers/settlement.py:1174` — `result = await tax_invoice_service.issue_external_stub(`
+- `도서물류관리프로그램/backend/app/routers/settlement.py:1206` — `result = await tax_invoice_service.issue_external_stub(`
 
 ## 6. `docs/crud-backlog.md` §2.6 참조 (문서 불릿)
 

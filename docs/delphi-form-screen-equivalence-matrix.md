@@ -1,7 +1,7 @@
 # 델파이 폼 ↔ 모던 화면 동등성 매트릭스
 
 > **자동 생성** — `python3 tools/delphi_form_screen_matrix.py` 로 갱신. 직접 편집하지 마세요.
-> **생성 시각 (UTC)**: 2026-10-09T06:21:56Z
+> **생성 시각 (UTC)**: 2026-10-09T08:44:56Z
 
 ## 목적
 
@@ -126,6 +126,7 @@
 | WEB_ONLY | `WebAdmHome` | `_WebAdm` | 관리자 콘솔(서버/DB·계정·권한) | — | `—` | `/admin` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `WebAdmOps` | `_WebAdm` | 운영 모니터링 | — | `—` | `/admin/ops` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 | WEB_ONLY | `WebAdmRBAC` | `_WebAdm` | 역할/권한 | — | `—` | `/admin/rbac` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
+| WEB_ONLY | `Settle_einvoice` | `_WebSettle` | 전자계산서 | — | `—` | `/settlement/e-invoice` | Wave D 웹 전용 — 레거시 DFM 대응 없음 (OOS-MAS-1) |
 
 ## 참고 — 레지스트리 미등록 DFM (주 트리만)
 

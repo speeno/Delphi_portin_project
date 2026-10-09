@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T13:49:56.500195+00:00",
+  "generated_at": "2026-10-09T08:42:32.756086+00:00",
   "summary": {
     "files_scanned": 30,
     "endpoints_seen": 385,
@@ -11,7 +11,7 @@
   },
   "findings": [
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/admin.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/admin.py",
       "function": "get_user_menu_visibility",
       "path": "/users/menu-visibility",
       "method": "GET",
@@ -21,7 +21,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/courier.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/courier.py",
       "function": "list_courier_lines",
       "path": "/lines",
       "method": "GET",
@@ -31,7 +31,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/courier.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/courier.py",
       "function": "get_courier_memo",
       "path": "/memo",
       "method": "GET",
@@ -41,7 +41,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/courier.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/courier.py",
       "function": "patch_courier_memo",
       "path": "/memo",
       "method": "PATCH",
@@ -51,7 +51,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
       "function": "get_weather_risk",
       "path": "/weather-risk",
       "method": "GET",
@@ -61,7 +61,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
       "function": "get_delivery_route_risk",
       "path": "/delivery-route-risk",
       "method": "GET",
@@ -71,7 +71,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/dashboard_external.py",
       "function": "get_demand_forecast",
       "path": "/demand-forecast",
       "method": "GET",
@@ -81,7 +81,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/delivery_dispatch.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/delivery_dispatch.py",
       "function": "list_delivery_dispatch",
       "path": "",
       "method": "GET",
@@ -91,7 +91,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
       "function": "list_receipts",
       "path": "/receipts",
       "method": "GET",
@@ -101,7 +101,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
       "function": "list_receipt_lines_all",
       "path": "/receipts/lines-all",
       "method": "GET",
@@ -111,7 +111,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
       "function": "get_receipt",
       "path": "/receipts/{receipt_key}",
       "method": "GET",
@@ -121,7 +121,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
       "function": "daily_report",
       "path": "/reports/daily",
       "method": "GET",
@@ -131,7 +131,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inbound.py",
       "function": "period_report",
       "path": "/reports/period",
       "method": "GET",
@@ -141,7 +141,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_inventory_ledger",
       "path": "/ledger",
       "method": "GET",
@@ -151,7 +151,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_stock_ledger",
       "path": "/stock-ledger",
       "method": "GET",
@@ -161,7 +161,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_stock_value",
       "path": "/stock-value",
       "method": "GET",
@@ -171,7 +171,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_book_ledger_daily",
       "path": "/book-ledger/daily",
       "method": "GET",
@@ -181,7 +181,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_book_ledger_day_detail",
       "path": "/book-ledger/day-detail",
       "method": "GET",
@@ -191,7 +191,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_book_ledger_day_detail_all",
       "path": "/book-ledger/day-detail-all",
       "method": "GET",
@@ -201,7 +201,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_customer_ledger_daily",
       "path": "/customer-ledger/daily",
       "method": "GET",
@@ -211,7 +211,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_customer_ledger_opening",
       "path": "/customer-ledger/opening",
       "method": "GET",
@@ -221,7 +221,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_customer_ledger_summary",
       "path": "/customer-ledger/summary",
       "method": "GET",
@@ -231,7 +231,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_customer_ledger_daily_all",
       "path": "/customer-ledger/daily-all",
       "method": "GET",
@@ -241,7 +241,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_customer_ledger_slip_detail",
       "path": "/customer-ledger/slip-detail",
       "method": "GET",
@@ -251,7 +251,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/inventory.py",
       "function": "get_customer_ledger_slip_detail_all",
       "path": "/customer-ledger/slip-detail-all",
       "method": "GET",
@@ -261,7 +261,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
       "function": "get_customer_ledger",
       "path": "/customer",
       "method": "GET",
@@ -271,7 +271,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
       "function": "get_integrated_customer_ledger",
       "path": "/customer-integrated",
       "method": "GET",
@@ -281,7 +281,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
       "function": "get_receivable_period_ledger",
       "path": "/receivable",
       "method": "GET",
@@ -291,7 +291,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
       "function": "get_book_summary_ledger",
       "path": "/book-summary",
       "method": "GET",
@@ -301,7 +301,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
       "function": "get_book_summary_months_all",
       "path": "/book-summary/months-all",
       "method": "GET",
@@ -311,7 +311,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/ledger.py",
       "function": "get_book_summary_months",
       "path": "/book-summary/months",
       "method": "GET",
@@ -321,7 +321,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/masters.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/masters.py",
       "function": "list_special_master",
       "path": "/special",
       "method": "GET",
@@ -331,7 +331,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/masters.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/masters.py",
       "function": "delete_special_master",
       "path": "/special/{row_id}",
       "method": "DELETE",
@@ -341,7 +341,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
       "function": "list_orders",
       "path": "/orders",
       "method": "GET",
@@ -351,7 +351,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
       "function": "outbound_statement_route",
       "path": "/statement",
       "method": "GET",
@@ -361,7 +361,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/outbound.py",
       "function": "get_order",
       "path": "/orders/{order_key}",
       "method": "GET",
@@ -371,7 +371,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/print.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/print.py",
       "function": "print_outbound_statement_pdf",
       "path": "/outbound-statement/{order_key}.pdf",
       "method": "GET",
@@ -381,7 +381,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/print.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/print.py",
       "function": "print_return_receipt_pdf",
       "path": "/return-receipt/{return_key}.pdf",
       "method": "GET",
@@ -391,7 +391,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/print.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/print.py",
       "function": "print_sales_statement_pdf",
       "path": "/sales-statement/{order_key}.pdf",
       "method": "GET",
@@ -401,7 +401,7 @@
       "recommended_action": "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / enforce_hcode_range / enforce_hcode_pattern 로 감싸 JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/print.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/print.py",
       "function": "print_sales_statement_html",
       "path": "/sales-statement/{order_key}.html",
       "method": "GET",
@@ -411,7 +411,7 @@
       "recommended_action": "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / enforce_hcode_range / enforce_hcode_pattern 로 감싸 JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/public_account_switch.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/public_account_switch.py",
       "function": "verify_legacy",
       "path": "/account-switch/verify-legacy",
       "method": "POST",
@@ -421,7 +421,7 @@
       "recommended_action": "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / enforce_hcode_range / enforce_hcode_pattern 로 감싸 JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/public_account_switch.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/public_account_switch.py",
       "function": "lookup_account",
       "path": "/account-switch/lookup",
       "method": "POST",
@@ -431,7 +431,7 @@
       "recommended_action": "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / enforce_hcode_range / enforce_hcode_pattern 로 감싸 JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "get_book_sales",
       "path": "/book-sales",
       "method": "GET",
@@ -441,7 +441,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "get_book_sales_day_detail",
       "path": "/book-sales/day-detail",
       "method": "GET",
@@ -451,7 +451,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "get_book_sales_customers_all",
       "path": "/book-sales/customers-all",
       "method": "GET",
@@ -461,7 +461,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "get_customer_sales",
       "path": "/customer-sales",
       "method": "GET",
@@ -471,7 +471,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "get_customer_sales_detail",
       "path": "/customer-sales/detail",
       "method": "GET",
@@ -481,7 +481,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "get_customer_sales_books_all",
       "path": "/customer-sales/books-all",
       "method": "GET",
@@ -491,7 +491,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "get_year_end_book",
       "path": "/year-end-book",
       "method": "GET",
@@ -501,7 +501,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "export_book_sales_xlsx",
       "path": "/book-sales/export.xlsx",
       "method": "GET",
@@ -511,7 +511,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "export_customer_sales_xlsx",
       "path": "/customer-sales/export.xlsx",
       "method": "GET",
@@ -521,7 +521,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/reports.py",
       "function": "export_year_end_book_xlsx",
       "path": "/year-end-book/export.xlsx",
       "method": "GET",
@@ -531,7 +531,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "list_returns",
       "path": "",
       "method": "GET",
@@ -541,7 +541,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "daily_report",
       "path": "/reports/daily",
       "method": "GET",
@@ -551,7 +551,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "get_returns_ledger",
       "path": "/ledger",
       "method": "GET",
@@ -561,7 +561,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "get_returns_period_report",
       "path": "/period-report",
       "method": "GET",
@@ -571,7 +571,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "list_inventory_candidates_api",
       "path": "/inventory-candidates",
       "method": "GET",
@@ -581,7 +581,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "export_returns_xlsx",
       "path": "/export.xlsx",
       "method": "GET",
@@ -591,7 +591,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "export_returns_ledger_xlsx",
       "path": "/ledger/export.xlsx",
       "method": "GET",
@@ -601,7 +601,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "export_returns_period_xlsx",
       "path": "/period-report/export.xlsx",
       "method": "GET",
@@ -611,7 +611,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "export_returns_daily_xlsx",
       "path": "/reports/daily/export.xlsx",
       "method": "GET",
@@ -621,7 +621,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/returns.py",
       "function": "get_return_detail",
       "path": "/{return_key}",
       "method": "GET",
@@ -631,7 +631,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/scan.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/scan.py",
       "function": "scan_match",
       "path": "/match",
       "method": "POST",
@@ -641,7 +641,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "list_billing",
       "path": "/billing",
       "method": "GET",
@@ -651,7 +651,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "list_period_summary",
       "path": "/billing/period",
       "method": "GET",
@@ -661,7 +661,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "list_outstanding",
       "path": "/outstanding",
       "method": "GET",
@@ -671,7 +671,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "export_billing_xlsx",
       "path": "/billing/export.xlsx",
       "method": "GET",
@@ -681,7 +681,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "get_billing_detail",
       "path": "/billing/{billing_key}",
       "method": "GET",
@@ -691,7 +691,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "list_cash",
       "path": "/cash",
       "method": "GET",
@@ -701,7 +701,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "list_cash_slips",
       "path": "/cash-slip",
       "method": "GET",
@@ -711,7 +711,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "create_cash_slip",
       "path": "/cash-slip",
       "method": "POST",
@@ -721,7 +721,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "update_cash_slip",
       "path": "/cash-slip/{row_id}",
       "method": "PUT",
@@ -731,7 +731,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "delete_cash_slip",
       "path": "/cash-slip/{row_id}",
       "method": "DELETE",
@@ -741,7 +741,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "cash_status",
       "path": "/cash-status",
       "method": "GET",
@@ -751,7 +751,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "get_billing_print_data",
       "path": "/billing/{billing_key}/print-data",
       "method": "GET",
@@ -761,7 +761,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "get_publisher_contract_route",
       "path": "/publisher-contract",
       "method": "GET",
@@ -771,7 +771,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "get_billing_invoice",
       "path": "/billing/{billing_key}/invoice",
       "method": "GET",
@@ -781,7 +781,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "get_billing_print_html",
       "path": "/billing/{billing_key}/print",
       "method": "GET",
@@ -791,7 +791,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "get_billing_print_pdf",
       "path": "/billing/{billing_key}/print.pdf",
       "method": "GET",
@@ -801,7 +801,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "list_tax_invoices",
       "path": "/tax-invoice",
       "method": "GET",
@@ -811,7 +811,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "get_tax_invoice_print_html",
       "path": "/tax-invoice/{billing_key}/print",
       "method": "GET",
@@ -821,7 +821,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "get_tax_invoice_print_pdf",
       "path": "/tax-invoice/{billing_key}/print.pdf",
       "method": "GET",
@@ -831,7 +831,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "list_shipping_ledger_api",
       "path": "/shipping-ledger",
       "method": "GET",
@@ -841,7 +841,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "list_shipping_status_api",
       "path": "/shipping-status",
       "method": "GET",
@@ -851,7 +851,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "export_period_xlsx",
       "path": "/billing/period/export.xlsx",
       "method": "GET",
@@ -861,7 +861,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "export_cash_xlsx",
       "path": "/cash/export.xlsx",
       "method": "GET",
@@ -871,7 +871,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "export_outstanding_xlsx",
       "path": "/outstanding/export.xlsx",
       "method": "GET",
@@ -881,7 +881,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "export_cash_status_xlsx",
       "path": "/cash-status/export.xlsx",
       "method": "GET",
@@ -891,7 +891,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "export_tax_invoice_xlsx",
       "path": "/tax-invoice/export.xlsx",
       "method": "GET",
@@ -901,7 +901,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "export_shipping_ledger_xlsx",
       "path": "/shipping-ledger/export.xlsx",
       "method": "GET",
@@ -911,7 +911,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/settlement.py",
       "function": "export_shipping_status_xlsx",
       "path": "/shipping-status/export.xlsx",
       "method": "GET",
@@ -921,7 +921,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_sales_period",
       "path": "/sales-period",
       "method": "GET",
@@ -931,7 +931,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "export_sales_period_xlsx",
       "path": "/sales-period/export.xlsx",
       "method": "GET",
@@ -941,7 +941,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_customer_analysis",
       "path": "/customer-analysis",
       "method": "GET",
@@ -951,7 +951,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_book_turnover",
       "path": "/book-turnover",
       "method": "GET",
@@ -961,7 +961,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_publisher_stats",
       "path": "/publisher",
       "method": "GET",
@@ -971,7 +971,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_sales_matrix",
       "path": "/sales-matrix",
       "method": "GET",
@@ -981,7 +981,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_book_contribution",
       "path": "/book-contribution",
       "method": "GET",
@@ -991,7 +991,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_quarterly_summary",
       "path": "/quarterly-summary",
       "method": "GET",
@@ -1001,7 +1001,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_dashboard_overview",
       "path": "/dashboard/overview",
       "method": "GET",
@@ -1011,7 +1011,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_dashboard_funnel",
       "path": "/dashboard/funnel",
       "method": "GET",
@@ -1021,7 +1021,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_dashboard_leadtime",
       "path": "/dashboard/leadtime",
       "method": "GET",
@@ -1031,7 +1031,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_dashboard_receivables",
       "path": "/dashboard/receivables",
       "method": "GET",
@@ -1041,7 +1041,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_dashboard_ops_health",
       "path": "/dashboard/ops-health",
       "method": "GET",
@@ -1051,7 +1051,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "get_dashboard_iot_warehouse",
       "path": "/dashboard/iot-warehouse",
       "method": "GET",
@@ -1061,7 +1061,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "stream_dashboard_iot_warehouse",
       "path": "/dashboard/iot-warehouse/stream",
       "method": "GET",
@@ -1071,7 +1071,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "export_customer_analysis_xlsx",
       "path": "/customer-analysis/export.xlsx",
       "method": "GET",
@@ -1081,7 +1081,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "export_book_turnover_xlsx",
       "path": "/book-turnover/export.xlsx",
       "method": "GET",
@@ -1091,7 +1091,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "export_publisher_stats_xlsx",
       "path": "/publisher/export.xlsx",
       "method": "GET",
@@ -1101,7 +1101,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/stats.py",
       "function": "export_quarterly_summary_xlsx",
       "path": "/quarterly-summary/export.xlsx",
       "method": "GET",
@@ -1111,7 +1111,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "list_other_statements",
       "path": "/other",
       "method": "GET",
@@ -1121,7 +1121,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "list_new_releases",
       "path": "/new-release",
       "method": "GET",
@@ -1131,7 +1131,7 @@
       "recommended_action": "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / enforce_hcode_range / enforce_hcode_pattern 로 감싸 JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "upsert_other_statement_memo",
       "path": "/other/memo",
       "method": "PATCH",
@@ -1141,7 +1141,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "list_sales_statements",
       "path": "/sales-statement",
       "method": "GET",
@@ -1151,7 +1151,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_transactions_status",
       "path": "/status",
       "method": "GET",
@@ -1161,7 +1161,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "list_inbound_statements",
       "path": "/inbound-statement",
       "method": "GET",
@@ -1171,7 +1171,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_inbound_status",
       "path": "/inbound-status",
       "method": "GET",
@@ -1181,7 +1181,7 @@
       "recommended_action": "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / enforce_hcode_range / enforce_hcode_pattern 로 감싸 JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_outbound_status",
       "path": "/outbound-status",
       "method": "GET",
@@ -1191,7 +1191,7 @@
       "recommended_action": "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / enforce_hcode_range / enforce_hcode_pattern 로 감싸 JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_scrap_status",
       "path": "/scrap-status",
       "method": "GET",
@@ -1201,7 +1201,7 @@
       "recommended_action": "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / enforce_hcode_range / enforce_hcode_pattern 로 감싸 JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_returns_status",
       "path": "/returns-status",
       "method": "GET",
@@ -1211,7 +1211,7 @@
       "recommended_action": "라우터에서 enforce_hcode_isolation / enforce_hcode_identity / enforce_hcode_range / enforce_hcode_pattern 로 감싸 JWT scope 자동 주입 + tamper(타사 hcode 403) 가드 부여"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_sales_statement_customer_preview",
       "path": "/sales-statement/customer-preview",
       "method": "GET",
@@ -1221,7 +1221,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "list_received_today_sales_statements",
       "path": "/sales-statement/received-today",
       "method": "GET",
@@ -1231,7 +1231,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "stream_received_sales_statements",
       "path": "/sales-statement/received-stream",
       "method": "GET",
@@ -1241,7 +1241,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "enqueue_urgent_print_sales_statements",
       "path": "/sales-statement/urgent-print",
       "method": "POST",
@@ -1251,7 +1251,7 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_auto_print_status",
       "path": "/sales-statement/auto-print-status",
       "method": "GET",
@@ -1261,61 +1261,61 @@
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_sales_statement_detail",
       "path": "/sales-statement/{order_key}",
       "method": "GET",
-      "lineno": 1451,
+      "lineno": 1465,
       "severity": "info",
       "reason": "scoped_with_helper (path_hcode_key)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_author_history",
       "path": "/author-history",
       "method": "GET",
-      "lineno": 1573,
+      "lineno": 1587,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_production_statement",
       "path": "/production/statement",
       "method": "GET",
-      "lineno": 1637,
+      "lineno": 1651,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_production_status",
       "path": "/production/status",
       "method": "GET",
-      "lineno": 1668,
+      "lineno": 1682,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_withholding",
       "path": "/withholding",
       "method": "GET",
-      "lineno": 1701,
+      "lineno": 1715,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
     },
     {
-      "file": "/Users/speeno/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/routers/transactions.py",
       "function": "get_verification",
       "path": "/verification",
       "method": "GET",
-      "lineno": 1757,
+      "lineno": 1771,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode,hcode_from,hcode_to)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
