@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T08:45:07.882432+00:00",
+  "generated_at": "2026-10-12T00:50:59.553457+00:00",
   "summary": {
     "files_scanned": 117,
     "sql_literals": 631,
@@ -3662,7 +3662,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
       "function": "_fetch_all_grouped_statements",
-      "lineno": 976,
+      "lineno": 977,
       "tables": [
         "S1_Ssub"
       ],
