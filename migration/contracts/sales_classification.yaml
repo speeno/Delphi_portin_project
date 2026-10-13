@@ -32,3 +32,12 @@ customer_variants:
     match:
       account_family: chul_09
     classify_profile: publisher
+  # DEC-400 (2026-10-13) — 교문사 경리부 도서별판매 폐기 −326,231(레거시 −633,388) · 반품 7부 · 반품액 109,060원 차이.
+  # chul_09_db 는 교문사 · 위러브3 가 같은 DB 라 로그인 소유성이 ambiguous(DSN-DEC-12 fail-closed) → account_family 가 비어
+  # 위 변형에 매칭되지 않고 유통 규칙으로 집계됐다(DEC-388 조회 전용 판정과 같은 함정). 전표를 쓴 프로그램이 정하는 규칙이므로
+  # 비밀번호를 검증한 논리 DB(JWT rdb / 컨텍스트 resolved_db)로도 고른다 — 소유성 판정과 무관하게 늘 채워진다.
+  - id: chul-09-db-publisher-tree
+    description: chul_09_db(위러브 창고 DB) 로그인 전체 — 도서유통-출판 트리로 쓴 전표
+    match:
+      resolved_db: chul_09_db
+    classify_profile: publisher

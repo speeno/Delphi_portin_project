@@ -8471,3 +8471,23 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   2. 출고 명세서 상세 팝업 라인 끝 「배송」 칸 — 라인 Yesno: 완료('1') · 접수('0') · 취소('2') · 출고요청 전('')은 빈칸(레거시 Subu21 DBGrid101 YESNO).
      `SlipLineGrid` `shipStatus`(표시 전용, 저장 payload 무관). 반품/폐기 명세서 팝업(`allowDispatch=false`)은 종전대로.
 - **가드** — `test_dec398_399_customer_code_branch_ship.py`.
+
+### DEC-400 — 판매 통계 분류 규칙은 검증 DB(rdb)로도 고른다 — 교문사 경리부 도서별판매 폐기 · 반품 불일치 (2026-10-13)
+
+- **보고(사진 대조)** — 「원장관리 - 도서별판매 1900-01-01~2026.10.10: 북이오웍스 · 위러브솔루션 자료가 다르다」.
+  입고 · 출고 · 증정 수량, 출고금액은 같고 반품 −1,373,376(레거시 −1,373,369) · 폐기 −326,231(−633,388) · 반품금액 −21,883,528,287(−21,883,637,347).
+- **원인(운영 DB 읽기 재계산)** — 같은 S1_Ssub 묶음에 유통 규칙을 쓰면 웹 값, 출판 규칙(DEC-372)을 쓰면 레거시 값과 **한 자리까지 일치**.
+  빠진 것은 Scode Z · Gubun 「폐기」 · Pubun 정품 6,747줄 −307,150부(출판 규칙에서만 폐기 칸). 규칙 변형은 `account_family: chul_09` 로만 골랐는데,
+  chul_09_db 는 교문사 · 위러브3 공유라 로그인 소유성이 ambiguous(DSN-DEC-12 fail-closed)면 account_family 가 비어 유통 규칙으로 떨어졌다(DEC-388 과 같은 함정).
+- **결정** — 계약 `sales_classification.yaml`(허브 + 번들 사본)에 `resolved_db: chul_09_db → publisher` 변형 추가(기존 account_family 변형 유지).
+  전표를 쓴 프로그램(DB)이 규칙을 정하므로 소유성과 무관하게 늘 채워지는 검증 DB 로 고른다. 해석기는 JWT 키 `rdb` 도 같은 값으로 읽는다.
+  도서별판매 · 년말집계 · 거래처별판매 등 같은 분류를 쓰는 화면 모두에 적용.
+- **가드** — 신규 `test_dec400_401_book_sales_profile_export_timeout.py`.
+
+### DEC-401 — 파일 내려받기(getBlob) 기본 대기 3분 · 시간 초과 문장 (2026-10-13)
+
+- **보고** — 도서별판매 「엑셀 다운로드 시 오류 발생」 — 화면에 `AbortError: signal is aborted without reason`.
+- **원인** — 전 기간(1900~2026) 엑셀이 서버에서 30.8 · 34.2초(Render 로그, 200 완료)인데 `api.getBlob` 기본 대기가 30초라 브라우저가 먼저 끊었다.
+- **결정** — `getBlob` 기본 대기 180초(사용자가 누른 내려받기), 시간 초과는 ApiError(TIMEOUT) 「파일을 만드는 데 N초가 넘게 걸려 중단 — 기간 · 범위를 줄여 다시」.
+  도서별판매 엑셀 오류 표시는 `formatApiError`. 엑셀 생성 자체(전 기간 100쿼리 · 24~27초 DB)의 단축은 후속.
+- **가드** — `test_dec400_401_book_sales_profile_export_timeout.py`.
