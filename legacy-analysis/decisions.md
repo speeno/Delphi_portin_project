@@ -8491,3 +8491,17 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
 - **결정** — `getBlob` 기본 대기 180초(사용자가 누른 내려받기), 시간 초과는 ApiError(TIMEOUT) 「파일을 만드는 데 N초가 넘게 걸려 중단 — 기간 · 범위를 줄여 다시」.
   도서별판매 엑셀 오류 표시는 `formatApiError`. 엑셀 생성 자체(전 기간 100쿼리 · 24~27초 DB)의 단축은 후속.
 - **가드** — `test_dec400_401_book_sales_profile_export_timeout.py`.
+
+### DEC-402 — 교문사 거래처 비고1 이메일 → E-mail(이메일1) · 이메일2 이동 (운영 데이터, 2026-10-13)
+
+- **요청** — 「거래처관리 "비고1"에 있는 이메일 주소 정보를 거래처관리 이메일1번으로 이동 가능할까요?」(필드 확인 — 이메일이 비고로 들어감).
+- **확인** — 레거시 거래처관리(출판 트리 Subu11)에는 E-mail 칸이 없고 비고1 · 비고2 뿐이라 이메일을 비고1(G1_Ggeo.Gbigo)에 적어 왔다.
+  웹 「E-mail」 = G1_Ggeo.Email(교문사 1,298곳 전부 빈칸). 매핑 오류가 아니라 자료 이동 건. 두 칸 모두 varchar(50).
+- **사용자 결정(2026-10-13)** — «이동»(비고1 에서 이메일 지움, 나머지 글은 남김) · 이메일 외 글이 섞인 15곳 · 2개 이상 6곳도 함께(첫째 → E-mail, 둘째 → 이메일2).
+- **실행(Hcode 5019, remote_153)** — 백업 먼저(`/Volumes/speeno/Developments/Delphi_porting_backups/g1_ggeo_gbigo_email_5019_20261013-173506.json`,
+  807행의 Gcode · Gbigo · Email 원값 — 저장소 밖). 조건부 UPDATE(`Gbigo` 가 읽은 값 그대로 · `Email` 빈칸일 때만) 806행, 이메일2 6건(G1_Ggeo_Ext, `customer_ext_service.upsert_ext`).
+  비고1 남는 글은 이메일과 앞뒤 구분자(/ - , ;)만 걷어 냄(예 「…@hanmail.net/폐업-미수금」 → 「폐업-미수금」).
+  제외 1곳: 2282 「ktbookasd@ktbook.공급부 …」(주소 형식이 깨져 그대로 둠 — 직접 확인 필요).
+- **검증** — E-mail 채워짐 806 · 비고1 에 남은 정상 이메일 0 · E-mail 값이 주소 형식이 아닌 행 0 · 이메일2 6.
+  전자계산서(DEC-395) 이메일1 · 이메일2 칸에도 바로 나온다. 델파이 거래처관리에서는 이메일이 더는 보이지 않는다(사용자 승인 사항).
+- **되돌리기** — 백업 JSON 의 (Gcode, Gbigo, Email) 로 `UPDATE G1_Ggeo SET Gbigo=?, Email=? WHERE Hcode='5019' AND Gcode=?`, 이메일2 6건은 G1_Ggeo_Ext 에서 비움.
