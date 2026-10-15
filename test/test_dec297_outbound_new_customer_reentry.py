@@ -75,8 +75,9 @@ class OutboundNewUsesConfirmedCustomer(TestCase):
         self.assertNotIn("gcode={hcode.trim()}", self.src)
 
     def test_both_confirm_paths_set_code_and_edit_unconfirms(self) -> None:
-        self.assertIn("setCustomerCode(applyCustomerToHcode(selection, setHcode))", self.src)
-        self.assertIn('setCustomerCode((c.hcode ?? "").trim())', self.src)
+        # DEC-404 — 확정 코드를 변수로 받아 setCustomerCode + noteCustomerConfirmed(거래처 교체 판정)에 함께 쓴다.
+        self.assertIn("const code = applyCustomerToHcode(selection, setHcode);\n                  setCustomerCode(code);", self.src)
+        self.assertIn('const code = (c.hcode ?? "").trim();\n                  setCustomerCode(code);', self.src)
         self.assertIn("if (next.trim() !== customerCode) {", self.src)
 
     def test_clearing_customer_drops_previous_branch(self) -> None:
@@ -153,7 +154,8 @@ class BookNameFollowsCodeInput(TestCase):
 
     def test_editing_code_clears_stale_name(self) -> None:
         src = GRID.read_text(encoding="utf-8")
-        self.assertIn('{ bcode: next, product_name: "", isbn: "" }', src)
+        # DEC-404 — 확정 도서가 있던 줄이면 앞 도서코드(replacingBcode)도 함께 적는다.
+        self.assertIn('{ bcode: next, product_name: "", isbn: "", ...(replacing ? { replacingBcode: replacing } : {}) }', src)
 
     def test_async_results_apply_to_latest_lines(self) -> None:
         src = GRID.read_text(encoding="utf-8")

@@ -95,10 +95,11 @@ class CashSlipEnterEntryTest(TestCase):
         self.assertNotIn("Sobo41.Edit_GBIGO", block)
 
     def test_save_moves_to_next_input_row_same_date(self) -> None:
-        self.assertIn("await fetchData({}, { draftDate: f.gdate, focus: true });", self.page)
+        # DEC-405 — 저장 후 재조회는 입력순(입력 중 친 순서 유지).
+        self.assertIn("await fetchData({ inputOrder: true }, { draftDate: f.gdate, focus: true });", self.page)
         # 재조회가 실패해도 같은 값이 한 번 더 저장되지 않게 먼저 비운다.
-        i = self.page.index("await fetchData({}, { draftDate: f.gdate, focus: true });")
-        self.assertIn("setEditing({ id: DRAFT_ID, form: emptyForm(f.gdate) });", self.page[i - 260:i])
+        i = self.page.index("await fetchData({ inputOrder: true }, { draftDate: f.gdate, focus: true });")
+        self.assertIn("setEditing({ id: DRAFT_ID, form: emptyForm(f.gdate) });", self.page[i - 800:i])  # DEC-405 주석·setInputOrder 가 사이에 들어간다
 
     def test_double_submit_guard(self) -> None:
         i = self.page.index("async function saveEditing()")

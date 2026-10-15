@@ -44,13 +44,15 @@ class OutboundAxis(unittest.TestCase):
         self.assertIn("newLine: { gsqut: -1, grat1: RETURN_GRAT1_DEFAULT },", _axis(self.src, "RETURN_LINE_AXIS"))
 
     def test_book_selection_paths_fill_qty_only_when_empty(self) -> None:
-        self.assertIn("return axis.qtyOnBook && !Number(cur?.gsqut) ? { gsqut: axis.qtyOnBook } : {};", self.src)
+        # DEC-404 — 다른 도서로 바꾸면 리셋, 빈 수량이면 채움, 그 외(먼저 쳐 둔 수량)는 그대로.
+        self.assertIn("return replaced || !Number(cur?.gsqut) ? { ...clear, gsqut: axis.qtyOnBook } : clear;", self.src)
         # 목록 선택 · 인라인 선택 둘 다
-        self.assertEqual(len(re.findall(r"\.\.\.qtyAfterBook\(lines\[idx\]\)", self.src)), 2)
+        # DEC-404 — 확정될 도서코드를 함께 넘긴다(다른 도서로 바꾸면 수량 리셋 판정).
+        self.assertEqual(len(re.findall(r"\.\.\.qtyAfterBook\(lines\[idx\], ", self.src)), 2)
         # 직접 친 코드(blur) — 목록 선택 직후의 blur 는 건너뛰고(선택이 이미 채움), 최신 라인 기준으로
         body = self.src.split("async function lookupTypedBook(idx: number) {", 1)[1].split("\n  }\n", 1)[0]
-        self.assertIn("if (!pickedRef.current[idx] && (typed?.bcode ?? \"\").trim()", body)
-        self.assertLess(body.index("setAt(idx, qtyAfterBook(typed), linesRef.current)"), body.index("if (!onLookupBook || pickedRef.current[idx]) return;"))
+        self.assertIn("if (!pickedRef.current[idx] && typedCode && Object.keys(qtyPatch).length > 0)", body)
+        self.assertLess(body.index("setAt(idx, qtyPatch, linesRef.current)"), body.index("if (!onLookupBook || pickedRef.current[idx]) return;"))
 
     def test_blank_qty_shows_empty_until_book(self) -> None:
         self.assertIn('value={axis.qtyOnBook && !Number(line.gsqut) && !(line.bcode ?? "").trim() ? "" : line.gsqut}', self.src)
@@ -66,8 +68,8 @@ class OtherEntryPoints(unittest.TestCase):
         src = _read(DIALOG)
         body = src.split('function newLine(pubun = "위탁"): DraftLine {', 1)[1].split("\n}", 1)[0]
         self.assertIn("gsqut: 0,", body)
-        self.assertIn("const qty = Number(linesRef.current[idx]?.gsqut) ? {} : { gsqut: 1 };", src)
-        self.assertIn('patchLine(idx, { bcode, product_name: productName, gisbn: isbn ?? "", ...qty });', src)
+        self.assertIn("const qty = replaced || !Number(cur?.gsqut) ? { gsqut: 1 } : {};", src)
+        self.assertIn('patchLine(idx, { bcode, product_name: productName, gisbn: isbn ?? "", replacingBcode: "", ...qty });', src)
         self.assertIn('value={!Number(line.gsqut) && !line.bcode.trim() ? "" : line.gsqut}', src)
 
 

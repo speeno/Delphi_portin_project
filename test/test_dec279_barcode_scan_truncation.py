@@ -204,8 +204,9 @@ check("human_typing_not_truncated", human.truncated, undefined);
   check("late_enter_still_scans", feed(keys).last.scan, ISBN13);
 }
 
-// 6) 스캔 문자는 포커스 필드로 새지 않는다(첫 글자 1개만 흘리고 호출자가 되돌린다)
-check("only_first_char_leaks", feed(burst(ISBN13)).swallowed, ISBN13.slice(1));
+// 6) 스캔 문자는 포커스 필드로 새지 않는다 — 웨지 연타가 확인되기 전 앞 2글자만 흘리고(DEC-403,
+//    종전 1글자) 호출자가 `leaked` 만큼 되돌린다. 사람 타이핑 보호가 우선(test_dec403_*).
+check("only_leading_chars_leak", feed(burst(ISBN13)).swallowed, ISBN13.slice(2));
 
 // 7) 체크디지트 — 잘린 꼬리/오타는 형식 검사만으로 통과하면 안 된다
 check("valid_ean13", isValidEan13(ISBN13), true);
