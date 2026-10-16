@@ -93,16 +93,17 @@ class ShelfFontTests(TestCase):
     def tearDown(self) -> None:
         sales_statement_print_profile.clear_profile_cache_for_tests()
 
-    def test_shelf_cell_one_point_smaller_than_line_font(self) -> None:
+    def test_shelf_cell_has_its_own_font_rule_after_line_rule(self) -> None:
+        """서가 칸은 공통 행 규칙과 별도 크기(DEC-393 축). 값은 DEC-407 로 «도서명보다 크게»(8.5 → 9)."""
         sales_statement_print_profile.clear_profile_cache_for_tests()
         html = _tri(_detail([_line("A1", "도서A")]))
         self.assertIn("<td class='shelf' data-legacy-id='Sobo21.Triplicate.Shelf'>A1</td>", html)
-        self.assertIn(".tri-lines tbody td { font-size: 9pt; }", html)
-        self.assertIn(".tri-lines tbody td.shelf { font-size: 8pt; }", html)
+        self.assertIn(".tri-lines tbody td { font-size: 8.5pt; }", html)
+        self.assertIn(".tri-lines tbody td.shelf { font-size: 9pt; }", html)
         # 서가 규칙은 공통 행 규칙 뒤에 와야 이긴다(선택자 특이도도 높지만 순서도 보장).
         self.assertLess(
-            html.index(".tri-lines tbody td { font-size: 9pt; }"),
-            html.index(".tri-lines tbody td.shelf { font-size: 8pt; }"),
+            html.index(".tri-lines tbody td { font-size: 8.5pt; }"),
+            html.index(".tri-lines tbody td.shelf { font-size: 9pt; }"),
         )
         for rel in (
             "migration/contracts/print_sales_statement.yaml",
@@ -111,7 +112,8 @@ class ShelfFontTests(TestCase):
             cal = yaml.safe_load((ROOT / rel).read_text(encoding="utf-8"))["profiles"]["default"][
                 "preprinted_calibration"
             ]
-            self.assertEqual(float(cal["shelf_font_pt"]), float(cal["line_font_pt"]) - 1, rel)
+            # DEC-407 — 서가번호 > 도서명(교문사 2026-10-16 「서가번호를 우측 도서명보다 크게」).
+            self.assertGreater(float(cal["shelf_font_pt"]), float(cal["line_font_pt"]), rel)
 
     def test_no_shelf_font_key_emits_no_rule(self) -> None:
         css = tx._preprinted_calibration_css(
