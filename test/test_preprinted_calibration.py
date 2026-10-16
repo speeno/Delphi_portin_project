@@ -131,13 +131,13 @@ class CalibrationCssTests(TestCase):
         self.assertNotIn("tr.r-date .cval", html)
         self.assertIn(".cust-mini tr.r-name .cval { position: relative; top: 1mm; }", html)
         self.assertNotIn("tr.r-code .cval", html)
-        # DEC-407 (2026-10-16 실물 대조) — 도서명 8.5 · 서가 9(도서명보다 크게) · 필드 10 · 거래처명 11 · 순검정 · 획 0.2pt.
+        # DEC-407 (2026-10-16 실물 대조) — 도서명 8.5 · 서가 9(도서명보다 크게) · 필드 10 · 거래처명 11 · 순검정 · 획 0.3pt.
         self.assertIn(".tri-lines tbody td { font-size: 8.5pt; }", html)
         self.assertIn(".tri-lines tbody td.shelf { font-size: 9pt; }", html)
         self.assertIn(".cust-mini td:not(.clab) { font-size: 10pt; }", html)
         self.assertIn(".cust-mini tr.r-name td:not(.clab) { font-size: 11pt; }", html)
         self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { color: #000; }", html)
-        self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { -webkit-text-stroke: 0.2pt currentColor; }", html)
+        self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { -webkit-text-stroke: 0.3pt currentColor; }", html)
         self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { font-weight: 700; }", html)
         self.assertIn(".foot3 strong { font-size: 9.5pt; }", html)  # 총부수 · 합계 숫자도 키움
         self.assertIn(".tri-lines tbody td { white-space: nowrap; overflow: hidden; }", html)

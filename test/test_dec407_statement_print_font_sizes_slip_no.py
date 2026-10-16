@@ -8,7 +8,7 @@
 
 구현 — 계약 ``print_sales_statement.yaml``(허브 · 번들 동시) ``preprinted_calibration`` 값 + 렌더 훅:
   line_font_pt 9 → 8.5 · shelf_font_pt 8 → 9 · field_font_pt 9 → 10 · name_font_pt 11(신설) · value_ink #000 ·
-  value_text_stroke_pt 0.2(신설, -webkit-text-stroke) · 발행일 칸 «n/N» 뒤 «거래구분 전표번호»(`sales_statement_print_slip_no_html`,
+  value_text_stroke_pt 0.3(신설, -webkit-text-stroke — 0.2 에서 사용자 「1.5배」로) · 발행일 칸 «n/N» 뒤 «거래구분 전표번호»(`sales_statement_print_slip_no_html`,
   Idnum 자릿수 채움 없이 — 레거시 실물 「출고 10」) · slip_no_gap_mm / slip_no_inner_gap_mm.
 
 런타임 없이 렌더 결과(HTML/CSS)와 계약값을 본다. 사용자 규칙: test 폴더에 저장.
@@ -69,7 +69,7 @@ class ContractValues(TestCase):
             self.assertGreater(shelf, line, rel)  # 서가번호 > 도서명
             self.assertGreater(name, field, rel)  # 거래처명 > 거래처코드 · 발행일
             self.assertGreater(field, line, rel)  # 헤더 값 > 라인
-            self.assertEqual(float(cal["value_text_stroke_pt"]), 0.2, rel)
+            self.assertEqual(float(cal["value_text_stroke_pt"]), 0.3, rel)  # 0.2 → 1.5배(사용자 2026-10-16)
             self.assertEqual(str(cal["value_ink"]).lower(), "#000", rel)
             self.assertEqual(int(cal["value_font_weight"]), 700, rel)
             self.assertGreater(float(cal["slip_no_gap_mm"]), 0, rel)
@@ -96,7 +96,7 @@ class CalibrationCss(TestCase):
         sel = ".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong"
         self.assertIn(f"{sel} {{ font-weight: 700; }}", html)
         self.assertIn(f"{sel} {{ color: #000; }}", html)
-        self.assertIn(f"{sel} {{ -webkit-text-stroke: 0.2pt currentColor; }}", html)
+        self.assertIn(f"{sel} {{ -webkit-text-stroke: 0.3pt currentColor; }}", html)
         # 전표번호 간격(보정값) — 기본 CSS 뒤에 와서 덮는다.
         self.assertIn(".cslip { margin-left: 6mm; }", html)
         self.assertIn(".cslip .cslip-no { margin-left: 3mm; }", html)

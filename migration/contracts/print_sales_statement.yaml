@@ -78,7 +78,8 @@ profiles:
       value_font_weight: 700
       # DEC-407 — 「글자가 더 진하게」: 값 글자를 순검정(#000)으로 찍고 획을 0.2pt 덧그린다(-webkit-text-stroke).
       #   Windows 굴림은 굵은 꼴이 없어 Chrome 이 흉내만 내므로 획 덧그리기가 실제로 진해 보이는 유일한 수단. 0 이면 끔.
-      value_text_stroke_pt: 0.2
+      #   2026-10-16 사용자 「지금보다 1.5배 정도 진하게」: 0.2 → 0.3.
+      value_text_stroke_pt: 0.3
       value_ink: "#000"
       # DEC-407 — 발행일 칸 「n/N」 뒤 «거래구분 전표번호»(레거시 「2026.10.16 1/3 출고 10」). 페이지 뒤 간격 · 구분-번호 간격(mm).
       slip_no_gap_mm: 6
