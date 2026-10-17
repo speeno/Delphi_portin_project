@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-15T08:49:54.733553+00:00",
+  "generated_at": "2026-10-17T01:17:57.356409+00:00",
   "summary": {
-    "files_scanned": 117,
-    "sql_literals": 634,
+    "files_scanned": 118,
+    "sql_literals": 633,
     "critical": 0,
     "warn": 20,
-    "info": 294,
+    "info": 290,
     "skipped_noqa": 82,
     "multi_tenant_tables_seen": [
       "G4_Book",
@@ -1331,7 +1331,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "search_customers",
-      "lineno": 204,
+      "lineno": 206,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1343,7 +1343,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "next_customer_code_by_prefix",
-      "lineno": 422,
+      "lineno": 424,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1355,7 +1355,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "search_products",
-      "lineno": 450,
+      "lineno": 452,
       "tables": [
         "G4_Book"
       ],
@@ -1367,7 +1367,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "find_book_by_isbn",
-      "lineno": 489,
+      "lineno": 491,
       "tables": [
         "G4_Book"
       ],
@@ -1379,7 +1379,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "search_inbound_vendors",
-      "lineno": 534,
+      "lineno": 536,
       "tables": [
         "G2_Ggwo"
       ],
@@ -1391,7 +1391,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "search_authors",
-      "lineno": 555,
+      "lineno": 557,
       "tables": [
         "G3_Gjeo"
       ],
@@ -1403,7 +1403,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_gbun_code_name_map",
-      "lineno": 852,
+      "lineno": 864,
       "tables": [
         "G1_Gbun"
       ],
@@ -1415,7 +1415,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_customer_master_full",
-      "lineno": 1091,
+      "lineno": 1117,
       "tables": [
         "G1_Gbun"
       ],
@@ -1427,7 +1427,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_lookup_gbun_by_name",
-      "lineno": 1167,
+      "lineno": 1193,
       "tables": [
         "G1_Gbun"
       ],
@@ -1439,7 +1439,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "get_customer_master",
-      "lineno": 1213,
+      "lineno": 1239,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1451,7 +1451,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_resolve_gubun_code",
-      "lineno": 1308,
+      "lineno": 1334,
       "tables": [
         "G1_Gbun"
       ],
@@ -1463,7 +1463,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_customer_master",
-      "lineno": 1353,
+      "lineno": 1379,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1475,7 +1475,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_customer_master",
-      "lineno": 1425,
+      "lineno": 1451,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1487,7 +1487,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_customer_master",
-      "lineno": 1540,
+      "lineno": 1576,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1499,7 +1499,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_customer_master",
-      "lineno": 1547,
+      "lineno": 1583,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1511,7 +1511,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_customer_master",
-      "lineno": 1564,
+      "lineno": 1600,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1523,7 +1523,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_customer_master",
-      "lineno": 1569,
+      "lineno": 1605,
       "tables": [
         "G1_Ggeo"
       ],
@@ -1535,7 +1535,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_fetch",
-      "lineno": 1601,
+      "lineno": 1637,
       "tables": [
         "H2_Gbun"
       ],
@@ -1547,7 +1547,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_fetch",
-      "lineno": 1608,
+      "lineno": 1644,
       "tables": [
         "H2_Gbun"
       ],
@@ -1559,7 +1559,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_customer_branch",
-      "lineno": 1671,
+      "lineno": 1707,
       "tables": [
         "H2_Gbun"
       ],
@@ -1571,7 +1571,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_customer_branch",
-      "lineno": 1680,
+      "lineno": 1716,
       "tables": [
         "H2_Gbun"
       ],
@@ -1583,7 +1583,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_customer_branch",
-      "lineno": 1727,
+      "lineno": 1763,
       "tables": [
         "H2_Gbun"
       ],
@@ -1595,7 +1595,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_customer_branch",
-      "lineno": 1736,
+      "lineno": 1772,
       "tables": [
         "H2_Gbun"
       ],
@@ -1607,7 +1607,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_customer_branch",
-      "lineno": 1764,
+      "lineno": 1800,
       "tables": [
         "H2_Gbun"
       ],
@@ -1619,7 +1619,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_customer_branch",
-      "lineno": 1771,
+      "lineno": 1807,
       "tables": [
         "H2_Gbun"
       ],
@@ -1631,7 +1631,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_customer_categories",
-      "lineno": 1793,
+      "lineno": 1829,
       "tables": [
         "G1_Gbun"
       ],
@@ -1643,7 +1643,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_customer_categories",
-      "lineno": 1801,
+      "lineno": 1837,
       "tables": [
         "G1_Gbun"
       ],
@@ -1654,32 +1654,8 @@
     },
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
-      "function": "create_customer_category",
-      "lineno": 1827,
-      "tables": [
-        "G1_Gbun"
-      ],
-      "severity": "info",
-      "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT Gcode FROM G1_Gbun <<dyn>>",
-      "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
-      "function": "create_customer_category",
-      "lineno": 1833,
-      "tables": [
-        "G1_Gbun"
-      ],
-      "severity": "info",
-      "reason": "unknown_tables_only",
-      "sql_excerpt": "INSERT INTO G1_Gbun (Gcode, Gname, Hcode) VALUES (%s,%s,%s)",
-      "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_customer_category",
-      "lineno": 1862,
+      "lineno": 1934,
       "tables": [
         "G1_Gbun"
       ],
@@ -1691,7 +1667,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_customer_category",
-      "lineno": 1865,
+      "lineno": 1937,
       "tables": [
         "G1_Gbun"
       ],
@@ -1703,7 +1679,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_customer_category",
-      "lineno": 1878,
+      "lineno": 1950,
       "tables": [
         "G1_Gbun"
       ],
@@ -1715,7 +1691,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_customer_category",
-      "lineno": 1881,
+      "lineno": 1953,
       "tables": [
         "G1_Gbun"
       ],
@@ -1727,7 +1703,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_attach_book_gubun_names",
-      "lineno": 2086,
+      "lineno": 2158,
       "tables": [
         "G4_Gbun"
       ],
@@ -1739,7 +1715,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_resolve_g4_gubun_code",
-      "lineno": 2127,
+      "lineno": 2199,
       "tables": [
         "G4_Gbun"
       ],
@@ -1751,7 +1727,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_lookup_g4_gbun_by_name",
-      "lineno": 2154,
+      "lineno": 2226,
       "tables": [
         "G4_Gbun"
       ],
@@ -1763,7 +1739,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "get_book",
-      "lineno": 2209,
+      "lineno": 2281,
       "tables": [
         "G4_Book"
       ],
@@ -1775,7 +1751,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_book",
-      "lineno": 2262,
+      "lineno": 2334,
       "tables": [
         "G4_Book"
       ],
@@ -1787,7 +1763,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_book",
-      "lineno": 2291,
+      "lineno": 2363,
       "tables": [
         "G4_Book"
       ],
@@ -1799,7 +1775,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_book",
-      "lineno": 2351,
+      "lineno": 2423,
       "tables": [
         "G4_Book"
       ],
@@ -1811,7 +1787,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_book",
-      "lineno": 2365,
+      "lineno": 2437,
       "tables": [
         "G4_Book"
       ],
@@ -1823,7 +1799,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_book",
-      "lineno": 2413,
+      "lineno": 2485,
       "tables": [
         "G4_Book"
       ],
@@ -1835,7 +1811,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_book",
-      "lineno": 2418,
+      "lineno": 2490,
       "tables": [
         "G4_Book"
       ],
@@ -1847,7 +1823,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_book_categories",
-      "lineno": 2440,
+      "lineno": 2512,
       "tables": [
         "G4_Gbun"
       ],
@@ -1859,7 +1835,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_book_categories",
-      "lineno": 2447,
+      "lineno": 2519,
       "tables": [
         "G4_Gbun"
       ],
@@ -1870,32 +1846,8 @@
     },
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
-      "function": "create_book_category",
-      "lineno": 2470,
-      "tables": [
-        "G4_Gbun"
-      ],
-      "severity": "info",
-      "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT Gcode FROM G4_Gbun <<dyn>>",
-      "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
-      "function": "create_book_category",
-      "lineno": 2477,
-      "tables": [
-        "G4_Gbun"
-      ],
-      "severity": "info",
-      "reason": "unknown_tables_only",
-      "sql_excerpt": "INSERT INTO G4_Gbun (Gcode, Gname, Hcode) VALUES (%s,%s,%s)",
-      "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_book_category",
-      "lineno": 2501,
+      "lineno": 2559,
       "tables": [
         "G4_Gbun"
       ],
@@ -1907,7 +1859,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_book_category",
-      "lineno": 2505,
+      "lineno": 2563,
       "tables": [
         "G4_Gbun"
       ],
@@ -1919,7 +1871,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_book_category",
-      "lineno": 2517,
+      "lineno": 2575,
       "tables": [
         "G4_Gbun"
       ],
@@ -1931,7 +1883,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_book_category",
-      "lineno": 2522,
+      "lineno": 2580,
       "tables": [
         "G4_Gbun"
       ],
@@ -1943,7 +1895,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_publisher_master",
-      "lineno": 2688,
+      "lineno": 2746,
       "tables": [
         "G7_Ggeo"
       ],
@@ -1955,7 +1907,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_publisher_master",
-      "lineno": 2740,
+      "lineno": 2798,
       "tables": [
         "G7_Ggeo"
       ],
@@ -1967,7 +1919,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_publisher_master",
-      "lineno": 2744,
+      "lineno": 2802,
       "tables": [
         "G7_Ggeo"
       ],
@@ -1979,7 +1931,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_publisher_master",
-      "lineno": 2756,
+      "lineno": 2814,
       "tables": [
         "G7_Ggeo"
       ],
@@ -1991,7 +1943,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_publisher_master",
-      "lineno": 2759,
+      "lineno": 2817,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2003,7 +1955,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_book_codes",
-      "lineno": 2787,
+      "lineno": 2845,
       "tables": [
         "G4_Book"
       ],
@@ -2015,7 +1967,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_book_codes",
-      "lineno": 2795,
+      "lineno": 2853,
       "tables": [
         "G4_Book"
       ],
@@ -2027,7 +1979,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_discounts",
-      "lineno": 2839,
+      "lineno": 2897,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2039,7 +1991,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_discounts",
-      "lineno": 2848,
+      "lineno": 2906,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2051,7 +2003,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "get_discount_master",
-      "lineno": 2884,
+      "lineno": 2942,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2063,7 +2015,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_discount_master",
-      "lineno": 2912,
+      "lineno": 2970,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2075,7 +2027,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_discount_master",
-      "lineno": 2929,
+      "lineno": 2987,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2087,7 +2039,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_discount_master",
-      "lineno": 2952,
+      "lineno": 3010,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2099,7 +2051,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_discount_master",
-      "lineno": 2955,
+      "lineno": 3013,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2111,7 +2063,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_discount_master",
-      "lineno": 2972,
+      "lineno": 3030,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2123,7 +2075,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_discount_master",
-      "lineno": 2975,
+      "lineno": 3033,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2135,7 +2087,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_special_master",
-      "lineno": 3030,
+      "lineno": 3088,
       "tables": [
         "G6_Ggeo"
       ],
@@ -2147,19 +2099,19 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_special_master",
-      "lineno": 3121,
+      "lineno": 3185,
       "tables": [
         "G6_Ggeo"
       ],
       "severity": "info",
       "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT ID FROM G6_Ggeo WHERE ID=%s AND Hcode=%s",
+      "sql_excerpt": "SELECT ID, Gcode, Bcode FROM G6_Ggeo WHERE ID=%s AND Hcode=%s",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_special_master",
-      "lineno": 3128,
+      "lineno": 3197,
       "tables": [
         "G6_Ggeo"
       ],
@@ -2171,19 +2123,19 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_special_master",
-      "lineno": 3134,
+      "lineno": 3203,
       "tables": [
         "G6_Ggeo"
       ],
       "severity": "info",
       "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT ID FROM G6_Ggeo WHERE ID=%s AND Hcode=%s",
+      "sql_excerpt": "SELECT ID, Gcode, Bcode FROM G6_Ggeo WHERE ID=%s AND Hcode=%s",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_special_master",
-      "lineno": 3161,
+      "lineno": 3235,
       "tables": [
         "G6_Ggeo"
       ],
@@ -2195,7 +2147,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_special_master",
-      "lineno": 3179,
+      "lineno": 3253,
       "tables": [
         "G6_Ggeo"
       ],
@@ -2207,7 +2159,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_special_master",
-      "lineno": 3186,
+      "lineno": 3260,
       "tables": [
         "G6_Ggeo"
       ],
@@ -2219,7 +2171,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_special_master",
-      "lineno": 3207,
+      "lineno": 3289,
       "tables": [
         "G6_Ggeo"
       ],
@@ -2231,7 +2183,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_special_master",
-      "lineno": 3215,
+      "lineno": 3297,
       "tables": [
         "G6_Ggeo"
       ],
@@ -2243,7 +2195,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_g2_gbun_code_name_map",
-      "lineno": 3410,
+      "lineno": 3497,
       "tables": [
         "G2_Gbun"
       ],
@@ -2255,7 +2207,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_resolve_g2_gubun_code",
-      "lineno": 3592,
+      "lineno": 3679,
       "tables": [
         "G2_Gbun"
       ],
@@ -2267,7 +2219,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "get_inbound_vendor",
-      "lineno": 3618,
+      "lineno": 3705,
       "tables": [
         "G2_Ggwo"
       ],
@@ -2279,7 +2231,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_inbound_vendor",
-      "lineno": 3679,
+      "lineno": 3766,
       "tables": [
         "G2_Ggwo"
       ],
@@ -2291,7 +2243,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_inbound_vendor",
-      "lineno": 3708,
+      "lineno": 3795,
       "tables": [
         "G2_Ggwo"
       ],
@@ -2303,7 +2255,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_inbound_vendor",
-      "lineno": 3755,
+      "lineno": 3842,
       "tables": [
         "G2_Ggwo"
       ],
@@ -2315,7 +2267,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_inbound_vendor",
-      "lineno": 3758,
+      "lineno": 3845,
       "tables": [
         "G2_Ggwo"
       ],
@@ -2327,7 +2279,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_inbound_vendor",
-      "lineno": 3768,
+      "lineno": 3855,
       "tables": [
         "G2_Ggwo"
       ],
@@ -2339,7 +2291,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_inbound_vendor",
-      "lineno": 3771,
+      "lineno": 3858,
       "tables": [
         "G2_Ggwo"
       ],
@@ -2351,7 +2303,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_inbound_vendor_categories",
-      "lineno": 3788,
+      "lineno": 3875,
       "tables": [
         "G2_Gbun"
       ],
@@ -2363,7 +2315,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_inbound_vendor_categories",
-      "lineno": 3794,
+      "lineno": 3881,
       "tables": [
         "G2_Gbun"
       ],
@@ -2374,32 +2326,8 @@
     },
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
-      "function": "create_inbound_vendor_category",
-      "lineno": 3811,
-      "tables": [
-        "G2_Gbun"
-      ],
-      "severity": "info",
-      "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT Gcode FROM G2_Gbun <<dyn>>",
-      "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
-      "function": "create_inbound_vendor_category",
-      "lineno": 3816,
-      "tables": [
-        "G2_Gbun"
-      ],
-      "severity": "info",
-      "reason": "unknown_tables_only",
-      "sql_excerpt": "INSERT INTO G2_Gbun (Gcode, Gname, Hcode) VALUES (%s,%s,%s)",
-      "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_inbound_vendor_category",
-      "lineno": 3841,
+      "lineno": 3917,
       "tables": [
         "G2_Gbun"
       ],
@@ -2411,7 +2339,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_inbound_vendor_category",
-      "lineno": 3843,
+      "lineno": 3919,
       "tables": [
         "G2_Gbun"
       ],
@@ -2423,7 +2351,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_inbound_vendor_category",
-      "lineno": 3856,
+      "lineno": 3932,
       "tables": [
         "G2_Gbun"
       ],
@@ -2435,7 +2363,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_inbound_vendor_category",
-      "lineno": 3859,
+      "lineno": 3935,
       "tables": [
         "G2_Gbun"
       ],
@@ -2447,7 +2375,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_resolve_g5_gubun_code",
-      "lineno": 4015,
+      "lineno": 4091,
       "tables": [
         "G5_Gbun"
       ],
@@ -2459,7 +2387,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "get_etc_customer",
-      "lineno": 4039,
+      "lineno": 4115,
       "tables": [
         "G5_Ggeo",
         "G5_Gbun"
@@ -2472,7 +2400,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_etc_customer",
-      "lineno": 4075,
+      "lineno": 4151,
       "tables": [
         "G5_Ggeo"
       ],
@@ -2484,7 +2412,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_etc_customer",
-      "lineno": 4102,
+      "lineno": 4178,
       "tables": [
         "G5_Ggeo"
       ],
@@ -2496,7 +2424,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_etc_customer",
-      "lineno": 4149,
+      "lineno": 4225,
       "tables": [
         "G5_Ggeo"
       ],
@@ -2508,7 +2436,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_etc_customer",
-      "lineno": 4153,
+      "lineno": 4229,
       "tables": [
         "G5_Ggeo"
       ],
@@ -2520,7 +2448,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_etc_customer_categories",
-      "lineno": 4183,
+      "lineno": 4259,
       "tables": [
         "G5_Gbun"
       ],
@@ -2532,7 +2460,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_etc_customer_categories",
-      "lineno": 4190,
+      "lineno": 4266,
       "tables": [
         "G5_Gbun"
       ],
@@ -2544,7 +2472,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_etc_customer_category",
-      "lineno": 4213,
+      "lineno": 4289,
       "tables": [
         "G5_Gbun"
       ],
@@ -2556,7 +2484,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_etc_customer_category",
-      "lineno": 4220,
+      "lineno": 4296,
       "tables": [
         "G5_Gbun"
       ],
@@ -2568,7 +2496,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_etc_customer_category",
-      "lineno": 4244,
+      "lineno": 4320,
       "tables": [
         "G5_Gbun"
       ],
@@ -2580,7 +2508,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_etc_customer_category",
-      "lineno": 4248,
+      "lineno": 4324,
       "tables": [
         "G5_Gbun"
       ],
@@ -2592,7 +2520,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_etc_customer_category",
-      "lineno": 4260,
+      "lineno": 4336,
       "tables": [
         "G5_Gbun"
       ],
@@ -2604,7 +2532,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_etc_customer_category",
-      "lineno": 4265,
+      "lineno": 4341,
       "tables": [
         "G5_Gbun"
       ],
@@ -2616,7 +2544,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_lookup_g3_gbun_by_name",
-      "lineno": 4450,
+      "lineno": 4526,
       "tables": [
         "G3_Gbun"
       ],
@@ -2628,7 +2556,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "_resolve_g3_gubun_code",
-      "lineno": 4479,
+      "lineno": 4555,
       "tables": [
         "G3_Gbun"
       ],
@@ -2640,7 +2568,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "get_author",
-      "lineno": 4520,
+      "lineno": 4596,
       "tables": [
         "G3_Gjeo"
       ],
@@ -2652,7 +2580,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_author",
-      "lineno": 4569,
+      "lineno": 4645,
       "tables": [
         "G3_Gjeo"
       ],
@@ -2664,7 +2592,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "create_author",
-      "lineno": 4589,
+      "lineno": 4665,
       "tables": [
         "G3_Gjeo"
       ],
@@ -2676,7 +2604,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_author",
-      "lineno": 4622,
+      "lineno": 4698,
       "tables": [
         "G3_Gjeo"
       ],
@@ -2688,7 +2616,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_author",
-      "lineno": 4626,
+      "lineno": 4702,
       "tables": [
         "G3_Gjeo"
       ],
@@ -2700,7 +2628,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_author_categories",
-      "lineno": 4656,
+      "lineno": 4732,
       "tables": [
         "G3_Gbun"
       ],
@@ -2712,7 +2640,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "list_author_categories",
-      "lineno": 4663,
+      "lineno": 4739,
       "tables": [
         "G3_Gbun"
       ],
@@ -2723,32 +2651,8 @@
     },
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
-      "function": "create_author_category",
-      "lineno": 4686,
-      "tables": [
-        "G3_Gbun"
-      ],
-      "severity": "info",
-      "reason": "unknown_tables_only",
-      "sql_excerpt": "SELECT Gcode FROM G3_Gbun <<dyn>>",
-      "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
-      "function": "create_author_category",
-      "lineno": 4693,
-      "tables": [
-        "G3_Gbun"
-      ],
-      "severity": "info",
-      "reason": "unknown_tables_only",
-      "sql_excerpt": "INSERT INTO G3_Gbun (Gcode, Gname, Hcode) VALUES (%s,%s,%s)",
-      "recommended_action": "mark_noqa_with_reason"
-    },
-    {
-      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_author_category",
-      "lineno": 4717,
+      "lineno": 4779,
       "tables": [
         "G3_Gbun"
       ],
@@ -2760,7 +2664,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "update_author_category",
-      "lineno": 4721,
+      "lineno": 4783,
       "tables": [
         "G3_Gbun"
       ],
@@ -2772,7 +2676,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_author_category",
-      "lineno": 4733,
+      "lineno": 4795,
       "tables": [
         "G3_Gbun"
       ],
@@ -2784,7 +2688,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/masters_service.py",
       "function": "delete_author_category",
-      "lineno": 4738,
+      "lineno": 4800,
       "tables": [
         "G3_Gbun"
       ],
@@ -3633,6 +3537,54 @@
       "severity": "info",
       "reason": "unknown_tables_only",
       "sql_excerpt": "SELECT COUNT(DISTINCT t.Hcode) AS cnt FROM T1_Ssub t",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/special_ext_service.py",
+      "function": "get_many",
+      "lineno": 81,
+      "tables": [
+        "G6_Ggeo_Ext"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Id AS id, Gcode AS gcode, Bcode AS bcode, Bigo1 AS bigo1, Bigo2 AS bigo2 FROM G6_Ggeo_Ext WHERE Hcode=%s AND Id IN ({placeholders})",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/special_ext_service.py",
+      "function": "upsert",
+      "lineno": 108,
+      "tables": [
+        "G6_Ggeo_Ext"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Gcode AS gcode, Bcode AS bcode, Bigo1 AS bigo1, Bigo2 AS bigo2 FROM G6_Ggeo_Ext WHERE Hcode=%s AND Id=%s",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/special_ext_service.py",
+      "function": "upsert",
+      "lineno": 126,
+      "tables": [
+        "G6_Ggeo_Ext"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "DELETE FROM G6_Ggeo_Ext WHERE Hcode=%s AND Id=%s",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/special_ext_service.py",
+      "function": "delete",
+      "lineno": 139,
+      "tables": [
+        "G6_Ggeo_Ext"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "DELETE FROM G6_Ggeo_Ext WHERE Hcode=%s AND Id=%s",
       "recommended_action": "mark_noqa_with_reason"
     },
     {

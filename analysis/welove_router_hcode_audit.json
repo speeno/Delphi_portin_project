@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-15T08:49:54.873690+00:00",
+  "generated_at": "2026-10-17T01:17:57.637595+00:00",
   "summary": {
     "files_scanned": 30,
-    "endpoints_seen": 386,
+    "endpoints_seen": 395,
     "optional_hcode_endpoints": 100,
     "scope_identifier_endpoints": 118,
     "critical": 9,
@@ -325,7 +325,7 @@
       "function": "list_special_master",
       "path": "/special",
       "method": "GET",
-      "lineno": 1704,
+      "lineno": 1834,
       "severity": "info",
       "reason": "scoped_with_helper (optional_hcode_query; idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
@@ -335,7 +335,7 @@
       "function": "delete_special_master",
       "path": "/special/{row_id}",
       "method": "DELETE",
-      "lineno": 1852,
+      "lineno": 1982,
       "severity": "info",
       "reason": "scoped_with_helper (idents=hcode)",
       "recommended_action": "OK — enforce_hcode_* 가드 사용 확인"
