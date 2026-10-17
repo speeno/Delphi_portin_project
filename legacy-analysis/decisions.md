@@ -8647,3 +8647,39 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   제목 아래 108mm 까지라(DEC-387) 칸 안. 실물 1장 확인 요청(거래처명 11pt 세로 중심 · 서가 9pt 잘림 · 진하기).
 - **가드** — 신규 `test_dec407_statement_print_font_sizes_slip_no.py`; `test_preprinted_calibration` · `test_dec393`(서가 규칙 «−1» → «> 도서명») 갱신.
 - **추기(같은 날)** — 사용자 「진하게는 지금보다 1.5배 정도」 → `value_text_stroke_pt` 0.2 → **0.3**(굵기 700 · 순검정은 그대로). 표본 PDF 재확인.
+
+### DEC-408 — 기초관리 API: 구분 이름만으로 생성 · 엑셀 일괄 생성(실패 행만 응답) · 지점 일괄 삭제 · 거래처 주소2/이메일2 · 한도(grat7) · 특별관리 비고1/2 (2026-10-17)
+
+- **배경** — 백엔드 접근 권한이 없는 프론트 개발자의 요청서 「북이오 웍스 API 수정 요청 리스트 — 기초관리」. 거래처 ① 구분 생성 시 이름만
+  보내고 코드는 서버가 ② 엑셀 목록 일괄 생성 + 실패 목록만 응답 ③ 지점 여러 개 삭제 ④ 이메일2 · 주소2 를 입력해도 조회 응답에 없음
+  ⑤ 「한도액」=gssum, 「한도」는 grat7/grat8 중 무엇인가. 입고처 · 저자 · 도서도 ①② 동일. 특별관리 비고1 · 비고2 추가 가능 여부(DB 4개).
+- **결정**
+  1. **구분 생성 4종**(`/customer-categories` · `/inbound-vendor-categories` · `/author-categories` · `/book-categories`) — `gcode` 선택.
+     생략하면 **라우터**가 `next_master_code`(테넌트 자리수 · 9 접두 예약 · 빈 번호 탐색)로 채번(전 서버 Gbun.Gcode = varchar(5) — 스키마
+     스냅샷 확인). 채번은 라우터에서만(DEC-270 가드 `test_master_code_immutable` 유지 — 서비스는 이름 조회 · INSERT 만). 이름만으로 만들 때
+     같은 이름 구분이 있으면 만들지 않고 **409 `MASTER_DUPLICATE_NAME` + 기존 gcode**(두 번 눌러 같은 이름 둘 생성 방지). 채번 실패 422
+     `CODE_UNAVAILABLE`. 4 서비스의 같은 INSERT 는 `_create_gbun_category` 하나로.
+  2. **일괄 생성** — 입구 둘: JSON `POST /{customer|inbound-vendors|authors|book}/bulk`(최대 200건) · 엑셀 `POST /…/bulk.xlsx`(최대 500행 —
+     프론트에 엑셀 파서가 없어서). 행마다 **단건 생성과 같은 경로**(단건 라우트에서 «INSERT + 확장 필드 저장» 을 `_create_*_record` 로
+     빼 공용) · 행 단위 독립 저장 · 응답 = 요약 + 실패 행만(`index` · 엑셀 `row` · `code` · `message` · 원본 `item`). 코드를 비운 행은
+     `/next-code` 와 같은 규칙(`_propose_master_code` 로 추출 — 거래처 구분명 접두 · 도서 구분 대역 DEC-273 · 그 외 MAX+1). 엑셀 헤더 =
+     기존 내려받기 · 수정 업로드 서식(`parse_master_xlsx(require_pk=False)` — 코드 칸 없거나 빈 행 허용, 행 번호 · 매핑 키 · 잘림 여부 반환).
+     본문 `serverId` 는 라우터 공용 가드가 보지 않으므로(쿼리 · 경로만) 새 JSON 엔드포인트는 `assert_server_ownership` 를 직접 호출(fail-closed).
+  3. **지점 일괄 삭제** `POST /customer/{gcode}/branches/bulk-delete {serverId, ids}` — 지점마다 단건 삭제 서비스 · 부분 성공 · 실패 목록.
+  4. **주소2 · 이메일2** — 원인 둘: ⓐ 목록(`list_customer_master`)이 확장 필드(G1_Ggeo_Ext)를 병합하지 않았다(상세만). ⓑ 생성 · 수정이 `gjuso`
+     한 줄만 읽어 90자에서 잘라 Gadd1/Gadd2 에 나눴다 — 프론트가 `주소1 + " " + 주소2` 로 보내 짧은 주소2 가 Gadd1 뒤에 붙고 Gadd2 는 빔.
+     수정: 목록에 Gadd1 · Gadd2 · Ocode · Gnum1 + 확장 필드 전부(페이지 1회 청크 조회, 입고처 DEC-294 동형) · 생성/수정이 `gadd1`/`gadd2`
+     를 각각 받음(있으면 `gjuso` 무시, 수정은 보낸 칸만). 이미 잘못 저장된 행은 자동 정정하지 않는다(화면에서 다시 저장).
+  5. **한도** — 레거시 출판 빌드 Subu11: Edit130 「한도」 = **Grat7**(비율 행), Edit131 「한 도 액」 = Gssum, Grat8 은 항상 '0'. 총판 · New 빌드는
+     Grat7 도 항상 0 이라 종전 주석 «grat7 은 항상 0 · 편집 불가» 는 그 빌드 기준이었다. 생성 · 수정 요청에 `grat7` 추가(customer_patch_targets
+     포함), 엑셀 「한도」 칸도 역반영(`CUSTOMER_EXPORT_ONLY_KEYS` 에서 제외 — DEC-292 가드 기대값 갱신). 프론트 폼의 「한도」 라벨이 gssum 에
+     묶인 것은 문서로 안내(프론트 소관).
+  6. **특별관리 비고1 · 비고2** — G6_Ggeo 에 텍스트 비고 칸이 없고(4 서버 DDL: id · hcode · gcode · bcode · gubun · jubun · gpper · gjisa ·
+     grat1~9 · gssum · check · gmemo(timestamp)) 서버마다 컬럼도 다르다(138 은 gpper · gjisa · jubun 없음). 레거시가 같은 테이블을 쓰므로 ALTER
+     하지 않고 사이드 테이블 `G6_Ggeo_Ext(Hcode, Id, Gcode, Bcode, Bigo1, Bigo2)`(DEC-230 선례, 서버별 첫 사용 시 CREATE IF NOT EXISTS · REPLACE
+     INTO · VARCHAR(200)). ID 재사용 대비 Gcode · Bcode 를 같이 적고 **읽을 때 링크가 같을 때만** 쓴다. 목록 병합 · 생성 · 수정(보낸 칸만, "" = 지움)
+     · 삭제 정리.
+- **문서** — 프론트용 API 안내 `도서물류관리프로그램/docs/api/masters-basic-management-api.md`(+ PDF).
+- **검증** — 신규 `test/test_dec408_masters_basic_mgmt_api.py`(29건: 구분 4종 채번 · 409 이름 중복 · 422 · 공용 INSERT · 일괄 JSON/엑셀 · 파서 ·
+  지점 일괄 삭제 · 서버 소속 403 · 주소/한도 생성 · 수정 · 목록 확장 병합 · 특별 비고 사이드 테이블). 허브 전체 회귀 · hcode 감사 통과. 실 DB 스모크
+  (사이드 테이블 생성 · 일괄 200건 소요 시간)는 배포 후 확인 필요. 새 라우트는 모두 POST 라 probe matrix(GET) 대상 아님.

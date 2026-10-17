@@ -135,8 +135,9 @@ class ImportCompat(TestCase):
         self.assertEqual(payload["jubun"], "서울")
         self.assertEqual(payload["gtel"], "02-737-6111")
         self.assertEqual((payload["gadd1"], payload["gadd2"]), ("종로", "1층"))
-        # 엑셀 전용(읽기전용) 컬럼은 역반영하지 않는다.
-        self.assertNotIn("grat7", payload)
+        # 엑셀 전용(읽기전용) 컬럼(gjuso=주소 합본)은 역반영하지 않는다.
+        # DEC-408 — 「한도」(grat7)는 역반영한다: 레거시 출판 빌드 Subu11 Edit130 이 Grat7 에 저장(종전 «항상 0» 은 총판 · New 빌드).
+        self.assertEqual(payload["grat7"], 5)
         self.assertNotIn("gjuso", payload)
 
     def test_previous_template_headers_still_import(self) -> None:
