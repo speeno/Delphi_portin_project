@@ -8720,3 +8720,15 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   - 신규 `value_letter_spacing_em: -0.04` — 값 글자(라인 · 거래처코드 · 발행일 · 거래처명 · 총부수/합계)에 `letter-spacing`. 삼련만(A4 이련 불변), 0 이면 규칙 없음.
   - `offset_top_mm` 1.35 → **2.35**(body translate — 세 련 모두 1mm 아래).
 - **가드** — `test_dec407_statement_print_font_sizes_slip_no.py` · `test_preprinted_calibration.py` 값 갱신 + 자간 규칙 · A4 미적용.
+
+### DEC-411 — 외부 협업 백엔드 저장소: 고객 데이터 없이 로컬 구동 · 배포 (고객사 목록 환경변수 주입) (2026-10-20)
+
+- **요청(사용자)** — 외부 개발자가 `books-logistics-frontend` · `books-logistics-backend` 두 저장소를 받아 수정 · 로컬 구동 · 배포할 수 있게. 「고객 데이터는 넣지 말 것」.
+- **결정**
+  - 백엔드 저장소 = 제품 `backend/` 스냅샷(이력 제외 — 과거 커밋에 로그인 ID 색인 3,909건). 고객 · 운영 데이터 파일(로그인 ID 색인 · 고객사 목록 · 직인 · 로고 · 배송 상태 · 사용자별 설정)은 빼고,
+    `web_admin.json` 은 계정만 비우고, 실제 DB 서버 IP 는 문서용 IP 로. 만드는 도구 `도서물류관리프로그램/scripts/export_backend_repo.py`(+ `backend_repo_templates/`: README · DEPLOY.md · render.yaml · CI · 견본 시드 · `scripts/encode_b64.py`).
+  - 고객사 목록(테넌트 시드)은 로그인 경로 판별에 필수라 `servers.yaml` 과 같은 «저장소 밖 설정»으로 다룬다 — 신규 `BLS_TENANTS_DIRECTORY_B64`(시드 JSON base64 한 줄, `tenants_directory_service`).
+    설정되면 파일 대신 그 시드, overlay 병합 규칙 그대로, 해독 실패는 빈 목록(fail-closed — 파일로 되돌아가지 않음), 미설정이면 종전 파일. 운영(제품 저장소 배포)은 미설정이라 동작 불변.
+  - 백엔드 저장소 `render.yaml` 은 서비스 이름 `books-logistics-backend`(운영 `books-logistics-web` 과 겹치지 않게) · 인스턴스 1 · JWT 키 자동 생성 · 메일 console.
+- **운영 메모** — 14:34 로컬 `backend/servers.yaml` 이 편집기(Cursor) 저장으로 한 글자(「고」)로 덮여 chul_09 판별 테스트 7건이 실패했다 → Cursor 로컬 기록(08-18판, 3,039B)으로 복구 후 전체 통과.
+- **가드** — 신규 `test/test_tenants_directory_b64_env.py`(5 — 미설정=파일 · env 시드 우선 · overlay 우선 · 잘못된 값=빈 목록 · 공백=미설정).
