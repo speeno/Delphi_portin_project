@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-20T05:42:17.571606+00:00",
+  "generated_at": "2026-10-20T07:05:51.181911+00:00",
   "summary": {
-    "total_pages": 135,
-    "covered": 50,
+    "total_pages": 137,
+    "covered": 51,
     "violations": 0,
-    "allowed": 7,
-    "skipped": 78
+    "allowed": 6,
+    "skipped": 80
   },
   "covered": [
     {
@@ -79,6 +79,10 @@
     {
       "route_key": "master.publisher",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/publisher/page.tsx"
+    },
+    {
+      "route_key": "master.special",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/special/page.tsx"
     },
     {
       "route_key": "outbound.orders",
@@ -211,12 +215,6 @@
   ],
   "violations": [],
   "allowed": [
-    {
-      "route_key": "master.special",
-      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/special/page.tsx",
-      "reason": "특별관리 — 상세 라우트 없는 2단 편집 화면(복귀 시나리오 없음), 필터 스냅샷 미도입",
-      "until": "list-state 후속 사이클(2026-10)"
-    },
     {
       "route_key": "shipping.courier",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/shipping/courier/page.tsx",
@@ -450,6 +448,14 @@
     {
       "route_key": "master.inbound-vendor.new",
       "file": "도서물류관리프로그램/frontend/src/app/(app)/master/inbound-vendor/new/page.tsx"
+    },
+    {
+      "route_key": "master.special",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/special/[id]/page.tsx"
+    },
+    {
+      "route_key": "master.special.new",
+      "file": "도서물류관리프로그램/frontend/src/app/(app)/master/special/new/page.tsx"
     },
     {
       "route_key": "outbound.orders",
