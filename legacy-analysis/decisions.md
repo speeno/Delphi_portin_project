@@ -8732,6 +8732,8 @@ Idnum 유지·중복 허용 사용자 합의). 직전: DEC-077.*
   - 백엔드 저장소 `render.yaml` 은 서비스 이름 `books-logistics-backend`(운영 `books-logistics-web` 과 겹치지 않게) · 인스턴스 1 · JWT 키 자동 생성 · 메일 console.
 - **운영 메모** — 14:34 로컬 `backend/servers.yaml` 이 편집기(Cursor) 저장으로 한 글자(「고」)로 덮여 chul_09 판별 테스트 7건이 실패했다 → Cursor 로컬 기록(08-18판, 3,039B)으로 복구 후 전체 통과.
 - **가드** — 신규 `test/test_tenants_directory_b64_env.py`(5 — 미설정=파일 · env 시드 우선 · overlay 우선 · 잘못된 값=빈 목록 · 공백=미설정).
+- **추기(2026-10-20, 사용자 결정 「tenants_directory_seed.json 커밋해줘」)** — 협업자 2명 초대 후 고객사 목록(40곳 · 자격증명 0건)을 백엔드 저장소에 포함한다(내보내기 도구 제외 해제 · 4b65811).
+  외부 개발자가 받을 것은 `servers.yaml` 하나. `BLS_TENANTS_DIRECTORY_B64` 는 선택(다른 목록을 쓸 때 — 설정하면 파일보다 우선). 로그인 ID 색인 · 직인 · 사용자 설정 등 나머지 운영 데이터는 계속 제외.
 
 ### DEC-412 — 프론트 저장소 재설계(M-DEC-1~28) 운영 반영: 프론트 저장소 화면 우선 (2026-10-20)
 
