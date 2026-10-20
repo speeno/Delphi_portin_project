@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-17T01:17:57.356409+00:00",
+  "generated_at": "2026-10-20T00:24:04.483992+00:00",
   "summary": {
-    "files_scanned": 118,
-    "sql_literals": 633,
+    "files_scanned": 119,
+    "sql_literals": 636,
     "critical": 0,
     "warn": 20,
-    "info": 290,
-    "skipped_noqa": 82,
+    "info": 292,
+    "skipped_noqa": 83,
     "multi_tenant_tables_seen": [
       "G4_Book",
       "G7_Ggeo",
@@ -954,6 +954,30 @@
       "severity": "info",
       "reason": "unknown_tables_only",
       "sql_excerpt": "SELECT Gcode, Gname FROM G1_Gbun WHERE Gcode IN (<<dyn>>)",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/dispatch_request_db.py",
+      "function": "<module>",
+      "lineno": 50,
+      "tables": [
+        "Web_Dispatch_Request"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "INSERT INTO Web_Dispatch_Request (Hcode, Gdate, Jubun, Gjisa, Gcode, RequestedAt) VALUES (%s, %s, %s, %s, %s, %s)",
+      "recommended_action": "mark_noqa_with_reason"
+    },
+    {
+      "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/dispatch_request_db.py",
+      "function": "requested_keys",
+      "lineno": 126,
+      "tables": [
+        "Web_Dispatch_Request"
+      ],
+      "severity": "info",
+      "reason": "unknown_tables_only",
+      "sql_excerpt": "SELECT Hcode, Gdate, Jubun, Gjisa, Gcode FROM Web_Dispatch_Request WHERE Hcode=%s AND Gdate>=%s AND Gdate<=%s",
       "recommended_action": "mark_noqa_with_reason"
     },
     {
@@ -2700,7 +2724,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "<module>",
-      "lineno": 302,
+      "lineno": 303,
       "tables": [
         "G4_Book"
       ],
@@ -2712,7 +2736,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "<module>",
-      "lineno": 309,
+      "lineno": 310,
       "tables": [
         "G1_Ggeo"
       ],
@@ -2724,7 +2748,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "<module>",
-      "lineno": 317,
+      "lineno": 318,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2736,7 +2760,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "_board_publishers",
-      "lineno": 515,
+      "lineno": 516,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2748,7 +2772,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "_board_publishers",
-      "lineno": 523,
+      "lineno": 524,
       "tables": [
         "G7_Ggeo"
       ],
@@ -2760,7 +2784,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "_g1_names_and_region",
-      "lineno": 648,
+      "lineno": 649,
       "tables": [
         "G1_Ggeo"
       ],
@@ -2772,7 +2796,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "outbound_statement",
-      "lineno": 705,
+      "lineno": 706,
       "tables": [
         "T4_Ssub"
       ],
@@ -2784,7 +2808,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/outbound_service.py",
       "function": "update_order",
-      "lineno": 1100,
+      "lineno": 1105,
       "tables": [
         "S1_Ssub"
       ],
@@ -3614,7 +3638,7 @@
     {
       "file": "/Volumes/speeno/Developments/Delphi_porting/도서물류관리프로그램/backend/app/services/transactions_service.py",
       "function": "_fetch_all_grouped_statements",
-      "lineno": 978,
+      "lineno": 979,
       "tables": [
         "S1_Ssub"
       ],
