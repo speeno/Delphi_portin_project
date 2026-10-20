@@ -16,14 +16,16 @@ class Sobo11WidgetTraceability(TestCase):
     """Sobo11 매핑노트의 핵심 legacy id가 실제 DOM에 부착됐는지 확인."""
 
     def test_core_ids_exist_in_frontend(self) -> None:
+        # DEC-412: 프론트 재설계 운영 반영 — 실제로 렌더되는 파일만 본다. 「신규 등록」은 공용 헤더,
+        # 지점 관리는 팝업(M-DEC-4), 구분 수정 · 삭제 패널은 단독 「거래처구분」 화면(customer-category).
         pages = [
             FRONT / "app" / "(app)" / "master" / "customer" / "page.tsx",
             FRONT / "app" / "(app)" / "master" / "customer" / "[gcode]" / "page.tsx",
             FRONT / "app" / "(app)" / "master" / "customer" / "new" / "page.tsx",
             FRONT / "components" / "master" / "customer-detail-form.tsx",
+            FRONT / "components" / "master" / "customer-master-list-header.tsx",
             FRONT / "components" / "master" / "customer-category-panel.tsx",
-            FRONT / "components" / "master" / "customer-branch-panel.tsx",
-            FRONT / "components" / "master" / "customer-branch-collapsible.tsx",
+            FRONT / "components" / "master" / "customer-branch-dialog.tsx",
         ]
         merged = "\n".join(_read(p) for p in pages)
         for legacy_id in (
@@ -42,6 +44,8 @@ class Sobo11WidgetTraceability(TestCase):
             "Sobo11.Button201",
             "Sobo11.Button202",
             "Sobo11.Button203",
+            "Sobo11.Button007",
+            "Seok10.DBGrid101",
         ):
             self.assertIn(legacy_id, merged, legacy_id)
 
@@ -62,7 +66,9 @@ class Sobo11WidgetTraceability(TestCase):
         self.assertIn("Sobo11.Edit101", form_text)
 
     def test_category_panel_on_detail_not_list_tab(self) -> None:
-        """거래처구분 CRUD는 상세/신규에만 있고 목록 탭에는 없어야 함."""
+        """거래처구분 CRUD 는 목록 탭에 없다. DEC-412: 프론트 재설계 M-DEC-22 · M-DEC-4 — 의도적 제거(접이식 패널) —
+        상세/신규는 구분 드롭다운에서 바로 추가(allowCreate), 수정 · 삭제는 단독 「거래처구분」 화면,
+        지점은 상세 「지점 관리」 팝업."""
         list_page = FRONT / "app" / "(app)" / "master" / "customer" / "page.tsx"
         detail_page = FRONT / "app" / "(app)" / "master" / "customer" / "[gcode]" / "page.tsx"
         new_page = FRONT / "app" / "(app)" / "master" / "customer" / "new" / "page.tsx"
@@ -72,13 +78,15 @@ class Sobo11WidgetTraceability(TestCase):
         self.assertNotIn("setTab(", list_src)
         detail_src = _read(detail_page)
         new_src = _read(new_page)
-        self.assertIn("CustomerCategoryCollapsible", detail_src)
-        self.assertIn("CustomerCategoryCollapsible", new_src)
-        self.assertIn("CustomerBranchCollapsible", detail_src)
-        self.assertIn("CustomerBranchCollapsible", new_src)
-        self.assertIn("onChanged", detail_src)
-        self.assertIn("gbunReloadKey", detail_src)
-        self.assertIn("CustomerCategoryCollapsible", detail_src)
+        for src in (detail_src, new_src):
+            self.assertIn("<CustomerDetailForm", src)
+            self.assertIn("gbunReloadKey", src)
+        self.assertIn("allowCreate={fieldsEditable}", _read(FRONT / "components" / "master" / "customer-detail-form.tsx"))
+        self.assertIn("<CustomerBranchDialog", detail_src)
+        self.assertIn(
+            "<CustomerCategoryCollapsible",
+            _read(FRONT / "app" / "(app)" / "master" / "customer-category" / "page.tsx"),
+        )
 
     def test_gbun_select_uses_master_list_only(self) -> None:
         src = _read(FRONT / "components" / "master" / "master-gbun-select.tsx")
@@ -86,18 +94,23 @@ class Sobo11WidgetTraceability(TestCase):
         self.assertIn("customerCategoryList", src)
 
     def test_list_search_filter_bar(self) -> None:
-        """목록 검색 필터 확장(minimal): 구분 select·거래종료 제외 체크 (지역 input 은 DEC-292 로 제거)."""
+        """목록 검색 필터(minimal): 구분 · 출고 정지 제외 체크 · 검색어 지우기 (지역 input 은 DEC-292 로 제거).
+
+        DEC-412: 프론트 재설계 M-DEC-1 · M-DEC-17 — 의도적 제거(LocalComboField · 초기화 버튼 · 돋보기 검색 팝업):
+        구분 필터는 검색칸 왼쪽
+        「검색 기준」 메뉴의 「거래처 구분」 하위 목록, 초기화 버튼 대신 검색칸 X(onClear), 돋보기 검색 팝업 삭제.
+        """
         list_src = _read(
             FRONT / "app" / "(app)" / "master" / "customer" / "page.tsx"
         )
-        # 거래처구분 필터는 DEC-119(2026-07-21)로 네이티브 <select id="f-gubun"> →
-        # LocalComboField(픽 필드, data-legacy-id 는 내부 input 에 보존) 로 전환됨.
+        header = _read(FRONT / "components" / "master" / "customer-master-list-header.tsx")
+        for kw in ('aria-label="거래처 구분"', 'excludeCheckboxId = "f-exterm"', "onExcludeTerminatedChange", "onClear"):
+            self.assertIn(kw, header, kw)
         for kw in (
-            "LocalComboField",
-            'inputLegacyId="Sobo11.Filter.Gubun"',
-            "f-exterm",
-            "excludeTerminated",
-            "resetFilters",
+            "customerCategoryList",
+            "gubun: gubunV || undefined",
+            "excludeTerminated: exTerm || undefined",
+            "onClear={() => {",
         ):
             self.assertIn(kw, list_src, kw)
         # DEC-292(2026-09-22 사용자) — 지역 검색 입력은 불필요: 입력칸·요청 파라미터 모두 제거.

@@ -264,8 +264,7 @@ class AllMasterDetailScreensCovered(unittest.TestCase):
                 # 두 표가 서로 독립(마스터-디테일 아님) — 하단이 이미 전 건이라 대상이 아니다.
                 "app/(app)/inbound/reports/daily/page.tsx",
                 "app/(app)/inbound/reports/period/page.tsx",
-                # 총판/출판 비율 프로필 2축 편집 화면(목록-상세 아님).
-                "app/(app)/master/special/page.tsx",
+                # (특별관리 2축 편집 화면은 DEC-412: 프론트 재설계 M-DEC-13 — 의도적 제거, 목록+상세 라우트로 바뀌어 대상 아님.)
                 # 재고변경 정품/비품 두 창(DEC-308) — 서로 독립인 편집 그리드(목록-상세 아님).
                 "components/ledger/adjustment-ledger-screen.tsx",
                 # 2026-09 UI 통일에서 2단으로 바뀐 거래명세서(총판) 뷰 — 전 건 상세 API 미도입.

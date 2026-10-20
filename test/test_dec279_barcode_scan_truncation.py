@@ -125,7 +125,16 @@ class ChecksumGuardTests(TestCase):
         self.assertIn('data-legacy-id="Sobo14.BarcodeScan.OpenExisting"', src)
         self.assertIn("function resetForNewBook", src)
         # 신규 저장 버튼도 같은 조건으로 잠근다(중복 등록 차단).
-        self.assertIn("canWrite={canWrite && !existingLoaded}\n            busy={busy}", src)
+        # DEC-412: 프론트 재설계 운영 반영 — 저장 버튼이 폼 하단(BookDetailForm onCreate)으로 옮겨, 폼에 넘긴
+        # canWrite(= canWrite && !existingLoaded)로 잠기고 handleCreate 도 같은 조건에서 멈춘다. 스캔칸도 보기 중엔 잠금.
+        self.assertIn("canWrite={canWrite && !existingLoaded}\n        createMode", src)
+        self.assertIn("onCreate={handleCreate}", src)
+        self.assertIn("if (!user?.server_id || !canWrite || existingLoaded) return;", src)
+        self.assertIn("enabled={canWrite && !existingLoaded}", src)
+        form = (FRONTEND / "src" / "components" / "master" / "book-detail-form.tsx").read_text(encoding="utf-8")
+        save_btn = form.split("{onCreate && (", 1)[1].split("</WriteGate>", 1)[0]
+        self.assertIn("disabled={!canWrite || createBusy}", save_btn)
+        self.assertIn('data-legacy-id="Sobo14.Button101"', save_btn)
 
     def test_field_explains_both_failure_reasons(self) -> None:
         src = FIELD_TSX.read_text(encoding="utf-8")

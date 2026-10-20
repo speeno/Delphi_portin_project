@@ -75,6 +75,22 @@ Grat1~9+Gssum 전부를 쓴다(Grat7~9 는 웹 미사용=0). 스키마 사전의
 | 선택 행 편집 블록(선택 해제/Esc) | `Sobo16.DBGrid101.Edit` / `Sobo16.DBGrid201.Edit` — 입력 `…GRATn.edit` |
 | 신규 등록 블록(레거시 Append 동등, 거래처축 항상 표시·도서축 접힘) | `Sobo16.DBGrid101.Append` / `Sobo16.DBGrid201.Append` — 입력 `…GRATn.new` |
 
+### 5-1. DEC-412 — 프론트 재설계(M-DEC-13/18/19, 피그마 1:1351 · 1:2530 · 1:2779) 운영 반영
+
+두 축 패널(PaneCustomer/PaneBook · DBGrid201)·관리자 출판사 필터(Edit107)·표 컬럼 설정/틀고정/순서/폭/정렬은
+**의도적 제거**. 목록 + 신규/상세 라우트로 바뀌었다.
+
+| 모던 UI | `data-legacy-id` |
+| --- | --- |
+| 목록 표(거래처 코드·거래처명·도서 코드·도서명·ISBN·비율·정가·비고1·비고2) | `Sobo16.DBGrid101` · `.SEL`/`.GCODE`/`.GNAME`/`.BCODE`/`.BNAME`/`.GISBN`/`.GRAT1`/`.GSSUM`/`.BIGO1`/`.BIGO2` |
+| 머리 「신규 등록」 / 목록 「선택 삭제」 / 「엑셀 다운로드」 | `Sobo16.Button101` / `Sobo16.ButtonDeleteSelected` / `Sobo16.ButtonExport` |
+| 신규·상세 폼 시트 | `Sobo16.Panel002` — 거래처명 `Edit101` · 거래처 코드 `Edit102` · 도서명 `Edit201` · 도서 코드 `Edit202` · ISBN `Edit203` · 비율 `Edit301` · 정가 `Edit302` · 비고1 `Edit303` · 비고2 `Edit304` |
+| 폼 저장(신규) / 수정 저장 / 삭제 / 취소 | `Button101` / `Button102` / `Button103` / `FormClose` |
+
+검색은 머리의 기준 4개(거래처 코드·거래처명·도서 코드·도서명). 비율 칸은 피그마대로 `grat1` 하나만 보인다 —
+출판·자체물류 계정(by_pubun, DEC-171)의 현매~기타(grat2~6)는 화면에서 보이거나 고쳐지지 않는다(PATCH 가 보내지 않아 값은 보존,
+출고 적용은 0 이면 grat1 폴백). 후속 판단 대상.
+
 ## 6. out-of-scope (1차)
 
 - `Button001`~`003` 빈 스텁 — 미구현

@@ -99,26 +99,23 @@ class BookListDetailColumnsTests(IsolatedAsyncioTestCase):
 
 class ScreenAndModelGuard(TestCase):
     def test_page_has_detail_columns_and_shelf_label_fix(self) -> None:
+        """DEC-412: 프론트 재설계(M-DEC-10·14·21) 운영 반영 — 라벨은 피그마 표기(띄어쓰기),
+        등록 폼에 보이는 칸만 목록에 둔다(도서타입·세액유무·출고정지 등 숨김 칸 컬럼은 「DEC-412: 프론트 재설계 M-DEC-21 — 의도적 제거」).
+        gpost 오라벨(「출판사」) 정정과 도서처리 제외(DEC-296)는 그대로."""
         src = (FRONTEND / "app" / "(app)" / "master" / "book"
                / "page.tsx").read_text(encoding="utf-8")
-        for needle in (
-            'label: "서가위치"',   # gpost 오라벨("출판사") 정정
-            # 2026-09-15 용어 변경 — sname 라벨 "도서분류"→"도서구분", scode "도서구분"→"도서타입".
-            # 컬럼(키) 자체는 그대로이며 라벨만 바뀌었다(요구사항 유지, 문자열 검사만 갱신).
-            # DEC-336(2026-09-25) — sname 라벨 「구분」(사용자 컬럼표), scode 「도서타입」.
-            # DEC-366(2026-10-01) — 신규도서 입력 화면과 같은 이름: sname 「도서분류」.
-            'label: "도서분류"',
-            'label: "도서타입"',
-            'label: "판형"',
-            'label: "원가"',
-            'label: "매입가"',
-            'label: "위탁"',
-            'label: "한도"',
-            'label: "본사재고"',  # DEC-336 — 사용자 표기(본사재고·본사비품·창고정품·창고비품)
-            'label: "세액유무"',
-            'label: "출고정지"',
+        for key, label in (
+            ("gpost", "서가 위치"),   # gpost 오라벨("출판사") 정정
+            ("name1", "판형"),
+            ("price", "원가"),
+            ("odang", "매입가"),
+            ("grat1", "위탁"),
+            ("grat7", "한도"),
+            ("jego1", "본사 정품"),
+            ("grat9", "상태"),       # 출고/중지(Grat9) — 종전 「출고정지」 칸
         ):
-            self.assertIn(needle, src)
+            self.assertRegex(src, rf'key: "{key}",\s*label: "{label}"', label)
+        self.assertRegex(src, r'key: "sname",\s*label: "도서 분류"')
         self.assertNotIn('label: "출판사"', src)
         # DEC-296(2026-09-22 사용자) — 도서처리는 목록 화면에서 제거(엑셀·상세 폼은 유지).
         self.assertNotIn('label: "도서처리"', src)

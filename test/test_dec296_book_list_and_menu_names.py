@@ -32,13 +32,15 @@ class BookList(TestCase):
         self.assertNotIn("jubun", src.split("const columns")[0], "요청 파라미터·세션 키도 제거")
 
     def test_new_book_button_before_search(self) -> None:
+        # DEC-412: 프론트 재설계(M-DEC-10) 운영 반영 — 「신규 등록」은 피그마 머리 띠(BookMasterListHeader)의
+        # 제목 옆, 검색 입력보다 앞(같은 줄 왼쪽). 목록 · 상세 · 신규 화면이 같은 띠를 쓴다.
         src = BOOK.read_text(encoding="utf-8")
-        band_start = src.index("              >\n", src.index("actions={"))
-        btn = src.index('data-legacy-id="Sobo14.Button101"')
-        self.assertLess(band_start, btn, "필터 띠 안")
-        # DEC-336 — 검색 줄 = 붙임형 알약(AttachedFilterField).
-        self.assertLess(btn, src.index('id="q"'), "검색 입력 앞")
-
+        self.assertIn("<BookMasterListHeader", src)
+        chrome = (FRONT / "components" / "master" / "book-master-chrome.tsx").read_text(encoding="utf-8")
+        header = chrome.split("export function BookMasterListHeader", 1)[1].split("export function", 1)[0]
+        btn = header.index('data-legacy-id="Sobo14.Button101"')
+        self.assertLess(btn, header.index("<MasterSearchQueryField"), "검색 입력 앞")
+        self.assertIn('router.push("/master/book/new")', header)
 
 if __name__ == "__main__":
     main()

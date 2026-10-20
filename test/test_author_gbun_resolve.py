@@ -45,13 +45,19 @@ class AuthorGbunResolveTests(TestCase):
         )
         self.assertNotIn("AuthorCategoryPanel", list_src)
         self.assertNotIn("setTab(", list_src)
-        # 목록 저자구분 필터 — DEC-119(2026-07-21) 픽 필드(LocalComboField) 전환 이후 정본.
-        self.assertIn('inputLegacyId="Sobo13.Filter.Gubun"', list_src)
+        # DEC-412: 프론트 재설계(M-DEC-9 · M-DEC-17) 운영 반영 — 목록 머리는 피그마 검색 한 칸(AuthorMasterListHeader).
+        # 종전 저자구분 필터(LocalComboField · Sobo13.Filter.Gubun, DEC-119)는 시안에서 빠졌다.
+        self.assertIn("<AuthorMasterListHeader", list_src)
+        self.assertNotIn("Sobo13.Filter.Gubun", list_src)
+        # DEC-412: 프론트 재설계 M-DEC-9 — 의도적 제거: 상세·신규 아래 저자구분 관리 패널(AuthorCategoryCollapsible).
+        # 구분 추가는 M-DEC-22 드롭다운 안에서(allowCreate + authorApi.categoryCreate) 한다.
+        form = (FRONT / "components" / "master" / "author-detail-form.tsx").read_text(encoding="utf-8")
+        self.assertIn("allowCreate={fieldsEditable}", form)
+        self.assertIn("createCategory={authorApi.categoryCreate}", form)
+        self.assertIn("reloadKey={gbunReloadKey}", form)
         for rel in (
             "app/(app)/master/author/[gcode]/page.tsx",
             "app/(app)/master/author/new/page.tsx",
         ):
             src = (FRONT / rel).read_text(encoding="utf-8")
-            self.assertIn("AuthorCategoryCollapsible", src)
-            self.assertIn("gbunReloadKey", src)
-            self.assertIn("onChanged", src)
+            self.assertIn("<AuthorDetailForm", src, rel)

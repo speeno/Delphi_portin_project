@@ -121,25 +121,31 @@ class ScreenGuard(TestCase):
 
     def test_list_columns_order_and_coverage(self) -> None:
         src = self.PAGE.read_text(encoding="utf-8")
-        # 사용자 확정 순서·약식 라벨 (2026-09-22, DEC-292 — 2026-08-13 순서를 대체).
-        order = ["지역", "구분", "정지", "코드", "거래처명", "사업자등록번호", "대표자",
-                 "우편번호", "주소", "업태", "종목", "한도액", "전화", "팩스", "E-mail",
-                 "핸드폰", "위탁", "현매", "매절", "납품", "특별", "한도", "기타",
-                 "신간수량", "계산서", "발행유무", "담당자1", "담당자2", "비고1", "비고2"]
+        # DEC-412: 프론트 재설계(M-DEC-15) 운영 반영 — 목록 컬럼 = 신규 등록 폼 항목 순서·라벨
+        # (DEC-292 의 2026-09-22 약식 순서를 대체). 우편번호는 「주소1」 칸에 합쳐 보인다.
+        order = ["상태", "구분", "거래처코드", "거래처명", "거래처 지역", "사업자번호", "대표자",
+                 "업태", "종목", "담당자", "휴대전화", "전화", "팩스번호", "주소1", "이메일1",
+                 "주소2", "이메일2", "위탁", "현매", "매절", "납품", "특별", "한도", "기타",
+                 "신간수량", "한도액", "계산서", "담당", "비고1", "비고2"]
         pos = [src.index(f'label: "{lbl}"') for lbl in order]
-        self.assertEqual(pos, sorted(pos), "컬럼 정의 순서 = 확정 순서")
+        self.assertEqual(pos, sorted(pos), "컬럼 정의 순서 = 폼 순서")
         self.assertNotIn('key: "ocode"', src, "거래처코드2(ocode) 목록 제외(삭제 요청)")
+        # DEC-149 핵심 교정 유지 — gpper=담당자(텍스트) · gssum=한도액(숫자) · gphon=휴대전화.
+        self.assertIn('{ key: "gpper", label: "담당자"', src)
+        self.assertIn('{ key: "gssum", label: "한도액"', src)
+        self.assertIn('{ key: "gphon", label: "휴대전화"', src)
 
     def test_detail_form_canonical_labels(self) -> None:
-        # DEC-230 (2026-08-27) — 사용자 지정 명칭: 담당관리자1 / 휴대전화 / 한도 (컬럼 의미는 DEC-149 그대로)
+        # DEC-412: 프론트 재설계(M-DEC-3) 운영 반영 — 라벨 담당관리자1 → 「담당자」. 컬럼 의미는 DEC-149 그대로.
         src = self.FORM.read_text(encoding="utf-8")
-        self.assertIn('label="담당관리자1"', src)
-        self.assertIn('label="휴대전화"', src)
-        self.assertIn('label="한도"', src)
-        # 한도액은 gssum 에만 — gpper 숫자 강제 재발 금지.
+        self.assertIn('<Field label="담당자" value={data.gpper ?? ""} onChange={(v) => onChange("gpper", v)}', src,
+                      "담당자1 텍스트 그대로 저장")
+        self.assertIn('label="휴대전화" value={data.gphon ?? ""}', src)
+        self.assertIn('<MoneyField label="한도액" value={data.gssum ?? 0} onChange={(v) => onChange("gssum", v)}', src)
+        # 「한도」는 비율 행 grat7(DEC-408) — gpper/gssum 숫자 강제 재발 금지.
+        self.assertIn('<RatioField label="한도" value={data.grat7 ?? 0} onChange={(v) => onChange("grat7", v)}', src)
         self.assertNotIn('label="한도" value={String(data.gpper', src)
-        self.assertIn('onChange("gpper", v)', src, "담당자1 텍스트 그대로 저장")
-
+        self.assertNotIn('label="한도" value={data.gssum', src)
 
 if __name__ == "__main__":
     main()

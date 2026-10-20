@@ -5,6 +5,12 @@ DEC-338 — 신규도서등록(Sobo14 상세 폼) 줄 배치·숨김 칸·도서
   3 서가위치·판형·쪽수·판수·덩이·그램·발행일·등록일 / 4 재고·상태·정지사유·기타 / 5 비율 / 6 비고 / 8 전자책 ISBN·정가·비고.
 - 삭제 요청 칸은 값 보존을 위해 숨김(hidden 블록) — 저장 시 원값 그대로 왕복, 레거시 위젯 id 유지.
 - 도서종류 값은 Jubun(varchar(6)) 대신 G4_Book_Ext.BookKind 에 저장.
+
+DEC-412: 프론트 재설계(M-DEC-10·12·14, 피그마 33:10317/10531/10752) 운영 반영 — 줄 배치는 피그마로 바뀌었다:
+  머리 줄 도서명 + 재고 4칸(읽기 전용) / 4열 격자 도서 분류·도서 코드·저자명·ISBN·판형·페이지수·발행일·등록일·원가·매입가·정가·전자책·
+  인세 종류·인세율(%)·인지 유무 / 거래 조건 줄(위탁~기타·신간수량) / 등록번호·서가 위치·단위/묶음·상태 / 비고1·비고2.
+  피그마에 없는 칸은 숨김 블록(`data-hidden-fields="figma-book"`)에서 값 왕복 — DEC-338 의 «지우지 않고 숨김» 원칙은 그대로.
+  DEC-339(3열 폭)·DEC-340(2열 끝맞춤 · NL 조회 머리글)은 「DEC-412: 프론트 재설계 M-DEC-10·12 — 의도적 제거」(가드 삭제).
 """
 
 from __future__ import annotations
@@ -21,15 +27,29 @@ sys.path.insert(0, str(BACKEND))
 
 from app.services import book_ext_service as bx  # noqa: E402
 
-HIDDEN_LABELS = ("도서코드2", "비율구분", "등록번호", "도서종류(묶음)", "원가", "매입가",
-                 "본사재고 정품", "본사재고 비품", "창고재고 정품", "창고재고 비품", "도서처리",
-                 "단위", "세액유무", "재고절판")  # 뒤 3개 DEC-341
+# 피그마에 없는 칸 — 숨김 블록에서 값을 그대로 왕복한다(레거시 위젯 id 유지).
+HIDDEN_LABELS = ("자료제공", "판수", "그램", "재고", "정지사유", "전자책 ISBN", "전자책 정가", "전자책 비고",
+                 "세액유무", "재고절판", "도서처리", "도서코드2", "비율구분", "도서종류(묶음)")
+# 숨김 칸의 값 키 — 상세 저장(PATCH) · 신규 등록 payload 가 모두 실어 보내야 원값이 유지된다.
+HIDDEN_KEYS = ("book_kind", "supply", "gpan1", "gqut2", "status", "name2", "eisbn", "eprice", "ebook_memo",
+               "bigo1", "bigo2", "jubun", "scode", "ocode", "pubun", "gbjil")
+PAGES = FORM.parents[2] / "app" / "(app)" / "master" / "book"
 
 
 def _split(src: str) -> tuple[str, str]:
-    body = src.split("export function BookDetailForm")[1].split("const SELECT_CLASS")[0]
-    visible, hidden = body.split('<div hidden data-hidden-fields="DEC-338">')
-    return visible, hidden.split("</div>")[0]
+    body = src.split("export function BookDetailForm")[1].split("function ratioShown(")[0]
+    visible, hidden = body.split('<div hidden data-hidden-fields="figma-book">')
+    return visible, hidden.split("<ReadOnlyBanner")[0]
+
+
+def _labels(chunk: str) -> list[str]:
+    """화면 순서 라벨 — 조회/편집 삼항으로 같은 칸이 두 번 나오면 한 번만."""
+    out: list[str] = []
+    for a, b in re.findall(r'(?<![-\w])label="([^"]+)"|<Label>([^<]+)</Label>', chunk):
+        lbl = a or b
+        if lbl not in out:
+            out.append(lbl)
+    return out
 
 
 class FormLayout(TestCase):
@@ -38,55 +58,62 @@ class FormLayout(TestCase):
         self.visible, self.hidden = _split(self.src)
 
     def test_visible_order(self):
-        labels = re.findall(r'label="([^"]+)"|<Label>([^<]+)</Label>|<BookKindField', self.visible)
-        flat = [a or b or "도서종류" for a, b in labels]
-        expected = ["도서분류", "도서종류", "도서코드", "인지유무", "인세종류", "인세비율(%)",
-                    "도서명", "저자명", "ISBN", "정가", "자료제공",
-                    "서가위치", "판형", "쪽수", "판수", "덩이", "그램", "발행일", "등록일",
-                    "재고", "출고정지", "상태", "정지사유", "기타",
-                    "위탁", "현매", "매절", "납품", "특별", "한도", "기타(비율)",
-                    "비고",
-                    "전자책", "전자책 ISBN", "전자책 정가", "전자책 비고"]
-        self.assertEqual(flat, expected)
+        self.assertEqual(_labels(self.visible), [
+            "도서명", "본사 정품", "본사 비품", "창고 정품", "창고 비품",
+            "도서 분류", "도서 코드", "저자명", "ISBN", "판형", "페이지수", "발행일", "등록일",
+            "원가", "매입가", "정가", "전자책", "인세 종류", "인세율(%)", "인지 유무",
+            "위탁", "현매", "매절", "납품", "특별", "한도", "기타", "신간수량",
+            "등록번호", "서가 위치", "단위/묶음", "상태",
+            "비고1", "비고2",
+        ])
 
     def test_deleted_fields_hidden_not_removed(self):
         for label in HIDDEN_LABELS:
             self.assertIn(f'label="{label}"', self.hidden, label)
             self.assertNotIn(f'label="{label}"', self.visible, label)
         self.assertIn("<BookTypeField", self.hidden)  # 도서타입
-        for lid in ("Sobo14.Edit102", "Sobo14.Edit104", "Sobo14.Edit107", "Sobo14.Edit111", "Sobo14.Edit120",
-                    "Sobo14.Edit130", "Sobo14.Edit131", "Sobo14.Edit133", "Sobo14.Edit301", "Sobo14.Edit304",
-                    "Sobo14.Edit108", "Sobo14.CheckBox1", "Sobo14.CheckBox3"):
+        self.assertIn("<BookKindField", self.hidden)  # 도서종류(G4_Book_Ext.BookKind)
+        self.assertIn("<Label>품절 상태</Label>", self.hidden)  # 상태 4종(G4_Book_Ext.Status)
+        # 도서타입(Edit107) · 도서종류(Ext.BookKind) 위젯 id 는 각 하위 컴포넌트 정의부에 있다.
+        for lid in ("Sobo14.Edit107", "Sobo14.Ext.BookKind"):
             self.assertIn(lid, self.src, lid)
+        for lid in ("Sobo14.Edit102", "Sobo14.Edit104", "Sobo14.Edit111", "Sobo14.Edit112",
+                    "Sobo14.Edit125", "Sobo14.Edit127", "Sobo14.Edit129", "Sobo14.Edit133",
+                    "Sobo14.CheckBox1", "Sobo14.CheckBox3", "Sobo14.Ext.Status", "Sobo14.Ext.Supply"):
+            self.assertIn(lid, self.hidden, lid)
+        for lid in ("Sobo14.Edit120", "Sobo14.Edit130", "Sobo14.Edit131", "Sobo14.Edit301", "Sobo14.Edit304",
+                    "Sobo14.Edit108"):
+            self.assertIn(lid, self.visible, lid)
 
-    def test_row3_shelf_wide_dates_compact(self):
-        """DEC-339 — 3열: 서가위치 2fr·짧은 칸 5.75rem 하한·날짜 13rem 고정 + 달력 버튼 아이콘 폭(data-compact-dates)."""
-        row = self.visible.split('label="서가위치"')[0].rsplit("<div", 1)[1]
-        self.assertIn("xl:grid-cols-[minmax(0,2fr)_repeat(5,minmax(5.75rem,1fr))_repeat(2,13rem)]", row)
-        self.assertIn('data-compact-dates=""', row)
-        css = (FORM.parents[2] / "app" / "globals.css").read_text(encoding="utf-8")
-        rule = css.split("[data-form-grid][data-compact-dates]", 1)[1].split("}", 1)[0]
-        self.assertIn("> [data-date-field] > button", rule)
-        self.assertIn("width: 2rem !important", rule)
-        # 공통 규칙(입력·버튼 100% !important)과 같은 @layer utilities 안이어야 특이도로 이긴다.
-        self.assertGreater(css.index("[data-form-grid][data-compact-dates]"), css.index("@layer utilities"))
+    def test_hidden_values_round_trip_on_save(self):
+        """숨긴 칸도 저장 payload 에 실린다 — 빠지면 상세 저장 때 원값이 지워지거나 신규 등록에서 사라진다."""
+        detail = (PAGES / "[gcode]" / "page.tsx").read_text(encoding="utf-8")
+        body = detail.split("const body: BookUpdatePayload = {", 1)[1].split("};", 1)[0]
+        create = (PAGES / "new" / "page.tsx").read_text(encoding="utf-8")
+        create_body = create.split("await masterApi.bookCreate({", 1)[1].split("});", 1)[0]
+        for key in HIDDEN_KEYS:
+            self.assertRegex(body, rf"\b{key}:", f"상세 저장 {key}")
+            self.assertRegex(create_body, rf"\b{key}:", f"신규 등록 {key}")
 
-    def test_row2_ends_align_with_row1_and_stop_next_to_stock(self):
-        """DEC-340 — 1열 6칸=2열 12칸의 2칸씩: 도서명 4(도서종류 끝)·저자명 2(도서코드 끝)·ISBN 2(인지유무 끝).
-        ISBN 은 라벨 최소폭 해제+13px, NL 조회는 알약 suffix 가 아니라 상세 머리글. 출고정지는 재고 오른쪽."""
-        row2 = self.visible.split("{/* 2열")[1].split("{/* 3열")[0]
-        spans = re.findall(r'(?:label="([^"]+)"|<Label>([^<]+)</Label>)', row2)
-        self.assertEqual([a or b for a, b in spans], ["도서명", "저자명", "ISBN", "정가", "자료제공"])
-        self.assertIn('label="도서명"', row2.split("xl:col-span-4")[0])
-        self.assertNotIn("xl:col-span-3", row2)
-        self.assertIn("xl:col-span-2 [&_[data-slot=label]]:!min-w-0", row2)
-        self.assertNotIn("isbnAction", self.src)
-        self.assertNotIn("data-field-suffix", row2)
-        page = (FORM.parents[2] / "app" / "(app)" / "master" / "book" / "[gcode]" / "page.tsx").read_text(encoding="utf-8")
-        self.assertIn('data-legacy-id="Sobo14.NL.LookupIsbn"', page.split("actions={", 1)[1].split("BookFormActions")[0])
-        row4 = self.visible.split("{/* 4열")[1].split("</div>\n      </div>")[0]
-        order = re.findall(r'label="([^"]+)"|<Label>([^<]+)</Label>', row4)
-        self.assertEqual([a or b for a, b in order][:3], ["재고", "출고정지", "상태"])
+    def test_title_row_has_read_only_stock(self):
+        """머리 줄 = 도서명 + 재고 4칸(본사/창고 정품·비품). 재고는 시스템 산정이라 입력칸이 아니다."""
+        head = self.visible.split('<div className="my-5 border-t border-form-divider" />', 1)[0]
+        self.assertIn('legacyId="Sobo14.Edit105"', head)
+        for lid in ("Sobo14.Edit301", "Sobo14.Edit302", "Sobo14.Edit303", "Sobo14.Edit304"):
+            self.assertIn(f'legacyId="{lid}"', head)
+        stock = self.src.split("function StockBox(", 1)[1].split("\n}\n", 1)[0]
+        self.assertNotIn("<Input", stock)
+
+    def test_trade_terms_row(self):
+        """거래 조건 줄 — 비율 7칸 + 신간수량(Gqut1). 레거시 위젯 id 순서 그대로."""
+        row = self.visible.split('data-legacy-id="Sobo14.PanelTrade"', 1)[1].split("</section>", 1)[0]
+        self.assertEqual(re.findall(r'label="([^"]+)"', row), ["위탁", "현매", "매절", "납품", "특별", "한도", "기타", "신간수량"])
+        self.assertEqual(re.findall(r'legacyId="(Sobo14\.Edit\d+)"', row), [
+            "Sobo14.Edit113", "Sobo14.Edit114", "Sobo14.Edit115", "Sobo14.Edit116", "Sobo14.Edit117",
+            "Sobo14.Edit132", "Sobo14.Edit118", "Sobo14.Edit126",
+        ])
+        for key in ("grat1", "grat2", "grat3", "grat4", "grat5", "grat7", "grat6", "gqut1"):
+            self.assertIn(f'onChange("{key}", v)', row, key)
 
     def test_book_kind_options(self):
         self.assertIn('"저서", "번역서-CP", "번역서-SP", "원서1팀", "원서2팀", "교과서", "단행본", "기타", "영상·기타", "파프리카·한승"', self.src)

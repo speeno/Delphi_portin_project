@@ -3,6 +3,10 @@
 사용자 요청: 필드표(지역, 구분, 정지, (코드), 거래처명, …, 비고2)에서 괄호(푸른색) 항목 = 기본 표시,
 나머지(빨간색) = 컬럼 설정(필드 추가/숨김)으로 제어. 라벨은 줄일 수 있는 만큼 약식.
 엑셀 저장은 화면 표시 여부와 무관하게 모든 필드. 거래처 검색 필터의 지역 입력칸 제거.
+
+DEC-412: 프론트 재설계(M-DEC-15) 운영 반영 — 목록 컬럼 = 신규 등록 폼 항목 · 라벨 · 순서(기본 숨김 없음,
+저장 키 v7). 엑셀 카탈로그(백엔드 masters_excel)는 DEC-292 약식 라벨 그대로라 화면과 다른 라벨은
+LABEL_DIFF_PENDING 으로만 허용하고, 화면에 있는데 엑셀에 없는 칸은 EXPORT_MISSING_PENDING 으로만 허용한다.
 """
 
 from __future__ import annotations
@@ -20,7 +24,7 @@ PAGE = ROOT / "도서물류관리프로그램" / "frontend" / "src" / "app" / "(
 from app.services import masters_excel as mx  # noqa: E402
 from app.services.g1_ggeo_adapt import customer_detail_select_sql  # noqa: E402
 
-# 사용자 필드표 순서 — (key, 라벨, 기본표시=괄호 항목)
+# 사용자 필드표 순서(2026-09-22) — (key, 라벨, 기본표시=괄호 항목). DEC-412 이후 엑셀 카탈로그 순서 · 라벨 기준.
 SPEC: list[tuple[str, str, bool]] = [
     ("jubun", "지역", False), ("sname", "구분", False), ("grat9", "정지", False),
     ("gcode", "코드", True), ("gname", "거래처명", False), ("gnumb", "사업자등록번호", False),
@@ -35,6 +39,27 @@ SPEC: list[tuple[str, str, bool]] = [
 ]
 # 그리드 키 → 엑셀 카탈로그 키(합본 가상 키·구분명)
 GRID_TO_CATALOG = {"gtel1": "gtel", "gfax1": "gfax", "sname": "gbun_name"}
+
+# DEC-412 — 거래처 관리 목록(재설계): 폼 항목 순서 · 라벨. 우편번호는 주소1 칸에 합쳐 보인다.
+GRID_SPEC: list[tuple[str, str]] = [
+    ("grat9", "상태"), ("sname", "구분"), ("gcode", "거래처코드"), ("gname", "거래처명"),
+    ("jubun", "거래처 지역"), ("gnumb", "사업자번호"), ("gposa", "대표자"), ("guper", "업태"),
+    ("gjomo", "종목"), ("gpper", "담당자"), ("gphon", "휴대전화"), ("gtel1", "전화"),
+    ("gfax1", "팩스번호"), ("gjuso", "주소1"), ("email", "이메일1"), ("gadd2", "주소2"),
+    ("email2", "이메일2"), ("grat1", "위탁"), ("grat2", "현매"), ("grat3", "매절"),
+    ("grat4", "납품"), ("grat5", "특별"), ("grat7", "한도"), ("grat6", "기타"),
+    ("gqut1", "신간수량"), ("gssum", "한도액"), ("yesno", "계산서"), ("name2", "담당"),
+    ("gbigo", "비고1"), ("name1", "비고2"),
+]
+# 화면 라벨 ≠ 엑셀 헤더(백엔드 카탈로그) — 카탈로그 라벨을 바꾸면 여기서 지운다. (그리드 키, 화면, 엑셀)
+LABEL_DIFF_PENDING = {
+    ("grat9", "상태", "정지"), ("gcode", "거래처코드", "코드"), ("jubun", "거래처 지역", "지역"),
+    ("gnumb", "사업자번호", "사업자등록번호"), ("gpper", "담당자", "담당자1"), ("gphon", "휴대전화", "핸드폰"),
+    ("gfax1", "팩스번호", "팩스"), ("gjuso", "주소1", "주소"), ("email", "이메일1", "E-mail"),
+    ("yesno", "계산서", "발행유무"), ("name2", "담당", "담당자2"),
+}
+# 화면에 있고 엑셀 카탈로그에 없는 칸 — 이메일2(G1_Ggeo_Ext.Email2)는 카탈로그 추가 전까지 엑셀에 안 나간다.
+EXPORT_MISSING_PENDING = {"email2"}
 
 
 def _src() -> str:
@@ -54,32 +79,34 @@ def _default_hidden(src: str) -> set[str]:
 
 class GridSpec(TestCase):
     def test_columns_order_and_short_labels(self) -> None:
-        self.assertEqual(_grid_columns(_src()), [(k, lbl) for k, lbl, _ in SPEC])
+        self.assertEqual(_grid_columns(_src()), GRID_SPEC)
 
     def test_default_visible_is_parenthesized_set(self) -> None:
-        hidden = _default_hidden(_src())
-        self.assertEqual(hidden, {k for k, _, shown in SPEC if not shown})
-        visible = [k for k, _, _ in SPEC if k not in hidden]
-        self.assertEqual(
-            visible,
-            ["gcode", "gpost", "guper", "gjomo", "grat2", "grat3", "grat4", "grat5",
-             "grat7", "grat6", "gqut1", "yesno"],
-        )
+        # DEC-412: 프론트 재설계 M-DEC-15 — 의도적 제거: DEC-292 기본 숨김(기본 표시 12칸) 집합. 폼 항목만 컬럼, 기본 숨김 없음.
+        src = _src()
+        self.assertNotIn("CUSTOMER_DEFAULT_HIDDEN", src)
+        self.assertNotIn("defaultHidden", src)
+        self.assertIn("columns.map((c) => ({ key: c.key, label: c.label }))", src, "컬럼 설정(필드 추가/숨김)은 유지")
 
     def test_grid_prefs_key_v2_with_default_hidden(self) -> None:
         src = _src()
-        # 구 저장분(hidden 집합)이 새 기본을 덮지 않도록 저장 키 버전업(DEC-151 선례).
-        self.assertIn('useGridPrefs(user?.server_id, "master.customer.v2", {', src)
-        self.assertIn("defaultHidden: CUSTOMER_DEFAULT_HIDDEN", src)
+        # 구 저장분(hidden 집합)이 새 기본을 덮지 않도록 저장 키 버전업(DEC-151 선례) — 재설계에서 v7.
+        self.assertIn('useGridPrefs(user?.server_id, "master.customer.v7")', src)
+        self.assertNotIn('"master.customer.v2"', src)
 
 
 class ExportAllFields(TestCase):
     def test_every_grid_column_is_in_excel_with_same_label(self) -> None:
         catalog = {c["key"]: c["label"] for c in mx.customer_field_catalog()}
+        missing, diff = set(), set()
         for key, label in _grid_columns(_src()):
             ck = GRID_TO_CATALOG.get(key, key)
-            self.assertIn(ck, catalog, f"{key} 엑셀 누락")
-            self.assertEqual(catalog[ck], label, "엑셀 헤더 = 화면 라벨(DEC-234)")
+            if ck not in catalog:
+                missing.add(key)
+            elif catalog[ck] != label:
+                diff.add((key, label, catalog[ck]))
+        self.assertLessEqual(missing, EXPORT_MISSING_PENDING, "엑셀 누락 — 허용 목록 밖")
+        self.assertLessEqual(diff, LABEL_DIFF_PENDING, "엑셀 헤더 = 화면 라벨(DEC-234) — 허용 목록 밖")
 
     def test_catalog_order_follows_screen_then_extras(self) -> None:
         keys = [c["key"] for c in mx.customer_field_catalog()]
@@ -89,7 +116,8 @@ class ExportAllFields(TestCase):
 
     def test_export_ignores_screen_visibility(self) -> None:
         src = _src()
-        body = src[src.index("async function exportXlsx"): src.index("function resetFilters")]
+        start = src.index("async function exportXlsx")
+        body = src[start: src.index("\n  useEffect(", start)]
         self.assertNotIn("visibleColumns", body, "화면 표시 컬럼으로 엑셀 필드를 줄이지 않는다")
         self.assertNotIn("gridPrefs", body)
         # 필드 선택 기본값 = 카탈로그 전체(공용 ExportFieldPicker, DEC-295).

@@ -39,9 +39,18 @@ class CustomerGbunResolveTests(TestCase):
         self.assertIn("gbunName", src)
 
     def test_collapsible_on_detail_pages(self) -> None:
+        """DEC-412: 프론트 재설계 M-DEC-22 — 의도적 제거: 구분 관리 접이식 패널은 상세/신규에서 빠지고,
+        상세 폼의 거래처 구분 드롭다운에서 바로 「카테고리 넣기」(allowCreate). 수정 · 삭제는 단독
+        「거래처구분」 화면(/master/customer-category)의 같은 패널."""
+        form = (FRONT / "components" / "master" / "customer-detail-form.tsx").read_text(encoding="utf-8")
+        self.assertIn("<MasterGbunSelect", form)
+        self.assertIn("allowCreate={fieldsEditable}", form)
         for rel in (
             "app/(app)/master/customer/[gcode]/page.tsx",
             "app/(app)/master/customer/new/page.tsx",
         ):
             src = (FRONT / rel).read_text(encoding="utf-8")
-            self.assertIn("CustomerCategoryCollapsible", src)
+            self.assertIn("<CustomerDetailForm", src, rel)
+            self.assertIn("gbunReloadKey={catVer}", src, rel)
+        standalone = (FRONT / "app" / "(app)" / "master" / "customer-category" / "page.tsx").read_text(encoding="utf-8")
+        self.assertIn("<CustomerCategoryCollapsible", standalone)

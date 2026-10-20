@@ -42,8 +42,11 @@ class MasterSidebarLayoutTest(TestCase):
         # 기타거래처(Sobo15)는 거래처관리(Sobo11)와 중복(평행 G5_Ggeo 마스터)이라
         # 운영 요청으로 사이드바에서 감춤 (2026-06-20). 레지스트리/페이지는 보존.
         self.assertNotIn("Sobo15", form_ids)
-        self.assertIn('kind: "separator"', body)
-        self.assertIn('label: "비율관리"', body)
+        # DEC-412: 프론트 재설계 M-DEC-13 — 의도적 제거: 구분선 + 「비율관리」 그룹. 특별관리는 다른 항목과
+        # 같은 한 줄(순서는 위 목록 그대로 — 도서관리 다음).
+        self.assertNotIn('kind: "separator"', body)
+        self.assertNotIn('label: "비율관리"', body)
+        self.assertIn('{ kind: "item", formId: "Sobo16_special" }', body)
 
     def test_hidden_unused_forms(self) -> None:
         src = _read(REGISTRY)

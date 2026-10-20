@@ -9,6 +9,10 @@
 
 이관은 scratch 스크립트(JSX-lite 스캐너)로 106개 파일을 일괄 변환했다. 아래는 그 결과가
 되돌아가지 않도록 잡는 구조 가드다.
+
+DEC-412: 프론트 재설계(M-DEC-1/3/6~10/12~14) 운영 반영 — 기초관리 5화면(거래처·입고처·저자·도서·특별관리)의
+목록/신규/상세 15개 라우트는 PageHeader 대신 피그마 전용 머리(`<XxxMasterListHeader`, components/master/*-chrome)를
+쓴다. 같은 구조(전폭 `-mx-[5px]` 띠 · 아래 경계선 · 카드 프레임 없음 · 제목 왼쪽/검색 오른쪽)라 띠로 인정한다.
 """
 
 from __future__ import annotations
@@ -28,6 +32,21 @@ def _read(rel: str) -> str:
 
 def _app_pages() -> list[Path]:
     return sorted(p for p in APP.glob("**/page.tsx") if "/print/" not in str(p))
+
+
+# DEC-412 — 피그마 기초관리 머리(M-DEC 재설계). PageHeader 와 같은 띠 구조.
+MASTER_CHROME_HEADER = re.compile(r"<(Customer|InboundVendor|Author|Book|Special)MasterListHeader\b")
+MASTER_CHROME_FILES = (
+    "components/master/customer-master-list-header.tsx",
+    "components/master/inbound-vendor-master-chrome.tsx",
+    "components/master/author-master-chrome.tsx",
+    "components/master/book-master-chrome.tsx",
+    "components/master/special-master-chrome.tsx",
+)
+
+
+def _has_band(src: str) -> bool:
+    return "<PageHeader" in src or MASTER_CHROME_HEADER.search(src) is not None
 
 
 class PageHeaderComponentContract(TestCase):
@@ -69,8 +88,16 @@ class PageHeaderComponentContract(TestCase):
 class MigrationCoverage(TestCase):
     def test_most_screens_use_page_header(self) -> None:
         pages = _app_pages()
-        using = [p for p in pages if "<PageHeader" in p.read_text(encoding="utf-8")]
-        self.assertGreaterEqual(len(using), 95, f"PageHeader 사용 화면 {len(using)}/{len(pages)}")
+        using = [p for p in pages if _has_band(p.read_text(encoding="utf-8"))]
+        self.assertGreaterEqual(len(using), 95, f"PageHeader(또는 피그마 기초관리 머리) 사용 화면 {len(using)}/{len(pages)}")
+
+    def test_master_chrome_header_is_band_shaped(self) -> None:
+        """DEC-412 — 피그마 기초관리 머리도 전폭 띠 · 아래 경계선 · 카드 프레임 없음 · 검색칸은 띠 안."""
+        for rel in MASTER_CHROME_FILES:
+            src = _read(rel)
+            self.assertRegex(src, r"<header className=\"-mx-\[5px\][^\"]*border-b border-border bg-background", rel)
+            self.assertNotIn("rounded-2xl border border-border bg-card", src, rel)
+            self.assertIn("<MasterSearchQueryField", src, rel)
 
     def test_no_legacy_title_block_left(self) -> None:
         """종전 81개 화면이 복제하던 제목 블록(h1.text-xl + p.text-sm.text-muted-foreground)이 남아 있으면 안 된다."""
@@ -110,9 +137,9 @@ class MigrationCoverage(TestCase):
 
     def test_search_button_is_dark_filled(self) -> None:
         """대표 화면 3곳 — 띠 안의 조회/검색 버튼에 secondary/outline/sm 이 남아 있지 않다."""
+        # DEC-412 — 거래처관리(master/customer)는 피그마 머리로 바뀌어 아래 별도 검사(조회 = 기본 채움 Button).
         for rel in (
             "app/(app)/inventory/ledger/page.tsx",
-            "app/(app)/master/customer/page.tsx",
             "app/(app)/reports/book-sales/page.tsx",
         ):
             src = _read(rel)
@@ -124,6 +151,11 @@ class MigrationCoverage(TestCase):
                 self.assertNotIn('variant="secondary"', attrs, rel)
                 self.assertNotIn('variant="outline"', attrs, rel)
                 self.assertNotIn('size="sm"', attrs, rel)
+        chrome = _read("components/master/customer-master-list-header.tsx")
+        m = re.search(r"<Button\b([^>]*?)>\s*조회\s*</Button>", chrome, re.DOTALL)
+        self.assertIsNotNone(m, "거래처관리 머리의 「조회」 버튼")
+        for bad in ('variant="secondary"', 'variant="outline"', 'size="sm"'):
+            self.assertNotIn(bad, m.group(1))
 
 
 class ReferenceScreenDefaultState(TestCase):
@@ -168,6 +200,11 @@ class RemainingFilterCardsMerged(TestCase):
     def test_filter_lives_inside_band(self) -> None:
         for rel in self.PAGES:
             src = (APP / rel / "page.tsx").read_text(encoding="utf-8")
+            if MASTER_CHROME_HEADER.search(src):
+                # DEC-412: 프론트 재설계(M-DEC-7/9/10) — 검색은 피그마 기초관리 머리 안(MasterSearchQueryField).
+                self.assertNotIn("<PageHeader", src, rel)
+                self.assertNotIn("rounded-2xl border border-border bg-card", src, f"{rel}: 카드 프레임")
+                continue
             i = src.index("<PageHeader")
             j = src.find("</PageHeader>", i)
             self.assertNotEqual(j, -1, f"{rel}: PageHeader 에 children(필터) 없음")
@@ -205,22 +242,28 @@ class StatusScreenHeadBlock(TestCase):
 
 class SpecialScreenLayout(TestCase):
     """DEC-215 (2026-08-26 10:27) — 특별관리(Sobo16)를 목업 결로: 띠(관리자 필터 포함) + 2단 분할 + 섹션 헤더 +
-    프레임 없는 표. 패널 카드 프레임·설명 문단 제거, 검색·조회·컬럼은 섹션 헤더 액션."""
+    프레임 없는 표. 패널 카드 프레임·설명 문단 제거, 검색·조회·컬럼은 섹션 헤더 액션.
+
+    DEC-412: 프론트 재설계 M-DEC-13/18/19 — 의도적 제거: 거래처축/도서축 2단 분할 · 섹션 헤더 · 관리자 출판사
+    필터(Edit107) · 표 컬럼 설정/틀고정/순서/폭/정렬. 피그마 1:1351 목록(머리 검색 4기준 + 건수·선택 삭제·엑셀) +
+    신규/상세 라우트로 바뀌었다."""
 
     def test_special_page_mockup_layout(self) -> None:
         src = (APP / "master" / "special" / "page.tsx").read_text(encoding="utf-8")
-        i = src.index("<PageHeader")
-        j = src.index("</PageHeader>", i)
-        self.assertIn('data-legacy-id="Sobo16.Edit107"', src[i:j], "관리자 출판사 필터는 띠 안")
-        self.assertIn('storageKey="master.special"', src)
-        self.assertEqual(src.count("<SectionHeader"), 1, "AxisPane 공용 렌더 1곳(거래처·도서 두 축이 재사용)")
+        self.assertIn("<SpecialMasterListHeader", src)
+        self.assertNotIn("<PageHeader", src)
+        self.assertNotIn("<SplitListPanes", src)
         self.assertNotIn("rounded-2xl border border-border bg-card p-4 shadow-sm", src)
-        self.assertIn("fillHeight", src)
-        # 검색·조회·컬럼이 섹션 헤더 액션에 함께 있다
-        k = src.index("<SectionHeader")
-        block = src[k : src.index("/>", src.index("<GridColumnSettings", k))]
-        self.assertIn("<MasterLookupField", block)
-        self.assertIn("조회", block)
+        self.assertIn('legacyId="Sobo16.DBGrid101"', src)
+        self.assertIn('useListSession<Snap>("master.special.list"', src, "상세 갔다 복귀 시 검색 상태 유지")
+        self.assertIn('data-legacy-id="Sobo16.ButtonDeleteSelected"', src)
+        self.assertIn('data-legacy-id="Sobo16.ButtonExport"', src)
+        self.assertIn("hideFooterTotal", src, "건수는 표 위(피그마) — 하단 «총 N 건» 중복 없음")
+        chrome = _read("components/master/special-master-chrome.tsx")
+        for fid in ('id: "gcode"', 'id: "gname"', 'id: "bcode"', 'id: "bname"'):
+            self.assertIn(fid, chrome, "거래처·도서 코드/명 4기준 검색")
+        for sub in ("new", "[id]"):
+            self.assertIn("<SpecialDetailForm", (APP / "master" / "special" / sub / "page.tsx").read_text(encoding="utf-8"), sub)
 
 
 class NoTrappedBand(TestCase):
@@ -296,8 +339,8 @@ class EveryContentScreenHasBand(TestCase):
             if rel in self.WRAPPERS:
                 continue
             src = p.read_text(encoding="utf-8")
-            # SlipEntryLayout(DEC-239) 은 띠를 위임 렌더한다.
-            if "<PageHeader" not in src and "<PortalScreenTitle" not in src and "<SlipEntryLayout" not in src:
+            # SlipEntryLayout(DEC-239) 은 띠를 위임 렌더한다. DEC-412 — 피그마 기초관리 머리도 띠.
+            if not _has_band(src) and "<PortalScreenTitle" not in src and "<SlipEntryLayout" not in src:
                 missing.append(rel)
         self.assertEqual(missing, [], missing)
 

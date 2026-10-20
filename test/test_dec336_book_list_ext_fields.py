@@ -103,29 +103,41 @@ class ExcelAndModels(TestCase):
 
 class Screens(TestCase):
     def test_list_columns_and_search(self):
+        """DEC-412: 프론트 재설계(M-DEC-10·14·21) 운영 반영 — 목록 기본 컬럼은 피그마 도서 목록(등록 폼에 보이는 칸),
+        재고 4칸만 기본 숨김. 등록 폼에 없는 칸(자료제공 · 품절 상태 · 정지사유 · 재고 합계 등) 컬럼과 발행일 기간 필터는
+        「DEC-412: 프론트 재설계 M-DEC-10·21 — 의도적 제거」.
+        확장 필드 중 인지 유무 · 인세 · 비고2(기타 메모)는 목록에 남는다. 검색 줄 = 피그마 검색 띠(발행일 기간 필터 없음)."""
         src = (FE / "app" / "(app)" / "master" / "book" / "page.tsx").read_text(encoding="utf-8")
-        # DEC-366 — 컬럼 이름 · 순서는 신규도서 입력 화면을 따른다(전체 대조는 test_dec366_book_list_matches_form.py).
-        # 기본 표시는 여전히 이 요청(DEC-336)의 16종 — 숨김 목록에 없는 컬럼만 추려 확인한다.
-        body = src.split("const columns: DataGridColumn<BookListItem>[] = [")[1].split("// ── 이하 입력 화면에 없는 선택 컬럼")[0]
+        body = src.split("const columns: DataGridColumn<BookListItem>[] = [")[1].split("\n  ];")[0]
         hidden = set(re.findall(r'"(\w+)"', src.split("const BOOK_DEFAULT_HIDDEN = [")[1].split("] as const")[0]))
-        shown = [lbl for key, lbl in re.findall(r'key: "(\w+)",\s*label: "([^"]+)"', body) if key not in hidden]
-        self.assertEqual(shown, ["도서분류", "도서코드", "도서명", "저자명", "ISBN", "정가", "자료제공", "서가위치",
-                                 "발행일", "재고", "상태", "정지사유", "기타", "위탁", "비고", "전자책"])
-        self.assertIn('useGridPrefs(user?.server_id, "master.book.v4"', src)
-        self.assertIn('<AttachedFilterField\n                  label="검색"', src.replace("\r\n", "\n"))
-        self.assertIn('placeholder="코드, 도서명, ISBN"', src)
-        # 발행일 알약 안 날짜칸 = 테두리 없는 embedded(LedgerDatePill 과 같은 모양, 사용자 2026-09-25 캡처).
-        self.assertIn('<DateFieldYMD embedded ariaLabel="발행일 시작"', src)
-        self.assertIn('<DateFieldYMD embedded ariaLabel="발행일 종료"', src)
+        cols = re.findall(r'key: "(\w+)",\s*label: "([^"]+)"', body)
+        shown = [lbl for key, lbl in cols if key not in hidden]
+        self.assertEqual(shown, ["도서 분류", "도서 코드", "도서명", "저자명", "ISBN", "판형", "페이지수", "발행일", "등록일",
+                                 "원가", "매입가", "정가", "전자책", "인세 종류", "인세율(%)", "인지 유무",
+                                 "위탁", "현매", "매절", "납품", "특별", "한도", "기타", "신간수량",
+                                 "등록번호", "서가 위치", "단위/묶음", "상태", "비고1", "비고2"])
+        self.assertEqual(hidden, {"jego1", "jego2", "jego3", "jego4"})
+        keys = dict(cols)
+        for k in ("bigo3", "stamp", "etc_memo", "royalty_type", "royalty_rate"):
+            self.assertIn(k, keys, k)
+        self.assertIn('useGridPrefs(user?.server_id, "master.book.v7"', src)
+        self.assertIn("<BookMasterListHeader", src)
+        chrome = (FE / "components" / "master" / "book-master-chrome.tsx").read_text(encoding="utf-8")
+        self.assertIn('{ id: "isbn", label: "ISBN", placeholder: "ISBN을 입력하세요" }', chrome)
 
     def test_detail_form_fields(self):
+        """DEC-412: 프론트 재설계(M-DEC-12·14) 운영 반영 — 보이는 칸: 인지 유무(유/무) · 인세 · 비율 「기타」(grat6) ·
+        비고2(= 기타 메모 etc_memo). 피그마에 없는 확장 칸(도서종류 · 자료제공 · 품절 상태)은 숨김 블록에서 값 왕복."""
         src = (FE / "components" / "master" / "book-detail-form.tsx").read_text(encoding="utf-8")
-        # DEC-338 — 도서종류는 목록 콤보(BookKindField, <Label>도서종류</Label>)로 바뀌었다.
-        for token in ("<Label>도서종류</Label>", "<Label>상태</Label>", 'label="자료제공"', 'label="기타"',
-                      'label="인지유무"', 'label="기타(비율)"', 'const BOOK_STATUS_OPTIONS = ["정상", "일시품절", "품절", "절판"]'):
-            self.assertIn(token, src)
+        visible, hidden = src.split("export function BookDetailForm(")[1].split('<div hidden data-hidden-fields="figma-book">')
+        hidden = hidden.split("<ReadOnlyBanner")[0]
+        for token in ('label="인지 유무"', 'legacyId="Sobo14.Ext.Stamp"', 'label="인세 종류"', '<Label>비고2</Label>',
+                      'data-legacy-id="Sobo14.Ext.EtcMemo"', 'onChange={(v) => onChange("grat6", v)}'):
+            self.assertIn(token, visible, token)
+        for token in ("<BookKindField", 'label="자료제공"', "<Label>품절 상태</Label>", 'data-legacy-id="Sobo14.Ext.Status"'):
+            self.assertIn(token, hidden, token)
+        self.assertIn('const BOOK_STATUS_OPTIONS = ["정상", "일시품절", "품절", "절판"]', src)
         self.assertNotIn('label="묶음"', src)
-
 
 if __name__ == "__main__":
     main(verbosity=2)

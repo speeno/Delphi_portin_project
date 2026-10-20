@@ -97,36 +97,47 @@ class BookPageGuard(TestCase):
     PAGE = FRONTEND / "app" / "(app)" / "master" / "book" / "page.tsx"
 
     def test_default_order_and_all_sortable(self) -> None:
+        """DEC-412: 프론트 재설계(M-DEC-10·14·21) 운영 반영 — 기본 순서는 피그마 도서 목록(등록 폼 항목 순서).
+        컬럼의 sortable 표시는 남아 있으나, 머리글 클릭 정렬(onSortChange)은
+        「DEC-412: 프론트 재설계 M-DEC-10 — 의도적 제거」: 목록은 도서코드 오름차순 고정(백엔드 정렬 화이트리스트는 유지)."""
         src = self.PAGE.read_text(encoding="utf-8")
-        # 2026-09-15 용어 변경 — sname 라벨 "도서분류" → "도서구분"(순서/키 불변).
-        # DEC-296 — 도서처리 컬럼 제거(2026-09-22 사용자).
-        # DEC-336(2026-09-25 사용자 컬럼표) — 기본 표시 16종.
-        # DEC-366(2026-10-01 「신규도서 입력 칸과 동일하게」) — 이름 · 순서는 신규도서 입력 화면을 따른다(구분→도서분류, 코드→도서코드).
-        order = ["도서분류", "도서코드", "도서명", "저자명", "ISBN", "정가", "자료제공", "서가위치",
-                 "발행일", "재고", "상태", "정지사유", "기타", "위탁", "비고", "전자책"]
+        order = ["도서 분류", "도서 코드", "도서명", "저자명", "ISBN", "판형", "페이지수", "발행일", "등록일",
+                 "원가", "매입가", "정가", "전자책", "인세 종류", "인세율(%)", "인지 유무",
+                 "위탁", "현매", "매절", "납품", "특별", "한도", "기타", "신간수량",
+                 "등록번호", "서가 위치", "단위/묶음", "상태", "비고1", "비고2",
+                 "본사 정품", "본사 비품", "창고 정품", "창고 비품"]
         pos = [src.index(f'label: "{lbl}"') for lbl in order]
-        self.assertEqual(pos, sorted(pos), "기본 표시 순서 = 신규도서 입력 화면 순서")
-        # 전 데이터 컬럼 정렬 — sortable 미지정 데이터 컬럼 금지(NL 서지 액션 제외).
-        # 예외: 전자책(Bigo3 플래그)·확장 필드(G4_Book_Ext)·전자책 ISBN(G4_Book_Ebook) — 페이지 행 병합이라 서버 정렬 불가.
+        self.assertEqual(pos, sorted(pos), "기본 표시 순서 = 피그마 도서 목록")
+        # 전 데이터 컬럼 정렬 — sortable 미지정 데이터 컬럼 금지.
+        # 예외: 전자책(Bigo3 플래그)·확장 필드(G4_Book_Ext) — 페이지 행 병합이라 서버 정렬 불가.
         import re
-        unsortable = {"bigo3", "status", "supply", "etc_memo", "stamp",
-                      "book_kind", "royalty_type", "royalty_rate", "eisbn", "ebook_memo"}
-        for m in re.finditer(r'\{ key: "(\w+)"[^\n]*label: "([^"]+)"[^\n]*\}', src):
+        unsortable = {"bigo3", "etc_memo", "stamp", "royalty_type", "royalty_rate"}
+        cols = src.split("const columns: DataGridColumn<BookListItem>[] = [", 1)[1].split("\n  ];", 1)[0]
+        found = 0
+        for m in re.finditer(r'\{\s*key: "(\w+)",\s*label: "([^"]+)"[^}]*?\}', cols):
+            found += 1
             if m.group(1) in unsortable:
                 continue
             self.assertIn("sortable: true", m.group(0), f"{m.group(2)} 정렬 누락")
+        self.assertGreaterEqual(found, len(order))
+        # 목록 · 엑셀 모두 같은 고정 순서(도서코드 오름차순) — 화면과 엑셀 순서가 어긋나지 않게.
+        self.assertEqual(src.count('sortBy: "gcode",\n        sortDir: "asc",'), 2)
+        self.assertNotIn("onSortChange", src)
 
     def test_stock_amount_derived_column(self) -> None:
+        """「DEC-412: 프론트 재설계 M-DEC-21 — 의도적 제거」: 목록의 재고(합계) · 재고금액 계산 칸(등록 폼에 없는 칸).
+        재고는 본사/창고 정품·비품 4칸(선택 컬럼)으로 보이고, 백엔드 재고금액 정렬 화이트리스트는 유지한다."""
         src = self.PAGE.read_text(encoding="utf-8")
-        self.assertIn('id: "stock_amount"', src)
-        self.assertIn('sortKey: "stock_amount"', src)
-        self.assertIn("(row.gsqut ?? 0) * (row.gdang ?? 0)", src)
+        for key in ("jego1", "jego2", "jego3", "jego4"):
+            self.assertIn(f'key: "{key}"', src)
+        self.assertIn("stock_amount", ms._book_sorts_for_columns({"gcode", "gsqut", "gdang"}))
 
     def test_default_hidden_and_v2_key(self) -> None:
         src = self.PAGE.read_text(encoding="utf-8")
-        self.assertIn('"master.book.v4"', src)  # DEC-366 입력 화면 순서로 재구성(v3 = DEC-336)
+        # DEC-412 — 재설계 컬럼(v7). 저장해 둔 옛 순서·숨김이 새 기본을 덮지 않게 키를 올렸다.
+        self.assertIn('"master.book.v7"', src)
         self.assertIn("defaultHidden: BOOK_DEFAULT_HIDDEN", src)
-        for k in ("jego1", "bigo1", "grat9", "price", "odang"):
+        for k in ("jego1", "jego2", "jego3", "jego4"):
             self.assertIn(f'"{k}"', src.split("BOOK_DEFAULT_HIDDEN")[1].split("]")[0])
 
 

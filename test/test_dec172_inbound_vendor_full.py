@@ -375,54 +375,68 @@ class ScreenGuard(TestCase):
     API = FRONTEND / "lib" / "master-api.ts"
 
     def test_list_columns_order_and_coverage(self) -> None:
+        """DEC-412: 프론트 재설계(M-DEC-7) 운영 반영 — 목록 = 피그마(1:425) 15칸(신규 등록 폼 항목만).
+
+        한도액·한도(율)·공급률·정지·계산서·발행유무 등 DEC-294 칸은 목록에서 의도적 제거(M-DEC-7) —
+        엑셀 내려받기(전 필드)와 상세 폼(숨김 블록)에는 남는다. 바인딩(gpper=담당자 텍스트)은 DEC-172 그대로.
+        """
         src = self.PAGE.read_text(encoding="utf-8")
-        # DEC-294(2026-09-22) — 거래처현황과 같은 필드표·약식 라벨, 끝에 정지사유.
-        order = ["지역", "구분", "정지", "코드", "입고처명", "사업자등록번호", "대표자", "우편번호",
-                 "주소", "업태", "종목", "한도액", "전화", "팩스", "E-mail", "핸드폰", "위탁", "현매",
-                 "매절", "납품", "특별", "한도", "기타", "신간수량", "계산서", "발행유무", "담당자1",
-                 "담당자2", "비고1", "비고2", "정지사유"]
+        order = ["지역", "입고처 코드", "입고처명", "사업자번호", "대표자", "전화번호", "팩스", "핸드폰 번호",
+                 "이메일", "입고처 구분", "업태", "종목", "담당자", "주소", "비고"]
         pos = [src.index(f'label: "{lbl}"') for lbl in order]
         self.assertEqual(pos, sorted(pos), "컬럼 정의 순서 = 확정 순서")
-        self.assertIn('key: "gpper", label: "담당자1"', src)
-        self.assertIn('key: "gssum", label: "한도액"', src)
-        self.assertIn('key: "grat7", label: "한도"', src)
-        self.assertNotIn('key: "ocode"', src, "입고처코드2(ocode) 목록 제외(거래처 동형)")
+        self.assertIn('key: "gpper", label: "담당자"', src)
+        self.assertIn('key: "gphon", label: "핸드폰 번호"', src)
+        for k in ("gssum", "grat7", "ocode"):
+            self.assertNotIn(f'key: "{k}"', src, f"{k} 목록 제외(M-DEC-7)")
         # 엑셀 필드 선택 UI(거래처 동형).
         # DEC-295 — 필드 선택 팝오버는 공용 ExportFieldPicker(거래처·입고처·저자).
         self.assertIn("loadFields={inboundVendorApi.exportFields}", src)
         self.assertIn("<ExportFieldPicker", src)
 
     def test_detail_form_canonical_labels(self) -> None:
-        # 2026-09-08 사용자 요청으로 배열은 거래처관리(Sobo11)와 동형으로 재배치했지만,
-        # DEC-172 의 핵심(라벨 ↔ 실컬럼 바인딩)은 그대로 지킨다.
+        """DEC-412: 프론트 재설계(M-DEC-6/8) 운영 반영 — 피그마 폼에 없는 칸은 숨김 블록에서 값·바인딩 유지.
+
+        2026-09-08 배열 재배치 · 2026-10 피그마 재설계를 거쳐도 DEC-172 의 핵심(라벨 ↔ 실컬럼 바인딩)은 그대로 지킨다.
+        """
         src = self.FORM.read_text(encoding="utf-8")
-        pairs = {
-            # DEC-269 — 라벨은 거래처 화면과 같은 「담당관리자1」로 통일(바인딩 Gpper 은 그대로).
-            'label="담당관리자1" value={data.gpper': "Sobo12.Edit110",
-            'label="핸드폰번호" value={data.gphon': "Sobo12.Edit132",
+        visible, hidden = src.split('<div hidden data-hidden-fields="figma-inbound-vendor">', 1)
+        hidden = hidden.split("<ReadOnlyBanner", 1)[0]
+        # 피그마 칸(보임) — 조회 모드는 shown()(빈 값 "-") 으로 감싼다.
+        for snippet, legacy_id in {
+            'label="담당자" value={shown(data.gpper)': "Sobo12.Edit110",
+            'label="휴대전화" value={shown(data.gphon)': "Sobo12.Edit132",
+            'label="이메일" value={shown(data.email2)': "Sobo12.Ext.Email2",
+        }.items():
+            self.assertIn(snippet, visible, snippet)
+            line = next(l for l in visible.splitlines() if snippet in l)
+            self.assertIn(legacy_id, line, f"{snippet} ↔ {legacy_id}")
+        # 비고(Edit125=Gbigo) — 보이는 비고 칸은 비고1 정본.
+        i = visible.index('data-legacy-id="Sobo12.Edit125"')
+        self.assertIn("value={data.gbigo}", visible[max(0, i - 300): i])
+        # 피그마 밖 칸(숨김) — 값은 그대로 왕복.
+        for snippet, legacy_id in {
             'label="한도액" value={data.gssum': "Sobo12.Edit131",
             'label="한도" value={data.grat7': "Sobo12.Edit130",
             'label="기타" value={data.grat6': "Sobo12.Edit123",
-            'label="비고1" value={data.gbigo': "Sobo12.Edit125",
             'label="비고2" value={data.name1': "Sobo12.Edit126",
             'label="계산서 거래처명" value={data.name2': "Sobo12.Edit127",
             'label="정지사유" value={data.email': "Sobo12.Edit129",
-        }
-        for snippet, legacy_id in pairs.items():
-            self.assertIn(snippet, src, snippet)
-            line = next(l for l in src.splitlines() if snippet in l)
+        }.items():
+            self.assertIn(snippet, hidden, snippet)
+            line = next(l for l in hidden.splitlines() if snippet in l)
             self.assertIn(legacy_id, line, f"{snippet} ↔ {legacy_id}")
-        # 발행유무(Yesno)=체크박스 · 정지유무(Grat9)=유/무 셀렉트 — 거래처 화면과 동일한 위젯.
-        # DEC-293 — 체크 칸은 공용 FormCheckCell(알약 높이) — 바인딩(Yesno ← "1"/"")은 그대로.
-        self.assertIn('onChange={(on) => onChange("yesno", on ? "1" : "")}', src)
-        self.assertIn('legacyId="Sobo12.CheckBox1"', src)
-        self.assertIn('onChange("grat9", Number(e.target.value))', src)
-        self.assertIn('data-legacy-id="Sobo12.CheckBox2"', src)
-        self.assertIn("<Label>정지유무</Label>", src)
+        # 발행유무(Yesno)=체크 칸 · 정지유무(Grat9)=유/무 셀렉트 — 숨김 블록.
+        # DEC-293 — 체크 칸은 공용 FormCheckCell — 바인딩(Yesno ← "1"/"")은 그대로.
+        self.assertIn('onChange={(on) => onChange("yesno", on ? "1" : "")}', hidden)
+        self.assertIn('legacyId="Sobo12.CheckBox1"', hidden)
+        self.assertIn('onChange("grat9", Number(e.target.value))', hidden)
+        self.assertIn('data-legacy-id="Sobo12.CheckBox2"', hidden)
+        self.assertIn("<Label>정지유무</Label>", hidden)
         self.assertNotIn("gjomo1", src.split("*/", 1)[1], "gjomo1 바인딩 제거(주석 제외)")
         self.assertNotIn('label="한도액" value={String(data.gpper', src)
-        self.assertNotIn('label="계산서" value={data.pubun', src, "Sobo12 에 계산서구분 없음")
-        self.assertIn('onChange("gpper", v)', src, "담당자 텍스트 그대로 저장")
+        self.assertNotIn("value={data.pubun", src, "Sobo12 에 계산서구분 없음")
+        self.assertIn('onChange("gpper", v)', visible, "담당자 텍스트 그대로 저장")
 
     def test_etc_form_canonical_labels(self) -> None:
         src = self.ETC_FORM.read_text(encoding="utf-8")

@@ -72,7 +72,8 @@ class CommonTableStyle(TestCase):
 
     def test_data_grid_uses_common_style(self) -> None:
         src = _read("components/data-grid/data-grid.tsx")
-        self.assertIn("sticky top-0 z-10 bg-table-head px-4 py-2 text-sm font-semibold", src)
+        # DEC-412: 프론트 재설계(M-DEC-1) 운영 반영 — 머리글은 전 컬럼 가운데 정렬(피그마 표). 회색 머리글·굵은 글자는 그대로.
+        self.assertIn("sticky top-0 z-10 bg-table-head px-4 py-2 text-center text-sm font-semibold", src)
         self.assertIn("LIST_TABLE_ROW_SELECTED_CLASS} ${LIST_TABLE_ROW_FOCUS_CLASS}", src)
         self.assertNotIn('"bg-primary/10 ring-1 ring-primary/40"', src)
         self.assertIn("<tr className={LIST_TABLE_FOOTER_ROW_CLASS}>", src)

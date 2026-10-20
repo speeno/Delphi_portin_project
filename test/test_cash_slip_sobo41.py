@@ -401,6 +401,9 @@ class DataGridStickyCollisionTests(TestCase):
     **합계행이 있으면 하단 페이저를 sticky 로 띄우지 않는다**.
 
     `reports/book-sales` 도 totals+pager 조합이라 같은 결함을 공유했다 — 공통 수정.
+
+    DEC-412: 프론트 재설계(M-DEC-1) 운영 반영 — 하단 페이저 바의 모양(둥근 카드 → 캔버스 배경 띠)만
+    바뀌었고, sticky 는 여전히 `stickyBottomPager`(합계행 없을 때만)로만 붙는다.
     """
 
     GRID = (FRONT / "components" / "data-grid" / "data-grid.tsx")
@@ -409,7 +412,7 @@ class DataGridStickyCollisionTests(TestCase):
         src = self.GRID.read_text(encoding="utf-8")
         self.assertIn("const stickyBottomPager = showBottomPager && !totals;", src)
         # sticky 클래스는 새 플래그로만 붙어야 한다(구 플래그로 되돌아가면 겹침 재발).
-        idx = src.index("sticky bottom-0 z-10 rounded-xl")
+        idx = src.index("sticky bottom-0 z-10 bg-background")
         guard = src[max(0, idx - 200):idx]
         self.assertIn("stickyBottomPager", guard)
 

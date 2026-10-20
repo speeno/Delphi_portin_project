@@ -12,6 +12,10 @@ account-menu-fxx-rbac Phase F-3 — 누락 기초관리 3화면 프론트 회귀
 3. data-legacy-id 「위젯 ID 누락 0」 — 각 페이지가 부착하는 모든 legacy_id 가 해당
    layout_mappings/SoboXX.md 에 존재(매핑노트 ↔ DOM 추적성, 고아 ID 0).
 4. Phase D 게이트(useScreenCaps/WriteGate/PrintGate) 적용 + 계정 하드코딩 0.
+
+DEC-412: 프론트 재설계 M-DEC-22 — 의도적 제거: 입고처(Sobo12)·저자(Sobo13) 상세/신규의 구분 접이 패널
+(`*CategoryCollapsible`). 구분은 폼 안 `MasterGbunSelect` 콤보에서 고르고 「추가하기」로 이름만 넣어 만든다
+(서버 채번, DEC-408).
 """
 
 from __future__ import annotations
@@ -74,8 +78,9 @@ class RoutePagesWired(TestCase):
                 self.assertTrue(new_page.exists(), "missing inbound-vendor new route")
                 self.assertIn("InboundVendorDetailForm", _read(detail_page))
                 self.assertIn("InboundVendorDetailForm", _read(new_page))
-                self.assertIn("InboundVendorCategoryCollapsible", _read(detail_page))
-                self.assertIn("InboundVendorCategoryCollapsible", _read(new_page))
+                form = _read(FRONT / "components/master/inbound-vendor-detail-form.tsx")
+                self.assertIn("<MasterGbunSelect", form, "구분 콤보(M-DEC-22)")
+                self.assertIn("createCategory=", form, "구분 「추가하기」")
             elif screen == "Sobo13":
                 self.assertNotIn("AuthorCategoryPanel", src)
                 self.assertNotIn("setTab(", src)
@@ -85,8 +90,9 @@ class RoutePagesWired(TestCase):
                 self.assertTrue(new_page.exists(), "missing author new route")
                 self.assertIn("AuthorDetailForm", _read(detail_page))
                 self.assertIn("AuthorDetailForm", _read(new_page))
-                self.assertIn("AuthorCategoryCollapsible", _read(detail_page))
-                self.assertIn("AuthorCategoryCollapsible", _read(new_page))
+                form = _read(FRONT / "components/master/author-detail-form.tsx")
+                self.assertIn("<MasterGbunSelect", form, "구분 콤보(M-DEC-22)")
+                self.assertIn("createCategory=", form, "구분 「추가하기」")
             elif screen == "Sobo15":
                 self.assertNotIn("EtcCustomerDetailForm", src)
                 self.assertNotIn("EtcCustomerCategoryPanel", src)

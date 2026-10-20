@@ -68,9 +68,22 @@ class NumberedPager(TestCase):
         self.assertNotIn(">\n          이전\n", block)
 
     def test_data_grid_footer_centers_pager(self) -> None:
+        """번호형 페이저는 표 하단 가운데, 왼쪽 «총 N 건», 오른쪽 footerRight.
+
+        DEC-412: 프론트 재설계(M-DEC-1) 운영 반영 — 3칸 flex-1 대신 1fr·auto·1fr 격자로 가운데 정렬.
+        재설계가 하단 건수를 통째로 지웠던 것은 재설계 안 한 화면(약 60곳)의 건수가 사라지는 회귀라
+        되돌리고, 표 위에 건수를 따로 두는 피그마 기초관리 목록만 `hideFooterTotal` 로 끈다.
+        """
         src = _read("components/data-grid/data-grid.tsx")
-        self.assertIn('<span className="flex flex-1 items-center justify-center">', src)
-        self.assertIn('<DataGridPager {...pager} variant="compact" />', src)
+        i = src.index('data-slot="data-grid-footer"')
+        footer = src[i : i + 1800]
+        self.assertIn("grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center", footer)
+        self.assertIn('<span className="flex items-center justify-center">', footer)
+        self.assertIn('<DataGridPager {...pager} variant="compact" />', footer)
+        self.assertIn("총 ${footerTotal.toLocaleString()} 건", footer)
+        self.assertIn("const footerTotal = hideFooterTotal ? undefined : (pagerPage?.total ?? total);", src)
+        self.assertIn("showBottomPager || footerRight != null || footerTotal !== undefined", src)
+        self.assertIn("hideFooterTotal = false,", src, "기본은 하단 건수 표시(종전 화면 동작 유지)")
 
 
 class BackendIsbn(TestCase):

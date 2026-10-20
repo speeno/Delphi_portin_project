@@ -41,18 +41,22 @@ class MasterLookupDialogStaticTest(TestCase):
             self.assertIn(kw, src)
 
     def test_representative_pages_use_lookup_button(self) -> None:
-        customer = _read(FRONT / "app" / "(app)" / "master" / "customer" / "page.tsx")
-        book = _read(FRONT / "app" / "(app)" / "master" / "book" / "page.tsx")
-        inbound = _read(FRONT / "app" / "(app)" / "master" / "inbound-vendor" / "page.tsx")
-
-        self.assertIn("MasterLookupButton", customer)
-        self.assertIn('lookupKind="customer"', customer)
-
-        self.assertIn("MasterLookupButton", book)
-        self.assertIn('lookupKind="book"', book)
-
-        self.assertIn("MasterLookupButton", inbound)
-        self.assertIn('lookupKind="inboundVendor"', inbound)
+        """DEC-412: 프론트 재설계 M-DEC-17 — 의도적 제거: 기초관리 목록(거래처·도서·입고처) 머리의 검색 팝업
+        (MasterLookupButton). 피그마 머리의 검색 기준 선택 + 입력칸(MasterSearchQueryField · X 지우기)으로 찾는다.
+        공용 팝업(MasterLookupDialog/Field)은 전표·현황 화면에서 그대로 쓴다(아래 테스트).
+        """
+        pages = {
+            "customer": "components/master/customer-master-list-header.tsx",
+            "book": "components/master/book-master-chrome.tsx",
+            "inbound-vendor": "components/master/inbound-vendor-master-chrome.tsx",
+        }
+        for route, chrome_rel in pages.items():
+            page = _read(FRONT / "app" / "(app)" / "master" / route / "page.tsx")
+            self.assertNotIn("MasterLookupButton", page, route)
+            self.assertRegex(page, r"<(Customer|Book|InboundVendor)MasterListHeader\b", route)
+            chrome = _read(FRONT / chrome_rel)
+            self.assertIn("<MasterSearchQueryField", chrome, chrome_rel)
+            self.assertIn('aria-label="검색 기준"', chrome, chrome_rel)
 
     def test_shipment_transactions_pages_use_lookup_field(self) -> None:
         shipment_orders = _read(FRONT / "app" / "(app)" / "outbound" / "orders" / "page.tsx")

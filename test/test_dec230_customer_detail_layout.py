@@ -78,14 +78,22 @@ class FormLayout(TestCase):
         s = self.src
         base = s.index('data-legacy-id="Sobo11.Panel101"'); bill = s.index('data-legacy-id="Sobo11.Panel201"')
         self.assertLess(base, bill)
-        # DEC-293(2026-09-22) — 4열 균등 칸 재배치: 거래정지·사유만 한도 뒤로(나머지 DEC-230 순서 유지).
-        # DEC-335(2026-09-25 사용자) — 거래처명을 맨 앞으로(Edit105 → Edit101 앞).
-        order = ["Sobo11.Edit105", "Sobo11.Edit101", "거래처지역", "거래처코드",
-                 "대표자", "사업자등록번호", '"업태"', '"종목"', '"한도"', "거래정지", '"사유"',
-                 'label="주소1"', 'label="유선전화"', 'label="팩스번호"', 'label="휴대전화"', 'label="이메일"',
-                 'label="주소2"', "Sobo11.Ext.Tel2", "Sobo11.Ext.Fax2", "Sobo11.Ext.Phon2", "Sobo11.Ext.Email2",
-                 "청구정보", '"위탁"', '"현매"', '"매절"', '"납품"', '"특별"', '"기타"', '"신간수량"',
-                 "<InvoiceKindRow", "담당관리자1", "Sobo11.Ext.Contact1", "비고1", "담당관리자2", "Sobo11.Edit130", "비고2", "<Label>메모</Label>"]
+        # DEC-412: 프론트 재설계(M-DEC-3 · M-DEC-15) 운영 반영 — Figma 순서: 기본 4행(구분 · 코드 · 거래처명 · 지역 /
+        # 사업자번호 · 대표자 · 업태 · 종목 / 담당자 · 휴대전화 · 전화 · 팩스 / 주소1+이메일1 · 주소2+이메일2) →
+        # 거래 조건(비율 + 한도액) → 계산서 · 담당 · 출고 여부 · 비고1 → 비고2.
+        # DEC-335(거래처명 맨 앞)는 Figma 로 구분 → 코드 → 거래처명 순서가 됐다.
+        # DEC-412: 프론트 재설계 M-DEC-3 — 의도적 제거: 유선전화2 · 팩스2 · 휴대전화2 · 정지 사유 · 담당자 연락처 · 메모.
+        # 숨김 블록(data-hidden-fields="figma-customer")에 바인딩만 남고, 저장 시 불러온 값을 그대로 다시 보낸다
+        # (test_pages_send_ext_fields · test_dec293).
+        order = ['data-legacy-id="Sobo11.Panel101"',
+                 "Sobo11.Edit101", "Sobo11.Edit103", "Sobo11.Edit105", "Sobo11.Edit102",
+                 "Sobo11.Edit107", "Sobo11.Edit106", "Sobo11.Edit108", "Sobo11.Edit109",
+                 "Sobo11.Edit110", "Sobo11.Edit132", "Sobo11.Edit112", "Sobo11.Edit114",
+                 'label="주소1"', "Sobo11.Edit129", 'label="주소2"', "Sobo11.Ext.Email2",
+                 'data-legacy-id="Sobo11.Panel201"', "거래 조건",
+                 '"위탁"', '"현매"', '"매절"', '"납품"', '"특별"', '"한도"', '"기타"', '"신간수량"', '"한도액"',
+                 '"계산서"', "Sobo11.CheckBox1", '"담당"', "Sobo11.Edit127", '"출고 여부"', "Sobo11.CheckBox2",
+                 '"비고1"', "Sobo11.Edit125", "<Label>비고2</Label>", "Sobo11.Edit126"]
         pos = -1
         for tok in order:
             i = s.index(tok, pos + 1)

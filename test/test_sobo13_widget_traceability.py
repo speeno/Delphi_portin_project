@@ -50,26 +50,25 @@ class Sobo13WidgetTraceability(TestCase):
         list_src = _read(FRONT / "app" / "(app)" / "master" / "author" / "page.tsx")
         self.assertNotIn("AuthorCategoryPanel", list_src)
         self.assertNotIn("setTab(", list_src)
-        detail_src = _read(FRONT / "app" / "(app)" / "master" / "author" / "[gcode]" / "page.tsx")
-        new_src = _read(FRONT / "app" / "(app)" / "master" / "author" / "new" / "page.tsx")
-        self.assertIn("AuthorCategoryCollapsible", detail_src)
-        self.assertIn("AuthorCategoryCollapsible", new_src)
-        self.assertIn("gbunReloadKey", detail_src)
+        # DEC-412: 프론트 재설계 M-DEC-9 — 의도적 제거: 상세·신규의 저자구분 관리 패널(Panel004 접힘).
+        # 구분 추가는 M-DEC-22 드롭다운(allowCreate)에서. 패널 컴포넌트 파일은 남아 있다(레거시 id 보존).
+        form = _read(FRONT / "components" / "master" / "author-detail-form.tsx")
+        self.assertIn("createCategory={authorApi.categoryCreate}", form)
+        self.assertIn("reloadKey={gbunReloadKey}", form)
 
     def test_list_search_filter_bar(self) -> None:
         list_src = _read(FRONT / "app" / "(app)" / "master" / "author" / "page.tsx")
-        # 저자구분 필터는 DEC-119(2026-07-21)로 <select id="f-gubun"> → LocalComboField 전환.
-        for kw in (
-            "LocalComboField",
-            'inputLegacyId="Sobo13.Filter.Gubun"',
-            "f-workplace",
-            "workplace",
-            "resetFilters",
-            "gbun_name",
-        ):
+        # DEC-412: 프론트 재설계(M-DEC-9 · M-DEC-17) 운영 반영 — 피그마 머리의 검색 한 칸(서버 q = 코드·저자명·직장명).
+        # 종전 저자구분(LocalComboField)·소속대학(f-workplace) 필터와 초기화 버튼은 시안에서 빠졌다. x 버튼(onClear)이
+        # 조회한 검색어를 지우고 전체 목록을 다시 부른다.
+        chrome = _read(FRONT / "components" / "master" / "author-master-chrome.tsx")
+        for kw in ("<AuthorMasterListHeader", 'qInputId="q-author"', "onClear={", "gbun_name"):
             self.assertIn(kw, list_src, kw)
+        for kw in ("AUTHOR_SEARCH_FIELDS", "<MasterSearchQueryField", "onClear={onClear}"):
+            self.assertIn(kw, chrome, kw)
 
     def test_list_grid_extra_columns(self) -> None:
+        # GTELS = 레거시 전화(Gtel1+Gtel2) 합성 — 재설계 후 「휴대전화」 컬럼(DEC-412).
         list_src = _read(FRONT / "app" / "(app)" / "master" / "author" / "page.tsx")
         for legacy_id in (
             "Sobo13.DBGrid101.GNAME",

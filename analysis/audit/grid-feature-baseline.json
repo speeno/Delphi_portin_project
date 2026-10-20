@@ -128,7 +128,7 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 5
+      "sortable": 0
     },
     "app/(app)/master/baebon/page.tsx": {
       "column_settings": 0,
@@ -158,7 +158,7 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 40
+      "sortable": 29
     },
     "app/(app)/master/customer/page.tsx": {
       "column_settings": 1,
@@ -168,7 +168,7 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 3
+      "sortable": 0
     },
     "app/(app)/master/discount/page.tsx": {
       "column_settings": 0,
@@ -198,7 +198,7 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 7
+      "sortable": 0
     },
     "app/(app)/master/publisher/page.tsx": {
       "column_settings": 0,
@@ -211,14 +211,14 @@
       "sortable": 0
     },
     "app/(app)/master/special/page.tsx": {
-      "column_settings": 1,
+      "column_settings": 0,
       "data_grid": 1,
-      "freeze": 2,
+      "freeze": 0,
       "keyboard": 0,
       "pager": 1,
-      "reorder": 1,
-      "resize": 2,
-      "sortable": 8
+      "reorder": 0,
+      "resize": 0,
+      "sortable": 0
     },
     "app/(app)/outbound/orders/page.tsx": {
       "column_settings": 1,
@@ -340,6 +340,16 @@
       "resize": 2,
       "sortable": 3
     },
+    "app/(app)/settlement/e-invoice/page.tsx": {
+      "column_settings": 1,
+      "data_grid": 1,
+      "freeze": 2,
+      "keyboard": 0,
+      "pager": 0,
+      "reorder": 1,
+      "resize": 2,
+      "sortable": 5
+    },
     "app/(app)/settlement/outstanding/page.tsx": {
       "column_settings": 1,
       "data_grid": 1,
@@ -408,7 +418,7 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 9
+      "sortable": 13
     },
     "app/(app)/stats/book/page.tsx": {
       "column_settings": 1,
@@ -418,7 +428,7 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 9
+      "sortable": 12
     },
     "app/(app)/stats/customer-analysis/page.tsx": {
       "column_settings": 1,
@@ -438,7 +448,7 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 5
+      "sortable": 11
     },
     "app/(app)/stats/monthly/page.tsx": {
       "column_settings": 1,
@@ -458,11 +468,11 @@
       "pager": 1,
       "reorder": 1,
       "resize": 2,
-      "sortable": 9
+      "sortable": 13
     },
     "app/(app)/stats/quarterly-summary/page.tsx": {
       "column_settings": 1,
-      "data_grid": 2,
+      "data_grid": 3,
       "freeze": 2,
       "keyboard": 0,
       "pager": 1,
@@ -709,6 +719,16 @@
       "reorder": 0,
       "resize": 0,
       "sortable": 2
+    },
+    "components/stats/sales-matrix-screen.tsx": {
+      "column_settings": 1,
+      "data_grid": 1,
+      "freeze": 2,
+      "keyboard": 0,
+      "pager": 0,
+      "reorder": 1,
+      "resize": 2,
+      "sortable": 6
     },
     "components/transactions/transaction-status-screen.tsx": {
       "column_settings": 5,

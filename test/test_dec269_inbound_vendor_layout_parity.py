@@ -98,37 +98,57 @@ class RouterWiring(TestCase):
 
 
 class FormLayoutParity(TestCase):
-    """두 폼의 «행 구성»이 같아야 한다 — 라벨·순서·그리드 템플릿."""
+    """DEC-412: 프론트 재설계(M-DEC-6/8) 운영 반영 — 거래처와 «같은 배열» 대신 입고처 피그마(1:4594) 배열.
+
+    두 화면은 이제 각자의 피그마를 따른다(거래처 = 기본·거래 조건·계산서 3단, 입고처 = 4열 기본정보 + 비고).
+    대신 지킨다: 공용 4열 칸(FORM_GRID)·공용 AddressGroup, 그리고 DEC-269 확장 칸(G2_Ggwo_Ext)이
+    피그마 밖이어도 숨김 블록에서 값·레거시 id 를 유지해 저장 시 그대로 왕복하는 것.
+    """
+
+    @staticmethod
+    def _split() -> tuple[str, str]:
+        visible, hidden = FORM.split('<div hidden data-hidden-fields="figma-inbound-vendor">', 1)
+        return visible, hidden.split("<ReadOnlyBanner", 1)[0]
 
     def test_basic_info_rows_match_customer(self) -> None:
-        # DEC-293 — 두 폼 모두 공용 4열 균등 칸(FORM_GRID) + 공용 AddressGroup(form-grid.tsx).
+        # DEC-293 — 공용 4열 균등 칸(FORM_GRID) + 공용 AddressGroup(form-grid.tsx).
         for src in (CUST, FORM):
             self.assertIn('from "@/components/master/form-grid";', src)
-            self.assertEqual(src.count('<div className={FORM_GRID} data-form-grid="">'), 2)  # 기본정보·청구정보
             self.assertNotIn("function AddressGroup", src, "주소 그룹은 공용 컴포넌트")
-        # 주소1·주소2 모두 우편번호+검색+주소+상세주소 그룹
-        self.assertEqual(FORM.count("<AddressGroup"), 2)
-        self.assertIn("detail={data.add1_detail", FORM)
-        self.assertIn("detail={data.add2_detail", FORM)
-        # 주소2 행의 연락처2 4칸
-        for lid in ("Sobo12.Ext.Tel2", "Sobo12.Ext.Fax2", "Sobo12.Ext.Phon2", "Sobo12.Ext.Email2"):
-            self.assertIn(lid, FORM, lid)
+        visible, hidden = self._split()
+        self.assertEqual(visible.count('<div className={FORM_GRID} data-form-grid="">'), 1, "기본정보 4열 한 판")
+        # 피그마 순서: 구분 · 코드 · 입고처명 · 지역 / 사업자번호 · 대표자 · 업태 · 종목 / 담당자 · 휴대전화 · 전화 · 팩스 / 주소 · 이메일
+        order = ['label="입고처 구분"', 'label="입고처 코드"', 'label="입고처명"', 'label="입고처 지역"',
+                 'label="사업자번호"', 'label="대표자"', 'label="업태"', 'label="종목"',
+                 'label="담당자"', 'label="휴대전화"', 'label="전화번호"', 'label="팩스번호"',
+                 'label="주소"', 'label="이메일"']
+        pos = [visible.index(lbl) for lbl in order]
+        self.assertEqual(pos, sorted(pos), "피그마 칸 순서")
+        # 주소1 = 우편번호+검색+주소+상세주소 그룹(보임), 주소2 그룹은 숨김 블록(DEC-269 확장 칸 보존).
+        self.assertEqual(visible.count("<AddressGroup"), 1)
+        self.assertIn("detail={data.add1_detail", visible)
+        self.assertEqual(hidden.count("<AddressGroup"), 1)
+        self.assertIn("detail={data.add2_detail", hidden)
+        # 이메일 = 확장 email2 (G2_Ggwo.Email 은 정지사유 정본)
+        self.assertIn("Sobo12.Ext.Email2", visible)
+        for lid in ("Sobo12.Ext.Tel2", "Sobo12.Ext.Fax2", "Sobo12.Ext.Phon2"):
+            self.assertIn(lid, hidden, lid)
 
     def test_billing_rows_match_customer(self) -> None:
-        # 담당관리자1/연락처/비고1 + 담당관리자2/연락처/비고2 + 메모
-        for label in (">담당관리자1<", ">담당관리자2<", ">비고1<", ">비고2<", ">메모<"):
-            self.assertIn(label.strip("<>"), FORM, label)
-        self.assertIn('label="담당관리자2"', FORM)
-        self.assertIn('data-legacy-id="Sobo12.Ext.Memo"', FORM)
-        # 계산서 행 = 거래처와 같은 4칸(계산서 3칸 + 발행유무 1칸, DEC-293)
-        self.assertIn('label="발행유무"', FORM)
-        self.assertIn('label="발행유무"', CUST)
-        self.assertIn('className="md:col-span-2 xl:col-span-3"', FORM)
+        # 보이는 칸: 담당자(Gpper) + 비고(Gbigo). 담당관리자2·연락처·비고2·메모·계산서·발행유무는 숨김 블록.
+        visible, hidden = self._split()
+        self.assertIn("<Label>비고</Label>", visible)
+        for label in ('label="담당관리자2"', 'label="연락처"', 'label="비고2"', "<Label>메모</Label>",
+                      'label="계산서 거래처명"', 'label="발행유무"'):
+            self.assertIn(label, hidden, label)
+        self.assertIn('data-legacy-id="Sobo12.Ext.Memo"', hidden)
+        self.assertIn('legacyId="Sobo12.Ext.Manager2"', hidden)
+        self.assertIn('legacyId="Sobo12.Ext.Contact2"', hidden)
 
     def test_dec172_bindings_unchanged(self) -> None:
         """배열만 바꾼다 — 라벨↔실컬럼 바인딩(DEC-172)은 그대로."""
         for legacy_id, field in (
-            ("Sobo12.Edit110", "data.gpper"),    # 담당관리자1 = Gpper(담당자)
+            ("Sobo12.Edit110", "data.gpper"),    # 담당자 = Gpper
             ("Sobo12.Edit128", "data.gnum1"),    # 연락처
             ("Sobo12.Edit125", "data.gbigo"),    # 비고1
             ("Sobo12.Edit126", "data.name1"),    # 비고2
@@ -142,6 +162,15 @@ class FormLayoutParity(TestCase):
             i = FORM.index(legacy_id)
             around = FORM[max(0, i - 400) : i + 80]
             self.assertIn(field, around, f"{legacy_id} ↔ {field}")
+
+    def test_save_round_trips_hidden_fields(self) -> None:
+        """숨김 칸은 화면에서 편집하지 않아도 상세 저장(PATCH)에 원값 그대로 실린다 — 값 소실 없음."""
+        detail = (FRONT / "app" / "(app)" / "master" / "inbound-vendor" / "[gcode]" / "page.tsx").read_text(encoding="utf-8")
+        body = detail[detail.index("inboundVendorApi.update("): detail.index("snapshotRef.current = { ...data };", detail.index("inboundVendorApi.update("))]
+        for k in ("ocode", "gssum", "grat1", "grat2", "grat3", "grat4", "grat5", "grat6", "grat7", "grat9",
+                  "gqut1", "name1", "name2", "email", "yesno", "gnum1", "zip2", "add2_detail", "tel2", "fax2",
+                  "phon2", "manager2", "contact2", "memo"):
+            self.assertIn(f"{k}: data.{k},", body, k)
 
 
 if __name__ == "__main__":

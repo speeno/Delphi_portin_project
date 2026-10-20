@@ -127,15 +127,18 @@ class ShellStructureTests(TestCase):
         self.assertIn("ChevronsLeft", src)
 
     def test_sidebar_is_flyout_menu_with_active_highlight(self) -> None:
-        """사이드바 목업(2026-08-25 13:03): 대메뉴 클릭 → 오른쪽 플라이아웃, 현재 화면 라임, 열린 창 ✓.
+        """사이드바 목업(2026-08-25 13:03): 대메뉴 클릭 → 오른쪽 플라이아웃, 현재 화면 라임, 열린 창 표시.
 
         메뉴 순서·구성은 MENU_GROUPS/SIDEBAR_LAYOUTS 그대로(사용자: 순서 수정 금지).
+        DEC-412: 프론트 재설계(M-DEC-11) 운영 반영 — 열린 창 ✓ 대신 피그마 채운 별
+        (현재 화면 검은 별 · 열려 있는 다른 창 흰 별).
         """
         src = _read("components/app-shell/sidebar.tsx")
         self.assertIn('role="menu"', src)
         self.assertIn("bg-nav-active text-nav-active-foreground", src)      # 활성 대메뉴
         self.assertIn("bg-nav-active font-semibold text-nav-active-foreground", src)  # 활성 서브메뉴
-        self.assertIn("<Check className", src)                                # 열린 창 ✓
+        self.assertIn("{active && <OpenTabStar focused={focused} />}", src)  # 열린 창 별(M-DEC-11)
+        self.assertIn('aria-label={focused ? "현재 화면" : "열린 창"}', src)
         self.assertIn("renderFlyoutBody(", src)
         self.assertIn("SIDEBAR_LAYOUTS[group.id]", src)                       # 레이아웃 순서 그대로
         self.assertIn("MENU_GROUPS.map((group)", src)
@@ -165,8 +168,14 @@ class ShellStructureTests(TestCase):
         # 탭 스트립은 툴바 왼쪽 슬롯 — 종전 tiled 모드 분기가 사라져 항상 탭을 그린다(2026-09 셸 정리).
         self.assertIn("<WorkspaceToolbar left={<TabStrip />} />", canvas)
         self.assertIn("bg-tab-active font-semibold text-tab-active-foreground", canvas)
-        # 활성 탭은 pill 형태 — 라운드 값(full/lg/xl)은 디자인 재조정 대상이라 존재만 확인.
-        self.assertRegex(canvas, r"rounded-(full|xl|lg)", "탭은 둥근 pill")
+        # DEC-412: 프론트 재설계(M-DEC-2) 운영 반영 — pill 대신 피그마 120×28 탭(오른쪽 위만 둥글게),
+        # 비활성 탭도 연회색 바탕, 닫기(X)는 항상 보인다. 「모두 닫기」·창 개수 표시는 피그마에 없어 뺐다
+        # (창 상한 MAX_WINDOWS 를 넘으면 가장 오래된 비활성 창을 닫는 동작은 스토어에 그대로).
+        self.assertIn("h-7 w-[120px]", canvas)
+        self.assertRegex(canvas, r"rounded-tr-(md|lg)")
+        self.assertIn("bg-control-surface", canvas)
+        self.assertIn('aria-label="탭 닫기"', canvas)
+        self.assertNotIn("opacity-0", canvas, "닫기 버튼은 hover 없이도 보인다")
 
     def test_header_and_login_use_transparent_cms_wordmark(self) -> None:
         """사용자 제공 「bukio WORKS」 이미지 → 배경·격자 제거한 투명 PNG(DEC-199 로고)."""

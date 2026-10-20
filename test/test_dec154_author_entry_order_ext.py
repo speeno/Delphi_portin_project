@@ -95,21 +95,29 @@ class FormOrderGuard(TestCase):
 
     def test_entry_order_matches_request(self) -> None:
         src = self.FORM.read_text(encoding="utf-8")
-        # DEC-295(2026-09-22) — 4열 균등 칸 재배치: 학교→「소속대학」(필드표 명칭), 자택/연구소 주소는
-        # 한 줄 주소 그룹(우편번호·주소1·주소2). 기입 순서 자체는 그대로.
-        order = ["저자구분", "저자코드", "저자명", "소속대학", "학과",
-                 "자택주소", "연구소주소", "담당자1", "담당자2", "원천징수",
-                 "은행명", "계좌번호", "주민등록번호", "메일주소", "연락처1", "연락처2"]
+        # DEC-412: 프론트 재설계(M-DEC-9 · M-DEC-27) 운영 반영 — 칸 순서·라벨은 피그마 시안(저자 구분→저자 코드→
+        # 저자명→등록일자→직장명→소속/직책→출신학교→주민번호→계좌번호→휴대전화→팩스번호→이메일→집 주소→담당→
+        # 직장 주소→비고1)을 따른다. 시안에 없는 DEC-154 확장 필드(은행·원천징수·담당자2)는 의도적 제거 — 화면에서
+        # 빠지고 숨은 칸(data-hidden-fields)에만 남아 저장 때 원래 값을 그대로 보낸다.
+        order = ["저자 구분", "저자 코드", "저자명", "등록일자", "직장명", "소속/직책", "출신학교",
+                 "주민번호", "계좌번호", "휴대전화", "팩스번호", "이메일", "집 주소", "담당", "직장 주소",
+                 "비고1"]
         pos = []
         for lbl in order:
             i = src.find(f'label="{lbl}"')
             self.assertGreater(i, -1, f"{lbl} 필드 누락")
             pos.append(i)
-        self.assertEqual(pos, sorted(pos), "기입 순서 = 영업팀 확정 순서")
-        # 구 라벨 재발 금지(재라벨 확인).
-        # DEC-335 — 「출신학교」는 Gscho 원래 이름으로 되살렸다(소속대학·학과 = 직장명·직책 칸).
-        for stale in ('label="전화번호"', 'label="팩스번호"',
-                      'label="집주소1"', 'label="직장주소1"', 'label="주민등록"'):
+        self.assertEqual(pos, sorted(pos), "칸 순서 = 피그마 시안")
+        hidden = src[src.index('<div hidden data-hidden-fields="figma-author">'):]
+        hidden = hidden[: hidden.index("</div>")]
+        for key in ("manager2", "withhold", "bank_name"):
+            self.assertIn(f'onChange("{key}"', hidden, f"{key} 숨은 칸(값 유지)")
+        # DEC-154 항목 → 저장 키(학과=gjice 소속/직책 칸, DEC-335 · 연락처1=휴대전화 gtel1/gtel2 · 연락처2=팩스).
+        for key in ("gjice", "gadd1", "oadd1", "manager1", "manager2", "withhold", "bank_name",
+                    "gnum2", "gnum1", "email", "gtel1", "gtel2", "gfax1", "gfax2"):
+            self.assertIn(f'onChange("{key}"', src, f"{key} 입력 바인딩")
+        # 구 라벨 재발 금지(M-DEC-27 — 「전화번호」 칸은 없애고 휴대전화 한 칸).
+        for stale in ('label="전화번호"', 'label="집주소1"', 'label="직장주소1"', 'label="주민등록"'):
             self.assertNotIn(stale, src)
 
 

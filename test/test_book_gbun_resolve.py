@@ -48,17 +48,16 @@ class BookGbunResolveTests(TestCase):
         self.assertNotIn('label="도서분류" value={data.gbun_name}', form)
 
     def test_collapsible_on_detail_not_list_tab(self) -> None:
+        """DEC-412: 프론트 재설계(M-DEC-22) 운영 반영 — 상세/신규의 도서분류 접이식 관리 패널은 없어지고,
+        분류 추가는 도서 분류 드롭다운 안(「카테고리 넣기」)에서 한다. 수정·삭제는 별도 「도서구분」 화면
+        (/master/book-category, BookCategoryPanel) 그대로. 상세/신규 접이식 패널은 「DEC-412: 프론트 재설계 M-DEC-22 — 의도적 제거」.
+        목록에 탭 UI 가 되살아나지 않는지는 종전대로 본다."""
         list_src = (FRONT / "app/(app)/master/book/page.tsx").read_text(encoding="utf-8")
         self.assertNotIn("BookCategoryPanel", list_src)
         self.assertNotIn("setTab(", list_src)
-        # 종전 `">도서분류<" 부재` 검사는 탭 UI 부재를 뜻했으나, DEC-151(2026-08-13) 이후
-        # 목록 필터/컬럼 라벨 "도서분류" 가 정상적으로 존재하므로 탭 표식(setTab/Panel)만 본다.
-        for rel in (
-            "app/(app)/master/book/[gcode]/page.tsx",
-            "app/(app)/master/book/new/page.tsx",
-        ):
-            src = (FRONT / rel).read_text(encoding="utf-8")
-            self.assertIn("MasterCategoryCollapsible", src)
-            self.assertIn("BookCategoryPanel", src)
-            self.assertIn("gbunReloadKey", src)
-            self.assertIn("onChanged", src)
+        form = (FRONT / "components" / "master" / "book-detail-form.tsx").read_text(encoding="utf-8")
+        self.assertIn("allowCreate={fieldsEditable}", form)
+        self.assertIn("createCategory={masterApi.bookCategoryCreate}", form)
+        cat_page = (FRONT / "app/(app)/master/book-category/page.tsx").read_text(encoding="utf-8")
+        self.assertIn("MasterCategoryCollapsible", cat_page)
+        self.assertIn("<BookCategoryPanel", cat_page)

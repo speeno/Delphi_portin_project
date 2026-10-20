@@ -79,10 +79,11 @@ class BookFormStaticTests(TestCase):
         src = FORM_TSX.read_text(encoding="utf-8")
         for label, legacy in (("정가", "Sobo14.Edit109"), ("원가", "Sobo14.Edit130"), ("매입가", "Sobo14.Edit131")):
             self.assertRegex(src, rf'<AmountField label="{label}"[^\n]*legacyId="{legacy}"', f"{label} 은 AmountField")
-        self.assertIn('<AmountField\n          label="전자책 정가"', src)
+        # DEC-412 — 재설계 폼(피그마)은 전자책 정가를 숨김 칸으로 둔다(값 왕복). 숨김 칸도 AmountField.
+        self.assertRegex(src, r'<AmountField\s+label="전자책 정가"')
         self.assertNotIn('<NumField label="정가"', src)
         # AmountField 본체 — 콤마 포맷 · 숫자 키패드 · 캐럿 보존 · number 타입 아님
-        body = src[src.index("function AmountField(") : src.index("function NumField(")]
+        body = src[src.index("function AmountField(") : src.index("function BookDateField(")]
         self.assertIn("formatAmount(value)", body)
         self.assertIn('inputMode="numeric"', body)
         self.assertIn('type="text"', body)
@@ -94,9 +95,13 @@ class BookFormStaticTests(TestCase):
     def test_royalty_rate_has_percent_suffix_and_numeric_sanitizer(self) -> None:
         src = FORM_TSX.read_text(encoding="utf-8")
         line = next(l for l in src.splitlines() if 'legacyId="Sobo14.Ext.RoyaltyRate"' in l)
-        self.assertIn('suffix="%"', line)
+        # DEC-412 — 재설계: 조회 모드의 빈 값(「-」)에는 % 를 붙이지 않는다. 입력 중에는 항상 %.
+        self.assertIn('suffix={formEditing || (data.royalty_rate ?? "").trim() ? "%" : undefined}', line)
         self.assertIn("sanitize={sanitizeRateInput}", line)
-        self.assertIn('label="인세비율(%)"', line, "목록 열 이름과 같은 라벨 유지(DEC-366)")
+        self.assertIn('inputMode="decimal"', line)
+        page = (FRONTEND / "src" / "app" / "(app)" / "master" / "book" / "page.tsx").read_text(encoding="utf-8")
+        self.assertIn('label="인세율(%)"', line)
+        self.assertIn('label: "인세율(%)"', page, "목록 열 이름과 같은 라벨 유지(DEC-366)")
         self.assertIn('{suffix ? <span data-field-suffix="">{suffix}</span> : null}', src)
 
     def test_amount_module_is_pure(self) -> None:

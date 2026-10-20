@@ -33,11 +33,18 @@ class SalesStatementBranchComboTest(TestCase):
         self.assertIn("Sobo21.Edit106.Loading", src)
 
     def test_customer_detail_has_branch_collapsible(self) -> None:
+        # DEC-412: 프론트 재설계 M-DEC-4 — 의도적 제거(접이식 지점 패널): 지점(H2_Gbun) 관리는 상세 헤더
+        # 「지점 관리」(레거시 Button007) → 팝업(CustomerBranchDialog). 거래명세서 지사 콤보가 읽는 같은 API.
         detail = _read(FRONT / "app" / "(app)" / "master" / "customer" / "[gcode]" / "page.tsx")
-        self.assertIn("CustomerBranchCollapsible", detail)
-        self.assertIn("customer-branch-panel", _read(
-            FRONT / "components" / "master" / "customer-branch-collapsible.tsx"
-        ))
+        self.assertIn("<CustomerBranchDialog", detail)
+        self.assertIn("onBranch={() => setBranchOpen(true)}", detail)
+        form = _read(FRONT / "components" / "master" / "customer-detail-form.tsx")
+        self.assertIn('data-legacy-id="Sobo11.Button007"', form)
+        dialog = _read(FRONT / "components" / "master" / "customer-branch-dialog.tsx")
+        for api in ("customerBranchList", "customerBranchCreate", "customerBranchUpdate", "customerBranchBulkDelete"):
+            self.assertIn(f"masterApi.{api}", dialog, api)
+        for lid in ("Seok10.Seok10", "Seok10.DBGrid101", "Seok10.BitBtn101", "Seok10.BitBtn102", "Seok10.Edit101"):
+            self.assertIn(lid, dialog, lid)
 
     def test_router_exposes_customer_branches(self) -> None:
         router = _read(BACKEND / "app" / "routers" / "masters.py")

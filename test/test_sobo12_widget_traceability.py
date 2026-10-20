@@ -56,16 +56,25 @@ class Sobo12WidgetTraceability(TestCase):
         self.assertIn("inboundVendorApi.categoryList", _read(form))
 
     def test_category_panel_on_detail_not_list(self) -> None:
+        """DEC-412: 프론트 재설계(M-DEC-6/8 · M-DEC-22) 운영 반영 — 구분 관리 접힘 패널 대신 구분 콤보 안 「추가하기」.
+
+        목록에는 여전히 구분 패널·탭이 없다. 상세·신규는 공용 MasterGbunSelect 가 입고처구분(G2_Gbun) 목록을
+        읽고 이름만으로 구분을 추가한다(서버 채번, DEC-408). 레거시 Panel004 패널 컴포넌트(DBGrid201 ·
+        Button201~203)는 남아 있지만 화면에서는 쓰지 않는다.
+        """
         list_page = FRONT / "app" / "(app)" / "master" / "inbound-vendor" / "page.tsx"
         detail_page = FRONT / "app" / "(app)" / "master" / "inbound-vendor" / "[gcode]" / "page.tsx"
         new_page = FRONT / "app" / "(app)" / "master" / "inbound-vendor" / "new" / "page.tsx"
+        form = FRONT / "components" / "master" / "inbound-vendor-detail-form.tsx"
         list_src = _read(list_page)
         self.assertNotIn("InboundVendorCategoryCollapsible", list_src)
         self.assertNotIn("InboundVendorCategoryPanel", list_src)
         self.assertNotIn("setTab(", list_src)
-        detail_src = _read(detail_page)
-        new_src = _read(new_page)
-        self.assertIn("InboundVendorCategoryCollapsible", detail_src)
-        self.assertIn("InboundVendorCategoryCollapsible", new_src)
-        self.assertIn("onChanged", detail_src)
-        self.assertIn("gbunReloadKey", detail_src)
+        # 상세·신규 모두 같은 폼(구분 콤보)을 쓴다.
+        for page in (detail_page, new_page):
+            self.assertIn("<InboundVendorDetailForm", _read(page), page.name)
+        self.assertIn("gbunReloadKey", _read(new_page))
+        form_src = _read(form)
+        self.assertIn("allowCreate={fieldsEditable}", form_src)
+        self.assertIn("createCategory={inboundVendorApi.categoryCreate}", form_src)
+        self.assertIn("loader={inboundVendorApi.categoryList}", form_src)

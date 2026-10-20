@@ -3,6 +3,12 @@
 사용자 요청: 거래처현황(DEC-292)과 같은 필드표 — 괄호(푸른색) 항목 = 기본 표시, 나머지 = 컬럼 설정.
 엑셀은 모든 필드(기본 전체 선택). 신규입고처 버튼은 검색 입력 앞.
 입고처는 E-mail·담당자2 칸이 G2_Ggwo 에 없어 확장 테이블(G2_Ggwo_Ext email2/manager2)에서 병합한다.
+
+DEC-412: 프론트 재설계(M-DEC-7) 운영 반영 — 목록 = 피그마(1:425) 15칸(피그마 라벨) 전부 표시.
+DEC-294 의 나머지 16칸(정지·우편번호·한도액·공급률·한도·신간수량·계산서·발행유무·담당자2·비고2·정지사유)과
+헤더 클릭 정렬은 의도적 제거(M-DEC-7, 서버 정렬은 gcode 오름차순 고정). 엑셀은 그대로 전 필드 · 약식 헤더
+(업로드 서식 호환) — 화면 라벨이 바뀐 피그마 칸은 SCREEN_TO_EXCEL 로 대응을 고정한다.
+신규 버튼은 제목 옆 「신규 등록」(검색 띠 앞).
 """
 
 from __future__ import annotations
@@ -23,19 +29,22 @@ from app.services import inbound_vendor_ext_service as ext  # noqa: E402
 from app.services import masters_excel as mx  # noqa: E402
 from app.services import masters_service as ms  # noqa: E402
 
-SPEC: list[tuple[str, str, bool]] = [
-    ("jubun", "지역", False), ("gbun_name", "구분", False), ("grat9", "정지", False),
-    ("gcode", "코드", True), ("gname", "입고처명", False), ("gnumb", "사업자등록번호", False),
-    ("gposa", "대표자", False), ("gpost", "우편번호", True), ("gjuso", "주소", False),
-    ("guper", "업태", True), ("gjomo", "종목", True), ("gssum", "한도액", False),
-    ("gtel1", "전화", False), ("gfax1", "팩스", False), ("email2", "E-mail", False),
-    ("gphon", "핸드폰", False), ("grat1", "위탁", False), ("grat2", "현매", True),
-    ("grat3", "매절", True), ("grat4", "납품", True), ("grat5", "특별", True),
-    ("grat7", "한도", True), ("grat6", "기타", True), ("gqut1", "신간수량", True),
-    ("name2", "계산서", False), ("yesno", "발행유무", True), ("gpper", "담당자1", False),
-    ("manager2", "담당자2", False), ("gbigo", "비고1", False), ("name1", "비고2", False),
-    ("email", "정지사유", False),
+# (key, 화면 라벨) — 피그마 1:425
+SPEC: list[tuple[str, str]] = [
+    ("jubun", "지역"), ("gcode", "입고처 코드"), ("gname", "입고처명"),
+    ("gnumb", "사업자번호"), ("gposa", "대표자"), ("gtel1", "전화번호"),
+    ("gfax1", "팩스"), ("gphon", "핸드폰 번호"), ("email2", "이메일"),
+    ("gbun_name", "입고처 구분"), ("guper", "업태"), ("gjomo", "종목"),
+    ("gpper", "담당자"), ("gjuso", "주소"), ("gbigo", "비고"),
 ]
+# DEC-294 칸 중 목록에서 의도적 제거(M-DEC-7) — 엑셀(전 필드)에는 남는다.
+REMOVED_FROM_LIST = ("grat9", "gpost", "gssum", "grat1", "grat2", "grat3", "grat4", "grat5",
+                     "grat7", "grat6", "gqut1", "name2", "yesno", "manager2", "name1", "email")
+# 피그마 라벨 ↔ 엑셀 헤더(masters_excel.INBOUND_VENDOR_FULL_COLUMNS — 업로드 서식이라 바꾸지 않는다).
+SCREEN_TO_EXCEL = {
+    "입고처 코드": "코드", "사업자번호": "사업자등록번호", "전화번호": "전화", "핸드폰 번호": "핸드폰",
+    "이메일": "E-mail", "입고처 구분": "구분", "담당자": "담당자1", "비고": "비고1",
+}
 GRID_TO_CATALOG = {"gtel1": "gtel", "gfax1": "gfax"}
 
 
@@ -50,24 +59,33 @@ def _grid_columns(src: str) -> list[tuple[str, str]]:
 
 class GridSpec(TestCase):
     def test_columns_order_and_short_labels(self) -> None:
-        self.assertEqual(_grid_columns(_src()), [(k, lbl) for k, lbl, _ in SPEC])
+        self.assertEqual(_grid_columns(_src()), SPEC)
 
     def test_default_visible_is_parenthesized_set(self) -> None:
-        m = re.search(r"const INBOUND_VENDOR_DEFAULT_HIDDEN = \[(.*?)\] as const;", _src(), re.DOTALL)
-        hidden = set(re.findall(r'"(\w+)"', m.group(1)))
-        self.assertEqual(hidden, {k for k, _, shown in SPEC if not shown})
-        self.assertIn('useGridPrefs(user?.server_id, "master.inbound_vendor.v2", {', _src())
+        # 피그마 15칸 전부 기본 표시(숨김 기본값 없음). 제거된 DEC-294 칸은 컬럼 정의에도 없다.
+        self.assertIn('useGridPrefs(user?.server_id, "master.inbound_vendor.v3", {', _src())
+        self.assertIn("defaultHidden: [],", _src())
+        self.assertNotIn("INBOUND_VENDOR_DEFAULT_HIDDEN", _src())
+        keys = {k for k, _ in _grid_columns(_src())}
+        for k in REMOVED_FROM_LIST:
+            self.assertNotIn(k, keys, f"{k}: DEC-412 의도적 제거(M-DEC-7)")
+
+    def test_no_header_sort(self) -> None:
+        # DEC-412: 헤더 클릭 정렬 의도적 제거(M-DEC-7) — 목록·엑셀 모두 gcode 오름차순 고정.
+        src = _src()
+        self.assertNotIn("sortable: true", src)
+        self.assertNotIn("onSortChange", src)
+        self.assertEqual(src.count('sortBy: "gcode",'), 2, "목록 + 엑셀")
 
     def test_new_button_before_search(self) -> None:
-        src = _src()
-        band_start = src.index("              >\n", src.index("actions={"))
-        btn = src.index('data-legacy-id="Sobo12.Button101"')
-        self.assertLess(band_start, btn, "액션 줄이 아니라 필터 띠 안")
-        # DEC-335 — 검색 줄 = 거래처현황과 같은 붙임형 알약(AttachedFilterField), 지역 입력칸 제거.
-        self.assertLess(btn, src.index('id="q"'), "검색 입력 앞")
-        self.assertIn('label="검색"', src)
-        self.assertIn('placeholder="코드, 입고처명, 대표자"', src)
-        self.assertNotIn('id="f-jubun"', src)
+        # 피그마 헤더: 제목 · 「신규 등록」(Button101) → 검색 기준 · 검색어 · 조회. 지역 입력칸 없음(DEC-335).
+        chrome = (FRONT / "components" / "master" / "inbound-vendor-master-chrome.tsx").read_text(encoding="utf-8")
+        btn = chrome.index('data-legacy-id="Sobo12.Button101"')
+        self.assertLess(chrome.index("입고처 관리</h1>"), btn)
+        self.assertLess(btn, chrome.index("<MasterSearchQueryField"), "검색 입력 앞")
+        self.assertIn('router.push("/master/inbound-vendor/new")', chrome)
+        self.assertIn("<InboundVendorMasterListHeader", _src())
+        self.assertNotIn('id="f-jubun"', _src())
 
 
 class ExportAllFields(TestCase):
@@ -76,7 +94,7 @@ class ExportAllFields(TestCase):
         for key, label in _grid_columns(_src()):
             ck = GRID_TO_CATALOG.get(key, key)
             self.assertIn(ck, catalog, f"{key} 엑셀 누락")
-            self.assertEqual(catalog[ck], label, "엑셀 헤더 = 화면 라벨")
+            self.assertEqual(catalog[ck], SCREEN_TO_EXCEL.get(label, label), f"{key}: 엑셀 헤더 ↔ 화면 라벨 대응")
 
     def test_picker_resets_to_all_fields_on_open(self) -> None:
         # 「엑셀 저장 시 기본적으로 모든 필드 선택」 — 열 때마다 카탈로그 전체로 재설정(공용 ExportFieldPicker).

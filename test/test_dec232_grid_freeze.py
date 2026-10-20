@@ -15,7 +15,12 @@ class DataGridFreeze(TestCase):
         src = (FRONT / "components" / "data-grid" / "data-grid.tsx").read_text(encoding="utf-8")
         self.assertIn("frozenUntil?: string | null;", src)
         self.assertIn("const frozenCount = useMemo(", src)
-        self.assertIn("ths[i].getBoundingClientRect().width", src, "헤더 실폭 누적으로 left 산출")
+        # DEC-412: 프론트 재설계(M-DEC-1) 운영 반영 — 컬럼 설정 아이콘이 첫 데이터 칸 안(absolute)에서
+        # 별도 선두 열(sticky left:0, 36px)로 나왔다. 틀고정 left 는 그 열 폭부터 헤더 실폭을 누적한다.
+        self.assertIn("ths[i + offset].getBoundingClientRect().width", src, "헤더 실폭 누적으로 left 산출")
+        self.assertIn("const offset = hasColumnMenuMount ? 1 : 0;", src)
+        self.assertIn("let acc = offset > 0 && ths[0] ? ths[0].getBoundingClientRect().width : 0;", src)
+        self.assertIn('className="sticky left-0 z-[6] bg-inherit p-0"', src, "본문 선두 열도 고정(데이터 고정 열보다 위)")
         self.assertIn('"sticky z-[5] bg-inherit "', src, "본문 셀 sticky + 행 배경 승계")
         self.assertIn('(ci < frozenCount ? "z-20 "', src, "헤더/합계 셀 top+left 이중 sticky")
         # 행 배경/구분선이 토큰(table-body/table-divider)으로 바뀜 — 불투명 배경 요구는 동일

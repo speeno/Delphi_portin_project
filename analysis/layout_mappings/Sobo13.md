@@ -63,6 +63,12 @@ dfm 검색은 `Button000`→`Sobo19` 모달; 모던은 목록 상단 필터 바(
 
 세션: `useListSession` 키 `master.author` — `Snap = { q, gubun, workplace, offset, limit }`.
 
+> **DEC-412 (2026-10-20, 프론트 재설계 M-DEC-9 · M-DEC-17 · M-DEC-27 운영 반영 — 프론트 저장소 화면이 정본)** — 목록 머리는
+> 피그마 `AuthorMasterListHeader`(검색 기준 안내 + 검색 한 칸 `q-author` + x 버튼). 의도적 제거: 위 표의 저자구분·직장명 필터와
+> 초기화 버튼(직장명은 서버 `q` 가 같이 찾는다), 헤더 클릭 정렬(코드 오름차순 고정), 필드표 인세 항목(은행·원천징수·
+> 사업자등록번호 `Edit107`·담당자2)·저자도서명 칸(폼의 숨은 칸 `data-hidden-fields="figma-author"` 로 값만 유지), 상세·신규의
+> 저자구분 관리 `Panel004`(구분 추가는 드롭다운 안에서). 휴대전화 = `Edit111`+`Edit112`(Gtel1+Gtel2 한 칸, 목록 `GTELS`).
+
 ## 4. 서브 그리드 `DBGrid201` (저자 구분, G3_Gbun)
 
 | dfm 컬럼 | FieldName | Title.Caption | Width | `data-legacy-id` |

@@ -121,17 +121,25 @@ class BookFormatAndStopReasonLabels(unittest.TestCase):
     FE = ROOT / "도서물류관리프로그램" / "frontend" / "src"
 
     def test_list_columns(self) -> None:
+        # DEC-412: 프론트 재설계(M-DEC-14·21) 운영 반영 — 판형(name1)은 기본 표시 컬럼, 정지사유(name2)는
+        # 등록 폼에서 숨긴 칸이라 목록 컬럼은 「DEC-412: 프론트 재설계 M-DEC-21 — 의도적 제거」. 라벨 ↔ 컬럼 교정(DEC-365)은 그대로.
         src = (self.FE / "app/(app)/master/book/page.tsx").read_text(encoding="utf-8")
-        self.assertIn('{ key: "name2", label: "정지사유"', src)
         self.assertIn('{ key: "name1", label: "판형"', src)
-        hidden = src[src.index("const BOOK_DEFAULT_HIDDEN"):src.index("];", src.index("const BOOK_DEFAULT_HIDDEN"))]
-        self.assertIn('"name1"', hidden)      # 판형 = 기본 숨김(종전과 같은 화면 구성)
-        self.assertNotIn('"name2"', hidden)   # 정지사유 = 기본 표시
+        self.assertNotIn('key: "name2", label: "판형"', src)
+        self.assertNotIn('label: "정지사유"', src)
+        hidden = src[src.index("const BOOK_DEFAULT_HIDDEN"):src.index("] as const", src.index("const BOOK_DEFAULT_HIDDEN"))]
+        self.assertNotIn('"name1"', hidden)
 
     def test_detail_form(self) -> None:
+        import re
+
         src = (self.FE / "components/master/book-detail-form.tsx").read_text(encoding="utf-8")
-        self.assertIn('label="판형" value={data.name1} onChange={(v) => onChange("name1", v)} legacyId="Sobo14.Edit123"', src)
-        self.assertIn('label="정지사유" value={data.name2} onChange={(v) => onChange("name2", v)} legacyId="Sobo14.Edit129"', src)
+        # DEC-412 — 재설계 폼은 칸마다 여러 줄. 판형(보임)·정지사유(숨김 칸)의 라벨 ↔ 값 키 ↔ 레거시 id 를 묶어 본다.
+        self.assertRegex(src, r'label="판형"\s+value=\{shown\(formEditing, data\.name1\)\}\s+'
+                              r'onChange=\{\(v\) => onChange\("name1", v\)\}\s+legacyId="Sobo14\.Edit123"')
+        self.assertRegex(src, r'label="정지사유"\s+value=\{data\.name2\}\s+'
+                              r'onChange=\{\(v\) => onChange\("name2", v\)\}\s+legacyId="Sobo14\.Edit129"')
+        self.assertFalse(re.search(r'label="판형"\s+value=\{[^}]*name2', src), "판형 칸이 name2 를 읽으면 안 된다")
 
     def test_excel_export_import(self) -> None:
         from app.services import masters_excel
