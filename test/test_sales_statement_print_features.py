@@ -181,7 +181,8 @@ class RouterTests(TestCase):
             ]
             return items, len(items)
 
-        with patch.object(tx, "list_sales_statements", side_effect=fake_list):
+        with patch.object(tx, "list_sales_statements", side_effect=fake_list), \
+                patch.object(tx, "web_requested_only", AsyncMock(side_effect=lambda **kw: kw["items"])):  # DEC-409 — 모두 웹 출고요청분
             r = self.client.get(
                 f"/api/v1/transactions/sales-statement/received-today?serverId={_SID}&today=2026-06-28"
             )

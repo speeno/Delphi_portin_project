@@ -69,7 +69,7 @@ class ContractValues(TestCase):
             self.assertGreater(shelf, line, rel)  # 서가번호 > 도서명
             self.assertGreater(name, field, rel)  # 거래처명 > 거래처코드 · 발행일
             self.assertGreater(field, line, rel)  # 헤더 값 > 라인
-            self.assertEqual(float(cal["value_text_stroke_pt"]), 0.3, rel)  # 0.2 → 1.5배(사용자 2026-10-16)
+            self.assertEqual(float(cal["value_text_stroke_pt"]), 0.24, rel)  # 0.2 → 1.5배(10-16) → 20% 약하게(DEC-410, 10-20)
             self.assertEqual(str(cal["value_ink"]).lower(), "#000", rel)
             self.assertEqual(int(cal["value_font_weight"]), 700, rel)
             self.assertGreater(float(cal["slip_no_gap_mm"]), 0, rel)
@@ -96,7 +96,8 @@ class CalibrationCss(TestCase):
         sel = ".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong"
         self.assertIn(f"{sel} {{ font-weight: 700; }}", html)
         self.assertIn(f"{sel} {{ color: #000; }}", html)
-        self.assertIn(f"{sel} {{ -webkit-text-stroke: 0.3pt currentColor; }}", html)
+        self.assertIn(f"{sel} {{ -webkit-text-stroke: 0.24pt currentColor; }}", html)
+        self.assertIn(f"{sel} {{ letter-spacing: -0.04em; }}", html)  # DEC-410 자간
         # 전표번호 간격(보정값) — 기본 CSS 뒤에 와서 덮는다.
         self.assertIn(".cslip { margin-left: 6mm; }", html)
         self.assertIn(".cslip .cslip-no { margin-left: 3mm; }", html)
@@ -104,15 +105,16 @@ class CalibrationCss(TestCase):
 
     def test_missing_keys_emit_nothing(self) -> None:
         css = tx._preprinted_calibration_css({"preprinted_calibration": {"line_font_pt": 9}}, layout="triplicate")
-        for frag in ("tr.r-name td:not(.clab) { font-size", "text-stroke", "color: #", ".cslip"):
+        for frag in ("tr.r-name td:not(.clab) { font-size", "text-stroke", "color: #", ".cslip", "letter-spacing"):
             self.assertNotIn(frag, css, frag)
 
     def test_a4_layout_unaffected(self) -> None:
         css = tx._preprinted_calibration_css(
-            {"preprinted_calibration": {"name_font_pt": 11, "value_text_stroke_pt": 0.2, "value_ink": "#000", "slip_no_gap_mm": 6}},
+            {"preprinted_calibration": {"name_font_pt": 11, "value_text_stroke_pt": 0.2, "value_ink": "#000", "slip_no_gap_mm": 6,
+                                        "value_letter_spacing_em": -0.04}},
             layout="a4",
         )
-        for frag in ("tr.r-name", "text-stroke", ".cslip"):
+        for frag in ("tr.r-name", "text-stroke", ".cslip", "letter-spacing"):
             self.assertNotIn(frag, css, frag)
 
 

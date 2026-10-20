@@ -519,7 +519,8 @@ class OutboundTransitionTests(TestCase):
             return [1]
 
         with patch.object(outbound_service, "execute_query", side_effect=fake_query), \
-             patch.object(outbound_service, "execute_in_transaction", side_effect=fake_tx):
+             patch.object(outbound_service, "execute_in_transaction", side_effect=fake_tx), \
+             patch.object(outbound_service.dispatch_request_db, "record", AsyncMock(return_value=1)):  # DEC-409
             res = self._run(
                 outbound_service.request_dispatch(
                     server_id="remote_1", gdate="2026.04.25", hcode="A0001", jubun="1", gcode="G01"

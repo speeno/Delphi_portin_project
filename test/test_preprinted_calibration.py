@@ -116,7 +116,7 @@ class CalibrationCssTests(TestCase):
         self.assertIn(".tri-lines thead th { height: 6.0mm; box-sizing: border-box; }", html)
         self.assertIn(".camount { width: 26.0mm; }", html)
         self.assertIn(".cno { width: 3.8mm; }", html)
-        self.assertIn("transform: translate(0.65mm, 1.35mm)", html)
+        self.assertIn("transform: translate(0.65mm, 2.35mm)", html)
         # 필드 블록 · 푸터 세로 위치 — DEC-387 보정값(2026-10-07 실물 사진)
         self.assertIn(".cust-mini { margin-top: 5.6mm; }", html)
         # DEC-387 (2026-10-07 교문사 실물 사진) — 라벨 칸 20mm(값이 라벨 칸 안에 찍히던 것) · 숫자 오른쪽 여백 2.3mm ·
@@ -137,7 +137,7 @@ class CalibrationCssTests(TestCase):
         self.assertIn(".cust-mini td:not(.clab) { font-size: 10pt; }", html)
         self.assertIn(".cust-mini tr.r-name td:not(.clab) { font-size: 11pt; }", html)
         self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { color: #000; }", html)
-        self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { -webkit-text-stroke: 0.3pt currentColor; }", html)
+        self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { -webkit-text-stroke: 0.24pt currentColor; }", html)
         self.assertIn(".tri-lines tbody td, .cust-mini td:not(.clab), .foot3 strong { font-weight: 700; }", html)
         self.assertIn(".foot3 strong { font-size: 9.5pt; }", html)  # 총부수 · 합계 숫자도 키움
         self.assertIn(".tri-lines tbody td { white-space: nowrap; overflow: hidden; }", html)

@@ -151,7 +151,9 @@ class Stream(unittest.TestCase):
     def _events(self, items):
         async def run():
             out = []
-            with patch.object(tsvc, "list_sales_statements", AsyncMock(return_value=(items, len(items)))):
+            # DEC-409 — 접수 전표는 모두 웹 출고요청분으로 본다(요청 기록 필터는 test_dec409 에서).
+            with patch.object(tsvc, "list_sales_statements", AsyncMock(return_value=(items, len(items)))), \
+                    patch.object(tsvc, "web_requested_only", AsyncMock(side_effect=lambda **kw: kw["items"])):
                 async for ev in tsvc._received_statement_ticks(
                     server_id=_SID, hcode="5019", date_from="2026-10-06", day="2026-10-12",
                     interval=2, max_ticks=1, seen=seen,
@@ -232,7 +234,8 @@ class Routes(unittest.TestCase):
         tsvc.record_auto_printed([URGENT])
         items = [{"status": "received", "order_key": RECEIVED_OK},
                  {"status": "received", "order_key": {**RECEIVED_OK, "gcode": "00002"}}]
-        with patch.object(tsvc, "list_sales_statements", AsyncMock(return_value=(items, 2))):
+        with patch.object(tsvc, "list_sales_statements", AsyncMock(return_value=(items, 2))), \
+                patch.object(tsvc, "web_requested_only", AsyncMock(side_effect=lambda **kw: kw["items"])):  # DEC-409 — 모두 웹 출고요청분
             r = self.client.get(f"/api/v1/transactions/sales-statement/received-today?serverId={_SID}&days=7", headers=self.hdr)
         self.assertEqual(r.status_code, 200, r.text[:200])
         self.assertEqual([it["order_key"]["gcode"] for it in r.json()["items"]], ["00002"])

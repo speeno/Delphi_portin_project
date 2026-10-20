@@ -57,9 +57,10 @@ class StreamReceivedStatementsTests(unittest.IsolatedAsyncioTestCase):
             ]
         )
         events: list[dict[str, Any]] = []
+        # DEC-409 — 접수 전표는 모두 웹 출고요청분으로 본다(요청 기록 필터는 test_dec409 에서).
         with patch.object(tsvc, "list_sales_statements", new=list_mock), patch.object(
             tsvc.asyncio, "sleep", new=AsyncMock()
-        ):
+        ), patch.object(tsvc, "web_requested_only", new=AsyncMock(side_effect=lambda **kw: kw["items"])):
             async for ev in tsvc.stream_received_statements(
                 server_id="srv", hcode="H001", today="2026-07-20", days=7, max_ticks=3
             ):
